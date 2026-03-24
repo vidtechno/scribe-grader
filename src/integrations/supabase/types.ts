@@ -80,6 +80,45 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          created_at: string
+          credits_limit: number
+          credits_used: number
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          plan_type: string
+          started_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          credits_limit?: number
+          credits_used?: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          plan_type?: string
+          started_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          credits_limit?: number
+          credits_used?: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          plan_type?: string
+          started_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
