@@ -33,10 +33,23 @@ function AuthRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function PublicRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  
+  if (loading) return <LoadingScreen />;
+  if (user) return <Navigate to="/dashboard" replace />;
+  
+  return <>{children}</>;
+}
+
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Index />} />
+      <Route path="/" element={
+        <PublicRoute>
+          <Index />
+        </PublicRoute>
+      } />
       <Route path="/auth" element={
         <AuthRoute>
           <Auth />

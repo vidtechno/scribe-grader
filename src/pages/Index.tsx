@@ -39,16 +39,16 @@ export default function Index() {
 
   const plans = [
     {
-      name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 credits',
-      features: ['3 essay evaluations', 'Basic AI feedback', 'Score tracking', 'Task 1 & Task 2'],
+      name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
+      features: ['3 essay evaluations/month', 'Band scores for all criteria', 'Partial feedback (preview)', 'Basic score tracking'],
     },
     {
-      name: 'Pro', price: '$9.99', priceUzs: "99,000 so'm", period: '/month', icon: Zap, credits: '30 credits/mo', popular: true,
-      features: ['30 evaluations/month', 'Detailed AI feedback', 'Score analytics', 'Priority grading', 'All topics', 'Progress reports'],
+      name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month', popular: true,
+      features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error correction analysis', 'Score analytics', 'All topics', 'Progress reports'],
     },
     {
-      name: 'Pro Plus', price: '$19.99', priceUzs: "199,000 so'm", period: '/month', icon: Crown, credits: 'Unlimited',
-      features: ['Unlimited evaluations', 'Advanced AI analysis', 'Full analytics', 'Fastest priority', 'Band predictions', 'Personalized tips'],
+      name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
+      features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics', 'Priority grading', 'Personalized tips'],
     },
   ];
 

@@ -17,6 +17,7 @@ For each essay, you must provide:
 3. Specific feedback for each criterion
 4. 3-5 key strengths of the essay
 5. 3-5 specific suggestions for improvement
+6. Error corrections: Find ALL grammatical errors, spelling mistakes, incorrect word usage, and awkward phrasing in the essay. For each error, provide the original wrong text and its corrected version.
 
 Be accurate, fair, and constructive in your feedback. Base your scoring strictly on the IELTS band descriptors.
 
@@ -40,7 +41,14 @@ You must respond ONLY with a valid JSON object in this exact format:
     "feedback": "string"
   },
   "strengths": ["string", "string", "string"],
-  "suggestions": ["string", "string", "string"]
+  "suggestions": ["string", "string", "string"],
+  "errorCorrections": [
+    {
+      "original": "the wrong sentence or phrase from the essay",
+      "corrected": "the corrected version",
+      "explanation": "brief explanation of the error"
+    }
+  ]
 }`;
 
 serve(async (req) => {
@@ -74,7 +82,7 @@ Topic: ${topic}
 Essay:
 ${essay}
 
-Provide your evaluation as a JSON object following the exact format specified.`;
+Provide your evaluation as a JSON object following the exact format specified. Make sure to find and list ALL errors in the errorCorrections array.`;
 
     console.log('Calling Lovable AI for essay grading...');
 
@@ -128,10 +136,8 @@ Provide your evaluation as a JSON object following the exact format specified.`;
       );
     }
 
-    // Parse the JSON from the response
     let gradeResult;
     try {
-      // Extract JSON from the response (handle markdown code blocks)
       const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, content];
       const jsonStr = jsonMatch[1].trim();
       gradeResult = JSON.parse(jsonStr);
@@ -143,13 +149,17 @@ Provide your evaluation as a JSON object following the exact format specified.`;
       );
     }
 
-    // Validate the response structure
     if (!gradeResult.overallBand || !gradeResult.taskAchievement) {
       console.error('Invalid grade result structure:', gradeResult);
       return new Response(
         JSON.stringify({ error: 'Invalid grading result structure' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
+    }
+
+    // Ensure errorCorrections exists
+    if (!gradeResult.errorCorrections) {
+      gradeResult.errorCorrections = [];
     }
 
     console.log('Essay graded successfully:', gradeResult.overallBand);
