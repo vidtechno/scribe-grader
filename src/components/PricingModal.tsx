@@ -14,7 +14,6 @@ interface Plan {
   features: string[];
   credits: string;
   popular?: boolean;
-  current?: boolean;
 }
 
 interface PricingModalProps {
@@ -30,47 +29,47 @@ const plans: Plan[] = [
     priceUzs: "0 so'm",
     period: '',
     icon: Star,
-    credits: '3 credits',
+    credits: '3 essays / month',
     features: [
-      '3 essay evaluations',
-      'Basic AI feedback',
-      'Score tracking',
-      'Task 1 & Task 2',
+      '3 essay evaluations per month',
+      'Band scores for all 4 criteria',
+      'Partial feedback (preview only)',
+      'Basic score tracking',
     ],
   },
   {
     name: 'Pro',
-    price: '$9.99',
-    priceUzs: "99,000 so'm",
+    price: '$3',
+    priceUzs: "29,000 so'm",
     period: '/month',
     icon: Zap,
-    credits: '30 credits/month',
+    credits: '25 essays / month',
     popular: true,
     features: [
-      '30 essay evaluations/month',
-      'Detailed AI feedback',
+      '25 essay evaluations per month',
+      'Full detailed AI feedback',
+      'Error correction analysis',
       'Score analytics & charts',
-      'Priority grading',
       'All IELTS topics',
       'Progress reports',
     ],
   },
   {
     name: 'Pro Plus',
-    price: '$19.99',
-    priceUzs: "199,000 so'm",
+    price: '$10',
+    priceUzs: "99,000 so'm",
     period: '/month',
     icon: Crown,
-    credits: 'Unlimited credits',
+    credits: '100 essays / month',
     features: [
-      'Unlimited evaluations',
-      'Advanced AI analysis',
+      '100 essay evaluations per month',
+      'Full detailed AI feedback',
+      'Advanced error correction',
       'Full analytics dashboard',
-      'Fastest grading priority',
+      'Priority grading speed',
       'All IELTS topics',
       'Detailed progress reports',
-      'Band score predictions',
-      'Personalized tips',
+      'Personalized improvement tips',
     ],
   },
 ];
@@ -159,7 +158,6 @@ export function PricingModal({ open, onOpenChange, currentPlan = 'free' }: Prici
           })}
         </div>
 
-        {/* Telegram contact note */}
         <div className="glass-card p-4 text-center space-y-2">
           <p className="text-sm font-medium">
             To upgrade your plan, please contact admin via Telegram
