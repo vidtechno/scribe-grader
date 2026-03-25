@@ -352,8 +352,83 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        {/* Writing Tips */}
+        {/* Pricing Plans */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
+          className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Crown className="h-5 w-5 text-primary" /> Upgrade Your Plan
+          </h3>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              {
+                name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
+                features: ['3 essay evaluations', 'Band scores only', 'Partial feedback', 'Basic tracking'],
+                key: 'free',
+              },
+              {
+                name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month',
+                features: ['25 evaluations/month', 'Full AI feedback', 'Error corrections', 'Score analytics'],
+                key: 'pro', popular: true,
+              },
+              {
+                name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
+                features: ['100 evaluations/month', 'Full AI feedback', 'Advanced analytics', 'Priority grading'],
+                key: 'pro_plus',
+              },
+            ].map((plan) => {
+              const isCurrent = planType === plan.key;
+              const Icon = plan.icon;
+              return (
+                <motion.div key={plan.key} whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  className={`relative rounded-xl border p-5 flex flex-col ${
+                    plan.popular ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10' : 'border-border glass-card'
+                  } ${isCurrent ? 'ring-2 ring-primary' : ''}`}>
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
+                      Popular
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <h4 className="font-bold">{plan.name}</h4>
+                  </div>
+                  <div className="mb-1">
+                    <span className="text-2xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground text-sm">{plan.period}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-2">{plan.priceUzs}{plan.period}</p>
+                  <p className="text-sm font-medium text-primary mb-3">{plan.credits}</p>
+                  <ul className="space-y-1.5 mb-4 flex-1">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-xs">
+                        <Check className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
+                        <span className="text-muted-foreground">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {isCurrent ? (
+                    <Button variant="outline" size="sm" disabled className="w-full">Current Plan</Button>
+                  ) : plan.key === 'free' ? (
+                    <Button variant="outline" size="sm" disabled className="w-full">Default</Button>
+                  ) : (
+                    <Button variant={plan.popular ? 'glow' : 'outline'} size="sm" className="w-full gap-1"
+                      onClick={() => window.open('https://t.me/diyorbek_anorboyev', '_blank')}>
+                      <ExternalLink className="h-3.5 w-3.5" /> Upgrade
+                    </Button>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-3">
+            To upgrade, contact admin via Telegram · Ta'rifga o'tish uchun Telegram orqali bog'laning
+          </p>
+        </motion.div>
+
+        {/* Writing Tips */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
           className="glass-card p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" /> Writing Tips
