@@ -12,10 +12,10 @@ import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
-  Zap, Crown, ArrowUpRight
+  Zap, Crown, Target, BookOpen, Flame
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { format } from 'date-fns';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { format, subDays, isAfter } from 'date-fns';
 
 interface Essay {
   id: string;
@@ -48,7 +48,7 @@ export default function Dashboard() {
         .from('essays')
         .select('id, task_type, topic, score, created_at')
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(50);
       if (error) throw error;
       setEssays(data || []);
     } catch (error) {
@@ -64,11 +64,44 @@ export default function Dashboard() {
     date: format(new Date(essay.created_at), 'MMM d'),
   }));
 
-  const averageScore = essays.filter(e => e.score !== null).length > 0
-    ? (essays.filter(e => e.score !== null).reduce((acc, e) => acc + (e.score || 0), 0) / essays.filter(e => e.score !== null).length).toFixed(1)
+  const scoredEssays = essays.filter(e => e.score !== null);
+  const averageScore = scoredEssays.length > 0
+    ? (scoredEssays.reduce((acc, e) => acc + (e.score || 0), 0) / scoredEssays.length).toFixed(1)
+    : 'N/A';
+  
+  const bestScore = scoredEssays.length > 0
+    ? Math.max(...scoredEssays.map(e => e.score || 0))
     : 'N/A';
 
+  const thisWeekEssays = essays.filter(e => isAfter(new Date(e.created_at), subDays(new Date(), 7))).length;
+  const thisMonthEssays = essays.filter(e => isAfter(new Date(e.created_at), subDays(new Date(), 30))).length;
+
+  const task1Count = essays.filter(e => e.task_type === 'Task 1').length;
+  const task2Count = essays.filter(e => e.task_type === 'Task 2').length;
+
   const planType = subscription?.plan_type || 'free';
+
+  // Weekly activity data
+  const weeklyData = Array.from({ length: 7 }, (_, i) => {
+    const date = subDays(new Date(), 6 - i);
+    const dayEssays = essays.filter(e => format(new Date(e.created_at), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
+    return {
+      day: format(date, 'EEE'),
+      essays: dayEssays.length,
+      avgScore: dayEssays.filter(e => e.score).length > 0
+        ? dayEssays.filter(e => e.score).reduce((a, e) => a + (e.score || 0), 0) / dayEssays.filter(e => e.score).length
+        : 0,
+    };
+  });
+
+  // Streak calculation
+  let streak = 0;
+  for (let i = 0; i < 30; i++) {
+    const date = subDays(new Date(), i);
+    const hasEssay = essays.some(e => format(new Date(e.created_at), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
+    if (hasEssay) streak++;
+    else if (i > 0) break;
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -122,40 +155,37 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
-            {planType !== 'pro_plus' && (
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-muted-foreground">Credits Used</span>
-                  <span className="font-medium">{subscription.credits_used} / {subscription.credits_limit}</span>
-                </div>
-                <Progress value={100 - creditsPercentage} className="h-2" />
-                <p className="text-xs text-muted-foreground mt-1">{creditsRemaining} credits remaining</p>
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-muted-foreground">Credits Used</span>
+                <span className="font-medium">{subscription.credits_used} / {subscription.credits_limit}</span>
               </div>
-            )}
-            {planType === 'pro_plus' && (
-              <p className="text-sm text-primary font-medium">✨ Unlimited credits — write as much as you want!</p>
-            )}
+              <Progress value={100 - creditsPercentage} className="h-2" />
+              <p className="text-xs text-muted-foreground mt-1">{creditsRemaining} credits remaining</p>
+            </div>
           </motion.div>
         )}
 
         {/* Stats Grid */}
-        <motion.div initial="hidden" animate="visible" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           {[
-            { icon: CreditCard, value: profile?.credits ?? 0, label: 'Credits Left', delay: 1 },
-            { icon: FileText, value: essays.length, label: 'Essays Written', delay: 2 },
-            { icon: Award, value: averageScore, label: 'Average Score', delay: 3 },
-            { icon: TrendingUp, value: essays.filter(e => e.score !== null && e.score >= 7).length, label: 'Band 7+', delay: 4 },
+            { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
+            { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
+            { icon: Award, value: averageScore, label: 'Avg Score', delay: 3 },
+            { icon: Target, value: bestScore, label: 'Best Score', delay: 4 },
+            { icon: Flame, value: `${streak}d`, label: 'Streak', delay: 5 },
+            { icon: TrendingUp, value: thisWeekEssays, label: 'This Week', delay: 6 },
           ].map((stat) => (
             <motion.div key={stat.label} variants={fadeUp} custom={stat.delay}
               whileHover={{ y: -3, transition: { duration: 0.2 } }}
-              className="glass-card-hover p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="h-6 w-6 text-primary" />
+              className="glass-card-hover p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">{stat.value}</p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                  <p className="text-xl font-bold">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
                 </div>
               </div>
             </motion.div>
@@ -192,8 +222,8 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Score Chart */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          {/* Score Progress Chart */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
             className="glass-card p-6">
             <div className="flex items-center gap-2 mb-6">
@@ -220,40 +250,93 @@ export default function Dashboard() {
             )}
           </motion.div>
 
-          {/* Recent Essays */}
+          {/* Weekly Activity */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}
+            className="glass-card p-6">
+            <div className="flex items-center gap-2 mb-6">
+              <Flame className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">Weekly Activity</h3>
+            </div>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weeklyData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                  <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }} />
+                  <Area type="monotone" dataKey="essays" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} strokeWidth={2} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8 mb-8">
+          {/* Task Distribution */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
             className="glass-card p-6">
+            <div className="flex items-center gap-2 mb-6">
+              <BookOpen className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">Task Distribution</h3>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-muted-foreground">Task 1</span>
+                  <span className="font-medium">{task1Count}</span>
+                </div>
+                <div className="w-full h-3 bg-secondary rounded-full overflow-hidden">
+                  <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${essays.length > 0 ? (task1Count / essays.length) * 100 : 0}%` }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-muted-foreground">Task 2</span>
+                  <span className="font-medium">{task2Count}</span>
+                </div>
+                <div className="w-full h-3 bg-secondary rounded-full overflow-hidden">
+                  <div className="h-full bg-accent rounded-full transition-all" style={{ width: `${essays.length > 0 ? (task2Count / essays.length) * 100 : 0}%` }} />
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <div className="p-3 rounded-lg bg-secondary/30 text-center">
+                <p className="text-2xl font-bold">{thisMonthEssays}</p>
+                <p className="text-xs text-muted-foreground">This Month</p>
+              </div>
+              <div className="p-3 rounded-lg bg-secondary/30 text-center">
+                <p className="text-2xl font-bold text-primary">{scoredEssays.filter(e => (e.score || 0) >= 7).length}</p>
+                <p className="text-xs text-muted-foreground">Band 7+</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Recent Essays */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}
+            className="glass-card p-6 lg:col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <FileText className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Recent Essays</h3>
             </div>
             {loading ? (
               <div className="space-y-3">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="h-16 bg-secondary/50 rounded-lg animate-pulse" />
-                ))}
+                {[1, 2, 3].map(i => <div key={i} className="h-16 bg-secondary/50 rounded-lg animate-pulse" />)}
               </div>
             ) : essays.length > 0 ? (
-              <div className="space-y-3 max-h-64 overflow-y-auto">
-                {essays.slice(0, 5).map((essay) => (
+              <div className="space-y-3 max-h-72 overflow-y-auto">
+                {essays.slice(0, 8).map((essay) => (
                   <Link key={essay.id} to={`/result/${essay.id}`}
                     className="flex items-center justify-between p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-                          {essay.task_type}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {format(new Date(essay.created_at), 'MMM d, yyyy')}
-                        </span>
+                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
+                        <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy')}</span>
                       </div>
                       <p className="text-sm truncate text-muted-foreground">{essay.topic.substring(0, 60)}...</p>
                     </div>
                     <div className="flex items-center gap-3 ml-4">
                       {essay.score !== null && (
-                        <span className={`text-lg font-bold ${
-                          essay.score >= 7 ? 'text-primary' : essay.score >= 5 ? 'text-yellow-500' : 'text-destructive'
-                        }`}>{essay.score}</span>
+                        <span className={`text-lg font-bold ${essay.score >= 7 ? 'text-primary' : essay.score >= 5 ? 'text-yellow-500' : 'text-destructive'}`}>{essay.score}</span>
                       )}
                       <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                     </div>
@@ -269,9 +352,9 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        {/* Quick Tips */}
+        {/* Writing Tips */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          className="mt-8 glass-card p-6">
+          className="glass-card p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" /> Writing Tips
           </h3>
