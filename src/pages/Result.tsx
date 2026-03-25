@@ -1,41 +1,35 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { useSubscription } from '@/hooks/useSubscription';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
+import { BlurredContent } from '@/components/BlurredContent';
+import { ErrorCorrections } from '@/components/ErrorCorrections';
+import { PricingModal } from '@/components/PricingModal';
 import { 
-  ArrowLeft, 
-  Award, 
-  BookOpen, 
-  MessageSquare, 
-  CheckCircle,
-  Target,
-  FileText
+  ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
+  Target, FileText, AlertTriangle, Crown
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
 
+interface ErrorCorrectionItem {
+  original: string;
+  corrected: string;
+  explanation: string;
+}
+
 interface Feedback {
   overallBand: number;
-  taskAchievement: {
-    score: number;
-    feedback: string;
-  };
-  coherenceCohesion: {
-    score: number;
-    feedback: string;
-  };
-  lexicalResource: {
-    score: number;
-    feedback: string;
-  };
-  grammaticalRange: {
-    score: number;
-    feedback: string;
-  };
+  taskAchievement: { score: number; feedback: string };
+  coherenceCohesion: { score: number; feedback: string };
+  lexicalResource: { score: number; feedback: string };
+  grammaticalRange: { score: number; feedback: string };
   suggestions: string[];
   strengths: string[];
+  errorCorrections?: ErrorCorrectionItem[];
 }
 
 interface Essay {
@@ -53,29 +47,26 @@ export default function Result() {
   const { id } = useParams<{ id: string }>();
   const [essay, setEssay] = useState<Essay | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showPricing, setShowPricing] = useState(false);
+  const { subscription } = useSubscription();
+
+  const planType = subscription?.plan_type || 'free';
+  const isFree = planType === 'free';
 
   useEffect(() => {
-    fetchEssay();
-  }, [id]);
-
-  const fetchEssay = async () => {
     if (!id) return;
-    
-    try {
-      const { data, error } = await supabase
-        .from('essays')
-        .select('*')
-        .eq('id', id)
-        .single();
-
-      if (error) throw error;
-      setEssay(data as unknown as Essay);
-    } catch (error) {
-      console.error('Error fetching essay:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    (async () => {
+      try {
+        const { data, error } = await supabase.from('essays').select('*').eq('id', id).single();
+        if (error) throw error;
+        setEssay(data as unknown as Essay);
+      } catch (error) {
+        console.error('Error fetching essay:', error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [id]);
 
   if (loading) return <LoadingScreen />;
   if (!essay) {
@@ -83,9 +74,7 @@ export default function Result() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Essay not found</h1>
-          <Link to="/dashboard">
-            <Button>Back to Dashboard</Button>
-          </Link>
+          <Link to="/dashboard"><Button>Back to Dashboard</Button></Link>
         </div>
       </div>
     );
@@ -105,177 +94,179 @@ export default function Result() {
     return 'text-destructive';
   };
 
+  const renderFeedbackText = (text: string) => {
+    if (isFree) {
+      return <BlurredContent text={text} visibleWords={8} onUpgrade={() => setShowPricing(true)} />;
+    }
+    return <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        {/* Back Button */}
         <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Dashboard
+          <ArrowLeft className="h-4 w-4" /> Back to Dashboard
         </Link>
 
         {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-4 mb-8 animate-fade-in">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm">
-                {essay.task_type}
-              </span>
-              <span className="text-sm text-muted-foreground">
-                {format(new Date(essay.created_at), 'MMMM d, yyyy')}
-              </span>
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm">{essay.task_type}</span>
+              <span className="text-sm text-muted-foreground">{format(new Date(essay.created_at), 'MMMM d, yyyy')}</span>
             </div>
             <h1 className="text-2xl font-bold">Essay Evaluation Results</h1>
           </div>
-          
           {essay.score !== null && (
             <div className="glass-card px-8 py-4 text-center glow-effect">
               <p className="text-sm text-muted-foreground mb-1">Overall Band</p>
-              <p className={`text-5xl font-bold ${getScoreColor(essay.score)}`}>
-                {essay.score}
-              </p>
+              <p className={`text-5xl font-bold ${getScoreColor(essay.score)}`}>{essay.score}</p>
             </div>
           )}
         </div>
 
         {feedback && (
-          <div className="grid lg:grid-cols-2 gap-8 mb-8">
-            {/* Radar Chart */}
-            <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Target className="h-5 w-5 text-primary" />
-                Score Breakdown
-              </h2>
-              <div className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={chartData}>
-                    <PolarGrid stroke="hsl(var(--border))" />
-                    <PolarAngleAxis 
-                      dataKey="subject" 
-                      tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
-                    />
-                    <PolarRadiusAxis 
-                      domain={[0, 9]} 
-                      tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
-                    />
-                    <Radar
-                      name="Score"
-                      dataKey="score"
-                      stroke="hsl(var(--primary))"
-                      fill="hsl(var(--primary))"
-                      fillOpacity={0.3}
-                      strokeWidth={2}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
+          <>
+            {/* Scores Grid */}
+            <div className="grid lg:grid-cols-2 gap-8 mb-8">
+              <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Target className="h-5 w-5 text-primary" /> Score Breakdown
+                </h2>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RadarChart data={chartData}>
+                      <PolarGrid stroke="hsl(var(--border))" />
+                      <PolarAngleAxis dataKey="subject" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} />
+                      <PolarRadiusAxis domain={[0, 9]} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                      <Radar name="Score" dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} strokeWidth={2} />
+                    </RadarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Award className="h-5 w-5 text-primary" /> Detailed Scores
+                </h2>
+                <div className="space-y-4">
+                  {[
+                    { label: 'Task Achievement', score: feedback.taskAchievement.score },
+                    { label: 'Coherence & Cohesion', score: feedback.coherenceCohesion.score },
+                    { label: 'Lexical Resource', score: feedback.lexicalResource.score },
+                    { label: 'Grammatical Range', score: feedback.grammaticalRange.score },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{item.label}</span>
+                      <div className="flex items-center gap-3">
+                        <div className="w-32 h-2 bg-secondary rounded-full overflow-hidden">
+                          <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${(item.score / 9) * 100}%` }} />
+                        </div>
+                        <span className={`font-bold w-8 ${getScoreColor(item.score)}`}>{item.score}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Scores List */}
-            <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            {/* Error Corrections */}
+            <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.25s' }}>
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Award className="h-5 w-5 text-primary" />
-                Detailed Scores
+                <AlertTriangle className="h-5 w-5 text-destructive" /> Error Corrections
+                {isFree && (
+                  <span className="ml-auto flex items-center gap-1 text-xs text-primary cursor-pointer" onClick={() => setShowPricing(true)}>
+                    <Crown className="h-3.5 w-3.5" /> Premium
+                  </span>
+                )}
               </h2>
-              <div className="space-y-4">
-                {[
-                  { label: 'Task Achievement', score: feedback.taskAchievement.score },
-                  { label: 'Coherence & Cohesion', score: feedback.coherenceCohesion.score },
-                  { label: 'Lexical Resource', score: feedback.lexicalResource.score },
-                  { label: 'Grammatical Range', score: feedback.grammaticalRange.score },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center justify-between">
-                    <span className="text-muted-foreground">{item.label}</span>
-                    <div className="flex items-center gap-3">
-                      <div className="w-32 h-2 bg-secondary rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-primary rounded-full transition-all duration-500"
-                          style={{ width: `${(item.score / 9) * 100}%` }}
-                        />
-                      </div>
-                      <span className={`font-bold w-8 ${getScoreColor(item.score)}`}>
-                        {item.score}
+              {isFree ? (
+                <div className="relative">
+                  <div className="blur-sm pointer-events-none">
+                    <ErrorCorrections corrections={feedback.errorCorrections || [{ original: 'Sample error text here', corrected: 'Sample corrected text', explanation: 'Sample explanation' }]} />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center bg-card/60 rounded-lg">
+                    <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
+                      <Crown className="h-4 w-4" /> Upgrade to see error corrections
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <ErrorCorrections corrections={feedback.errorCorrections || []} />
+              )}
+            </div>
+
+            {/* Strengths & Suggestions */}
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-primary" /> Strengths
+                </h2>
+                <ul className="space-y-3">
+                  {feedback.strengths.map((strength, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <CheckCircle className="h-3 w-3 text-primary" />
                       </span>
-                    </div>
+                      {isFree ? (
+                        <BlurredContent text={strength} visibleWords={8} onUpgrade={() => setShowPricing(true)} />
+                      ) : (
+                        <span className="text-sm text-muted-foreground">{strength}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <MessageSquare className="h-5 w-5 text-primary" /> Areas for Improvement
+                </h2>
+                <ul className="space-y-3">
+                  {feedback.suggestions.map((suggestion, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="w-6 h-6 rounded-full bg-yellow-500/10 flex items-center justify-center flex-shrink-0 mt-0.5 text-yellow-500 text-xs font-bold">
+                        {index + 1}
+                      </span>
+                      {isFree ? (
+                        <BlurredContent text={suggestion} visibleWords={8} onUpgrade={() => setShowPricing(true)} />
+                      ) : (
+                        <span className="text-sm text-muted-foreground">{suggestion}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Detailed Feedback */}
+            <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-primary" /> Detailed Feedback
+              </h2>
+              <div className="space-y-6">
+                {[
+                  { title: 'Task Achievement', content: feedback.taskAchievement.feedback },
+                  { title: 'Coherence & Cohesion', content: feedback.coherenceCohesion.feedback },
+                  { title: 'Lexical Resource', content: feedback.lexicalResource.feedback },
+                  { title: 'Grammatical Range & Accuracy', content: feedback.grammaticalRange.feedback },
+                ].map((section) => (
+                  <div key={section.title} className="pb-4 border-b border-border last:border-0 last:pb-0">
+                    <h3 className="font-medium mb-2">{section.title}</h3>
+                    {renderFeedbackText(section.content)}
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Feedback Sections */}
-        {feedback && (
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            {/* Strengths */}
-            <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-primary" />
-                Strengths
-              </h2>
-              <ul className="space-y-3">
-                {feedback.strengths.map((strength, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <CheckCircle className="h-3 w-3 text-primary" />
-                    </span>
-                    <span className="text-sm text-muted-foreground">{strength}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Suggestions */}
-            <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <MessageSquare className="h-5 w-5 text-primary" />
-                Areas for Improvement
-              </h2>
-              <ul className="space-y-3">
-                {feedback.suggestions.map((suggestion, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-yellow-500/10 flex items-center justify-center flex-shrink-0 mt-0.5 text-yellow-500 text-xs font-bold">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm text-muted-foreground">{suggestion}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* Detailed Feedback */}
-        {feedback && (
-          <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-primary" />
-              Detailed Feedback
-            </h2>
-            <div className="space-y-6">
-              {[
-                { title: 'Task Achievement', content: feedback.taskAchievement.feedback },
-                { title: 'Coherence & Cohesion', content: feedback.coherenceCohesion.feedback },
-                { title: 'Lexical Resource', content: feedback.lexicalResource.feedback },
-                { title: 'Grammatical Range & Accuracy', content: feedback.grammaticalRange.feedback },
-              ].map((section) => (
-                <div key={section.title} className="pb-4 border-b border-border last:border-0 last:pb-0">
-                  <h3 className="font-medium mb-2">{section.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{section.content}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          </>
         )}
 
         {/* Original Essay */}
         <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.6s' }}>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold flex items-center gap-2">
-              <FileText className="h-5 w-5 text-primary" />
-              Your Essay
+              <FileText className="h-5 w-5 text-primary" /> Your Essay
             </h2>
             <span className="text-sm text-muted-foreground">{essay.word_count} words</span>
           </div>
@@ -283,14 +274,13 @@ export default function Result() {
             <p className="text-sm text-muted-foreground mb-4 italic">{essay.topic}</p>
             <div className="prose prose-sm prose-invert max-w-none">
               {essay.essay_text.split('\n').map((paragraph, index) => (
-                <p key={index} className="mb-4 last:mb-0 text-foreground leading-relaxed">
-                  {paragraph}
-                </p>
+                <p key={index} className="mb-4 last:mb-0 text-foreground leading-relaxed">{paragraph}</p>
               ))}
             </div>
           </div>
         </div>
       </main>
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
     </div>
   );
 }
