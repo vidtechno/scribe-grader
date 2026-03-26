@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Exam from "./pages/Exam";
 import Result from "./pages/Result";
+import Essays from "./pages/Essays";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
@@ -68,6 +69,11 @@ function AppRoutes() {
       <Route path="/result/:id" element={
         <ProtectedRoute>
           <Result />
+        </ProtectedRoute>
+      } />
+      <Route path="/essays" element={
+        <ProtectedRoute>
+          <Essays />
         </ProtectedRoute>
       } />
       <Route path="/admin" element={
