@@ -33,8 +33,9 @@ const plans: Plan[] = [
     features: [
       '3 essay evaluations per month',
       'Band scores for all 4 criteria',
-      'Partial feedback (preview only)',
-      'Basic score tracking',
+      'Partial feedback (first 8 words)',
+      'Last 10 essays progress chart',
+      'Basic task distribution stats',
     ],
   },
   {
@@ -48,9 +49,10 @@ const plans: Plan[] = [
     features: [
       '25 essay evaluations per month',
       'Full detailed AI feedback',
-      'Error correction analysis',
-      'Score analytics & charts',
+      'Error correction with explanations',
+      'Score analytics & weekly activity',
       'All IELTS topics',
+      'Essays history with pagination',
       'Progress reports',
     ],
   },
@@ -68,7 +70,7 @@ const plans: Plan[] = [
       'Full analytics dashboard',
       'Priority grading speed',
       'All IELTS topics',
-      'Detailed progress reports',
+      'Essays history with pagination',
       'Personalized improvement tips',
     ],
   },

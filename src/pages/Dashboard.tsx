@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
-  Zap, Crown, Target, BookOpen, Flame, Star, Check, ExternalLink
+  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -58,8 +58,10 @@ export default function Dashboard() {
     }
   };
 
-  const chartData = essays.filter(e => e.score !== null).reverse().map((essay, index) => ({
-    name: `Essay ${index + 1}`,
+  // Last 10 essays for chart
+  const last10Scored = essays.filter(e => e.score !== null).slice(0, 10).reverse();
+  const chartData = last10Scored.map((essay, index) => ({
+    name: `#${index + 1}`,
     score: essay.score,
     date: format(new Date(essay.created_at), 'MMM d'),
   }));
@@ -93,15 +95,6 @@ export default function Dashboard() {
         : 0,
     };
   });
-
-  // Streak calculation
-  let streak = 0;
-  for (let i = 0; i < 30; i++) {
-    const date = subDays(new Date(), i);
-    const hasEssay = essays.some(e => format(new Date(e.created_at), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
-    if (hasEssay) streak++;
-    else if (i > 0) break;
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -166,15 +159,14 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* Stats Grid */}
-        <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        {/* Stats Grid - without streak */}
+        <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
           {[
             { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
             { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
             { icon: Award, value: averageScore, label: 'Avg Score', delay: 3 },
             { icon: Target, value: bestScore, label: 'Best Score', delay: 4 },
-            { icon: Flame, value: `${streak}d`, label: 'Streak', delay: 5 },
-            { icon: TrendingUp, value: thisWeekEssays, label: 'This Week', delay: 6 },
+            { icon: TrendingUp, value: thisWeekEssays, label: 'This Week', delay: 5 },
           ].map((stat) => (
             <motion.div key={stat.label} variants={fadeUp} custom={stat.delay}
               whileHover={{ y: -3, transition: { duration: 0.2 } }}
@@ -223,12 +215,12 @@ export default function Dashboard() {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          {/* Score Progress Chart */}
+          {/* Score Progress Chart - Last 10 */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
             className="glass-card p-6">
             <div className="flex items-center gap-2 mb-6">
               <BarChart3 className="h-5 w-5 text-primary" />
-              <h3 className="text-lg font-semibold">Score Progress</h3>
+              <h3 className="text-lg font-semibold">Last 10 Essays Progress</h3>
             </div>
             {chartData.length > 0 ? (
               <div className="h-64">
@@ -254,7 +246,7 @@ export default function Dashboard() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}
             className="glass-card p-6">
             <div className="flex items-center gap-2 mb-6">
-              <Flame className="h-5 w-5 text-primary" />
+              <TrendingUp className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Weekly Activity</h3>
             </div>
             <div className="h-64">
@@ -311,20 +303,29 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Recent Essays */}
+          {/* Recent Essays - only 5, with View All */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}
             className="glass-card p-6 lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <FileText className="h-5 w-5 text-primary" />
-              <h3 className="text-lg font-semibold">Recent Essays</h3>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Recent Essays</h3>
+              </div>
+              {essays.length > 5 && (
+                <Link to="/essays">
+                  <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                    View All <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              )}
             </div>
             {loading ? (
               <div className="space-y-3">
                 {[1, 2, 3].map(i => <div key={i} className="h-16 bg-secondary/50 rounded-lg animate-pulse" />)}
               </div>
             ) : essays.length > 0 ? (
-              <div className="space-y-3 max-h-72 overflow-y-auto">
-                {essays.slice(0, 8).map((essay) => (
+              <div className="space-y-3">
+                {essays.slice(0, 5).map((essay) => (
                   <Link key={essay.id} to={`/result/${essay.id}`}
                     className="flex items-center justify-between p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
                     <div className="flex-1 min-w-0">
@@ -362,17 +363,17 @@ export default function Dashboard() {
             {[
               {
                 name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-                features: ['3 essay evaluations', 'Band scores only', 'Partial feedback', 'Basic tracking'],
+                features: ['3 essay evaluations', 'Band scores & partial feedback', 'Last 10 essays progress chart', 'Basic task distribution stats'],
                 key: 'free',
               },
               {
                 name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month',
-                features: ['25 evaluations/month', 'Full AI feedback', 'Error corrections', 'Score analytics'],
+                features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error corrections with explanations', 'Score analytics & weekly activity', 'All IELTS topics', 'Essays history with pagination'],
                 key: 'pro', popular: true,
               },
               {
                 name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
-                features: ['100 evaluations/month', 'Full AI feedback', 'Advanced analytics', 'Priority grading'],
+                features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics dashboard', 'Priority grading speed', 'Essays history with pagination', 'Personalized improvement tips'],
                 key: 'pro_plus',
               },
             ].map((plan) => {

@@ -7,7 +7,7 @@ import { PricingModal } from '@/components/PricingModal';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
-  ChevronRight, CheckCircle, Star, Users, Award, Zap, Crown,
+  ChevronRight, CheckCircle, Star, Award, Zap, Crown,
   Check, ExternalLink, Quote
 } from 'lucide-react';
 
@@ -28,7 +28,7 @@ export default function Index() {
     { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Task 1 and Task 2 questions from recent exams.' },
     { icon: Sparkles, title: 'AI-Powered Grading', description: 'Get instant, detailed feedback scored against official IELTS criteria.' },
     { icon: Clock, title: 'Timed Practice', description: 'Simulate real exam conditions with built-in countdown timers.' },
-    { icon: BarChart3, title: 'Track Progress', description: 'Monitor your improvement with detailed score analytics.' },
+    { icon: BarChart3, title: 'Track Progress', description: 'Monitor your improvement with detailed score analytics and charts.' },
   ];
 
   const testimonials = [
@@ -40,15 +40,15 @@ export default function Index() {
   const plans = [
     {
       name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-      features: ['3 essay evaluations/month', 'Band scores for all criteria', 'Partial feedback (preview)', 'Basic score tracking'],
+      features: ['3 essay evaluations/month', 'Band scores for all criteria', 'Partial feedback (preview)', 'Last 10 essays progress chart'],
     },
     {
       name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month', popular: true,
-      features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error correction analysis', 'Score analytics', 'All topics', 'Progress reports'],
+      features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error correction analysis', 'Score analytics & weekly activity', 'All topics', 'Essays history'],
     },
     {
       name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
-      features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics', 'Priority grading', 'Personalized tips'],
+      features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics dashboard', 'Priority grading', 'Personalized tips'],
     },
   ];
 
@@ -68,7 +68,6 @@ export default function Index() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-20 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
           <motion.div animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.15, 0.1] }} transition={{ duration: 10, repeat: Infinity }} className="absolute bottom-20 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
-          {/* Floating particles */}
           {[...Array(6)].map((_, i) => (
             <motion.div key={i} className="absolute w-1 h-1 bg-primary/40 rounded-full"
               style={{ left: `${15 + i * 15}%`, top: `${20 + (i % 3) * 25}%` }}
@@ -120,7 +119,6 @@ export default function Index() {
             )}
           </motion.div>
 
-          {/* Stats */}
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
             className="grid grid-cols-3 gap-8 max-w-md mx-auto mt-16">
             {[
@@ -348,19 +346,14 @@ export default function Index() {
             viewport={{ once: true }} className="glass-card p-12 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 to-transparent" />
             <div className="relative">
-              <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 4, repeat: Infinity }}>
-                <BookOpen className="h-12 w-12 text-primary mx-auto mb-6" />
-              </motion.div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Ready to Improve Your Score?
-              </h2>
+              <Award className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h2 className="text-3xl font-bold mb-4">Ready to Achieve Your Target Band?</h2>
               <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-                Start practicing today with 3 free credits. No credit card required.
+                Join thousands of students who improved their writing scores with AI-powered feedback.
               </p>
               <Link to={user ? '/dashboard' : '/auth'}>
-                <Button variant="glow" size="xl" className="gap-2 group">
-                  {user ? 'Go to Dashboard' : 'Get Started Free'}
-                  <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <Button variant="glow" size="xl" className="gap-2">
+                  {user ? 'Go to Dashboard' : 'Start Free Now'} <ChevronRight className="h-5 w-5" />
                 </Button>
               </Link>
             </div>
@@ -369,11 +362,11 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-border/50">
+      <footer className="py-8 px-4 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
-            <span className="font-semibold">WritingExam.uz</span>
+            <span className="font-bold">WritingExam.uz</span>
           </div>
           <p className="text-sm text-muted-foreground">© 2025 WritingExam.uz. All rights reserved.</p>
         </div>
