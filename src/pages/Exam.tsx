@@ -128,12 +128,32 @@ export default function Exam() {
               <p className="text-muted-foreground mb-6">
                 You have {taskType === 'Task 1' ? '20' : '40'} minutes. Write at least {minWords} words.
               </p>
-              <div className="bg-secondary/30 rounded-lg p-4 mb-6 text-left">
-                <p className="text-sm text-muted-foreground mb-2">Topic Preview:</p>
-                <p className="text-sm">{topic.prompt}</p>
-                <Button variant="ghost" size="sm" className="mt-3 gap-2" onClick={regenerateTopic}>
-                  <RefreshCw className="h-4 w-4" /> Get Different Topic
-                </Button>
+              <div className="bg-secondary/30 rounded-lg p-4 mb-4 text-left">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm text-muted-foreground">
+                    {useCustomTopic ? "O'z mavzungiz:" : "Mavzu:"}
+                  </p>
+                  <Button variant="ghost" size="sm" className="gap-2 text-xs" 
+                    onClick={() => setUseCustomTopic(!useCustomTopic)}>
+                    <PenLine className="h-3 w-3" />
+                    {useCustomTopic ? "Tayyor mavzulardan" : "O'z mavzumni kiritish"}
+                  </Button>
+                </div>
+                {useCustomTopic ? (
+                  <Input
+                    placeholder="Mavzuni bu yerga kiriting..."
+                    value={customTopic}
+                    onChange={(e) => setCustomTopic(e.target.value)}
+                    className="bg-background/50"
+                  />
+                ) : (
+                  <>
+                    <p className="text-sm">{topic.prompt}</p>
+                    <Button variant="ghost" size="sm" className="mt-3 gap-2" onClick={regenerateTopic}>
+                      <RefreshCw className="h-4 w-4" /> Boshqa mavzu
+                    </Button>
+                  </>
+                )}
               </div>
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-8">
                 <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {taskType === 'Task 1' ? '20' : '40'} min</span>
