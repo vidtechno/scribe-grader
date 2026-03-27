@@ -24,11 +24,15 @@ export default function Exam() {
   const timeLimit = taskType === 'Task 1' ? 20 * 60 : 40 * 60;
   
   const [topic, setTopic] = useState(() => getRandomTopic(taskType));
+  const [useCustomTopic, setUseCustomTopic] = useState(false);
+  const [customTopic, setCustomTopic] = useState('');
   const [essay, setEssay] = useState('');
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [examStarted, setExamStarted] = useState(false);
+
+  const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic.prompt;
 
   const wordCount = essay.trim().split(/\s+/).filter(Boolean).length;
   const minWords = taskType === 'Task 1' ? 150 : 250;
