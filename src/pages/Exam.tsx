@@ -67,13 +67,14 @@ export default function Exam() {
 
     setIsSubmitting(true);
     try {
+      const topicText = activeTopic;
       const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
-        body: { essay, taskType, topic: topic.prompt }
+        body: { essay, taskType, topic: topicText }
       });
       if (gradeError) throw gradeError;
 
       const { data: essayData, error: essayError } = await supabase.from('essays').insert({
-        user_id: profile.user_id, task_type: taskType, topic: topic.prompt,
+        user_id: profile.user_id, task_type: taskType, topic: topicText,
         essay_text: essay, word_count: wordCount, score: gradeResult.overallBand, feedback: gradeResult
       }).select().single();
       if (essayError) throw essayError;
