@@ -5,17 +5,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { PricingModal } from '@/components/PricingModal';
 import { getRandomTopic } from '@/lib/topics';
 import { motion } from 'framer-motion';
 import { 
   Clock, FileText, Send, RefreshCw, AlertCircle,
-  Loader2, Sparkles, ExternalLink
+  Loader2, Sparkles, PenLine
 } from 'lucide-react';
 import { toast } from 'sonner';
-import {
-  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,
-} from '@/components/ui/dialog';
 
 export default function Exam() {
   const [searchParams] = useSearchParams();
@@ -26,11 +24,15 @@ export default function Exam() {
   const timeLimit = taskType === 'Task 1' ? 20 * 60 : 40 * 60;
   
   const [topic, setTopic] = useState(() => getRandomTopic(taskType));
+  const [useCustomTopic, setUseCustomTopic] = useState(false);
+  const [customTopic, setCustomTopic] = useState('');
   const [essay, setEssay] = useState('');
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [examStarted, setExamStarted] = useState(false);
+
+  const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic.prompt;
 
   const wordCount = essay.trim().split(/\s+/).filter(Boolean).length;
   const minWords = taskType === 'Task 1' ? 150 : 250;
@@ -65,13 +67,14 @@ export default function Exam() {
 
     setIsSubmitting(true);
     try {
+      const topicText = activeTopic;
       const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
-        body: { essay, taskType, topic: topic.prompt }
+        body: { essay, taskType, topic: topicText }
       });
       if (gradeError) throw gradeError;
 
       const { data: essayData, error: essayError } = await supabase.from('essays').insert({
-        user_id: profile.user_id, task_type: taskType, topic: topic.prompt,
+        user_id: profile.user_id, task_type: taskType, topic: topicText,
         essay_text: essay, word_count: wordCount, score: gradeResult.overallBand, feedback: gradeResult
       }).select().single();
       if (essayError) throw essayError;
@@ -97,6 +100,7 @@ export default function Exam() {
 
   const startExam = () => {
     if (profile && profile.credits < 1) { setShowPricing(true); return; }
+    if (useCustomTopic && !customTopic.trim()) { toast.error("Iltimos, mavzuni kiriting"); return; }
     setExamStarted(true);
   };
 
@@ -125,12 +129,32 @@ export default function Exam() {
               <p className="text-muted-foreground mb-6">
                 You have {taskType === 'Task 1' ? '20' : '40'} minutes. Write at least {minWords} words.
               </p>
-              <div className="bg-secondary/30 rounded-lg p-4 mb-6 text-left">
-                <p className="text-sm text-muted-foreground mb-2">Topic Preview:</p>
-                <p className="text-sm">{topic.prompt}</p>
-                <Button variant="ghost" size="sm" className="mt-3 gap-2" onClick={regenerateTopic}>
-                  <RefreshCw className="h-4 w-4" /> Get Different Topic
-                </Button>
+              <div className="bg-secondary/30 rounded-lg p-4 mb-4 text-left">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm text-muted-foreground">
+                    {useCustomTopic ? "O'z mavzungiz:" : "Mavzu:"}
+                  </p>
+                  <Button variant="ghost" size="sm" className="gap-2 text-xs" 
+                    onClick={() => setUseCustomTopic(!useCustomTopic)}>
+                    <PenLine className="h-3 w-3" />
+                    {useCustomTopic ? "Tayyor mavzulardan" : "O'z mavzumni kiritish"}
+                  </Button>
+                </div>
+                {useCustomTopic ? (
+                  <Input
+                    placeholder="Mavzuni bu yerga kiriting..."
+                    value={customTopic}
+                    onChange={(e) => setCustomTopic(e.target.value)}
+                    className="bg-background/50"
+                  />
+                ) : (
+                  <>
+                    <p className="text-sm">{topic.prompt}</p>
+                    <Button variant="ghost" size="sm" className="mt-3 gap-2" onClick={regenerateTopic}>
+                      <RefreshCw className="h-4 w-4" /> Boshqa mavzu
+                    </Button>
+                  </>
+                )}
               </div>
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-8">
                 <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {taskType === 'Task 1' ? '20' : '40'} min</span>
@@ -168,8 +192,8 @@ export default function Exam() {
             </div>
 
             <div className="glass-card p-6 mb-6">
-              <h2 className="text-lg font-semibold mb-2">Topic</h2>
-              <p className="text-muted-foreground">{topic.prompt}</p>
+              <h2 className="text-lg font-semibold mb-2">Mavzu</h2>
+              <p className="text-muted-foreground">{activeTopic}</p>
             </div>
 
             <div className="glass-card p-6">
