@@ -5,17 +5,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { PricingModal } from '@/components/PricingModal';
 import { getRandomTopic } from '@/lib/topics';
 import { motion } from 'framer-motion';
 import { 
   Clock, FileText, Send, RefreshCw, AlertCircle,
-  Loader2, Sparkles, ExternalLink
+  Loader2, Sparkles, PenLine
 } from 'lucide-react';
 import { toast } from 'sonner';
-import {
-  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,
-} from '@/components/ui/dialog';
 
 export default function Exam() {
   const [searchParams] = useSearchParams();
