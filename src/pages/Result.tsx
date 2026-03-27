@@ -8,9 +8,10 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { BlurredContent } from '@/components/BlurredContent';
 import { ErrorCorrections } from '@/components/ErrorCorrections';
 import { PricingModal } from '@/components/PricingModal';
+import { generateResultPdf } from '@/lib/generateResultPdf';
 import { 
   ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
-  Target, FileText, AlertTriangle, Crown
+  Target, FileText, AlertTriangle, Crown, Download
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
@@ -52,6 +53,7 @@ export default function Result() {
 
   const planType = subscription?.plan_type || 'free';
   const isFree = planType === 'free';
+  const canDownloadPdf = !isFree;
 
   useEffect(() => {
     if (!id) return;
@@ -101,13 +103,35 @@ export default function Result() {
     return <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>;
   };
 
+  const handleDownloadPdf = () => {
+    if (!canDownloadPdf) {
+      setShowPricing(true);
+      return;
+    }
+    generateResultPdf(essay);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back to Dashboard
-        </Link>
+        <div className="flex items-center justify-between mb-6">
+          <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+          </Link>
+          <Button
+            variant={canDownloadPdf ? 'outline' : 'ghost'}
+            size="sm"
+            className="gap-2"
+            onClick={handleDownloadPdf}
+          >
+            {canDownloadPdf ? (
+              <><Download className="h-4 w-4" /> Download PDF</>
+            ) : (
+              <><Crown className="h-4 w-4 text-primary" /> <span className="text-primary">PDF (Pro)</span></>
+            )}
+          </Button>
+        </div>
 
         {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-4 mb-8 animate-fade-in">

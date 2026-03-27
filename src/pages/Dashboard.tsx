@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
-  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink
+  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Plus
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -58,7 +58,6 @@ export default function Dashboard() {
     }
   };
 
-  // Last 10 essays for chart
   const last10Scored = essays.filter(e => e.score !== null).slice(0, 10).reverse();
   const chartData = last10Scored.map((essay, index) => ({
     name: `#${index + 1}`,
@@ -83,7 +82,6 @@ export default function Dashboard() {
 
   const planType = subscription?.plan_type || 'free';
 
-  // Weekly activity data
   const weeklyData = Array.from({ length: 7 }, (_, i) => {
     const date = subDays(new Date(), 6 - i);
     const dayEssays = essays.filter(e => format(new Date(e.created_at), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
@@ -159,7 +157,7 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* Stats Grid - without streak */}
+        {/* Stats Grid */}
         <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
           {[
             { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
@@ -215,7 +213,7 @@ export default function Dashboard() {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          {/* Score Progress Chart - Last 10 */}
+          {/* Score Progress Chart */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
             className="glass-card p-6">
             <div className="flex items-center gap-2 mb-6">
@@ -303,7 +301,7 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Recent Essays - only 5, with View All */}
+          {/* Recent Essays */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}
             className="glass-card p-6 lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
@@ -363,17 +361,17 @@ export default function Dashboard() {
             {[
               {
                 name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-                features: ['3 essay evaluations', 'Band scores & partial feedback', 'Last 10 essays progress chart', 'Basic task distribution stats'],
+                features: ['3 essay evaluations', 'Band scores & partial feedback', 'Last 10 essays progress chart', 'Buy extra: $0.2 / 1,000 so\'m each'],
                 key: 'free',
               },
               {
                 name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month',
-                features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error corrections with explanations', 'Score analytics & weekly activity', 'All IELTS topics', 'Essays history with pagination'],
+                features: ['25 evaluations/month', 'Full AI feedback & error corrections', 'Score analytics & weekly activity', 'Download results as PDF', 'Buy extra: $0.2 / 1,000 so\'m each'],
                 key: 'pro', popular: true,
               },
               {
                 name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
-                features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics dashboard', 'Priority grading speed', 'Essays history with pagination', 'Personalized improvement tips'],
+                features: ['100 evaluations/month', 'Full AI feedback & advanced analysis', 'Full analytics dashboard', 'Download results as PDF', 'Priority grading', 'Buy extra: $0.2 / 1,000 so\'m each'],
                 key: 'pro_plus',
               },
             ].map((plan) => {
@@ -424,7 +422,7 @@ export default function Dashboard() {
             })}
           </div>
           <p className="text-xs text-muted-foreground text-center mt-3">
-            To upgrade, contact admin via Telegram · Ta'rifga o'tish uchun Telegram orqali bog'laning
+            To upgrade or buy extra credits, contact admin via Telegram
           </p>
         </motion.div>
 

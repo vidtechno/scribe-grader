@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote
+  Check, ExternalLink, Quote, Plus
 } from 'lucide-react';
 
 const fadeUp = {
@@ -40,15 +40,15 @@ export default function Index() {
   const plans = [
     {
       name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-      features: ['3 essay evaluations/month', 'Band scores for all criteria', 'Partial feedback (preview)', 'Last 10 essays progress chart'],
+      features: ['3 essay evaluations/month', 'Band scores for all criteria', 'Partial feedback (preview)', 'Last 10 essays progress chart', 'Buy extra essays: $0.2 each'],
     },
     {
       name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month', popular: true,
-      features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error correction analysis', 'Score analytics & weekly activity', 'All topics', 'Essays history'],
+      features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error correction analysis', 'Score analytics & weekly activity', 'Download results as PDF', 'Buy extra essays: $0.2 each'],
     },
     {
       name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
-      features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics dashboard', 'Priority grading', 'Personalized tips'],
+      features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics dashboard', 'Priority grading', 'Download results as PDF', 'Buy extra essays: $0.2 each'],
     },
   ];
 
@@ -335,6 +335,20 @@ export default function Index() {
                 </motion.div>
               );
             })}
+          </motion.div>
+
+          {/* Extra essay callout */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="mt-8 glass-card p-6 flex flex-col sm:flex-row items-center gap-4 border border-primary/20 bg-primary/5">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Plus className="h-6 w-6 text-primary" />
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="font-semibold">Need more essays beyond your plan?</p>
+              <p className="text-sm text-muted-foreground">
+                Buy extra essay credits anytime: <span className="text-primary font-medium">$0.2 / 1,000 so'm per essay</span>. Available on all plans — contact admin via Telegram.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
