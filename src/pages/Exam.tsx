@@ -81,7 +81,6 @@ export default function Exam() {
 
       await supabase.from('profiles').update({ credits: profile.credits - 1 }).eq('user_id', profile.user_id);
 
-      // Also update subscription credits_used
       const { data: sub } = await supabase.from('subscriptions').select('credits_used').eq('user_id', profile.user_id).single();
       if (sub) {
         await supabase.from('subscriptions').update({ credits_used: (sub as any).credits_used + 1 }).eq('user_id', profile.user_id);
@@ -100,7 +99,7 @@ export default function Exam() {
 
   const startExam = () => {
     if (profile && profile.credits < 1) { setShowPricing(true); return; }
-    if (useCustomTopic && !customTopic.trim()) { toast.error("Iltimos, mavzuni kiriting"); return; }
+    if (useCustomTopic && !customTopic.trim()) { toast.error("Please enter a topic"); return; }
     setExamStarted(true);
   };
 
@@ -132,17 +131,17 @@ export default function Exam() {
               <div className="bg-secondary/30 rounded-lg p-4 mb-4 text-left">
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-sm text-muted-foreground">
-                    {useCustomTopic ? "O'z mavzungiz:" : "Mavzu:"}
+                    {useCustomTopic ? "Your topic:" : "Topic:"}
                   </p>
                   <Button variant="ghost" size="sm" className="gap-2 text-xs" 
                     onClick={() => setUseCustomTopic(!useCustomTopic)}>
                     <PenLine className="h-3 w-3" />
-                    {useCustomTopic ? "Tayyor mavzulardan" : "O'z mavzumni kiritish"}
+                    {useCustomTopic ? "Use random topics" : "Enter my own topic"}
                   </Button>
                 </div>
                 {useCustomTopic ? (
                   <Input
-                    placeholder="Mavzuni bu yerga kiriting..."
+                    placeholder="Enter your topic here..."
                     value={customTopic}
                     onChange={(e) => setCustomTopic(e.target.value)}
                     className="bg-background/50"
@@ -151,7 +150,7 @@ export default function Exam() {
                   <>
                     <p className="text-sm">{topic.prompt}</p>
                     <Button variant="ghost" size="sm" className="mt-3 gap-2" onClick={regenerateTopic}>
-                      <RefreshCw className="h-4 w-4" /> Boshqa mavzu
+                      <RefreshCw className="h-4 w-4" /> New topic
                     </Button>
                   </>
                 )}
@@ -167,7 +166,6 @@ export default function Exam() {
           </motion.div>
         ) : (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            {/* Header */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-4">
                 <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm">{taskType}</span>
@@ -185,14 +183,13 @@ export default function Exam() {
               </div>
             </div>
 
-            {/* Time progress bar */}
             <div className="w-full h-1 bg-secondary rounded-full mb-6 overflow-hidden">
               <motion.div className={`h-full rounded-full ${timePercentage <= 10 ? 'bg-destructive' : timePercentage <= 25 ? 'bg-yellow-500' : 'bg-primary'}`}
                 style={{ width: `${timePercentage}%` }} transition={{ duration: 1 }} />
             </div>
 
             <div className="glass-card p-6 mb-6">
-              <h2 className="text-lg font-semibold mb-2">Mavzu</h2>
+              <h2 className="text-lg font-semibold mb-2">Topic</h2>
               <p className="text-muted-foreground">{activeTopic}</p>
             </div>
 

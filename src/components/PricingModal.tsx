@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Check, Crown, Zap, Star, ExternalLink } from 'lucide-react';
+import { Check, Crown, Zap, Star, ExternalLink, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const TELEGRAM_USERNAME = 'diyorbek_anorboyev';
@@ -36,6 +36,7 @@ const plans: Plan[] = [
       'Partial feedback (first 8 words)',
       'Last 10 essays progress chart',
       'Basic task distribution stats',
+      'Buy extra essays: $0.2 / 1,000 so\'m each',
     ],
   },
   {
@@ -53,7 +54,8 @@ const plans: Plan[] = [
       'Score analytics & weekly activity',
       'All IELTS topics',
       'Essays history with pagination',
-      'Progress reports',
+      'Download results as PDF',
+      'Buy extra essays: $0.2 / 1,000 so\'m each',
     ],
   },
   {
@@ -71,7 +73,9 @@ const plans: Plan[] = [
       'Priority grading speed',
       'All IELTS topics',
       'Essays history with pagination',
+      'Download results as PDF',
       'Personalized improvement tips',
+      'Buy extra essays: $0.2 / 1,000 so\'m each',
     ],
   },
 ];
@@ -160,12 +164,22 @@ export function PricingModal({ open, onOpenChange, currentPlan = 'free' }: Prici
           })}
         </div>
 
-        <div className="glass-card p-4 text-center space-y-2">
+        {/* Extra essays info */}
+        <div className="glass-card p-4 flex items-center gap-3 border border-primary/20 bg-primary/5 rounded-lg">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <Plus className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <p className="text-sm font-medium">Need more essays?</p>
+            <p className="text-xs text-muted-foreground">
+              Buy extra essay credits anytime: <span className="text-primary font-medium">$0.2 / 1,000 so'm per essay</span>. Available on all plans. Contact admin to purchase.
+            </p>
+          </div>
+        </div>
+
+        <div className="glass-card p-4 text-center space-y-2 mt-2">
           <p className="text-sm font-medium">
-            To upgrade your plan, please contact admin via Telegram
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Ta'rifga o'tish uchun Telegram orqali admin bilan bog'laning
+            To upgrade or buy extra credits, contact admin via Telegram
           </p>
           <Button variant="glow" size="sm" className="gap-2 mt-2" onClick={handleUpgrade}>
             <ExternalLink className="h-4 w-4" />

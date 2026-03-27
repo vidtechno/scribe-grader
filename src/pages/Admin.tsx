@@ -39,8 +39,8 @@ interface Subscription {
 
 const PLAN_CONFIGS: Record<string, { credits: number; label: string }> = {
   free: { credits: 3, label: 'Free' },
-  pro: { credits: 30, label: 'Pro' },
-  pro_plus: { credits: 9999, label: 'Pro Plus' },
+  pro: { credits: 25, label: 'Pro' },
+  pro_plus: { credits: 100, label: 'Pro Plus' },
 };
 
 export default function Admin() {
@@ -96,11 +96,30 @@ export default function Admin() {
     const newCredits = Math.max(0, currentCredits + delta);
     setUpdatingUser(userId);
     try {
-      const { error } = await supabase.from('profiles').update({ credits: newCredits }).eq('user_id', userId);
-      if (error) throw error;
+      // Update profiles.credits
+      const { error: profileError } = await supabase.from('profiles').update({ credits: newCredits }).eq('user_id', userId);
+      if (profileError) throw profileError;
+
+      // Also update subscription credits_limit to reflect extra credits
+      const sub = subscriptions[userId];
+      if (sub) {
+        const newLimit = Math.max(0, sub.credits_limit + delta);
+        const { error: subError } = await supabase.from('subscriptions')
+          .update({ credits_limit: newLimit })
+          .eq('user_id', userId);
+        if (subError) throw subError;
+        setSubscriptions({
+          ...subscriptions,
+          [userId]: { ...sub, credits_limit: newLimit },
+        });
+      }
+
       setUsers(users.map(u => u.user_id === userId ? { ...u, credits: newCredits } : u));
       toast.success(`Credits updated to ${newCredits}`);
-    } catch { toast.error('Failed to update credits'); } finally { setUpdatingUser(null); }
+    } catch (err) {
+      console.error('Update credits error:', err);
+      toast.error('Failed to update credits');
+    } finally { setUpdatingUser(null); }
   };
 
   const updatePlan = async (userId: string, newPlan: string) => {
@@ -121,7 +140,6 @@ export default function Admin() {
         if (error) throw error;
       }
 
-      // Also update credits in profiles
       await supabase.from('profiles').update({ credits: config.credits }).eq('user_id', userId);
       setUsers(users.map(u => u.user_id === userId ? { ...u, credits: config.credits } : u));
       
@@ -262,11 +280,11 @@ export default function Admin() {
                         <span className="text-sm">{essayCounts[profile.user_id] || 0}</span>
                       </td>
                       <td className="p-4">
-                        {sub && planType !== 'free' ? (
+                        {sub ? (
                           <div className="space-y-1 min-w-[140px]">
                             <Progress value={subProgress} className="h-1.5" />
                             <div className="flex justify-between text-xs text-muted-foreground">
-                              <span>{sub.credits_used}/{sub.credits_limit}</span>
+                              <span>{sub.credits_used}/{sub.credits_limit} used</span>
                               {daysLeft !== null && (
                                 <span className={isExpired ? 'text-destructive' : ''}>
                                   {isExpired ? 'Expired' : `${daysLeft}d left`}

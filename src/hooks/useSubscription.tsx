@@ -40,17 +40,13 @@ export function useSubscription() {
   }, [user]);
 
   const creditsRemaining = subscription
-    ? subscription.plan_type === 'pro_plus'
-      ? Infinity
-      : Math.max(0, subscription.credits_limit - subscription.credits_used)
+    ? Math.max(0, subscription.credits_limit - subscription.credits_used)
     : 0;
 
   const creditsPercentage = subscription
-    ? subscription.plan_type === 'pro_plus'
-      ? 100
-      : subscription.credits_limit > 0
-        ? ((subscription.credits_limit - subscription.credits_used) / subscription.credits_limit) * 100
-        : 0
+    ? subscription.credits_limit > 0
+      ? ((subscription.credits_limit - subscription.credits_used) / subscription.credits_limit) * 100
+      : 0
     : 0;
 
   const daysRemaining = subscription?.expires_at
