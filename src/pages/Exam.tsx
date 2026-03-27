@@ -100,6 +100,7 @@ export default function Exam() {
 
   const startExam = () => {
     if (profile && profile.credits < 1) { setShowPricing(true); return; }
+    if (useCustomTopic && !customTopic.trim()) { toast.error("Iltimos, mavzuni kiriting"); return; }
     setExamStarted(true);
   };
 
@@ -191,8 +192,8 @@ export default function Exam() {
             </div>
 
             <div className="glass-card p-6 mb-6">
-              <h2 className="text-lg font-semibold mb-2">Topic</h2>
-              <p className="text-muted-foreground">{topic.prompt}</p>
+              <h2 className="text-lg font-semibold mb-2">Mavzu</h2>
+              <p className="text-muted-foreground">{activeTopic}</p>
             </div>
 
             <div className="glass-card p-6">
