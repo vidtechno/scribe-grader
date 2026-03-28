@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useSubscription } from '@/hooks/useSubscription';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
@@ -19,8 +20,10 @@ export default function Exam() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { profile, refreshProfile } = useAuth();
+  const { subscription } = useSubscription();
   
   const taskType = searchParams.get('task') === '1' ? 'Task 1' : 'Task 2';
+  const planType = subscription?.plan_type || 'free';
   const timeLimit = taskType === 'Task 1' ? 20 * 60 : 40 * 60;
   
   const [topic, setTopic] = useState(() => getRandomTopic(taskType));
@@ -69,7 +72,7 @@ export default function Exam() {
     try {
       const topicText = activeTopic;
       const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
-        body: { essay, taskType, topic: topicText }
+        body: { essay, taskType, topic: topicText, planType }
       });
       if (gradeError) throw gradeError;
 
@@ -193,10 +196,11 @@ export default function Exam() {
               <p className="text-muted-foreground">{activeTopic}</p>
             </div>
 
-            <div className="glass-card p-6">
+            <div className="rounded-xl border border-border p-6" style={{ backgroundColor: '#FFFFFF' }}>
               <Textarea placeholder="Start writing your essay here..." value={essay}
                 onChange={(e) => setEssay(e.target.value)}
-                className="min-h-[400px] resize-none bg-transparent border-none focus-visible:ring-0 text-base leading-relaxed"
+                className="min-h-[400px] resize-none border-none focus-visible:ring-0 text-base leading-relaxed text-gray-900 placeholder:text-gray-400"
+                style={{ backgroundColor: '#FFFFFF' }}
                 autoFocus />
             </div>
 

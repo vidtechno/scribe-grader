@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useState, useEffect } from 'react';
-import { LogOut, User, CreditCard, BookOpen, LayoutDashboard, Shield } from 'lucide-react';
+import { LogOut, User, CreditCard, BookOpen, LayoutDashboard, Shield, Trophy } from 'lucide-react';
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
@@ -49,6 +49,12 @@ export function Navbar() {
                 <Button variant="ghost" size="sm" className="gap-2">
                   <LayoutDashboard className="h-4 w-4" />
                   <span className="hidden sm:inline">Dashboard</span>
+                </Button>
+              </Link>
+              <Link to="/leaderboard">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <Trophy className="h-4 w-4" />
+                  <span className="hidden sm:inline">Ranking</span>
                 </Button>
               </Link>
               <div className="glass-card px-3 py-1.5 flex items-center gap-2">

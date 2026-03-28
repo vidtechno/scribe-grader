@@ -40,15 +40,17 @@ export default function Index() {
   const plans = [
     {
       name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-      features: ['3 essay evaluations/month', 'Band scores for all criteria', 'Partial feedback (preview)', 'Last 10 essays progress chart', 'Buy extra essays: $0.2 each'],
+      features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 1,500 so'm"],
     },
     {
-      name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month', popular: true,
-      features: ['25 evaluations/month', 'Full detailed AI feedback', 'Error correction analysis', 'Score analytics & weekly activity', 'Download results as PDF', 'Buy extra essays: $0.2 each'],
+      name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
+      highlight: 'GPT-4o Mini',
+      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'Score analytics & charts', 'Download results as PDF', "Extra essay: $0.2 / 1,500 so'm"],
     },
     {
-      name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
-      features: ['100 evaluations/month', 'Full detailed AI feedback', 'Advanced error correction', 'Full analytics dashboard', 'Priority grading', 'Download results as PDF', 'Buy extra essays: $0.2 each'],
+      name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '50 essays / month',
+      highlight: '⚡ Elite GPT-4o Model',
+      features: ['50 evaluations/month', 'Elite GPT-4o superior accuracy', 'Full Red/Green corrections', 'High-band improvements', 'Full analytics + PDF', 'Priority grading', "Extra essay: $0.5 / 4,000 so'm"],
     },
   ];
 
@@ -312,7 +314,10 @@ export default function Index() {
                     <span className="text-4xl font-bold">{plan.price}</span>
                     <span className="text-muted-foreground">{plan.period}</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">{plan.priceUzs}{plan.period}</p>
+                  <p className="text-sm text-muted-foreground mb-1">{plan.priceUzs}{plan.period}</p>
+                  {(plan as any).highlight && (
+                    <p className="text-xs font-semibold text-primary mb-1">{(plan as any).highlight}</p>
+                  )}
                   <p className="text-sm font-semibold text-primary mb-6">{plan.credits}</p>
                   <ul className="space-y-2.5 mb-8 flex-1">
                     {plan.features.map((f) => (
@@ -335,20 +340,6 @@ export default function Index() {
                 </motion.div>
               );
             })}
-          </motion.div>
-
-          {/* Extra essay callout */}
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="mt-8 glass-card p-6 flex flex-col sm:flex-row items-center gap-4 border border-primary/20 bg-primary/5">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Plus className="h-6 w-6 text-primary" />
-            </div>
-            <div className="text-center sm:text-left">
-              <p className="font-semibold">Need more essays beyond your plan?</p>
-              <p className="text-sm text-muted-foreground">
-                Buy extra essay credits anytime: <span className="text-primary font-medium">$0.2 / 1,000 so'm per essay</span>. Available on all plans — contact admin via Telegram.
-              </p>
-            </div>
           </motion.div>
         </div>
       </section>
