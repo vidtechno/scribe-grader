@@ -361,17 +361,19 @@ export default function Dashboard() {
             {[
               {
                 name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-                features: ['3 essay evaluations', 'Band scores & partial feedback', 'Last 10 essays progress chart', 'Buy extra: $0.2 / 1,000 so\'m each'],
+                features: ['3 essay evaluations', 'Band scores + top 3 errors', 'Partial feedback (blurred)', "Extra: $0.2 / 1,500 so'm each"],
                 key: 'free',
               },
               {
-                name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '25 essays / month',
-                features: ['25 evaluations/month', 'Full AI feedback & error corrections', 'Score analytics & weekly activity', 'Download results as PDF', 'Buy extra: $0.2 / 1,000 so\'m each'],
+                name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
+                highlight: 'GPT-4o Mini',
+                features: ['30 evaluations/month', 'Full AI feedback + Red/Green corrections', 'Score analytics & PDF', "Extra: $0.2 / 1,500 so'm each"],
                 key: 'pro', popular: true,
               },
               {
-                name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '100 essays / month',
-                features: ['100 evaluations/month', 'Full AI feedback & advanced analysis', 'Full analytics dashboard', 'Download results as PDF', 'Priority grading', 'Buy extra: $0.2 / 1,000 so\'m each'],
+                name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '50 essays / month',
+                highlight: '⚡ Elite GPT-4o',
+                features: ['50 evaluations/month', 'Elite GPT-4o accuracy', 'Full analytics + PDF + Priority', "Extra: $0.5 / 4,000 so'm each"],
                 key: 'pro_plus',
               },
             ].map((plan) => {
@@ -397,7 +399,10 @@ export default function Dashboard() {
                     <span className="text-2xl font-bold">{plan.price}</span>
                     <span className="text-muted-foreground text-sm">{plan.period}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground mb-2">{plan.priceUzs}{plan.period}</p>
+                  <p className="text-xs text-muted-foreground mb-1">{plan.priceUzs}{plan.period}</p>
+                  {(plan as any).highlight && (
+                    <p className="text-xs font-semibold text-primary mb-1">{(plan as any).highlight}</p>
+                  )}
                   <p className="text-sm font-medium text-primary mb-3">{plan.credits}</p>
                   <ul className="space-y-1.5 mb-4 flex-1">
                     {plan.features.map((f) => (
