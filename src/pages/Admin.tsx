@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { motion } from 'framer-motion';
 import { 
   Users, CreditCard, Plus, Minus, Search, Shield, Loader2,
-  BarChart3, Calendar, Crown, Zap, Star, FileText, TrendingUp
+  BarChart3, Calendar, Crown, Zap, FileText, TrendingUp,
+  DollarSign, Eye, ChevronRight
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
+import { format, subDays, isAfter, startOfDay } from 'date-fns';
 
 interface Profile {
   id: string;
@@ -37,10 +38,18 @@ interface Subscription {
   is_active: boolean;
 }
 
+interface ApiLog {
+  id: string;
+  user_id: string;
+  model_used: string;
+  cost: number;
+  created_at: string;
+}
+
 const PLAN_CONFIGS: Record<string, { credits: number; label: string }> = {
   free: { credits: 3, label: 'Free' },
-  pro: { credits: 25, label: 'Pro' },
-  pro_plus: { credits: 100, label: 'Pro Plus' },
+  pro: { credits: 30, label: 'Pro' },
+  pro_plus: { credits: 50, label: 'Pro Plus' },
 };
 
 export default function Admin() {
@@ -53,6 +62,10 @@ export default function Admin() {
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingUser, setUpdatingUser] = useState<string | null>(null);
   const [essayCounts, setEssayCounts] = useState<Record<string, number>>({});
+  const [apiLogs, setApiLogs] = useState<ApiLog[]>([]);
+  const [viewEssaysUser, setViewEssaysUser] = useState<{ userId: string; name: string } | null>(null);
+  const [userEssays, setUserEssays] = useState<any[]>([]);
+  const [loadingEssays, setLoadingEssays] = useState(false);
 
   useEffect(() => { checkAdminStatus(); }, [user]);
 
@@ -69,13 +82,15 @@ export default function Admin() {
 
   const fetchData = async () => {
     try {
-      const [usersRes, subsRes, essaysRes] = await Promise.all([
+      const [usersRes, subsRes, essaysRes, logsRes] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('subscriptions').select('*'),
         supabase.from('essays').select('user_id'),
+        supabase.from('api_logs').select('*').order('created_at', { ascending: false }).limit(1000),
       ]);
 
       setUsers(usersRes.data || []);
+      setApiLogs((logsRes.data as any[] || []).map((l: any) => ({ ...l, cost: parseFloat(l.cost) })));
 
       const subsMap: Record<string, Subscription> = {};
       (subsRes.data || []).forEach((s: any) => { subsMap[s.user_id] = s as Subscription; });
@@ -92,15 +107,28 @@ export default function Admin() {
     }
   };
 
+  const fetchUserEssays = async (userId: string, name: string) => {
+    setViewEssaysUser({ userId, name });
+    setLoadingEssays(true);
+    try {
+      const { data } = await supabase
+        .from('essays')
+        .select('id, task_type, topic, score, word_count, created_at')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(20);
+      setUserEssays(data || []);
+    } catch { setUserEssays([]); }
+    finally { setLoadingEssays(false); }
+  };
+
   const updateCredits = async (userId: string, currentCredits: number, delta: number) => {
     const newCredits = Math.max(0, currentCredits + delta);
     setUpdatingUser(userId);
     try {
-      // Update profiles.credits
       const { error: profileError } = await supabase.from('profiles').update({ credits: newCredits }).eq('user_id', userId);
       if (profileError) throw profileError;
 
-      // Also update subscription credits_limit to reflect extra credits
       const sub = subscriptions[userId];
       if (sub) {
         const newLimit = Math.max(0, sub.credits_limit + delta);
@@ -160,9 +188,29 @@ export default function Admin() {
     u.full_name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const totalCredits = users.reduce((acc, u) => acc + u.credits, 0);
+  // Calculate stats
   const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
   const proUsers = Object.values(subscriptions).filter(s => s.plan_type !== 'free').length;
+
+  const now = new Date();
+  const todayStart = startOfDay(now);
+  const weekAgo = subDays(now, 7);
+  const monthAgo = subDays(now, 30);
+
+  const costToday = apiLogs.filter(l => isAfter(new Date(l.created_at), todayStart)).reduce((a, l) => a + l.cost, 0);
+  const costWeek = apiLogs.filter(l => isAfter(new Date(l.created_at), weekAgo)).reduce((a, l) => a + l.cost, 0);
+  const costMonth = apiLogs.filter(l => isAfter(new Date(l.created_at), monthAgo)).reduce((a, l) => a + l.cost, 0);
+
+  const newUsersToday = users.filter(u => isAfter(new Date(u.created_at), todayStart)).length;
+  const newUsersWeek = users.filter(u => isAfter(new Date(u.created_at), weekAgo)).length;
+  const newUsersMonth = users.filter(u => isAfter(new Date(u.created_at), monthAgo)).length;
+
+  // Revenue estimate: Pro = $3, Pro Plus = $10
+  const revenueEstimate = Object.values(subscriptions).reduce((acc, s) => {
+    if (s.plan_type === 'pro') return acc + 3;
+    if (s.plan_type === 'pro_plus') return acc + 10;
+    return acc;
+  }, 0);
 
   if (authLoading || loading) return <LoadingScreen />;
   if (!user) { navigate('/auth'); return null; }
@@ -191,20 +239,20 @@ export default function Admin() {
           </div>
           <div>
             <h1 className="text-2xl font-bold">Admin Panel</h1>
-            <p className="text-muted-foreground">Manage users, plans & credits</p>
+            <p className="text-muted-foreground">Users, plans, credits & analytics</p>
           </div>
         </motion.div>
 
-        {/* Stats */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {/* Overview Stats */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[
             { icon: Users, value: users.length, label: 'Total Users', color: 'text-primary' },
             { icon: Crown, value: proUsers, label: 'Paid Users', color: 'text-yellow-400' },
             { icon: FileText, value: totalEssays, label: 'Total Essays', color: 'text-primary' },
-            { icon: CreditCard, value: totalCredits, label: 'Total Credits', color: 'text-primary' },
+            { icon: DollarSign, value: `$${revenueEstimate}`, label: 'Monthly Revenue', color: 'text-emerald-400' },
           ].map((stat, i) => (
             <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }} className="glass-card p-6">
+              transition={{ delay: i * 0.1 }} className="glass-card p-5">
               <div className="flex items-center gap-4">
                 <stat.icon className={`h-8 w-8 ${stat.color}`} />
                 <div>
@@ -216,8 +264,79 @@ export default function Admin() {
           ))}
         </div>
 
+        {/* API Cost & User Growth */}
+        <div className="grid md:grid-cols-3 gap-4 mb-6">
+          {/* API Costs */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            className="glass-card p-5">
+            <h3 className="font-semibold mb-3 flex items-center gap-2">
+              <DollarSign className="h-4 w-4 text-destructive" /> API Costs
+            </h3>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Today</span>
+                <span className="font-medium text-destructive">${costToday.toFixed(3)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Last 7 Days</span>
+                <span className="font-medium text-destructive">${costWeek.toFixed(3)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Last 30 Days</span>
+                <span className="font-medium text-destructive">${costMonth.toFixed(3)}</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Net Profit */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+            className="glass-card p-5">
+            <h3 className="font-semibold mb-3 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-emerald-400" /> Net Profit
+            </h3>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Revenue</span>
+                <span className="font-medium text-emerald-400">${revenueEstimate.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">API Costs (30d)</span>
+                <span className="font-medium text-destructive">-${costMonth.toFixed(3)}</span>
+              </div>
+              <div className="flex justify-between text-sm border-t border-border pt-2">
+                <span className="font-medium">Net</span>
+                <span className={`font-bold ${(revenueEstimate - costMonth) >= 0 ? 'text-emerald-400' : 'text-destructive'}`}>
+                  ${(revenueEstimate - costMonth).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* User Growth */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+            className="glass-card p-5">
+            <h3 className="font-semibold mb-3 flex items-center gap-2">
+              <Users className="h-4 w-4 text-primary" /> User Growth
+            </h3>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Today</span>
+                <span className="font-medium text-primary">+{newUsersToday}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Last 7 Days</span>
+                <span className="font-medium text-primary">+{newUsersWeek}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Last 30 Days</span>
+                <span className="font-medium text-primary">+{newUsersMonth}</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
         {/* Search */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
           className="glass-card p-6 mb-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -227,7 +346,7 @@ export default function Admin() {
         </motion.div>
 
         {/* Users Table */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
           className="glass-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -244,7 +363,7 @@ export default function Admin() {
               <tbody>
                 {filteredUsers.map((profile) => {
                   const sub = subscriptions[profile.user_id];
-                  const planType = sub?.plan_type || 'free';
+                  const pt = sub?.plan_type || 'free';
                   const expiresAt = sub?.expires_at;
                   const daysLeft = expiresAt ? Math.max(0, Math.ceil((new Date(expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24))) : null;
                   const isExpired = expiresAt ? new Date(expiresAt) < new Date() : false;
@@ -259,7 +378,7 @@ export default function Admin() {
                         </div>
                       </td>
                       <td className="p-4">
-                        <Select value={planType} onValueChange={(val) => updatePlan(profile.user_id, val)}
+                        <Select value={pt} onValueChange={(val) => updatePlan(profile.user_id, val)}
                           disabled={updatingUser === profile.user_id}>
                           <SelectTrigger className="w-28 h-8 text-xs">
                             <SelectValue />
@@ -297,7 +416,12 @@ export default function Admin() {
                         )}
                       </td>
                       <td className="p-4">
-                        <div className="flex items-center justify-end gap-2">
+                        <div className="flex items-center justify-end gap-1">
+                          <Button variant="ghost" size="icon" className="h-8 w-8"
+                            onClick={() => fetchUserEssays(profile.user_id, profile.full_name || profile.email)}
+                            title="View essays">
+                            <Eye className="h-3.5 w-3.5" />
+                          </Button>
                           <Button variant="outline" size="icon" className="h-8 w-8"
                             onClick={() => updateCredits(profile.user_id, profile.credits, -1)}
                             disabled={updatingUser === profile.user_id || profile.credits === 0}>
@@ -324,6 +448,42 @@ export default function Admin() {
           )}
         </motion.div>
       </main>
+
+      {/* View User Essays Dialog */}
+      <Dialog open={!!viewEssaysUser} onOpenChange={() => setViewEssaysUser(null)}>
+        <DialogContent className="glass-card border-border max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Essays by {viewEssaysUser?.name}</DialogTitle>
+          </DialogHeader>
+          {loadingEssays ? (
+            <div className="py-8 text-center text-muted-foreground">Loading...</div>
+          ) : userEssays.length === 0 ? (
+            <div className="py-8 text-center text-muted-foreground">No essays found</div>
+          ) : (
+            <div className="space-y-2">
+              {userEssays.map((essay: any) => (
+                <Link key={essay.id} to={`/result/${essay.id}`}
+                  className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
+                      <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy')}</span>
+                      <span className="text-xs text-muted-foreground">{essay.word_count}w</span>
+                    </div>
+                    <p className="text-sm truncate text-muted-foreground">{essay.topic?.substring(0, 60)}...</p>
+                  </div>
+                  {essay.score !== null && (
+                    <span className={`text-lg font-bold ml-3 ${essay.score >= 7 ? 'text-primary' : essay.score >= 5 ? 'text-yellow-500' : 'text-destructive'}`}>
+                      {essay.score}
+                    </span>
+                  )}
+                  <ChevronRight className="h-4 w-4 text-muted-foreground ml-2 group-hover:text-primary transition-colors" />
+                </Link>
+              ))}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
