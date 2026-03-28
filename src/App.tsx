@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Exam from "./pages/Exam";
 import Result from "./pages/Result";
 import Essays from "./pages/Essays";
+import Leaderboard from "./pages/Leaderboard";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
@@ -74,6 +75,11 @@ function AppRoutes() {
       <Route path="/essays" element={
         <ProtectedRoute>
           <Essays />
+        </ProtectedRoute>
+      } />
+      <Route path="/leaderboard" element={
+        <ProtectedRoute>
+          <Leaderboard />
         </ProtectedRoute>
       } />
       <Route path="/admin" element={

@@ -14,6 +14,7 @@ interface Plan {
   features: string[];
   credits: string;
   popular?: boolean;
+  highlight?: string;
 }
 
 interface PricingModalProps {
@@ -32,11 +33,10 @@ const plans: Plan[] = [
     credits: '3 essays / month',
     features: [
       '3 essay evaluations per month',
-      'Band scores for all 4 criteria',
-      'Partial feedback (first 8 words)',
+      'Overall Band + top 3 errors only',
+      'Partial feedback (blurred)',
       'Last 10 essays progress chart',
-      'Basic task distribution stats',
-      'Buy extra essays: $0.2 / 1,000 so\'m each',
+      "Extra essay: $0.2 / 1,500 so'm",
     ],
   },
   {
@@ -45,17 +45,17 @@ const plans: Plan[] = [
     priceUzs: "29,000 so'm",
     period: '/month',
     icon: Zap,
-    credits: '25 essays / month',
+    credits: '30 essays / month',
     popular: true,
+    highlight: 'GPT-4o Mini',
     features: [
-      '25 essay evaluations per month',
+      '30 essay evaluations per month',
       'Full detailed AI feedback',
-      'Error correction with explanations',
+      'Red/Green error corrections',
       'Score analytics & weekly activity',
-      'All IELTS topics',
-      'Essays history with pagination',
       'Download results as PDF',
-      'Buy extra essays: $0.2 / 1,000 so\'m each',
+      'Essays history with pagination',
+      "Extra essay: $0.2 / 1,500 so'm",
     ],
   },
   {
@@ -64,18 +64,17 @@ const plans: Plan[] = [
     priceUzs: "99,000 so'm",
     period: '/month',
     icon: Crown,
-    credits: '100 essays / month',
+    credits: '50 essays / month',
+    highlight: '⚡ Elite GPT-4o Model',
     features: [
-      '100 essay evaluations per month',
-      'Full detailed AI feedback',
-      'Advanced error correction',
+      '50 essay evaluations per month',
+      'Elite GPT-4o for superior accuracy',
+      'Full Red/Green error corrections',
+      'High-band improvement suggestions',
       'Full analytics dashboard',
-      'Priority grading speed',
-      'All IELTS topics',
-      'Essays history with pagination',
       'Download results as PDF',
-      'Personalized improvement tips',
-      'Buy extra essays: $0.2 / 1,000 so\'m each',
+      'Priority grading speed',
+      "Extra essay: $0.5 / 4,000 so'm",
     ],
   },
 ];
@@ -129,7 +128,10 @@ export function PricingModal({ open, onOpenChange, currentPlan = 'free' }: Prici
                   <span className="text-2xl font-bold">{plan.price}</span>
                   <span className="text-muted-foreground text-sm">{plan.period}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-3">{plan.priceUzs}{plan.period}</p>
+                <p className="text-xs text-muted-foreground mb-1">{plan.priceUzs}{plan.period}</p>
+                {plan.highlight && (
+                  <p className="text-xs font-semibold text-primary mb-2">{plan.highlight}</p>
+                )}
                 <p className="text-sm font-medium text-primary mb-4">{plan.credits}</p>
 
                 <ul className="space-y-2 mb-6 flex-1">
@@ -162,19 +164,6 @@ export function PricingModal({ open, onOpenChange, currentPlan = 'free' }: Prici
               </motion.div>
             );
           })}
-        </div>
-
-        {/* Extra essays info */}
-        <div className="glass-card p-4 flex items-center gap-3 border border-primary/20 bg-primary/5 rounded-lg">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-            <Plus className="h-5 w-5 text-primary" />
-          </div>
-          <div>
-            <p className="text-sm font-medium">Need more essays?</p>
-            <p className="text-xs text-muted-foreground">
-              Buy extra essay credits anytime: <span className="text-primary font-medium">$0.2 / 1,000 so'm per essay</span>. Available on all plans. Contact admin to purchase.
-            </p>
-          </div>
         </div>
 
         <div className="glass-card p-4 text-center space-y-2 mt-2">

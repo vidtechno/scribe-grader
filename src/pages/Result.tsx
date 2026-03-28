@@ -11,7 +11,7 @@ import { PricingModal } from '@/components/PricingModal';
 import { generateResultPdf } from '@/lib/generateResultPdf';
 import { 
   ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
-  Target, FileText, AlertTriangle, Crown, Download
+  Target, FileText, AlertTriangle, Crown, Download, Cpu
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
@@ -20,6 +20,7 @@ interface ErrorCorrectionItem {
   original: string;
   corrected: string;
   explanation: string;
+  type?: 'error' | 'improvement';
 }
 
 interface Feedback {
@@ -31,6 +32,7 @@ interface Feedback {
   suggestions: string[];
   strengths: string[];
   errorCorrections?: ErrorCorrectionItem[];
+  modelUsed?: string;
 }
 
 interface Essay {
@@ -119,18 +121,25 @@ export default function Result() {
           <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Dashboard
           </Link>
-          <Button
-            variant={canDownloadPdf ? 'outline' : 'ghost'}
-            size="sm"
-            className="gap-2"
-            onClick={handleDownloadPdf}
-          >
-            {canDownloadPdf ? (
-              <><Download className="h-4 w-4" /> Download PDF</>
-            ) : (
-              <><Crown className="h-4 w-4 text-primary" /> <span className="text-primary">PDF (Pro)</span></>
+          <div className="flex items-center gap-2">
+            {feedback?.modelUsed && (
+              <span className="text-xs text-muted-foreground flex items-center gap-1 px-2 py-1 rounded-full bg-secondary/50">
+                <Cpu className="h-3 w-3" /> {feedback.modelUsed}
+              </span>
             )}
-          </Button>
+            <Button
+              variant={canDownloadPdf ? 'outline' : 'ghost'}
+              size="sm"
+              className="gap-2"
+              onClick={handleDownloadPdf}
+            >
+              {canDownloadPdf ? (
+                <><Download className="h-4 w-4" /> Download PDF</>
+              ) : (
+                <><Crown className="h-4 w-4 text-primary" /> <span className="text-primary">PDF (Pro)</span></>
+              )}
+            </Button>
+          </div>
         </div>
 
         {/* Header */}
@@ -198,7 +207,7 @@ export default function Result() {
             {/* Error Corrections */}
             <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.25s' }}>
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-destructive" /> Error Corrections
+                <AlertTriangle className="h-5 w-5 text-destructive" /> Error Corrections & Improvements
                 {isFree && (
                   <span className="ml-auto flex items-center gap-1 text-xs text-primary cursor-pointer" onClick={() => setShowPricing(true)}>
                     <Crown className="h-3.5 w-3.5" /> Premium
@@ -206,15 +215,21 @@ export default function Result() {
                 )}
               </h2>
               {isFree ? (
-                <div className="relative">
-                  <div className="blur-sm pointer-events-none">
-                    <ErrorCorrections corrections={feedback.errorCorrections || [{ original: 'Sample error text here', corrected: 'Sample corrected text', explanation: 'Sample explanation' }]} />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center bg-card/60 rounded-lg">
-                    <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                      <Crown className="h-4 w-4" /> Upgrade to see error corrections
-                    </Button>
-                  </div>
+                <div>
+                  {/* Show top 3 errors for free users */}
+                  <ErrorCorrections corrections={(feedback.errorCorrections || []).filter(c => c.type !== 'improvement')} limitCount={3} />
+                  {(feedback.errorCorrections || []).length > 3 && (
+                    <div className="relative mt-4">
+                      <div className="blur-sm pointer-events-none">
+                        <ErrorCorrections corrections={(feedback.errorCorrections || []).slice(3, 6)} />
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center bg-card/60 rounded-lg">
+                        <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
+                          <Crown className="h-4 w-4" /> Upgrade to see all corrections
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <ErrorCorrections corrections={feedback.errorCorrections || []} />
