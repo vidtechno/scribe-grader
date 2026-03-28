@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_logs: {
+        Row: {
+          cost: number
+          created_at: string
+          id: string
+          model_used: string
+          user_id: string
+        }
+        Insert: {
+          cost?: number
+          created_at?: string
+          id?: string
+          model_used: string
+          user_id: string
+        }
+        Update: {
+          cost?: number
+          created_at?: string
+          id?: string
+          model_used?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       essays: {
         Row: {
           created_at: string
