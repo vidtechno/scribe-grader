@@ -1,8 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
 const systemPrompt = `You are an expert IELTS Writing examiner with years of experience. You will evaluate essays according to the official IELTS Writing band descriptors.
@@ -17,7 +18,11 @@ For each essay, you must provide:
 3. Specific feedback for each criterion
 4. 3-5 key strengths of the essay
 5. 3-5 specific suggestions for improvement
-6. Error corrections: Find ALL grammatical errors, spelling mistakes, incorrect word usage, and awkward phrasing in the essay. For each error, provide the original wrong text and its corrected version.
+6. Error corrections: Find ALL grammatical errors, spelling mistakes, incorrect word usage, and awkward phrasing in the essay. For each error:
+   - Provide the original wrong text
+   - Provide the corrected version
+   - Provide a brief explanation of WHY it's wrong (grammar rule, style issue, etc.)
+   - Provide a "type" field: either "error" (for mistakes) or "improvement" (for high-band alternatives/style upgrades)
 
 Be accurate, fair, and constructive in your feedback. Base your scoring strictly on the IELTS band descriptors.
 
@@ -46,7 +51,8 @@ You must respond ONLY with a valid JSON object in this exact format:
     {
       "original": "the wrong sentence or phrase from the essay",
       "corrected": "the corrected version",
-      "explanation": "brief explanation of the error"
+      "explanation": "brief explanation of the error or why this improvement is better",
+      "type": "error or improvement"
     }
   ]
 }`;
@@ -57,7 +63,7 @@ serve(async (req) => {
   }
 
   try {
-    const { essay, taskType, topic } = await req.json();
+    const { essay, taskType, topic, planType } = await req.json();
 
     if (!essay || !taskType || !topic) {
       return new Response(
@@ -66,14 +72,18 @@ serve(async (req) => {
       );
     }
 
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    if (!LOVABLE_API_KEY) {
-      console.error('LOVABLE_API_KEY is not configured');
+    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    if (!OPENAI_API_KEY) {
+      console.error('OPENAI_API_KEY is not configured');
       return new Response(
         JSON.stringify({ error: 'AI service not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    // Model routing based on plan
+    const model = planType === 'pro_plus' ? 'gpt-4o' : 'gpt-4o-mini';
+    const cost = planType === 'pro_plus' ? 0.20 : 0.005;
 
     const userPrompt = `Please evaluate this IELTS ${taskType} essay.
 
@@ -82,40 +92,35 @@ Topic: ${topic}
 Essay:
 ${essay}
 
-Provide your evaluation as a JSON object following the exact format specified. Make sure to find and list ALL errors in the errorCorrections array.`;
+Provide your evaluation as a JSON object following the exact format specified. Make sure to find and list ALL errors in the errorCorrections array. Also include "improvement" type entries where you suggest higher-band alternatives for acceptable but basic phrases.`;
 
-    console.log('Calling Lovable AI for essay grading...');
+    console.log(`Calling OpenAI (${model}) for essay grading...`);
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-flash-preview',
+        model,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
         temperature: 0.3,
+        response_format: { type: "json_object" },
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('AI Gateway error:', response.status, errorText);
+      console.error('OpenAI error:', response.status, errorText);
       
       if (response.status === 429) {
         return new Response(
           JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
           { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-      if (response.status === 402) {
-        return new Response(
-          JSON.stringify({ error: 'Payment required. Please add credits.' }),
-          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
       
@@ -138,9 +143,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
 
     let gradeResult;
     try {
-      const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, content];
-      const jsonStr = jsonMatch[1].trim();
-      gradeResult = JSON.parse(jsonStr);
+      gradeResult = JSON.parse(content);
     } catch (parseError) {
       console.error('Failed to parse AI response:', parseError, 'Content:', content);
       return new Response(
@@ -157,12 +160,39 @@ Provide your evaluation as a JSON object following the exact format specified. M
       );
     }
 
-    // Ensure errorCorrections exists
     if (!gradeResult.errorCorrections) {
       gradeResult.errorCorrections = [];
     }
 
-    console.log('Essay graded successfully:', gradeResult.overallBand);
+    // Log API usage to api_logs
+    try {
+      const authHeader = req.headers.get('Authorization');
+      if (authHeader) {
+        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+        const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+        const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+        // Extract user_id from JWT
+        const token = authHeader.replace('Bearer ', '');
+        const { data: { user } } = await supabase.auth.getUser(token);
+        
+        if (user) {
+          await supabase.from('api_logs').insert({
+            user_id: user.id,
+            model_used: model,
+            cost: cost,
+          });
+        }
+      }
+    } catch (logError) {
+      console.error('Failed to log API usage:', logError);
+      // Don't fail the request if logging fails
+    }
+
+    // Add model info to response
+    gradeResult.modelUsed = model;
+
+    console.log('Essay graded successfully:', gradeResult.overallBand, 'Model:', model);
 
     return new Response(
       JSON.stringify(gradeResult),
