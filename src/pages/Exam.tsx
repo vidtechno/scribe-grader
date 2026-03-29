@@ -12,15 +12,17 @@ import { getRandomTopic } from '@/lib/topics';
 import { motion } from 'framer-motion';
 import { 
   Clock, FileText, Send, RefreshCw, AlertCircle,
-  Loader2, Sparkles, PenLine
+  Loader2, Sparkles, PenLine, PanelLeftClose, PanelLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function Exam() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { profile, refreshProfile } = useAuth();
   const { subscription } = useSubscription();
+  const isMobile = useIsMobile();
   
   const taskType = searchParams.get('task') === '1' ? 'Task 1' : 'Task 2';
   const planType = subscription?.plan_type || 'free';
@@ -34,6 +36,7 @@ export default function Exam() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [examStarted, setExamStarted] = useState(false);
+  const [showTopicPanel, setShowTopicPanel] = useState(true);
 
   const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic.prompt;
 
@@ -108,20 +111,20 @@ export default function Exam() {
 
   const getTimeColor = () => {
     const percentage = timeLeft / timeLimit;
-    if (percentage <= 0.1) return 'text-destructive';
-    if (percentage <= 0.25) return 'text-yellow-500';
-    return 'text-primary';
+    if (percentage <= 0.1) return 'text-red-600';
+    if (percentage <= 0.25) return 'text-yellow-600';
+    return 'text-gray-700';
   };
 
   const timePercentage = (timeLeft / timeLimit) * 100;
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-        {!examStarted ? (
+  if (!examStarted) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <main className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="max-w-2xl mx-auto text-center py-12">
+            className="text-center py-12">
             <div className="glass-card p-8 mb-8">
               <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 3, repeat: Infinity }}
                 className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
@@ -167,53 +170,100 @@ export default function Exam() {
               </Button>
             </div>
           </motion.div>
-        ) : (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <div className="flex items-center gap-4">
-                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm">{taskType}</span>
-                <span className={`flex items-center gap-2 font-mono text-2xl font-bold ${getTimeColor()}`}>
-                  <Clock className="h-5 w-5" /> {formatTime(timeLeft)}
-                </span>
+        </main>
+        <PricingModal open={showPricing} onOpenChange={setShowPricing} />
+      </div>
+    );
+  }
+
+  // CD-IELTS Style Exam Workspace
+  return (
+    <div className="min-h-screen bg-[#f0f0f0] flex flex-col">
+      {/* IELTS-style top bar */}
+      <div className="bg-[#2c3e50] text-white px-4 py-2 flex items-center justify-between flex-wrap gap-2 z-50">
+        <div className="flex items-center gap-3">
+          <span className="font-semibold text-sm">{taskType} — Writing</span>
+          <span className="text-xs text-gray-300">WritingExam.uz</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className={`flex items-center gap-1.5 font-mono text-lg font-bold ${getTimeColor()} bg-white/10 px-3 py-1 rounded`}>
+            <Clock className="h-4 w-4" /> {formatTime(timeLeft)}
+          </span>
+          <span className={`text-sm font-medium ${isWordCountValid ? 'text-green-400' : 'text-gray-300'}`}>
+            {wordCount} / {minWords} words
+          </span>
+          <Button 
+            size="sm"
+            onClick={handleSubmit} 
+            disabled={isSubmitting || !isWordCountValid} 
+            className="gap-1.5 bg-green-600 hover:bg-green-700 text-white border-0"
+          >
+            {isSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />} Submit
+          </Button>
+        </div>
+      </div>
+
+      {/* Time progress bar */}
+      <div className="w-full h-1 bg-gray-300">
+        <div 
+          className={`h-full transition-all duration-1000 ${timePercentage <= 10 ? 'bg-red-500' : timePercentage <= 25 ? 'bg-yellow-500' : 'bg-green-500'}`}
+          style={{ width: `${timePercentage}%` }} 
+        />
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col lg:flex-row">
+        {/* Topic Panel */}
+        {isMobile ? (
+          <>
+            <button 
+              onClick={() => setShowTopicPanel(!showTopicPanel)}
+              className="flex items-center gap-2 px-4 py-2 bg-[#34495e] text-white text-sm w-full"
+            >
+              {showTopicPanel ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
+              {showTopicPanel ? 'Hide Topic' : 'Show Topic'}
+            </button>
+            {showTopicPanel && (
+              <div className="bg-white border-b border-gray-300 p-4 max-h-[40vh] overflow-y-auto">
+                <h2 className="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">Question</h2>
+                <p className="text-sm text-gray-800 leading-relaxed">{activeTopic}</p>
               </div>
-              <div className="flex items-center gap-4">
-                <span className={`text-sm ${isWordCountValid ? 'text-primary' : 'text-muted-foreground'}`}>
-                  {wordCount} / {minWords} words
-                </span>
-                <Button variant="glow" onClick={handleSubmit} disabled={isSubmitting || !isWordCountValid} className="gap-2">
-                  {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />} Submit
-                </Button>
-              </div>
-            </div>
-
-            <div className="w-full h-1 bg-secondary rounded-full mb-6 overflow-hidden">
-              <motion.div className={`h-full rounded-full ${timePercentage <= 10 ? 'bg-destructive' : timePercentage <= 25 ? 'bg-yellow-500' : 'bg-primary'}`}
-                style={{ width: `${timePercentage}%` }} transition={{ duration: 1 }} />
-            </div>
-
-            <div className="glass-card p-6 mb-6">
-              <h2 className="text-lg font-semibold mb-2">Topic</h2>
-              <p className="text-muted-foreground">{activeTopic}</p>
-            </div>
-
-            <div className="rounded-xl border border-border p-6" style={{ backgroundColor: '#FFFFFF' }}>
-              <Textarea placeholder="Start writing your essay here..." value={essay}
-                onChange={(e) => setEssay(e.target.value)}
-                className="min-h-[400px] resize-none border-none focus-visible:ring-0 text-base leading-relaxed text-gray-900 placeholder:text-gray-400"
-                style={{ backgroundColor: '#FFFFFF' }}
-                autoFocus />
-            </div>
-
-            {!isWordCountValid && wordCount > 0 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="mt-4 flex items-center gap-2 text-yellow-500 text-sm">
-                <AlertCircle className="h-4 w-4" />
-                Write at least {minWords - wordCount} more words to submit
-              </motion.div>
             )}
-          </motion.div>
+          </>
+        ) : (
+          <div className="w-[400px] min-w-[350px] bg-white border-r border-gray-300 flex flex-col">
+            <div className="bg-[#ecf0f1] border-b border-gray-300 px-4 py-2">
+              <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">Question</h2>
+            </div>
+            <div className="p-5 flex-1 overflow-y-auto">
+              <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">{activeTopic}</p>
+            </div>
+          </div>
         )}
-      </main>
+
+        {/* Writing Area */}
+        <div className="flex-1 flex flex-col bg-white">
+          <div className="bg-[#ecf0f1] border-b border-gray-300 px-4 py-2 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">Your Response</h2>
+            {!isWordCountValid && wordCount > 0 && (
+              <span className="text-xs text-yellow-600 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {minWords - wordCount} more words needed
+              </span>
+            )}
+          </div>
+          <div className="flex-1 p-0">
+            <Textarea 
+              placeholder="Start writing your essay here..."
+              value={essay}
+              onChange={(e) => setEssay(e.target.value)}
+              className="h-full min-h-[400px] lg:min-h-0 resize-none border-none rounded-none focus-visible:ring-0 text-base leading-[1.8] text-gray-900 placeholder:text-gray-400 p-5"
+              style={{ backgroundColor: '#FFFFFF' }}
+              autoFocus 
+            />
+          </div>
+        </div>
+      </div>
 
       <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </div>

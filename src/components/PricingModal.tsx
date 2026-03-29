@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Check, Crown, Zap, Star, ExternalLink, Plus } from 'lucide-react';
+import { Check, Crown, Zap, Star, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const TELEGRAM_USERNAME = 'diyorbek_anorboyev';
@@ -47,14 +47,15 @@ const plans: Plan[] = [
     icon: Zap,
     credits: '30 essays / month',
     popular: true,
-    highlight: 'GPT-4o Mini',
+    highlight: 'Standard AI',
     features: [
       '30 essay evaluations per month',
       'Full detailed AI feedback',
       'Red/Green error corrections',
-      'Score analytics & weekly activity',
-      'Download results as PDF',
-      'Essays history with pagination',
+      'Vocabulary Range Analysis',
+      'Coherence Check',
+      'Sentence Complexity Map',
+      'Score analytics & PDF export',
       "Extra essay: $0.2 / 1,500 so'm",
     ],
   },
@@ -65,14 +66,16 @@ const plans: Plan[] = [
     period: '/month',
     icon: Crown,
     credits: '50 essays / month',
-    highlight: '⚡ Elite GPT-4o Model',
+    highlight: '⚡ Elite AI — Superior Accuracy',
     features: [
       '50 essay evaluations per month',
-      'Elite GPT-4o for superior accuracy',
+      'Elite AI for superior accuracy',
       'Full Red/Green error corrections',
+      'Vocabulary Range Analysis',
+      'Coherence Check',
+      'Sentence Complexity Map',
       'High-band improvement suggestions',
-      'Full analytics dashboard',
-      'Download results as PDF',
+      'Full analytics + PDF export',
       'Priority grading speed',
       "Extra essay: $0.5 / 4,000 so'm",
     ],

@@ -11,7 +11,8 @@ import { PricingModal } from '@/components/PricingModal';
 import { generateResultPdf } from '@/lib/generateResultPdf';
 import { 
   ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
-  Target, FileText, AlertTriangle, Crown, Download, Cpu
+  Target, FileText, AlertTriangle, Crown, Download, Cpu,
+  BookA, Link2, Layers
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
@@ -23,6 +24,23 @@ interface ErrorCorrectionItem {
   type?: 'error' | 'improvement';
 }
 
+interface VocabItem {
+  word: string;
+  count: number;
+  suggestions: string[];
+}
+
+interface CoherenceItem {
+  location: string;
+  status: 'strong' | 'weak' | 'missing';
+  suggestion: string;
+}
+
+interface SentenceItem {
+  sentence: string;
+  type: 'simple' | 'compound' | 'complex';
+}
+
 interface Feedback {
   overallBand: number;
   taskAchievement: { score: number; feedback: string };
@@ -32,6 +50,9 @@ interface Feedback {
   suggestions: string[];
   strengths: string[];
   errorCorrections?: ErrorCorrectionItem[];
+  vocabularyAnalysis?: VocabItem[];
+  coherenceCheck?: CoherenceItem[];
+  sentenceComplexity?: SentenceItem[];
   modelUsed?: string;
 }
 
@@ -55,6 +76,7 @@ export default function Result() {
 
   const planType = subscription?.plan_type || 'free';
   const isFree = planType === 'free';
+  const isPro = planType === 'pro' || planType === 'pro_plus';
   const canDownloadPdf = !isFree;
 
   useEffect(() => {
@@ -86,9 +108,9 @@ export default function Result() {
 
   const feedback = essay.feedback;
   const chartData = feedback ? [
-    { subject: 'Task Achievement', score: feedback.taskAchievement.score, fullMark: 9 },
+    { subject: 'Task', score: feedback.taskAchievement.score, fullMark: 9 },
     { subject: 'Coherence', score: feedback.coherenceCohesion.score, fullMark: 9 },
-    { subject: 'Lexical Resource', score: feedback.lexicalResource.score, fullMark: 9 },
+    { subject: 'Lexical', score: feedback.lexicalResource.score, fullMark: 9 },
     { subject: 'Grammar', score: feedback.grammaticalRange.score, fullMark: 9 },
   ] : [];
 
@@ -113,15 +135,21 @@ export default function Result() {
     generateResultPdf(essay);
   };
 
+  const sentenceColors: Record<string, string> = {
+    simple: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200',
+    compound: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200',
+    complex: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200',
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
           <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Dashboard
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {feedback?.modelUsed && (
               <span className="text-xs text-muted-foreground flex items-center gap-1 px-2 py-1 rounded-full bg-secondary/50">
                 <Cpu className="h-3 w-3" /> {feedback.modelUsed}
@@ -143,9 +171,9 @@ export default function Result() {
         </div>
 
         {/* Header */}
-        <div className="flex flex-wrap items-start justify-between gap-4 mb-8 animate-fade-in">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-8 animate-fade-in">
           <div>
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-2 flex-wrap">
               <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm">{essay.task_type}</span>
               <span className="text-sm text-muted-foreground">{format(new Date(essay.created_at), 'MMMM d, yyyy')}</span>
             </div>
@@ -167,11 +195,11 @@ export default function Result() {
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <Target className="h-5 w-5 text-primary" /> Score Breakdown
                 </h2>
-                <div className="h-72">
+                <div className="h-64 sm:h-72">
                   <ResponsiveContainer width="100%" height="100%">
                     <RadarChart data={chartData}>
                       <PolarGrid stroke="hsl(var(--border))" />
-                      <PolarAngleAxis dataKey="subject" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} />
+                      <PolarAngleAxis dataKey="subject" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
                       <PolarRadiusAxis domain={[0, 9]} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
                       <Radar name="Score" dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} strokeWidth={2} />
                     </RadarChart>
@@ -191,9 +219,9 @@ export default function Result() {
                     { label: 'Grammatical Range', score: feedback.grammaticalRange.score },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center justify-between">
-                      <span className="text-muted-foreground">{item.label}</span>
+                      <span className="text-sm text-muted-foreground">{item.label}</span>
                       <div className="flex items-center gap-3">
-                        <div className="w-32 h-2 bg-secondary rounded-full overflow-hidden">
+                        <div className="w-24 sm:w-32 h-2 bg-secondary rounded-full overflow-hidden">
                           <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${(item.score / 9) * 100}%` }} />
                         </div>
                         <span className={`font-bold w-8 ${getScoreColor(item.score)}`}>{item.score}</span>
@@ -216,7 +244,6 @@ export default function Result() {
               </h2>
               {isFree ? (
                 <div>
-                  {/* Show top 3 errors for free users */}
                   <ErrorCorrections corrections={(feedback.errorCorrections || []).filter(c => c.type !== 'improvement')} limitCount={3} />
                   {(feedback.errorCorrections || []).length > 3 && (
                     <div className="relative mt-4">
@@ -235,6 +262,140 @@ export default function Result() {
                 <ErrorCorrections corrections={feedback.errorCorrections || []} />
               )}
             </div>
+
+            {/* Advanced Analysis - Pro/Pro Plus only */}
+            {isPro && (
+              <>
+                {/* Vocabulary Range Analysis */}
+                {feedback.vocabularyAnalysis && feedback.vocabularyAnalysis.length > 0 && (
+                  <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.27s' }}>
+                    <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <BookA className="h-5 w-5 text-primary" /> Vocabulary Range Analysis
+                    </h2>
+                    <p className="text-xs text-muted-foreground mb-4">Repeated basic words and their academic alternatives</p>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {feedback.vocabularyAnalysis.map((item, i) => (
+                        <div key={i} className="rounded-lg border border-border bg-secondary/20 p-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-mono text-sm font-medium text-destructive">"{item.word}"</span>
+                            <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">used {item.count}x</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {item.suggestions.map((s, j) => (
+                              <span key={j} className="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Coherence Check */}
+                {feedback.coherenceCheck && feedback.coherenceCheck.length > 0 && (
+                  <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.29s' }}>
+                    <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <Link2 className="h-5 w-5 text-primary" /> Coherence Check
+                    </h2>
+                    <p className="text-xs text-muted-foreground mb-4">Paragraph transitions and linking words analysis</p>
+                    <div className="space-y-3">
+                      {feedback.coherenceCheck.map((item, i) => {
+                        const statusColors = {
+                          strong: 'border-green-300 dark:border-green-800 bg-green-50 dark:bg-green-950/20',
+                          weak: 'border-yellow-300 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-950/20',
+                          missing: 'border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/20',
+                        };
+                        const statusBadge = {
+                          strong: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
+                          weak: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300',
+                          missing: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
+                        };
+                        return (
+                          <div key={i} className={`rounded-lg border p-3 ${statusColors[item.status]}`}>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-sm font-medium">{item.location}</span>
+                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${statusBadge[item.status]}`}>
+                                {item.status}
+                              </span>
+                            </div>
+                            {item.suggestion && item.status !== 'strong' && (
+                              <p className="text-xs text-muted-foreground italic">Suggestion: {item.suggestion}</p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Sentence Complexity Map */}
+                {feedback.sentenceComplexity && feedback.sentenceComplexity.length > 0 && (
+                  <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.31s' }}>
+                    <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <Layers className="h-5 w-5 text-primary" /> Sentence Complexity Map
+                    </h2>
+                    <div className="flex items-center gap-3 mb-4 flex-wrap">
+                      <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-blue-200 dark:bg-blue-800"></span> Simple</span>
+                      <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-yellow-200 dark:bg-yellow-800"></span> Compound</span>
+                      <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-green-200 dark:bg-green-800"></span> Complex</span>
+                    </div>
+                    <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                      {feedback.sentenceComplexity.map((item, i) => (
+                        <div key={i} className={`text-xs px-3 py-2 rounded ${sentenceColors[item.type]}`}>
+                          <span className="font-medium capitalize mr-2">[{item.type}]</span>
+                          {item.sentence}
+                        </div>
+                      ))}
+                    </div>
+                    {(() => {
+                      const total = feedback.sentenceComplexity!.length;
+                      const simple = feedback.sentenceComplexity!.filter(s => s.type === 'simple').length;
+                      const compound = feedback.sentenceComplexity!.filter(s => s.type === 'compound').length;
+                      const complex = feedback.sentenceComplexity!.filter(s => s.type === 'complex').length;
+                      return (
+                        <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                          <div className="p-2 rounded bg-blue-50 dark:bg-blue-950/30">
+                            <p className="text-lg font-bold text-blue-600">{Math.round((simple/total)*100)}%</p>
+                            <p className="text-xs text-muted-foreground">Simple</p>
+                          </div>
+                          <div className="p-2 rounded bg-yellow-50 dark:bg-yellow-950/30">
+                            <p className="text-lg font-bold text-yellow-600">{Math.round((compound/total)*100)}%</p>
+                            <p className="text-xs text-muted-foreground">Compound</p>
+                          </div>
+                          <div className="p-2 rounded bg-green-50 dark:bg-green-950/30">
+                            <p className="text-lg font-bold text-green-600">{Math.round((complex/total)*100)}%</p>
+                            <p className="text-xs text-muted-foreground">Complex</p>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Blurred Advanced Analysis for Free users */}
+            {isFree && (
+              <div className="relative mb-8">
+                <div className="blur-sm pointer-events-none space-y-4">
+                  <div className="glass-card p-6">
+                    <h2 className="text-lg font-semibold mb-2">Vocabulary Range Analysis</h2>
+                    <p className="text-sm text-muted-foreground">Detailed vocabulary analysis with academic synonyms...</p>
+                  </div>
+                  <div className="glass-card p-6">
+                    <h2 className="text-lg font-semibold mb-2">Coherence Check</h2>
+                    <p className="text-sm text-muted-foreground">Paragraph transition analysis...</p>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-card/40 rounded-lg">
+                  <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
+                    <Crown className="h-4 w-4" /> Upgrade for Advanced Analysis
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {/* Strengths & Suggestions */}
             <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -311,7 +472,7 @@ export default function Result() {
           </div>
           <div className="p-4 bg-secondary/30 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4 italic">{essay.topic}</p>
-            <div className="prose prose-sm prose-invert max-w-none">
+            <div className="prose prose-sm max-w-none">
               {essay.essay_text.split('\n').map((paragraph, index) => (
                 <p key={index} className="mb-4 last:mb-0 text-foreground leading-relaxed">{paragraph}</p>
               ))}
