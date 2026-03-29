@@ -366,14 +366,14 @@ export default function Dashboard() {
               },
               {
                 name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
-                highlight: 'GPT-4o Mini',
-                features: ['30 evaluations/month', 'Full AI feedback + Red/Green corrections', 'Score analytics & PDF', "Extra: $0.2 / 1,500 so'm each"],
+                highlight: 'Standard AI',
+                features: ['30 evaluations/month', 'Full AI feedback + advanced analysis', 'Score analytics & PDF', "Extra: $0.2 / 1,500 so'm each"],
                 key: 'pro', popular: true,
               },
               {
                 name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '50 essays / month',
-                highlight: '⚡ Elite GPT-4o',
-                features: ['50 evaluations/month', 'Elite GPT-4o accuracy', 'Full analytics + PDF + Priority', "Extra: $0.5 / 4,000 so'm each"],
+                highlight: '⚡ Elite AI',
+                features: ['50 evaluations/month', 'Elite AI accuracy + all features', "Extra: $0.5 / 4,000 so'm each"],
                 key: 'pro_plus',
               },
             ].map((plan) => {

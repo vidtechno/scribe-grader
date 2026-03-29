@@ -264,56 +264,9 @@ export default function Admin() {
           ))}
         </div>
 
-        {/* API Cost & User Growth */}
-        <div className="grid md:grid-cols-3 gap-4 mb-6">
-          {/* API Costs */}
+        {/* User Growth */}
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="glass-card p-5">
-            <h3 className="font-semibold mb-3 flex items-center gap-2">
-              <DollarSign className="h-4 w-4 text-destructive" /> API Costs
-            </h3>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Today</span>
-                <span className="font-medium text-destructive">${costToday.toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Last 7 Days</span>
-                <span className="font-medium text-destructive">${costWeek.toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Last 30 Days</span>
-                <span className="font-medium text-destructive">${costMonth.toFixed(3)}</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Net Profit */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-            className="glass-card p-5">
-            <h3 className="font-semibold mb-3 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-emerald-400" /> Net Profit
-            </h3>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Revenue</span>
-                <span className="font-medium text-emerald-400">${revenueEstimate.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">API Costs (30d)</span>
-                <span className="font-medium text-destructive">-${costMonth.toFixed(3)}</span>
-              </div>
-              <div className="flex justify-between text-sm border-t border-border pt-2">
-                <span className="font-medium">Net</span>
-                <span className={`font-bold ${(revenueEstimate - costMonth) >= 0 ? 'text-emerald-400' : 'text-destructive'}`}>
-                  ${(revenueEstimate - costMonth).toFixed(2)}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* User Growth */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
             className="glass-card p-5">
             <h3 className="font-semibold mb-3 flex items-center gap-2">
               <Users className="h-4 w-4 text-primary" /> User Growth
@@ -330,6 +283,27 @@ export default function Admin() {
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Last 30 Days</span>
                 <span className="font-medium text-primary">+{newUsersMonth}</span>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+            className="glass-card p-5">
+            <h3 className="font-semibold mb-3 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-emerald-400" /> Revenue Overview
+            </h3>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Monthly Revenue</span>
+                <span className="font-medium text-emerald-400">${revenueEstimate.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Total Essays</span>
+                <span className="font-medium">{totalEssays}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Paid Users</span>
+                <span className="font-medium text-primary">{proUsers}</span>
               </div>
             </div>
           </motion.div>
