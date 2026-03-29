@@ -23,37 +23,40 @@ For each essay, you must provide:
    - Provide the corrected version
    - Provide a brief explanation of WHY it's wrong (grammar rule, style issue, etc.)
    - Provide a "type" field: either "error" (for mistakes) or "improvement" (for high-band alternatives/style upgrades)
+7. Vocabulary Range Analysis: Identify repeated common/basic words and suggest academic high-band synonyms. For each:
+   - "word": the repeated basic word
+   - "count": how many times it appears
+   - "suggestions": array of 2-3 academic synonyms
+8. Coherence Check: Analyze paragraph transitions and linking words usage. For each paragraph transition:
+   - "location": e.g. "Between paragraph 1 and 2"
+   - "status": "strong", "weak", or "missing"
+   - "suggestion": recommended linking phrase if weak/missing
+9. Sentence Complexity Map: Categorize each sentence by complexity:
+   - "sentence": the sentence text (first 80 chars)
+   - "type": "simple", "compound", or "complex"
 
 Be accurate, fair, and constructive in your feedback. Base your scoring strictly on the IELTS band descriptors.
 
 You must respond ONLY with a valid JSON object in this exact format:
 {
   "overallBand": number,
-  "taskAchievement": {
-    "score": number,
-    "feedback": "string"
-  },
-  "coherenceCohesion": {
-    "score": number,
-    "feedback": "string"
-  },
-  "lexicalResource": {
-    "score": number,
-    "feedback": "string"
-  },
-  "grammaticalRange": {
-    "score": number,
-    "feedback": "string"
-  },
-  "strengths": ["string", "string", "string"],
-  "suggestions": ["string", "string", "string"],
+  "taskAchievement": { "score": number, "feedback": "string" },
+  "coherenceCohesion": { "score": number, "feedback": "string" },
+  "lexicalResource": { "score": number, "feedback": "string" },
+  "grammaticalRange": { "score": number, "feedback": "string" },
+  "strengths": ["string"],
+  "suggestions": ["string"],
   "errorCorrections": [
-    {
-      "original": "the wrong sentence or phrase from the essay",
-      "corrected": "the corrected version",
-      "explanation": "brief explanation of the error or why this improvement is better",
-      "type": "error or improvement"
-    }
+    { "original": "wrong text", "corrected": "corrected text", "explanation": "why", "type": "error or improvement" }
+  ],
+  "vocabularyAnalysis": [
+    { "word": "basic word", "count": number, "suggestions": ["synonym1", "synonym2"] }
+  ],
+  "coherenceCheck": [
+    { "location": "Between paragraph X and Y", "status": "strong/weak/missing", "suggestion": "linking phrase" }
+  ],
+  "sentenceComplexity": [
+    { "sentence": "first 80 chars...", "type": "simple/compound/complex" }
   ]
 }`;
 
@@ -92,7 +95,12 @@ Topic: ${topic}
 Essay:
 ${essay}
 
-Provide your evaluation as a JSON object following the exact format specified. Make sure to find and list ALL errors in the errorCorrections array. Also include "improvement" type entries where you suggest higher-band alternatives for acceptable but basic phrases.`;
+Provide your evaluation as a JSON object following the exact format specified. Make sure to:
+- Find and list ALL errors in the errorCorrections array
+- Include "improvement" type entries for high-band alternatives
+- Analyze vocabulary range and find repeated basic words with academic synonyms
+- Check coherence between all paragraphs
+- Categorize every sentence by complexity (simple/compound/complex)`;
 
     console.log(`Calling OpenAI (${model}) for essay grading...`);
 
@@ -134,7 +142,6 @@ Provide your evaluation as a JSON object following the exact format specified. M
     const content = aiResponse.choices?.[0]?.message?.content;
 
     if (!content) {
-      console.error('No content in AI response');
       return new Response(
         JSON.stringify({ error: 'Invalid AI response' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -145,7 +152,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
     try {
       gradeResult = JSON.parse(content);
     } catch (parseError) {
-      console.error('Failed to parse AI response:', parseError, 'Content:', content);
+      console.error('Failed to parse AI response:', parseError);
       return new Response(
         JSON.stringify({ error: 'Failed to parse grading result' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -153,18 +160,19 @@ Provide your evaluation as a JSON object following the exact format specified. M
     }
 
     if (!gradeResult.overallBand || !gradeResult.taskAchievement) {
-      console.error('Invalid grade result structure:', gradeResult);
       return new Response(
         JSON.stringify({ error: 'Invalid grading result structure' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    if (!gradeResult.errorCorrections) {
-      gradeResult.errorCorrections = [];
-    }
+    // Ensure arrays exist
+    if (!gradeResult.errorCorrections) gradeResult.errorCorrections = [];
+    if (!gradeResult.vocabularyAnalysis) gradeResult.vocabularyAnalysis = [];
+    if (!gradeResult.coherenceCheck) gradeResult.coherenceCheck = [];
+    if (!gradeResult.sentenceComplexity) gradeResult.sentenceComplexity = [];
 
-    // Log API usage to api_logs
+    // Log API usage
     try {
       const authHeader = req.headers.get('Authorization');
       if (authHeader) {
@@ -172,7 +180,6 @@ Provide your evaluation as a JSON object following the exact format specified. M
         const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
         const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-        // Extract user_id from JWT
         const token = authHeader.replace('Bearer ', '');
         const { data: { user } } = await supabase.auth.getUser(token);
         
@@ -186,13 +193,12 @@ Provide your evaluation as a JSON object following the exact format specified. M
       }
     } catch (logError) {
       console.error('Failed to log API usage:', logError);
-      // Don't fail the request if logging fails
     }
 
-    // Add model info to response
-    gradeResult.modelUsed = model;
+    // Use abstracted model labels
+    gradeResult.modelUsed = planType === 'pro_plus' ? 'Elite AI' : 'Standard AI';
 
-    console.log('Essay graded successfully:', gradeResult.overallBand, 'Model:', model);
+    console.log('Essay graded successfully:', gradeResult.overallBand);
 
     return new Response(
       JSON.stringify(gradeResult),

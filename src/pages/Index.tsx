@@ -44,13 +44,13 @@ export default function Index() {
     },
     {
       name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
-      highlight: 'GPT-4o Mini',
-      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'Score analytics & charts', 'Download results as PDF', "Extra essay: $0.2 / 1,500 so'm"],
+      highlight: 'Standard AI',
+      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'Vocabulary Range Analysis', 'Coherence Check', 'Sentence Complexity Map', 'Score analytics & PDF export', "Extra essay: $0.2 / 1,500 so'm"],
     },
     {
       name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '50 essays / month',
-      highlight: '⚡ Elite GPT-4o Model',
-      features: ['50 evaluations/month', 'Elite GPT-4o superior accuracy', 'Full Red/Green corrections', 'High-band improvements', 'Full analytics + PDF', 'Priority grading', "Extra essay: $0.5 / 4,000 so'm"],
+      highlight: '⚡ Elite AI — Superior Accuracy',
+      features: ['50 evaluations/month', 'Elite AI superior accuracy', 'Full Red/Green corrections', 'Vocabulary & Coherence Analysis', 'Sentence Complexity Map', 'High-band improvements', 'Full analytics + PDF', 'Priority grading', "Extra essay: $0.5 / 4,000 so'm"],
     },
   ];
 
