@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Plus
+  Check, ExternalLink, Quote, Plus, Bot, GraduationCap
 } from 'lucide-react';
 
 const fadeUp = {
