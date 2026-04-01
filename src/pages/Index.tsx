@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Plus
+  Check, ExternalLink, Quote, Plus, Bot, GraduationCap
 } from 'lucide-react';
 
 const fadeUp = {
@@ -27,30 +27,30 @@ export default function Index() {
   const features = [
     { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Task 1 and Task 2 questions from recent exams.' },
     { icon: Sparkles, title: 'AI-Powered Grading', description: 'Get instant, detailed feedback scored against official IELTS criteria.' },
-    { icon: Clock, title: 'Timed Practice', description: 'Simulate real exam conditions with built-in countdown timers.' },
+    { icon: Bot, title: 'Private AI Mentor', description: 'Your personal IELTS coach analyzes your essays and gives tailored advice.' },
     { icon: BarChart3, title: 'Track Progress', description: 'Monitor your improvement with detailed score analytics and charts.' },
   ];
 
   const testimonials = [
     { name: 'Aziza M.', score: '7.5', text: 'WritingExam.uz helped me improve from Band 6 to 7.5 in just one month. The AI feedback is incredibly detailed!', avatar: 'A' },
-    { name: 'Sardor K.', score: '8.0', text: 'The timed practice and real topics prepared me perfectly. I got Band 8 in Writing on my first try!', avatar: 'S' },
+    { name: 'Sardor K.', score: '8.0', text: 'The AI Mentor gave me personalized tips that no textbook could. I got Band 8 in Writing on my first try!', avatar: 'S' },
     { name: 'Nilufar R.', score: '7.0', text: "Best IELTS preparation tool I've used. The instant grading saves so much time compared to waiting for a tutor.", avatar: 'N' },
   ];
 
   const plans = [
     {
       name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-      features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 1,500 so'm"],
+      features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 2,000 so'm"],
     },
     {
-      name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
-      highlight: 'Standard AI',
-      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'Vocabulary Range Analysis', 'Coherence Check', 'Sentence Complexity Map', 'Score analytics & PDF export', "Extra essay: $0.2 / 1,500 so'm"],
+      name: 'Pro', price: '$4', priceUzs: "39,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
+      highlight: 'AI Mentor + Full Analysis',
+      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'AI Mentor (10 messages/day)', 'Vocabulary & Coherence preview', 'Score analytics & PDF export', "Extra essay: $0.15 / 1,500 so'm"],
     },
     {
-      name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '50 essays / month',
-      highlight: '⚡ Elite AI — Superior Accuracy',
-      features: ['50 evaluations/month', 'Elite AI superior accuracy', 'Full Red/Green corrections', 'Vocabulary & Coherence Analysis', 'Sentence Complexity Map', 'High-band improvements', 'Full analytics + PDF', 'Priority grading', "Extra essay: $0.5 / 4,000 so'm"],
+      name: 'Pro Plus', price: '$12', priceUzs: "119,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
+      highlight: '⚡ Elite AI Mentor + All Features',
+      features: ['60 evaluations/month', 'Elite AI Mentor (50 msg/day)', 'Topic Vocabulary (10 words)', 'Visual Coherence Map', 'Sentence Complexity Map', 'Full analytics + PDF', 'Achievement Badges', "Extra essay: $0.4 / 4,000 so'm"],
     },
   ];
 
@@ -229,6 +229,77 @@ export default function Index() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Mentor Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
+              <motion.div variants={fadeUp} custom={0}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-4">
+                <Bot className="h-3.5 w-3.5" /> New Feature
+              </motion.div>
+              <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">
+                Your Private <span className="gradient-text">AI Mentor</span>
+              </motion.h2>
+              <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mb-6">
+                Get personalized coaching based on your essay history. Your AI Mentor analyzes your patterns,
+                identifies recurring mistakes, and creates customized study plans.
+              </motion.p>
+              <motion.div variants={fadeUp} custom={3} className="space-y-3">
+                {[
+                  '📝 Analyzes your last 3-5 essays for patterns',
+                  '🎯 Personalized daily homework assignments',
+                  '💬 Ask anything about IELTS writing strategy',
+                  '📊 Track your improvement over time',
+                ].map(item => (
+                  <div key={item} className="flex items-center gap-2 text-sm">
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </motion.div>
+              <motion.div variants={fadeUp} custom={4} className="flex items-center gap-4 mt-6">
+                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-secondary">
+                  <Zap className="h-3.5 w-3.5 text-primary" />
+                  <span>Pro: AI Mentor (10/day)</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                  <Crown className="h-3.5 w-3.5 text-primary" />
+                  <span>Pro Plus: Elite Mentor (50/day)</span>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="glass-card p-6 relative">
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/20 rounded-full blur-xl" />
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="h-4 w-4" />
+                  </div>
+                  <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-md px-3.5 py-2 text-sm max-w-[85%]">
+                    How can I improve my Task 2 score from 6 to 7?
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Bot className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="bg-secondary/70 rounded-2xl rounded-tl-md px-3.5 py-2 text-sm max-w-[85%]">
+                    Great question! 🎯 Looking at your recent essays, I notice two main areas to focus on:
+                    <br /><br />
+                    1. <strong>Coherence</strong>: Your paragraphs need stronger linking words. Try using "Furthermore", "Consequently" instead of "Also", "And".
+                    <br /><br />
+                    2. <strong>Vocabulary</strong>: You repeat "important" 4 times. Try "crucial", "significant", "paramount" instead! ✨
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>

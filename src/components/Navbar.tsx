@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { useSubscription } from '@/hooks/useSubscription';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
 import { LogOut, User, CreditCard, BookOpen, LayoutDashboard, Shield, Trophy } from 'lucide-react';
 
@@ -15,7 +16,6 @@ export function Navbar() {
 
   useEffect(() => {
     if (!user) return;
-    // Check admin by email for nav button visibility
     if (user.email === 'anorboyevdiyorbek714@gmail.com') {
       setIsAdmin(true);
     } else {
@@ -36,7 +36,7 @@ export function Navbar() {
           </Link>
 
           {user ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               {isAdmin && (
                 <Link to="/admin">
                   <Button variant="ghost" size="sm" className="gap-2 text-yellow-400">
@@ -61,9 +61,8 @@ export function Navbar() {
                 <CreditCard className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium">{profile?.credits ?? 0}</span>
               </div>
-              {subscription && (
-                <SubscriptionBadge planType={subscription.plan_type} />
-              )}
+              {subscription && <SubscriptionBadge planType={subscription.plan_type} />}
+              <ThemeToggle />
               <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
                 <User className="h-4 w-4" />
                 <span>{profile?.full_name || user.email}</span>
@@ -73,9 +72,12 @@ export function Navbar() {
               </Button>
             </div>
           ) : (
-            <Link to="/auth">
-              <Button variant="glow">Sign In</Button>
-            </Link>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Link to="/auth">
+                <Button variant="glow">Sign In</Button>
+              </Link>
+            </div>
           )}
         </div>
       </div>

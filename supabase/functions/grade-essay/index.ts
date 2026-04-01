@@ -84,9 +84,9 @@ serve(async (req) => {
       );
     }
 
-    // Model routing based on plan
-    const model = planType === 'pro_plus' ? 'gpt-4o' : 'gpt-4o-mini';
-    const cost = planType === 'pro_plus' ? 0.20 : 0.005;
+    // All plans use gpt-4o-mini for speed and cost efficiency
+    const model = 'gpt-4o-mini';
+    const cost = 0.005;
 
     const userPrompt = `Please evaluate this IELTS ${taskType} essay.
 

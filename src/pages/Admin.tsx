@@ -49,7 +49,7 @@ interface ApiLog {
 const PLAN_CONFIGS: Record<string, { credits: number; label: string }> = {
   free: { credits: 3, label: 'Free' },
   pro: { credits: 30, label: 'Pro' },
-  pro_plus: { credits: 50, label: 'Pro Plus' },
+  pro_plus: { credits: 60, label: 'Pro Plus' },
 };
 
 export default function Admin() {
@@ -205,10 +205,10 @@ export default function Admin() {
   const newUsersWeek = users.filter(u => isAfter(new Date(u.created_at), weekAgo)).length;
   const newUsersMonth = users.filter(u => isAfter(new Date(u.created_at), monthAgo)).length;
 
-  // Revenue estimate: Pro = $3, Pro Plus = $10
+  // Revenue estimate: Pro = $4, Pro Plus = $12
   const revenueEstimate = Object.values(subscriptions).reduce((acc, s) => {
-    if (s.plan_type === 'pro') return acc + 3;
-    if (s.plan_type === 'pro_plus') return acc + 10;
+    if (s.plan_type === 'pro') return acc + 4;
+    if (s.plan_type === 'pro_plus') return acc + 12;
     return acc;
   }, 0);
 
