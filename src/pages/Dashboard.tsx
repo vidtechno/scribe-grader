@@ -361,19 +361,19 @@ export default function Dashboard() {
             {[
               {
                 name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-                features: ['3 essay evaluations', 'Band scores + top 3 errors', 'Partial feedback (blurred)', "Extra: $0.2 / 1,500 so'm each"],
+                features: ['3 essay evaluations', 'Band scores + top 3 errors', 'Partial feedback (blurred)', "Extra: $0.2 / 2,000 so'm each"],
                 key: 'free',
               },
               {
-                name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
-                highlight: 'Standard AI',
-                features: ['30 evaluations/month', 'Full AI feedback + advanced analysis', 'Score analytics & PDF', "Extra: $0.2 / 1,500 so'm each"],
+                name: 'Pro', price: '$4', priceUzs: "39,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
+                highlight: 'AI Mentor + Full Analysis',
+                features: ['30 evaluations/month', 'Full AI feedback + AI Mentor', 'Score analytics & PDF', "Extra: $0.15 / 1,500 so'm each"],
                 key: 'pro', popular: true,
               },
               {
-                name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '50 essays / month',
-                highlight: '⚡ Elite AI',
-                features: ['50 evaluations/month', 'Elite AI accuracy + all features', "Extra: $0.5 / 4,000 so'm each"],
+                name: 'Pro Plus', price: '$12', priceUzs: "119,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
+                highlight: '⚡ Elite AI Mentor',
+                features: ['60 evaluations/month', 'Elite Mentor + all features', "Extra: $0.4 / 4,000 so'm each"],
                 key: 'pro_plus',
               },
             ].map((plan) => {
