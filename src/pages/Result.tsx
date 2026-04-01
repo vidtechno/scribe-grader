@@ -77,6 +77,7 @@ export default function Result() {
   const planType = subscription?.plan_type || 'free';
   const isFree = planType === 'free';
   const isPro = planType === 'pro' || planType === 'pro_plus';
+  const isProPlus = planType === 'pro_plus';
   const canDownloadPdf = !isFree;
 
   useEffect(() => {
