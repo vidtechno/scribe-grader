@@ -27,30 +27,30 @@ export default function Index() {
   const features = [
     { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Task 1 and Task 2 questions from recent exams.' },
     { icon: Sparkles, title: 'AI-Powered Grading', description: 'Get instant, detailed feedback scored against official IELTS criteria.' },
-    { icon: Clock, title: 'Timed Practice', description: 'Simulate real exam conditions with built-in countdown timers.' },
+    { icon: Bot, title: 'Private AI Mentor', description: 'Your personal IELTS coach analyzes your essays and gives tailored advice.' },
     { icon: BarChart3, title: 'Track Progress', description: 'Monitor your improvement with detailed score analytics and charts.' },
   ];
 
   const testimonials = [
     { name: 'Aziza M.', score: '7.5', text: 'WritingExam.uz helped me improve from Band 6 to 7.5 in just one month. The AI feedback is incredibly detailed!', avatar: 'A' },
-    { name: 'Sardor K.', score: '8.0', text: 'The timed practice and real topics prepared me perfectly. I got Band 8 in Writing on my first try!', avatar: 'S' },
+    { name: 'Sardor K.', score: '8.0', text: 'The AI Mentor gave me personalized tips that no textbook could. I got Band 8 in Writing on my first try!', avatar: 'S' },
     { name: 'Nilufar R.', score: '7.0', text: "Best IELTS preparation tool I've used. The instant grading saves so much time compared to waiting for a tutor.", avatar: 'N' },
   ];
 
   const plans = [
     {
       name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-      features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 1,500 so'm"],
+      features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 2,000 so'm"],
     },
     {
-      name: 'Pro', price: '$3', priceUzs: "29,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
-      highlight: 'Standard AI',
-      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'Vocabulary Range Analysis', 'Coherence Check', 'Sentence Complexity Map', 'Score analytics & PDF export', "Extra essay: $0.2 / 1,500 so'm"],
+      name: 'Pro', price: '$4', priceUzs: "39,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
+      highlight: 'AI Mentor + Full Analysis',
+      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'AI Mentor (10 messages/day)', 'Vocabulary & Coherence preview', 'Score analytics & PDF export', "Extra essay: $0.15 / 1,500 so'm"],
     },
     {
-      name: 'Pro Plus', price: '$10', priceUzs: "99,000 so'm", period: '/month', icon: Crown, credits: '50 essays / month',
-      highlight: '⚡ Elite AI — Superior Accuracy',
-      features: ['50 evaluations/month', 'Elite AI superior accuracy', 'Full Red/Green corrections', 'Vocabulary & Coherence Analysis', 'Sentence Complexity Map', 'High-band improvements', 'Full analytics + PDF', 'Priority grading', "Extra essay: $0.5 / 4,000 so'm"],
+      name: 'Pro Plus', price: '$12', priceUzs: "119,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
+      highlight: '⚡ Elite AI Mentor + All Features',
+      features: ['60 evaluations/month', 'Elite AI Mentor (50 msg/day)', 'Topic Vocabulary (10 words)', 'Visual Coherence Map', 'Sentence Complexity Map', 'Full analytics + PDF', 'Achievement Badges', "Extra essay: $0.4 / 4,000 so'm"],
     },
   ];
 
