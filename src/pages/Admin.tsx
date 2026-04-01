@@ -49,7 +49,7 @@ interface ApiLog {
 const PLAN_CONFIGS: Record<string, { credits: number; label: string }> = {
   free: { credits: 3, label: 'Free' },
   pro: { credits: 30, label: 'Pro' },
-  pro_plus: { credits: 50, label: 'Pro Plus' },
+  pro_plus: { credits: 60, label: 'Pro Plus' },
 };
 
 export default function Admin() {
