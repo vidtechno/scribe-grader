@@ -235,6 +235,77 @@ export default function Index() {
         </div>
       </section>
 
+      {/* AI Mentor Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
+              <motion.div variants={fadeUp} custom={0}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-4">
+                <Bot className="h-3.5 w-3.5" /> New Feature
+              </motion.div>
+              <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">
+                Your Private <span className="gradient-text">AI Mentor</span>
+              </motion.h2>
+              <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mb-6">
+                Get personalized coaching based on your essay history. Your AI Mentor analyzes your patterns,
+                identifies recurring mistakes, and creates customized study plans.
+              </motion.p>
+              <motion.div variants={fadeUp} custom={3} className="space-y-3">
+                {[
+                  '📝 Analyzes your last 3-5 essays for patterns',
+                  '🎯 Personalized daily homework assignments',
+                  '💬 Ask anything about IELTS writing strategy',
+                  '📊 Track your improvement over time',
+                ].map(item => (
+                  <div key={item} className="flex items-center gap-2 text-sm">
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </motion.div>
+              <motion.div variants={fadeUp} custom={4} className="flex items-center gap-4 mt-6">
+                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-secondary">
+                  <Zap className="h-3.5 w-3.5 text-primary" />
+                  <span>Pro: AI Mentor (10/day)</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                  <Crown className="h-3.5 w-3.5 text-primary" />
+                  <span>Pro Plus: Elite Mentor (50/day)</span>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="glass-card p-6 relative">
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/20 rounded-full blur-xl" />
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="h-4 w-4" />
+                  </div>
+                  <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-md px-3.5 py-2 text-sm max-w-[85%]">
+                    How can I improve my Task 2 score from 6 to 7?
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Bot className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="bg-secondary/70 rounded-2xl rounded-tl-md px-3.5 py-2 text-sm max-w-[85%]">
+                    Great question! 🎯 Looking at your recent essays, I notice two main areas to focus on:
+                    <br /><br />
+                    1. <strong>Coherence</strong>: Your paragraphs need stronger linking words. Try using "Furthermore", "Consequently" instead of "Also", "And".
+                    <br /><br />
+                    2. <strong>Vocabulary</strong>: You repeat "important" 4 times. Try "crucial", "significant", "paramount" instead! ✨
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
