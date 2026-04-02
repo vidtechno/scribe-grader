@@ -8,6 +8,9 @@ interface Profile {
   email: string;
   full_name: string | null;
   credits: number;
+  age: number | null;
+  city: string | null;
+  phone: string | null;
   created_at: string;
 }
 
@@ -16,7 +19,7 @@ interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -52,13 +55,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
-        // Defer profile fetch with setTimeout to avoid deadlock
         if (session?.user) {
           setTimeout(() => {
             fetchProfile(session.user.id);
@@ -71,7 +72,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -86,22 +86,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => {
     try {
       const redirectUrl = `${window.location.origin}/`;
       
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            full_name: fullName
+            full_name: fullName,
+            age: age || null,
+            city: city || null,
+            phone: phone || null,
           }
         }
       });
       
-      return { error: error ? new Error(error.message) : null };
+      if (error) return { error: new Error(error.message) };
+
+      // Update profile with age, city, phone after signup
+      if (data.user) {
+        setTimeout(async () => {
+          await supabase
+            .from('profiles')
+            .update({ age: age || null, city: city || null, phone: phone || null })
+            .eq('user_id', data.user!.id);
+        }, 1000);
+      }
+
+      return { error: null };
     } catch (error) {
       return { error: error as Error };
     }

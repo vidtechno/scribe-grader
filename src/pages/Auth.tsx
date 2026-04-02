@@ -4,13 +4,15 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { BookOpen, Mail, Lock, User, Loader2, ArrowRight } from 'lucide-react';
+import { BookOpen, Mail, Lock, User, Loader2, ArrowRight, MapPin, Phone, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 const emailSchema = z.string().email('Please enter a valid email address');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 const nameSchema = z.string().min(2, 'Name must be at least 2 characters');
+const ageSchema = z.number().min(10, 'Age must be at least 10').max(80, 'Age must be less than 80');
+const citySchema = z.string().min(2, 'City must be at least 2 characters');
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,6 +20,9 @@ export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [age, setAge] = useState('');
+  const [city, setCity] = useState('');
+  const [phone, setPhone] = useState('');
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
 
@@ -27,6 +32,8 @@ export default function Auth() {
       passwordSchema.parse(password);
       if (!isLogin) {
         nameSchema.parse(fullName);
+        ageSchema.parse(Number(age));
+        citySchema.parse(city);
       }
       return true;
     } catch (error) {
@@ -58,7 +65,7 @@ export default function Auth() {
           navigate('/dashboard');
         }
       } else {
-        const { error } = await signUp(email, password, fullName);
+        const { error } = await signUp(email, password, fullName, Number(age), city, phone || undefined);
         if (error) {
           if (error.message.includes('already registered')) {
             toast.error('This email is already registered. Please sign in.');
@@ -93,33 +100,85 @@ export default function Auth() {
           </div>
           <h1 className="text-3xl font-bold gradient-text">WritingExam.uz</h1>
           <p className="text-muted-foreground mt-2">
-            {isLogin ? 'Welcome back!' : 'Create your account'}
+            {isLogin ? 'Welcome back! Sign in to continue.' : 'Create your account to get started.'}
           </p>
         </div>
 
         {/* Auth Card */}
         <div className="glass-card p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {!isLogin && (
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="fullName"
-                    type="text"
-                    placeholder="John Doe"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="pl-10 input-glass"
-                    required={!isLogin}
-                  />
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Full Name *</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="John Doe"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="pl-10 input-glass"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-2">
+                    <Label htmlFor="age">Age *</Label>
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="age"
+                        type="number"
+                        placeholder="18"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        className="pl-10 input-glass"
+                        required
+                        min={10}
+                        max={80}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City *</Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="city"
+                        type="text"
+                        placeholder="Tashkent"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="pl-10 input-glass"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone Number (optional)</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="+998 90 123 45 67"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="pl-10 input-glass"
+                    />
+                  </div>
+                </div>
+              </>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email *</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -135,7 +194,7 @@ export default function Auth() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Password *</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input

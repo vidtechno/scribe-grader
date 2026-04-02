@@ -8,10 +8,9 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { BlurredContent } from '@/components/BlurredContent';
 import { ErrorCorrections } from '@/components/ErrorCorrections';
 import { PricingModal } from '@/components/PricingModal';
-import { generateResultPdf } from '@/lib/generateResultPdf';
 import { 
   ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
-  Target, FileText, AlertTriangle, Crown, Download, Cpu,
+  Target, FileText, AlertTriangle, Crown,
   BookA, Link2, Layers
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
@@ -78,7 +77,6 @@ export default function Result() {
   const isFree = planType === 'free';
   const isPro = planType === 'pro' || planType === 'pro_plus';
   const isProPlus = planType === 'pro_plus';
-  const canDownloadPdf = !isFree;
 
   useEffect(() => {
     if (!id) return;
@@ -128,14 +126,6 @@ export default function Result() {
     return <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>;
   };
 
-  const handleDownloadPdf = () => {
-    if (!canDownloadPdf) {
-      setShowPricing(true);
-      return;
-    }
-    generateResultPdf(essay);
-  };
-
   const sentenceColors: Record<string, string> = {
     simple: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200',
     compound: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200',
@@ -150,25 +140,6 @@ export default function Result() {
           <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Dashboard
           </Link>
-          <div className="flex items-center gap-2 flex-wrap">
-            {feedback?.modelUsed && (
-              <span className="text-xs text-muted-foreground flex items-center gap-1 px-2 py-1 rounded-full bg-secondary/50">
-                <Cpu className="h-3 w-3" /> {feedback.modelUsed}
-              </span>
-            )}
-            <Button
-              variant={canDownloadPdf ? 'outline' : 'ghost'}
-              size="sm"
-              className="gap-2"
-              onClick={handleDownloadPdf}
-            >
-              {canDownloadPdf ? (
-                <><Download className="h-4 w-4" /> Download PDF</>
-              ) : (
-                <><Crown className="h-4 w-4 text-primary" /> <span className="text-primary">PDF (Pro)</span></>
-              )}
-            </Button>
-          </div>
         </div>
 
         {/* Header */}
