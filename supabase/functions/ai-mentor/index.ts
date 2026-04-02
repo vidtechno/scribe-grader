@@ -6,27 +6,39 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
-const MENTOR_SYSTEM_PROMPT = `You are an expert IELTS Writing Mentor — a professional, friendly, and encouraging tutor who helps students improve their writing skills. 🎓
+const MENTOR_SYSTEM_PROMPT = `You are an elite IELTS Writing Mentor — a proactive Socratic tutor who helps students discover their own mistakes. 🎓
 
-Your personality:
+YOUR TEACHING METHOD — SOCRATIC:
+- NEVER just give answers. Ask guiding questions to help the student find the answer themselves.
+- Example: Instead of "You should use 'Furthermore'", ask "What linking word could you use here to show addition? Think about formal alternatives to 'also'..."
+- Celebrate when students figure things out: "Exactly! 🎉 You got it!"
+- Be patient, warm, and encouraging — but always push them to think deeper.
+
+YOUR PERSONALITY:
 - Use emojis naturally to make conversations engaging 😊📝✨
 - Be encouraging and motivating, but always honest about areas for improvement
 - Speak like a supportive teacher who genuinely cares about the student's progress
 - Use stickers/emoticons to celebrate achievements 🎉🏆⭐
 
-Your capabilities:
+YOUR CAPABILITIES:
 - Analyze past essays and identify patterns in the student's writing
 - Provide personalized study plans and daily homework when asked
 - Explain grammar rules, vocabulary usage, and essay structure
 - Help with IELTS writing strategies and exam tips
 - Answer questions about IELTS scoring criteria
 
+GREETING BEHAVIOR (for new conversations):
+- When starting a new chat, provide a personalized insight based on the student's essay history
+- Example: "I've analyzed your recent essays. You've improved in Cohesion (from 5.5 to 6.5! 📈), but your Article usage is still weak. Ready to fix it today? 💪"
+- If no essay history, welcome them warmly and ask about their target band score
+
 IMPORTANT RULES:
 - ONLY discuss topics related to IELTS writing, English learning, and academic writing
 - If asked about unrelated topics, politely redirect: "I'm your IELTS Writing Mentor! 📝 Let's focus on improving your writing skills. How can I help you today?"
 - Never share personal opinions on politics, religion, or controversial topics
 - Always reference the student's actual essay data when available
-- Keep responses concise but helpful (2-4 paragraphs max unless explaining complex topics)`;
+- Keep responses concise but helpful (2-4 paragraphs max unless explaining complex topics)
+- Use the Socratic method: guide, don't tell`;
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -47,7 +59,6 @@ serve(async (req) => {
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
-    // Auth check
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }),
@@ -65,7 +76,6 @@ serve(async (req) => {
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
-    // Check subscription & daily limits
     const { data: subData } = await supabase
       .from('subscriptions').select('plan_type').eq('user_id', user.id).single();
     const planType = subData?.plan_type || 'free';
@@ -75,7 +85,7 @@ serve(async (req) => {
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
-    const dailyLimit = planType === 'pro_plus' ? 50 : 10;
+    const dailyLimit = planType === 'pro_plus' ? 30 : 10;
     const today = new Date().toISOString().split('T')[0];
 
     const { data: usageData } = await supabase
@@ -88,13 +98,12 @@ serve(async (req) => {
     const currentUsage = usageData?.messages_used || 0;
     if (currentUsage >= dailyLimit) {
       return new Response(JSON.stringify({ 
-        error: `Daily limit reached (${dailyLimit} messages). ${planType === 'pro' ? 'Upgrade to Pro Plus for 50 messages/day! ⚡' : 'Come back tomorrow! 🌅'}`,
+        error: `Daily limit reached (${dailyLimit} messages). ${planType === 'pro' ? 'Upgrade to Pro Plus for 30 messages/day! ⚡' : 'Come back tomorrow! 🌅'}`,
         limitReached: true 
       }),
         { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
-    // Fetch conversation history
     let conversationMessages: Array<{ role: string; content: string }> = [];
     if (chatId) {
       const { data: history } = await supabase
@@ -108,16 +117,20 @@ serve(async (req) => {
       }
     }
 
-    // Build essay context
     let essayContextStr = '';
     if (essayContext && essayContext.length > 0) {
-      essayContextStr = '\n\nSTUDENT ESSAY HISTORY (for personalized feedback):\n';
+      essayContextStr = '\n\nSTUDENT ESSAY HISTORY (use this for personalized Socratic coaching):\n';
       essayContext.forEach((e: any, i: number) => {
-        essayContextStr += `\nEssay ${i + 1} (${e.task_type}, Band ${e.score || 'N/A'}):\nTopic: ${e.topic}\nFeedback summary: ${e.feedback_summary || 'N/A'}\n`;
+        essayContextStr += `\nEssay ${i + 1} (${e.task_type}, Band ${e.score || 'N/A'}):\nTopic: ${e.topic}\nScores: ${e.feedback_summary || 'N/A'}\n`;
       });
+      essayContextStr += '\nUse this data to identify patterns, recurring mistakes, and areas of improvement. Reference specific essays when coaching.';
     }
 
-    const systemPrompt = MENTOR_SYSTEM_PROMPT + essayContextStr;
+    const isNewChat = conversationMessages.length === 0;
+    let systemPrompt = MENTOR_SYSTEM_PROMPT + essayContextStr;
+    if (isNewChat && essayContext && essayContext.length > 0) {
+      systemPrompt += '\n\nIMPORTANT: This is a NEW conversation. Start with a personalized greeting that references specific patterns from their essay history. Identify one strength and one weakness to work on today.';
+    }
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -151,7 +164,6 @@ serve(async (req) => {
     const aiResponse = await response.json();
     const reply = aiResponse.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
 
-    // Update daily usage
     if (usageData) {
       await supabase.from('mentor_daily_usage')
         .update({ messages_used: currentUsage + 1 })
@@ -162,7 +174,6 @@ serve(async (req) => {
         .insert({ user_id: user.id, date: today, messages_used: 1 });
     }
 
-    // Log cost
     await supabase.from('api_logs').insert({
       user_id: user.id,
       model_used: 'gpt-4o-mini',

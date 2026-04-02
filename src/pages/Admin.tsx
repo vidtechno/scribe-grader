@@ -24,6 +24,9 @@ interface Profile {
   email: string;
   full_name: string | null;
   credits: number;
+  age: number | null;
+  city: string | null;
+  phone: string | null;
   created_at: string;
 }
 
@@ -36,14 +39,6 @@ interface Subscription {
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
-}
-
-interface ApiLog {
-  id: string;
-  user_id: string;
-  model_used: string;
-  cost: number;
-  created_at: string;
 }
 
 const PLAN_CONFIGS: Record<string, { credits: number; label: string }> = {
@@ -62,7 +57,6 @@ export default function Admin() {
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingUser, setUpdatingUser] = useState<string | null>(null);
   const [essayCounts, setEssayCounts] = useState<Record<string, number>>({});
-  const [apiLogs, setApiLogs] = useState<ApiLog[]>([]);
   const [viewEssaysUser, setViewEssaysUser] = useState<{ userId: string; name: string } | null>(null);
   const [userEssays, setUserEssays] = useState<any[]>([]);
   const [loadingEssays, setLoadingEssays] = useState(false);
@@ -82,15 +76,13 @@ export default function Admin() {
 
   const fetchData = async () => {
     try {
-      const [usersRes, subsRes, essaysRes, logsRes] = await Promise.all([
+      const [usersRes, subsRes, essaysRes] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('subscriptions').select('*'),
         supabase.from('essays').select('user_id'),
-        supabase.from('api_logs').select('*').order('created_at', { ascending: false }).limit(1000),
       ]);
 
       setUsers(usersRes.data || []);
-      setApiLogs((logsRes.data as any[] || []).map((l: any) => ({ ...l, cost: parseFloat(l.cost) })));
 
       const subsMap: Record<string, Subscription> = {};
       (subsRes.data || []).forEach((s: any) => { subsMap[s.user_id] = s as Subscription; });
@@ -185,10 +177,11 @@ export default function Admin() {
 
   const filteredUsers = users.filter(u =>
     u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.full_name?.toLowerCase().includes(searchQuery.toLowerCase())
+    u.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    u.city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    u.phone?.includes(searchQuery)
   );
 
-  // Calculate stats
   const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
   const proUsers = Object.values(subscriptions).filter(s => s.plan_type !== 'free').length;
 
@@ -197,18 +190,13 @@ export default function Admin() {
   const weekAgo = subDays(now, 7);
   const monthAgo = subDays(now, 30);
 
-  const costToday = apiLogs.filter(l => isAfter(new Date(l.created_at), todayStart)).reduce((a, l) => a + l.cost, 0);
-  const costWeek = apiLogs.filter(l => isAfter(new Date(l.created_at), weekAgo)).reduce((a, l) => a + l.cost, 0);
-  const costMonth = apiLogs.filter(l => isAfter(new Date(l.created_at), monthAgo)).reduce((a, l) => a + l.cost, 0);
-
   const newUsersToday = users.filter(u => isAfter(new Date(u.created_at), todayStart)).length;
   const newUsersWeek = users.filter(u => isAfter(new Date(u.created_at), weekAgo)).length;
   const newUsersMonth = users.filter(u => isAfter(new Date(u.created_at), monthAgo)).length;
 
-  // Revenue estimate: Pro = $4, Pro Plus = $12
   const revenueEstimate = Object.values(subscriptions).reduce((acc, s) => {
-    if (s.plan_type === 'pro') return acc + 4;
-    if (s.plan_type === 'pro_plus') return acc + 12;
+    if (s.plan_type === 'pro') return acc + 7;
+    if (s.plan_type === 'pro_plus') return acc + 13;
     return acc;
   }, 0);
 
@@ -244,7 +232,7 @@ export default function Admin() {
         </motion.div>
 
         {/* Overview Stats */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[
             { icon: Users, value: users.length, label: 'Total Users', color: 'text-primary' },
             { icon: Crown, value: proUsers, label: 'Paid Users', color: 'text-yellow-400' },
@@ -252,12 +240,12 @@ export default function Admin() {
             { icon: DollarSign, value: `$${revenueEstimate}`, label: 'Monthly Revenue', color: 'text-emerald-400' },
           ].map((stat, i) => (
             <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }} className="glass-card p-5">
-              <div className="flex items-center gap-4">
-                <stat.icon className={`h-8 w-8 ${stat.color}`} />
+              transition={{ delay: i * 0.1 }} className="glass-card p-4 sm:p-5">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <stat.icon className={`h-6 w-6 sm:h-8 sm:w-8 ${stat.color}`} />
                 <div>
-                  <p className="text-2xl font-bold">{stat.value}</p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                  <p className="text-xl sm:text-2xl font-bold">{stat.value}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
                 </div>
               </div>
             </motion.div>
@@ -314,7 +302,7 @@ export default function Admin() {
           className="glass-card p-6 mb-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search users by email or name..." value={searchQuery}
+            <Input placeholder="Search users by email, name, city, or phone..." value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 input-glass" />
           </div>
         </motion.div>
@@ -327,10 +315,11 @@ export default function Admin() {
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left p-4 text-sm font-medium text-muted-foreground">User</th>
+                  <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden md:table-cell">Details</th>
                   <th className="text-left p-4 text-sm font-medium text-muted-foreground">Plan</th>
                   <th className="text-center p-4 text-sm font-medium text-muted-foreground">Credits</th>
-                  <th className="text-center p-4 text-sm font-medium text-muted-foreground">Essays</th>
-                  <th className="text-left p-4 text-sm font-medium text-muted-foreground">Subscription</th>
+                  <th className="text-center p-4 text-sm font-medium text-muted-foreground hidden sm:table-cell">Essays</th>
+                  <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden lg:table-cell">Subscription</th>
                   <th className="text-right p-4 text-sm font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
@@ -351,6 +340,14 @@ export default function Admin() {
                           <span className="text-xs text-muted-foreground">{profile.email}</span>
                         </div>
                       </td>
+                      <td className="p-4 hidden md:table-cell">
+                        <div className="text-xs text-muted-foreground space-y-0.5">
+                          {profile.age && <span className="block">Age: {profile.age}</span>}
+                          {profile.city && <span className="block">City: {profile.city}</span>}
+                          {profile.phone && <span className="block">Phone: {profile.phone}</span>}
+                          {!profile.age && !profile.city && !profile.phone && <span>—</span>}
+                        </div>
+                      </td>
                       <td className="p-4">
                         <Select value={pt} onValueChange={(val) => updatePlan(profile.user_id, val)}
                           disabled={updatingUser === profile.user_id}>
@@ -369,10 +366,10 @@ export default function Admin() {
                           {profile.credits}
                         </span>
                       </td>
-                      <td className="p-4 text-center">
+                      <td className="p-4 text-center hidden sm:table-cell">
                         <span className="text-sm">{essayCounts[profile.user_id] || 0}</span>
                       </td>
-                      <td className="p-4">
+                      <td className="p-4 hidden lg:table-cell">
                         {sub ? (
                           <div className="space-y-1 min-w-[140px]">
                             <Progress value={subProgress} className="h-1.5" />
@@ -390,7 +387,7 @@ export default function Admin() {
                         )}
                       </td>
                       <td className="p-4">
-                        <div className="flex items-center justify-end gap-1">
+                        <div className="flex items-center justify-end gap-1 flex-wrap">
                           <Button variant="ghost" size="icon" className="h-8 w-8"
                             onClick={() => fetchUserEssays(profile.user_id, profile.full_name || profile.email)}
                             title="View essays">
@@ -439,7 +436,7 @@ export default function Admin() {
                 <Link key={essay.id} to={`/result/${essay.id}`}
                   className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
                       <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy')}</span>
                       <span className="text-xs text-muted-foreground">{essay.word_count}w</span>

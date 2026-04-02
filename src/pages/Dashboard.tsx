@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
-  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Plus
+  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -36,6 +36,7 @@ export default function Dashboard() {
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
+  const [mentorTip, setMentorTip] = useState<string | null>(null);
 
   useEffect(() => {
     fetchEssays();
@@ -51,6 +52,22 @@ export default function Dashboard() {
         .limit(50);
       if (error) throw error;
       setEssays(data || []);
+
+      // Generate mentor tip based on essays
+      if (data && data.length >= 2) {
+        const scored = data.filter(e => e.score !== null);
+        if (scored.length >= 2) {
+          const latest = scored[0].score || 0;
+          const previous = scored[1].score || 0;
+          if (latest > previous) {
+            setMentorTip(`📈 Great progress! Your score went from ${previous} to ${latest}. Keep focusing on vocabulary variety to push even higher!`);
+          } else if (latest < previous) {
+            setMentorTip(`💡 Your latest score (${latest}) dipped from ${previous}. Try spending more time on planning before you write — structure is key!`);
+          } else {
+            setMentorTip(`🎯 Consistent at Band ${latest}! To break through, focus on using more complex sentence structures and academic vocabulary.`);
+          }
+        }
+      }
     } catch (error) {
       console.error('Error fetching essays:', error);
     } finally {
@@ -95,7 +112,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
@@ -105,14 +122,14 @@ export default function Dashboard() {
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
         {/* Welcome */}
         <motion.div initial="hidden" animate="visible" className="mb-8">
-          <motion.div variants={fadeUp} custom={0} className="flex items-center justify-between flex-wrap gap-4">
+          <motion.div variants={fadeUp} custom={0} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold mb-1">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1">
                 Welcome back, <span className="gradient-text">{profile?.full_name?.split(' ')[0] || 'Student'}</span>
               </h1>
-              <p className="text-muted-foreground">Ready to improve your IELTS writing skills?</p>
+              <p className="text-muted-foreground text-sm sm:text-base">Ready to improve your IELTS writing skills?</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <SubscriptionBadge planType={planType} size="md" />
               {planType === 'free' && (
                 <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
@@ -122,6 +139,22 @@ export default function Dashboard() {
             </div>
           </motion.div>
         </motion.div>
+
+        {/* Mentor's Daily Tip */}
+        {mentorTip && planType !== 'free' && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+            className="glass-card p-5 mb-6 border-l-4 border-l-primary">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold mb-1">Mentor's Daily Tip</p>
+                <p className="text-sm text-muted-foreground">{mentorTip}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Subscription Info Card */}
         {subscription && (
@@ -158,7 +191,7 @@ export default function Dashboard() {
         )}
 
         {/* Stats Grid */}
-        <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
           {[
             { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
             { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
@@ -168,14 +201,14 @@ export default function Dashboard() {
           ].map((stat) => (
             <motion.div key={stat.label} variants={fadeUp} custom={stat.delay}
               whileHover={{ y: -3, transition: { duration: 0.2 } }}
-              className="glass-card-hover p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="h-5 w-5 text-primary" />
+              className="glass-card-hover p-3 sm:p-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-xl font-bold">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                  <p className="text-lg sm:text-xl font-bold">{stat.value}</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</p>
                 </div>
               </div>
             </motion.div>
@@ -184,35 +217,35 @@ export default function Dashboard() {
 
         {/* Start Exam CTA */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-          className="glass-card p-8 mb-8 relative overflow-hidden">
+          className="glass-card p-6 sm:p-8 mb-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 3, repeat: Infinity }}
-                className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center glow-effect">
-                <PenTool className="h-8 w-8 text-primary" />
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/20 flex items-center justify-center glow-effect">
+                <PenTool className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
               </motion.div>
               <div>
-                <h2 className="text-2xl font-bold mb-1">Start Writing Exam</h2>
-                <p className="text-muted-foreground">Practice Task 1 or Task 2 with AI evaluation</p>
+                <h2 className="text-xl sm:text-2xl font-bold mb-1">Start Writing Exam</h2>
+                <p className="text-sm text-muted-foreground">Practice Task 1 or Task 2 with AI evaluation</p>
               </div>
             </div>
-            <div className="flex gap-3">
-              <Link to="/exam?task=1">
-                <Button variant="outline" size="lg" className="gap-2">
-                  <Clock className="h-4 w-4" /> Task 1 (20 min)
+            <div className="flex gap-3 w-full sm:w-auto">
+              <Link to="/exam?task=1" className="flex-1 sm:flex-none">
+                <Button variant="outline" size="lg" className="gap-2 w-full">
+                  <Clock className="h-4 w-4" /> Task 1
                 </Button>
               </Link>
-              <Link to="/exam?task=2">
-                <Button variant="glow" size="lg" className="gap-2">
-                  <Sparkles className="h-4 w-4" /> Task 2 (40 min)
+              <Link to="/exam?task=2" className="flex-1 sm:flex-none">
+                <Button variant="glow" size="lg" className="gap-2 w-full">
+                  <Sparkles className="h-4 w-4" /> Task 2
                 </Button>
               </Link>
             </div>
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 mb-8">
           {/* Score Progress Chart */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
             className="glass-card p-6">
@@ -261,7 +294,7 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 mb-8">
           {/* Task Distribution */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
             className="glass-card p-6">
@@ -325,9 +358,9 @@ export default function Dashboard() {
               <div className="space-y-3">
                 {essays.slice(0, 5).map((essay) => (
                   <Link key={essay.id} to={`/result/${essay.id}`}
-                    className="flex items-center justify-between p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                    className="flex items-center justify-between p-3 sm:p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
                         <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy')}</span>
                       </div>
@@ -365,13 +398,13 @@ export default function Dashboard() {
                 key: 'free',
               },
               {
-                name: 'Pro', price: '$4', priceUzs: "39,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
+                name: 'Pro', price: '$7', priceUzs: "69,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
                 highlight: 'AI Mentor + Full Analysis',
-                features: ['30 evaluations/month', 'Full AI feedback + AI Mentor', 'Score analytics & PDF', "Extra: $0.15 / 1,500 so'm each"],
+                features: ['30 evaluations/month', 'Full AI feedback + AI Mentor', 'Score analytics', "Extra: $0.15 / 1,500 so'm each"],
                 key: 'pro', popular: true,
               },
               {
-                name: 'Pro Plus', price: '$12', priceUzs: "119,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
+                name: 'Pro Plus', price: '$13', priceUzs: "129,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
                 highlight: '⚡ Elite AI Mentor',
                 features: ['60 evaluations/month', 'Elite Mentor + all features', "Extra: $0.4 / 4,000 so'm each"],
                 key: 'pro_plus',

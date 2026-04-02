@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Plus, Bot, GraduationCap
+  Check, ExternalLink, Quote, Bot, GraduationCap
 } from 'lucide-react';
 
 const fadeUp = {
@@ -43,14 +43,14 @@ export default function Index() {
       features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 2,000 so'm"],
     },
     {
-      name: 'Pro', price: '$4', priceUzs: "39,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
+      name: 'Pro', price: '$7', priceUzs: "69,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
       highlight: 'AI Mentor + Full Analysis',
-      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'AI Mentor (10 messages/day)', 'Vocabulary & Coherence preview', 'Score analytics & PDF export', "Extra essay: $0.15 / 1,500 so'm"],
+      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'AI Mentor (10 messages/day)', 'Vocabulary & Coherence preview', 'Score analytics', "Extra essay: $0.15 / 1,500 so'm"],
     },
     {
-      name: 'Pro Plus', price: '$12', priceUzs: "119,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
+      name: 'Pro Plus', price: '$13', priceUzs: "129,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
       highlight: '⚡ Elite AI Mentor + All Features',
-      features: ['60 evaluations/month', 'Elite AI Mentor (50 msg/day)', 'Topic Vocabulary (10 words)', 'Visual Coherence Map', 'Sentence Complexity Map', 'Full analytics + PDF', 'Achievement Badges', "Extra essay: $0.4 / 4,000 so'm"],
+      features: ['60 evaluations/month', 'Elite AI Mentor (30 msg/day)', 'Topic Vocabulary (10 words)', 'Visual Coherence Map', 'Sentence Complexity Map', 'Full analytics', 'Achievement Badges', "Extra essay: $0.4 / 4,000 so'm"],
     },
   ];
 
@@ -62,7 +62,7 @@ export default function Index() {
   ];
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
 
       {/* Hero */}
@@ -70,13 +70,6 @@ export default function Index() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-20 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
           <motion.div animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.15, 0.1] }} transition={{ duration: 10, repeat: Infinity }} className="absolute bottom-20 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
-          {[...Array(6)].map((_, i) => (
-            <motion.div key={i} className="absolute w-1 h-1 bg-primary/40 rounded-full"
-              style={{ left: `${15 + i * 15}%`, top: `${20 + (i % 3) * 25}%` }}
-              animate={{ y: [-20, 20, -20], opacity: [0.2, 0.8, 0.2] }}
-              transition={{ duration: 3 + i, repeat: Infinity, delay: i * 0.5 }}
-            />
-          ))}
         </div>
 
         <div className="max-w-5xl mx-auto text-center relative">
@@ -87,13 +80,13 @@ export default function Index() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
             Master Your <br />
             <span className="gradient-text">IELTS Writing</span>
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
             Get instant AI-powered feedback on your essays. Practice with real IELTS topics
             and track your progress to achieve your target band score.
           </motion.p>
@@ -122,15 +115,15 @@ export default function Index() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-            className="grid grid-cols-3 gap-8 max-w-md mx-auto mt-16">
+            className="grid grid-cols-3 gap-4 sm:gap-8 max-w-md mx-auto mt-16">
             {[
               { value: '1000+', label: 'Essays Graded' },
               { value: 'AI', label: 'Instant Grading' },
               { value: '4', label: 'Criteria Scored' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-3xl font-bold text-primary">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </motion.div>
@@ -248,13 +241,13 @@ export default function Index() {
                 Your Private <span className="gradient-text">AI Mentor</span>
               </motion.h2>
               <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mb-6">
-                Get personalized coaching based on your essay history. Your AI Mentor analyzes your patterns,
-                identifies recurring mistakes, and creates customized study plans.
+                Get personalized Socratic coaching based on your essay history. Your AI Mentor guides you to discover your own mistakes
+                and build lasting skills.
               </motion.p>
               <motion.div variants={fadeUp} custom={3} className="space-y-3">
                 {[
                   '📝 Analyzes your last 3-5 essays for patterns',
-                  '🎯 Personalized daily homework assignments',
+                  '🎯 Socratic method — guides you to find answers',
                   '💬 Ask anything about IELTS writing strategy',
                   '📊 Track your improvement over time',
                 ].map(item => (
@@ -263,14 +256,14 @@ export default function Index() {
                   </div>
                 ))}
               </motion.div>
-              <motion.div variants={fadeUp} custom={4} className="flex items-center gap-4 mt-6">
+              <motion.div variants={fadeUp} custom={4} className="flex flex-wrap items-center gap-3 mt-6">
                 <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-secondary">
                   <Zap className="h-3.5 w-3.5 text-primary" />
                   <span>Pro: AI Mentor (10/day)</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                   <Crown className="h-3.5 w-3.5 text-primary" />
-                  <span>Pro Plus: Elite Mentor (50/day)</span>
+                  <span>Pro Plus: Elite Mentor (30/day)</span>
                 </div>
               </motion.div>
             </motion.div>
@@ -293,11 +286,9 @@ export default function Index() {
                     <Bot className="h-4 w-4 text-primary" />
                   </div>
                   <div className="bg-secondary/70 rounded-2xl rounded-tl-md px-3.5 py-2 text-sm max-w-[85%]">
-                    Great question! 🎯 Looking at your recent essays, I notice two main areas to focus on:
+                    Great question! 🎯 Let me ask you something first — when you look at your last essay, what do you think was the weakest part?
                     <br /><br />
-                    1. <strong>Coherence</strong>: Your paragraphs need stronger linking words. Try using "Furthermore", "Consequently" instead of "Also", "And".
-                    <br /><br />
-                    2. <strong>Vocabulary</strong>: You repeat "important" 4 times. Try "crucial", "significant", "paramount" instead! ✨
+                    Think about it: did you fully answer ALL parts of the question? 🤔 This is where most Band 6 students lose marks.
                   </div>
                 </div>
               </div>
@@ -320,7 +311,7 @@ export default function Index() {
           </motion.div>
 
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid md:grid-cols-3 gap-6">
+            className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <motion.div key={t.name} variants={fadeUp} custom={i}
                 whileHover={{ y: -5 }}

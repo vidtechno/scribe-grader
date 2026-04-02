@@ -41,7 +41,7 @@ export function AIMentor() {
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [showPricing, setShowPricing] = useState(false);
-  const [dailyUsage, setDailyUsage] = useState({ used: 0, limit: planType === 'pro_plus' ? 50 : 10 });
+  const [dailyUsage, setDailyUsage] = useState({ used: 0, limit: planType === 'pro_plus' ? 30 : 10 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -78,7 +78,7 @@ export function AIMentor() {
       .eq('user_id', user.id)
       .eq('date', today)
       .single();
-    const limit = planType === 'pro_plus' ? 50 : 10;
+    const limit = planType === 'pro_plus' ? 30 : 10;
     setDailyUsage({ used: (data as any)?.messages_used || 0, limit });
   }, [user, planType]);
 
@@ -135,7 +135,6 @@ export function AIMentor() {
 
     let chatId = activeChat?.id;
 
-    // Auto-create chat if none active
     if (!chatId) {
       const { data, error } = await supabase
         .from('mentor_chats')
@@ -152,11 +151,9 @@ export function AIMentor() {
     setInput('');
     setSending(true);
 
-    // Optimistic add
     const tempUserMsg: Message = { id: 'temp-user', role: 'user', content: userMessage, created_at: new Date().toISOString() };
     setMessages(prev => [...prev, tempUserMsg]);
 
-    // Save user message to DB
     const { data: savedMsg } = await supabase
       .from('mentor_messages')
       .insert({ chat_id: chatId, user_id: user.id, role: 'user', content: userMessage })
@@ -166,7 +163,6 @@ export function AIMentor() {
       setMessages(prev => prev.map(m => m.id === 'temp-user' ? (savedMsg as any as Message) : m));
     }
 
-    // Fetch recent essays for context
     const essayLimit = planType === 'pro_plus' ? 5 : 3;
     const { data: essays } = await supabase
       .from('essays')
@@ -196,7 +192,6 @@ export function AIMentor() {
 
       const assistantMsg: Message = { id: 'temp-assistant', role: 'assistant', content: result.reply, created_at: new Date().toISOString() };
 
-      // Save assistant message
       const { data: savedAssistant } = await supabase
         .from('mentor_messages')
         .insert({ chat_id: chatId, user_id: user.id, role: 'assistant', content: result.reply })
@@ -205,7 +200,6 @@ export function AIMentor() {
       setMessages(prev => [...prev, savedAssistant ? (savedAssistant as any as Message) : assistantMsg]);
       setDailyUsage(prev => ({ ...prev, used: result.usage || prev.used + 1 }));
 
-      // Auto-rename first chat
       if (messages.length <= 1 && activeChat?.title === 'New Chat') {
         const autoTitle = userMessage.slice(0, 40);
         await supabase.from('mentor_chats').update({ title: autoTitle }).eq('id', chatId);
@@ -221,12 +215,10 @@ export function AIMentor() {
 
   if (!user) return null;
 
-  // Free users: show upgrade CTA
   const isFree = planType === 'free';
 
   return (
     <>
-      {/* Floating button */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -241,7 +233,6 @@ export function AIMentor() {
         )}
       </AnimatePresence>
 
-      {/* Chat panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -273,7 +264,6 @@ export function AIMentor() {
               </div>
             </div>
 
-            {/* Content */}
             {isFree ? (
               <div className="flex-1 flex items-center justify-center p-6 text-center">
                 <div>
@@ -288,7 +278,6 @@ export function AIMentor() {
                 </div>
               </div>
             ) : !activeChat && !showHistory ? (
-              /* Home screen */
               <div className="flex-1 flex flex-col p-4 gap-3">
                 <p className="text-sm text-muted-foreground text-center mb-2">
                   Your personal IELTS writing coach 🎓
@@ -321,7 +310,6 @@ export function AIMentor() {
                 </div>
               </div>
             ) : showHistory ? (
-              /* History view */
               <ScrollArea className="flex-1 p-3">
                 {chats.length === 0 ? (
                   <p className="text-sm text-muted-foreground text-center py-8">No conversations yet</p>
@@ -365,7 +353,6 @@ export function AIMentor() {
                 )}
               </ScrollArea>
             ) : (
-              /* Chat view */
               <>
                 <ScrollArea className="flex-1 p-3">
                   {messages.length === 0 && (
@@ -410,23 +397,22 @@ export function AIMentor() {
                   <div ref={messagesEndRef} />
                 </ScrollArea>
 
-                {/* Input */}
                 <div className="p-3 border-t border-border">
                   <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="flex gap-2">
                     <Input
                       value={input}
                       onChange={e => setInput(e.target.value)}
                       placeholder="Ask your IELTS mentor..."
-                      className="flex-1 h-9 text-sm"
-                      disabled={sending || dailyUsage.used >= dailyUsage.limit}
+                      className="flex-1 text-sm"
+                      disabled={sending}
                     />
-                    <Button type="submit" size="icon" className="h-9 w-9" disabled={sending || !input.trim()}>
-                      <Send className="h-4 w-4" />
+                    <Button type="submit" size="icon" disabled={sending || !input.trim()} className="shrink-0">
+                      {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                     </Button>
                   </form>
                   {dailyUsage.used >= dailyUsage.limit && (
-                    <p className="text-xs text-destructive mt-1.5 text-center">
-                      Daily limit reached. {planType === 'pro' ? 'Upgrade to Pro Plus for more! ⚡' : 'Come back tomorrow! 🌅'}
+                    <p className="text-xs text-destructive mt-2 text-center">
+                      Daily message limit reached ({dailyUsage.limit}). Come back tomorrow!
                     </p>
                   )}
                 </div>
