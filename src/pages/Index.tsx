@@ -64,6 +64,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
+      <SEOHead title="IELTS Writing Practice" description="Master your IELTS Writing with AI-powered essay grading, personalized AI Mentor, and real exam topics." path="/" />
       <Navbar />
 
       {/* Hero */}
