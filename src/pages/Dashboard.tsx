@@ -112,7 +112,8 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-background overflow-x-hidden pb-20 md:pb-0">
+      <SEOHead title="Dashboard" description="Track your IELTS writing progress, practice essays, and view analytics." path="/dashboard" />
       <Navbar />
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
