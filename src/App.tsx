@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { AIMentor } from "@/components/AIMentor";
+import { BottomNav } from "@/components/BottomNav";
+import { Announcements } from "@/components/Announcements";
+import { useState } from "react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
@@ -40,8 +43,11 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 }
 
 function AppRoutes() {
+  const [mentorOpen, setMentorOpen] = useState(false);
+
   return (
     <>
+      <Announcements />
       <Routes>
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
@@ -53,7 +59,8 @@ function AppRoutes() {
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <AIMentor />
+      <AIMentor externalOpen={mentorOpen} onExternalOpenChange={setMentorOpen} />
+      <BottomNav onMentorClick={() => setMentorOpen(true)} />
     </>
   );
 }
