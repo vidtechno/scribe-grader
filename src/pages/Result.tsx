@@ -8,6 +8,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { BlurredContent } from '@/components/BlurredContent';
 import { ErrorCorrections } from '@/components/ErrorCorrections';
 import { PricingModal } from '@/components/PricingModal';
+import { SEOHead } from '@/components/SEOHead';
 import { 
   ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
   Target, FileText, AlertTriangle, Crown,
