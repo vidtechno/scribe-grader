@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
+import { SEOHead } from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Crown, TrendingUp, Calendar } from 'lucide-react';
 import { subDays, startOfDay, startOfWeek, startOfMonth } from 'date-fns';
