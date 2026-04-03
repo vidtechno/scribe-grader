@@ -61,7 +61,7 @@ export function Navbar() {
                 <CreditCard className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium">{profile?.credits ?? 0}</span>
               </div>
-              {subscription && <SubscriptionBadge planType={subscription.plan_type} className="hidden sm:flex" />}
+              <span className="hidden sm:inline-flex">{subscription && <SubscriptionBadge planType={subscription.plan_type} />}</span>
               <ThemeToggle />
               <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
                 <User className="h-4 w-4" />
