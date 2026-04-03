@@ -26,12 +26,24 @@ interface Message {
   created_at: string;
 }
 
-export function AIMentor() {
+interface AIMentorProps {
+  externalOpen?: boolean;
+  onExternalOpenChange?: (open: boolean) => void;
+}
+
+export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps = {}) {
   const { user } = useAuth();
   const { subscription } = useSubscription();
   const planType = subscription?.plan_type || 'free';
 
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (externalOpen) {
+      setIsOpen(true);
+      onExternalOpenChange?.(false);
+    }
+  }, [externalOpen]);
   const [chats, setChats] = useState<Chat[]>([]);
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);

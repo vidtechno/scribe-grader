@@ -45,13 +45,13 @@ export function Navbar() {
                   </Button>
                 </Link>
               )}
-              <Link to="/dashboard">
+              <Link to="/dashboard" className="hidden md:block">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <LayoutDashboard className="h-4 w-4" />
                   <span className="hidden sm:inline">Dashboard</span>
                 </Button>
               </Link>
-              <Link to="/leaderboard">
+              <Link to="/leaderboard" className="hidden md:block">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <Trophy className="h-4 w-4" />
                   <span className="hidden sm:inline">Ranking</span>
@@ -61,7 +61,7 @@ export function Navbar() {
                 <CreditCard className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium">{profile?.credits ?? 0}</span>
               </div>
-              {subscription && <SubscriptionBadge planType={subscription.plan_type} />}
+              {subscription && <SubscriptionBadge planType={subscription.plan_type} className="hidden sm:flex" />}
               <ThemeToggle />
               <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
                 <User className="h-4 w-4" />
