@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Check, Crown, Zap, Star, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const TELEGRAM_USERNAME = 'diyorbek_anorboyev';
+const TELEGRAM_USERNAME = 'writingexambase';
 
 interface Plan {
   name: string;
