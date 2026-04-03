@@ -451,7 +451,7 @@ export default function Dashboard() {
                     <Button variant="outline" size="sm" disabled className="w-full">Default</Button>
                   ) : (
                     <Button variant={plan.popular ? 'glow' : 'outline'} size="sm" className="w-full gap-1"
-                      onClick={() => window.open('https://t.me/diyorbek_anorboyev', '_blank')}>
+                      onClick={() => window.open('https://t.me/writingexambase', '_blank')}>
                       <ExternalLink className="h-3.5 w-3.5" /> Upgrade
                     </Button>
                   )}
