@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { PricingModal } from '@/components/PricingModal';
+import { SEOHead } from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,

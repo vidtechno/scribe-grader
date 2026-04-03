@@ -395,7 +395,7 @@ export default function Index() {
                     </Link>
                   ) : (
                     <Button variant={plan.popular ? 'glow' : 'outline'} className="w-full gap-2"
-                      onClick={() => window.open('https://t.me/diyorbek_anorboyev', '_blank')}>
+                      onClick={() => window.open('https://t.me/writingexambase', '_blank')}>
                       <ExternalLink className="h-4 w-4" /> Upgrade via Telegram
                     </Button>
                   )}
