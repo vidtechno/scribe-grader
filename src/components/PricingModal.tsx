@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Check, Crown, Zap, Star, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const TELEGRAM_USERNAME = 'diyorbek_anorboyev';
+const TELEGRAM_USERNAME = 'writingexambase';
 
 interface Plan {
   name: string;
@@ -173,7 +173,7 @@ export function PricingModal({ open, onOpenChange, currentPlan = 'free' }: Prici
           </p>
           <Button variant="glow" size="sm" className="gap-2 mt-2" onClick={handleUpgrade}>
             <ExternalLink className="h-4 w-4" />
-            Contact @diyorbek_anorboyev
+            Contact @writingexambase
           </Button>
         </div>
       </DialogContent>

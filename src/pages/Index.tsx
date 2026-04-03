@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { PricingModal } from '@/components/PricingModal';
+import { SEOHead } from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
@@ -63,6 +64,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
+      <SEOHead title="IELTS Writing Practice" description="Master your IELTS Writing with AI-powered essay grading, personalized AI Mentor, and real exam topics." path="/" />
       <Navbar />
 
       {/* Hero */}
@@ -395,7 +397,7 @@ export default function Index() {
                     </Link>
                   ) : (
                     <Button variant={plan.popular ? 'glow' : 'outline'} className="w-full gap-2"
-                      onClick={() => window.open('https://t.me/diyorbek_anorboyev', '_blank')}>
+                      onClick={() => window.open('https://t.me/writingexambase', '_blank')}>
                       <ExternalLink className="h-4 w-4" /> Upgrade via Telegram
                     </Button>
                   )}

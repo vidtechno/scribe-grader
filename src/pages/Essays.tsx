@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
+import { SEOHead } from '@/components/SEOHead';
 import { ArrowLeft, FileText, ChevronRight, ChevronLeft } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
@@ -65,7 +66,8 @@ export default function Essays() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
+      <SEOHead title="My Essays" description="View all your IELTS practice essays and scores." path="/essays" />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">

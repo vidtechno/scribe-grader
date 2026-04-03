@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { PricingModal } from '@/components/PricingModal';
+import { SEOHead } from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
@@ -112,7 +113,8 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-background overflow-x-hidden pb-20 md:pb-0">
+      <SEOHead title="Dashboard" description="Track your IELTS writing progress, practice essays, and view analytics." path="/dashboard" />
       <Navbar />
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
@@ -451,7 +453,7 @@ export default function Dashboard() {
                     <Button variant="outline" size="sm" disabled className="w-full">Default</Button>
                   ) : (
                     <Button variant={plan.popular ? 'glow' : 'outline'} size="sm" className="w-full gap-1"
-                      onClick={() => window.open('https://t.me/diyorbek_anorboyev', '_blank')}>
+                      onClick={() => window.open('https://t.me/writingexambase', '_blank')}>
                       <ExternalLink className="h-3.5 w-3.5" /> Upgrade
                     </Button>
                   )}

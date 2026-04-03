@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
+import { SEOHead } from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Crown, TrendingUp, Calendar } from 'lucide-react';
 import { subDays, startOfDay, startOfWeek, startOfMonth } from 'date-fns';
@@ -114,7 +115,8 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
+      <SEOHead title="Leaderboard" description="See the top IELTS writers ranked by score and activity." path="/leaderboard" />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>

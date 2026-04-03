@@ -14,6 +14,65 @@ export type Database = {
   }
   public: {
     Tables: {
+      announcement_views: {
+        Row: {
+          announcement_id: string
+          id: string
+          user_id: string
+          viewed_at: string
+        }
+        Insert: {
+          announcement_id: string
+          id?: string
+          user_id: string
+          viewed_at?: string
+        }
+        Update: {
+          announcement_id?: string
+          id?: string
+          user_id?: string
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcement_views_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "announcements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      announcements: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          status: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          status?: string
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       api_logs: {
         Row: {
           cost: number
@@ -190,6 +249,54 @@ export type Database = {
           phone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      subscription_plans: {
+        Row: {
+          created_at: string
+          credits_limit: number
+          description: string | null
+          features: Json
+          id: string
+          is_active: boolean
+          mentor_limit: number
+          name: string
+          period: string | null
+          price: number
+          price_uzs: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          credits_limit?: number
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean
+          mentor_limit?: number
+          name: string
+          period?: string | null
+          price?: number
+          price_uzs?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          credits_limit?: number
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean
+          mentor_limit?: number
+          name?: string
+          period?: string | null
+          price?: number
+          price_uzs?: string | null
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }
