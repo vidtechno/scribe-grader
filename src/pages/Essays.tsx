@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
+import { SEOHead } from '@/components/SEOHead';
 import { ArrowLeft, FileText, ChevronRight, ChevronLeft } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
