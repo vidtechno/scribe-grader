@@ -134,7 +134,8 @@ export default function Result() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
+      <SEOHead title="Essay Results" description="View your IELTS essay evaluation results and detailed feedback." path={`/result/${id}`} />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
