@@ -251,7 +251,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[560px] max-h-[calc(100vh-6rem)] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden"
+            className="fixed bottom-20 md:bottom-6 right-2 md:right-6 z-50 w-[380px] max-w-[calc(100vw-1rem)] md:max-w-[calc(100vw-3rem)] h-[calc(100vh-6rem)] md:h-[560px] max-h-[calc(100vh-6rem)] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
