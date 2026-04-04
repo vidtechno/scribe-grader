@@ -192,33 +192,8 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* Stats Grid */}
-        <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
-          {[
-            { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
-            { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
-            { icon: Award, value: averageScore, label: 'Avg Score', delay: 3 },
-            { icon: Target, value: bestScore, label: 'Best Score', delay: 4 },
-            { icon: TrendingUp, value: thisWeekEssays, label: 'This Week', delay: 5 },
-          ].map((stat) => (
-            <motion.div key={stat.label} variants={fadeUp} custom={stat.delay}
-              whileHover={{ y: -3, transition: { duration: 0.2 } }}
-              className="glass-card-hover p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-xl font-bold">{stat.value}</p>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
         {/* Start Exam CTA */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="glass-card p-6 sm:p-8 mb-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -245,6 +220,31 @@ export default function Dashboard() {
               </Link>
             </div>
           </div>
+        </motion.div>
+
+        {/* Stats Grid */}
+        <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+          {[
+            { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
+            { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
+            { icon: Award, value: averageScore, label: 'Avg Score', delay: 3 },
+            { icon: Target, value: bestScore, label: 'Best Score', delay: 4 },
+            { icon: TrendingUp, value: thisWeekEssays, label: 'This Week', delay: 5 },
+          ].map((stat) => (
+            <motion.div key={stat.label} variants={fadeUp} custom={stat.delay}
+              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              className="glass-card-hover p-3 sm:p-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-lg sm:text-xl font-bold">{stat.value}</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 mb-8">
