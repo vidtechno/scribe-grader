@@ -296,15 +296,16 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 mb-8">
+        {/* Task Distribution + Recent Essays */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-8">
           {/* Task Distribution */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
-            className="glass-card p-6">
-            <div className="flex items-center gap-2 mb-6">
+            className="glass-card p-4 sm:p-6">
+            <div className="flex items-center gap-2 mb-4 sm:mb-6">
               <BookOpen className="h-5 w-5 text-primary" />
-              <h3 className="text-lg font-semibold">Task Distribution</h3>
+              <h3 className="text-base sm:text-lg font-semibold">Task Distribution</h3>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-muted-foreground">Task 1</span>
@@ -324,25 +325,25 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-lg bg-secondary/30 text-center">
-                <p className="text-2xl font-bold">{thisMonthEssays}</p>
-                <p className="text-xs text-muted-foreground">This Month</p>
+            <div className="mt-4 sm:mt-6 grid grid-cols-2 gap-2 sm:gap-3">
+              <div className="p-2 sm:p-3 rounded-lg bg-secondary/30 text-center">
+                <p className="text-xl sm:text-2xl font-bold">{thisMonthEssays}</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground">This Month</p>
               </div>
-              <div className="p-3 rounded-lg bg-secondary/30 text-center">
-                <p className="text-2xl font-bold text-primary">{scoredEssays.filter(e => (e.score || 0) >= 7).length}</p>
-                <p className="text-xs text-muted-foreground">Band 7+</p>
+              <div className="p-2 sm:p-3 rounded-lg bg-secondary/30 text-center">
+                <p className="text-xl sm:text-2xl font-bold text-primary">{scoredEssays.filter(e => (e.score || 0) >= 7).length}</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground">Band 7+</p>
               </div>
             </div>
           </motion.div>
 
           {/* Recent Essays */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}
-            className="glass-card p-6 lg:col-span-2">
-            <div className="flex items-center justify-between mb-6">
+            className="glass-card p-4 sm:p-6 lg:col-span-2">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
               <div className="flex items-center gap-2">
                 <FileText className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold">Recent Essays</h3>
+                <h3 className="text-base sm:text-lg font-semibold">Recent Essays</h3>
               </div>
               {essays.length > 5 && (
                 <Link to="/essays">
@@ -357,23 +358,31 @@ export default function Dashboard() {
                 {[1, 2, 3].map(i => <div key={i} className="h-16 bg-secondary/50 rounded-lg animate-pulse" />)}
               </div>
             ) : essays.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {essays.slice(0, 5).map((essay) => (
                   <Link key={essay.id} to={`/result/${essay.id}`}
-                    className="flex items-center justify-between p-3 sm:p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
-                        <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy')}</span>
-                      </div>
-                      <p className="text-sm truncate text-muted-foreground">{essay.topic.substring(0, 60)}...</p>
-                    </div>
-                    <div className="flex items-center gap-3 ml-4">
-                      {essay.score !== null && (
-                        <span className={`text-lg font-bold ${essay.score >= 7 ? 'text-primary' : essay.score >= 5 ? 'text-yellow-500' : 'text-destructive'}`}>{essay.score}</span>
+                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                    <div className="flex-shrink-0">
+                      {essay.score !== null ? (
+                        <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm sm:text-base font-bold ${
+                          essay.score >= 7 ? 'bg-primary/15 text-primary' : essay.score >= 5 ? 'bg-yellow-500/15 text-yellow-600' : 'bg-destructive/15 text-destructive'
+                        }`}>
+                          {essay.score}
+                        </div>
+                      ) : (
+                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-muted/50 flex items-center justify-center">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                        </div>
                       )}
-                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                     </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
+                        <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d')}</span>
+                      </div>
+                      <p className="text-xs sm:text-sm truncate text-muted-foreground">{essay.topic.substring(0, 50)}...</p>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                   </Link>
                 ))}
               </div>
