@@ -98,10 +98,11 @@ export default function Admin() {
 
   const fetchData = async () => {
     try {
-      const [usersRes, subsRes, essaysRes] = await Promise.all([
+      const [usersRes, subsRes, essaysRes, settingsRes] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('subscriptions').select('*'),
         supabase.from('essays').select('user_id'),
+        supabase.from('app_settings').select('key, value').eq('key', 'ai_chat_enabled').single(),
       ]);
 
       setUsers(usersRes.data || []);
@@ -113,6 +114,10 @@ export default function Admin() {
       const counts: Record<string, number> = {};
       (essaysRes.data || []).forEach((e: any) => { counts[e.user_id] = (counts[e.user_id] || 0) + 1; });
       setEssayCounts(counts);
+
+      if (settingsRes.data) {
+        setAiChatEnabled(settingsRes.data.value === 'true');
+      }
 
       fetchAnnouncements();
     } catch (error) {
