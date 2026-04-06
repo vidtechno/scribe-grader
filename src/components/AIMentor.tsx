@@ -8,7 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { PricingModal } from '@/components/PricingModal';
 import {
   MessageCircle, X, Send, Loader2, Plus, Trash2, Edit3,
-  Check, Crown, ChevronLeft, Bot, User, Sparkles
+  Check, Crown, ChevronLeft, Bot, User, Sparkles, Lock
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,6 +37,20 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
   const planType = subscription?.plan_type || 'free';
 
   const [isOpen, setIsOpen] = useState(false);
+  const [aiChatEnabled, setAiChatEnabled] = useState<boolean | null>(null);
+
+  // Check if AI chat is globally enabled
+  useEffect(() => {
+    const checkAiChatEnabled = async () => {
+      const { data } = await supabase
+        .from('app_settings')
+        .select('value')
+        .eq('key', 'ai_chat_enabled')
+        .single();
+      setAiChatEnabled(data?.value === 'true');
+    };
+    checkAiChatEnabled();
+  }, []);
 
   useEffect(() => {
     if (externalOpen) {
@@ -44,6 +58,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
       onExternalOpenChange?.(false);
     }
   }, [externalOpen]);
+
   const [chats, setChats] = useState<Chat[]>([]);
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -226,6 +241,11 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
   };
 
   if (!user) return null;
+  
+  // If AI chat is globally disabled, don't render at all
+  if (aiChatEnabled === false) return null;
+  // Still loading setting
+  if (aiChatEnabled === null) return null;
 
   const isFree = planType === 'free';
 
