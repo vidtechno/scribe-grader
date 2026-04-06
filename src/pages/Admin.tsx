@@ -252,6 +252,20 @@ export default function Admin() {
     } finally { setUpdatingUser(null); }
   };
 
+  const toggleAiChat = async () => {
+    setTogglingAiChat(true);
+    const newValue = !aiChatEnabled;
+    try {
+      await supabase.from('app_settings').update({ value: String(newValue) }).eq('key', 'ai_chat_enabled');
+      setAiChatEnabled(newValue);
+      toast.success(`AI Chat ${newValue ? 'yoqildi' : "o'chirildi"} barcha foydalanuvchilar uchun`);
+    } catch {
+      toast.error('Failed to update setting');
+    } finally {
+      setTogglingAiChat(false);
+    }
+  };
+
   const filteredUsers = users.filter(u =>
     u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     u.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
