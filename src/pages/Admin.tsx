@@ -79,6 +79,10 @@ export default function Admin() {
   const [newAnnouncement, setNewAnnouncement] = useState({ type: 'alert', title: '', content: '' });
   const [creatingAnnouncement, setCreatingAnnouncement] = useState(false);
 
+  // Settings state
+  const [aiChatEnabled, setAiChatEnabled] = useState(false);
+  const [togglingAiChat, setTogglingAiChat] = useState(false);
+
   useEffect(() => { checkAdminStatus(); }, [user]);
 
   const checkAdminStatus = async () => {
