@@ -16,7 +16,7 @@ import { motion } from 'framer-motion';
 import { 
   Users, CreditCard, Plus, Minus, Search, Shield, Loader2,
   BarChart3, Calendar, Crown, Zap, FileText, TrendingUp,
-  DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight
+  DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight, Settings, Bot
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format, subDays, isAfter, startOfDay } from 'date-fns';
@@ -79,6 +79,10 @@ export default function Admin() {
   const [newAnnouncement, setNewAnnouncement] = useState({ type: 'alert', title: '', content: '' });
   const [creatingAnnouncement, setCreatingAnnouncement] = useState(false);
 
+  // Settings state
+  const [aiChatEnabled, setAiChatEnabled] = useState(false);
+  const [togglingAiChat, setTogglingAiChat] = useState(false);
+
   useEffect(() => { checkAdminStatus(); }, [user]);
 
   const checkAdminStatus = async () => {
@@ -94,10 +98,11 @@ export default function Admin() {
 
   const fetchData = async () => {
     try {
-      const [usersRes, subsRes, essaysRes] = await Promise.all([
+      const [usersRes, subsRes, essaysRes, settingsRes] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('subscriptions').select('*'),
         supabase.from('essays').select('user_id'),
+        supabase.from('app_settings').select('key, value').eq('key', 'ai_chat_enabled').single(),
       ]);
 
       setUsers(usersRes.data || []);
@@ -109,6 +114,10 @@ export default function Admin() {
       const counts: Record<string, number> = {};
       (essaysRes.data || []).forEach((e: any) => { counts[e.user_id] = (counts[e.user_id] || 0) + 1; });
       setEssayCounts(counts);
+
+      if (settingsRes.data) {
+        setAiChatEnabled(settingsRes.data.value === 'true');
+      }
 
       fetchAnnouncements();
     } catch (error) {
@@ -243,6 +252,20 @@ export default function Admin() {
     } finally { setUpdatingUser(null); }
   };
 
+  const toggleAiChat = async () => {
+    setTogglingAiChat(true);
+    const newValue = !aiChatEnabled;
+    try {
+      await supabase.from('app_settings').update({ value: String(newValue) }).eq('key', 'ai_chat_enabled');
+      setAiChatEnabled(newValue);
+      toast.success(`AI Chat ${newValue ? 'yoqildi' : "o'chirildi"} barcha foydalanuvchilar uchun`);
+    } catch {
+      toast.error('Failed to update setting');
+    } finally {
+      setTogglingAiChat(false);
+    }
+  };
+
   const filteredUsers = users.filter(u =>
     u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     u.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -371,6 +394,7 @@ export default function Admin() {
           <TabsList className="w-full sm:w-auto">
             <TabsTrigger value="users" className="gap-1"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
             <TabsTrigger value="announcements" className="gap-1"><Megaphone className="h-3.5 w-3.5" /> Announcements</TabsTrigger>
+            <TabsTrigger value="settings" className="gap-1"><Settings className="h-3.5 w-3.5" /> Settings</TabsTrigger>
           </TabsList>
 
           {/* Users Tab */}
@@ -567,6 +591,42 @@ export default function Admin() {
                   </div>
                 </div>
               ))}
+            </div>
+          </TabsContent>
+
+          {/* Settings Tab */}
+          <TabsContent value="settings">
+            <div className="glass-card p-6">
+              <h3 className="font-semibold mb-6 flex items-center gap-2">
+                <Settings className="h-4 w-4 text-primary" /> Global Settings
+              </h3>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
+                  <div className="flex items-center gap-3">
+                    <Bot className="h-5 w-5 text-primary" />
+                    <div>
+                      <p className="font-medium text-sm">AI Mentor Chat</p>
+                      <p className="text-xs text-muted-foreground">Barcha foydalanuvchilar uchun AI chat funksiyasini yoqish/o'chirish</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant={aiChatEnabled ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={toggleAiChat}
+                    disabled={togglingAiChat}
+                    className="gap-2"
+                  >
+                    {togglingAiChat ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : aiChatEnabled ? (
+                      <ToggleRight className="h-4 w-4" />
+                    ) : (
+                      <ToggleLeft className="h-4 w-4" />
+                    )}
+                    {aiChatEnabled ? 'Yoqilgan' : "O'chirilgan"}
+                  </Button>
+                </div>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

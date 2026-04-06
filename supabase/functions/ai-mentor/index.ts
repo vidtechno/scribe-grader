@@ -76,6 +76,18 @@ serve(async (req) => {
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
+    // Check if AI chat is globally enabled
+    const { data: settingData } = await supabase
+      .from('app_settings')
+      .select('value')
+      .eq('key', 'ai_chat_enabled')
+      .single();
+    
+    if (!settingData || settingData.value !== 'true') {
+      return new Response(JSON.stringify({ error: 'AI Mentor is currently disabled. Please check back later! 🔒' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+
     const { data: subData } = await supabase
       .from('subscriptions').select('plan_type').eq('user_id', user.id).single();
     const planType = subData?.plan_type || 'free';

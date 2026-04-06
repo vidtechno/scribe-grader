@@ -9,13 +9,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { PricingModal } from '@/components/PricingModal';
 import { getRandomTopic } from '@/lib/topics';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, FileText, Send, RefreshCw, AlertCircle,
-  Loader2, Sparkles, PenLine, PanelLeftClose, PanelLeft
+  Loader2, Sparkles, PenLine, PanelLeftClose, PanelLeft,
+  CheckCircle2, Brain, BarChart3
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
+
+const GRADING_STEPS = [
+  { label: 'Esse tahlil qilinmoqda...', icon: Brain, duration: 3000 },
+  { label: 'Grammatika tekshirilmoqda...', icon: CheckCircle2, duration: 3000 },
+  { label: 'Band ball baholanmoqda...', icon: BarChart3, duration: 4000 },
+];
 
 export default function Exam() {
   const [searchParams] = useSearchParams();
@@ -34,6 +41,7 @@ export default function Exam() {
   const [essay, setEssay] = useState('');
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [gradingStep, setGradingStep] = useState(0);
   const [showPricing, setShowPricing] = useState(false);
   const [examStarted, setExamStarted] = useState(false);
   const [showTopicPanel, setShowTopicPanel] = useState(true);
@@ -54,6 +62,22 @@ export default function Exam() {
     }, 1000);
     return () => clearInterval(timer);
   }, [examStarted, timeLeft]);
+
+  // Grading steps animation
+  useEffect(() => {
+    if (!isSubmitting) { setGradingStep(0); return; }
+    let step = 0;
+    setGradingStep(0);
+    const intervals: NodeJS.Timeout[] = [];
+    let cumulative = 0;
+    GRADING_STEPS.forEach((s, i) => {
+      if (i > 0) {
+        cumulative += GRADING_STEPS[i - 1].duration;
+        intervals.push(setTimeout(() => setGradingStep(i), cumulative));
+      }
+    });
+    return () => intervals.forEach(clearTimeout);
+  }, [isSubmitting]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -179,6 +203,51 @@ export default function Exam() {
   // CD-IELTS Style Exam Workspace
   return (
     <div className="min-h-screen bg-[#f0f0f0] flex flex-col">
+      {/* Grading overlay */}
+      <AnimatePresence>
+        {isSubmitting && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-card border border-border rounded-2xl p-8 max-w-sm w-full mx-4 text-center shadow-xl"
+            >
+              <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-6" />
+              <div className="space-y-4">
+                {GRADING_STEPS.map((step, i) => {
+                  const StepIcon = step.icon;
+                  const isActive = gradingStep === i;
+                  const isDone = gradingStep > i;
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0.4 }}
+                      animate={{ opacity: isActive || isDone ? 1 : 0.4 }}
+                      className={`flex items-center gap-3 text-sm ${isActive ? 'text-primary font-medium' : isDone ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}
+                    >
+                      {isDone ? (
+                        <CheckCircle2 className="h-5 w-5 text-primary" />
+                      ) : isActive ? (
+                        <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                      ) : (
+                        <StepIcon className="h-5 w-5" />
+                      )}
+                      {step.label}
+                    </motion.div>
+                  );
+                })}
+              </div>
+              <p className="text-xs text-muted-foreground mt-6">Iltimos, sahifani yopmang...</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* IELTS-style top bar */}
       <div className="bg-[#2c3e50] text-white px-4 py-2 flex items-center justify-between flex-wrap gap-2 z-50">
         <div className="flex items-center gap-3">
@@ -192,14 +261,6 @@ export default function Exam() {
           <span className={`text-sm font-medium ${isWordCountValid ? 'text-green-400' : 'text-gray-300'}`}>
             {wordCount} / {minWords} words
           </span>
-          <Button 
-            size="sm"
-            onClick={handleSubmit} 
-            disabled={isSubmitting || !isWordCountValid} 
-            className="gap-1.5 bg-green-600 hover:bg-green-700 text-white border-0"
-          >
-            {isSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />} Submit
-          </Button>
         </div>
       </div>
 
@@ -257,10 +318,30 @@ export default function Exam() {
               placeholder="Start writing your essay here..."
               value={essay}
               onChange={(e) => setEssay(e.target.value)}
-              className="h-full min-h-[400px] lg:min-h-0 resize-none border-none rounded-none focus-visible:ring-0 text-base leading-[1.8] text-gray-900 placeholder:text-gray-400 p-5"
+              className="h-full min-h-[300px] lg:min-h-0 resize-none border-none rounded-none focus-visible:ring-0 text-base leading-[1.8] text-gray-900 placeholder:text-gray-400 p-5"
               style={{ backgroundColor: '#FFFFFF' }}
               autoFocus 
             />
+          </div>
+
+          {/* Bottom submit bar */}
+          <div className="border-t border-gray-300 bg-[#ecf0f1] px-4 py-3 flex items-center justify-between safe-area-bottom">
+            <div className="flex items-center gap-3 text-sm text-gray-600">
+              <span className={isWordCountValid ? 'text-green-600 font-medium' : ''}>
+                {wordCount} / {minWords} words
+              </span>
+              <span className={`${getTimeColor()} font-mono font-medium`}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+            <Button 
+              onClick={handleSubmit} 
+              disabled={isSubmitting || !isWordCountValid} 
+              className="gap-2 bg-green-600 hover:bg-green-700 text-white border-0 px-6"
+            >
+              {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              Submit Essay
+            </Button>
           </div>
         </div>
       </div>
