@@ -593,6 +593,42 @@ export default function Admin() {
               ))}
             </div>
           </TabsContent>
+
+          {/* Settings Tab */}
+          <TabsContent value="settings">
+            <div className="glass-card p-6">
+              <h3 className="font-semibold mb-6 flex items-center gap-2">
+                <Settings className="h-4 w-4 text-primary" /> Global Settings
+              </h3>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
+                  <div className="flex items-center gap-3">
+                    <Bot className="h-5 w-5 text-primary" />
+                    <div>
+                      <p className="font-medium text-sm">AI Mentor Chat</p>
+                      <p className="text-xs text-muted-foreground">Barcha foydalanuvchilar uchun AI chat funksiyasini yoqish/o'chirish</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant={aiChatEnabled ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={toggleAiChat}
+                    disabled={togglingAiChat}
+                    className="gap-2"
+                  >
+                    {togglingAiChat ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : aiChatEnabled ? (
+                      <ToggleRight className="h-4 w-4" />
+                    ) : (
+                      <ToggleLeft className="h-4 w-4" />
+                    )}
+                    {aiChatEnabled ? 'Yoqilgan' : "O'chirilgan"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
         </Tabs>
       </main>
 
