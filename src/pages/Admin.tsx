@@ -394,6 +394,7 @@ export default function Admin() {
           <TabsList className="w-full sm:w-auto">
             <TabsTrigger value="users" className="gap-1"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
             <TabsTrigger value="announcements" className="gap-1"><Megaphone className="h-3.5 w-3.5" /> Announcements</TabsTrigger>
+            <TabsTrigger value="settings" className="gap-1"><Settings className="h-3.5 w-3.5" /> Settings</TabsTrigger>
           </TabsList>
 
           {/* Users Tab */}
