@@ -16,7 +16,7 @@ import { motion } from 'framer-motion';
 import { 
   Users, CreditCard, Plus, Minus, Search, Shield, Loader2,
   BarChart3, Calendar, Crown, Zap, FileText, TrendingUp,
-  DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight
+  DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight, Settings, Bot
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format, subDays, isAfter, startOfDay } from 'date-fns';
