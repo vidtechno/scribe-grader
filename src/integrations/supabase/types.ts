@@ -276,6 +276,48 @@ export type Database = {
         }
         Relationships: []
       }
+      speaking_attempts: {
+        Row: {
+          audio_url: string | null
+          created_at: string
+          duration_seconds: number | null
+          feedback: Json | null
+          id: string
+          part: string
+          score: number | null
+          topic: string
+          transcript: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          audio_url?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          feedback?: Json | null
+          id?: string
+          part?: string
+          score?: number | null
+          topic: string
+          transcript?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          audio_url?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          feedback?: Json | null
+          id?: string
+          part?: string
+          score?: number | null
+          topic?: string
+          transcript?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       subscription_plans: {
         Row: {
           created_at: string
