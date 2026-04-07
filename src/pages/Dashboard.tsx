@@ -38,9 +38,12 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
   const [mentorTip, setMentorTip] = useState<string | null>(null);
+  const [speakingAvg, setSpeakingAvg] = useState<string>('N/A');
+  const [speakingCount, setSpeakingCount] = useState(0);
 
   useEffect(() => {
     fetchEssays();
+    fetchSpeakingStats();
     refreshProfile();
   }, []);
 
