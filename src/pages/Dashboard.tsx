@@ -79,6 +79,23 @@ export default function Dashboard() {
     }
   };
 
+  const fetchSpeakingStats = async () => {
+    try {
+      const { data } = await supabase
+        .from('speaking_attempts')
+        .select('score')
+        .order('created_at', { ascending: false })
+        .limit(50);
+      if (data && data.length > 0) {
+        setSpeakingCount(data.length);
+        const scored = data.filter(d => d.score !== null);
+        if (scored.length > 0) {
+          setSpeakingAvg((scored.reduce((a, d) => a + (d.score || 0), 0) / scored.length).toFixed(1));
+        }
+      }
+    } catch {}
+  };
+
   const last10Scored = essays.filter(e => e.score !== null).slice(0, 10).reverse();
   const chartData = last10Scored.map((essay, index) => ({
     name: `#${index + 1}`,
