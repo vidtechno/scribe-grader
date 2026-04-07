@@ -46,18 +46,6 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
               );
             }
 
-            if (item.to === '#mentor') {
-              return (
-                <button
-                  key={item.label}
-                  onClick={onMentorClick}
-                  className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-[10px] font-medium">{item.label}</span>
-                </button>
-              );
-            }
 
             const isActive = location.pathname === item.to.split('?')[0];
             return (
