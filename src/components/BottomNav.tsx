@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, PenTool, Trophy, Bot, Clock, FileText, X } from 'lucide-react';
+import { LayoutDashboard, PenTool, Trophy, Bot, Mic, Clock, FileText, X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   Drawer,
@@ -13,8 +13,8 @@ import {
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
   { to: '#write', icon: PenTool, label: 'Write' },
+  { to: '/speaking', icon: Mic, label: 'Speak' },
   { to: '/leaderboard', icon: Trophy, label: 'Rank' },
-  { to: '#mentor', icon: Bot, label: 'Mentor' },
 ];
 
 export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {

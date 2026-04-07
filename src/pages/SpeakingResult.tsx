@@ -86,7 +86,7 @@ export default function SpeakingResult() {
   const score = fb.overallBand;
 
   const getScoreColor = (s: number) =>
-    s >= 7 ? 'text-emerald-500' : s >= 5.5 ? 'text-amber-500' : 'text-red-500';
+    s >= 7 ? 'text-primary' : s >= 5.5 ? 'text-amber-500' : 'text-destructive';
 
   const radarData = [
     { criterion: 'Fluency', score: fb.fluencyCoherence.score, fullMark: 9 },
@@ -101,6 +101,8 @@ export default function SpeakingResult() {
     { label: 'Grammatical Range', data: fb.grammaticalRange, icon: MessageSquare },
     { label: 'Pronunciation', data: fb.pronunciation, icon: Mic },
   ];
+
+  const onUpgrade = () => setShowPricing(true);
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
@@ -157,9 +159,7 @@ export default function SpeakingResult() {
                   </div>
                 </div>
                 {isFree ? (
-                  <BlurredContent onUpgrade={() => setShowPricing(true)}>
-                    <p className="text-sm text-muted-foreground">{c.data.feedback}</p>
-                  </BlurredContent>
+                  <BlurredContent text={c.data.feedback} onUpgrade={onUpgrade} />
                 ) : (
                   <p className="text-sm text-muted-foreground">{c.data.feedback}</p>
                 )}
@@ -172,12 +172,10 @@ export default function SpeakingResult() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div className="glass-card p-5">
             <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-emerald-500" /> Strengths
+              <CheckCircle className="h-4 w-4 text-primary" /> Strengths
             </h3>
             {isFree ? (
-              <BlurredContent onUpgrade={() => setShowPricing(true)}>
-                <ul className="space-y-2">{fb.strengths.map((s, i) => <li key={i} className="text-sm text-muted-foreground">• {s}</li>)}</ul>
-              </BlurredContent>
+              <BlurredContent text={fb.strengths.join('. ')} onUpgrade={onUpgrade} />
             ) : (
               <ul className="space-y-2">{fb.strengths.map((s, i) => <li key={i} className="text-sm text-muted-foreground">• {s}</li>)}</ul>
             )}
@@ -187,9 +185,7 @@ export default function SpeakingResult() {
               <Target className="h-4 w-4 text-amber-500" /> Suggestions
             </h3>
             {isFree ? (
-              <BlurredContent onUpgrade={() => setShowPricing(true)}>
-                <ul className="space-y-2">{fb.suggestions.map((s, i) => <li key={i} className="text-sm text-muted-foreground">• {s}</li>)}</ul>
-              </BlurredContent>
+              <BlurredContent text={fb.suggestions.join('. ')} onUpgrade={onUpgrade} />
             ) : (
               <ul className="space-y-2">{fb.suggestions.map((s, i) => <li key={i} className="text-sm text-muted-foreground">• {s}</li>)}</ul>
             )}
@@ -204,21 +200,12 @@ export default function SpeakingResult() {
               {!isPro && <span className="ml-auto text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full flex items-center gap-1"><Crown className="h-3 w-3" /> Premium</span>}
             </h3>
             {!isPro ? (
-              <BlurredContent onUpgrade={() => setShowPricing(true)}>
-                <div className="space-y-3">
-                  {fb.errorCorrections.map((e, i) => (
-                    <div key={i} className="p-3 rounded-lg bg-secondary/30">
-                      <p className="text-sm"><span className="line-through text-destructive">{e.original}</span> → <span className="text-emerald-600 font-medium">{e.corrected}</span></p>
-                      <p className="text-xs text-muted-foreground mt-1">{e.explanation}</p>
-                    </div>
-                  ))}
-                </div>
-              </BlurredContent>
+              <BlurredContent text={fb.errorCorrections.map(e => `${e.original} → ${e.corrected}: ${e.explanation}`).join('. ')} onUpgrade={onUpgrade} />
             ) : (
               <div className="space-y-3">
                 {fb.errorCorrections.map((e, i) => (
                   <div key={i} className="p-3 rounded-lg bg-secondary/30">
-                    <p className="text-sm"><span className="line-through text-destructive">{e.original}</span> → <span className="text-emerald-600 font-medium">{e.corrected}</span></p>
+                    <p className="text-sm"><span className="line-through text-destructive">{e.original}</span> → <span className="text-primary font-medium">{e.corrected}</span></p>
                     <p className="text-xs text-muted-foreground mt-1">{e.explanation}</p>
                   </div>
                 ))}
@@ -235,19 +222,7 @@ export default function SpeakingResult() {
               {!isProPlus && <span className="ml-auto text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full flex items-center gap-1"><Crown className="h-3 w-3" /> Pro Plus</span>}
             </h3>
             {!isProPlus ? (
-              <BlurredContent onUpgrade={() => setShowPricing(true)}>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-3 rounded-lg bg-secondary/30">
-                    <p className="text-xs text-muted-foreground">Filler Words</p>
-                    <p className="font-bold">{fb.fluencyNotes.fillerCount}</p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-secondary/30">
-                    <p className="text-xs text-muted-foreground">Avg Sentence Length</p>
-                    <p className="font-bold">{fb.fluencyNotes.averageSentenceLength} words</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground mt-3">{fb.fluencyNotes.topicDevelopment}</p>
-              </BlurredContent>
+              <BlurredContent text={`Filler words: ${fb.fluencyNotes.fillerCount}. Average sentence length: ${fb.fluencyNotes.averageSentenceLength} words. ${fb.fluencyNotes.topicDevelopment}`} onUpgrade={onUpgrade} />
             ) : (
               <>
                 <div className="grid grid-cols-2 gap-3">
@@ -277,9 +252,7 @@ export default function SpeakingResult() {
               {!isProPlus && <span className="ml-auto text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full flex items-center gap-1"><Crown className="h-3 w-3" /> Pro Plus</span>}
             </h3>
             {!isProPlus ? (
-              <BlurredContent onUpgrade={() => setShowPricing(true)}>
-                <p className="text-sm text-muted-foreground leading-relaxed">{fb.sampleAnswer}</p>
-              </BlurredContent>
+              <BlurredContent text={fb.sampleAnswer} onUpgrade={onUpgrade} />
             ) : (
               <p className="text-sm text-muted-foreground leading-relaxed">{fb.sampleAnswer}</p>
             )}
