@@ -44,7 +44,7 @@ export default function Speaking() {
   const [monthlyAttempts, setMonthlyAttempts] = useState(0);
   const [started, setStarted] = useState(false);
 
-  const maxAttempts = planType === 'pro_plus' ? 30 : planType === 'pro' ? 10 : 3;
+  const maxAttempts = (subscription as any)?.speaking_limit ?? (planType === 'yuksalish' ? 30 : 3);
   const canAttempt = monthlyAttempts < maxAttempts;
 
   useEffect(() => {
