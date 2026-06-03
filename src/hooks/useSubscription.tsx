@@ -8,6 +8,8 @@ export interface Subscription {
   plan_type: string;
   credits_limit: number;
   credits_used: number;
+  speaking_limit: number;
+  speaking_used: number;
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
@@ -21,6 +23,8 @@ export function useSubscription() {
   const fetchSubscription = async () => {
     if (!user) { setLoading(false); return; }
     try {
+      // Auto-expire any subscription past expires_at (server-side)
+      await supabase.rpc('check_my_subscription' as any);
       const { data, error } = await supabase
         .from('subscriptions')
         .select('*')
