@@ -68,7 +68,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [showPricing, setShowPricing] = useState(false);
-  const [dailyUsage, setDailyUsage] = useState({ used: 0, limit: planType === 'pro_plus' ? 30 : 10 });
+  const [dailyUsage, setDailyUsage] = useState({ used: 0, limit: planType === 'yuksalish' ? 30 : 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -105,7 +105,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
       .eq('user_id', user.id)
       .eq('date', today)
       .single();
-    const limit = planType === 'pro_plus' ? 30 : 10;
+    const limit = planType === 'yuksalish' ? 30 : 0;
     setDailyUsage({ used: (data as any)?.messages_used || 0, limit });
   }, [user, planType]);
 
@@ -190,7 +190,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
       setMessages(prev => prev.map(m => m.id === 'temp-user' ? (savedMsg as any as Message) : m));
     }
 
-    const essayLimit = planType === 'pro_plus' ? 5 : 3;
+    const essayLimit = planType === 'yuksalish' ? 5 : 3;
     const { data: essays } = await supabase
       .from('essays')
       .select('task_type, topic, score, feedback')

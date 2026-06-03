@@ -56,8 +56,7 @@ interface Announcement {
 
 const PLAN_CONFIGS: Record<string, { credits: number; label: string }> = {
   free: { credits: 3, label: 'Free' },
-  pro: { credits: 30, label: 'Pro' },
-  pro_plus: { credits: 60, label: 'Pro Plus' },
+  yuksalish: { credits: 90, label: 'Yuksalish' },
 };
 
 export default function Admin() {
@@ -229,13 +228,14 @@ export default function Admin() {
 
     try {
       const sub = subscriptions[userId];
+      const speakingLimit = newPlan === 'yuksalish' ? 30 : 3;
       if (sub) {
         await supabase.from('subscriptions')
-          .update({ plan_type: newPlan, credits_limit: config.credits, credits_used: 0, expires_at: expiresAt, is_active: true, started_at: new Date().toISOString() })
+          .update({ plan_type: newPlan, credits_limit: config.credits, credits_used: 0, speaking_limit: speakingLimit, speaking_used: 0, expires_at: expiresAt, is_active: true, started_at: new Date().toISOString() })
           .eq('user_id', userId);
       } else {
         await supabase.from('subscriptions')
-          .insert({ user_id: userId, plan_type: newPlan, credits_limit: config.credits, credits_used: 0, expires_at: expiresAt, is_active: true });
+          .insert({ user_id: userId, plan_type: newPlan, credits_limit: config.credits, credits_used: 0, speaking_limit: speakingLimit, speaking_used: 0, expires_at: expiresAt, is_active: true });
       }
 
       await supabase.from('profiles').update({ credits: config.credits }).eq('user_id', userId);
@@ -286,8 +286,7 @@ export default function Admin() {
   const newUsersMonth = users.filter(u => isAfter(new Date(u.created_at), monthAgo)).length;
 
   const revenueEstimate = Object.values(subscriptions).reduce((acc, s) => {
-    if (s.plan_type === 'pro') return acc + 7;
-    if (s.plan_type === 'pro_plus') return acc + 13;
+    if (s.plan_type === 'yuksalish') return acc + 9;
     return acc;
   }, 0);
 
@@ -456,8 +455,7 @@ export default function Admin() {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="free">Free</SelectItem>
-                                <SelectItem value="pro">Pro</SelectItem>
-                                <SelectItem value="pro_plus">Pro Plus</SelectItem>
+                                <SelectItem value="yuksalish">Yuksalish</SelectItem>
                               </SelectContent>
                             </Select>
                           </td>

@@ -1,4 +1,4 @@
-import { Crown, Zap, Star } from 'lucide-react';
+import { Crown, Star } from 'lucide-react';
 
 interface SubscriptionBadgeProps {
   planType: string;
@@ -7,8 +7,7 @@ interface SubscriptionBadgeProps {
 
 const planConfig = {
   free: { label: 'Free', icon: Star, className: 'bg-secondary text-secondary-foreground' },
-  pro: { label: 'Pro', icon: Zap, className: 'bg-primary/20 text-primary border border-primary/30' },
-  pro_plus: { label: 'Pro+', icon: Crown, className: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' },
+  yuksalish: { label: 'Yuksalish', icon: Crown, className: 'bg-primary/20 text-primary border border-primary/30' },
 };
 
 export function SubscriptionBadge({ planType, size = 'sm' }: SubscriptionBadgeProps) {

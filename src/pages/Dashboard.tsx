@@ -185,11 +185,11 @@ export default function Dashboard() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  {planType === 'pro_plus' ? <Crown className="h-5 w-5 text-primary" /> : <CreditCard className="h-5 w-5 text-primary" />}
+                  {planType === 'yuksalish' ? <Crown className="h-5 w-5 text-primary" /> : <CreditCard className="h-5 w-5 text-primary" />}
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Your Plan</p>
-                  <p className="font-bold">{planType === 'free' ? 'Free' : planType === 'pro' ? 'Pro' : 'Pro Plus'}</p>
+                  <p className="font-bold">{planType === 'free' ? 'Free' : 'Yuksalish'}</p>
                 </div>
               </div>
               {daysRemaining !== null && (
@@ -209,6 +209,15 @@ export default function Dashboard() {
               <Progress value={100 - creditsPercentage} className="h-2" />
               <p className="text-xs text-muted-foreground mt-1">{creditsRemaining} credits remaining</p>
             </div>
+            {(subscription as any).speaking_limit > 0 && (
+              <div className="mt-4">
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-muted-foreground flex items-center gap-1"><Mic className="h-3 w-3" /> Speaking urinishlari</span>
+                  <span className="font-medium">{(subscription as any).speaking_used} / {(subscription as any).speaking_limit}</span>
+                </div>
+                <Progress value={Math.max(0, 100 - ((subscription as any).speaking_used / (subscription as any).speaking_limit) * 100)} className="h-2" />
+              </div>
+            )}
           </motion.div>
         )}
 

@@ -54,8 +54,8 @@ export default function SpeakingResult() {
 
   const planType = subscription?.plan_type || 'free';
   const isFree = planType === 'free';
-  const isPro = planType === 'pro' || planType === 'pro_plus';
-  const isProPlus = planType === 'pro_plus';
+  const isPro = planType === 'yuksalish';
+  const isProPlus = planType === 'yuksalish';
 
   useEffect(() => {
     fetchAttempt();
