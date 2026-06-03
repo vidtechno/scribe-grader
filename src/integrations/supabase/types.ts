@@ -323,6 +323,7 @@ export type Database = {
           created_at: string
           credits_limit: number
           description: string | null
+          details: string | null
           features: Json
           id: string
           is_active: boolean
@@ -331,13 +332,16 @@ export type Database = {
           period: string | null
           price: number
           price_uzs: string | null
+          slug: string | null
           sort_order: number
+          speaking_limit: number
           updated_at: string
         }
         Insert: {
           created_at?: string
           credits_limit?: number
           description?: string | null
+          details?: string | null
           features?: Json
           id?: string
           is_active?: boolean
@@ -346,13 +350,16 @@ export type Database = {
           period?: string | null
           price?: number
           price_uzs?: string | null
+          slug?: string | null
           sort_order?: number
+          speaking_limit?: number
           updated_at?: string
         }
         Update: {
           created_at?: string
           credits_limit?: number
           description?: string | null
+          details?: string | null
           features?: Json
           id?: string
           is_active?: boolean
@@ -361,7 +368,9 @@ export type Database = {
           period?: string | null
           price?: number
           price_uzs?: string | null
+          slug?: string | null
           sort_order?: number
+          speaking_limit?: number
           updated_at?: string
         }
         Relationships: []
@@ -375,6 +384,8 @@ export type Database = {
           id: string
           is_active: boolean
           plan_type: string
+          speaking_limit: number
+          speaking_used: number
           started_at: string
           updated_at: string
           user_id: string
@@ -387,6 +398,8 @@ export type Database = {
           id?: string
           is_active?: boolean
           plan_type?: string
+          speaking_limit?: number
+          speaking_used?: number
           started_at?: string
           updated_at?: string
           user_id: string
@@ -399,6 +412,8 @@ export type Database = {
           id?: string
           is_active?: boolean
           plan_type?: string
+          speaking_limit?: number
+          speaking_used?: number
           started_at?: string
           updated_at?: string
           user_id?: string
@@ -428,6 +443,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_my_subscription: { Args: never; Returns: undefined }
+      expire_subscriptions: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
