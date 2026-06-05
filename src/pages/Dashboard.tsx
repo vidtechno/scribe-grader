@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
-  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic
+  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -33,13 +33,14 @@ const fadeUp = {
 
 export default function Dashboard() {
   const { profile, refreshProfile } = useAuth();
-  const { subscription, creditsRemaining, creditsPercentage, daysRemaining, isExpired } = useSubscription();
+  const { subscription, creditsRemaining } = useSubscription();
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
   const [mentorTip, setMentorTip] = useState<string | null>(null);
   const [speakingAvg, setSpeakingAvg] = useState<string>('N/A');
   const [speakingCount, setSpeakingCount] = useState(0);
+  const [recentSpeaking, setRecentSpeaking] = useState<any[]>([]);
 
   useEffect(() => {
     fetchEssays();
@@ -83,11 +84,12 @@ export default function Dashboard() {
     try {
       const { data } = await supabase
         .from('speaking_attempts')
-        .select('score')
+        .select('id, topic, part, score, created_at')
         .order('created_at', { ascending: false })
         .limit(50);
       if (data && data.length > 0) {
         setSpeakingCount(data.length);
+        setRecentSpeaking(data.slice(0, 5));
         const scored = data.filter(d => d.score !== null);
         if (scored.length > 0) {
           setSpeakingAvg((scored.reduce((a, d) => a + (d.score || 0), 0) / scored.length).toFixed(1));
@@ -178,48 +180,38 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* Subscription Info Card */}
-        {subscription && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="glass-card p-6 mb-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  {planType === 'yuksalish' ? <Crown className="h-5 w-5 text-primary" /> : <CreditCard className="h-5 w-5 text-primary" />}
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Your Plan</p>
-                  <p className="font-bold">{planType === 'free' ? 'Free' : 'Yuksalish'}</p>
-                </div>
+        {/* Credits Wallet */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="glass-card p-6 mb-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Coins className="h-6 w-6 text-primary" />
               </div>
-              {daysRemaining !== null && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <span className={isExpired ? 'text-destructive' : 'text-muted-foreground'}>
-                    {isExpired ? 'Expired' : `${daysRemaining} days remaining`}
-                  </span>
-                </div>
-              )}
+              <div>
+                <p className="text-sm text-muted-foreground">Your credit balance</p>
+                <p className="text-2xl font-bold">{creditsRemaining} <span className="text-sm font-normal text-muted-foreground">credits</span></p>
+              </div>
             </div>
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Credits Used</span>
-                <span className="font-medium">{subscription.credits_used} / {subscription.credits_limit}</span>
-              </div>
-              <Progress value={100 - creditsPercentage} className="h-2" />
-              <p className="text-xs text-muted-foreground mt-1">{creditsRemaining} credits remaining</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
+                <PenTool className="h-3.5 w-3.5" /> Writing = 1 credit
+              </span>
+              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30 flex items-center gap-1">
+                <Mic className="h-3.5 w-3.5" /> Speaking = 2 credits
+              </span>
+              <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
+                <Coins className="h-4 w-4" /> Buy Credits
+              </Button>
             </div>
-            {(subscription as any).speaking_limit > 0 && (
-              <div className="mt-4">
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-muted-foreground flex items-center gap-1"><Mic className="h-3 w-3" /> Speaking urinishlari</span>
-                  <span className="font-medium">{(subscription as any).speaking_used} / {(subscription as any).speaking_limit}</span>
-                </div>
-                <Progress value={Math.max(0, 100 - ((subscription as any).speaking_used / (subscription as any).speaking_limit) * 100)} className="h-2" />
-              </div>
-            )}
-          </motion.div>
-        )}
+          </div>
+          {creditsRemaining < 2 && (
+            <div className="mt-4 flex items-center gap-2 text-xs text-amber-600 bg-amber-500/10 border border-amber-500/30 rounded-lg p-3">
+              <AlertCircle className="h-4 w-4" />
+              <span>You're low on credits. Top up to keep practicing without interruption.</span>
+            </div>
+          )}
+        </motion.div>
 
         {/* Start Exam CTA */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
@@ -237,16 +229,24 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex gap-3 w-full sm:w-auto">
-              <Link to="/exam?task=1" className="flex-1 sm:flex-none">
-                <Button variant="outline" size="lg" className="gap-2 w-full">
-                  <Clock className="h-4 w-4" /> Task 1
+              {creditsRemaining < 1 ? (
+                <Button variant="glow" size="lg" className="gap-2 w-full" onClick={() => setShowPricing(true)}>
+                  <Coins className="h-4 w-4" /> Out of credits — Buy Credits
                 </Button>
-              </Link>
-              <Link to="/exam?task=2" className="flex-1 sm:flex-none">
-                <Button variant="glow" size="lg" className="gap-2 w-full">
-                  <Sparkles className="h-4 w-4" /> Task 2
-                </Button>
-              </Link>
+              ) : (
+                <>
+                  <Link to="/exam?task=1" className="flex-1 sm:flex-none">
+                    <Button variant="outline" size="lg" className="gap-2 w-full">
+                      <Clock className="h-4 w-4" /> Task 1 <span className="text-xs opacity-70">−1</span>
+                    </Button>
+                  </Link>
+                  <Link to="/exam?task=2" className="flex-1 sm:flex-none">
+                    <Button variant="glow" size="lg" className="gap-2 w-full">
+                      <Sparkles className="h-4 w-4" /> Task 2 <span className="text-xs opacity-70">−1</span>
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </motion.div>
@@ -266,17 +266,23 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground">Practice speaking with AI evaluation • {speakingCount} attempts</p>
               </div>
             </div>
-            <Link to="/speaking">
-              <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">
-                <Mic className="h-4 w-4" /> Start Speaking
+            {creditsRemaining < 2 ? (
+              <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto" onClick={() => setShowPricing(true)}>
+                <Coins className="h-4 w-4" /> Out of credits — Buy Credits
               </Button>
-            </Link>
+            ) : (
+              <Link to="/speaking">
+                <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">
+                  <Mic className="h-4 w-4" /> Start Speaking <span className="text-xs opacity-70">−2</span>
+                </Button>
+              </Link>
+            )}
           </div>
         </motion.div>
 
         <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8">
           {[
-            { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
+            { icon: Coins, value: creditsRemaining, label: 'Credits Left', delay: 1 },
             { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
             { icon: Award, value: averageScore, label: 'Avg W. Score', delay: 3 },
             { icon: Target, value: bestScore, label: 'Best Score', delay: 4 },
