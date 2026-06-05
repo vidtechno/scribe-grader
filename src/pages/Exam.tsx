@@ -19,10 +19,12 @@ import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const GRADING_STEPS = [
-  { label: 'Esse tahlil qilinmoqda...', icon: Brain, duration: 3000 },
-  { label: 'Grammatika tekshirilmoqda...', icon: CheckCircle2, duration: 3000 },
-  { label: 'Band ball baholanmoqda...', icon: BarChart3, duration: 4000 },
+  { label: 'Analyzing your essay...', icon: Brain, duration: 3000 },
+  { label: 'Checking grammar & vocabulary...', icon: CheckCircle2, duration: 3000 },
+  { label: 'Evaluating band score...', icon: BarChart3, duration: 4000 },
 ];
+
+const WRITING_COST = 1;
 
 export default function Exam() {
   const [searchParams] = useSearchParams();
@@ -190,8 +192,11 @@ export default function Exam() {
                 <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> {minWords}+ words</span>
               </div>
               <Button variant="glow" size="xl" onClick={startExam} className="gap-2">
-                <Sparkles className="h-5 w-5" /> Start Exam
+                <Sparkles className="h-5 w-5" /> Start Exam (−{WRITING_COST} credit)
               </Button>
+              <p className="text-xs text-muted-foreground mt-3">
+                You have <span className="font-semibold text-primary">{profile?.credits ?? 0}</span> credits • Writing essay = {WRITING_COST} credit
+              </p>
             </div>
           </motion.div>
         </main>
@@ -242,7 +247,7 @@ export default function Exam() {
                   );
                 })}
               </div>
-              <p className="text-xs text-muted-foreground mt-6">Iltimos, sahifani yopmang...</p>
+              <p className="text-xs text-muted-foreground mt-6">Please don't close this page...</p>
             </motion.div>
           </motion.div>
         )}
