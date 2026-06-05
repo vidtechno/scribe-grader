@@ -453,84 +453,49 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        {/* Pricing Plans */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          className="mb-8">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Crown className="h-5 w-5 text-primary" /> Upgrade Your Plan
-          </h3>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              {
-                name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-                features: ['3 essay evaluations', 'Band scores + top 3 errors', 'Partial feedback (blurred)', "Extra: $0.2 / 2,000 so'm each"],
-                key: 'free',
-              },
-              {
-                name: 'Pro', price: '$7', priceUzs: "69,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
-                highlight: 'AI Mentor + Full Analysis',
-                features: ['30 evaluations/month', 'Full AI feedback + AI Mentor', 'Score analytics', "Extra: $0.15 / 1,500 so'm each"],
-                key: 'pro', popular: true,
-              },
-              {
-                name: 'Pro Plus', price: '$13', priceUzs: "129,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
-                highlight: '⚡ Elite AI Mentor',
-                features: ['60 evaluations/month', 'Elite Mentor + all features', "Extra: $0.4 / 4,000 so'm each"],
-                key: 'pro_plus',
-              },
-            ].map((plan) => {
-              const isCurrent = planType === plan.key;
-              const Icon = plan.icon;
-              return (
-                <motion.div key={plan.key} whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                  className={`relative rounded-xl border p-5 flex flex-col ${
-                    plan.popular ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10' : 'border-border glass-card'
-                  } ${isCurrent ? 'ring-2 ring-primary' : ''}`}>
-                  {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
-                      Popular
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <h4 className="font-bold">{plan.name}</h4>
-                  </div>
-                  <div className="mb-1">
-                    <span className="text-2xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground text-sm">{plan.period}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground mb-1">{plan.priceUzs}{plan.period}</p>
-                  {(plan as any).highlight && (
-                    <p className="text-xs font-semibold text-primary mb-1">{(plan as any).highlight}</p>
-                  )}
-                  <p className="text-sm font-medium text-primary mb-3">{plan.credits}</p>
-                  <ul className="space-y-1.5 mb-4 flex-1">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-xs">
-                        <Check className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-muted-foreground">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {isCurrent ? (
-                    <Button variant="outline" size="sm" disabled className="w-full">Current Plan</Button>
-                  ) : plan.key === 'free' ? (
-                    <Button variant="outline" size="sm" disabled className="w-full">Default</Button>
-                  ) : (
-                    <Button variant={plan.popular ? 'glow' : 'outline'} size="sm" className="w-full gap-1"
-                      onClick={() => window.open('https://t.me/writingexambase', '_blank')}>
-                      <ExternalLink className="h-3.5 w-3.5" /> Upgrade
-                    </Button>
-                  )}
-                </motion.div>
-              );
-            })}
+        {/* Recent Speaking */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }}
+          className="glass-card p-4 sm:p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Mic className="h-5 w-5 text-primary" />
+              <h3 className="text-base sm:text-lg font-semibold">Recent Speaking Attempts</h3>
+            </div>
+            {recentSpeaking.length > 0 && (
+              <Link to="/speaking-history">
+                <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                  View All <ChevronRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            )}
           </div>
-          <p className="text-xs text-muted-foreground text-center mt-3">
-            To upgrade or buy extra credits, contact admin via Telegram
-          </p>
+          {recentSpeaking.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <Mic className="h-12 w-12 mx-auto mb-3 opacity-50" />
+              <p className="text-sm">No speaking attempts yet</p>
+            </div>
+          ) : (
+            <div className="space-y-2 sm:space-y-3">
+              {recentSpeaking.map((a) => (
+                <Link key={a.id} to={`/speaking-result/${a.id}`}
+                  className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                  <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
+                    (a.score ?? 0) >= 7 ? 'bg-primary/15 text-primary' : (a.score ?? 0) >= 5 ? 'bg-yellow-500/15 text-yellow-600' : 'bg-destructive/15 text-destructive'
+                  }`}>
+                    {a.score ?? '—'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary uppercase">{a.part}</span>
+                      <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(a.created_at), 'MMM d')}</span>
+                    </div>
+                    <p className="text-xs sm:text-sm truncate text-muted-foreground">{(a.topic || '').substring(0, 60)}...</p>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </Link>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Writing Tips */}
