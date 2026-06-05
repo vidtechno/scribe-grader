@@ -5,6 +5,7 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { SpeechRecorder } from '@/components/SpeechRecorder';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
@@ -12,14 +13,17 @@ import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic, RefreshCw, Clock, Brain, CheckCircle2, BarChart3,
-  Loader2, AlertCircle, Sparkles
+  Loader2, AlertCircle, Sparkles, PenLine, Coins, History
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
+
+const SPEAKING_COST = 2;
 
 const GRADING_STEPS = [
-  { label: 'Ovoz transkripsiya qilinmoqda...', icon: Mic, duration: 4000 },
-  { label: "Nutq tahlil qilinmoqda...", icon: Brain, duration: 3000 },
-  { label: 'Band ball baholanmoqda...', icon: BarChart3, duration: 3000 },
+  { label: 'Transcribing your audio...', icon: Mic, duration: 4000 },
+  { label: 'Analyzing your speech...', icon: Brain, duration: 3000 },
+  { label: 'Evaluating band score...', icon: BarChart3, duration: 3000 },
 ];
 
 type PartType = 'part1' | 'part2' | 'part3';
@@ -32,42 +36,38 @@ const PART_INFO: Record<PartType, { label: string; time: number; desc: string }>
 
 export default function Speaking() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const { subscription } = useSubscription();
   const planType = subscription?.plan_type || 'free';
 
+  const credits = profile?.credits ?? 0;
+  const canAttempt = credits >= SPEAKING_COST;
+
   const [selectedPart, setSelectedPart] = useState<PartType>('part2');
   const [topic, setTopic] = useState(() => getRandomSpeakingTopic('part2'));
+  const [useCustomTopic, setUseCustomTopic] = useState(false);
+  const [customTopic, setCustomTopic] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [gradingStep, setGradingStep] = useState(0);
   const [showPricing, setShowPricing] = useState(false);
-  const [monthlyAttempts, setMonthlyAttempts] = useState(0);
+  const [totalAttempts, setTotalAttempts] = useState(0);
   const [started, setStarted] = useState(false);
 
-  const maxAttempts = (subscription as any)?.speaking_limit ?? (planType === 'yuksalish' ? 30 : 3);
-  const canAttempt = monthlyAttempts < maxAttempts;
+  const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic;
 
   useEffect(() => {
-    if (user) fetchMonthlyAttempts();
+    if (user) fetchTotalAttempts();
   }, [user]);
 
-  const fetchMonthlyAttempts = async () => {
-    const startOfMonth = new Date();
-    startOfMonth.setDate(1);
-    startOfMonth.setHours(0, 0, 0, 0);
-
+  const fetchTotalAttempts = async () => {
     const { count } = await supabase
       .from('speaking_attempts')
       .select('*', { count: 'exact', head: true })
-      .eq('user_id', user!.id)
-      .gte('created_at', startOfMonth.toISOString());
-
-    setMonthlyAttempts(count || 0);
+      .eq('user_id', user!.id);
+    setTotalAttempts(count || 0);
   };
 
-  const changeTopic = () => {
-    setTopic(getRandomSpeakingTopic(selectedPart));
-  };
+  const changeTopic = () => setTopic(getRandomSpeakingTopic(selectedPart));
 
   const changePart = (part: PartType) => {
     setSelectedPart(part);
@@ -78,6 +78,7 @@ export default function Speaking() {
   const handleRecordingComplete = async (blob: Blob, duration: number) => {
     if (!user) return;
     if (!canAttempt) {
+      toast.error("You don't have enough credits");
       setShowPricing(true);
       return;
     }
@@ -118,7 +119,7 @@ export default function Speaking() {
       // 3. Grade
       const { data: gradeData, error: gradeError } = await supabase.functions
         .invoke('grade-speaking', {
-          body: { transcript, topic, part: PART_INFO[selectedPart].label, userId: user.id },
+          body: { transcript, topic: activeTopic, part: PART_INFO[selectedPart].label, userId: user.id },
         });
 
       if (gradeError || !gradeData) {
@@ -130,7 +131,7 @@ export default function Speaking() {
         .from('speaking_attempts')
         .insert({
           user_id: user.id,
-          topic,
+          topic: activeTopic,
           part: selectedPart,
           transcript,
           audio_url: fileName,
@@ -143,8 +144,12 @@ export default function Speaking() {
 
       if (saveError) throw saveError;
 
+      // 5. Deduct credits
+      await supabase.from('profiles').update({ credits: Math.max(0, credits - SPEAKING_COST) }).eq('user_id', user.id);
+      await refreshProfile();
+
       stepTimers.forEach(clearTimeout);
-      toast.success('Speaking response graded!');
+      toast.success(`Speaking graded! −${SPEAKING_COST} credits`);
       navigate(`/speaking-result/${attempt.id}`);
     } catch (err: any) {
       console.error('Speaking processing error:', err);
@@ -198,11 +203,17 @@ export default function Speaking() {
 
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold mb-2">IELTS Speaking Practice</h1>
-            <p className="text-muted-foreground text-sm">
-              {monthlyAttempts}/{maxAttempts} attempts used this month
-            </p>
+            <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground flex-wrap">
+              <span className="flex items-center gap-1"><Coins className="h-3.5 w-3.5 text-primary" /> {credits} credits available</span>
+              <span>•</span>
+              <span className="flex items-center gap-1 text-amber-600 font-medium">Cost per attempt: {SPEAKING_COST} credits</span>
+              <span>•</span>
+              <Link to="/speaking-history" className="inline-flex items-center gap-1 text-primary hover:underline">
+                <History className="h-3.5 w-3.5" /> History ({totalAttempts})
+              </Link>
+            </div>
           </div>
 
           {/* Part Selector */}
@@ -235,12 +246,28 @@ export default function Speaking() {
                 <span className="font-semibold text-sm">{PART_INFO[selectedPart].label}</span>
               </div>
               {!started && (
-                <Button variant="ghost" size="sm" onClick={changeTopic} className="gap-1">
-                  <RefreshCw className="h-3 w-3" /> New Topic
+                <Button variant="ghost" size="sm" onClick={() => setUseCustomTopic(!useCustomTopic)} className="gap-1 text-xs">
+                  <PenLine className="h-3 w-3" />
+                  {useCustomTopic ? 'Use random topic' : 'Use my own topic'}
                 </Button>
               )}
             </div>
-            <p className="text-sm leading-relaxed">{topic}</p>
+            {useCustomTopic && !started ? (
+              <Input
+                placeholder={`Type your own ${PART_INFO[selectedPart].label} topic...`}
+                value={customTopic}
+                onChange={(e) => setCustomTopic(e.target.value)}
+              />
+            ) : (
+              <>
+                <p className="text-sm leading-relaxed">{activeTopic}</p>
+                {!started && !useCustomTopic && (
+                  <Button variant="ghost" size="sm" onClick={changeTopic} className="gap-1 mt-3">
+                    <RefreshCw className="h-3 w-3" /> New random topic
+                  </Button>
+                )}
+              </>
+            )}
             <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
               <Clock className="h-3 w-3" />
               <span>Max {PART_INFO[selectedPart].time} seconds</span>
@@ -250,16 +277,26 @@ export default function Speaking() {
           {!canAttempt ? (
             <div className="glass-card p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
-              <p className="font-semibold mb-1">Monthly Limit Reached</p>
+              <p className="font-semibold mb-1">Out of credits</p>
               <p className="text-sm text-muted-foreground mb-4">
-                You've used all {maxAttempts} speaking attempts this month.
+                You need at least {SPEAKING_COST} credits to take a speaking attempt. You have {credits}.
               </p>
-              <Button variant="glow" onClick={() => setShowPricing(true)}>Upgrade Plan</Button>
+              <Button variant="glow" onClick={() => setShowPricing(true)} className="gap-2">
+                <Coins className="h-4 w-4" /> Buy Credits
+              </Button>
             </div>
           ) : !started ? (
             <div className="text-center">
-              <Button variant="glow" size="lg" onClick={() => setStarted(true)} className="gap-2">
-                <Mic className="h-5 w-5" /> Start Speaking
+              <Button
+                variant="glow"
+                size="lg"
+                onClick={() => {
+                  if (useCustomTopic && !customTopic.trim()) { toast.error('Please enter your topic'); return; }
+                  setStarted(true);
+                }}
+                className="gap-2"
+              >
+                <Mic className="h-5 w-5" /> Start Speaking (−{SPEAKING_COST} credits)
               </Button>
               <p className="text-xs text-muted-foreground mt-3">{PART_INFO[selectedPart].desc}</p>
             </div>
