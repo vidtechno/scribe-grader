@@ -6,13 +6,15 @@ import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { useSubscription } from '@/hooks/useSubscription';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
-import { LogOut, User, CreditCard, BookOpen, LayoutDashboard, Shield, Trophy } from 'lucide-react';
+import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Coins } from 'lucide-react';
+import { PricingModal } from '@/components/PricingModal';
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
   const { subscription } = useSubscription();
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -57,10 +59,15 @@ export function Navbar() {
                   <span className="hidden sm:inline">Ranking</span>
                 </Button>
               </Link>
-              <div className="glass-card px-3 py-1.5 flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-primary" />
+              <button
+                onClick={() => setShowPricing(true)}
+                className="glass-card px-3 py-1.5 flex items-center gap-2 hover:bg-primary/10 transition-colors"
+                title="Buy credits"
+              >
+                <Coins className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium">{profile?.credits ?? 0}</span>
-              </div>
+                <span className="hidden sm:inline text-xs text-muted-foreground">credits</span>
+              </button>
               <span className="hidden sm:inline-flex">{subscription && <SubscriptionBadge planType={subscription.plan_type} />}</span>
               <ThemeToggle />
               <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
@@ -81,6 +88,7 @@ export function Navbar() {
           )}
         </div>
       </div>
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </nav>
   );
 }

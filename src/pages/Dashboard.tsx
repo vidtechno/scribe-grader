@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
-  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic
+  Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -33,13 +33,14 @@ const fadeUp = {
 
 export default function Dashboard() {
   const { profile, refreshProfile } = useAuth();
-  const { subscription, creditsRemaining, creditsPercentage, daysRemaining, isExpired } = useSubscription();
+  const { subscription, creditsRemaining } = useSubscription();
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
   const [mentorTip, setMentorTip] = useState<string | null>(null);
   const [speakingAvg, setSpeakingAvg] = useState<string>('N/A');
   const [speakingCount, setSpeakingCount] = useState(0);
+  const [recentSpeaking, setRecentSpeaking] = useState<any[]>([]);
 
   useEffect(() => {
     fetchEssays();
@@ -83,11 +84,12 @@ export default function Dashboard() {
     try {
       const { data } = await supabase
         .from('speaking_attempts')
-        .select('score')
+        .select('id, topic, part, score, created_at')
         .order('created_at', { ascending: false })
         .limit(50);
       if (data && data.length > 0) {
         setSpeakingCount(data.length);
+        setRecentSpeaking(data.slice(0, 5));
         const scored = data.filter(d => d.score !== null);
         if (scored.length > 0) {
           setSpeakingAvg((scored.reduce((a, d) => a + (d.score || 0), 0) / scored.length).toFixed(1));
@@ -178,48 +180,38 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* Subscription Info Card */}
-        {subscription && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="glass-card p-6 mb-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  {planType === 'yuksalish' ? <Crown className="h-5 w-5 text-primary" /> : <CreditCard className="h-5 w-5 text-primary" />}
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Your Plan</p>
-                  <p className="font-bold">{planType === 'free' ? 'Free' : 'Yuksalish'}</p>
-                </div>
+        {/* Credits Wallet */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="glass-card p-6 mb-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Coins className="h-6 w-6 text-primary" />
               </div>
-              {daysRemaining !== null && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <span className={isExpired ? 'text-destructive' : 'text-muted-foreground'}>
-                    {isExpired ? 'Expired' : `${daysRemaining} days remaining`}
-                  </span>
-                </div>
-              )}
+              <div>
+                <p className="text-sm text-muted-foreground">Your credit balance</p>
+                <p className="text-2xl font-bold">{creditsRemaining} <span className="text-sm font-normal text-muted-foreground">credits</span></p>
+              </div>
             </div>
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Credits Used</span>
-                <span className="font-medium">{subscription.credits_used} / {subscription.credits_limit}</span>
-              </div>
-              <Progress value={100 - creditsPercentage} className="h-2" />
-              <p className="text-xs text-muted-foreground mt-1">{creditsRemaining} credits remaining</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
+                <PenTool className="h-3.5 w-3.5" /> Writing = 1 credit
+              </span>
+              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30 flex items-center gap-1">
+                <Mic className="h-3.5 w-3.5" /> Speaking = 2 credits
+              </span>
+              <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
+                <Coins className="h-4 w-4" /> Buy Credits
+              </Button>
             </div>
-            {(subscription as any).speaking_limit > 0 && (
-              <div className="mt-4">
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-muted-foreground flex items-center gap-1"><Mic className="h-3 w-3" /> Speaking urinishlari</span>
-                  <span className="font-medium">{(subscription as any).speaking_used} / {(subscription as any).speaking_limit}</span>
-                </div>
-                <Progress value={Math.max(0, 100 - ((subscription as any).speaking_used / (subscription as any).speaking_limit) * 100)} className="h-2" />
-              </div>
-            )}
-          </motion.div>
-        )}
+          </div>
+          {creditsRemaining < 2 && (
+            <div className="mt-4 flex items-center gap-2 text-xs text-amber-600 bg-amber-500/10 border border-amber-500/30 rounded-lg p-3">
+              <AlertCircle className="h-4 w-4" />
+              <span>You're low on credits. Top up to keep practicing without interruption.</span>
+            </div>
+          )}
+        </motion.div>
 
         {/* Start Exam CTA */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
@@ -237,16 +229,24 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex gap-3 w-full sm:w-auto">
-              <Link to="/exam?task=1" className="flex-1 sm:flex-none">
-                <Button variant="outline" size="lg" className="gap-2 w-full">
-                  <Clock className="h-4 w-4" /> Task 1
+              {creditsRemaining < 1 ? (
+                <Button variant="glow" size="lg" className="gap-2 w-full" onClick={() => setShowPricing(true)}>
+                  <Coins className="h-4 w-4" /> Out of credits — Buy Credits
                 </Button>
-              </Link>
-              <Link to="/exam?task=2" className="flex-1 sm:flex-none">
-                <Button variant="glow" size="lg" className="gap-2 w-full">
-                  <Sparkles className="h-4 w-4" /> Task 2
-                </Button>
-              </Link>
+              ) : (
+                <>
+                  <Link to="/exam?task=1" className="flex-1 sm:flex-none">
+                    <Button variant="outline" size="lg" className="gap-2 w-full">
+                      <Clock className="h-4 w-4" /> Task 1 <span className="text-xs opacity-70">−1</span>
+                    </Button>
+                  </Link>
+                  <Link to="/exam?task=2" className="flex-1 sm:flex-none">
+                    <Button variant="glow" size="lg" className="gap-2 w-full">
+                      <Sparkles className="h-4 w-4" /> Task 2 <span className="text-xs opacity-70">−1</span>
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </motion.div>
@@ -266,17 +266,23 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground">Practice speaking with AI evaluation • {speakingCount} attempts</p>
               </div>
             </div>
-            <Link to="/speaking">
-              <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">
-                <Mic className="h-4 w-4" /> Start Speaking
+            {creditsRemaining < 2 ? (
+              <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto" onClick={() => setShowPricing(true)}>
+                <Coins className="h-4 w-4" /> Out of credits — Buy Credits
               </Button>
-            </Link>
+            ) : (
+              <Link to="/speaking">
+                <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">
+                  <Mic className="h-4 w-4" /> Start Speaking <span className="text-xs opacity-70">−2</span>
+                </Button>
+              </Link>
+            )}
           </div>
         </motion.div>
 
         <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8">
           {[
-            { icon: CreditCard, value: creditsRemaining, label: 'Credits Left', delay: 1 },
+            { icon: Coins, value: creditsRemaining, label: 'Credits Left', delay: 1 },
             { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
             { icon: Award, value: averageScore, label: 'Avg W. Score', delay: 3 },
             { icon: Target, value: bestScore, label: 'Best Score', delay: 4 },
@@ -447,84 +453,49 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        {/* Pricing Plans */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          className="mb-8">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Crown className="h-5 w-5 text-primary" /> Upgrade Your Plan
-          </h3>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              {
-                name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-                features: ['3 essay evaluations', 'Band scores + top 3 errors', 'Partial feedback (blurred)', "Extra: $0.2 / 2,000 so'm each"],
-                key: 'free',
-              },
-              {
-                name: 'Pro', price: '$7', priceUzs: "69,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month',
-                highlight: 'AI Mentor + Full Analysis',
-                features: ['30 evaluations/month', 'Full AI feedback + AI Mentor', 'Score analytics', "Extra: $0.15 / 1,500 so'm each"],
-                key: 'pro', popular: true,
-              },
-              {
-                name: 'Pro Plus', price: '$13', priceUzs: "129,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
-                highlight: '⚡ Elite AI Mentor',
-                features: ['60 evaluations/month', 'Elite Mentor + all features', "Extra: $0.4 / 4,000 so'm each"],
-                key: 'pro_plus',
-              },
-            ].map((plan) => {
-              const isCurrent = planType === plan.key;
-              const Icon = plan.icon;
-              return (
-                <motion.div key={plan.key} whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                  className={`relative rounded-xl border p-5 flex flex-col ${
-                    plan.popular ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10' : 'border-border glass-card'
-                  } ${isCurrent ? 'ring-2 ring-primary' : ''}`}>
-                  {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
-                      Popular
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <h4 className="font-bold">{plan.name}</h4>
-                  </div>
-                  <div className="mb-1">
-                    <span className="text-2xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground text-sm">{plan.period}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground mb-1">{plan.priceUzs}{plan.period}</p>
-                  {(plan as any).highlight && (
-                    <p className="text-xs font-semibold text-primary mb-1">{(plan as any).highlight}</p>
-                  )}
-                  <p className="text-sm font-medium text-primary mb-3">{plan.credits}</p>
-                  <ul className="space-y-1.5 mb-4 flex-1">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-xs">
-                        <Check className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-muted-foreground">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {isCurrent ? (
-                    <Button variant="outline" size="sm" disabled className="w-full">Current Plan</Button>
-                  ) : plan.key === 'free' ? (
-                    <Button variant="outline" size="sm" disabled className="w-full">Default</Button>
-                  ) : (
-                    <Button variant={plan.popular ? 'glow' : 'outline'} size="sm" className="w-full gap-1"
-                      onClick={() => window.open('https://t.me/writingexambase', '_blank')}>
-                      <ExternalLink className="h-3.5 w-3.5" /> Upgrade
-                    </Button>
-                  )}
-                </motion.div>
-              );
-            })}
+        {/* Recent Speaking */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }}
+          className="glass-card p-4 sm:p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Mic className="h-5 w-5 text-primary" />
+              <h3 className="text-base sm:text-lg font-semibold">Recent Speaking Attempts</h3>
+            </div>
+            {recentSpeaking.length > 0 && (
+              <Link to="/speaking-history">
+                <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                  View All <ChevronRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            )}
           </div>
-          <p className="text-xs text-muted-foreground text-center mt-3">
-            To upgrade or buy extra credits, contact admin via Telegram
-          </p>
+          {recentSpeaking.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <Mic className="h-12 w-12 mx-auto mb-3 opacity-50" />
+              <p className="text-sm">No speaking attempts yet</p>
+            </div>
+          ) : (
+            <div className="space-y-2 sm:space-y-3">
+              {recentSpeaking.map((a) => (
+                <Link key={a.id} to={`/speaking-result/${a.id}`}
+                  className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                  <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
+                    (a.score ?? 0) >= 7 ? 'bg-primary/15 text-primary' : (a.score ?? 0) >= 5 ? 'bg-yellow-500/15 text-yellow-600' : 'bg-destructive/15 text-destructive'
+                  }`}>
+                    {a.score ?? '—'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary uppercase">{a.part}</span>
+                      <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(a.created_at), 'MMM d')}</span>
+                    </div>
+                    <p className="text-xs sm:text-sm truncate text-muted-foreground">{(a.topic || '').substring(0, 60)}...</p>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </Link>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Writing Tips */}

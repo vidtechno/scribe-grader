@@ -320,7 +320,9 @@ export type Database = {
       }
       subscription_plans: {
         Row: {
+          badge: string | null
           created_at: string
+          credit_amount: number
           credits_limit: number
           description: string | null
           details: string | null
@@ -338,7 +340,9 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          badge?: string | null
           created_at?: string
+          credit_amount?: number
           credits_limit?: number
           description?: string | null
           details?: string | null
@@ -356,7 +360,9 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          badge?: string | null
           created_at?: string
+          credit_amount?: number
           credits_limit?: number
           description?: string | null
           details?: string | null
