@@ -15,59 +15,38 @@ export interface Subscription {
   is_active: boolean;
 }
 
+// Credits-based model: source of truth is profiles.credits.
+// `subscription` row is kept for compat (plan_type, etc.) but credits never expire.
 export function useSubscription() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchSubscription = async () => {
     if (!user) { setLoading(false); return; }
     try {
-      // Auto-expire any subscription past expires_at (server-side)
-      await supabase.rpc('check_my_subscription' as any);
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('subscriptions')
         .select('*')
         .eq('user_id', user.id)
-        .single();
-      if (error) throw error;
-      setSubscription(data as unknown as Subscription);
-    } catch {
-      setSubscription(null);
+        .maybeSingle();
+      setSubscription((data as unknown as Subscription) || null);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchSubscription();
-  }, [user]);
+  useEffect(() => { fetchSubscription(); }, [user]);
 
-  const creditsRemaining = subscription
-    ? Math.max(0, subscription.credits_limit - subscription.credits_used)
-    : 0;
-
-  const creditsPercentage = subscription
-    ? subscription.credits_limit > 0
-      ? ((subscription.credits_limit - subscription.credits_used) / subscription.credits_limit) * 100
-      : 0
-    : 0;
-
-  const daysRemaining = subscription?.expires_at
-    ? Math.max(0, Math.ceil((new Date(subscription.expires_at).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
-    : null;
-
-  const isExpired = subscription?.expires_at
-    ? new Date(subscription.expires_at) < new Date()
-    : false;
+  const creditsRemaining = profile?.credits ?? 0;
 
   return {
     subscription,
     loading,
     creditsRemaining,
-    creditsPercentage,
-    daysRemaining,
-    isExpired,
+    creditsPercentage: 0,
+    daysRemaining: null,
+    isExpired: false,
     refresh: fetchSubscription,
   };
 }
