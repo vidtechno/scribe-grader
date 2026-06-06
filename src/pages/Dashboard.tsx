@@ -197,7 +197,7 @@ export default function Dashboard() {
               <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
                 <PenTool className="h-3.5 w-3.5" /> Writing = 1 credit
               </span>
-              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30 flex items-center gap-1">
+              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30 flex items-center gap-1 bg-green-100 text-slate-900">
                 <Mic className="h-3.5 w-3.5" /> Speaking = 2 credits
               </span>
               <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
