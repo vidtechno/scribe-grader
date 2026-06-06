@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Bot, GraduationCap
+  Check, ExternalLink, Quote, Bot, GraduationCap, Mic, Coins, PenLine, Infinity as InfinityIcon
 } from 'lucide-react';
 
 const fadeUp = {
@@ -26,10 +26,10 @@ export default function Index() {
   const [showPricing, setShowPricing] = useState(false);
 
   const features = [
-    { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Task 1 and Task 2 questions from recent exams.' },
-    { icon: Sparkles, title: 'AI-Powered Grading', description: 'Get instant, detailed feedback scored against official IELTS criteria.' },
-    { icon: Bot, title: 'Private AI Mentor', description: 'Your personal IELTS coach analyzes your essays and gives tailored advice.' },
-    { icon: BarChart3, title: 'Track Progress', description: 'Monitor your improvement with detailed score analytics and charts.' },
+    { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Writing Task 1 & 2 and Speaking Parts 1–3 questions.' },
+    { icon: Sparkles, title: 'AI Writing Grading', description: 'Instant band score + detailed feedback against the official IELTS criteria.' },
+    { icon: Mic, title: 'AI Speaking Practice', description: 'Record your answer, get a transcript and a full speaking band evaluation.' },
+    { icon: Bot, title: 'Private AI Mentor', description: 'A Socratic coach that learns from your essays and guides you to a higher band.' },
   ];
 
   const testimonials = [
@@ -38,21 +38,21 @@ export default function Index() {
     { name: 'Nilufar R.', score: '7.0', text: "Best IELTS preparation tool I've used. The instant grading saves so much time compared to waiting for a tutor.", avatar: 'N' },
   ];
 
-  const plans = [
-    {
-      name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-      features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 2,000 so'm"],
-    },
-    {
-      name: 'Pro', price: '$7', priceUzs: "69,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
-      highlight: 'AI Mentor + Full Analysis',
-      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'AI Mentor (10 messages/day)', 'Vocabulary & Coherence preview', 'Score analytics', "Extra essay: $0.15 / 1,500 so'm"],
-    },
-    {
-      name: 'Pro Plus', price: '$13', priceUzs: "129,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
-      highlight: '⚡ Elite AI Mentor + All Features',
-      features: ['60 evaluations/month', 'Elite AI Mentor (30 msg/day)', 'Topic Vocabulary (10 words)', 'Visual Coherence Map', 'Sentence Complexity Map', 'Full analytics', 'Achievement Badges', "Extra essay: $0.4 / 4,000 so'm"],
-    },
+  const plans: { name: string; priceUzs: string; credits: number; icon: any; popular?: boolean; badge?: string }[] = [
+    { name: 'Starter',  priceUzs: '15,000',  credits: 10,  icon: Star },
+    { name: 'Basic',    priceUzs: '35,000',  credits: 25,  icon: Zap },
+    { name: 'Standard', priceUzs: '65,000',  credits: 50,  icon: Sparkles, popular: true, badge: 'Most Popular' },
+    { name: 'Pro',      priceUzs: '120,000', credits: 100, icon: Bot },
+    { name: 'Premium',  priceUzs: '275,000', credits: 250, icon: Crown, badge: 'Best Value' },
+    { name: 'Ultimate', priceUzs: '500,000', credits: 500, icon: Award },
+  ];
+
+  const planFeatures = [
+    'Use credits for Writing or Speaking — your choice',
+    'Full AI feedback with band scores & error corrections',
+    'Private AI Mentor with personalized coaching',
+    'Progress analytics across Writing & Speaking',
+    'Credits never expire — pay once, use anytime',
   ];
 
   const criteria = [
@@ -119,9 +119,9 @@ export default function Index() {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
             className="grid grid-cols-3 gap-4 sm:gap-8 max-w-md mx-auto mt-16">
             {[
-              { value: '1000+', label: 'Essays Graded' },
-              { value: 'AI', label: 'Instant Grading' },
-              { value: '4', label: 'Criteria Scored' },
+              { value: 'Writing', label: 'Task 1 & 2' },
+              { value: 'Speaking', label: 'Parts 1–3' },
+              { value: 'AI Mentor', label: '24/7 coach' },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</p>
