@@ -9,7 +9,8 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Bot, GraduationCap, Mic, Coins, PenLine, Infinity as InfinityIcon
+  Check, ExternalLink, Quote, Bot, GraduationCap, Mic, Coins, PenLine, Infinity as InfinityIcon,
+  Headphones, MessageCircle, Volume2, FileAudio
 } from 'lucide-react';
 
 const fadeUp = {
@@ -30,6 +31,22 @@ export default function Index() {
     { icon: Sparkles, title: 'AI Writing Grading', description: 'Instant band score + detailed feedback against the official IELTS criteria.' },
     { icon: Mic, title: 'AI Speaking Practice', description: 'Record your answer, get a transcript and a full speaking band evaluation.' },
     { icon: Bot, title: 'Private AI Mentor', description: 'A Socratic coach that learns from your essays and guides you to a higher band.' },
+  ];
+
+  const speakingCriteria = [
+    'Fluency & Coherence',
+    'Lexical Resource',
+    'Grammatical Range & Accuracy',
+    'Pronunciation',
+  ];
+
+  const speakingFeatures = [
+    { icon: Mic, title: 'Record in your browser', description: 'No setup. Hit record, speak naturally, and stop when you’re done.' },
+    { icon: FileAudio, title: 'Accurate AI transcription', description: 'Your audio is converted to text so you can review exactly what you said.' },
+    { icon: BarChart3, title: 'Official band scoring', description: 'Get scored on all 4 IELTS Speaking criteria with an overall band.' },
+    { icon: MessageCircle, title: 'Detailed feedback', description: 'See strengths, weaknesses, and concrete tips to push to the next band.' },
+    { icon: Headphones, title: 'All 3 parts covered', description: 'Practice Part 1 questions, Part 2 cue cards, and Part 3 discussions.' },
+    { icon: PenLine, title: 'Use your own topic', description: 'Pick from our library or paste any topic you want to practice today.' },
   ];
 
   const testimonials = [
