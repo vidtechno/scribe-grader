@@ -237,12 +237,14 @@ export default function Dashboard() {
                 <>
                   <Link to="/exam?task=1" className="flex-1 sm:flex-none">
                     <Button variant="outline" size="lg" className="gap-2 w-full">
-                      <Clock className="h-4 w-4" /> Task 1 <span className="text-xs opacity-70">−1</span>
+                      <Clock className="h-4 w-4" /> Task 1
+                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">Uses 1 credit</span>
                     </Button>
                   </Link>
                   <Link to="/exam?task=2" className="flex-1 sm:flex-none">
                     <Button variant="glow" size="lg" className="gap-2 w-full">
-                      <Sparkles className="h-4 w-4" /> Task 2 <span className="text-xs opacity-70">−1</span>
+                      <Sparkles className="h-4 w-4" /> Task 2
+                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">Uses 1 credit</span>
                     </Button>
                   </Link>
                 </>
@@ -273,7 +275,8 @@ export default function Dashboard() {
             ) : (
               <Link to="/speaking">
                 <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">
-                  <Mic className="h-4 w-4" /> Start Speaking <span className="text-xs opacity-70">−2</span>
+                  <Mic className="h-4 w-4" /> Start Speaking
+                  <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">Uses 2 credits</span>
                 </Button>
               </Link>
             )}

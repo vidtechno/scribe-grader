@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Bot, GraduationCap
+  Check, ExternalLink, Quote, Bot, GraduationCap, Mic, Coins, PenLine, Infinity as InfinityIcon
 } from 'lucide-react';
 
 const fadeUp = {
@@ -26,10 +26,10 @@ export default function Index() {
   const [showPricing, setShowPricing] = useState(false);
 
   const features = [
-    { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Task 1 and Task 2 questions from recent exams.' },
-    { icon: Sparkles, title: 'AI-Powered Grading', description: 'Get instant, detailed feedback scored against official IELTS criteria.' },
-    { icon: Bot, title: 'Private AI Mentor', description: 'Your personal IELTS coach analyzes your essays and gives tailored advice.' },
-    { icon: BarChart3, title: 'Track Progress', description: 'Monitor your improvement with detailed score analytics and charts.' },
+    { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Writing Task 1 & 2 and Speaking Parts 1–3 questions.' },
+    { icon: Sparkles, title: 'AI Writing Grading', description: 'Instant band score + detailed feedback against the official IELTS criteria.' },
+    { icon: Mic, title: 'AI Speaking Practice', description: 'Record your answer, get a transcript and a full speaking band evaluation.' },
+    { icon: Bot, title: 'Private AI Mentor', description: 'A Socratic coach that learns from your essays and guides you to a higher band.' },
   ];
 
   const testimonials = [
@@ -38,21 +38,21 @@ export default function Index() {
     { name: 'Nilufar R.', score: '7.0', text: "Best IELTS preparation tool I've used. The instant grading saves so much time compared to waiting for a tutor.", avatar: 'N' },
   ];
 
-  const plans = [
-    {
-      name: 'Free', price: '$0', priceUzs: "0 so'm", period: '', icon: Star, credits: '3 essays / month',
-      features: ['3 essay evaluations/month', 'Overall Band + top 3 errors', 'Partial feedback (blurred)', 'Last 10 essays progress chart', "Extra essay: $0.2 / 2,000 so'm"],
-    },
-    {
-      name: 'Pro', price: '$7', priceUzs: "69,000 so'm", period: '/month', icon: Zap, credits: '30 essays / month', popular: true,
-      highlight: 'AI Mentor + Full Analysis',
-      features: ['30 evaluations/month', 'Full detailed AI feedback', 'Red/Green error corrections', 'AI Mentor (10 messages/day)', 'Vocabulary & Coherence preview', 'Score analytics', "Extra essay: $0.15 / 1,500 so'm"],
-    },
-    {
-      name: 'Pro Plus', price: '$13', priceUzs: "129,000 so'm", period: '/month', icon: Crown, credits: '60 essays / month',
-      highlight: '⚡ Elite AI Mentor + All Features',
-      features: ['60 evaluations/month', 'Elite AI Mentor (30 msg/day)', 'Topic Vocabulary (10 words)', 'Visual Coherence Map', 'Sentence Complexity Map', 'Full analytics', 'Achievement Badges', "Extra essay: $0.4 / 4,000 so'm"],
-    },
+  const plans: { name: string; priceUzs: string; credits: number; icon: any; popular?: boolean; badge?: string }[] = [
+    { name: 'Starter',  priceUzs: '15,000',  credits: 10,  icon: Star },
+    { name: 'Basic',    priceUzs: '35,000',  credits: 25,  icon: Zap },
+    { name: 'Standard', priceUzs: '65,000',  credits: 50,  icon: Sparkles, popular: true, badge: 'Most Popular' },
+    { name: 'Pro',      priceUzs: '120,000', credits: 100, icon: Bot },
+    { name: 'Premium',  priceUzs: '275,000', credits: 250, icon: Crown, badge: 'Best Value' },
+    { name: 'Ultimate', priceUzs: '500,000', credits: 500, icon: Award },
+  ];
+
+  const planFeatures = [
+    'Use credits for Writing or Speaking — your choice',
+    'Full AI feedback with band scores & error corrections',
+    'Private AI Mentor with personalized coaching',
+    'Progress analytics across Writing & Speaking',
+    'Credits never expire — pay once, use anytime',
   ];
 
   const criteria = [
@@ -119,9 +119,9 @@ export default function Index() {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
             className="grid grid-cols-3 gap-4 sm:gap-8 max-w-md mx-auto mt-16">
             {[
-              { value: '1000+', label: 'Essays Graded' },
-              { value: 'AI', label: 'Instant Grading' },
-              { value: '4', label: 'Criteria Scored' },
+              { value: 'Writing', label: 'Task 1 & 2' },
+              { value: 'Speaking', label: 'Parts 1–3' },
+              { value: 'AI Mentor', label: '24/7 coach' },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</p>
@@ -259,13 +259,13 @@ export default function Index() {
                 ))}
               </motion.div>
               <motion.div variants={fadeUp} custom={4} className="flex flex-wrap items-center gap-3 mt-6">
-                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-secondary">
-                  <Zap className="h-3.5 w-3.5 text-primary" />
-                  <span>Pro: AI Mentor (10/day)</span>
-                </div>
                 <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-                  <Crown className="h-3.5 w-3.5 text-primary" />
-                  <span>Pro Plus: Elite Mentor (30/day)</span>
+                  <PenLine className="h-3.5 w-3.5 text-primary" />
+                  <span>Writing essay — 1 credit</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30">
+                  <Mic className="h-3.5 w-3.5 text-accent-foreground" />
+                  <span>Speaking attempt — 2 credits</span>
                 </div>
               </motion.div>
             </motion.div>
@@ -340,71 +340,91 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Pricing — Credit Packages */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20" id="pricing">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
-            className="text-center mb-16">
+            className="text-center mb-12">
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">
-              Simple <span className="gradient-text">Pricing</span>
+              Buy <span className="gradient-text">Credits</span>, Not Subscriptions
             </motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground">
-              Choose a plan that fits your preparation needs
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">
+              Pay once, use anytime. Credits never expire. Spend 1 credit per essay or 2 credits per speaking attempt.
             </motion.p>
           </motion.div>
 
+          {/* What every credit unlocks */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="glass-card p-6 mb-10 max-w-3xl mx-auto">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <h3 className="font-semibold">What every credit unlocks</h3>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2 mb-4">
+              {planFeatures.map(f => (
+                <div key={f} className="flex items-start gap-2 text-sm">
+                  <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">{f}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-3 pt-3 border-t border-border/60">
+              <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary">
+                <PenLine className="h-3.5 w-3.5" /> Writing essay = 1 credit
+              </div>
+              <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30">
+                <Mic className="h-3.5 w-3.5" /> Speaking attempt = 2 credits
+              </div>
+              <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full bg-secondary text-foreground">
+                <InfinityIcon className="h-3.5 w-3.5" /> Credits never expire
+              </div>
+            </div>
+          </motion.div>
+
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid sm:grid-cols-3 gap-6">
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {plans.map((plan, index) => {
               const Icon = plan.icon;
               return (
                 <motion.div key={plan.name} variants={fadeUp} custom={index}
-                  whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                  className={`relative rounded-2xl border p-7 flex flex-col ${
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                  className={`relative rounded-2xl border p-6 flex flex-col ${
                     plan.popular ? 'border-primary bg-primary/5 shadow-xl shadow-primary/10' : 'border-border glass-card'
                   }`}>
-                  {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold">
-                      Most Popular
+                  {plan.badge && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">
+                      {plan.badge}
                     </div>
                   )}
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                       <Icon className="h-5 w-5 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold">{plan.name}</h3>
+                    <h3 className="text-lg font-bold">{plan.name}</h3>
                   </div>
-                  <div className="mb-1">
-                    <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground">{plan.period}</span>
+                  <div className="flex items-baseline gap-1 mb-1">
+                    <span className="text-3xl font-bold text-primary">{plan.credits}</span>
+                    <span className="text-sm text-muted-foreground">credits</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-1">{plan.priceUzs}{plan.period}</p>
-                  {(plan as any).highlight && (
-                    <p className="text-xs font-semibold text-primary mb-1">{(plan as any).highlight}</p>
-                  )}
-                  <p className="text-sm font-semibold text-primary mb-6">{plan.credits}</p>
-                  <ul className="space-y-2.5 mb-8 flex-1">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-sm">
-                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-muted-foreground">{f}</span>
-                      </li>
-                    ))}
+                  <p className="text-sm font-medium mb-4">{plan.priceUzs} so'm</p>
+                  <ul className="space-y-2 mb-6 flex-1 text-sm">
+                    <li className="flex items-start gap-2"><Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" /><span className="text-muted-foreground">Up to {plan.credits} essays</span></li>
+                    <li className="flex items-start gap-2"><Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" /><span className="text-muted-foreground">Or {Math.floor(plan.credits / 2)} speaking attempts</span></li>
+                    <li className="flex items-start gap-2"><Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" /><span className="text-muted-foreground">Mix Writing & Speaking freely</span></li>
+                    <li className="flex items-start gap-2"><Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" /><span className="text-muted-foreground">All AI features unlocked</span></li>
                   </ul>
-                  {plan.name === 'Free' ? (
-                    <Link to="/auth">
-                      <Button variant="outline" className="w-full">Get Started</Button>
-                    </Link>
-                  ) : (
-                    <Button variant={plan.popular ? 'glow' : 'outline'} className="w-full gap-2"
-                      onClick={() => window.open('https://t.me/writingexambase', '_blank')}>
-                      <ExternalLink className="h-4 w-4" /> Upgrade via Telegram
-                    </Button>
-                  )}
+                  <Button variant={plan.popular ? 'glow' : 'outline'} className="w-full gap-2"
+                    onClick={() => window.open(`https://t.me/writingexambase?text=${encodeURIComponent(`Hi! I'd like to buy the "${plan.name}" pack (${plan.credits} credits — ${plan.priceUzs} so'm).`)}`, '_blank')}>
+                    <ExternalLink className="h-4 w-4" /> Buy via Telegram
+                  </Button>
                 </motion.div>
               );
             })}
           </motion.div>
+
+          <p className="text-xs text-muted-foreground text-center mt-8">
+            New users get <span className="text-primary font-semibold">3 free credits</span> on sign up. Payments handled manually via Telegram @writingexambase.
+          </p>
         </div>
       </section>
 
