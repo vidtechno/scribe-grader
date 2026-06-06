@@ -16,7 +16,7 @@ import { motion } from 'framer-motion';
 import { 
   Users, CreditCard, Plus, Minus, Search, Shield, Loader2,
   BarChart3, Calendar, Crown, Zap, FileText, TrendingUp,
-  DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight, Settings, Bot
+  DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight, Settings, Bot, Coins, Gift
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format, subDays, isAfter, startOfDay } from 'date-fns';
@@ -313,9 +313,9 @@ export default function Admin() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[
             { icon: Users, value: users.length, label: 'Total Users', color: 'text-primary' },
-            { icon: Crown, value: proUsers, label: 'Paid Users', color: 'text-primary' },
+            { icon: Coins, value: totalCredits, label: 'Total Credits', color: 'text-primary' },
             { icon: FileText, value: totalEssays, label: 'Total Essays', color: 'text-primary' },
-            { icon: DollarSign, value: `$${revenueEstimate}`, label: 'Monthly Revenue', color: 'text-primary' },
+            { icon: BarChart3, value: Object.keys(subscriptions).length, label: 'Subscriptions', color: 'text-primary' },
           ].map((stat, i) => (
             <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }} className="glass-card p-4 sm:p-5">
@@ -360,16 +360,16 @@ export default function Admin() {
             </h3>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Monthly Revenue</span>
-                <span className="font-medium text-primary">${revenueEstimate.toFixed(2)}</span>
+                <span className="text-muted-foreground">Total Credits in Circulation</span>
+                <span className="font-medium text-primary">{totalCredits}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total Essays</span>
                 <span className="font-medium">{totalEssays}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Paid Users</span>
-                <span className="font-medium text-primary">{proUsers}</span>
+                <span className="text-muted-foreground">Total Users</span>
+                <span className="font-medium text-primary">{users.length}</span>
               </div>
             </div>
           </motion.div>
@@ -435,14 +435,17 @@ export default function Admin() {
                             </div>
                           </td>
                           <td className="p-4">
-                            <Select value={pt} onValueChange={(val) => updatePlan(profile.user_id, val)}
+                            <Select value="" onValueChange={(val) => grantPackage(profile.user_id, val)}
                               disabled={updatingUser === profile.user_id}>
-                              <SelectTrigger className="w-28 h-8 text-xs">
-                                <SelectValue />
+                              <SelectTrigger className="w-36 h-8 text-xs">
+                                <SelectValue placeholder="Grant package…" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="free">Free</SelectItem>
-                                <SelectItem value="yuksalish">Yuksalish</SelectItem>
+                                {CREDIT_PACKAGES.map(p => (
+                                  <SelectItem key={p.slug} value={p.slug}>
+                                    {p.label} (+{p.credits})
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                           </td>
