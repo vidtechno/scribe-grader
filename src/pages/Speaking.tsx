@@ -296,7 +296,8 @@ export default function Speaking() {
                 }}
                 className="gap-2"
               >
-                <Mic className="h-5 w-5" /> Start Speaking (−{SPEAKING_COST} credits)
+                <Mic className="h-5 w-5" /> Start Speaking
+                <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15">Uses {SPEAKING_COST} credits</span>
               </Button>
               <p className="text-xs text-muted-foreground mt-3">{PART_INFO[selectedPart].desc}</p>
             </div>
