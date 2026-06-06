@@ -9,7 +9,8 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Bot, GraduationCap, Mic, Coins, PenLine, Infinity as InfinityIcon
+  Check, ExternalLink, Quote, Bot, GraduationCap, Mic, Coins, PenLine, Infinity as InfinityIcon,
+  Headphones, MessageCircle, Volume2, FileAudio
 } from 'lucide-react';
 
 const fadeUp = {
@@ -30,6 +31,22 @@ export default function Index() {
     { icon: Sparkles, title: 'AI Writing Grading', description: 'Instant band score + detailed feedback against the official IELTS criteria.' },
     { icon: Mic, title: 'AI Speaking Practice', description: 'Record your answer, get a transcript and a full speaking band evaluation.' },
     { icon: Bot, title: 'Private AI Mentor', description: 'A Socratic coach that learns from your essays and guides you to a higher band.' },
+  ];
+
+  const speakingCriteria = [
+    'Fluency & Coherence',
+    'Lexical Resource',
+    'Grammatical Range & Accuracy',
+    'Pronunciation',
+  ];
+
+  const speakingFeatures = [
+    { icon: Mic, title: 'Record in your browser', description: 'No setup. Hit record, speak naturally, and stop when you’re done.' },
+    { icon: FileAudio, title: 'Accurate AI transcription', description: 'Your audio is converted to text so you can review exactly what you said.' },
+    { icon: BarChart3, title: 'Official band scoring', description: 'Get scored on all 4 IELTS Speaking criteria with an overall band.' },
+    { icon: MessageCircle, title: 'Detailed feedback', description: 'See strengths, weaknesses, and concrete tips to push to the next band.' },
+    { icon: Headphones, title: 'All 3 parts covered', description: 'Practice Part 1 questions, Part 2 cue cards, and Part 3 discussions.' },
+    { icon: PenLine, title: 'Use your own topic', description: 'Pick from our library or paste any topic you want to practice today.' },
   ];
 
   const testimonials = [
@@ -224,6 +241,92 @@ export default function Index() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Speaking Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }}
+            className="text-center mb-12">
+            <motion.div variants={fadeUp} custom={0}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent-foreground text-xs font-medium mb-4">
+              <Mic className="h-3.5 w-3.5" /> IELTS Speaking Practice
+            </motion.div>
+            <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">
+              Speak Like a <span className="gradient-text">Native Examiner Expects</span>
+            </motion.h2>
+            <motion.p variants={fadeUp} custom={2} className="text-muted-foreground max-w-2xl mx-auto">
+              Record your answers right in the browser, get an instant transcript, and receive a full IELTS Speaking band evaluation — all from your phone or laptop.
+            </motion.p>
+          </motion.div>
+
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
+            {speakingFeatures.map((f, i) => (
+              <motion.div key={f.title} variants={fadeUp} custom={i}
+                whileHover={{ y: -4 }}
+                className="glass-card-hover p-5">
+                <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center mb-3">
+                  <f.icon className="h-5 w-5 text-accent-foreground" />
+                </div>
+                <h3 className="font-semibold mb-1">{f.title}</h3>
+                <p className="text-sm text-muted-foreground">{f.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+              className="glass-card p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Volume2 className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold">Scored on the official 4 criteria</h3>
+              </div>
+              <div className="space-y-3">
+                {speakingCriteria.map((c) => (
+                  <div key={c} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="text-sm">{c}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5 pt-4 border-t border-border/60 text-xs text-muted-foreground flex items-center gap-2">
+                <Coins className="h-3.5 w-3.5 text-primary" />
+                <span>Each speaking attempt costs <strong className="text-foreground">2 credits</strong>. Saved automatically to your history.</span>
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+              className="glass-card p-6">
+              <p className="text-xs text-muted-foreground mb-2">Sample Part 2 cue card</p>
+              <p className="text-sm font-medium mb-4">"Describe a place you would like to visit. Say where it is, why you want to go, and what you would do there."</p>
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-accent/10 border border-accent/30 mb-3">
+                <motion.div animate={{ scale: [1, 1.15, 1] }} transition={{ duration: 1.5, repeat: Infinity }}
+                  className="w-10 h-10 rounded-full bg-accent/30 flex items-center justify-center">
+                  <Mic className="h-5 w-5 text-accent-foreground" />
+                </motion.div>
+                <div className="flex-1">
+                  <p className="text-xs text-muted-foreground">Recording…</p>
+                  <div className="flex items-end gap-0.5 h-4 mt-1">
+                    {[3,6,4,8,5,7,3,6,4,7,5,8,3,6,4].map((h, i) => (
+                      <motion.div key={i}
+                        animate={{ height: [`${h*2}px`, `${h*3}px`, `${h*2}px`] }}
+                        transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.05 }}
+                        className="w-1 bg-accent rounded-full" />
+                    ))}
+                  </div>
+                </div>
+                <span className="text-xs font-mono text-muted-foreground">0:42</span>
+              </div>
+              <div className="flex items-center justify-between text-sm pt-2">
+                <span className="text-muted-foreground">Overall Speaking Band</span>
+                <span className="text-2xl font-bold text-primary">7.0</span>
               </div>
             </motion.div>
           </div>

@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Navbar } from '@/components/Navbar';
 import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Mic, ChevronRight, Clock } from 'lucide-react';
+import { ArrowLeft, Mic, ChevronRight, Clock, ChevronLeft } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface Attempt {
@@ -21,6 +21,8 @@ export default function SpeakingHistory() {
   const { user } = useAuth();
   const [items, setItems] = useState<Attempt[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   useEffect(() => {
     if (!user) return;
@@ -34,6 +36,10 @@ export default function SpeakingHistory() {
       setLoading(false);
     })();
   }, [user]);
+
+  const totalPages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const paginated = items.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
@@ -62,8 +68,9 @@ export default function SpeakingHistory() {
             <Link to="/speaking"><Button variant="glow">Start your first attempt</Button></Link>
           </div>
         ) : (
+          <>
           <div className="space-y-2">
-            {items.map(a => (
+            {paginated.map(a => (
               <Link key={a.id} to={`/speaking-result/${a.id}`}
                 className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary/40 transition-all group">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-base font-bold ${
@@ -85,6 +92,22 @@ export default function SpeakingHistory() {
               </Link>
             ))}
           </div>
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between mt-6">
+              <Button variant="outline" size="sm" disabled={currentPage === 1}
+                onClick={() => setPage(p => Math.max(1, p - 1))} className="gap-1">
+                <ChevronLeft className="h-4 w-4" /> Previous
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button variant="outline" size="sm" disabled={currentPage === totalPages}
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))} className="gap-1">
+                Next <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+          </>
         )}
       </main>
     </div>
