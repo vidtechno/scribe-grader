@@ -54,10 +54,15 @@ interface Announcement {
   view_count?: number;
 }
 
-const PLAN_CONFIGS: Record<string, { credits: number; label: string }> = {
-  free: { credits: 3, label: 'Free' },
-  yuksalish: { credits: 90, label: 'Yuksalish' },
-};
+// Credit packages — selecting one tops the user up by this many credits.
+const CREDIT_PACKAGES: { slug: string; label: string; credits: number; priceUzs: string }[] = [
+  { slug: 'starter',  label: 'Starter',  credits: 10,  priceUzs: '15,000' },
+  { slug: 'basic',    label: 'Basic',    credits: 25,  priceUzs: '35,000' },
+  { slug: 'standard', label: 'Standard', credits: 50,  priceUzs: '65,000' },
+  { slug: 'pro',      label: 'Pro',      credits: 100, priceUzs: '120,000' },
+  { slug: 'premium',  label: 'Premium',  credits: 250, priceUzs: '275,000' },
+  { slug: 'ultimate', label: 'Ultimate', credits: 500, priceUzs: '500,000' },
+];
 
 export default function Admin() {
   const { user, loading: authLoading } = useAuth();
@@ -221,34 +226,19 @@ export default function Admin() {
     } finally { setUpdatingUser(null); }
   };
 
-  const updatePlan = async (userId: string, newPlan: string) => {
+  const grantPackage = async (userId: string, slug: string) => {
+    const pkg = CREDIT_PACKAGES.find(p => p.slug === slug);
+    if (!pkg) return;
     setUpdatingUser(userId);
-    const config = PLAN_CONFIGS[newPlan];
-    const expiresAt = newPlan === 'free' ? null : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-
     try {
-      const sub = subscriptions[userId];
-      const speakingLimit = newPlan === 'yuksalish' ? 30 : 3;
-      if (sub) {
-        await supabase.from('subscriptions')
-          .update({ plan_type: newPlan, credits_limit: config.credits, credits_used: 0, speaking_limit: speakingLimit, speaking_used: 0, expires_at: expiresAt, is_active: true, started_at: new Date().toISOString() })
-          .eq('user_id', userId);
-      } else {
-        await supabase.from('subscriptions')
-          .insert({ user_id: userId, plan_type: newPlan, credits_limit: config.credits, credits_used: 0, speaking_limit: speakingLimit, speaking_used: 0, expires_at: expiresAt, is_active: true });
-      }
-
-      await supabase.from('profiles').update({ credits: config.credits }).eq('user_id', userId);
-      setUsers(users.map(u => u.user_id === userId ? { ...u, credits: config.credits } : u));
-      
-      setSubscriptions({
-        ...subscriptions,
-        [userId]: { ...(sub || { id: '', user_id: userId, started_at: new Date().toISOString() }), plan_type: newPlan, credits_limit: config.credits, credits_used: 0, expires_at: expiresAt, is_active: true } as Subscription,
-      });
-
-      toast.success(`Plan updated to ${config.label}`);
+      const current = users.find(u => u.user_id === userId)?.credits ?? 0;
+      const newCredits = current + pkg.credits;
+      const { error } = await supabase.from('profiles').update({ credits: newCredits }).eq('user_id', userId);
+      if (error) throw error;
+      setUsers(users.map(u => u.user_id === userId ? { ...u, credits: newCredits } : u));
+      toast.success(`+${pkg.credits} credits granted (${pkg.label})`);
     } catch {
-      toast.error('Failed to update plan');
+      toast.error('Failed to grant package');
     } finally { setUpdatingUser(null); }
   };
 
@@ -274,7 +264,7 @@ export default function Admin() {
   );
 
   const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
-  const proUsers = Object.values(subscriptions).filter(s => s.plan_type !== 'free').length;
+  const totalCredits = users.reduce((sum, u) => sum + (u.credits || 0), 0);
 
   const now = new Date();
   const todayStart = startOfDay(now);
@@ -285,10 +275,7 @@ export default function Admin() {
   const newUsersWeek = users.filter(u => isAfter(new Date(u.created_at), weekAgo)).length;
   const newUsersMonth = users.filter(u => isAfter(new Date(u.created_at), monthAgo)).length;
 
-  const revenueEstimate = Object.values(subscriptions).reduce((acc, s) => {
-    if (s.plan_type === 'yuksalish') return acc + 9;
-    return acc;
-  }, 0);
+  const revenueEstimate = 0;
 
   if (authLoading || loading) return <LoadingScreen />;
   if (!user) { navigate('/auth'); return null; }
