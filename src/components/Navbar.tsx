@@ -2,8 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { SubscriptionBadge } from '@/components/SubscriptionBadge';
-import { useSubscription } from '@/hooks/useSubscription';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
 import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Coins } from 'lucide-react';
@@ -11,7 +9,6 @@ import { PricingModal } from '@/components/PricingModal';
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
-  const { subscription } = useSubscription();
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -68,12 +65,11 @@ export function Navbar() {
                 <span className="text-sm font-medium">{profile?.credits ?? 0}</span>
                 <span className="hidden sm:inline text-xs text-muted-foreground">credits</span>
               </button>
-              <span className="hidden sm:inline-flex">{subscription && <SubscriptionBadge planType={subscription.plan_type} />}</span>
               <ThemeToggle />
-              <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+              <Link to="/profile" className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <User className="h-4 w-4" />
-                <span>{profile?.full_name || user.email}</span>
-              </div>
+                <span className="max-w-[140px] truncate">{profile?.full_name || user.email}</span>
+              </Link>
               <Button variant="ghost" size="icon" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />
               </Button>

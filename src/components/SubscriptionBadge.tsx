@@ -1,25 +1,19 @@
-import { Crown, Star } from 'lucide-react';
+import { Coins } from 'lucide-react';
 
 interface SubscriptionBadgeProps {
-  planType: string;
+  planType?: string;
   size?: 'sm' | 'md';
 }
 
-const planConfig = {
-  free: { label: 'Free', icon: Star, className: 'bg-secondary text-secondary-foreground' },
-  yuksalish: { label: 'Yuksalish', icon: Crown, className: 'bg-primary/20 text-primary border border-primary/30' },
-};
-
-export function SubscriptionBadge({ planType, size = 'sm' }: SubscriptionBadgeProps) {
-  const config = planConfig[planType as keyof typeof planConfig] || planConfig.free;
-  const Icon = config.icon;
-
+// Credit-based model: there are no subscription tiers anymore.
+// Kept for compatibility — renders a simple "Credit Member" chip.
+export function SubscriptionBadge({ size = 'sm' }: SubscriptionBadgeProps) {
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full font-medium ${config.className} ${
+    <span className={`inline-flex items-center gap-1 rounded-full font-medium bg-primary/10 text-primary border border-primary/20 ${
       size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-sm'
     }`}>
-      <Icon className={size === 'sm' ? 'h-3 w-3' : 'h-4 w-4'} />
-      {config.label}
+      <Coins className={size === 'sm' ? 'h-3 w-3' : 'h-4 w-4'} />
+      Credits
     </span>
   );
 }

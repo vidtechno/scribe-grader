@@ -21,6 +21,7 @@ import Admin from "./pages/Admin";
 import Speaking from "./pages/Speaking";
 import SpeakingResult from "./pages/SpeakingResult";
 import SpeakingHistory from "./pages/SpeakingHistory";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ function AppRoutes() {
         <Route path="/speaking" element={<ProtectedRoute><Speaking /></ProtectedRoute>} />
         <Route path="/speaking-result/:id" element={<ProtectedRoute><SpeakingResult /></ProtectedRoute>} />
         <Route path="/speaking-history" element={<ProtectedRoute><SpeakingHistory /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>

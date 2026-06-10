@@ -74,10 +74,11 @@ export default function Result() {
   const [showPricing, setShowPricing] = useState(false);
   const { subscription } = useSubscription();
 
-  const planType = subscription?.plan_type || 'free';
-  const isFree = planType === 'free';
-  const isPro = planType === 'yuksalish';
-  const isProPlus = planType === 'yuksalish';
+  // Credit-based model: every graded essay was paid for with a credit,
+  // so full feedback is unlocked for all users.
+  const isFree = false;
+  const isPro = true;
+  const isProPlus = true;
 
   useEffect(() => {
     if (!id) return;
@@ -511,7 +512,7 @@ export default function Result() {
           </div>
         </div>
       </main>
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </div>
   );
 }

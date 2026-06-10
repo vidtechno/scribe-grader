@@ -52,10 +52,10 @@ export default function SpeakingResult() {
   const [showPricing, setShowPricing] = useState(false);
   const { subscription } = useSubscription();
 
-  const planType = subscription?.plan_type || 'free';
-  const isFree = planType === 'free';
-  const isPro = planType === 'yuksalish';
-  const isProPlus = planType === 'yuksalish';
+  // Credit-based model: full feedback unlocked for all users.
+  const isFree = false;
+  const isPro = true;
+  const isProPlus = true;
 
   useEffect(() => {
     fetchAttempt();
@@ -274,7 +274,7 @@ export default function SpeakingResult() {
         </div>
       </main>
 
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </div>
   );
 }
