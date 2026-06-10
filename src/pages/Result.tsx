@@ -512,7 +512,7 @@ export default function Result() {
           </div>
         </div>
       </main>
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </div>
   );
 }

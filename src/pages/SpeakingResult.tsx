@@ -274,7 +274,7 @@ export default function SpeakingResult() {
         </div>
       </main>
 
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </div>
   );
 }
