@@ -68,12 +68,11 @@ export function Navbar() {
                 <span className="text-sm font-medium">{profile?.credits ?? 0}</span>
                 <span className="hidden sm:inline text-xs text-muted-foreground">credits</span>
               </button>
-              <span className="hidden sm:inline-flex">{subscription && <SubscriptionBadge planType={subscription.plan_type} />}</span>
               <ThemeToggle />
-              <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+              <Link to="/profile" className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <User className="h-4 w-4" />
-                <span>{profile?.full_name || user.email}</span>
-              </div>
+                <span className="max-w-[140px] truncate">{profile?.full_name || user.email}</span>
+              </Link>
               <Button variant="ghost" size="icon" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />
               </Button>

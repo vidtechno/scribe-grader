@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, PenTool, Trophy, Bot, Mic, Clock, FileText, X } from 'lucide-react';
+import { LayoutDashboard, PenTool, Mic, Clock, FileText, Coins, User as UserIcon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { PricingModal } from '@/components/PricingModal';
 import {
   Drawer,
   DrawerClose,
@@ -14,7 +15,8 @@ const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
   { to: '#write', icon: PenTool, label: 'Write' },
   { to: '/speaking', icon: Mic, label: 'Speak' },
-  { to: '/leaderboard', icon: Trophy, label: 'Rank' },
+  { to: '#credits', icon: Coins, label: 'Credits' },
+  { to: '/profile', icon: UserIcon, label: 'Profile' },
 ];
 
 export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
@@ -22,6 +24,7 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [showTaskPicker, setShowTaskPicker] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
 
   if (!user) return null;
   if (location.pathname === '/exam') return null;
@@ -38,6 +41,19 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
                 <button
                   key={item.label}
                   onClick={() => setShowTaskPicker(true)}
+                  className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="text-[10px] font-medium">{item.label}</span>
+                </button>
+              );
+            }
+
+            if (item.to === '#credits') {
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => setShowPricing(true)}
                   className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-muted-foreground hover:text-primary transition-colors"
                 >
                   <Icon className="h-5 w-5" />
@@ -63,6 +79,8 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
           })}
         </div>
       </nav>
+
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
 
       <Drawer open={showTaskPicker} onOpenChange={setShowTaskPicker}>
         <DrawerContent>
