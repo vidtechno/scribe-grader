@@ -2,8 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { SubscriptionBadge } from '@/components/SubscriptionBadge';
-import { useSubscription } from '@/hooks/useSubscription';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
 import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Coins } from 'lucide-react';
@@ -11,7 +9,6 @@ import { PricingModal } from '@/components/PricingModal';
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
-  const { subscription } = useSubscription();
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
