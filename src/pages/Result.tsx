@@ -8,6 +8,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { BlurredContent } from '@/components/BlurredContent';
 import { ErrorCorrections } from '@/components/ErrorCorrections';
 import { PricingModal } from '@/components/PricingModal';
+import { EssayComments } from '@/components/EssayComments';
 import { SEOHead } from '@/components/SEOHead';
 import { 
   ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
@@ -512,6 +513,11 @@ export default function Result() {
           </div>
         </div>
       </main>
+      {essay && (
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-12">
+          <EssayComments essayId={essay.id} />
+        </div>
+      )}
       <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </div>
   );
