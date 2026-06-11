@@ -155,11 +155,6 @@ export default function Dashboard() {
             </div>
             <div className="flex items-center gap-3 flex-wrap">
               <SubscriptionBadge planType={planType} size="md" />
-              {planType === 'free' && (
-                <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
-                  <Zap className="h-4 w-4" /> Upgrade
-                </Button>
-              )}
             </div>
           </motion.div>
         </motion.div>

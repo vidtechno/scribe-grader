@@ -228,7 +228,7 @@ export default function Result() {
                       </div>
                       <div className="absolute inset-0 flex items-center justify-center bg-card/60 rounded-lg">
                         <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                          <Crown className="h-4 w-4" /> Upgrade to see all corrections
+                          <Crown className="h-4 w-4" /> Get credits to see all corrections
                         </Button>
                       </div>
                     </div>
@@ -424,7 +424,7 @@ export default function Result() {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-card/40 rounded-lg">
                   <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                    <Crown className="h-4 w-4" /> Upgrade for Advanced Analysis
+                    <Crown className="h-4 w-4" /> Get credits for Advanced Analysis
                   </Button>
                 </div>
               </div>

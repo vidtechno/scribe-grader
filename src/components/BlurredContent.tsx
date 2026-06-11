@@ -1,4 +1,4 @@
-import { Crown } from 'lucide-react';
+import { Coins } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface BlurredContentProps {
@@ -26,8 +26,8 @@ export function BlurredContent({ text, visibleWords = 8, onUpgrade }: BlurredCon
       </p>
       <div className="absolute inset-0 top-6 flex items-center justify-center bg-gradient-to-t from-card/90 to-transparent rounded-lg">
         <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={onUpgrade}>
-          <Crown className="h-3.5 w-3.5" />
-          Upgrade to unlock
+          <Coins className="h-3.5 w-3.5" />
+          Get credits to unlock
         </Button>
       </div>
     </div>
