@@ -39,11 +39,13 @@ export function useSubscription() {
   useEffect(() => { fetchSubscription(); }, [user]);
 
   const creditsRemaining = profile?.credits ?? 0;
+  const isPremium = Boolean((profile as any)?.is_premium);
 
   return {
     subscription,
     loading,
     creditsRemaining,
+    isPremium,
     creditsPercentage: 0,
     daysRemaining: null,
     isExpired: false,

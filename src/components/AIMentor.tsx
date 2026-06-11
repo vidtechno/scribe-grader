@@ -33,7 +33,7 @@ interface AIMentorProps {
 
 export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps = {}) {
   const { user } = useAuth();
-  const { subscription } = useSubscription();
+  const { subscription, isPremium } = useSubscription();
   const planType = subscription?.plan_type || 'free';
 
   const [isOpen, setIsOpen] = useState(false);
@@ -247,7 +247,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
   // Still loading setting
   if (aiChatEnabled === null) return null;
 
-  const isFree = planType === 'free';
+  const isFree = !isPremium;
 
   return (
     <>

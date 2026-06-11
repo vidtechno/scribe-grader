@@ -72,13 +72,13 @@ export default function Result() {
   const [essay, setEssay] = useState<Essay | null>(null);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
-  const { subscription } = useSubscription();
+  const { isPremium } = useSubscription();
 
-  // Credit-based model: every graded essay was paid for with a credit,
-  // so full feedback is unlocked for all users.
-  const isFree = false;
-  const isPro = true;
-  const isProPlus = true;
+  // Lifetime Premium unlocks every advanced section. Non-premium users see
+  // a teaser with blurred parts so they're nudged to buy more credits.
+  const isFree = !isPremium;
+  const isPro = isPremium;
+  const isProPlus = isPremium;
 
   useEffect(() => {
     if (!id) return;

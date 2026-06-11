@@ -50,12 +50,12 @@ export default function SpeakingResult() {
   const [attempt, setAttempt] = useState<Attempt | null>(null);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
-  const { subscription } = useSubscription();
+  const { isPremium } = useSubscription();
 
-  // Credit-based model: full feedback unlocked for all users.
-  const isFree = false;
-  const isPro = true;
-  const isProPlus = true;
+  // Lifetime Premium unlocks every advanced section.
+  const isFree = !isPremium;
+  const isPro = isPremium;
+  const isProPlus = isPremium;
 
   useEffect(() => {
     fetchAttempt();
