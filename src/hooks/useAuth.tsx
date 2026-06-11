@@ -12,6 +12,8 @@ interface Profile {
   city: string | null;
   phone: string | null;
   created_at: string;
+  is_premium?: boolean;
+  total_credits_purchased?: number;
 }
 
 interface AuthContextType {

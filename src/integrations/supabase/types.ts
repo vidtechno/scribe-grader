@@ -121,6 +121,41 @@ export type Database = {
         }
         Relationships: []
       }
+      essay_comments: {
+        Row: {
+          content: string
+          created_at: string
+          essay_id: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          essay_id: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          essay_id?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "essay_comments_essay_id_fkey"
+            columns: ["essay_id"]
+            isOneToOne: false
+            referencedRelation: "essays"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       essays: {
         Row: {
           created_at: string
@@ -246,7 +281,9 @@ export type Database = {
           email: string
           full_name: string | null
           id: string
+          is_premium: boolean
           phone: string | null
+          total_credits_purchased: number
           updated_at: string
           user_id: string
         }
@@ -258,7 +295,9 @@ export type Database = {
           email: string
           full_name?: string | null
           id?: string
+          is_premium?: boolean
           phone?: string | null
+          total_credits_purchased?: number
           updated_at?: string
           user_id: string
         }
@@ -270,7 +309,9 @@ export type Database = {
           email?: string
           full_name?: string | null
           id?: string
+          is_premium?: boolean
           phone?: string | null
+          total_credits_purchased?: number
           updated_at?: string
           user_id?: string
         }

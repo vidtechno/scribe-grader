@@ -31,6 +31,8 @@ interface Profile {
   city: string | null;
   phone: string | null;
   created_at: string;
+  is_premium?: boolean;
+  total_credits_purchased?: number;
 }
 
 interface Subscription {
@@ -209,7 +211,13 @@ export default function Admin() {
     const newCredits = Math.max(0, currentCredits + delta);
     setUpdatingUser(userId);
     try {
-      const { error: profileError } = await supabase.from('profiles').update({ credits: newCredits }).eq('user_id', userId);
+      const u = users.find(x => x.user_id === userId);
+      const purchased = u?.total_credits_purchased ?? 0;
+      const newPurchased = delta > 0 ? purchased + delta : purchased;
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ credits: newCredits, total_credits_purchased: newPurchased } as any)
+        .eq('user_id', userId);
       if (profileError) throw profileError;
 
       const sub = subscriptions[userId];
@@ -219,7 +227,9 @@ export default function Admin() {
         setSubscriptions({ ...subscriptions, [userId]: { ...sub, credits_limit: newLimit } });
       }
 
-      setUsers(users.map(u => u.user_id === userId ? { ...u, credits: newCredits } : u));
+      setUsers(users.map(x => x.user_id === userId
+        ? { ...x, credits: newCredits, total_credits_purchased: newPurchased, is_premium: x.is_premium || newPurchased >= 10 }
+        : x));
       toast.success(`Credits updated to ${newCredits}`);
     } catch {
       toast.error('Failed to update credits');
@@ -231,12 +241,19 @@ export default function Admin() {
     if (!pkg) return;
     setUpdatingUser(userId);
     try {
-      const current = users.find(u => u.user_id === userId)?.credits ?? 0;
-      const newCredits = current + pkg.credits;
-      const { error } = await supabase.from('profiles').update({ credits: newCredits }).eq('user_id', userId);
+      const u = users.find(x => x.user_id === userId);
+      const newCredits = (u?.credits ?? 0) + pkg.credits;
+      const newPurchased = (u?.total_credits_purchased ?? 0) + pkg.credits;
+      const { error } = await supabase
+        .from('profiles')
+        .update({ credits: newCredits, total_credits_purchased: newPurchased } as any)
+        .eq('user_id', userId);
       if (error) throw error;
-      setUsers(users.map(u => u.user_id === userId ? { ...u, credits: newCredits } : u));
-      toast.success(`+${pkg.credits} credits granted (${pkg.label})`);
+      const becamePremium = !u?.is_premium && newPurchased >= 10;
+      setUsers(users.map(x => x.user_id === userId
+        ? { ...x, credits: newCredits, total_credits_purchased: newPurchased, is_premium: x.is_premium || newPurchased >= 10 }
+        : x));
+      toast.success(`+${pkg.credits} credits granted (${pkg.label})${becamePremium ? ' — user is now Premium!' : ''}`);
     } catch {
       toast.error('Failed to grant package');
     } finally { setUpdatingUser(null); }
