@@ -8,7 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { PricingModal } from '@/components/PricingModal';
 import {
   MessageCircle, X, Send, Loader2, Plus, Trash2, Edit3,
-  Check, Crown, ChevronLeft, Bot, User, Sparkles, Lock
+  Check, Crown, ChevronLeft, Bot, User, Sparkles, Lock, Coins
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -302,10 +302,10 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
                   <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
                   <h3 className="font-bold text-lg mb-2">Unlock AI Mentor</h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Get personalized IELTS coaching based on your essay history. Available for Pro and Pro Plus subscribers.
+                    AI Mentor is part of Premium. Buy 10 or more credits in total to activate Premium for life and unlock personalized IELTS coaching.
                   </p>
                   <Button variant="glow" size="sm" onClick={() => { setShowPricing(true); setIsOpen(false); }}>
-                    <Sparkles className="h-4 w-4 mr-1" /> Upgrade Now
+                    <Coins className="h-4 w-4 mr-1" /> Get Credits
                   </Button>
                 </div>
               </div>
