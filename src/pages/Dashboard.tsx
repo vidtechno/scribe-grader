@@ -14,6 +14,7 @@ import {
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
   Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
+  , ClipboardList
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -41,10 +42,12 @@ export default function Dashboard() {
   const [speakingAvg, setSpeakingAvg] = useState<string>('N/A');
   const [speakingCount, setSpeakingCount] = useState(0);
   const [recentSpeaking, setRecentSpeaking] = useState<any[]>([]);
+  const [recentMockTests, setRecentMockTests] = useState<any[]>([]);
 
   useEffect(() => {
     fetchEssays();
     fetchSpeakingStats();
+    fetchMockTests();
     refreshProfile();
   }, []);
 
@@ -95,6 +98,17 @@ export default function Dashboard() {
           setSpeakingAvg((scored.reduce((a, d) => a + (d.score || 0), 0) / scored.length).toFixed(1));
         }
       }
+    } catch {}
+  };
+
+  const fetchMockTests = async () => {
+    try {
+      const { data } = await supabase
+        .from('mock_tests')
+        .select('id,status,overall_band,task1_band,task2_band,speaking_band,created_at,completed_at')
+        .order('created_at', { ascending: false })
+        .limit(5);
+      setRecentMockTests(data || []);
     } catch {}
   };
 
