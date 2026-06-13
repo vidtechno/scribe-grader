@@ -1,64 +1,85 @@
-## Goal
-Move to a permanent-premium activation model: free users have credits but see partially blurred results; once they accumulate 10+ purchased credits, they become **lifetime Premium** (AI Mentor unlocked, full feedback unblurred). Add a public comment section under each essay.
 
-## 1. Database changes (single migration)
+# Mock Test Simulator
 
-**`profiles` table** — add tracking fields:
-- `total_credits_purchased INT DEFAULT 0` — cumulative purchased credits (never decrements on use)
-- `is_premium BOOLEAN DEFAULT false` — lifetime flag, once true stays true
+A complete IELTS mock test (Writing Task 1 + Task 2 + Speaking Parts 1/2/3) with deferred AI grading and a history dashboard.
 
-**Trigger** on `profiles`: when `total_credits_purchased >= 10`, auto-set `is_premium = true`.
+## 1. Database (single migration)
 
-**New table `essay_comments`**:
-- `id`, `essay_id` (FK essays), `user_id` (FK auth.users), `content TEXT`, `created_at`, `updated_at`
-- RLS: anyone authenticated can SELECT; users can INSERT their own; users can UPDATE/DELETE own; admins can DELETE any.
-- GRANTS for authenticated + service_role.
+New tables in `public`:
 
-**`handle_new_user`** function update: new users get **2 credits** (instead of 3).
+**`mock_tests`** — one row per test session
+- `id` uuid pk
+- `user_id` uuid → auth.users
+- `status` text: `in_progress` | `submitted` | `grading` | `completed` | `failed`
+- `current_step` text: `task1` | `task2` | `speaking_p1` | `speaking_p2` | `speaking_p3` | `done`
+- `task1_topic`, `task2_topic`, `speaking_p1_topic`, `speaking_p2_topic`, `speaking_p3_topic` text
+- `task1_essay`, `task2_essay` text
+- `speaking_p1_audio_url`, `speaking_p2_audio_url`, `speaking_p3_audio_url` text
+- `task1_feedback`, `task2_feedback`, `speaking_feedback` jsonb
+- `task1_band`, `task2_band`, `speaking_band`, `overall_band` numeric
+- `grammar_errors_count`, `lexical_errors_count` int
+- `submitted_at`, `completed_at` timestamptz
+- `created_at`, `updated_at` timestamptz
 
-**Admin credit-grant path**: when admin adds credits via Admin panel, increment `total_credits_purchased` too (handled in admin code, not DB).
+RLS: users manage own rows; service_role full. Grants for `authenticated` + `service_role`.
 
-## 2. Premium logic (frontend)
+Trigger to update `updated_at`.
 
-`useSubscription` hook returns new field `isPremium = profile.is_premium`.
+Reuse existing `speaking-audio` storage bucket; add policies for `mock-tests/{user_id}/...` paths if missing.
 
-Replace all `planType === 'free'` checks with `!isPremium`. Key files:
-- `AIMentor.tsx` — unlock only if `isPremium` (replace `isFree` logic)
-- `Result.tsx` & `SpeakingResult.tsx` — show blurred sections (suggestions, advanced corrections) when `!isPremium`, full when `isPremium`. Use existing `BlurredContent` component.
-- `SubscriptionBadge.tsx` — show "Premium ✨" if premium, else "Credit Member".
+## 2. Edge Function: `process-mock-test`
 
-Credits still required to run essay/speaking (1 / 2 credits) regardless of premium.
+- Input: `{ mockTestId }`
+- Auth: verify caller owns the test (or service role)
+- Fetches the row, calls existing `grade-essay` logic inline for task1/task2 and `grade-speaking` for each speaking part, writes feedback + bands back, sets `status = completed`
+- Charges 1 credit total per mock test (deduct on submit, not per task)
+- On error → `status = failed`
 
-## 3. Result blur behavior
+Called fire-and-forget from the client right after submission (`supabase.functions.invoke('process-mock-test', { body: { mockTestId } })` without awaiting). User is redirected to the Thank You screen immediately.
 
-For non-premium users on Result pages, blur:
-- Detailed suggestions / improvement tips
-- Vocabulary upgrade suggestions
-- Sample improved sentences
+## 3. Frontend
 
-Keep visible: band scores, basic criterion scores, short overall comment. Add a small "Become Premium — buy 10+ credits total" CTA card.
+New routes:
+- `/mock-test` — Dashboard (list + start button + band trend chart)
+- `/mock-test/exam/:id` — multi-step exam flow
+- `/mock-test/result/:id` — detailed results (similar to existing Result page, with all three sections)
 
-## 4. Essay comments section
+New components:
+- `MockTestDashboard.tsx` (page) — Past tests table, status badges, click → result, "Start New Mock Test" CTA
+- `MockTestExam.tsx` — controls stepper: Task 1 (20m) → Task 2 (40m) → Speaking P1/P2/P3 (audio). After each step, `UPDATE mock_tests` with that step's data. Save-as-you-go: no risk of losing progress.
+- `MockTestThankYou.tsx` — submitted state, polls status every 10s, redirects to result when `completed`
+- `MockTestResult.tsx` — overall band, per-skill bands, grammar/lexical counts, full feedback per task, comments section
+- `MockTestHistoryCard.tsx` — reusable list-item component matching the styling of Recent Essays / Recent Speaking
+- `BandTrendChart.tsx` — recharts line chart of overall band over time
 
-New component `src/components/EssayComments.tsx`:
-- Fetches comments for essay_id, ordered newest-first
-- Auth users can post (textarea + button)
-- Shows commenter name (from profiles join), timestamp, content
-- Owner/admin can delete
+Dashboard integration:
+- Add "Recent Mock Tests" section to `/dashboard` using `MockTestHistoryCard`
+- Add Mock Test entry to `BottomNav` and `Navbar`
 
-Mount on `Result.tsx` (after feedback) and on a public essay view if applicable — for now only Result page since that's where essays are viewed.
+State management:
+- Local React state for in-progress task input
+- Persist to DB after each step completes (or on timer end)
+- On page reload mid-test, resume from `current_step`
 
-## 5. Admin panel update
+## 4. Out of scope (this iteration)
 
-When admin grants credits, also bump `total_credits_purchased` so trigger fires and user becomes premium if threshold reached.
+- Listening + Reading sections
+- Real-time progress UI in Thank You beyond polling
+- Per-question audio playback in results (only full part audio)
 
 ## Files
 
-**Migration:** new timestamped file under `supabase/migrations/`
-**Edit:** `src/hooks/useSubscription.tsx`, `src/components/AIMentor.tsx`, `src/components/SubscriptionBadge.tsx`, `src/pages/Result.tsx`, `src/pages/SpeakingResult.tsx`, `src/pages/Admin.tsx`
-**New:** `src/components/EssayComments.tsx`
+**New**
+- `supabase/migrations/<ts>_mock_tests.sql`
+- `supabase/functions/process-mock-test/index.ts`
+- `src/pages/MockTestDashboard.tsx`
+- `src/pages/MockTestExam.tsx`
+- `src/pages/MockTestThankYou.tsx`
+- `src/pages/MockTestResult.tsx`
+- `src/components/MockTestHistoryCard.tsx`
+- `src/components/BandTrendChart.tsx`
 
-## Out of scope
-- Payment integration (credits still granted manually/by admin)
-- Comments on speaking attempts (essays only, as requested)
-- Notifications for new comments
+**Edited**
+- `src/App.tsx` — routes
+- `src/components/BottomNav.tsx` + `Navbar.tsx` — nav entry
+- `src/pages/Dashboard.tsx` — Recent Mock Tests section
