@@ -534,6 +534,60 @@ export default function Dashboard() {
         </motion.div>
 
         {/* Writing Tips */}
+        {/* Recent Mock Tests */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
+          className="glass-card p-4 sm:p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <ClipboardList className="h-5 w-5 text-primary" />
+              <h3 className="text-base sm:text-lg font-semibold">Recent Mock Tests</h3>
+            </div>
+            <Link to="/mock-test">
+              <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                View All <ChevronRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          {recentMockTests.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <ClipboardList className="h-12 w-12 mx-auto mb-3 opacity-50" />
+              <p className="text-sm">No mock tests yet</p>
+            </div>
+          ) : (
+            <div className="space-y-2 sm:space-y-3">
+              {recentMockTests.map((m) => {
+                const isDone = m.status === 'completed';
+                const href = isDone ? `/mock-test/result/${m.id}` : m.status === 'in_progress' ? `/mock-test/exam/${m.id}` : `/mock-test/thank-you/${m.id}`;
+                return (
+                  <Link key={m.id} to={href}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                    <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
+                      isDone && (m.overall_band ?? 0) >= 7 ? 'bg-primary/15 text-primary'
+                      : isDone && (m.overall_band ?? 0) >= 5 ? 'bg-yellow-500/15 text-yellow-600'
+                      : isDone ? 'bg-destructive/15 text-destructive'
+                      : 'bg-muted/50 text-muted-foreground'
+                    }`}>
+                      {isDone ? (m.overall_band ?? '—') : <Clock className="h-4 w-4" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary capitalize">
+                          {m.status.replace('_', ' ')}
+                        </span>
+                        <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(m.created_at), 'MMM d, HH:mm')}</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
+                        {isDone ? `Task1 ${m.task1_band ?? '—'} · Task2 ${m.task2_band ?? '—'} · Speaking ${m.speaking_band ?? '—'}` : 'Full mock test session'}
+                      </p>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </motion.div>
+
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
           className="glass-card p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
