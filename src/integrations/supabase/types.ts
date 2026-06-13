@@ -272,6 +272,111 @@ export type Database = {
           },
         ]
       }
+      mock_tests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          current_step: string
+          grammar_errors_count: number | null
+          id: string
+          lexical_errors_count: number | null
+          overall_band: number | null
+          speaking_band: number | null
+          speaking_feedback: Json | null
+          speaking_p1_audio_url: string | null
+          speaking_p1_topic: string | null
+          speaking_p1_transcript: string | null
+          speaking_p2_audio_url: string | null
+          speaking_p2_topic: string | null
+          speaking_p2_transcript: string | null
+          speaking_p3_audio_url: string | null
+          speaking_p3_topic: string | null
+          speaking_p3_transcript: string | null
+          status: string
+          submitted_at: string | null
+          task1_band: number | null
+          task1_essay: string | null
+          task1_feedback: Json | null
+          task1_topic: string | null
+          task1_word_count: number | null
+          task2_band: number | null
+          task2_essay: string | null
+          task2_feedback: Json | null
+          task2_topic: string | null
+          task2_word_count: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          current_step?: string
+          grammar_errors_count?: number | null
+          id?: string
+          lexical_errors_count?: number | null
+          overall_band?: number | null
+          speaking_band?: number | null
+          speaking_feedback?: Json | null
+          speaking_p1_audio_url?: string | null
+          speaking_p1_topic?: string | null
+          speaking_p1_transcript?: string | null
+          speaking_p2_audio_url?: string | null
+          speaking_p2_topic?: string | null
+          speaking_p2_transcript?: string | null
+          speaking_p3_audio_url?: string | null
+          speaking_p3_topic?: string | null
+          speaking_p3_transcript?: string | null
+          status?: string
+          submitted_at?: string | null
+          task1_band?: number | null
+          task1_essay?: string | null
+          task1_feedback?: Json | null
+          task1_topic?: string | null
+          task1_word_count?: number | null
+          task2_band?: number | null
+          task2_essay?: string | null
+          task2_feedback?: Json | null
+          task2_topic?: string | null
+          task2_word_count?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          current_step?: string
+          grammar_errors_count?: number | null
+          id?: string
+          lexical_errors_count?: number | null
+          overall_band?: number | null
+          speaking_band?: number | null
+          speaking_feedback?: Json | null
+          speaking_p1_audio_url?: string | null
+          speaking_p1_topic?: string | null
+          speaking_p1_transcript?: string | null
+          speaking_p2_audio_url?: string | null
+          speaking_p2_topic?: string | null
+          speaking_p2_transcript?: string | null
+          speaking_p3_audio_url?: string | null
+          speaking_p3_topic?: string | null
+          speaking_p3_transcript?: string | null
+          status?: string
+          submitted_at?: string | null
+          task1_band?: number | null
+          task1_essay?: string | null
+          task1_feedback?: Json | null
+          task1_topic?: string | null
+          task1_word_count?: number | null
+          task2_band?: number | null
+          task2_essay?: string | null
+          task2_feedback?: Json | null
+          task2_topic?: string | null
+          task2_word_count?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null

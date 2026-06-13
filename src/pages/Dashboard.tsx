@@ -14,6 +14,7 @@ import {
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
   Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
+  , ClipboardList
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -41,10 +42,12 @@ export default function Dashboard() {
   const [speakingAvg, setSpeakingAvg] = useState<string>('N/A');
   const [speakingCount, setSpeakingCount] = useState(0);
   const [recentSpeaking, setRecentSpeaking] = useState<any[]>([]);
+  const [recentMockTests, setRecentMockTests] = useState<any[]>([]);
 
   useEffect(() => {
     fetchEssays();
     fetchSpeakingStats();
+    fetchMockTests();
     refreshProfile();
   }, []);
 
@@ -95,6 +98,17 @@ export default function Dashboard() {
           setSpeakingAvg((scored.reduce((a, d) => a + (d.score || 0), 0) / scored.length).toFixed(1));
         }
       }
+    } catch {}
+  };
+
+  const fetchMockTests = async () => {
+    try {
+      const { data } = await supabase
+        .from('mock_tests')
+        .select('id,status,overall_band,task1_band,task2_band,speaking_band,created_at,completed_at')
+        .order('created_at', { ascending: false })
+        .limit(5);
+      setRecentMockTests(data || []);
     } catch {}
   };
 
@@ -275,6 +289,29 @@ export default function Dashboard() {
                 </Button>
               </Link>
             )}
+          </div>
+        </motion.div>
+
+        {/* Mock Test CTA */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 }}
+          className="glass-card p-6 sm:p-8 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/20 flex items-center justify-center">
+                <ClipboardList className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold mb-1">Full Mock Test</h2>
+                <p className="text-sm text-muted-foreground">Writing Task 1 + 2 + Speaking Parts 1–3 in one timed session</p>
+              </div>
+            </div>
+            <Link to="/mock-test" className="w-full sm:w-auto">
+              <Button variant="glow" size="lg" className="gap-2 w-full">
+                <ClipboardList className="h-4 w-4" /> Open Mock Tests
+                <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">1 credit</span>
+              </Button>
+            </Link>
           </div>
         </motion.div>
 
@@ -497,6 +534,60 @@ export default function Dashboard() {
         </motion.div>
 
         {/* Writing Tips */}
+        {/* Recent Mock Tests */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
+          className="glass-card p-4 sm:p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <ClipboardList className="h-5 w-5 text-primary" />
+              <h3 className="text-base sm:text-lg font-semibold">Recent Mock Tests</h3>
+            </div>
+            <Link to="/mock-test">
+              <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                View All <ChevronRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          {recentMockTests.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <ClipboardList className="h-12 w-12 mx-auto mb-3 opacity-50" />
+              <p className="text-sm">No mock tests yet</p>
+            </div>
+          ) : (
+            <div className="space-y-2 sm:space-y-3">
+              {recentMockTests.map((m) => {
+                const isDone = m.status === 'completed';
+                const href = isDone ? `/mock-test/result/${m.id}` : m.status === 'in_progress' ? `/mock-test/exam/${m.id}` : `/mock-test/thank-you/${m.id}`;
+                return (
+                  <Link key={m.id} to={href}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                    <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
+                      isDone && (m.overall_band ?? 0) >= 7 ? 'bg-primary/15 text-primary'
+                      : isDone && (m.overall_band ?? 0) >= 5 ? 'bg-yellow-500/15 text-yellow-600'
+                      : isDone ? 'bg-destructive/15 text-destructive'
+                      : 'bg-muted/50 text-muted-foreground'
+                    }`}>
+                      {isDone ? (m.overall_band ?? '—') : <Clock className="h-4 w-4" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary capitalize">
+                          {m.status.replace('_', ' ')}
+                        </span>
+                        <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(m.created_at), 'MMM d, HH:mm')}</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
+                        {isDone ? `Task1 ${m.task1_band ?? '—'} · Task2 ${m.task2_band ?? '—'} · Speaking ${m.speaking_band ?? '—'}` : 'Full mock test session'}
+                      </p>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </motion.div>
+
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
           className="glass-card p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">

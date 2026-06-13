@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, PenTool, Mic, Clock, FileText, Coins, User as UserIcon } from 'lucide-react';
+import { LayoutDashboard, PenTool, Mic, Clock, FileText, Coins, User as UserIcon, ClipboardList } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { PricingModal } from '@/components/PricingModal';
 import {
@@ -14,7 +14,7 @@ import {
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
   { to: '#write', icon: PenTool, label: 'Write' },
-  { to: '/speaking', icon: Mic, label: 'Speak' },
+  { to: '/mock-test', icon: ClipboardList, label: 'Mock' },
   { to: '#credits', icon: Coins, label: 'Credits' },
   { to: '/profile', icon: UserIcon, label: 'Profile' },
 ];
@@ -28,6 +28,7 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
 
   if (!user) return null;
   if (location.pathname === '/exam') return null;
+  if (location.pathname.startsWith('/mock-test/exam/')) return null;
 
   return (
     <>
