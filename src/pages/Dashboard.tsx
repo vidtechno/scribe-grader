@@ -292,6 +292,29 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
+        {/* Mock Test CTA */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 }}
+          className="glass-card p-6 sm:p-8 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/20 flex items-center justify-center">
+                <ClipboardList className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold mb-1">Full Mock Test</h2>
+                <p className="text-sm text-muted-foreground">Writing Task 1 + 2 + Speaking Parts 1–3 in one timed session</p>
+              </div>
+            </div>
+            <Link to="/mock-test" className="w-full sm:w-auto">
+              <Button variant="glow" size="lg" className="gap-2 w-full">
+                <ClipboardList className="h-4 w-4" /> Open Mock Tests
+                <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">1 credit</span>
+              </Button>
+            </Link>
+          </div>
+        </motion.div>
+
         <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8">
           {[
             { icon: Coins, value: creditsRemaining, label: 'Credits Left', delay: 1 },
