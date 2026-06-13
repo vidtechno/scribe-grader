@@ -22,6 +22,10 @@ import Speaking from "./pages/Speaking";
 import SpeakingResult from "./pages/SpeakingResult";
 import SpeakingHistory from "./pages/SpeakingHistory";
 import Profile from "./pages/Profile";
+import MockTestDashboard from "./pages/MockTestDashboard";
+import MockTestExam from "./pages/MockTestExam";
+import MockTestThankYou from "./pages/MockTestThankYou";
+import MockTestResult from "./pages/MockTestResult";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -65,6 +69,10 @@ function AppRoutes() {
         <Route path="/speaking-result/:id" element={<ProtectedRoute><SpeakingResult /></ProtectedRoute>} />
         <Route path="/speaking-history" element={<ProtectedRoute><SpeakingHistory /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/mock-test" element={<ProtectedRoute><MockTestDashboard /></ProtectedRoute>} />
+        <Route path="/mock-test/exam/:id" element={<ProtectedRoute><MockTestExam /></ProtectedRoute>} />
+        <Route path="/mock-test/thank-you/:id" element={<ProtectedRoute><MockTestThankYou /></ProtectedRoute>} />
+        <Route path="/mock-test/result/:id" element={<ProtectedRoute><MockTestResult /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
