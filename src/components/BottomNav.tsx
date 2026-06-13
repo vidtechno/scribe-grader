@@ -28,6 +28,7 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
 
   if (!user) return null;
   if (location.pathname === '/exam') return null;
+  if (location.pathname.startsWith('/mock-test/exam/')) return null;
 
   return (
     <>
