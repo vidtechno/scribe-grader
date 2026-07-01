@@ -20,14 +20,26 @@ export default function MockTestDashboard() {
 
   useEffect(() => {
     if (!user) return;
-    (async () => {
+    let cancelled = false;
+    const load = async () => {
       const { data } = await supabase
         .from('mock_tests')
         .select('id,status,overall_band,task1_band,task2_band,speaking_band,created_at,completed_at,grammar_errors_count,lexical_errors_count')
         .order('created_at', { ascending: false });
-      setTests((data as any) || []);
-      setLoading(false);
-    })();
+      if (!cancelled) {
+        setTests((data as any) || []);
+        setLoading(false);
+      }
+    };
+    load();
+    const channel = supabase
+      .channel('mock-tests-live')
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'mock_tests', filter: `user_id=eq.${user.id}` },
+        () => load()
+      )
+      .subscribe();
+    return () => { cancelled = true; supabase.removeChannel(channel); };
   }, [user]);
 
   const completed = tests.filter(t => t.status === 'completed');
