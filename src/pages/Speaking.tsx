@@ -7,6 +7,7 @@ import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SpeechRecorder } from '@/components/SpeechRecorder';
+import { AudioQualityCheck } from '@/components/AudioQualityCheck';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
@@ -52,6 +53,7 @@ export default function Speaking() {
   const [showPricing, setShowPricing] = useState(false);
   const [totalAttempts, setTotalAttempts] = useState(0);
   const [started, setStarted] = useState(false);
+  const [micReady, setMicReady] = useState(false);
 
   const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic;
 
@@ -73,6 +75,7 @@ export default function Speaking() {
     setSelectedPart(part);
     setTopic(getRandomSpeakingTopic(part));
     setStarted(false);
+    setMicReady(false);
   };
 
   const handleRecordingComplete = async (blob: Blob, duration: number) => {
@@ -307,12 +310,19 @@ export default function Speaking() {
               </Button>
               <p className="text-xs text-muted-foreground mt-3">{PART_INFO[selectedPart].desc}</p>
             </div>
+          ) : !micReady ? (
+            <AudioQualityCheck onPass={() => setMicReady(true)} />
           ) : (
-            <SpeechRecorder
-              onRecordingComplete={handleRecordingComplete}
-              isProcessing={isProcessing}
-              maxDuration={PART_INFO[selectedPart].time}
-            />
+            <>
+              <SpeechRecorder
+                onRecordingComplete={handleRecordingComplete}
+                isProcessing={isProcessing}
+                maxDuration={PART_INFO[selectedPart].time}
+              />
+              <p className="text-[11px] text-center text-muted-foreground mt-3">
+                {SPEAKING_COST} credits are deducted only when you click <b>Start Evaluation</b> after recording.
+              </p>
+            </>
           )}
         </motion.div>
       </main>
