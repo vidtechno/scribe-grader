@@ -136,11 +136,15 @@ export default function MockTestExam() {
     if (!mt) return;
     setSubmitting(true);
     try {
-      // Deduct 1 credit
+      // Deduct 8 credits ONLY on Start Evaluation (final submit)
       const { data: prof } = await supabase.from('profiles').select('credits').eq('user_id', user!.id).single();
-      if (prof) {
-        await supabase.from('profiles').update({ credits: Math.max(0, (prof as any).credits - 1) }).eq('user_id', user!.id);
+      const currentCredits = (prof as any)?.credits ?? 0;
+      if (currentCredits < 8) {
+        toast.error('You need 8 credits to submit for evaluation.');
+        setSubmitting(false);
+        return;
       }
+      await supabase.from('profiles').update({ credits: currentCredits - 8 }).eq('user_id', user!.id);
       await supabase.from('mock_tests').update({
         status: 'submitted',
         submitted_at: new Date().toISOString(),
