@@ -14,20 +14,30 @@ export default function MockTestThankYou() {
   useEffect(() => {
     if (!id) return;
     let stop = false;
-    const poll = async () => {
+    const check = async () => {
       const { data } = await supabase.from('mock_tests').select('status').eq('id', id).single();
       if (stop || !data) return;
       setStatus((data as any).status);
       if ((data as any).status === 'completed') {
         navigate(`/mock-test/result/${id}`);
-        return;
-      }
-      if ((data as any).status !== 'failed') {
-        setTimeout(poll, 8000);
       }
     };
-    poll();
-    return () => { stop = true; };
+    check();
+    // Realtime channel: instantly react to grading completion
+    const channel = supabase
+      .channel(`mock-test-${id}`)
+      .on('postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'mock_tests', filter: `id=eq.${id}` },
+        (payload) => {
+          const s = (payload.new as any).status;
+          setStatus(s);
+          if (s === 'completed') navigate(`/mock-test/result/${id}`);
+        }
+      )
+      .subscribe();
+    // Safety fallback poll every 20s in case realtime lags
+    const interval = setInterval(check, 20000);
+    return () => { stop = true; clearInterval(interval); supabase.removeChannel(channel); };
   }, [id, navigate]);
 
   const failed = status === 'failed';
