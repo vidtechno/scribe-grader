@@ -360,14 +360,27 @@ export default function Exam() {
                 {formatTime(timeLeft)}
               </span>
             </div>
-            <Button 
-              onClick={handleSubmit} 
-              disabled={isSubmitting || !isWordCountValid} 
-              className="gap-2 bg-green-600 hover:bg-green-700 text-white border-0 px-6"
-            >
-              {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              Submit Essay
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={saveDraft}
+                disabled={isSubmitting}
+                className="gap-2"
+              >
+                Save Draft
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                disabled={isSubmitting || !isWordCountValid}
+                className="gap-2 bg-green-600 hover:bg-green-700 text-white border-0 px-6"
+              >
+                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                Start Evaluation
+                <span className="ml-1 text-[10px] font-medium px-1.5 py-0.5 rounded bg-white/20">
+                  −{WRITING_COST} credits
+                </span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
