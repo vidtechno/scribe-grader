@@ -86,6 +86,16 @@ export default function Speaking() {
     setIsProcessing(true);
     setGradingStep(0);
 
+    // Deduct credits immediately when Start Evaluation begins
+    await supabase.from('profiles').update({ credits: Math.max(0, credits - SPEAKING_COST) }).eq('user_id', user.id);
+
+    // Insert a "processing" row so history shows a spinner instantly
+    const audioFileName = `${user.id}/${Date.now()}.webm`;
+    const { data: pendingRow } = await supabase.from('speaking_attempts').insert({
+      user_id: user.id, topic: activeTopic, part: selectedPart,
+      audio_url: audioFileName, duration_seconds: duration, status: 'processing'
+    }).select().single();
+
     // Step through grading animation
     const stepTimers: number[] = [];
     let cumulative = 0;
@@ -96,10 +106,9 @@ export default function Speaking() {
 
     try {
       // 1. Upload audio
-      const fileName = `${user.id}/${Date.now()}.webm`;
       const { error: uploadError } = await supabase.storage
         .from('speaking-audio')
-        .upload(fileName, blob, { contentType: 'audio/webm' });
+        .upload(audioFileName, blob, { contentType: 'audio/webm' });
 
       if (uploadError) throw new Error('Audio upload failed');
 
@@ -126,26 +135,20 @@ export default function Speaking() {
         throw new Error('Grading failed');
       }
 
-      // 4. Save to database
+      // 4. Update the pending row with final grade
       const { data: attempt, error: saveError } = await supabase
         .from('speaking_attempts')
-        .insert({
-          user_id: user.id,
-          topic: activeTopic,
-          part: selectedPart,
+        .update({
           transcript,
-          audio_url: fileName,
           feedback: gradeData,
           score: gradeData.overallBand,
-          duration_seconds: duration,
+          status: 'completed',
         })
+        .eq('id', pendingRow!.id)
         .select()
         .single();
-
       if (saveError) throw saveError;
 
-      // 5. Deduct credits
-      await supabase.from('profiles').update({ credits: Math.max(0, credits - SPEAKING_COST) }).eq('user_id', user.id);
       await refreshProfile();
 
       stepTimers.forEach(clearTimeout);
@@ -153,6 +156,9 @@ export default function Speaking() {
       navigate(`/speaking-result/${attempt.id}`);
     } catch (err: any) {
       console.error('Speaking processing error:', err);
+      if (pendingRow) {
+        await supabase.from('speaking_attempts').update({ status: 'failed', error_message: err.message }).eq('id', pendingRow.id);
+      }
       toast.error(err.message || 'Something went wrong');
       stepTimers.forEach(clearTimeout);
     } finally {
