@@ -7,6 +7,7 @@ import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SpeechRecorder } from '@/components/SpeechRecorder';
+import { AudioQualityCheck } from '@/components/AudioQualityCheck';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
@@ -52,6 +53,7 @@ export default function Speaking() {
   const [showPricing, setShowPricing] = useState(false);
   const [totalAttempts, setTotalAttempts] = useState(0);
   const [started, setStarted] = useState(false);
+  const [micReady, setMicReady] = useState(false);
 
   const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic;
 
@@ -73,6 +75,7 @@ export default function Speaking() {
     setSelectedPart(part);
     setTopic(getRandomSpeakingTopic(part));
     setStarted(false);
+    setMicReady(false);
   };
 
   const handleRecordingComplete = async (blob: Blob, duration: number) => {
@@ -86,6 +89,16 @@ export default function Speaking() {
     setIsProcessing(true);
     setGradingStep(0);
 
+    // Deduct credits immediately when Start Evaluation begins
+    await supabase.from('profiles').update({ credits: Math.max(0, credits - SPEAKING_COST) }).eq('user_id', user.id);
+
+    // Insert a "processing" row so history shows a spinner instantly
+    const audioFileName = `${user.id}/${Date.now()}.webm`;
+    const { data: pendingRow } = await supabase.from('speaking_attempts').insert({
+      user_id: user.id, topic: activeTopic, part: selectedPart,
+      audio_url: audioFileName, duration_seconds: duration, status: 'processing'
+    }).select().single();
+
     // Step through grading animation
     const stepTimers: number[] = [];
     let cumulative = 0;
@@ -96,10 +109,9 @@ export default function Speaking() {
 
     try {
       // 1. Upload audio
-      const fileName = `${user.id}/${Date.now()}.webm`;
       const { error: uploadError } = await supabase.storage
         .from('speaking-audio')
-        .upload(fileName, blob, { contentType: 'audio/webm' });
+        .upload(audioFileName, blob, { contentType: 'audio/webm' });
 
       if (uploadError) throw new Error('Audio upload failed');
 
@@ -126,26 +138,20 @@ export default function Speaking() {
         throw new Error('Grading failed');
       }
 
-      // 4. Save to database
+      // 4. Update the pending row with final grade
       const { data: attempt, error: saveError } = await supabase
         .from('speaking_attempts')
-        .insert({
-          user_id: user.id,
-          topic: activeTopic,
-          part: selectedPart,
+        .update({
           transcript,
-          audio_url: fileName,
           feedback: gradeData,
           score: gradeData.overallBand,
-          duration_seconds: duration,
+          status: 'completed',
         })
+        .eq('id', pendingRow!.id)
         .select()
         .single();
-
       if (saveError) throw saveError;
 
-      // 5. Deduct credits
-      await supabase.from('profiles').update({ credits: Math.max(0, credits - SPEAKING_COST) }).eq('user_id', user.id);
       await refreshProfile();
 
       stepTimers.forEach(clearTimeout);
@@ -153,6 +159,9 @@ export default function Speaking() {
       navigate(`/speaking-result/${attempt.id}`);
     } catch (err: any) {
       console.error('Speaking processing error:', err);
+      if (pendingRow) {
+        await supabase.from('speaking_attempts').update({ status: 'failed', error_message: err.message }).eq('id', pendingRow.id);
+      }
       toast.error(err.message || 'Something went wrong');
       stepTimers.forEach(clearTimeout);
     } finally {
@@ -301,12 +310,19 @@ export default function Speaking() {
               </Button>
               <p className="text-xs text-muted-foreground mt-3">{PART_INFO[selectedPart].desc}</p>
             </div>
+          ) : !micReady ? (
+            <AudioQualityCheck onPass={() => setMicReady(true)} />
           ) : (
-            <SpeechRecorder
-              onRecordingComplete={handleRecordingComplete}
-              isProcessing={isProcessing}
-              maxDuration={PART_INFO[selectedPart].time}
-            />
+            <>
+              <SpeechRecorder
+                onRecordingComplete={handleRecordingComplete}
+                isProcessing={isProcessing}
+                maxDuration={PART_INFO[selectedPart].time}
+              />
+              <p className="text-[11px] text-center text-muted-foreground mt-3">
+                {SPEAKING_COST} credits are deducted only when you click <b>Start Evaluation</b> after recording.
+              </p>
+            </>
           )}
         </motion.div>
       </main>

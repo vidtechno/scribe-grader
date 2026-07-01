@@ -20,14 +20,26 @@ export default function MockTestDashboard() {
 
   useEffect(() => {
     if (!user) return;
-    (async () => {
+    let cancelled = false;
+    const load = async () => {
       const { data } = await supabase
         .from('mock_tests')
         .select('id,status,overall_band,task1_band,task2_band,speaking_band,created_at,completed_at,grammar_errors_count,lexical_errors_count')
         .order('created_at', { ascending: false });
-      setTests((data as any) || []);
-      setLoading(false);
-    })();
+      if (!cancelled) {
+        setTests((data as any) || []);
+        setLoading(false);
+      }
+    };
+    load();
+    const channel = supabase
+      .channel('mock-tests-live')
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'mock_tests', filter: `user_id=eq.${user.id}` },
+        () => load()
+      )
+      .subscribe();
+    return () => { cancelled = true; supabase.removeChannel(channel); };
   }, [user]);
 
   const completed = tests.filter(t => t.status === 'completed');
@@ -38,8 +50,8 @@ export default function MockTestDashboard() {
 
   const startTest = async () => {
     if (!user) return;
-    if ((profile?.credits ?? 0) < 1) {
-      toast.error('You need at least 1 credit to start a mock test');
+    if ((profile?.credits ?? 0) < 8) {
+      toast.error('You need 8 credits to start a mock test');
       return;
     }
     setCreating(true);
@@ -80,7 +92,7 @@ export default function MockTestDashboard() {
             <Button variant="glow" size="lg" onClick={startTest} disabled={creating} className="gap-2 w-full sm:w-auto">
               {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               Start New Mock Test
-              <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15">1 credit</span>
+              <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15">8 credits</span>
             </Button>
           </div>
         </motion.div>

@@ -136,11 +136,15 @@ export default function MockTestExam() {
     if (!mt) return;
     setSubmitting(true);
     try {
-      // Deduct 1 credit
+      // Deduct 8 credits ONLY on Start Evaluation (final submit)
       const { data: prof } = await supabase.from('profiles').select('credits').eq('user_id', user!.id).single();
-      if (prof) {
-        await supabase.from('profiles').update({ credits: Math.max(0, (prof as any).credits - 1) }).eq('user_id', user!.id);
+      const currentCredits = (prof as any)?.credits ?? 0;
+      if (currentCredits < 8) {
+        toast.error('You need 8 credits to submit for evaluation.');
+        setSubmitting(false);
+        return;
       }
+      await supabase.from('profiles').update({ credits: currentCredits - 8 }).eq('user_id', user!.id);
       await supabase.from('mock_tests').update({
         status: 'submitted',
         submitted_at: new Date().toISOString(),
@@ -247,10 +251,14 @@ export default function MockTestExam() {
             <h2 className="text-xl font-bold mb-2">Ready to Submit</h2>
             <p className="text-sm text-muted-foreground mb-6">
               You've completed all tasks. Submit to send your responses for AI evaluation.
+              Credits are deducted only when you press <b>Start Evaluation</b>.
             </p>
             <Button onClick={handleFinalSubmit} disabled={submitting} variant="glow" size="lg" className="gap-2">
               {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              Submit Mock Test
+              Start Evaluation
+              <span className="ml-2 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/20">
+                Uses 8 credits
+              </span>
             </Button>
           </motion.div>
         )}

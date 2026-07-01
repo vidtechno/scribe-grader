@@ -24,7 +24,7 @@ const GRADING_STEPS = [
   { label: 'Evaluating band score...', icon: BarChart3, duration: 4000 },
 ];
 
-const WRITING_COST = 1;
+const WRITING_COST = 2;
 
 export default function Exam() {
   const [searchParams] = useSearchParams();
@@ -94,28 +94,35 @@ export default function Exam() {
 
   const handleSubmit = useCallback(async () => {
     if (!profile) { toast.error('Please sign in'); return; }
-    if (profile.credits < 1) { setShowPricing(true); return; }
+    if (profile.credits < WRITING_COST) { setShowPricing(true); return; }
     if (!isWordCountValid) { toast.error(`Please write at least ${minWords} words`); return; }
 
     setIsSubmitting(true);
     try {
       const topicText = activeTopic;
+      // Deduct credits up-front (only on "Start Evaluation")
+      await supabase.from('profiles').update({ credits: profile.credits - WRITING_COST }).eq('user_id', profile.user_id);
+      // Queue the attempt so it shows up in history immediately with a spinner
+      const { data: pendingRow } = await supabase.from('essays').insert({
+        user_id: profile.user_id, task_type: taskType, topic: topicText,
+        essay_text: essay, word_count: wordCount, status: 'processing'
+      }).select().single();
+
       const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
         body: { essay, taskType, topic: topicText, planType }
       });
-      if (gradeError) throw gradeError;
-
-      const { data: essayData, error: essayError } = await supabase.from('essays').insert({
-        user_id: profile.user_id, task_type: taskType, topic: topicText,
-        essay_text: essay, word_count: wordCount, score: gradeResult.overallBand, feedback: gradeResult
-      }).select().single();
+      if (gradeError) {
+        if (pendingRow) await supabase.from('essays').update({ status: 'failed', error_message: gradeError.message }).eq('id', pendingRow.id);
+        throw gradeError;
+      }
+      const { data: essayData, error: essayError } = await supabase.from('essays')
+        .update({ score: gradeResult.overallBand, feedback: gradeResult, status: 'completed' })
+        .eq('id', pendingRow!.id).select().single();
       if (essayError) throw essayError;
-
-      await supabase.from('profiles').update({ credits: profile.credits - 1 }).eq('user_id', profile.user_id);
 
       const { data: sub } = await supabase.from('subscriptions').select('credits_used').eq('user_id', profile.user_id).single();
       if (sub) {
-        await supabase.from('subscriptions').update({ credits_used: (sub as any).credits_used + 1 }).eq('user_id', profile.user_id);
+        await supabase.from('subscriptions').update({ credits_used: (sub as any).credits_used + WRITING_COST }).eq('user_id', profile.user_id);
       }
 
       await refreshProfile();
@@ -127,10 +134,21 @@ export default function Exam() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [essay, taskType, topic, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile]);
+  }, [essay, taskType, activeTopic, planType, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile]);
+
+  const saveDraft = useCallback(async () => {
+    if (!profile) return;
+    if (!essay.trim()) { toast.error('Nothing to save'); return; }
+    const { error } = await supabase.from('essays').insert({
+      user_id: profile.user_id, task_type: taskType, topic: activeTopic,
+      essay_text: essay, word_count: wordCount, status: 'draft'
+    });
+    if (error) { toast.error('Failed to save draft'); return; }
+    toast.success('Draft saved — resume from History');
+  }, [profile, taskType, essay, wordCount, activeTopic]);
 
   const startExam = () => {
-    if (profile && profile.credits < 1) { setShowPricing(true); return; }
+    if (profile && profile.credits < WRITING_COST) { setShowPricing(true); return; }
     if (useCustomTopic && !customTopic.trim()) { toast.error("Please enter a topic"); return; }
     setExamStarted(true);
   };
@@ -192,10 +210,13 @@ export default function Exam() {
                 <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> {minWords}+ words</span>
               </div>
               <Button variant="glow" size="xl" onClick={startExam} className="gap-2">
-                <Sparkles className="h-5 w-5" /> Start Exam (−{WRITING_COST} credit)
+                <Sparkles className="h-5 w-5" /> Start Exam
+                <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15">
+                  Uses {WRITING_COST} credits
+                </span>
               </Button>
               <p className="text-xs text-muted-foreground mt-3">
-                You have <span className="font-semibold text-primary">{profile?.credits ?? 0}</span> credits • Writing essay = {WRITING_COST} credit
+                You have <span className="font-semibold text-primary">{profile?.credits ?? 0}</span> credits • Credits are deducted only when you click <b>Start Evaluation</b>
               </p>
             </div>
           </motion.div>
@@ -339,14 +360,27 @@ export default function Exam() {
                 {formatTime(timeLeft)}
               </span>
             </div>
-            <Button 
-              onClick={handleSubmit} 
-              disabled={isSubmitting || !isWordCountValid} 
-              className="gap-2 bg-green-600 hover:bg-green-700 text-white border-0 px-6"
-            >
-              {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              Submit Essay
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={saveDraft}
+                disabled={isSubmitting}
+                className="gap-2"
+              >
+                Save Draft
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                disabled={isSubmitting || !isWordCountValid}
+                className="gap-2 bg-green-600 hover:bg-green-700 text-white border-0 px-6"
+              >
+                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                Start Evaluation
+                <span className="ml-1 text-[10px] font-medium px-1.5 py-0.5 rounded bg-white/20">
+                  −{WRITING_COST} credits
+                </span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
