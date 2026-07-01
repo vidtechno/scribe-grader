@@ -159,10 +159,12 @@ export type Database = {
       essays: {
         Row: {
           created_at: string
+          error_message: string | null
           essay_text: string
           feedback: Json | null
           id: string
           score: number | null
+          status: string
           task_type: string
           topic: string
           user_id: string
@@ -170,10 +172,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          error_message?: string | null
           essay_text: string
           feedback?: Json | null
           id?: string
           score?: number | null
+          status?: string
           task_type: string
           topic: string
           user_id: string
@@ -181,10 +185,12 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          error_message?: string | null
           essay_text?: string
           feedback?: Json | null
           id?: string
           score?: number | null
+          status?: string
           task_type?: string
           topic?: string
           user_id?: string
@@ -427,10 +433,12 @@ export type Database = {
           audio_url: string | null
           created_at: string
           duration_seconds: number | null
+          error_message: string | null
           feedback: Json | null
           id: string
           part: string
           score: number | null
+          status: string
           topic: string
           transcript: string | null
           updated_at: string
@@ -440,10 +448,12 @@ export type Database = {
           audio_url?: string | null
           created_at?: string
           duration_seconds?: number | null
+          error_message?: string | null
           feedback?: Json | null
           id?: string
           part?: string
           score?: number | null
+          status?: string
           topic: string
           transcript?: string | null
           updated_at?: string
@@ -453,10 +463,12 @@ export type Database = {
           audio_url?: string | null
           created_at?: string
           duration_seconds?: number | null
+          error_message?: string | null
           feedback?: Json | null
           id?: string
           part?: string
           score?: number | null
+          status?: string
           topic?: string
           transcript?: string | null
           updated_at?: string
