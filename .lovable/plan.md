@@ -1,85 +1,91 @@
+# IELTS Platform Upgrade — Credits, Async Queue, Drafts, Tabs
 
-# Mock Test Simulator
+Big scope. Grouping into 4 shippable phases. Each phase is one migration + focused code changes.
 
-A complete IELTS mock test (Writing Task 1 + Task 2 + Speaking Parts 1/2/3) with deferred AI grading and a history dashboard.
+## 1. Credit & Pricing System
 
-## 1. Database (single migration)
+**Rules**
+- Full Mock Test: **8 credits** (currently 1)
+- Individual Writing evaluation: **2 credits** (currently 1)
+- Individual Speaking evaluation: **2 credits** (currently 1)
+- Deduction happens **only** at the moment the user clicks "Start Evaluation" (already the case for individual flows; Mock Test already deducts at final submit — bump to 8).
 
-New tables in `public`:
+**Changes**
+- `MockTestExam.tsx` — deduct 8 in final submit, guard if `credits < 8`.
+- `Exam.tsx` (writing) and `Speaking.tsx` — deduct 2 (not 1) at Start Evaluation, guard.
+- Update copy in `PricingModal.tsx` and `AIMentor.tsx` referencing per-action cost.
 
-**`mock_tests`** — one row per test session
-- `id` uuid pk
-- `user_id` uuid → auth.users
-- `status` text: `in_progress` | `submitted` | `grading` | `completed` | `failed`
-- `current_step` text: `task1` | `task2` | `speaking_p1` | `speaking_p2` | `speaking_p3` | `done`
-- `task1_topic`, `task2_topic`, `speaking_p1_topic`, `speaking_p2_topic`, `speaking_p3_topic` text
-- `task1_essay`, `task2_essay` text
-- `speaking_p1_audio_url`, `speaking_p2_audio_url`, `speaking_p3_audio_url` text
-- `task1_feedback`, `task2_feedback`, `speaking_feedback` jsonb
-- `task1_band`, `task2_band`, `speaking_band`, `overall_band` numeric
-- `grammar_errors_count`, `lexical_errors_count` int
-- `submitted_at`, `completed_at` timestamptz
-- `created_at`, `updated_at` timestamptz
+## 2. Async Task Queue + Status Polling
 
-RLS: users manage own rows; service_role full. Grants for `authenticated` + `service_role`.
+**Database (migration)**
+Add `status` columns where missing so every attempt row has a lifecycle:
+- `essays.status` text: `draft | queued | processing | completed | failed` (default `completed` for legacy rows)
+- `essays.error_message` text
+- `speaking_attempts.status` text (same enum) + `error_message`
+- `mock_tests` already has `status`; add `processing` alias handling in UI.
 
-Trigger to update `updated_at`.
+Enable Realtime on `essays`, `speaking_attempts`, `mock_tests` so clients get push updates instead of tight polling.
 
-Reuse existing `speaking-audio` storage bucket; add policies for `mock-tests/{user_id}/...` paths if missing.
+**Edge functions**
+Refactor `grade-essay` and `grade-speaking` into fire-and-forget mode:
+- Client inserts a row with `status = 'queued'`, then invokes function without `await`.
+- Function flips row to `processing`, runs OpenAI, writes feedback + `status = 'completed'` (or `failed` + `error_message`).
 
-## 2. Edge Function: `process-mock-test`
+**Frontend**
+- History cards show spinner + "Processing…" badge when `status ∈ {queued, processing}`.
+- `useEffect` subscribes to Realtime `postgres_changes` on the user's rows; unsubscribes on unmount.
+- Result pages redirect to a "Waiting for evaluation" screen if opened while still processing.
 
-- Input: `{ mockTestId }`
-- Auth: verify caller owns the test (or service role)
-- Fetches the row, calls existing `grade-essay` logic inline for task1/task2 and `grade-speaking` for each speaking part, writes feedback + bands back, sets `status = completed`
-- Charges 1 credit total per mock test (deduct on submit, not per task)
-- On error → `status = failed`
+## 3. Writing & Speaking pages — Practice / History / Drafts tabs
 
-Called fire-and-forget from the client right after submission (`supabase.functions.invoke('process-mock-test', { body: { mockTestId } })` without awaiting). User is redirected to the Thank You screen immediately.
+Restructure two pages using shadcn `Tabs`.
 
-## 3. Frontend
+**`/writing`** (new route, keeps `/exam` for legacy)
+- Tab **Practice**: Task 1 / Task 2 selector, random topic button, essay editor, "Save Draft" + "Start Evaluation (2 credits)".
+- Tab **History**: completed attempts + Drafts sub-section (`status = 'draft'`) with Resume button.
 
-New routes:
-- `/mock-test` — Dashboard (list + start button + band trend chart)
-- `/mock-test/exam/:id` — multi-step exam flow
-- `/mock-test/result/:id` — detailed results (similar to existing Result page, with all three sections)
+**`/speaking`** update existing page
+- Tab **Practice**: random topic, `SpeechRecorder`, Preview / Discard / Save Draft / Start Evaluation.
+- Tab **History**: completed attempts + Drafts.
 
-New components:
-- `MockTestDashboard.tsx` (page) — Past tests table, status badges, click → result, "Start New Mock Test" CTA
-- `MockTestExam.tsx` — controls stepper: Task 1 (20m) → Task 2 (40m) → Speaking P1/P2/P3 (audio). After each step, `UPDATE mock_tests` with that step's data. Save-as-you-go: no risk of losing progress.
-- `MockTestThankYou.tsx` — submitted state, polls status every 10s, redirects to result when `completed`
-- `MockTestResult.tsx` — overall band, per-skill bands, grammar/lexical counts, full feedback per task, comments section
-- `MockTestHistoryCard.tsx` — reusable list-item component matching the styling of Recent Essays / Recent Speaking
-- `BandTrendChart.tsx` — recharts line chart of overall band over time
+**Draft system**
+- `essays` and `speaking_attempts` gain `status = 'draft'` rows saved before evaluation.
+- Resume loads the draft into the practice form; Start Evaluation flips the same row to `queued`.
 
-Dashboard integration:
-- Add "Recent Mock Tests" section to `/dashboard` using `MockTestHistoryCard`
-- Add Mock Test entry to `BottomNav` and `Navbar`
+## 4. Audio Quality Check
 
-State management:
-- Local React state for in-progress task input
-- Persist to DB after each step completes (or on timer end)
-- On page reload mid-test, resume from `current_step`
+New `AudioQualityCheck.tsx` component shown before Speaking evaluation and before Mock Test speaking parts:
+- Requests mic permission, plays a 3-second live meter using `AnalyserNode`.
+- Requires user to hit > threshold before "I'm ready" unlocks. Falls back gracefully if permission denied.
 
-## 4. Out of scope (this iteration)
+## 5. Mock Test — draft-per-step + async
 
-- Listening + Reading sections
-- Real-time progress UI in Thank You beyond polling
-- Per-question audio playback in results (only full part audio)
+Already saves each step to `mock_tests` (that IS the draft). Two tweaks:
+- Show in-progress mock tests as "Draft — Resume" in `MockTestDashboard.tsx`.
+- On final submit: deduct 8 credits, set `status = 'queued'`, invoke `process-mock-test` fire-and-forget (already fire-and-forget; just rename state to queued → processing → completed).
+- Thank-you page uses Realtime instead of polling.
 
 ## Files
 
 **New**
-- `supabase/migrations/<ts>_mock_tests.sql`
-- `supabase/functions/process-mock-test/index.ts`
-- `src/pages/MockTestDashboard.tsx`
-- `src/pages/MockTestExam.tsx`
-- `src/pages/MockTestThankYou.tsx`
-- `src/pages/MockTestResult.tsx`
-- `src/components/MockTestHistoryCard.tsx`
-- `src/components/BandTrendChart.tsx`
+- migration: statuses, error_message columns, realtime publication additions
+- `src/pages/Writing.tsx` (new tabbed page) — reuses existing exam UI
+- `src/components/AudioQualityCheck.tsx`
+- `src/components/AttemptStatusBadge.tsx` (spinner / status pill, reused across history lists)
+- `src/hooks/useRealtimeAttempts.ts`
 
 **Edited**
-- `src/App.tsx` — routes
-- `src/components/BottomNav.tsx` + `Navbar.tsx` — nav entry
-- `src/pages/Dashboard.tsx` — Recent Mock Tests section
+- `src/App.tsx` — add `/writing` route
+- `src/pages/Exam.tsx` — draft save, 2-credit cost, queued flow
+- `src/pages/Speaking.tsx` — tabs, draft save, audio check, 2-credit cost, queued flow
+- `src/pages/MockTestExam.tsx` — 8 credits, queued status
+- `src/pages/MockTestDashboard.tsx` — Draft/Resume, realtime
+- `src/pages/MockTestThankYou.tsx` — realtime
+- `src/pages/Dashboard.tsx`, `src/components/BottomNav.tsx`, `Navbar.tsx` — link to new `/writing`
+- `src/components/PricingModal.tsx`, `AIMentor.tsx` — updated pricing copy
+- `supabase/functions/grade-essay/index.ts`, `grade-speaking/index.ts` — write status transitions
+
+## Out of scope this pass
+- WebSockets beyond Supabase Realtime.
+- Rewriting existing result pages' layouts (only status handling added).
+- Migrating legacy essay/speaking rows to a different status than `completed`.
