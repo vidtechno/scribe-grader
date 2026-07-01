@@ -251,10 +251,14 @@ export default function MockTestExam() {
             <h2 className="text-xl font-bold mb-2">Ready to Submit</h2>
             <p className="text-sm text-muted-foreground mb-6">
               You've completed all tasks. Submit to send your responses for AI evaluation.
+              Credits are deducted only when you press <b>Start Evaluation</b>.
             </p>
             <Button onClick={handleFinalSubmit} disabled={submitting} variant="glow" size="lg" className="gap-2">
               {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              Submit Mock Test
+              Start Evaluation
+              <span className="ml-2 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/20">
+                Uses 8 credits
+              </span>
             </Button>
           </motion.div>
         )}
