@@ -204,7 +204,7 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
-                <PenTool className="h-3.5 w-3.5" /> Writing = 1 credit
+                <PenTool className="h-3.5 w-3.5" /> Writing = 2 credits
               </span>
               <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30 flex items-center gap-1 bg-green-100 text-slate-900">
                 <Mic className="h-3.5 w-3.5" /> Speaking = 2 credits
@@ -238,7 +238,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex gap-3 w-full sm:w-auto">
-              {creditsRemaining < 1 ? (
+              {creditsRemaining < 2 ? (
                 <Button variant="glow" size="lg" className="gap-2 w-full" onClick={() => setShowPricing(true)}>
                   <Coins className="h-4 w-4" /> Out of credits — Buy Credits
                 </Button>
@@ -247,13 +247,13 @@ export default function Dashboard() {
                   <Link to="/exam?task=1" className="flex-1 sm:flex-none">
                     <Button variant="outline" size="lg" className="gap-2 w-full">
                       <Clock className="h-4 w-4" /> Task 1
-                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">Uses 1 credit</span>
+                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">Uses 2 credits</span>
                     </Button>
                   </Link>
                   <Link to="/exam?task=2" className="flex-1 sm:flex-none">
                     <Button variant="glow" size="lg" className="gap-2 w-full">
                       <Sparkles className="h-4 w-4" /> Task 2
-                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">Uses 1 credit</span>
+                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">Uses 2 credits</span>
                     </Button>
                   </Link>
                 </>
@@ -309,7 +309,7 @@ export default function Dashboard() {
             <Link to="/mock-test" className="w-full sm:w-auto">
               <Button variant="glow" size="lg" className="gap-2 w-full">
                 <ClipboardList className="h-4 w-4" /> Open Mock Tests
-                <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">1 credit</span>
+                  <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">8 credits</span>
               </Button>
             </Link>
           </div>
