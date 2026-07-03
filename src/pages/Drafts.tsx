@@ -13,7 +13,7 @@ interface EssayDraft {
   id: string; task_type: string; topic: string; word_count: number; created_at: string; kind: 'essay';
 }
 interface SpeakingDraft {
-  id: string; part_number: number | null; topic: string | null; created_at: string; kind: 'speaking';
+  id: string; part: number | null; topic: string | null; created_at: string; kind: 'speaking';
 }
 type Draft = EssayDraft | SpeakingDraft;
 
@@ -30,7 +30,7 @@ export default function Drafts() {
       setLoading(true);
       const [{ data: e }, { data: s }] = await Promise.all([
         supabase.from('essays').select('id, task_type, topic, word_count, created_at').eq('status', 'draft').order('created_at', { ascending: false }),
-        supabase.from('speaking_attempts').select('id, part_number, topic, created_at').eq('status', 'draft').order('created_at', { ascending: false }),
+        supabase.from('speaking_attempts').select('id, part, topic, created_at').eq('status', 'draft').order('created_at', { ascending: false }),
       ]);
       setEssays((e || []).map((x: any) => ({ ...x, kind: 'essay' as const })));
       setSpeaking((s || []).map((x: any) => ({ ...x, kind: 'speaking' as const })));
@@ -97,7 +97,7 @@ export default function Drafts() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <span className={`text-xs font-medium px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${isEssay ? 'bg-primary/10 text-primary' : 'bg-accent/15 text-accent-foreground'}`}>
-                          {isEssay ? <><PenLine className="h-3 w-3" /> {(d as EssayDraft).task_type}</> : <><Mic className="h-3 w-3" /> Speaking{(d as SpeakingDraft).part_number ? ` · Part ${(d as SpeakingDraft).part_number}` : ''}</>}
+                          {isEssay ? <><PenLine className="h-3 w-3" /> {(d as EssayDraft).task_type}</> : <><Mic className="h-3 w-3" /> Speaking{(d as SpeakingDraft).part ? ` · Part ${(d as SpeakingDraft).part}` : ''}</>}
                         </span>
                         <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 inline-flex items-center gap-1"><PenLine className="h-3 w-3" /> Draft</span>
                         <span className="text-xs text-muted-foreground">{format(new Date(d.created_at), 'MMM d, yyyy · HH:mm')}</span>
