@@ -14,7 +14,7 @@ import {
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
   Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
-  , ClipboardList
+  , ClipboardList, PenLine, ArrowRight, Plus
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -43,11 +43,13 @@ export default function Dashboard() {
   const [speakingCount, setSpeakingCount] = useState(0);
   const [recentSpeaking, setRecentSpeaking] = useState<any[]>([]);
   const [recentMockTests, setRecentMockTests] = useState<any[]>([]);
+  const [draftsCount, setDraftsCount] = useState(0);
 
   useEffect(() => {
     fetchEssays();
     fetchSpeakingStats();
     fetchMockTests();
+    fetchDrafts();
     refreshProfile();
   }, []);
 
@@ -109,6 +111,16 @@ export default function Dashboard() {
         .order('created_at', { ascending: false })
         .limit(5);
       setRecentMockTests(data || []);
+    } catch {}
+  };
+
+  const fetchDrafts = async () => {
+    try {
+      const [e, s] = await Promise.all([
+        supabase.from('essays').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
+        supabase.from('speaking_attempts').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
+      ]);
+      setDraftsCount((e.count || 0) + (s.count || 0));
     } catch {}
   };
 
@@ -222,96 +234,100 @@ export default function Dashboard() {
           )}
         </motion.div>
 
-        {/* Start Exam CTA */}
+        {/* Quick Actions Grid */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="glass-card p-6 sm:p-8 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 3, repeat: Infinity }}
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/20 flex items-center justify-center glow-effect">
-                <PenTool className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
-              </motion.div>
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold mb-1">Start Writing Exam</h2>
-                <p className="text-sm text-muted-foreground">Practice Task 1 or Task 2 with AI evaluation</p>
-              </div>
-            </div>
-            <div className="flex gap-3 w-full sm:w-auto">
-              {creditsRemaining < 2 ? (
-                <Button variant="glow" size="lg" className="gap-2 w-full" onClick={() => setShowPricing(true)}>
-                  <Coins className="h-4 w-4" /> Out of credits — Buy Credits
-                </Button>
-              ) : (
-                <>
-                  <Link to="/exam?task=1" className="flex-1 sm:flex-none">
-                    <Button variant="outline" size="lg" className="gap-2 w-full">
-                      <Clock className="h-4 w-4" /> Task 1
-                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">Uses 2 credits</span>
-                    </Button>
-                  </Link>
-                  <Link to="/exam?task=2" className="flex-1 sm:flex-none">
-                    <Button variant="glow" size="lg" className="gap-2 w-full">
-                      <Sparkles className="h-4 w-4" /> Task 2
-                      <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">Uses 2 credits</span>
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </div>
+          className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg sm:text-xl font-semibold flex items-center gap-2">
+              <Zap className="h-5 w-5 text-primary" /> Quick Actions
+            </h2>
+            <span className="text-xs text-muted-foreground hidden sm:inline">Tap a card to start</span>
           </div>
-        </motion.div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {/* Writing Task */}
+            <button
+              onClick={() => creditsRemaining < 2 ? setShowPricing(true) : window.location.assign('/exam?task=2')}
+              className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
+            >
+              <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
+              <div className="relative">
+                <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-3">
+                  <PenTool className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-sm sm:text-base mb-1">Writing</h3>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Task 1 or Task 2 essay with AI feedback</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">2 credits</span>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </div>
+              </div>
+            </button>
 
-        {/* Speaking CTA */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-          className="glass-card p-6 sm:p-8 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
-          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }}
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-accent/20 flex items-center justify-center">
-                <Mic className="h-7 w-7 sm:h-8 sm:w-8 text-accent" />
-              </motion.div>
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold mb-1">Speaking Practice</h2>
-                <p className="text-sm text-muted-foreground">Practice speaking with AI evaluation • {speakingCount} attempts</p>
+            {/* Speaking */}
+            <button
+              onClick={() => creditsRemaining < 2 ? setShowPricing(true) : window.location.assign('/speaking')}
+              className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
+            >
+              <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent/10 rounded-full blur-2xl" />
+              <div className="relative">
+                <div className="w-11 h-11 rounded-xl bg-accent/15 flex items-center justify-center mb-3">
+                  <Mic className="h-5 w-5 text-accent" />
+                </div>
+                <h3 className="font-semibold text-sm sm:text-base mb-1">Speaking</h3>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Record and get AI band feedback</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent-foreground">2 credits</span>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                </div>
               </div>
-            </div>
-            {creditsRemaining < 2 ? (
-              <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto" onClick={() => setShowPricing(true)}>
-                <Coins className="h-4 w-4" /> Out of credits — Buy Credits
-              </Button>
-            ) : (
-              <Link to="/speaking">
-                <Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">
-                  <Mic className="h-4 w-4" /> Start Speaking
-                  <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">Uses 2 credits</span>
-                </Button>
-              </Link>
-            )}
-          </div>
-        </motion.div>
+            </button>
 
-        {/* Mock Test CTA */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 }}
-          className="glass-card p-6 sm:p-8 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/20 flex items-center justify-center">
-                <ClipboardList className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
+            {/* Mock Test */}
+            <Link to="/mock-test" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden">
+              <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
+              <div className="relative">
+                <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-3">
+                  <ClipboardList className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-sm sm:text-base mb-1">Full Mock Test</h3>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Writing + Speaking timed simulation</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">8 credits</span>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </div>
               </div>
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold mb-1">Full Mock Test</h2>
-                <p className="text-sm text-muted-foreground">Writing Task 1 + 2 + Speaking Parts 1–3 in one timed session</p>
-              </div>
-            </div>
-            <Link to="/mock-test" className="w-full sm:w-auto">
-              <Button variant="glow" size="lg" className="gap-2 w-full">
-                <ClipboardList className="h-4 w-4" /> Open Mock Tests
-                  <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15 text-primary-foreground">8 credits</span>
-              </Button>
             </Link>
+
+            {/* Drafts */}
+            <Link to="/drafts" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden">
+              <div className="absolute -top-6 -right-6 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl" />
+              <div className="relative">
+                <div className="w-11 h-11 rounded-xl bg-amber-500/15 flex items-center justify-center mb-3 relative">
+                  <PenLine className="h-5 w-5 text-amber-600" />
+                  {draftsCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center">
+                      {draftsCount}
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-semibold text-sm sm:text-base mb-1">Drafts</h3>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Resume unfinished work anytime</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600">
+                    {draftsCount} saved
+                  </span>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-amber-600 group-hover:translate-x-1 transition-all" />
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Secondary shortcuts */}
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link to="/exam?task=1"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Clock className="h-3.5 w-3.5" /> Writing Task 1</Button></Link>
+            <Link to="/essays"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><FileText className="h-3.5 w-3.5" /> Essay History</Button></Link>
+            <Link to="/speaking-history"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><History className="h-3.5 w-3.5" /> Speaking History</Button></Link>
+            <Link to="/leaderboard"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Award className="h-3.5 w-3.5" /> Ranking</Button></Link>
           </div>
         </motion.div>
 
