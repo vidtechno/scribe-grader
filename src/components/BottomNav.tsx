@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, PenTool, Mic, Clock, FileText, Coins, User as UserIcon, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, PenTool, Clock, FileText, Coins, User as UserIcon, PenLine } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { PricingModal } from '@/components/PricingModal';
 import {
@@ -14,7 +14,7 @@ import {
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
   { to: '#write', icon: PenTool, label: 'Write' },
-  { to: '/mock-test', icon: ClipboardList, label: 'Mock' },
+  { to: '/drafts', icon: PenLine, label: 'Drafts' },
   { to: '#credits', icon: Coins, label: 'Credits' },
   { to: '/profile', icon: UserIcon, label: 'Profile' },
 ];
