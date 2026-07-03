@@ -14,7 +14,7 @@ import {
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
   Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
-  , ClipboardList
+  , ClipboardList, PenLine, ArrowRight, Plus
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -43,11 +43,13 @@ export default function Dashboard() {
   const [speakingCount, setSpeakingCount] = useState(0);
   const [recentSpeaking, setRecentSpeaking] = useState<any[]>([]);
   const [recentMockTests, setRecentMockTests] = useState<any[]>([]);
+  const [draftsCount, setDraftsCount] = useState(0);
 
   useEffect(() => {
     fetchEssays();
     fetchSpeakingStats();
     fetchMockTests();
+    fetchDrafts();
     refreshProfile();
   }, []);
 
@@ -109,6 +111,16 @@ export default function Dashboard() {
         .order('created_at', { ascending: false })
         .limit(5);
       setRecentMockTests(data || []);
+    } catch {}
+  };
+
+  const fetchDrafts = async () => {
+    try {
+      const [e, s] = await Promise.all([
+        supabase.from('essays').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
+        supabase.from('speaking_attempts').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
+      ]);
+      setDraftsCount((e.count || 0) + (s.count || 0));
     } catch {}
   };
 
