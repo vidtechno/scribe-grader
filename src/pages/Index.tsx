@@ -364,7 +364,7 @@ export default function Index() {
               <motion.div variants={fadeUp} custom={4} className="flex flex-wrap items-center gap-3 mt-6">
                 <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                   <PenLine className="h-3.5 w-3.5 text-primary" />
-                  <span>Writing essay — 1 credit</span>
+                  <span>Writing essay — 2 credits</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30">
                   <Mic className="h-3.5 w-3.5 text-accent-foreground" />
@@ -452,7 +452,7 @@ export default function Index() {
               Buy <span className="gradient-text">Credits</span>, Not Subscriptions
             </motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">
-              Pay once, use anytime. Credits never expire. Spend 1 credit per essay or 2 credits per speaking attempt.
+              Pay once, use anytime. Credits never expire. Spend 2 credits per essay, 2 credits per speaking attempt, or 8 credits for a full mock test.
             </motion.p>
           </motion.div>
 
@@ -473,7 +473,7 @@ export default function Index() {
             </div>
             <div className="flex flex-wrap gap-3 pt-3 border-t border-border/60">
               <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary">
-                <PenLine className="h-3.5 w-3.5" /> Writing essay = 1 credit
+                <PenLine className="h-3.5 w-3.5" /> Writing essay = 2 credits
               </div>
               <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30">
                 <Mic className="h-3.5 w-3.5" /> Speaking attempt = 2 credits

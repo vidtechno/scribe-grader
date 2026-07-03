@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
-import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Coins, ClipboardList } from 'lucide-react';
+import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Coins, ClipboardList, PenLine } from 'lucide-react';
 import { PricingModal } from '@/components/PricingModal';
 
 export function Navbar() {
@@ -54,6 +54,12 @@ export function Navbar() {
                 <Button variant="ghost" size="sm" className="gap-2">
                   <ClipboardList className="h-4 w-4" />
                   <span className="hidden sm:inline">Mock Test</span>
+                </Button>
+              </Link>
+              <Link to="/drafts" className="hidden md:block">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <PenLine className="h-4 w-4" />
+                  <span className="hidden sm:inline">Drafts</span>
                 </Button>
               </Link>
               <Link to="/leaderboard" className="hidden md:block">

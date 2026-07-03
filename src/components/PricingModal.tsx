@@ -76,7 +76,7 @@ export function PricingModal({ open, onOpenChange }: PricingModalProps) {
           </div>
           <div className="flex flex-wrap gap-3 pt-3 border-t border-border/60">
             <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary">
-              <PenLine className="h-3.5 w-3.5" /> Writing essay = 1 credit
+              <PenLine className="h-3.5 w-3.5" /> Writing essay = 2 credits
             </div>
             <div className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30">
               <Mic className="h-3.5 w-3.5" /> Speaking attempt = 2 credits
