@@ -21,6 +21,7 @@ import Admin from "./pages/Admin";
 import Speaking from "./pages/Speaking";
 import SpeakingResult from "./pages/SpeakingResult";
 import SpeakingHistory from "./pages/SpeakingHistory";
+import Drafts from "./pages/Drafts";
 import Profile from "./pages/Profile";
 import MockTestDashboard from "./pages/MockTestDashboard";
 import MockTestExam from "./pages/MockTestExam";
@@ -68,6 +69,7 @@ function AppRoutes() {
         <Route path="/speaking" element={<ProtectedRoute><Speaking /></ProtectedRoute>} />
         <Route path="/speaking-result/:id" element={<ProtectedRoute><SpeakingResult /></ProtectedRoute>} />
         <Route path="/speaking-history" element={<ProtectedRoute><SpeakingHistory /></ProtectedRoute>} />
+        <Route path="/drafts" element={<ProtectedRoute><Drafts /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/mock-test" element={<ProtectedRoute><MockTestDashboard /></ProtectedRoute>} />
         <Route path="/mock-test/exam/:id" element={<ProtectedRoute><MockTestExam /></ProtectedRoute>} />
