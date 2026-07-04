@@ -4,11 +4,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
-import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Coins, ClipboardList, PenLine } from 'lucide-react';
+import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Crown, ClipboardList, PenLine } from 'lucide-react';
 import { PricingModal } from '@/components/PricingModal';
+import { useSubscription } from '@/hooks/useSubscription';
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
+  const { planName, planType } = useSubscription();
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -71,11 +73,13 @@ export function Navbar() {
               <button
                 onClick={() => setShowPricing(true)}
                 className="glass-card px-3 py-1.5 flex items-center gap-2 hover:bg-primary/10 transition-colors"
-                title="Buy credits"
+                title="Manage subscription"
               >
-                <Coins className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium">{profile?.credits ?? 0}</span>
-                <span className="hidden sm:inline text-xs text-muted-foreground">credits</span>
+                <Crown className={`h-4 w-4 ${planType !== 'free' ? 'text-amber-500' : 'text-primary'}`} />
+                <span className="text-sm font-medium">{planName}</span>
+                {planType === 'free' && (
+                  <span className="hidden sm:inline text-xs text-primary">Upgrade</span>
+                )}
               </button>
               <ThemeToggle />
               <Link to="/profile" className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
