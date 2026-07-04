@@ -69,5 +69,8 @@ export function useSubscription() {
     daysRemaining,
     isExpired,
     refresh: fetchSubscription,
+    // Compat aliases (legacy). Consider `planType !== 'free'` for premium gating.
+    isPremium: planType !== 'free',
+    creditsRemaining: 0,
   };
 }
