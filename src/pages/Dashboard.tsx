@@ -34,7 +34,7 @@ const fadeUp = {
 
 export default function Dashboard() {
   const { profile, refreshProfile } = useAuth();
-  const { subscription, creditsRemaining } = useSubscription();
+  const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, expiresAt, daysRemaining, isExpired } = useSubscription();
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
@@ -146,8 +146,6 @@ export default function Dashboard() {
   const task1Count = essays.filter(e => e.task_type === 'Task 1').length;
   const task2Count = essays.filter(e => e.task_type === 'Task 2').length;
 
-  const planType = subscription?.plan_type || 'free';
-
   const weeklyData = Array.from({ length: 7 }, (_, i) => {
     const date = subDays(new Date(), 6 - i);
     const dayEssays = essays.filter(e => format(new Date(e.created_at), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
@@ -180,7 +178,7 @@ export default function Dashboard() {
               <p className="text-muted-foreground text-sm sm:text-base">Ready to improve your IELTS writing skills?</p>
             </div>
             <div className="flex items-center gap-3 flex-wrap">
-              <SubscriptionBadge planType={planType} size="md" />
+              <SubscriptionBadge planType={planType} planName={planName} size="md" />
             </div>
           </motion.div>
         </motion.div>
@@ -201,35 +199,56 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* Credits Wallet */}
+        {/* Plan Usage Tracker */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="glass-card p-6 mb-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Coins className="h-6 w-6 text-primary" />
+                <Crown className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Your credit balance</p>
-                <p className="text-2xl font-bold">{creditsRemaining} <span className="text-sm font-normal text-muted-foreground">credits</span></p>
+                <p className="text-sm text-muted-foreground">Current plan</p>
+                <p className="text-xl font-bold flex items-center gap-2">
+                  {planName}
+                  {expiresAt && (
+                    <span className={`text-xs font-normal ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>
+                      • {isExpired ? 'Expired' : `${daysRemaining} days left`}
+                    </span>
+                  )}
+                </p>
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
-                <PenTool className="h-3.5 w-3.5" /> Writing = 2 credits
-              </span>
-              <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent-foreground border border-accent/30 flex items-center gap-1 bg-green-100 text-slate-900">
-                <Mic className="h-3.5 w-3.5" /> Speaking = 2 credits
-              </span>
-              <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
-                <Coins className="h-4 w-4" /> Buy Credits
-              </Button>
-            </div>
+            <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
+              <Crown className="h-4 w-4" /> {planType === 'free' ? 'Upgrade Plan' : 'Change Plan'}
+            </Button>
           </div>
-          {creditsRemaining < 2 && (
-            <div className="mt-4 flex items-center gap-2 text-xs text-amber-600 bg-amber-500/10 border border-amber-500/30 rounded-lg p-3">
-              <AlertCircle className="h-4 w-4" />
-              <span>You're low on credits. Top up to keep practicing without interruption.</span>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { label: 'Writing', icon: PenTool, used: writingUsed, limit: writingLimit, color: 'bg-primary' },
+              { label: 'Speaking', icon: Mic, used: speakingUsed, limit: speakingLimit, color: 'bg-accent' },
+              { label: 'Mock Tests', icon: ClipboardList, used: mockUsed, limit: mockLimit, color: 'bg-amber-500' },
+            ].map((u) => {
+              const pct = u.limit > 0 ? Math.min(100, (u.used / u.limit) * 100) : 0;
+              return (
+                <div key={u.label} className="glass-card-hover p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="flex items-center gap-2 text-sm font-medium">
+                      <u.icon className="h-4 w-4 text-primary" /> {u.label}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{u.used}/{u.limit} used</span>
+                  </div>
+                  <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
+                    <div className={`h-full ${u.color} transition-all`} style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {planType === 'free' && (
+            <div className="mt-4 flex items-start gap-2 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">
+              <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <span>IELTS success is built on consistent practice and insightful feedback. Upgrade to unlock more evaluations every month.</span>
             </div>
           )}
         </motion.div>
@@ -246,7 +265,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Writing Task */}
             <button
-              onClick={() => creditsRemaining < 2 ? setShowPricing(true) : window.location.assign('/exam?task=2')}
+              onClick={() => (writingLimit - writingUsed) <= 0 ? setShowPricing(true) : window.location.assign('/exam?task=2')}
               className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
             >
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
@@ -257,7 +276,7 @@ export default function Dashboard() {
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Writing</h3>
                 <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Task 1 or Task 2 essay with AI feedback</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">2 credits</span>
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{Math.max(0, writingLimit - writingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
@@ -265,7 +284,7 @@ export default function Dashboard() {
 
             {/* Speaking */}
             <button
-              onClick={() => creditsRemaining < 2 ? setShowPricing(true) : window.location.assign('/speaking')}
+              onClick={() => (speakingLimit - speakingUsed) <= 0 ? setShowPricing(true) : window.location.assign('/speaking')}
               className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
             >
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent/10 rounded-full blur-2xl" />
@@ -276,7 +295,7 @@ export default function Dashboard() {
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Speaking</h3>
                 <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Record and get AI band feedback</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent-foreground">2 credits</span>
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent-foreground">{Math.max(0, speakingLimit - speakingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
@@ -292,7 +311,7 @@ export default function Dashboard() {
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Full Mock Test</h3>
                 <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Writing + Speaking timed simulation</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">8 credits</span>
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{Math.max(0, mockLimit - mockUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
@@ -333,7 +352,7 @@ export default function Dashboard() {
 
         <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8">
           {[
-            { icon: Coins, value: creditsRemaining, label: 'Credits Left', delay: 1 },
+            { icon: PenTool, value: `${writingUsed}/${writingLimit}`, label: 'Writing Used', delay: 1 },
             { icon: FileText, value: essays.length, label: 'Total Essays', delay: 2 },
             { icon: Award, value: averageScore, label: 'Avg W. Score', delay: 3 },
             { icon: Target, value: bestScore, label: 'Best Score', delay: 4 },
