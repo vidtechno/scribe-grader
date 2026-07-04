@@ -24,17 +24,14 @@ const GRADING_STEPS = [
   { label: 'Evaluating band score...', icon: BarChart3, duration: 4000 },
 ];
 
-const WRITING_COST = 2;
-
 export default function Exam() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { profile, refreshProfile } = useAuth();
-  const { subscription } = useSubscription();
+  const { subscription, planType, writingRemaining, refresh: refreshSub } = useSubscription();
   const isMobile = useIsMobile();
   
   const taskType = searchParams.get('task') === '1' ? 'Task 1' : 'Task 2';
-  const planType = subscription?.plan_type || 'free';
   const timeLimit = taskType === 'Task 1' ? 20 * 60 : 40 * 60;
   
   const [topic, setTopic] = useState(() => getRandomTopic(taskType));
@@ -94,14 +91,19 @@ export default function Exam() {
 
   const handleSubmit = useCallback(async () => {
     if (!profile) { toast.error('Please sign in'); return; }
-    if (profile.credits < WRITING_COST) { setShowPricing(true); return; }
+    if (writingRemaining <= 0) {
+      toast.error('You have used all your Writing evaluations for this plan.');
+      setShowPricing(true); return;
+    }
     if (!isWordCountValid) { toast.error(`Please write at least ${minWords} words`); return; }
 
     setIsSubmitting(true);
     try {
       const topicText = activeTopic;
-      // Deduct credits up-front (only on "Start Evaluation")
-      await supabase.from('profiles').update({ credits: profile.credits - WRITING_COST }).eq('user_id', profile.user_id);
+      // Increment usage up-front (only on "Start Evaluation")
+      await supabase.from('subscriptions')
+        .update({ writing_used: ((subscription as any)?.writing_used ?? 0) + 1 } as any)
+        .eq('user_id', profile.user_id);
       // Queue the attempt so it shows up in history immediately with a spinner
       const { data: pendingRow } = await supabase.from('essays').insert({
         user_id: profile.user_id, task_type: taskType, topic: topicText,
@@ -120,12 +122,8 @@ export default function Exam() {
         .eq('id', pendingRow!.id).select().single();
       if (essayError) throw essayError;
 
-      const { data: sub } = await supabase.from('subscriptions').select('credits_used').eq('user_id', profile.user_id).single();
-      if (sub) {
-        await supabase.from('subscriptions').update({ credits_used: (sub as any).credits_used + WRITING_COST }).eq('user_id', profile.user_id);
-      }
-
       await refreshProfile();
+      await refreshSub();
       toast.success('Essay submitted and graded!');
       navigate(`/result/${essayData.id}`);
     } catch (error: any) {
@@ -134,7 +132,7 @@ export default function Exam() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [essay, taskType, activeTopic, planType, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile]);
+  }, [essay, taskType, activeTopic, planType, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, subscription, refreshSub]);
 
   const saveDraft = useCallback(async () => {
     if (!profile) return;
@@ -148,7 +146,7 @@ export default function Exam() {
   }, [profile, taskType, essay, wordCount, activeTopic]);
 
   const startExam = () => {
-    if (profile && profile.credits < WRITING_COST) { setShowPricing(true); return; }
+    if (writingRemaining <= 0) { setShowPricing(true); return; }
     if (useCustomTopic && !customTopic.trim()) { toast.error("Please enter a topic"); return; }
     setExamStarted(true);
   };
@@ -209,14 +207,12 @@ export default function Exam() {
                 <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {taskType === 'Task 1' ? '20' : '40'} min</span>
                 <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> {minWords}+ words</span>
               </div>
-              <Button variant="glow" size="xl" onClick={startExam} className="gap-2">
+              <Button variant="glow" size="xl" onClick={startExam} className="gap-2" disabled={writingRemaining <= 0}>
                 <Sparkles className="h-5 w-5" /> Start Exam
-                <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15">
-                  Uses {WRITING_COST} credits
-                </span>
               </Button>
               <p className="text-xs text-muted-foreground mt-3">
-                You have <span className="font-semibold text-primary">{profile?.credits ?? 0}</span> credits • Credits are deducted only when you click <b>Start Evaluation</b>
+                Writing evaluations remaining: <span className="font-semibold text-primary">{writingRemaining}</span>
+                {writingRemaining <= 0 && ' — upgrade your plan to continue.'}
               </p>
             </div>
           </motion.div>
@@ -376,9 +372,6 @@ export default function Exam() {
               >
                 {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 Start Evaluation
-                <span className="ml-1 text-[10px] font-medium px-1.5 py-0.5 rounded bg-white/20">
-                  −{WRITING_COST} credits
-                </span>
               </Button>
             </div>
           </div>
