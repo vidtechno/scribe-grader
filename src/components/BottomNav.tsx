@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, PenTool, Clock, FileText, Coins, User as UserIcon, PenLine } from 'lucide-react';
+import { LayoutDashboard, PenTool, Clock, FileText, Crown, User as UserIcon, PenLine } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { PricingModal } from '@/components/PricingModal';
 import {
@@ -15,7 +15,7 @@ const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
   { to: '#write', icon: PenTool, label: 'Write' },
   { to: '/drafts', icon: PenLine, label: 'Drafts' },
-  { to: '#credits', icon: Coins, label: 'Credits' },
+  { to: '#plans', icon: Crown, label: 'Plans' },
   { to: '/profile', icon: UserIcon, label: 'Profile' },
 ];
 
@@ -50,7 +50,7 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
               );
             }
 
-            if (item.to === '#credits') {
+            if (item.to === '#plans') {
               return (
                 <button
                   key={item.label}

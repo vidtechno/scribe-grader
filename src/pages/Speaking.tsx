@@ -14,12 +14,10 @@ import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic, RefreshCw, Clock, Brain, CheckCircle2, BarChart3,
-  Loader2, AlertCircle, Sparkles, PenLine, Coins, History
+  Loader2, AlertCircle, Sparkles, PenLine, Crown, History
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
-
-const SPEAKING_COST = 2;
 
 const GRADING_STEPS = [
   { label: 'Transcribing your audio...', icon: Mic, duration: 4000 },
@@ -38,11 +36,8 @@ const PART_INFO: Record<PartType, { label: string; time: number; desc: string }>
 export default function Speaking() {
   const navigate = useNavigate();
   const { user, profile, refreshProfile } = useAuth();
-  const { subscription } = useSubscription();
-  const planType = subscription?.plan_type || 'free';
-
-  const credits = profile?.credits ?? 0;
-  const canAttempt = credits >= SPEAKING_COST;
+  const { subscription, planType, speakingRemaining, refresh: refreshSub } = useSubscription();
+  const canAttempt = speakingRemaining > 0;
 
   const [selectedPart, setSelectedPart] = useState<PartType>('part2');
   const [topic, setTopic] = useState(() => getRandomSpeakingTopic('part2'));
@@ -81,7 +76,7 @@ export default function Speaking() {
   const handleRecordingComplete = async (blob: Blob, duration: number) => {
     if (!user) return;
     if (!canAttempt) {
-      toast.error("You don't have enough credits");
+      toast.error("You have used all your Speaking evaluations for this plan.");
       setShowPricing(true);
       return;
     }
@@ -89,8 +84,10 @@ export default function Speaking() {
     setIsProcessing(true);
     setGradingStep(0);
 
-    // Deduct credits immediately when Start Evaluation begins
-    await supabase.from('profiles').update({ credits: Math.max(0, credits - SPEAKING_COST) }).eq('user_id', user.id);
+    // Increment usage immediately when Start Evaluation begins
+    await supabase.from('subscriptions')
+      .update({ speaking_used: ((subscription as any)?.speaking_used ?? 0) + 1 } as any)
+      .eq('user_id', user.id);
 
     // Insert a "processing" row so history shows a spinner instantly
     const audioFileName = `${user.id}/${Date.now()}.webm`;
@@ -153,9 +150,10 @@ export default function Speaking() {
       if (saveError) throw saveError;
 
       await refreshProfile();
+      await refreshSub();
 
       stepTimers.forEach(clearTimeout);
-      toast.success(`Speaking graded! −${SPEAKING_COST} credits`);
+      toast.success('Speaking graded!');
       navigate(`/speaking-result/${attempt.id}`);
     } catch (err: any) {
       console.error('Speaking processing error:', err);
@@ -215,9 +213,9 @@ export default function Speaking() {
           <div className="text-center mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold mb-2">IELTS Speaking Practice</h1>
             <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground flex-wrap">
-              <span className="flex items-center gap-1"><Coins className="h-3.5 w-3.5 text-primary" /> {credits} credits available</span>
-              <span>•</span>
-              <span className="flex items-center gap-1 text-amber-600 font-medium">Cost per attempt: {SPEAKING_COST} credits</span>
+              <span className="flex items-center gap-1 font-medium">
+                Speaking remaining: <span className="text-primary">{speakingRemaining}</span>
+              </span>
               <span>•</span>
               <Link to="/speaking-history" className="inline-flex items-center gap-1 text-primary hover:underline">
                 <History className="h-3.5 w-3.5" /> History ({totalAttempts})
@@ -286,12 +284,12 @@ export default function Speaking() {
           {!canAttempt ? (
             <div className="glass-card p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
-              <p className="font-semibold mb-1">Out of credits</p>
+              <p className="font-semibold mb-1">Speaking limit reached</p>
               <p className="text-sm text-muted-foreground mb-4">
-                You need at least {SPEAKING_COST} credits to take a speaking attempt. You have {credits}.
+                You have used all Speaking evaluations for your current plan. Upgrade to continue practicing.
               </p>
               <Button variant="glow" onClick={() => setShowPricing(true)} className="gap-2">
-                <Coins className="h-4 w-4" /> Buy Credits
+                <Crown className="h-4 w-4" /> Upgrade Plan
               </Button>
             </div>
           ) : !started ? (
@@ -306,7 +304,6 @@ export default function Speaking() {
                 className="gap-2"
               >
                 <Mic className="h-5 w-5" /> Start Speaking
-                <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15">Uses {SPEAKING_COST} credits</span>
               </Button>
               <p className="text-xs text-muted-foreground mt-3">{PART_INFO[selectedPart].desc}</p>
             </div>
@@ -320,7 +317,7 @@ export default function Speaking() {
                 maxDuration={PART_INFO[selectedPart].time}
               />
               <p className="text-[11px] text-center text-muted-foreground mt-3">
-                {SPEAKING_COST} credits are deducted only when you click <b>Start Evaluation</b> after recording.
+                Your Speaking quota is deducted only when you finish and submit the recording.
               </p>
             </>
           )}

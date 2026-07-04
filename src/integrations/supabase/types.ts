@@ -476,6 +476,51 @@ export type Database = {
         }
         Relationships: []
       }
+      subscription_history: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          expires_at: string | null
+          id: string
+          mock_test_limit: number
+          plan_name: string
+          plan_type: string
+          price_uzs: string | null
+          speaking_limit: number
+          started_at: string
+          user_id: string
+          writing_limit: number
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          expires_at?: string | null
+          id?: string
+          mock_test_limit?: number
+          plan_name: string
+          plan_type: string
+          price_uzs?: string | null
+          speaking_limit?: number
+          started_at?: string
+          user_id: string
+          writing_limit?: number
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          expires_at?: string | null
+          id?: string
+          mock_test_limit?: number
+          plan_name?: string
+          plan_type?: string
+          price_uzs?: string | null
+          speaking_limit?: number
+          started_at?: string
+          user_id?: string
+          writing_limit?: number
+        }
+        Relationships: []
+      }
       subscription_plans: {
         Row: {
           badge: string | null
@@ -488,6 +533,7 @@ export type Database = {
           id: string
           is_active: boolean
           mentor_limit: number
+          mock_test_limit: number
           name: string
           period: string | null
           price: number
@@ -496,6 +542,7 @@ export type Database = {
           sort_order: number
           speaking_limit: number
           updated_at: string
+          writing_limit: number
         }
         Insert: {
           badge?: string | null
@@ -508,6 +555,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           mentor_limit?: number
+          mock_test_limit?: number
           name: string
           period?: string | null
           price?: number
@@ -516,6 +564,7 @@ export type Database = {
           sort_order?: number
           speaking_limit?: number
           updated_at?: string
+          writing_limit?: number
         }
         Update: {
           badge?: string | null
@@ -528,6 +577,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           mentor_limit?: number
+          mock_test_limit?: number
           name?: string
           period?: string | null
           price?: number
@@ -536,6 +586,7 @@ export type Database = {
           sort_order?: number
           speaking_limit?: number
           updated_at?: string
+          writing_limit?: number
         }
         Relationships: []
       }
@@ -547,12 +598,17 @@ export type Database = {
           expires_at: string | null
           id: string
           is_active: boolean
+          mock_test_limit: number
+          mock_test_used: number
+          plan_name: string | null
           plan_type: string
           speaking_limit: number
           speaking_used: number
           started_at: string
           updated_at: string
           user_id: string
+          writing_limit: number
+          writing_used: number
         }
         Insert: {
           created_at?: string
@@ -561,12 +617,17 @@ export type Database = {
           expires_at?: string | null
           id?: string
           is_active?: boolean
+          mock_test_limit?: number
+          mock_test_used?: number
+          plan_name?: string | null
           plan_type?: string
           speaking_limit?: number
           speaking_used?: number
           started_at?: string
           updated_at?: string
           user_id: string
+          writing_limit?: number
+          writing_used?: number
         }
         Update: {
           created_at?: string
@@ -575,12 +636,17 @@ export type Database = {
           expires_at?: string | null
           id?: string
           is_active?: boolean
+          mock_test_limit?: number
+          mock_test_used?: number
+          plan_name?: string | null
           plan_type?: string
           speaking_limit?: number
           speaking_used?: number
           started_at?: string
           updated_at?: string
           user_id?: string
+          writing_limit?: number
+          writing_used?: number
         }
         Relationships: []
       }
@@ -607,6 +673,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_assign_plan: {
+        Args: { _plan_slug: string; _user_id: string }
+        Returns: undefined
+      }
       check_my_subscription: { Args: never; Returns: undefined }
       expire_subscriptions: { Args: never; Returns: number }
       has_role: {

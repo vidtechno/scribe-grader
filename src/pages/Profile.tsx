@@ -10,18 +10,21 @@ import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import {
   User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target,
-  Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles
+  Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown
 } from 'lucide-react';
+import { useSubscription } from '@/hooks/useSubscription';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 
 export default function Profile() {
   const { user, profile, signOut, refreshProfile } = useAuth();
+  const { planName, planType, expiresAt, daysRemaining, isExpired, writingUsed, writingLimit, speakingUsed, speakingLimit, mockUsed, mockLimit } = useSubscription();
   const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
+  const [history, setHistory] = useState<any[]>([]);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -46,10 +49,12 @@ export default function Profile() {
   useEffect(() => {
     (async () => {
       if (!user) return;
-      const [{ data: essays }, { data: speaking }] = await Promise.all([
+      const [{ data: essays }, { data: speaking }, { data: hist }] = await Promise.all([
         supabase.from('essays').select('score').eq('user_id', user.id),
         supabase.from('speaking_attempts').select('score').eq('user_id', user.id),
+        (supabase.from('subscription_history' as any).select('*').eq('user_id', user.id).order('started_at', { ascending: false }).limit(20)),
       ]);
+      setHistory((hist as any[]) || []);
       const eScored = (essays || []).filter((e: any) => e.score !== null);
       const sScored = (speaking || []).filter((s: any) => s.score !== null);
       setStats({
@@ -108,15 +113,74 @@ export default function Profile() {
             </div>
             <div className="flex flex-col items-end gap-2">
               <div className="glass-card px-4 py-2 flex items-center gap-2">
-                <Coins className="h-5 w-5 text-primary" />
-                <span className="text-xl font-bold">{profile?.credits ?? 0}</span>
-                <span className="text-xs text-muted-foreground">credits</span>
+                <Crown className="h-5 w-5 text-primary" />
+                <span className="text-lg font-bold">{planName}</span>
               </div>
+              {expiresAt && (
+                <p className={`text-xs ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>
+                  {isExpired ? 'Expired' : `${daysRemaining} days left`} · {format(expiresAt, 'MMM d, yyyy')}
+                </p>
+              )}
               <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
-                <Coins className="h-4 w-4" /> Buy Credits
+                <Crown className="h-4 w-4" /> {planType === 'free' ? 'Upgrade Plan' : 'Change Plan'}
               </Button>
             </div>
           </div>
+        </motion.div>
+
+        {/* Plan usage + history */}
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+          className="glass-card p-6 mb-6">
+          <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Crown className="h-5 w-5 text-primary" /> Plan Usage
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-3 mb-6">
+            {[
+              { label: 'Writing', used: writingUsed, limit: writingLimit },
+              { label: 'Speaking', used: speakingUsed, limit: speakingLimit },
+              { label: 'Mock Tests', used: mockUsed, limit: mockLimit },
+            ].map((u) => {
+              const pct = u.limit > 0 ? (u.used / u.limit) * 100 : 0;
+              return (
+                <div key={u.label} className="glass-card-hover p-3">
+                  <p className="text-xs text-muted-foreground mb-1">{u.label}</p>
+                  <p className="text-sm font-semibold mb-1">{u.used}/{u.limit} used</p>
+                  <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
+                    <div className="h-full bg-primary" style={{ width: `${Math.min(100, pct)}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+            <History className="h-4 w-4 text-primary" /> Subscription History
+          </h3>
+          {history.length === 0 ? (
+            <p className="text-xs text-muted-foreground">No plan changes yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium">Plan</th>
+                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium">Started</th>
+                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium">Ends</th>
+                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium hidden sm:table-cell">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {history.map((h: any) => (
+                    <tr key={h.id} className="border-b border-border/50">
+                      <td className="py-2 px-2 font-medium">{h.plan_name}</td>
+                      <td className="py-2 px-2 text-muted-foreground text-xs">{format(new Date(h.started_at), 'MMM d, yyyy')}</td>
+                      <td className="py-2 px-2 text-muted-foreground text-xs">{h.expires_at ? format(new Date(h.expires_at), 'MMM d, yyyy') : '—'}</td>
+                      <td className="py-2 px-2 text-muted-foreground text-xs hidden sm:table-cell">{h.price_uzs ? `${h.price_uzs} so'm` : '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </motion.div>
 
         {/* Edit info */}

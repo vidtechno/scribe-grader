@@ -136,15 +136,19 @@ export default function MockTestExam() {
     if (!mt) return;
     setSubmitting(true);
     try {
-      // Deduct 8 credits ONLY on Start Evaluation (final submit)
-      const { data: prof } = await supabase.from('profiles').select('credits').eq('user_id', user!.id).single();
-      const currentCredits = (prof as any)?.credits ?? 0;
-      if (currentCredits < 8) {
-        toast.error('You need 8 credits to submit for evaluation.');
+      // Consume 1 Mock Test slot from the user's monthly plan
+      const { data: sub } = await supabase.from('subscriptions')
+        .select('mock_test_limit, mock_test_used').eq('user_id', user!.id).single();
+      const used = (sub as any)?.mock_test_used ?? 0;
+      const limit = (sub as any)?.mock_test_limit ?? 0;
+      if (used >= limit) {
+        toast.error('Your plan has no Mock Tests remaining. Please upgrade to continue.');
         setSubmitting(false);
         return;
       }
-      await supabase.from('profiles').update({ credits: currentCredits - 8 }).eq('user_id', user!.id);
+      await supabase.from('subscriptions')
+        .update({ mock_test_used: used + 1 } as any)
+        .eq('user_id', user!.id);
       await supabase.from('mock_tests').update({
         status: 'submitted',
         submitted_at: new Date().toISOString(),

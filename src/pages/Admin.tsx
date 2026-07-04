@@ -56,14 +56,12 @@ interface Announcement {
   view_count?: number;
 }
 
-// Credit packages — selecting one tops the user up by this many credits.
-const CREDIT_PACKAGES: { slug: string; label: string; credits: number; priceUzs: string }[] = [
-  { slug: 'starter',  label: 'Starter',  credits: 10,  priceUzs: '15,000' },
-  { slug: 'basic',    label: 'Basic',    credits: 25,  priceUzs: '35,000' },
-  { slug: 'standard', label: 'Standard', credits: 50,  priceUzs: '65,000' },
-  { slug: 'pro',      label: 'Pro',      credits: 100, priceUzs: '120,000' },
-  { slug: 'premium',  label: 'Premium',  credits: 250, priceUzs: '275,000' },
-  { slug: 'ultimate', label: 'Ultimate', credits: 500, priceUzs: '500,000' },
+// Monthly plans available for admin assignment.
+const PLANS: { slug: string; label: string }[] = [
+  { slug: 'free',     label: 'Free' },
+  { slug: 'starter',  label: 'Starter (19k UZS)' },
+  { slug: 'standard', label: 'Standard (39k UZS)' },
+  { slug: 'pro',      label: 'Pro (69k UZS)' },
 ];
 
 export default function Admin() {
@@ -236,26 +234,17 @@ export default function Admin() {
     } finally { setUpdatingUser(null); }
   };
 
-  const grantPackage = async (userId: string, slug: string) => {
-    const pkg = CREDIT_PACKAGES.find(p => p.slug === slug);
-    if (!pkg) return;
+  const assignPlan = async (userId: string, slug: string) => {
     setUpdatingUser(userId);
     try {
-      const u = users.find(x => x.user_id === userId);
-      const newCredits = (u?.credits ?? 0) + pkg.credits;
-      const newPurchased = (u?.total_credits_purchased ?? 0) + pkg.credits;
-      const { error } = await supabase
-        .from('profiles')
-        .update({ credits: newCredits, total_credits_purchased: newPurchased } as any)
-        .eq('user_id', userId);
+      const { error } = await (supabase.rpc as any)('admin_assign_plan', { _user_id: userId, _plan_slug: slug });
       if (error) throw error;
-      const becamePremium = !u?.is_premium && newPurchased >= 10;
-      setUsers(users.map(x => x.user_id === userId
-        ? { ...x, credits: newCredits, total_credits_purchased: newPurchased, is_premium: x.is_premium || newPurchased >= 10 }
-        : x));
-      toast.success(`+${pkg.credits} credits granted (${pkg.label})${becamePremium ? ' — user is now Premium!' : ''}`);
-    } catch {
-      toast.error('Failed to grant package');
+      // Refresh subscription in local state
+      const { data: subRow } = await supabase.from('subscriptions').select('*').eq('user_id', userId).single();
+      if (subRow) setSubscriptions({ ...subscriptions, [userId]: subRow as Subscription });
+      toast.success(`Plan set to ${slug.toUpperCase()}`);
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to assign plan');
     } finally { setUpdatingUser(null); }
   };
 
@@ -452,16 +441,14 @@ export default function Admin() {
                             </div>
                           </td>
                           <td className="p-4">
-                            <Select value="" onValueChange={(val) => grantPackage(profile.user_id, val)}
+                            <Select value={sub?.plan_type || 'free'} onValueChange={(val) => assignPlan(profile.user_id, val)}
                               disabled={updatingUser === profile.user_id}>
-                              <SelectTrigger className="w-36 h-8 text-xs">
-                                <SelectValue placeholder="Grant package…" />
+                              <SelectTrigger className="w-40 h-8 text-xs">
+                                <SelectValue placeholder="Assign plan…" />
                               </SelectTrigger>
                               <SelectContent>
-                                {CREDIT_PACKAGES.map(p => (
-                                  <SelectItem key={p.slug} value={p.slug}>
-                                    {p.label} (+{p.credits})
-                                  </SelectItem>
+                                {PLANS.map(p => (
+                                  <SelectItem key={p.slug} value={p.slug}>{p.label}</SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
