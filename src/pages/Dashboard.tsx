@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { supabase } from '@/integrations/supabase/client';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { PricingModal } from '@/components/PricingModal';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { SEOHead } from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { 
@@ -34,10 +35,12 @@ const fadeUp = {
 
 export default function Dashboard() {
   const { profile, refreshProfile } = useAuth();
-  const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, expiresAt, daysRemaining, isExpired } = useSubscription();
+  const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
+  const navigate = useNavigate();
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
+  const [showTaskChooser, setShowTaskChooser] = useState(false);
   const [mentorTip, setMentorTip] = useState<string | null>(null);
   const [speakingAvg, setSpeakingAvg] = useState<string>('N/A');
   const [speakingCount, setSpeakingCount] = useState(0);
@@ -52,6 +55,26 @@ export default function Dashboard() {
     fetchDrafts();
     refreshProfile();
   }, []);
+
+  // Live-refresh subscription when admin (or backend) changes the user's plan.
+  useEffect(() => {
+    if (!profile?.user_id) return;
+    const ch = supabase.channel('sub-live-' + profile.user_id)
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'subscriptions', filter: `user_id=eq.${profile.user_id}` },
+        () => refreshSub())
+      .subscribe();
+    // Also refetch when the tab regains focus
+    const onFocus = () => refreshSub();
+    window.addEventListener('focus', onFocus);
+    return () => { supabase.removeChannel(ch); window.removeEventListener('focus', onFocus); };
+  }, [profile?.user_id, refreshSub]);
+
+  const openWriting = (task: 1 | 2) => {
+    setShowTaskChooser(false);
+    if ((writingLimit - writingUsed) <= 0) { setShowPricing(true); return; }
+    navigate(`/exam?task=${task}`);
+  };
 
   const fetchEssays = async () => {
     try {
@@ -265,7 +288,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Writing Task */}
             <button
-              onClick={() => (writingLimit - writingUsed) <= 0 ? setShowPricing(true) : window.location.assign('/exam?task=2')}
+              onClick={() => (writingLimit - writingUsed) <= 0 ? setShowPricing(true) : setShowTaskChooser(true)}
               className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
             >
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
@@ -274,7 +297,7 @@ export default function Dashboard() {
                   <PenTool className="h-5 w-5 text-primary" />
                 </div>
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Writing</h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Task 1 or Task 2 essay with AI feedback</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Choose Task 1 or Task 2 and get AI feedback</p>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{Math.max(0, writingLimit - writingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
@@ -644,6 +667,41 @@ export default function Dashboard() {
       </main>
 
       <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
+
+      <Dialog open={showTaskChooser} onOpenChange={setShowTaskChooser}>
+        <DialogContent className="glass-card border-border max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <PenTool className="h-5 w-5 text-primary" /> Choose your Writing Task
+            </DialogTitle>
+            <DialogDescription>Pick which IELTS Writing task you want to practice now.</DialogDescription>
+          </DialogHeader>
+          <div className="grid sm:grid-cols-2 gap-3 pt-2">
+            <button
+              onClick={() => openWriting(1)}
+              className="glass-card-hover p-4 text-left group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center mb-3">
+                <BarChart3 className="h-5 w-5 text-primary" />
+              </div>
+              <p className="font-semibold mb-1">Task 1</p>
+              <p className="text-xs text-muted-foreground mb-2">Describe a chart, graph, map or process. 150+ words in 20 min.</p>
+              <span className="text-[11px] text-primary font-medium group-hover:underline">Start Task 1 →</span>
+            </button>
+            <button
+              onClick={() => openWriting(2)}
+              className="glass-card-hover p-4 text-left group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center mb-3">
+                <PenTool className="h-5 w-5 text-accent" />
+              </div>
+              <p className="font-semibold mb-1">Task 2</p>
+              <p className="text-xs text-muted-foreground mb-2">Opinion / discussion essay. 250+ words in 40 min.</p>
+              <span className="text-[11px] text-accent font-medium group-hover:underline">Start Task 2 →</span>
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
