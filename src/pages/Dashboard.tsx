@@ -667,6 +667,41 @@ export default function Dashboard() {
       </main>
 
       <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
+
+      <Dialog open={showTaskChooser} onOpenChange={setShowTaskChooser}>
+        <DialogContent className="glass-card border-border max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <PenTool className="h-5 w-5 text-primary" /> Choose your Writing Task
+            </DialogTitle>
+            <DialogDescription>Pick which IELTS Writing task you want to practice now.</DialogDescription>
+          </DialogHeader>
+          <div className="grid sm:grid-cols-2 gap-3 pt-2">
+            <button
+              onClick={() => openWriting(1)}
+              className="glass-card-hover p-4 text-left group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center mb-3">
+                <BarChart3 className="h-5 w-5 text-primary" />
+              </div>
+              <p className="font-semibold mb-1">Task 1</p>
+              <p className="text-xs text-muted-foreground mb-2">Describe a chart, graph, map or process. 150+ words in 20 min.</p>
+              <span className="text-[11px] text-primary font-medium group-hover:underline">Start Task 1 →</span>
+            </button>
+            <button
+              onClick={() => openWriting(2)}
+              className="glass-card-hover p-4 text-left group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center mb-3">
+                <PenTool className="h-5 w-5 text-accent" />
+              </div>
+              <p className="font-semibold mb-1">Task 2</p>
+              <p className="text-xs text-muted-foreground mb-2">Opinion / discussion essay. 250+ words in 40 min.</p>
+              <span className="text-[11px] text-accent font-medium group-hover:underline">Start Task 2 →</span>
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
