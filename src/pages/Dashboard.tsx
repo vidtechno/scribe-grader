@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { supabase } from '@/integrations/supabase/client';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { PricingModal } from '@/components/PricingModal';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { SEOHead } from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { 
@@ -34,10 +35,12 @@ const fadeUp = {
 
 export default function Dashboard() {
   const { profile, refreshProfile } = useAuth();
-  const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, expiresAt, daysRemaining, isExpired } = useSubscription();
+  const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
+  const navigate = useNavigate();
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
   const [showPricing, setShowPricing] = useState(false);
+  const [showTaskChooser, setShowTaskChooser] = useState(false);
   const [mentorTip, setMentorTip] = useState<string | null>(null);
   const [speakingAvg, setSpeakingAvg] = useState<string>('N/A');
   const [speakingCount, setSpeakingCount] = useState(0);
@@ -52,6 +55,26 @@ export default function Dashboard() {
     fetchDrafts();
     refreshProfile();
   }, []);
+
+  // Live-refresh subscription when admin (or backend) changes the user's plan.
+  useEffect(() => {
+    if (!profile?.user_id) return;
+    const ch = supabase.channel('sub-live-' + profile.user_id)
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'subscriptions', filter: `user_id=eq.${profile.user_id}` },
+        () => refreshSub())
+      .subscribe();
+    // Also refetch when the tab regains focus
+    const onFocus = () => refreshSub();
+    window.addEventListener('focus', onFocus);
+    return () => { supabase.removeChannel(ch); window.removeEventListener('focus', onFocus); };
+  }, [profile?.user_id, refreshSub]);
+
+  const openWriting = (task: 1 | 2) => {
+    setShowTaskChooser(false);
+    if ((writingLimit - writingUsed) <= 0) { setShowPricing(true); return; }
+    navigate(`/exam?task=${task}`);
+  };
 
   const fetchEssays = async () => {
     try {
