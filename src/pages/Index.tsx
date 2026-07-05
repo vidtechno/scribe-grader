@@ -311,8 +311,8 @@ export default function Index() {
                 ))}
               </div>
               <div className="mt-5 pt-4 border-t border-border/60 text-xs text-muted-foreground flex items-center gap-2">
-                <Coins className="h-3.5 w-3.5 text-primary" />
-                <span>Each speaking attempt costs <strong className="text-foreground">2 credits</strong>. Saved automatically to your history.</span>
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <span>Every speaking attempt is saved automatically to your history for later review.</span>
               </div>
             </motion.div>
 
