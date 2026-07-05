@@ -26,6 +26,19 @@ const stagger = {
 export default function Index() {
   const { user } = useAuth();
   const [showPricing, setShowPricing] = useState(false);
+  const [subPlans, setSubPlans] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from('subscription_plans')
+        .select('*')
+        .eq('is_active', true)
+        .neq('slug', 'free')
+        .order('sort_order');
+      setSubPlans(data || []);
+    })();
+  }, []);
 
   const features = [
     { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Writing Task 1 & 2 and Speaking Parts 1–3 questions.' },
