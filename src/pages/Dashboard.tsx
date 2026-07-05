@@ -288,7 +288,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Writing Task */}
             <button
-              onClick={() => (writingLimit - writingUsed) <= 0 ? setShowPricing(true) : window.location.assign('/exam?task=2')}
+              onClick={() => (writingLimit - writingUsed) <= 0 ? setShowPricing(true) : setShowTaskChooser(true)}
               className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
             >
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
@@ -297,7 +297,7 @@ export default function Dashboard() {
                   <PenTool className="h-5 w-5 text-primary" />
                 </div>
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Writing</h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Task 1 or Task 2 essay with AI feedback</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Choose Task 1 or Task 2 and get AI feedback</p>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{Math.max(0, writingLimit - writingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
