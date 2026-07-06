@@ -286,43 +286,37 @@ export default function Dashboard() {
             <span className="text-xs text-muted-foreground hidden sm:inline">Tap a card to start</span>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {/* Writing Task */}
-            <button
-              onClick={() => (writingLimit - writingUsed) <= 0 ? setShowPricing(true) : setShowTaskChooser(true)}
-              className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
-            >
+            {/* Writing Hub */}
+            <Link to="/writing" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden block">
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
               <div className="relative">
                 <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-3">
                   <PenTool className="h-5 w-5 text-primary" />
                 </div>
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Writing</h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Choose Task 1 or Task 2 and get AI feedback</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Task 1 & 2, history and AI feedback</p>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{Math.max(0, writingLimit - writingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
-            </button>
+            </Link>
 
-            {/* Speaking */}
-            <button
-              onClick={() => (speakingLimit - speakingUsed) <= 0 ? setShowPricing(true) : window.location.assign('/speaking')}
-              className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
-            >
+            {/* Speaking Hub */}
+            <Link to="/speaking" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden block">
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent/10 rounded-full blur-2xl" />
               <div className="relative">
                 <div className="w-11 h-11 rounded-xl bg-accent/15 flex items-center justify-center mb-3">
                   <Mic className="h-5 w-5 text-accent" />
                 </div>
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Speaking</h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Record and get AI band feedback</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Parts 1–3, history and AI band feedback</p>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent-foreground">{Math.max(0, speakingLimit - speakingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
-            </button>
+            </Link>
 
             {/* Mock Test */}
             <Link to="/mock-test" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden">
@@ -366,9 +360,10 @@ export default function Dashboard() {
 
           {/* Secondary shortcuts */}
           <div className="mt-3 flex flex-wrap gap-2">
-            <Link to="/exam?task=1"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Clock className="h-3.5 w-3.5" /> Writing Task 1</Button></Link>
-            <Link to="/essays"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><FileText className="h-3.5 w-3.5" /> Essay History</Button></Link>
-            <Link to="/speaking-history"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><History className="h-3.5 w-3.5" /> Speaking History</Button></Link>
+            <Link to="/writing"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><PenTool className="h-3.5 w-3.5" /> Writing hub</Button></Link>
+            <Link to="/speaking"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Mic className="h-3.5 w-3.5" /> Speaking hub</Button></Link>
+            <Link to="/essays"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><FileText className="h-3.5 w-3.5" /> Essay history</Button></Link>
+            <Link to="/speaking-history"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><History className="h-3.5 w-3.5" /> Speaking history</Button></Link>
             <Link to="/leaderboard"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Award className="h-3.5 w-3.5" /> Ranking</Button></Link>
           </div>
         </motion.div>
