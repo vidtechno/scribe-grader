@@ -331,6 +331,60 @@ export default function Speaking() {
             </>
           )}
         </motion.div>
+
+        {/* Recent attempts */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-10 glass-card p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <History className="h-5 w-5 text-primary" />
+              <h3 className="text-base sm:text-lg font-semibold">Recent attempts</h3>
+            </div>
+            {totalAttempts > 5 && (
+              <Link to="/speaking-history">
+                <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                  View all <ChevronRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            )}
+          </div>
+          {recent.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <Mic className="h-10 w-10 mx-auto mb-2 opacity-50" />
+              <p className="text-sm">No speaking attempts yet.</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {recent.map((a: any) => {
+                const isProcessing = a.status === 'processing' || a.status === 'queued';
+                const isDraft = a.status === 'draft';
+                const isFailed = a.status === 'failed';
+                const href = isDraft ? '/speaking' : `/speaking-result/${a.id}`;
+                return (
+                  <Link key={a.id} to={href} className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
+                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
+                      isProcessing ? 'bg-blue-500/15 text-blue-600' :
+                      isDraft ? 'bg-amber-500/15 text-amber-600' :
+                      isFailed ? 'bg-destructive/15 text-destructive' :
+                      (a.score ?? 0) >= 7 ? 'bg-primary/15 text-primary' : (a.score ?? 0) >= 5 ? 'bg-yellow-500/15 text-yellow-600' : 'bg-destructive/15 text-destructive'
+                    }`}>
+                      {isProcessing ? <Loader2 className="h-5 w-5 animate-spin" /> :
+                       isFailed ? <AlertCircle className="h-5 w-5" /> :
+                       (a.score ?? '—')}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary uppercase">{a.part}</span>
+                        <span className="text-[10px] text-muted-foreground">{format(new Date(a.created_at), 'MMM d')}</span>
+                      </div>
+                      <p className="text-xs sm:text-sm truncate text-muted-foreground">{a.topic}</p>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </motion.div>
       </main>
 
       <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
