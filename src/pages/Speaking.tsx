@@ -14,10 +14,11 @@ import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic, RefreshCw, Clock, Brain, CheckCircle2, BarChart3,
-  Loader2, AlertCircle, Sparkles, PenLine, Crown, History
+  Loader2, AlertCircle, Sparkles, PenLine, Crown, History, ChevronRight
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 const GRADING_STEPS = [
   { label: 'Transcribing your audio...', icon: Mic, duration: 4000 },
@@ -47,6 +48,7 @@ export default function Speaking() {
   const [gradingStep, setGradingStep] = useState(0);
   const [showPricing, setShowPricing] = useState(false);
   const [totalAttempts, setTotalAttempts] = useState(0);
+  const [recent, setRecent] = useState<any[]>([]);
   const [started, setStarted] = useState(false);
   const [micReady, setMicReady] = useState(false);
 
@@ -62,6 +64,13 @@ export default function Speaking() {
       .select('*', { count: 'exact', head: true })
       .eq('user_id', user!.id);
     setTotalAttempts(count || 0);
+    const { data } = await supabase
+      .from('speaking_attempts')
+      .select('id, topic, part, score, status, created_at')
+      .eq('user_id', user!.id)
+      .order('created_at', { ascending: false })
+      .limit(5);
+    setRecent((data as any) || []);
   };
 
   const changeTopic = () => setTopic(getRandomSpeakingTopic(selectedPart));
