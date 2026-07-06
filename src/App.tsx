@@ -19,6 +19,7 @@ import Essays from "./pages/Essays";
 import Leaderboard from "./pages/Leaderboard";
 import Admin from "./pages/Admin";
 import Speaking from "./pages/Speaking";
+import Writing from "./pages/Writing";
 import SpeakingResult from "./pages/SpeakingResult";
 import SpeakingHistory from "./pages/SpeakingHistory";
 import Drafts from "./pages/Drafts";
@@ -63,6 +64,7 @@ function AppRoutes() {
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
+        <Route path="/writing" element={<ProtectedRoute><Writing /></ProtectedRoute>} />
         <Route path="/result/:id" element={<ProtectedRoute><Result /></ProtectedRoute>} />
         <Route path="/essays" element={<ProtectedRoute><Essays /></ProtectedRoute>} />
         <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />

@@ -286,43 +286,37 @@ export default function Dashboard() {
             <span className="text-xs text-muted-foreground hidden sm:inline">Tap a card to start</span>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {/* Writing Task */}
-            <button
-              onClick={() => (writingLimit - writingUsed) <= 0 ? setShowPricing(true) : setShowTaskChooser(true)}
-              className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
-            >
+            {/* Writing Hub */}
+            <Link to="/writing" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden block">
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
               <div className="relative">
                 <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-3">
                   <PenTool className="h-5 w-5 text-primary" />
                 </div>
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Writing</h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Choose Task 1 or Task 2 and get AI feedback</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Task 1 & 2, history and AI feedback</p>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{Math.max(0, writingLimit - writingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
-            </button>
+            </Link>
 
-            {/* Speaking */}
-            <button
-              onClick={() => (speakingLimit - speakingUsed) <= 0 ? setShowPricing(true) : window.location.assign('/speaking')}
-              className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden"
-            >
+            {/* Speaking Hub */}
+            <Link to="/speaking" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden block">
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent/10 rounded-full blur-2xl" />
               <div className="relative">
                 <div className="w-11 h-11 rounded-xl bg-accent/15 flex items-center justify-center mb-3">
                   <Mic className="h-5 w-5 text-accent" />
                 </div>
                 <h3 className="font-semibold text-sm sm:text-base mb-1">Speaking</h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Record and get AI band feedback</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mb-3 leading-relaxed">Parts 1–3, history and AI band feedback</p>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent-foreground">{Math.max(0, speakingLimit - speakingUsed)} left</span>
                   <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
-            </button>
+            </Link>
 
             {/* Mock Test */}
             <Link to="/mock-test" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden">
@@ -366,9 +360,10 @@ export default function Dashboard() {
 
           {/* Secondary shortcuts */}
           <div className="mt-3 flex flex-wrap gap-2">
-            <Link to="/exam?task=1"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Clock className="h-3.5 w-3.5" /> Writing Task 1</Button></Link>
-            <Link to="/essays"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><FileText className="h-3.5 w-3.5" /> Essay History</Button></Link>
-            <Link to="/speaking-history"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><History className="h-3.5 w-3.5" /> Speaking History</Button></Link>
+            <Link to="/writing"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><PenTool className="h-3.5 w-3.5" /> Writing hub</Button></Link>
+            <Link to="/speaking"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Mic className="h-3.5 w-3.5" /> Speaking hub</Button></Link>
+            <Link to="/essays"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><FileText className="h-3.5 w-3.5" /> Essay history</Button></Link>
+            <Link to="/speaking-history"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><History className="h-3.5 w-3.5" /> Speaking history</Button></Link>
             <Link to="/leaderboard"><Button variant="outline" size="sm" className="gap-1.5 h-8 text-xs"><Award className="h-3.5 w-3.5" /> Ranking</Button></Link>
           </div>
         </motion.div>
@@ -447,7 +442,7 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        {/* Task Distribution + Recent Essays */}
+        {/* Task Distribution + Helpful block */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-8">
           {/* Task Distribution */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
@@ -488,165 +483,38 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Recent Essays */}
+          {/* Focus of the week */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}
             className="glass-card p-4 sm:p-6 lg:col-span-2">
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-primary" />
-                <h3 className="text-base sm:text-lg font-semibold">Recent Essays</h3>
-              </div>
-              {essays.length > 5 && (
-                <Link to="/essays">
-                  <Button variant="ghost" size="sm" className="gap-1 text-primary">
-                    View All <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-              )}
+            <div className="flex items-center gap-2 mb-4 sm:mb-6">
+              <Target className="h-5 w-5 text-primary" />
+              <h3 className="text-base sm:text-lg font-semibold">Focus of the week</h3>
             </div>
-            {loading ? (
-              <div className="space-y-3">
-                {[1, 2, 3].map(i => <div key={i} className="h-16 bg-secondary/50 rounded-lg animate-pulse" />)}
-              </div>
-            ) : essays.length > 0 ? (
-              <div className="space-y-2 sm:space-y-3">
-                {essays.slice(0, 5).map((essay) => (
-                  <Link key={essay.id} to={`/result/${essay.id}`}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
-                    <div className="flex-shrink-0">
-                      {essay.score !== null ? (
-                        <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm sm:text-base font-bold ${
-                          essay.score >= 7 ? 'bg-primary/15 text-primary' : essay.score >= 5 ? 'bg-yellow-500/15 text-yellow-600' : 'bg-destructive/15 text-destructive'
-                        }`}>
-                          {essay.score}
-                        </div>
-                      ) : (
-                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-muted/50 flex items-center justify-center">
-                          <Clock className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                      )}
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { icon: PenTool, title: 'Writing goal', desc: 'Aim for 3 essays this week. You have ' + thisWeekEssays + ' so far.', to: '/writing', cta: 'Practice writing' },
+                { icon: Mic, title: 'Speaking goal', desc: 'Record at least 2 Part 2 answers this week to build fluency.', to: '/speaking', cta: 'Practice speaking' },
+                { icon: ClipboardList, title: 'Full mock test', desc: 'Simulate a full exam once a week to build stamina.', to: '/mock-test', cta: 'Start mock test' },
+                { icon: Sparkles, title: 'Ask your AI Mentor', desc: 'Get a personalized tip based on your last essays.', to: '/dashboard', cta: 'Open mentor', mentor: true },
+              ].map((g) => (
+                <Link key={g.title} to={g.to} className="p-4 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-all group flex flex-col">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <g.icon className="h-4 w-4 text-primary" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
-                        <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d')}</span>
-                      </div>
-                      <p className="text-xs sm:text-sm truncate text-muted-foreground">{essay.topic.substring(0, 50)}...</p>
-                    </div>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 text-muted-foreground">
-                <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                <p>No essays yet. Start your first exam!</p>
-              </div>
-            )}
-          </motion.div>
-        </div>
-
-        {/* Recent Speaking */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }}
-          className="glass-card p-4 sm:p-6 mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Mic className="h-5 w-5 text-primary" />
-              <h3 className="text-base sm:text-lg font-semibold">Recent Speaking Attempts</h3>
-            </div>
-            {recentSpeaking.length > 0 && (
-              <Link to="/speaking-history">
-                <Button variant="ghost" size="sm" className="gap-1 text-primary">
-                  View All <ChevronRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            )}
-          </div>
-          {recentSpeaking.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              <Mic className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p className="text-sm">No speaking attempts yet</p>
-            </div>
-          ) : (
-            <div className="space-y-2 sm:space-y-3">
-              {recentSpeaking.map((a) => (
-                <Link key={a.id} to={`/speaking-result/${a.id}`}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
-                  <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
-                    (a.score ?? 0) >= 7 ? 'bg-primary/15 text-primary' : (a.score ?? 0) >= 5 ? 'bg-yellow-500/15 text-yellow-600' : 'bg-destructive/15 text-destructive'
-                  }`}>
-                    {a.score ?? '—'}
+                    <p className="font-semibold text-sm">{g.title}</p>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary uppercase">{a.part}</span>
-                      <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(a.created_at), 'MMM d')}</span>
-                    </div>
-                    <p className="text-xs sm:text-sm truncate text-muted-foreground">{(a.topic || '').substring(0, 60)}...</p>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  <p className="text-xs text-muted-foreground mb-3 flex-1">{g.desc}</p>
+                  <span className="text-[11px] font-medium text-primary inline-flex items-center gap-1">
+                    {g.cta} <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
                 </Link>
               ))}
             </div>
-          )}
-        </motion.div>
+          </motion.div>
+        </div>
 
-        {/* Writing Tips */}
-        {/* Recent Mock Tests */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          className="glass-card p-4 sm:p-6 mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <ClipboardList className="h-5 w-5 text-primary" />
-              <h3 className="text-base sm:text-lg font-semibold">Recent Mock Tests</h3>
-            </div>
-            <Link to="/mock-test">
-              <Button variant="ghost" size="sm" className="gap-1 text-primary">
-                View All <ChevronRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-          {recentMockTests.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              <ClipboardList className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p className="text-sm">No mock tests yet</p>
-            </div>
-          ) : (
-            <div className="space-y-2 sm:space-y-3">
-              {recentMockTests.map((m) => {
-                const isDone = m.status === 'completed';
-                const href = isDone ? `/mock-test/result/${m.id}` : m.status === 'in_progress' ? `/mock-test/exam/${m.id}` : `/mock-test/thank-you/${m.id}`;
-                return (
-                  <Link key={m.id} to={href}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
-                    <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
-                      isDone && (m.overall_band ?? 0) >= 7 ? 'bg-primary/15 text-primary'
-                      : isDone && (m.overall_band ?? 0) >= 5 ? 'bg-yellow-500/15 text-yellow-600'
-                      : isDone ? 'bg-destructive/15 text-destructive'
-                      : 'bg-muted/50 text-muted-foreground'
-                    }`}>
-                      {isDone ? (m.overall_band ?? '—') : <Clock className="h-4 w-4" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary capitalize">
-                          {m.status.replace('_', ' ')}
-                        </span>
-                        <span className="text-[10px] sm:text-xs text-muted-foreground">{format(new Date(m.created_at), 'MMM d, HH:mm')}</span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-muted-foreground">
-                        {isDone ? `Task1 ${m.task1_band ?? '—'} · Task2 ${m.task2_band ?? '—'} · Speaking ${m.speaking_band ?? '—'}` : 'Full mock test session'}
-                      </p>
-                    </div>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
           className="glass-card p-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" /> Writing Tips
