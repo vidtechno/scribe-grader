@@ -95,7 +95,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-      <SEOHead title="IELTS Writing Practice" description="Master your IELTS Writing with AI-powered essay grading, personalized AI Mentor, and real exam topics." path="/" />
+      <SEOHead title="IELTS Writing & Speaking Practice" description="Master IELTS Writing and Speaking with AI-powered grading, real exam topics, timed mock tests, and a personal AI Mentor." path="/" />
       <Navbar />
 
       {/* Hero */}
@@ -109,19 +109,19 @@ export default function Index() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8">
             <Sparkles className="h-4 w-4" />
-            AI-Powered IELTS Writing Practice
+            AI-Powered IELTS Writing & Speaking
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
             className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
-            Master Your <br />
-            <span className="gradient-text">IELTS Writing</span>
+            Master IELTS <br />
+            <span className="gradient-text">Writing & Speaking</span>
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
             className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Get instant AI-powered feedback on your essays. Practice with real IELTS topics
-            and track your progress to achieve your target band score.
+            Get instant AI feedback on your Writing and Speaking. Practice with real IELTS topics,
+            simulate full mock tests, and reach your target band faster with a personal AI Mentor.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
@@ -378,11 +378,11 @@ export default function Index() {
               <motion.div variants={fadeUp} custom={4} className="flex flex-wrap items-center gap-3 mt-6">
                 <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                   <PenLine className="h-3.5 w-3.5 text-primary" />
-                  <span>Writing essay — 2 credits</span>
+                  <span>Included in every monthly plan</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30">
                   <Mic className="h-3.5 w-3.5 text-accent-foreground" />
-                  <span>Speaking attempt — 2 credits</span>
+                  <span>Writing + Speaking in one place</span>
                 </div>
               </motion.div>
             </motion.div>
