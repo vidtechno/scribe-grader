@@ -50,10 +50,6 @@ export default function MockTestDashboard() {
 
   const startTest = async () => {
     if (!user) return;
-    if ((profile?.credits ?? 0) < 8) {
-      toast.error('You need 8 credits to start a mock test');
-      return;
-    }
     setCreating(true);
     // Resume if there's already an in-progress test
     const inProgress = tests.find(t => t.status === 'in_progress');
@@ -92,7 +88,6 @@ export default function MockTestDashboard() {
             <Button variant="glow" size="lg" onClick={startTest} disabled={creating} className="gap-2 w-full sm:w-auto">
               {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               Start New Mock Test
-              <span className="ml-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/15">8 credits</span>
             </Button>
           </div>
         </motion.div>
