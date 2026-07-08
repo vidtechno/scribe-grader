@@ -307,6 +307,7 @@ export default function Speaking() {
                 variant="glow"
                 size="lg"
                 onClick={() => {
+                  if (!canAttempt) { setShowPricing(true); return; }
                   if (useCustomTopic && !customTopic.trim()) { toast.error('Please enter your topic'); return; }
                   setStarted(true);
                 }}
