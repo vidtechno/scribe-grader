@@ -105,6 +105,13 @@ export default function Profile() {
               <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
                 <Mail className="h-4 w-4 flex-shrink-0" /> <span className="truncate">{profile?.email}</span>
               </p>
+              {(profile as any)?.public_id && (
+                <p className="text-xs text-muted-foreground mt-1 flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1 font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">
+                    ID #{(profile as any).public_id}
+                  </span>
+                </p>
+              )}
               {profile?.created_at && (
                 <p className="text-xs text-muted-foreground flex items-center gap-2 mt-1">
                   <Calendar className="h-3.5 w-3.5" /> Member since {format(new Date(profile.created_at), 'MMMM d, yyyy')}
