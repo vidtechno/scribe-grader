@@ -33,6 +33,7 @@ interface Profile {
   created_at: string;
   is_premium?: boolean;
   total_credits_purchased?: number;
+  public_id?: string | null;
 }
 
 interface Subscription {
@@ -266,7 +267,8 @@ export default function Admin() {
     u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     u.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     u.city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.phone?.includes(searchQuery)
+    u.phone?.includes(searchQuery) ||
+    (u.public_id || '').includes(searchQuery.trim())
   );
 
   const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
@@ -395,7 +397,7 @@ export default function Admin() {
             <div className="glass-card p-6 mb-6">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search users by email, name, city, or phone..." value={searchQuery}
+                <Input placeholder="Search users by ID, email, name, city, or phone..." value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 input-glass" />
               </div>
             </div>
@@ -430,6 +432,11 @@ export default function Admin() {
                             <div>
                               <span className="font-medium block">{profile.full_name || 'No name'}</span>
                               <span className="text-xs text-muted-foreground">{profile.email}</span>
+                              {profile.public_id && (
+                                <span className="inline-block mt-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                                  ID #{profile.public_id}
+                                </span>
+                              )}
                             </div>
                           </td>
                           <td className="p-4 hidden md:table-cell">
