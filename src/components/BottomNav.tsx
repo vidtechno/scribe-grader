@@ -1,23 +1,14 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, PenTool, Clock, FileText, Crown, User as UserIcon, PenLine } from 'lucide-react';
+import { LayoutDashboard, PenTool, Mic, Clock, FileText, Crown, User as UserIcon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { PricingModal } from '@/components/PricingModal';
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
-
-const navItems = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
-  { to: '#write', icon: PenTool, label: 'Write' },
-  { to: '/drafts', icon: PenLine, label: 'Drafts' },
-  { to: '#plans', icon: Crown, label: 'Plans' },
-  { to: '/profile', icon: UserIcon, label: 'Profile' },
-];
 
 export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
   const { user } = useAuth();
@@ -30,54 +21,31 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
   if (location.pathname === '/exam') return null;
   if (location.pathname.startsWith('/mock-test/exam/')) return null;
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-card/95 backdrop-blur-xl border-t border-border safe-area-bottom">
-        <div className="flex items-center justify-around h-16">
-          {navItems.map((item) => {
-            const Icon = item.icon;
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-area-bottom">
+        <div className="mx-3 mb-3 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/60 shadow-lg shadow-black/10">
+          <div className="relative flex items-end justify-around h-16 px-2">
+            <NavItem icon={LayoutDashboard} label="Home" active={isActive('/dashboard')} onClick={() => navigate('/dashboard')} />
+            <NavItem icon={PenTool} label="Writing" active={isActive('/writing')} onClick={() => navigate('/writing')} />
 
-            if (item.to === '#write') {
-              return (
-                <button
-                  key={item.label}
-                  onClick={() => setShowTaskPicker(true)}
-                  className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-[10px] font-medium">{item.label}</span>
-                </button>
-              );
-            }
+            {/* Center Write CTA */}
+            <button
+              onClick={() => setShowTaskPicker(true)}
+              className="relative -mt-6 flex flex-col items-center justify-center"
+              aria-label="Start writing"
+            >
+              <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background">
+                <FileText className="h-6 w-6 text-primary-foreground" />
+              </span>
+              <span className="text-[10px] font-semibold text-primary mt-1">Write</span>
+            </button>
 
-            if (item.to === '#plans') {
-              return (
-                <button
-                  key={item.label}
-                  onClick={() => setShowPricing(true)}
-                  className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-[10px] font-medium">{item.label}</span>
-                </button>
-              );
-            }
-
-
-            const isActive = location.pathname === item.to.split('?')[0];
-            return (
-              <Link
-                key={item.label}
-                to={item.to}
-                className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-colors ${
-                  isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
-                }`}
-              >
-                <Icon className="h-5 w-5" />
-                <span className="text-[10px] font-medium">{item.label}</span>
-              </Link>
-            );
-          })}
+            <NavItem icon={Mic} label="Speaking" active={isActive('/speaking')} onClick={() => navigate('/speaking')} />
+            <NavItem icon={UserIcon} label="Profile" active={isActive('/profile')} onClick={() => navigate('/profile')} />
+          </div>
         </div>
       </nav>
 
@@ -122,5 +90,35 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
         </DrawerContent>
       </Drawer>
     </>
+  );
+}
+
+function NavItem({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+}: {
+  icon: any;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-colors ${
+        active ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+      }`}
+    >
+      <span
+        className={`flex items-center justify-center w-9 h-9 rounded-xl transition-all ${
+          active ? 'bg-primary/10' : ''
+        }`}
+      >
+        <Icon className="h-5 w-5" />
+      </span>
+      <span className="text-[10px] font-medium leading-none">{label}</span>
+    </button>
   );
 }
