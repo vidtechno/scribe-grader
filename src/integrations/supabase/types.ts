@@ -394,6 +394,7 @@ export type Database = {
           id: string
           is_premium: boolean
           phone: string | null
+          public_id: string | null
           total_credits_purchased: number
           updated_at: string
           user_id: string
@@ -408,6 +409,7 @@ export type Database = {
           id?: string
           is_premium?: boolean
           phone?: string | null
+          public_id?: string | null
           total_credits_purchased?: number
           updated_at?: string
           user_id: string
@@ -422,6 +424,7 @@ export type Database = {
           id?: string
           is_premium?: boolean
           phone?: string | null
+          public_id?: string | null
           total_credits_purchased?: number
           updated_at?: string
           user_id?: string
@@ -679,6 +682,7 @@ export type Database = {
       }
       check_my_subscription: { Args: never; Returns: undefined }
       expire_subscriptions: { Args: never; Returns: number }
+      generate_public_id: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
