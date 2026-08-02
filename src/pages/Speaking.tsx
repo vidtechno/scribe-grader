@@ -51,6 +51,21 @@ export default function Speaking() {
   const [recent, setRecent] = useState<any[]>([]);
   const [started, setStarted] = useState(false);
   const [micReady, setMicReady] = useState(false);
+  const [pending, setPending] = useState<{ blob: Blob; duration: number; url: string } | null>(null);
+
+  useEffect(() => {
+    return () => { if (pending) URL.revokeObjectURL(pending.url); };
+  }, [pending]);
+
+  const handleRecorded = (blob: Blob, duration: number) => {
+    if (pending) URL.revokeObjectURL(pending.url);
+    setPending({ blob, duration, url: URL.createObjectURL(blob) });
+  };
+
+  const discardRecording = () => {
+    if (pending) URL.revokeObjectURL(pending.url);
+    setPending(null);
+  };
 
   const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic;
 
@@ -174,6 +189,7 @@ export default function Speaking() {
     } finally {
       setIsProcessing(false);
       setGradingStep(0);
+      discardRecording();
     }
   };
 
@@ -319,15 +335,44 @@ export default function Speaking() {
             </div>
           ) : !micReady ? (
             <AudioQualityCheck onPass={() => setMicReady(true)} />
+          ) : pending ? (
+            <div className="glass-card p-6 space-y-5">
+              <div className="text-center">
+                <p className="font-semibold mb-1">Review your recording</p>
+                <p className="text-sm text-muted-foreground">
+                  Listen to your answer first. Send it to the AI only if you are happy with it.
+                </p>
+              </div>
+              <audio controls src={pending.url} className="w-full" />
+              <p className="text-xs text-center text-muted-foreground">
+                Length: {Math.floor(pending.duration / 60)}:{(pending.duration % 60).toString().padStart(2, '0')}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  variant="glow"
+                  className="flex-1 gap-2"
+                  disabled={isProcessing}
+                  onClick={() => handleRecordingComplete(pending.blob, pending.duration)}
+                >
+                  <Sparkles className="h-4 w-4" /> Evaluate with AI
+                </Button>
+                <Button variant="outline" className="flex-1 gap-2" disabled={isProcessing} onClick={discardRecording}>
+                  <RefreshCw className="h-4 w-4" /> Discard & re-record
+                </Button>
+              </div>
+              <p className="text-[11px] text-center text-muted-foreground">
+                Your Speaking quota is deducted only when you press "Evaluate with AI".
+              </p>
+            </div>
           ) : (
             <>
               <SpeechRecorder
-                onRecordingComplete={handleRecordingComplete}
+                onRecordingComplete={handleRecorded}
                 isProcessing={isProcessing}
                 maxDuration={PART_INFO[selectedPart].time}
               />
               <p className="text-[11px] text-center text-muted-foreground mt-3">
-                Your Speaking quota is deducted only when you finish and submit the recording.
+                After you stop, you can listen to your recording before sending it for evaluation.
               </p>
             </>
           )}
