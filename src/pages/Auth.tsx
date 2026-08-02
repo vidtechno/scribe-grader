@@ -106,6 +106,30 @@ export default function Auth() {
 
         {/* Auth Card */}
         <div className="glass-card p-8">
+          <div className="flex p-1 bg-muted/50 rounded-xl mb-6">
+            <button
+              type="button"
+              onClick={() => setIsLogin(true)}
+              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                isLogin
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsLogin(false)}
+              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                !isLogin
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
           <form onSubmit={handleSubmit} className="space-y-5">
             {!isLogin && (
               <>
@@ -227,19 +251,6 @@ export default function Auth() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              {isLogin ? (
-                <>Don't have an account? <span className="text-primary font-medium">Sign up</span></>
-              ) : (
-                <>Already have an account? <span className="text-primary font-medium">Sign in</span></>
-              )}
-            </button>
-          </div>
         </div>
 
         {/* Features list for signup */}
