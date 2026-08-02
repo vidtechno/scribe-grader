@@ -64,7 +64,7 @@ export default function Index() {
   ];
 
   const testimonials = [
-    { name: 'Aziza M.', score: '7.5', text: 'WritingExam.uz helped me improve from Band 6 to 7.5 in just one month. The AI feedback is incredibly detailed!', avatar: 'A' },
+    { name: 'Aziza M.', score: '7.5', text: 'Scorify.uz helped me improve from Band 6 to 7.5 in just one month. The AI feedback is incredibly detailed!', avatar: 'A' },
     { name: 'Sardor K.', score: '8.0', text: 'The AI Mentor gave me personalized tips that no textbook could. I got Band 8 in Writing on my first try!', avatar: 'S' },
     { name: 'Nilufar R.', score: '7.0', text: "Best IELTS preparation tool I've used. The instant grading saves so much time compared to waiting for a tutor.", avatar: 'N' },
   ];
@@ -554,9 +554,9 @@ export default function Index() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
-            <span className="font-bold">WritingExam.uz</span>
+            <span className="font-bold">Scorify.uz</span>
           </div>
-          <p className="text-sm text-muted-foreground">© 2025 WritingExam.uz. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2025 Scorify.uz. All rights reserved.</p>
         </div>
       </footer>
 

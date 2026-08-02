@@ -6,7 +6,7 @@ interface SEOHeadProps {
   path?: string;
 }
 
-const BASE_TITLE = 'WritingExam.uz';
+const BASE_TITLE = 'Scorify.uz';
 const BASE_URL = 'https://scribe-grader.lovable.app';
 
 export function SEOHead({ title, description, path = '' }: SEOHeadProps) {

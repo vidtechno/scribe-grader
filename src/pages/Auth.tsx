@@ -73,7 +73,7 @@ export default function Auth() {
             toast.error(error.message);
           }
         } else {
-          toast.success('Account created! Welcome to WritingExam.uz');
+          toast.success('Account created! Welcome to Scorify.uz');
           navigate('/dashboard');
         }
       }
@@ -98,7 +98,7 @@ export default function Auth() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
             <BookOpen className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold gradient-text">WritingExam.uz</h1>
+          <h1 className="text-3xl font-bold gradient-text">Scorify.uz</h1>
           <p className="text-muted-foreground mt-2">
             {isLogin ? 'Welcome back! Sign in to continue.' : 'Create your account to get started.'}
           </p>
