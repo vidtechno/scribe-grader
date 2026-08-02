@@ -68,6 +68,10 @@ export default {
           bg: "hsl(var(--glass-bg))",
           border: "hsl(var(--glass-border))",
         },
+        brand: {
+          red: "hsl(var(--brand-red))",
+          "red-soft": "hsl(var(--brand-red-soft))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

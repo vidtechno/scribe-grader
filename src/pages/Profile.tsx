@@ -97,7 +97,7 @@ export default function Profile() {
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-6 sm:p-8 mb-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-2xl font-bold text-primary-foreground">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft flex items-center justify-center text-2xl font-bold text-primary-foreground">
               {initials}
             </div>
             <div className="flex-1 min-w-0">

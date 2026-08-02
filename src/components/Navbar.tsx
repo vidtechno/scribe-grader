@@ -33,7 +33,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link to={user ? '/dashboard' : '/'} className="flex items-center gap-2">
             <BookOpen className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold gradient-text">WritingExam.uz</span>
+            <span className="text-xl font-bold gradient-text">Scorify.uz</span>
           </Link>
 
           {user ? (

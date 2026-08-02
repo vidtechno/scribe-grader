@@ -274,7 +274,7 @@ export default function Exam() {
       <div className="bg-[#2c3e50] text-white px-4 py-2 flex items-center justify-between flex-wrap gap-2 z-50">
         <div className="flex items-center gap-3">
           <span className="font-semibold text-sm">{taskType} — Writing</span>
-          <span className="text-xs text-gray-300">WritingExam.uz</span>
+          <span className="text-xs text-gray-300">Scorify.uz</span>
         </div>
         <div className="flex items-center gap-4">
           <span className={`flex items-center gap-1.5 font-mono text-lg font-bold ${getTimeColor()} bg-white/10 px-3 py-1 rounded`}>
