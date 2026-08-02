@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SpeechRecorder } from '@/components/SpeechRecorder';
 import { AudioQualityCheck } from '@/components/AudioQualityCheck';
+import { AudioPlayer } from '@/components/AudioPlayer';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
@@ -343,7 +344,7 @@ export default function Speaking() {
                   Listen to your answer first. Send it to the AI only if you are happy with it.
                 </p>
               </div>
-              <audio controls src={pending.url} className="w-full" />
+              <AudioPlayer src={pending.url} />
               <p className="text-xs text-center text-muted-foreground">
                 Length: {Math.floor(pending.duration / 60)}:{(pending.duration % 60).toString().padStart(2, '0')}
               </p>
