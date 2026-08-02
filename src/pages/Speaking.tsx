@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SpeechRecorder } from '@/components/SpeechRecorder';
 import { AudioQualityCheck } from '@/components/AudioQualityCheck';
+import { AudioPlayer } from '@/components/AudioPlayer';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
