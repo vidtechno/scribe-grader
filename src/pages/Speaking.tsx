@@ -51,6 +51,21 @@ export default function Speaking() {
   const [recent, setRecent] = useState<any[]>([]);
   const [started, setStarted] = useState(false);
   const [micReady, setMicReady] = useState(false);
+  const [pending, setPending] = useState<{ blob: Blob; duration: number; url: string } | null>(null);
+
+  useEffect(() => {
+    return () => { if (pending) URL.revokeObjectURL(pending.url); };
+  }, [pending]);
+
+  const handleRecorded = (blob: Blob, duration: number) => {
+    if (pending) URL.revokeObjectURL(pending.url);
+    setPending({ blob, duration, url: URL.createObjectURL(blob) });
+  };
+
+  const discardRecording = () => {
+    if (pending) URL.revokeObjectURL(pending.url);
+    setPending(null);
+  };
 
   const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic;
 
@@ -174,6 +189,7 @@ export default function Speaking() {
     } finally {
       setIsProcessing(false);
       setGradingStep(0);
+      discardRecording();
     }
   };
 
