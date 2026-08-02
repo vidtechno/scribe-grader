@@ -37,7 +37,7 @@ export function BottomNav({ onMentorClick }: { onMentorClick?: () => void }) {
               className="relative -mt-6 flex flex-col items-center justify-center"
               aria-label="Start writing"
             >
-              <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background">
+              <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background">
                 <FileText className="h-6 w-6 text-primary-foreground" />
               </span>
               <span className="text-[10px] font-semibold text-primary mt-1">Write</span>
