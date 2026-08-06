@@ -63,7 +63,7 @@ export default function SpeakingHistory() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Speaking History" description="All your IELTS Speaking attempts" path="/speaking-history" />
+      <SEOHead title="Speaking History" description="All your IELTS Speaking attempts" path="/speaking-history" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
         <Link to="/dashboard" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">

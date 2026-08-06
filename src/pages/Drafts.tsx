@@ -56,7 +56,7 @@ export default function Drafts() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="My Drafts" description="Resume your saved IELTS writing and speaking drafts." path="/drafts" />
+      <SEOHead title="My Drafts" description="Resume your saved IELTS writing and speaking drafts." path="/drafts" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">

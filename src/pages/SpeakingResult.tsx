@@ -106,7 +106,7 @@ export default function SpeakingResult() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Speaking Result" description="Your IELTS Speaking practice result." path={`/speaking-result/${id}`} />
+      <SEOHead title="Speaking Result" description="Your IELTS Speaking practice result." path={`/speaking-result/${id}`} noindex />
       <Navbar />
 
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">

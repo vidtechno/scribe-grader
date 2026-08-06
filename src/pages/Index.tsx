@@ -93,9 +93,80 @@ export default function Index() {
     'Grammatical Range & Accuracy'
   ];
 
+  const landingJsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: 'Scorify.uz',
+      url: 'https://scorify.uz/',
+      applicationCategory: 'EducationalApplication',
+      operatingSystem: 'Web',
+      inLanguage: 'en',
+      description:
+        'AI-powered IELTS Writing and Speaking practice with instant band scores, examiner-style feedback, full mock tests and a personal AI Mentor.',
+      featureList: [
+        'IELTS Writing Task 1 & Task 2 evaluation',
+        'IELTS Speaking Part 1, 2 and 3 evaluation',
+        'Full IELTS mock test simulator',
+        'AI Mentor coaching',
+        'Band score analytics and history',
+      ],
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'UZS',
+        description: 'Free plan available, paid monthly plans for more evaluations.',
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'How does Scorify.uz score my IELTS Writing?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Your essay is analysed by AI against the four official IELTS criteria — Task Achievement, Coherence and Cohesion, Lexical Resource and Grammatical Range & Accuracy — and you receive an estimated band score with detailed corrections.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I practise IELTS Speaking on Scorify.uz?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. You can record answers for Speaking Part 1, Part 2 and Part 3, listen back to your recording before submitting, and get an AI band estimate with fluency, pronunciation, vocabulary and grammar feedback.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is there a full IELTS mock test?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. The Mock Test Simulator runs Writing Task 1 (20 minutes), Task 2 (40 minutes) and the three Speaking parts under exam conditions, then returns an overall band report.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How do I pay for a plan?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Payments are handled manually via Telegram @scorify_payments. Your plan is activated after confirmation and lasts 30 days.',
+          },
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-      <SEOHead title="IELTS Writing & Speaking Practice" description="Master IELTS Writing and Speaking with AI-powered grading, real exam topics, timed mock tests, and a personal AI Mentor." path="/" />
+      <SEOHead
+        title="AI IELTS Writing & Speaking Practice"
+        description="Master IELTS Writing and Speaking with AI band scores, examiner-style feedback, real exam topics, timed mock tests and a personal AI Mentor. Start free on Scorify.uz."
+        keywords="IELTS, IELTS writing, IELTS speaking, IELTS mock test, IELTS band score, AI essay checker, IELTS Uzbekistan, Scorify.uz"
+        path="/"
+        jsonLd={landingJsonLd}
+      />
       <Navbar />
 
       {/* Hero */}
@@ -513,7 +584,7 @@ export default function Index() {
                     ))}
                   </ul>
                   <Button variant={popular ? 'glow' : 'outline'} className="w-full gap-2"
-                    onClick={() => window.open(`https://t.me/writingexambase?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.price_uzs} so'm / oy).`)}`, '_blank')}>
+                    onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.price_uzs} so'm / oy).`)}`, '_blank')}>
                     <ExternalLink className="h-4 w-4" /> Buy via Telegram
                   </Button>
                 </motion.div>
@@ -522,7 +593,7 @@ export default function Index() {
           </motion.div>
 
           <p className="text-xs text-muted-foreground text-center mt-8">
-            Payments are handled manually via Telegram <span className="text-primary font-semibold">@writingexambase</span>. Your plan activates after confirmation and lasts 30 days.
+            Payments are handled manually via Telegram <span className="text-primary font-semibold">@scorify_payments</span>. Your plan activates after confirmation and lasts 30 days.
           </p>
         </div>
       </section>

@@ -70,7 +70,7 @@ export default function Writing() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Writing Practice" description="Practice IELTS Writing Task 1 and Task 2 with instant AI feedback." path="/writing" />
+      <SEOHead title="Writing Practice" description="Practice IELTS Writing Task 1 and Task 2 with instant AI feedback." path="/writing" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
