@@ -513,7 +513,7 @@ export default function Index() {
                     ))}
                   </ul>
                   <Button variant={popular ? 'glow' : 'outline'} className="w-full gap-2"
-                    onClick={() => window.open(`https://t.me/writingexambase?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.price_uzs} so'm / oy).`)}`, '_blank')}>
+                    onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.price_uzs} so'm / oy).`)}`, '_blank')}>
                     <ExternalLink className="h-4 w-4" /> Buy via Telegram
                   </Button>
                 </motion.div>
@@ -522,7 +522,7 @@ export default function Index() {
           </motion.div>
 
           <p className="text-xs text-muted-foreground text-center mt-8">
-            Payments are handled manually via Telegram <span className="text-primary font-semibold">@writingexambase</span>. Your plan activates after confirmation and lasts 30 days.
+            Payments are handled manually via Telegram <span className="text-primary font-semibold">@scorify_payments</span>. Your plan activates after confirmation and lasts 30 days.
           </p>
         </div>
       </section>

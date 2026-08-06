@@ -5,7 +5,7 @@ import { Check, ExternalLink, PenLine, Mic, ClipboardList, Sparkles, Crown } fro
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 
-const TELEGRAM_USERNAME = 'writingexambase';
+const TELEGRAM_USERNAME = 'scorify_payments';
 
 interface Plan {
   slug: string;

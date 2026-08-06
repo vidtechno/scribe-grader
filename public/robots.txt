@@ -4,6 +4,9 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+User-agent: YandexBot
+Allow: /
+
 User-agent: Twitterbot
 Allow: /
 
@@ -12,5 +15,13 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /exam
+Disallow: /result/
+Disallow: /speaking-result/
+Disallow: /mock-test/
+Disallow: /drafts
+Disallow: /profile
 
-Sitemap: https://scribe-grader.lovable.app/sitemap.xml
+Sitemap: https://scorify.uz/sitemap.xml
