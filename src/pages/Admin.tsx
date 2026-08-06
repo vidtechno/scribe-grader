@@ -303,7 +303,7 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Admin Panel" path="/admin" />
+      <SEOHead title="Admin Panel" path="/admin" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}

@@ -196,7 +196,7 @@ export default function Speaking() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Speaking Practice" description="Practice IELTS Speaking with AI-powered feedback and scoring." path="/speaking" />
+      <SEOHead title="Speaking Practice" description="Practice IELTS Speaking with AI-powered feedback and scoring." path="/speaking" noindex />
       <Navbar />
 
       {/* Grading Overlay */}

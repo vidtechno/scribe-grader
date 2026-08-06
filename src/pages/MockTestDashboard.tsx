@@ -69,7 +69,7 @@ export default function MockTestDashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Mock Test Simulator" description="Take full IELTS mock tests and track your band trend over time." path="/mock-test" />
+      <SEOHead title="Mock Test Simulator" description="Take full IELTS mock tests and track your band trend over time." path="/mock-test" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
