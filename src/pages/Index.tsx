@@ -333,6 +333,8 @@ export default function Index() {
                 </div>
               </motion.div>
             </motion.div>
+
+            <HeroSpeakingDemo />
           </motion.div>
         </div>
       </section>
