@@ -170,66 +170,168 @@ export default function Index() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <section className="relative pt-28 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-20 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-          <motion.div animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.15, 0.1] }} transition={{ duration: 10, repeat: Infinity }} className="absolute bottom-20 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
+          <motion.div animate={{ scale: [1, 1.18, 1], opacity: [0.12, 0.24, 0.12] }} transition={{ duration: 9, repeat: Infinity }} className="absolute -top-32 -right-24 w-[34rem] h-[34rem] bg-primary/20 rounded-full blur-3xl" />
+          <motion.div animate={{ scale: [1.15, 1, 1.15], opacity: [0.1, 0.18, 0.1] }} transition={{ duration: 11, repeat: Infinity }} className="absolute -bottom-40 -left-24 w-[28rem] h-[28rem] bg-brand-red/15 rounded-full blur-3xl" />
         </div>
 
-        <div className="max-w-5xl mx-auto text-center relative">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8">
-            <Sparkles className="h-4 w-4" />
-            AI-Powered IELTS Writing & Speaking
-          </motion.div>
+        <div className="max-w-7xl mx-auto relative grid lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+          {/* Copy */}
+          <div className="text-center lg:text-left">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-semibold tracking-wide uppercase mb-7">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+              </span>
+              AI-Powered IELTS Prep
+            </motion.div>
 
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
-            Master IELTS <br />
-            <span className="gradient-text">Writing & Speaking</span>
-          </motion.h1>
+            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-[1.08] tracking-tight">
+              Reach Your Band <br />
+              <span className="gradient-text">Faster with Scorify</span>
+            </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Get instant AI feedback on your Writing and Speaking. Practice with real IELTS topics,
-            simulate full mock tests, and reach your target band faster with a personal AI Mentor.
-          </motion.p>
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-9 leading-relaxed">
+              Instant, examiner-style feedback on your IELTS Writing and Speaking. Real exam topics,
+              timed mock tests, and a personal AI Mentor that shows exactly how to score higher.
+            </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {user ? (
-              <Link to="/dashboard">
-                <Button variant="glow" size="xl" className="gap-2">
-                  Go to Dashboard <ChevronRight className="h-5 w-5" />
-                </Button>
-              </Link>
-            ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="glow" size="xl" className="gap-2 group">
-                    Start Practicing Free
-                    <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              {user ? (
+                <Link to="/dashboard">
+                  <Button variant="glow" size="xl" className="gap-2">
+                    Go to Dashboard <ChevronRight className="h-5 w-5" />
                   </Button>
                 </Link>
-                <Button variant="glass" size="xl" onClick={() => setShowPricing(true)}>
-                  View Plans
-                </Button>
-              </>
-            )}
-          </motion.div>
+              ) : (
+                <>
+                  <Link to="/auth">
+                    <Button variant="glow" size="xl" className="gap-2 group">
+                      Start Practicing Free
+                      <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                  <Button variant="glass" size="xl" onClick={() => setShowPricing(true)}>
+                    View Plans
+                  </Button>
+                </>
+              )}
+            </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-            className="grid grid-cols-3 gap-4 sm:gap-8 max-w-md mx-auto mt-16">
-            {[
-              { value: 'Writing', label: 'Task 1 & 2' },
-              { value: 'Speaking', label: 'Parts 1–3' },
-              { value: 'AI Mentor', label: '24/7 coach' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
+              className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-12">
+              {[
+                { icon: PenLine, value: 'Writing', label: 'Task 1 & 2 analysis', accent: 'text-primary' },
+                { icon: Mic, value: 'Speaking', label: 'Parts 1–3 coaching', accent: 'text-primary' },
+                { icon: Bot, value: 'AI Mentor', label: 'Available 24/7', accent: 'text-brand-red' },
+              ].map((stat) => (
+                <div key={stat.value} className="p-4 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 shadow-sm hover:shadow-md transition-shadow text-left">
+                  <stat.icon className={`h-5 w-5 mb-2 ${stat.accent}`} />
+                  <div className={`font-bold ${stat.accent}`}>{stat.value}</div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Animated visual */}
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.25, duration: 0.6 }}
+            className="relative mx-auto w-full max-w-md lg:max-w-lg">
+            <div className="absolute -bottom-12 -left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
+
+            <motion.div animate={{ y: [0, -16, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} className="relative">
+              {/* Feedback card */}
+              <div className="relative z-20 bg-card rounded-3xl shadow-2xl border border-border p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <PenLine className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Writing Task 2</p>
+                      <p className="text-[11px] text-muted-foreground">AI evaluation complete</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary">Graded</span>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  {[
+                    { label: 'Task Response', pct: 88 },
+                    { label: 'Coherence & Cohesion', pct: 76 },
+                    { label: 'Lexical Resource', pct: 82 },
+                    { label: 'Grammar', pct: 70 },
+                  ].map((c, i) => (
+                    <div key={c.label}>
+                      <div className="flex justify-between text-[11px] text-muted-foreground mb-1">
+                        <span>{c.label}</span>
+                      </div>
+                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${c.pct}%` }}
+                          transition={{ delay: 0.6 + i * 0.15, duration: 1.1, ease: 'easeOut' }}
+                          className="h-full rounded-full bg-gradient-to-r from-primary to-brand-red-soft"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-1 rounded-2xl bg-primary/5 border border-primary/20 py-4 flex flex-col items-center">
+                    <span className="text-2xl font-bold text-primary">7.5</span>
+                    <span className="text-[10px] uppercase font-bold tracking-tight text-primary/80">Current band</span>
+                  </div>
+                  <div className="flex-1 rounded-2xl bg-brand-red/5 border border-brand-red/20 py-4 flex flex-col items-center">
+                    <span className="text-2xl font-bold text-brand-red">+1.5</span>
+                    <span className="text-[10px] uppercase font-bold tracking-tight text-brand-red/80">With AI Mentor</span>
+                  </div>
+                </div>
               </div>
-            ))}
+
+              {/* Floating: correction */}
+              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                className="absolute -top-6 right-0 sm:-right-8 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
+                    <Check className="h-5 w-5 text-primary-foreground" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold">Cohesion fixed</div>
+                    <div className="text-[10px] text-muted-foreground">Band score increased</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Floating: speaking waveform */}
+              <motion.div animate={{ y: [0, 12, 0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                className="absolute -bottom-8 left-0 sm:-left-10 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-brand-red/10 flex items-center justify-center">
+                    <Mic className="h-4 w-4 text-brand-red" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold mb-1">Speaking Part 2</div>
+                    <div className="flex items-end gap-[3px] h-4">
+                      {[0.4, 0.9, 0.6, 1, 0.5, 0.85, 0.35, 0.7, 0.5].map((h, i) => (
+                        <motion.span
+                          key={i}
+                          animate={{ scaleY: [h * 0.4, h, h * 0.5] }}
+                          transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut', delay: i * 0.09 }}
+                          className="w-[3px] h-4 origin-bottom rounded-full bg-primary"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
