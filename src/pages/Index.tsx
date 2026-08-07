@@ -297,7 +297,7 @@ export default function Index() {
 
               {/* Floating: correction */}
               <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                className="absolute -top-6 -right-4 sm:-right-8 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
+                className="absolute -top-6 right-0 sm:-right-8 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
                     <Check className="h-5 w-5 text-primary-foreground" />
@@ -311,7 +311,7 @@ export default function Index() {
 
               {/* Floating: speaking waveform */}
               <motion.div animate={{ y: [0, 12, 0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                className="absolute -bottom-8 -left-4 sm:-left-10 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
+                className="absolute -bottom-8 left-0 sm:-left-10 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-brand-red/10 flex items-center justify-center">
                     <Mic className="h-4 w-4 text-brand-red" />
