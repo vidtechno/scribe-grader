@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
+import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
 import { 
@@ -332,6 +333,8 @@ export default function Index() {
                 </div>
               </motion.div>
             </motion.div>
+
+            <HeroSpeakingDemo />
           </motion.div>
         </div>
       </section>
