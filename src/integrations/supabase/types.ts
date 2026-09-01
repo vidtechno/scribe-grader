@@ -680,7 +680,29 @@ export type Database = {
         Args: { _plan_slug: string; _user_id: string }
         Returns: undefined
       }
+      admin_extend_subscription: {
+        Args: { _days?: number; _user_id: string }
+        Returns: Json
+      }
+      admin_set_subscription: {
+        Args: {
+          _expires_at?: string
+          _plan_slug: string
+          _starts_at?: string
+          _user_id: string
+        }
+        Returns: Json
+      }
       check_my_subscription: { Args: never; Returns: undefined }
+      consume_mentor_message: { Args: { _user_id: string }; Returns: Json }
+      consume_quota: {
+        Args: { _kind: string; _user_id: string }
+        Returns: Json
+      }
+      enforce_subscription_expiry: {
+        Args: { _user_id: string }
+        Returns: undefined
+      }
       expire_subscriptions: { Args: never; Returns: number }
       generate_public_id: { Args: never; Returns: string }
       has_role: {
@@ -689,6 +711,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      refund_quota: {
+        Args: { _kind: string; _user_id: string }
+        Returns: undefined
       }
     }
     Enums: {
