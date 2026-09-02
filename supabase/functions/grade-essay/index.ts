@@ -67,8 +67,11 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const admin = serviceClient();
+  let quotaUserId: string | null = null;
+
   try {
-    const { essay, taskType, topic, planType } = await req.json();
+    const { essay, taskType, topic } = await req.json();
 
     if (!essay || !taskType || !topic) {
       return new Response(
@@ -77,14 +80,32 @@ serve(async (req) => {
       );
     }
 
+    // ---- Authentication + plan allowance (server-side, cannot be bypassed) ----
+    const user = await getRequestUser(req, admin);
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+
+    const quota = await consumeQuota(admin, user.id, 'writing');
+    if (!quota.allowed) {
+      return new Response(
+        JSON.stringify({ error: quotaErrorMessage(quota, 'writing'), limitReached: true, plan: quota.plan }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    quotaUserId = user.id;
+
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
     if (!OPENAI_API_KEY) {
       console.error('OPENAI_API_KEY is not configured');
+      await refundQuota(admin, quotaUserId, 'writing');
       return new Response(
         JSON.stringify({ error: 'AI service not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
 
     // All plans use gpt-4o-mini for speed and cost efficiency
     const model = 'gpt-4o-mini';
