@@ -147,14 +147,15 @@ Provide your evaluation as a JSON object following the exact format specified. M
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI error:', response.status, errorText);
-      
+      await refundQuota(admin, quotaUserId, 'writing');
+
       if (response.status === 429) {
         return new Response(
           JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
           { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
-      
+
       return new Response(
         JSON.stringify({ error: 'Failed to get AI response' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -165,6 +166,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
     const content = aiResponse.choices?.[0]?.message?.content;
 
     if (!content) {
+      await refundQuota(admin, quotaUserId, 'writing');
       return new Response(
         JSON.stringify({ error: 'Invalid AI response' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -176,6 +178,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
       gradeResult = JSON.parse(content);
     } catch (parseError) {
       console.error('Failed to parse AI response:', parseError);
+      await refundQuota(admin, quotaUserId, 'writing');
       return new Response(
         JSON.stringify({ error: 'Failed to parse grading result' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -183,6 +186,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
     }
 
     if (!gradeResult.overallBand || !gradeResult.taskAchievement) {
+      await refundQuota(admin, quotaUserId, 'writing');
       return new Response(
         JSON.stringify({ error: 'Invalid grading result structure' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -197,29 +201,17 @@ Provide your evaluation as a JSON object following the exact format specified. M
 
     // Log API usage
     try {
-      const authHeader = req.headers.get('Authorization');
-      if (authHeader) {
-        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-        const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-        const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-        const token = authHeader.replace('Bearer ', '');
-        const { data: { user } } = await supabase.auth.getUser(token);
-        
-        if (user) {
-          await supabase.from('api_logs').insert({
-            user_id: user.id,
-            model_used: model,
-            cost: cost,
-          });
-        }
-      }
+      await admin.from('api_logs').insert({
+        user_id: quotaUserId,
+        model_used: model,
+        cost: cost,
+      });
     } catch (logError) {
       console.error('Failed to log API usage:', logError);
     }
 
-    // Use abstracted model labels
-    gradeResult.modelUsed = planType === 'pro_plus' ? 'Elite AI' : 'Standard AI';
+    gradeResult.modelUsed = 'Scorify AI';
+    gradeResult.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
 
     console.log('Essay graded successfully:', gradeResult.overallBand);
 
@@ -229,9 +221,11 @@ Provide your evaluation as a JSON object following the exact format specified. M
     );
   } catch (error) {
     console.error('Grade essay error:', error);
+    if (quotaUserId) await refundQuota(admin, quotaUserId, 'writing');
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
+
   }
 });
