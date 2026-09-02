@@ -40,8 +40,11 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const admin = serviceClient();
+  let quotaUserId: string | null = null;
+
   try {
-    const { transcript, topic, part, userId } = await req.json();
+    const { transcript, topic, part } = await req.json();
 
     if (!transcript || !topic) {
       return new Response(JSON.stringify({ error: "Missing transcript or topic" }), {
@@ -50,8 +53,27 @@ serve(async (req) => {
       });
     }
 
+    // ---- Authentication + plan allowance (server-side, cannot be bypassed) ----
+    const user = await getRequestUser(req, admin);
+    if (!user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const quota = await consumeQuota(admin, user.id, "speaking");
+    if (!quota.allowed) {
+      return new Response(
+        JSON.stringify({ error: quotaErrorMessage(quota, "speaking"), limitReached: true, plan: quota.plan }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    quotaUserId = user.id;
+
     const openaiKey = Deno.env.get("OPENAI_API_KEY");
     if (!openaiKey) {
+      await refundQuota(admin, quotaUserId, "speaking");
       return new Response(JSON.stringify({ error: "API key not configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -87,6 +109,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
     if (!response.ok) {
       const errText = await response.text();
       console.error("OpenAI error:", errText);
+      await refundQuota(admin, quotaUserId, "speaking");
       return new Response(JSON.stringify({ error: "AI service error" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -101,21 +124,16 @@ Please evaluate this speaking response according to IELTS Speaking band descript
     feedback.suggestions = feedback.suggestions || [];
     feedback.errorCorrections = feedback.errorCorrections || [];
     feedback.vocabularyHighlights = feedback.vocabularyHighlights || [];
+    feedback.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
 
-    // Log API usage
-    if (userId) {
-      try {
-        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-        const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        await supabase.from("api_logs").insert({
-          user_id: userId,
-          model_used: "Speaking AI",
-          cost: 0.005,
-        });
-      } catch (e) {
-        console.error("Failed to log API usage:", e);
-      }
+    try {
+      await admin.from("api_logs").insert({
+        user_id: quotaUserId,
+        model_used: "Speaking AI",
+        cost: 0.005,
+      });
+    } catch (e) {
+      console.error("Failed to log API usage:", e);
     }
 
     return new Response(JSON.stringify(feedback), {
@@ -123,9 +141,11 @@ Please evaluate this speaking response according to IELTS Speaking band descript
     });
   } catch (e) {
     console.error("grade-speaking error:", e);
+    if (quotaUserId) await refundQuota(admin, quotaUserId, "speaking");
     return new Response(JSON.stringify({ error: e.message || "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });
+
