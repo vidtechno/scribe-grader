@@ -676,10 +676,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      admin_assign_plan: {
-        Args: { _plan_slug: string; _user_id: string }
-        Returns: undefined
-      }
       admin_extend_subscription: {
         Args: { _days?: number; _user_id: string }
         Returns: Json
@@ -693,7 +689,6 @@ export type Database = {
         }
         Returns: Json
       }
-      check_my_subscription: { Args: never; Returns: undefined }
       consume_mentor_message: { Args: { _user_id: string }; Returns: Json }
       consume_quota: {
         Args: { _kind: string; _user_id: string }
