@@ -67,6 +67,9 @@ async function transcribeAudioPath(supabase: any, path: string, key: string): Pr
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  let quotaUserId: string | null = null;
+  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+
   try {
     const { mockTestId } = await req.json();
     if (!mockTestId) {
@@ -76,12 +79,45 @@ serve(async (req) => {
     }
 
     const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY")!;
-    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const supabase = admin;
 
-    await supabase.from("mock_tests").update({ status: "grading" }).eq("id", mockTestId);
+    // Authenticate the caller
+    const authHeader = req.headers.get("Authorization");
+    const token = authHeader?.replace("Bearer ", "") ?? "";
+    const { data: authData } = await supabase.auth.getUser(token);
+    const user = authData?.user;
+    if (!user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
 
     const { data: mt, error: mtErr } = await supabase.from("mock_tests").select("*").eq("id", mockTestId).single();
     if (mtErr || !mt) throw new Error("Mock test not found");
+    if (mt.user_id !== user.id) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+
+    // Consume one Mock Test allowance server-side
+    const { data: quota, error: quotaErr } = await supabase.rpc("consume_quota", {
+      _user_id: user.id, _kind: "mock_test",
+    });
+    const q = quota as { allowed: boolean; reason?: string; plan?: string; limit?: number } | null;
+    if (quotaErr || !q?.allowed) {
+      const msg = q?.reason === "limit_reached"
+        ? (q.plan === "free"
+            ? "Full Mock Tests are available on Scorify Pro. Upgrade to continue."
+            : `You have used all ${q.limit} Mock Tests in your plan this period.`)
+        : "Could not verify your plan allowance. Please try again.";
+      return new Response(JSON.stringify({ error: msg }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+    quotaUserId = user.id;
+
+    await supabase.from("mock_tests").update({ status: "grading" }).eq("id", mockTestId);
 
     // Writing Task 1
     let task1: any = null, task2: any = null, speaking: any = null;
