@@ -141,14 +141,8 @@ export default function MockTestExam() {
         submitted_at: new Date().toISOString(),
       }).eq('id', mt.id);
 
-      // Server-side quota check + AI grading
-      const { data: res, error: fnErr } = await supabase.functions.invoke('process-mock-test', { body: { mockTestId: mt.id } });
-      if (fnErr || (res as any)?.error) {
-        toast.error((res as any)?.error || 'Your plan has no Mock Tests remaining. Please upgrade to continue.');
-        await supabase.from('mock_tests').update({ status: 'in_progress', submitted_at: null }).eq('id', mt.id);
-        setSubmitting(false);
-        return;
-      }
+      // Fire-and-forget AI grading (quota is enforced server-side)
+      supabase.functions.invoke('process-mock-test', { body: { mockTestId: mt.id } }).catch(e => console.error(e));
 
       await refreshProfile();
       navigate(`/mock-test/thank-you/${mt.id}`);
