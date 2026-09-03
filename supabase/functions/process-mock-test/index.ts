@@ -187,9 +187,11 @@ serve(async (req) => {
     console.error("process-mock-test error:", e);
     try {
       const { mockTestId } = await req.clone().json();
-      const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-      await supabase.from("mock_tests").update({ status: "failed" }).eq("id", mockTestId);
+      await admin.from("mock_tests").update({ status: "failed" }).eq("id", mockTestId);
     } catch {}
+    if (quotaUserId) {
+      try { await admin.rpc("refund_quota", { _user_id: quotaUserId, _kind: "mock_test" }); } catch {}
+    }
     return new Response(JSON.stringify({ error: e.message || "Unknown" }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" }
     });
