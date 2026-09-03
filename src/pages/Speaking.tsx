@@ -109,10 +109,7 @@ export default function Speaking() {
     setIsProcessing(true);
     setGradingStep(0);
 
-    // Increment usage immediately when Start Evaluation begins
-    await supabase.from('subscriptions')
-      .update({ speaking_used: ((subscription as any)?.speaking_used ?? 0) + 1 } as any)
-      .eq('user_id', user.id);
+    // Usage is consumed server-side by the grade-speaking function.
 
     // Insert a "processing" row so history shows a spinner instantly
     const audioFileName = `${user.id}/${Date.now()}.webm`;

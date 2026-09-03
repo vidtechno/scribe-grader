@@ -302,10 +302,10 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
                   <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
                   <h3 className="font-bold text-lg mb-2">Unlock AI Mentor</h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    AI Mentor is part of Premium. Buy 10 or more credits in total to activate Premium for life and unlock personalized IELTS coaching.
+                    AI Mentor is included with Scorify Pro. Upgrade to unlock personalized IELTS coaching with 10 messages every day.
                   </p>
                   <Button variant="glow" size="sm" onClick={() => { setShowPricing(true); setIsOpen(false); }}>
-                    <Coins className="h-4 w-4 mr-1" /> Get Credits
+                    <Coins className="h-4 w-4 mr-1" /> View Plans
                   </Button>
                 </div>
               </div>

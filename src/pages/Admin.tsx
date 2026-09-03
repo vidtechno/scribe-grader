@@ -40,8 +40,13 @@ interface Subscription {
   id: string;
   user_id: string;
   plan_type: string;
-  credits_limit: number;
-  credits_used: number;
+  plan_name: string | null;
+  writing_limit: number;
+  writing_used: number;
+  speaking_limit: number;
+  speaking_used: number;
+  mock_test_limit: number;
+  mock_test_used: number;
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
@@ -57,12 +62,10 @@ interface Announcement {
   view_count?: number;
 }
 
-// Monthly plans available for admin assignment.
+// Only two plans exist: Free and Scorify Pro.
 const PLANS: { slug: string; label: string }[] = [
-  { slug: 'free',     label: 'Free' },
-  { slug: 'starter',  label: 'Starter (19k UZS)' },
-  { slug: 'standard', label: 'Standard (39k UZS)' },
-  { slug: 'pro',      label: 'Pro (69k UZS)' },
+  { slug: 'free', label: 'Free' },
+  { slug: 'pro',  label: 'Scorify Pro (49k UZS)' },
 ];
 
 export default function Admin() {
@@ -206,46 +209,32 @@ export default function Admin() {
     finally { setLoadingEssays(false); }
   };
 
-  const updateCredits = async (userId: string, currentCredits: number, delta: number) => {
-    const newCredits = Math.max(0, currentCredits + delta);
-    setUpdatingUser(userId);
-    try {
-      const u = users.find(x => x.user_id === userId);
-      const purchased = u?.total_credits_purchased ?? 0;
-      const newPurchased = delta > 0 ? purchased + delta : purchased;
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({ credits: newCredits, total_credits_purchased: newPurchased } as any)
-        .eq('user_id', userId);
-      if (profileError) throw profileError;
-
-      const sub = subscriptions[userId];
-      if (sub) {
-        const newLimit = Math.max(0, sub.credits_limit + delta);
-        await supabase.from('subscriptions').update({ credits_limit: newLimit }).eq('user_id', userId);
-        setSubscriptions({ ...subscriptions, [userId]: { ...sub, credits_limit: newLimit } });
-      }
-
-      setUsers(users.map(x => x.user_id === userId
-        ? { ...x, credits: newCredits, total_credits_purchased: newPurchased, is_premium: x.is_premium || newPurchased >= 10 }
-        : x));
-      toast.success(`Credits updated to ${newCredits}`);
-    } catch {
-      toast.error('Failed to update credits');
-    } finally { setUpdatingUser(null); }
+  const refreshSub = async (userId: string) => {
+    const { data: subRow } = await supabase.from('subscriptions').select('*').eq('user_id', userId).maybeSingle();
+    if (subRow) setSubscriptions(prev => ({ ...prev, [userId]: subRow as unknown as Subscription }));
   };
 
   const assignPlan = async (userId: string, slug: string) => {
     setUpdatingUser(userId);
     try {
-      const { error } = await (supabase.rpc as any)('admin_assign_plan', { _user_id: userId, _plan_slug: slug });
+      const { error } = await (supabase.rpc as any)('admin_set_subscription', { _user_id: userId, _plan_slug: slug });
       if (error) throw error;
-      // Refresh subscription in local state
-      const { data: subRow } = await supabase.from('subscriptions').select('*').eq('user_id', userId).single();
-      if (subRow) setSubscriptions({ ...subscriptions, [userId]: subRow as Subscription });
-      toast.success(`Plan set to ${slug.toUpperCase()}`);
+      await refreshSub(userId);
+      toast.success(slug === 'pro' ? 'Scorify Pro activated for 30 days' : 'Moved to Free plan');
     } catch (e: any) {
       toast.error(e.message || 'Failed to assign plan');
+    } finally { setUpdatingUser(null); }
+  };
+
+  const extendPlan = async (userId: string, days: number) => {
+    setUpdatingUser(userId);
+    try {
+      const { error } = await (supabase.rpc as any)('admin_extend_subscription', { _user_id: userId, _days: days });
+      if (error) throw error;
+      await refreshSub(userId);
+      toast.success(`Subscription extended by ${days} days`);
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to extend subscription');
     } finally { setUpdatingUser(null); }
   };
 
@@ -272,7 +261,7 @@ export default function Admin() {
   );
 
   const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
-  const totalCredits = users.reduce((sum, u) => sum + (u.credits || 0), 0);
+  const proUsers = Object.values(subscriptions).filter(x => x.plan_type === 'pro').length;
 
   const now = new Date();
   const todayStart = startOfDay(now);
@@ -321,7 +310,7 @@ export default function Admin() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[
             { icon: Users, value: users.length, label: 'Total Users', color: 'text-primary' },
-            { icon: Coins, value: totalCredits, label: 'Total Credits', color: 'text-primary' },
+            { icon: Coins, value: proUsers, label: 'Pro Subscribers', color: 'text-primary' },
             { icon: FileText, value: totalEssays, label: 'Total Essays', color: 'text-primary' },
             { icon: BarChart3, value: Object.keys(subscriptions).length, label: 'Subscriptions', color: 'text-primary' },
           ].map((stat, i) => (
@@ -368,8 +357,8 @@ export default function Admin() {
             </h3>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Total Credits in Circulation</span>
-                <span className="font-medium text-primary">{totalCredits}</span>
+                <span className="text-muted-foreground">Active Pro Subscribers</span>
+                <span className="font-medium text-primary">{proUsers}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total Essays</span>
@@ -411,7 +400,6 @@ export default function Admin() {
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground">User</th>
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden md:table-cell">Details</th>
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground">Plan</th>
-                      <th className="text-center p-4 text-sm font-medium text-muted-foreground">Credits</th>
                       <th className="text-center p-4 text-sm font-medium text-muted-foreground hidden sm:table-cell">Essays</th>
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden lg:table-cell">Subscription</th>
                       <th className="text-right p-4 text-sm font-medium text-muted-foreground">Actions</th>
@@ -424,7 +412,7 @@ export default function Admin() {
                       const expiresAt = sub?.expires_at;
                       const daysLeft = expiresAt ? Math.max(0, Math.ceil((new Date(expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24))) : null;
                       const isExpired = expiresAt ? new Date(expiresAt) < new Date() : false;
-                      const subProgress = sub && sub.credits_limit > 0 ? ((sub.credits_limit - sub.credits_used) / sub.credits_limit) * 100 : 0;
+                      const subProgress = sub && sub.writing_limit > 0 ? (sub.writing_used / sub.writing_limit) * 100 : 0;
 
                       return (
                         <tr key={profile.id} className="border-b border-border/50 hover:bg-secondary/30 transition-colors">
@@ -460,11 +448,6 @@ export default function Admin() {
                               </SelectContent>
                             </Select>
                           </td>
-                          <td className="p-4 text-center">
-                            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm">
-                              {profile.credits}
-                            </span>
-                          </td>
                           <td className="p-4 text-center hidden sm:table-cell">
                             <span className="text-sm">{essayCounts[profile.user_id] || 0}</span>
                           </td>
@@ -473,7 +456,7 @@ export default function Admin() {
                               <div className="space-y-1 min-w-[140px]">
                                 <Progress value={subProgress} className="h-1.5" />
                                 <div className="flex justify-between text-xs text-muted-foreground">
-                                  <span>{sub.credits_used}/{sub.credits_limit} used</span>
+                                  <span>W {sub.writing_used}/{sub.writing_limit} · S {sub.speaking_used}/{sub.speaking_limit} · M {sub.mock_test_used}/{sub.mock_test_limit}</span>
                                   {daysLeft !== null && (
                                     <span className={isExpired ? 'text-destructive' : ''}>
                                       {isExpired ? 'Expired' : `${daysLeft}d left`}
@@ -492,19 +475,16 @@ export default function Admin() {
                                 title="View essays">
                                 <Eye className="h-3.5 w-3.5" />
                               </Button>
-                              <Button variant="outline" size="icon" className="h-8 w-8"
-                                onClick={() => updateCredits(profile.user_id, profile.credits, -1)}
-                                disabled={updatingUser === profile.user_id || profile.credits === 0}>
-                                {updatingUser === profile.user_id ? <Loader2 className="h-3 w-3 animate-spin" /> : <Minus className="h-3 w-3" />}
-                              </Button>
-                              <Button variant="outline" size="icon" className="h-8 w-8"
-                                onClick={() => updateCredits(profile.user_id, profile.credits, 1)}
+                              <Button variant="outline" size="sm" className="h-8 text-xs"
+                                onClick={() => extendPlan(profile.user_id, 30)}
                                 disabled={updatingUser === profile.user_id}>
-                                {updatingUser === profile.user_id ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
+                                {updatingUser === profile.user_id ? <Loader2 className="h-3 w-3 animate-spin" /> : '+30 days'}
                               </Button>
-                              <Button variant="default" size="sm" className="h-8 text-xs"
-                                onClick={() => updateCredits(profile.user_id, profile.credits, 5)}
-                                disabled={updatingUser === profile.user_id}>+5</Button>
+                              <Button variant="ghost" size="sm" className="h-8 text-xs"
+                                onClick={() => assignPlan(profile.user_id, 'free')}
+                                disabled={updatingUser === profile.user_id || pt === 'free'}>
+                                Reset to Free
+                              </Button>
                             </div>
                           </td>
                         </tr>

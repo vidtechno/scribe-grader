@@ -88,33 +88,27 @@ serve(async (req) => {
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
-    const { data: subData } = await supabase
-      .from('subscriptions').select('plan_type').eq('user_id', user.id).single();
-    const planType = subData?.plan_type || 'free';
-
-    if (planType === 'free') {
-      return new Response(JSON.stringify({ error: 'AI Mentor is available for Pro and Pro Plus subscribers. Upgrade to unlock! 🔓' }),
-        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    // Atomic plan check + daily message consumption (server-side only)
+    const { data: quota, error: quotaError } = await supabase
+      .rpc('consume_mentor_message', { _user_id: user.id });
+    if (quotaError) {
+      console.error('consume_mentor_message error:', quotaError.message);
+      return new Response(JSON.stringify({ error: 'Could not verify your plan allowance.' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
-
-    const dailyLimit = planType === 'pro_plus' ? 30 : 10;
-    const today = new Date().toISOString().split('T')[0];
-
-    const { data: usageData } = await supabase
-      .from('mentor_daily_usage')
-      .select('messages_used')
-      .eq('user_id', user.id)
-      .eq('date', today)
-      .single();
-
-    const currentUsage = usageData?.messages_used || 0;
-    if (currentUsage >= dailyLimit) {
-      return new Response(JSON.stringify({ 
-        error: `Daily limit reached (${dailyLimit} messages). ${planType === 'pro' ? 'Upgrade to Pro Plus for 30 messages/day! ⚡' : 'Come back tomorrow! 🌅'}`,
-        limitReached: true 
-      }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    const q = quota as { allowed: boolean; reason?: string; plan?: string; used?: number; limit?: number };
+    if (!q?.allowed) {
+      if (q?.reason === 'plan_required') {
+        return new Response(JSON.stringify({ error: 'AI Mentor is available on Scorify Pro. Upgrade to unlock! 🔓' }),
+          { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      }
+      return new Response(JSON.stringify({
+        error: `Daily limit reached (${q?.limit} messages). Come back tomorrow! 🌅`,
+        limitReached: true,
+      }), { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
+    const currentUsage = (q.used ?? 1) - 1;
+    const dailyLimit = q.limit ?? 0;
 
     let conversationMessages: Array<{ role: string; content: string }> = [];
     if (chatId) {
@@ -176,15 +170,6 @@ serve(async (req) => {
     const aiResponse = await response.json();
     const reply = aiResponse.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
 
-    if (usageData) {
-      await supabase.from('mentor_daily_usage')
-        .update({ messages_used: currentUsage + 1 })
-        .eq('user_id', user.id)
-        .eq('date', today);
-    } else {
-      await supabase.from('mentor_daily_usage')
-        .insert({ user_id: user.id, date: today, messages_used: 1 });
-    }
 
     await supabase.from('api_logs').insert({
       user_id: user.id,

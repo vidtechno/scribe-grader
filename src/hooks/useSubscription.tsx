@@ -28,8 +28,6 @@ export function useSubscription() {
   const fetchSubscription = useCallback(async () => {
     if (!user) { setLoading(false); return; }
     try {
-      // Auto-downgrade any expired plans first (safe: SECURITY DEFINER, idempotent).
-      try { await (supabase.rpc as any)('expire_subscriptions'); } catch {}
       const { data } = await supabase
         .from('subscriptions')
         .select('*')

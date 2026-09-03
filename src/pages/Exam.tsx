@@ -100,10 +100,7 @@ export default function Exam() {
     setIsSubmitting(true);
     try {
       const topicText = activeTopic;
-      // Increment usage up-front (only on "Start Evaluation")
-      await supabase.from('subscriptions')
-        .update({ writing_used: ((subscription as any)?.writing_used ?? 0) + 1 } as any)
-        .eq('user_id', profile.user_id);
+      // Usage is consumed server-side by the grade-essay function.
       // Queue the attempt so it shows up in history immediately with a spinner
       const { data: pendingRow } = await supabase.from('essays').insert({
         user_id: profile.user_id, task_type: taskType, topic: topicText,

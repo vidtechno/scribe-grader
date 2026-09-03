@@ -70,23 +70,6 @@ export default function Index() {
     { name: 'Nilufar R.', score: '7.0', text: "Best IELTS preparation tool I've used. The instant grading saves so much time compared to waiting for a tutor.", avatar: 'N' },
   ];
 
-  const plans: { name: string; priceUzs: string; credits: number; icon: any; popular?: boolean; badge?: string }[] = [
-    { name: 'Starter',  priceUzs: '15,000',  credits: 10,  icon: Star },
-    { name: 'Basic',    priceUzs: '35,000',  credits: 25,  icon: Zap },
-    { name: 'Standard', priceUzs: '65,000',  credits: 50,  icon: Sparkles, popular: true, badge: 'Most Popular' },
-    { name: 'Pro',      priceUzs: '120,000', credits: 100, icon: Bot },
-    { name: 'Premium',  priceUzs: '275,000', credits: 250, icon: Crown, badge: 'Best Value' },
-    { name: 'Ultimate', priceUzs: '500,000', credits: 500, icon: Award },
-  ];
-
-  const planFeatures = [
-    'Use credits for Writing or Speaking — your choice',
-    'Full AI feedback with band scores & error corrections',
-    'Private AI Mentor with personalized coaching',
-    'Progress analytics across Writing & Speaking',
-    'Credits never expire — pay once, use anytime',
-  ];
-
   const criteria = [
     'Task Achievement / Response',
     'Coherence and Cohesion',

@@ -91,7 +91,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-0">
-      <SEOHead title="Profile" description="Manage your account, view stats and credits." path="/profile" noindex />
+      <SEOHead title="Profile" description="Manage your account, plan and IELTS statistics." path="/profile" noindex />
       <Navbar />
 
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">

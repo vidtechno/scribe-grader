@@ -136,25 +136,12 @@ export default function MockTestExam() {
     if (!mt) return;
     setSubmitting(true);
     try {
-      // Consume 1 Mock Test slot from the user's monthly plan
-      const { data: sub } = await supabase.from('subscriptions')
-        .select('mock_test_limit, mock_test_used').eq('user_id', user!.id).single();
-      const used = (sub as any)?.mock_test_used ?? 0;
-      const limit = (sub as any)?.mock_test_limit ?? 0;
-      if (used >= limit) {
-        toast.error('Your plan has no Mock Tests remaining. Please upgrade to continue.');
-        setSubmitting(false);
-        return;
-      }
-      await supabase.from('subscriptions')
-        .update({ mock_test_used: used + 1 } as any)
-        .eq('user_id', user!.id);
       await supabase.from('mock_tests').update({
         status: 'submitted',
         submitted_at: new Date().toISOString(),
       }).eq('id', mt.id);
 
-      // Fire-and-forget AI grading
+      // Fire-and-forget AI grading (quota is enforced server-side)
       supabase.functions.invoke('process-mock-test', { body: { mockTestId: mt.id } }).catch(e => console.error(e));
 
       await refreshProfile();
@@ -261,7 +248,7 @@ export default function MockTestExam() {
               {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               Start Evaluation
               <span className="ml-2 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/20">
-                Uses 8 credits
+                Uses 1 Mock Test from your plan
               </span>
             </Button>
           </motion.div>
