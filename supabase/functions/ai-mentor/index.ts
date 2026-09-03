@@ -170,15 +170,6 @@ serve(async (req) => {
     const aiResponse = await response.json();
     const reply = aiResponse.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
 
-    if (usageData) {
-      await supabase.from('mentor_daily_usage')
-        .update({ messages_used: currentUsage + 1 })
-        .eq('user_id', user.id)
-        .eq('date', today);
-    } else {
-      await supabase.from('mentor_daily_usage')
-        .insert({ user_id: user.id, date: today, messages_used: 1 });
-    }
 
     await supabase.from('api_logs').insert({
       user_id: user.id,
