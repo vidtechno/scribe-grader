@@ -40,8 +40,13 @@ interface Subscription {
   id: string;
   user_id: string;
   plan_type: string;
-  credits_limit: number;
-  credits_used: number;
+  plan_name: string | null;
+  writing_limit: number;
+  writing_used: number;
+  speaking_limit: number;
+  speaking_used: number;
+  mock_test_limit: number;
+  mock_test_used: number;
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
@@ -57,12 +62,10 @@ interface Announcement {
   view_count?: number;
 }
 
-// Monthly plans available for admin assignment.
+// Only two plans exist: Free and Scorify Pro.
 const PLANS: { slug: string; label: string }[] = [
-  { slug: 'free',     label: 'Free' },
-  { slug: 'starter',  label: 'Starter (19k UZS)' },
-  { slug: 'standard', label: 'Standard (39k UZS)' },
-  { slug: 'pro',      label: 'Pro (69k UZS)' },
+  { slug: 'free', label: 'Free' },
+  { slug: 'pro',  label: 'Scorify Pro (49k UZS)' },
 ];
 
 export default function Admin() {
@@ -206,46 +209,32 @@ export default function Admin() {
     finally { setLoadingEssays(false); }
   };
 
-  const updateCredits = async (userId: string, currentCredits: number, delta: number) => {
-    const newCredits = Math.max(0, currentCredits + delta);
-    setUpdatingUser(userId);
-    try {
-      const u = users.find(x => x.user_id === userId);
-      const purchased = u?.total_credits_purchased ?? 0;
-      const newPurchased = delta > 0 ? purchased + delta : purchased;
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({ credits: newCredits, total_credits_purchased: newPurchased } as any)
-        .eq('user_id', userId);
-      if (profileError) throw profileError;
-
-      const sub = subscriptions[userId];
-      if (sub) {
-        const newLimit = Math.max(0, sub.credits_limit + delta);
-        await supabase.from('subscriptions').update({ credits_limit: newLimit }).eq('user_id', userId);
-        setSubscriptions({ ...subscriptions, [userId]: { ...sub, credits_limit: newLimit } });
-      }
-
-      setUsers(users.map(x => x.user_id === userId
-        ? { ...x, credits: newCredits, total_credits_purchased: newPurchased, is_premium: x.is_premium || newPurchased >= 10 }
-        : x));
-      toast.success(`Credits updated to ${newCredits}`);
-    } catch {
-      toast.error('Failed to update credits');
-    } finally { setUpdatingUser(null); }
+  const refreshSub = async (userId: string) => {
+    const { data: subRow } = await supabase.from('subscriptions').select('*').eq('user_id', userId).maybeSingle();
+    if (subRow) setSubscriptions(prev => ({ ...prev, [userId]: subRow as unknown as Subscription }));
   };
 
   const assignPlan = async (userId: string, slug: string) => {
     setUpdatingUser(userId);
     try {
-      const { error } = await (supabase.rpc as any)('admin_assign_plan', { _user_id: userId, _plan_slug: slug });
+      const { error } = await (supabase.rpc as any)('admin_set_subscription', { _user_id: userId, _plan_slug: slug });
       if (error) throw error;
-      // Refresh subscription in local state
-      const { data: subRow } = await supabase.from('subscriptions').select('*').eq('user_id', userId).single();
-      if (subRow) setSubscriptions({ ...subscriptions, [userId]: subRow as Subscription });
-      toast.success(`Plan set to ${slug.toUpperCase()}`);
+      await refreshSub(userId);
+      toast.success(slug === 'pro' ? 'Scorify Pro activated for 30 days' : 'Moved to Free plan');
     } catch (e: any) {
       toast.error(e.message || 'Failed to assign plan');
+    } finally { setUpdatingUser(null); }
+  };
+
+  const extendPlan = async (userId: string, days: number) => {
+    setUpdatingUser(userId);
+    try {
+      const { error } = await (supabase.rpc as any)('admin_extend_subscription', { _user_id: userId, _days: days });
+      if (error) throw error;
+      await refreshSub(userId);
+      toast.success(`Subscription extended by ${days} days`);
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to extend subscription');
     } finally { setUpdatingUser(null); }
   };
 
