@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { BookOpen, Mail, Lock, User, Loader2, ArrowRight, MapPin, Phone, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { lovable } from '@/integrations/lovable/index';
+import { signInWithGoogle } from '@/lib/oauth';
 
 const emailSchema = z.string().email('Please enter a valid email address');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
@@ -89,12 +89,13 @@ export default function Auth() {
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true);
     try {
-      const result = await lovable.auth.signInWithOAuth('google', {
-        redirect_uri: window.location.origin,
-      });
+      const result = await signInWithGoogle('/dashboard');
       if (result.error) {
         toast.error(result.error.message || 'Google sign-in failed');
-      } else if (!result.redirected) {
+      } else if (result.redirected) {
+        // Full-page redirect to Google is in progress.
+        return;
+      } else {
         toast.success('Welcome!');
         navigate('/dashboard');
       }

@@ -12,6 +12,7 @@ import { Announcements } from "@/components/Announcements";
 import { useState, useEffect } from "react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import AuthCallback from "./pages/AuthCallback";
 import Dashboard from "./pages/Dashboard";
 import Exam from "./pages/Exam";
 import Result from "./pages/Result";

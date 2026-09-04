@@ -32,17 +32,10 @@ export default function AuthCallback() {
         return;
       }
 
-      const code = url.searchParams.get('code');
-
+      // The Supabase client (detectSessionInUrl) handles both the PKCE `code`
+      // and the implicit `#access_token` forms automatically on page load.
       try {
-        if (code) {
-          // PKCE flow
-          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-          if (exchangeError) throw new Error(exchangeError.message);
-        } else if (hashParams.get('access_token')) {
-          // Implicit flow — detectSessionInUrl already persists it; just confirm.
-          await supabase.auth.getSession();
-        }
+
 
         const { data } = await supabase.auth.getSession();
         if (data.session) {
