@@ -70,6 +70,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
         <Route path="/writing" element={<ProtectedRoute><Writing /></ProtectedRoute>} />
