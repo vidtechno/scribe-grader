@@ -92,7 +92,7 @@ export function Navbar() {
                 <User className="h-4 w-4" />
                 <span className="max-w-[140px] truncate">{profile?.full_name || user.email}</span>
               </Link>
-              <Button variant="ghost" size="icon" onClick={handleSignOut}>
+              <Button variant="ghost" size="icon" aria-label="Sign out" title="Sign out" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />
               </Button>
             </div>
