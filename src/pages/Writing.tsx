@@ -118,6 +118,7 @@ export default function Writing() {
         </div>
 
         {/* Task chooser */}
+        <h2 className="text-lg sm:text-xl font-semibold mb-3">Choose a Task</h2>
         <div className="grid sm:grid-cols-2 gap-4 mb-8">
           <button onClick={() => openTask(1)} className="glass-card-hover p-6 text-left group relative overflow-hidden">
             <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
@@ -152,7 +153,7 @@ export default function Writing() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <History className="h-5 w-5 text-primary" />
-              <h3 className="text-base sm:text-lg font-semibold">Recent essays</h3>
+              <h2 className="text-base sm:text-lg font-semibold">Recent essays</h2>
             </div>
             {essays.length > 5 && (
               <Link to="/essays">
