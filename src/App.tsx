@@ -29,6 +29,7 @@ import MockTestDashboard from "./pages/MockTestDashboard";
 import MockTestExam from "./pages/MockTestExam";
 import MockTestThankYou from "./pages/MockTestThankYou";
 import MockTestResult from "./pages/MockTestResult";
+import BlogComputerBasedWriting from "./pages/BlogComputerBasedWriting";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -71,6 +72,7 @@ function AppRoutes() {
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/blog/computer-based-ielts-writing" element={<BlogComputerBasedWriting />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
         <Route path="/writing" element={<ProtectedRoute><Writing /></ProtectedRoute>} />
