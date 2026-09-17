@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { difficultyFor, gradeAnswers, publicTest, randomTenIndices, validQuestions, type GrammarQuestion, type GrammarTestRow } from '../../supabase/functions/_shared/grammar';
+import { buildQuestionPool, difficultyFor, gradeAnswers, normalizeBatch, publicTest, randomTenIndices, validQuestions, type GrammarQuestion, type GrammarTestRow } from '../../supabase/functions/_shared/grammar';
+import { FALLBACK_QUESTIONS } from '../../supabase/functions/_shared/grammar-fallback';
 
 const questions: GrammarQuestion[] = Array.from({ length: 20 }, (_, index) => ({
   prompt: `Choose the correct sentence for item ${index + 1}.`,
@@ -41,5 +42,15 @@ describe('daily grammar test safety', () => {
     expect(new Set(indices).size).toBe(10);
     expect(indices.every((index) => index >= 0 && index < 20)).toBe(true);
     expect(publicTest({ ...row, selected_indices: [], started_at: null }).questions).toEqual([]);
+  });
+  it('completes a short or imperfect AI response without another AI call', () => {
+    expect(validQuestions({ questions: FALLBACK_QUESTIONS })).toBe(true);
+    const shortBatch = { questions: [{ ...questions[0], explanation: '', skill: '', correctAnswer: 'B' }] };
+    expect(normalizeBatch(shortBatch)).toHaveLength(1);
+    const pool = buildQuestionPool([shortBatch], FALLBACK_QUESTIONS);
+    expect(validQuestions(pool)).toBe(true);
+    expect(pool.questions).toHaveLength(20);
+    expect(pool.fallbackCount).toBe(19);
+    expect(buildQuestionPool([], FALLBACK_QUESTIONS).fallbackCount).toBe(20);
   });
 });

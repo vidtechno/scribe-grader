@@ -22,6 +22,42 @@ export function validQuestions(value: unknown): value is { questions: GrammarQue
     Number.isInteger(q.correctAnswer) && Number(q.correctAnswer) >= 0 && Number(q.correctAnswer) < 4);
 }
 
+export function normalizeBatch(value: unknown): GrammarQuestion[] {
+  if (!isRecord(value) || !Array.isArray(value.questions)) return [];
+  const result: GrammarQuestion[] = [];
+  for (const raw of value.questions) {
+    if (!isRecord(raw) || typeof raw.prompt !== 'string' || !Array.isArray(raw.options)) continue;
+    const prompt = raw.prompt.trim();
+    const options = raw.options.map((option) => typeof option === 'string' ? option.trim() : '');
+    const answer = typeof raw.correctAnswer === 'string' && /^[A-D]$/i.test(raw.correctAnswer)
+      ? raw.correctAnswer.toUpperCase().charCodeAt(0) - 65
+      : typeof raw.correctAnswer === 'number' ? raw.correctAnswer : Number.NaN;
+    if (prompt.length < 10 || prompt.length > 500 || options.length !== 4 ||
+        options.some((option) => !option || option.length > 240) ||
+        new Set(options.map((option) => option.toLowerCase())).size !== 4 ||
+        !Number.isInteger(answer) || answer < 0 || answer > 3) continue;
+    const explanation = typeof raw.explanation === 'string' && raw.explanation.trim().length >= 5
+      ? raw.explanation.trim().slice(0, 600) : 'Review the grammar rule used in the correct option.';
+    const skill = typeof raw.skill === 'string' && raw.skill.trim().length >= 2
+      ? raw.skill.trim().slice(0, 80) : 'Grammar';
+    result.push({ prompt, options, correctAnswer: answer, explanation, skill });
+  }
+  return result;
+}
+
+export function buildQuestionPool(batches: unknown[], fallback: GrammarQuestion[]) {
+  const questions: GrammarQuestion[] = [];
+  const seen = new Set<string>();
+  const add = (question: GrammarQuestion) => {
+    const key = question.prompt.toLowerCase().replace(/\s+/g, ' ').trim();
+    if (questions.length < 20 && !seen.has(key)) { seen.add(key); questions.push(question); }
+  };
+  batches.flatMap(normalizeBatch).forEach(add);
+  const aiCount = questions.length;
+  fallback.forEach(add);
+  return { questions, fallbackCount: questions.length - aiCount };
+}
+
 export function publicTest(row: GrammarTestRow) {
   const complete = Boolean(row.completed_at);
   const selected = row.selected_indices?.length === 10 ? row.selected_indices : [];
