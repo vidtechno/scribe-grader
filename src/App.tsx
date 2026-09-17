@@ -32,6 +32,8 @@ import MockTestThankYou from "./pages/MockTestThankYou";
 import MockTestResult from "./pages/MockTestResult";
 import BlogComputerBasedWriting from "./pages/BlogComputerBasedWriting";
 import NotFound from "./pages/NotFound";
+import Vocabulary from "./pages/Vocabulary";
+import GrammarTest from "./pages/GrammarTest";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +78,8 @@ function AppRoutes() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/blog/computer-based-ielts-writing" element={<BlogComputerBasedWriting />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/vocabulary" element={<ProtectedRoute><Vocabulary /></ProtectedRoute>} />
+        <Route path="/grammar-test" element={<ProtectedRoute><GrammarTest /></ProtectedRoute>} />
         <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
         <Route path="/writing" element={<ProtectedRoute><Writing /></ProtectedRoute>} />
         <Route path="/result/:id" element={<ProtectedRoute><Result /></ProtectedRoute>} />

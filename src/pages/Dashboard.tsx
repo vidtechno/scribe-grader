@@ -15,7 +15,7 @@ import {
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
   Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
-  , ClipboardList, PenLine, ArrowRight, Plus
+  , ClipboardList, PenLine, ArrowRight, Plus, Languages, BrainCircuit
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -221,6 +221,15 @@ export default function Dashboard() {
             </div>
           </motion.div>
         )}
+
+        {/* Plan Usage Tracker */}
+        <Link to="/vocabulary" className="block glass-card-hover p-5 mb-6 group">
+          <div className="flex items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center"><Languages className="h-5 w-5 text-primary" /></div><div><p className="font-semibold">Vocabulary Builder</p><p className="text-sm text-muted-foreground">Learn useful IELTS words in a quick daily session.</p></div></div><ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" /></div>
+        </Link>
+
+        <Link to="/grammar-test" className="block glass-card-hover p-5 mb-6 group">
+          <div className="flex items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center"><BrainCircuit className="h-5 w-5 text-accent" /></div><div><p className="font-semibold">Today’s Grammar Test</p><p className="text-sm text-muted-foreground">A 10-question test based on your latest writing.</p></div></div><ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" /></div>
+        </Link>
 
         {/* Plan Usage Tracker */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
