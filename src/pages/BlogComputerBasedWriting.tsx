@@ -37,7 +37,6 @@ export default function BlogComputerBasedWriting() {
         title="Computer-Based IELTS Writing: Complete 2026 Guide"
         description={DESCRIPTION}
         path={PATH}
-        keywords="computer based IELTS writing, CD IELTS, IELTS on computer, IELTS writing task 1, IELTS writing task 2, IELTS Uzbekistan"
         jsonLd={jsonLd}
       />
       <Navbar />
@@ -230,6 +229,14 @@ export default function BlogComputerBasedWriting() {
               </div>
             </div>
           </section>
+          <nav className="mt-10 border-t border-border pt-6" aria-label="Related IELTS guides">
+            <h2 className="text-xl font-semibold mb-3">Continue practising</h2>
+            <div className="flex flex-wrap gap-4 text-sm">
+              <a className="text-primary underline" href="/ielts-writing-task-1">IELTS Writing Task 1 guide</a>
+              <a className="text-primary underline" href="/ielts-writing-task-2">IELTS Writing Task 2 guide</a>
+              <a className="text-primary underline" href="/ielts-speaking-practice">IELTS Speaking practice</a>
+            </div>
+          </nav>
         </article>
       </main>
     </div>

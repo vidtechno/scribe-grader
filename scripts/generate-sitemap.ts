@@ -2,19 +2,19 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 
-const BASE_URL = "https://scorify.uz";
+const BASE_URL = "https://www.scorify.uz";
 
 interface SitemapEntry {
   path: string;
-  changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
-  priority?: string;
 }
 
 // Only public, indexable routes. Authenticated app routes are excluded.
 const entries: SitemapEntry[] = [
-  { path: "/", changefreq: "weekly", priority: "1.0" },
-  { path: "/auth", changefreq: "monthly", priority: "0.5" },
-  { path: "/blog/computer-based-ielts-writing", changefreq: "monthly", priority: "0.8" },
+  { path: "/" },
+  { path: "/blog/computer-based-ielts-writing" },
+  { path: "/ielts-writing-task-1" },
+  { path: "/ielts-writing-task-2" },
+  { path: "/ielts-speaking-practice" },
 ];
 
 function generateSitemap(list: SitemapEntry[]) {
@@ -22,8 +22,6 @@ function generateSitemap(list: SitemapEntry[]) {
     [
       `  <url>`,
       `    <loc>${BASE_URL}${e.path}</loc>`,
-      e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
-      e.priority ? `    <priority>${e.priority}</priority>` : null,
       `  </url>`,
     ].filter(Boolean).join("\n"),
   );

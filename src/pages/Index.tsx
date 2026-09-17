@@ -7,6 +7,7 @@ import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
+import type { Tables } from '@/integrations/supabase/types';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
@@ -27,7 +28,7 @@ const stagger = {
 export default function Index() {
   const { user } = useAuth();
   const [showPricing, setShowPricing] = useState(false);
-  const [subPlans, setSubPlans] = useState<any[]>([]);
+  const [subPlans, setSubPlans] = useState<Tables<'subscription_plans'>[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -80,7 +81,7 @@ export default function Index() {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
       name: 'Scorify.uz',
-      url: 'https://scorify.uz/',
+      url: 'https://www.scorify.uz/',
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'Web',
       inLanguage: 'en',
@@ -142,9 +143,8 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEOHead
-        title="AI IELTS Writing & Speaking Practice"
-        description="Master IELTS Writing and Speaking with AI band scores, examiner-style feedback, real exam topics and timed mock tests. Start free on Scorify.uz."
-        keywords="IELTS, IELTS writing, IELTS speaking, IELTS mock test, IELTS band score, AI essay checker, IELTS Uzbekistan, Scorify.uz"
+        title="IELTS Writing & Speaking Practice with AI Feedback"
+        description="Practise IELTS Writing Task 1 and 2 and Speaking Parts 1–3. Get AI feedback, estimated band scores and timed mock tests. Start free."
         path="/"
         jsonLd={landingJsonLd}
       />
@@ -171,8 +171,8 @@ export default function Index() {
 
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-[1.08] tracking-tight">
-              Reach Your Band <br />
-              <span className="gradient-text">Faster with Scorify</span>
+              Practise IELTS Writing <br />
+              <span className="gradient-text">and Speaking with feedback</span>
             </motion.h1>
 
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
@@ -570,7 +570,7 @@ export default function Index() {
 
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
             className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {subPlans.map((plan: any, index: number) => {
+            {subPlans.map((plan, index: number) => {
               const popular = (plan.badge || '').toLowerCase().includes('popular');
               return (
                 <motion.div key={plan.slug} variants={fadeUp} custom={index}
@@ -595,8 +595,8 @@ export default function Index() {
                     <li className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.writing_limit}</strong> Writing evaluations</span></li>
                     <li className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.speaking_limit}</strong> Speaking evaluations</span></li>
                     <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.mock_test_limit}</strong> Full Mock Tests</span></li>
-                    {(plan.features || []).slice(3).filter((f: string) => !/mentor/i.test(f)).map((f: string) => (
-                      <li key={f} className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" /><span>{f}</span></li>
+                    {(Array.isArray(plan.features) ? plan.features.filter((feature): feature is string => typeof feature === 'string') : []).slice(3).filter((feature) => !/mentor/i.test(feature)).map((feature) => (
+                      <li key={feature} className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" /><span>{feature}</span></li>
                     ))}
                   </ul>
                   <Button variant={popular ? 'glow' : 'outline'} className="w-full gap-2"
@@ -636,6 +636,18 @@ export default function Index() {
         </div>
       </section>
 
+      <section className="py-14 px-4 sm:px-6 border-t border-border" aria-labelledby="free-guides-heading">
+        <div className="max-w-6xl mx-auto">
+          <h2 id="free-guides-heading" className="text-3xl font-bold mb-3">Free IELTS Writing and Speaking guides</h2>
+          <p className="text-muted-foreground mb-7 max-w-2xl">Learn the task format and practise one useful skill before taking a full test.</p>
+          <div className="grid md:grid-cols-3 gap-4">
+            <a href="/ielts-writing-task-1" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Writing Task 1</h3><p className="text-sm text-muted-foreground">Find the main features, write an overview and compare data accurately.</p></a>
+            <a href="/ielts-writing-task-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Writing Task 2</h3><p className="text-sm text-muted-foreground">Plan a clear position and develop it with relevant examples.</p></a>
+            <a href="/ielts-speaking-practice" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Speaking practice</h3><p className="text-sm text-muted-foreground">Try Parts 1–3 questions and a repeatable recording routine.</p></a>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -643,7 +655,7 @@ export default function Index() {
             <BookOpen className="h-5 w-5 text-primary" />
             <span className="font-bold">Scorify.uz</span>
           </div>
-          <p className="text-sm text-muted-foreground">© 2025 Scorify.uz. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. Independent IELTS practice.</p>
         </div>
       </footer>
 

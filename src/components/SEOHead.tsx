@@ -4,7 +4,6 @@ interface SEOHeadProps {
   title?: string;
   description?: string;
   path?: string;
-  keywords?: string;
   /** Set for private / app-only routes that should stay out of search results. */
   noindex?: boolean;
   /** Optional JSON-LD structured data for this route. */
@@ -12,9 +11,9 @@ interface SEOHeadProps {
 }
 
 export const BASE_TITLE = 'Scorify.uz';
-export const BASE_URL = 'https://scorify.uz';
+export const BASE_URL = 'https://www.scorify.uz';
 
-export function SEOHead({ title, description, path = '', keywords, noindex, jsonLd }: SEOHeadProps) {
+export function SEOHead({ title, description, path = '', noindex, jsonLd }: SEOHeadProps) {
   const fullTitle = title ? `${title} | ${BASE_TITLE}` : `${BASE_TITLE} — AI IELTS Writing & Speaking Practice`;
   const desc =
     description ||
@@ -25,7 +24,6 @@ export function SEOHead({ title, description, path = '', keywords, noindex, json
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={desc} />
-      {keywords && <meta name="keywords" content={keywords} />}
       <meta
         name="robots"
         content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1'}

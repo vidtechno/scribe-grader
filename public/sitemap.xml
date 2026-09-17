@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://scorify.uz/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://www.scorify.uz/</loc>
   </url>
   <url>
-    <loc>https://scorify.uz/auth</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://www.scorify.uz/blog/computer-based-ielts-writing</loc>
   </url>
   <url>
-    <loc>https://scorify.uz/blog/computer-based-ielts-writing</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://www.scorify.uz/ielts-writing-task-1</loc>
+  </url>
+  <url>
+    <loc>https://www.scorify.uz/ielts-writing-task-2</loc>
+  </url>
+  <url>
+    <loc>https://www.scorify.uz/ielts-speaking-practice</loc>
   </url>
 </urlset>
