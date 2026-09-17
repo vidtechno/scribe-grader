@@ -5,11 +5,18 @@ import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Loader2, ClipboardList, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
+import { useSubscription } from '@/hooks/useSubscription';
+import { PricingModal } from '@/components/PricingModal';
+import { functionError } from '@/lib/function-errors';
 
 export default function MockTestThankYou() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [status, setStatus] = useState<string>('submitted');
+  const [retrying, setRetrying] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
+  const { mockRemaining, refresh: refreshSubscription, planType } = useSubscription();
 
   useEffect(() => {
     if (!id) return;
@@ -42,6 +49,27 @@ export default function MockTestThankYou() {
 
   const failed = status === 'failed';
 
+  const retryGrading = async () => {
+    if (!id || retrying) return;
+    if (mockRemaining <= 0) { setShowPricing(true); return; }
+    setRetrying(true);
+    try {
+      const { data, error } = await supabase.from('mock_tests')
+        .update({ status: 'submitted' }).eq('id', id).eq('status', 'failed')
+        .select('id').maybeSingle();
+      if (error || !data) throw new Error('Could not retry this mock test.');
+      setStatus('submitted');
+      const result = await supabase.functions.invoke('process-mock-test', { body: { mockTestId: id } });
+      if (result.error) throw await functionError(result.error, 'Mock test grading failed.');
+      await refreshSubscription();
+      navigate(`/mock-test/result/${id}`, { replace: true });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Mock test grading failed.');
+      const { data } = await supabase.from('mock_tests').select('status').eq('id', id).maybeSingle();
+      if (data) setStatus(data.status);
+    } finally { setRetrying(false); }
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
       <Navbar />
@@ -54,6 +82,9 @@ export default function MockTestThankYou() {
               <p className="text-sm text-muted-foreground mb-6">
                 Something went wrong while evaluating your test. Please try again or contact support.
               </p>
+              <Button onClick={retryGrading} disabled={retrying} className="mb-4 w-full">
+                {retrying ? 'Retrying grading…' : mockRemaining > 0 ? 'Retry grading' : 'Upgrade to retry'}
+              </Button>
             </>
           ) : (
             <>
@@ -76,6 +107,7 @@ export default function MockTestThankYou() {
           </Link>
         </motion.div>
       </main>
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
     </div>
   );
 }

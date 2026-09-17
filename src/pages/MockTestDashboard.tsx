@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useSubscription } from '@/hooks/useSubscription';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
@@ -10,13 +11,16 @@ import { BandTrendChart } from '@/components/BandTrendChart';
 import { motion } from 'framer-motion';
 import { ClipboardList, Sparkles, Award, TrendingUp, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { PricingModal } from '@/components/PricingModal';
 
 export default function MockTestDashboard() {
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
+  const { mockRemaining, loading: quotaLoading, planType } = useSubscription();
   const navigate = useNavigate();
   const [tests, setTests] = useState<MockTestSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -47,16 +51,18 @@ export default function MockTestDashboard() {
     ? (completed.reduce((a, t) => a + (t.overall_band || 0), 0) / completed.length).toFixed(1)
     : 'N/A';
   const best = completed.length > 0 ? Math.max(...completed.map(t => t.overall_band || 0)) : 'N/A';
+  const inProgressTest = tests.find(t => t.status === 'in_progress');
+  const startLabel = inProgressTest ? 'Resume Mock Test' : mockRemaining > 0 ? 'Start New Mock Test' : 'Upgrade for Mock Tests';
 
   const startTest = async () => {
-    if (!user) return;
-    setCreating(true);
+    if (!user || loading || quotaLoading || creating) return;
     // Resume if there's already an in-progress test
-    const inProgress = tests.find(t => t.status === 'in_progress');
-    if (inProgress) {
-      navigate(`/mock-test/exam/${inProgress.id}`);
+    if (inProgressTest) {
+      navigate(`/mock-test/exam/${inProgressTest.id}`);
       return;
     }
+    if (mockRemaining <= 0) { setShowPricing(true); return; }
+    setCreating(true);
     const { data, error } = await supabase
       .from('mock_tests')
       .insert({ user_id: user.id, status: 'in_progress', current_step: 'task1' })
@@ -85,9 +91,9 @@ export default function MockTestDashboard() {
                 <p className="text-sm text-muted-foreground">Full IELTS exam: Writing Task 1 + Task 2 + Speaking Parts 1–3</p>
               </div>
             </div>
-            <Button variant="glow" size="lg" onClick={startTest} disabled={creating} className="gap-2 w-full sm:w-auto">
+            <Button variant="glow" size="lg" onClick={startTest} disabled={creating || loading || quotaLoading} className="gap-2 w-full sm:w-auto">
               {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-              Start New Mock Test
+              {startLabel}
             </Button>
           </div>
         </motion.div>
@@ -129,8 +135,8 @@ export default function MockTestDashboard() {
             <AlertCircle className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
             <p className="font-semibold mb-1">No mock tests yet</p>
             <p className="text-sm text-muted-foreground mb-4">Take your first full mock test to track your progress.</p>
-            <Button variant="glow" onClick={startTest} disabled={creating} className="gap-2">
-              <Sparkles className="h-4 w-4" /> Start Mock Test
+            <Button variant="glow" onClick={startTest} disabled={creating || loading || quotaLoading} className="gap-2">
+              <Sparkles className="h-4 w-4" /> {startLabel}
             </Button>
           </div>
         ) : (
@@ -139,6 +145,7 @@ export default function MockTestDashboard() {
           </div>
         )}
       </main>
+      <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />
     </div>
   );
 }
