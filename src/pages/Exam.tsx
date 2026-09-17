@@ -28,7 +28,7 @@ export default function Exam() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { profile, refreshProfile } = useAuth();
-  const { subscription, planType, writingRemaining, refresh: refreshSub } = useSubscription();
+  const { writingRemaining, refresh: refreshSub } = useSubscription();
   const isMobile = useIsMobile();
   
   const taskType = searchParams.get('task') === '1' ? 'Task 1' : 'Task 2';
@@ -108,7 +108,7 @@ export default function Exam() {
       }).select().single();
 
       const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
-        body: { essay, taskType, topic: topicText, planType }
+        body: { essay, taskType, topic: topicText }
       });
       if (gradeError) {
         if (pendingRow) await supabase.from('essays').update({ status: 'failed', error_message: gradeError.message }).eq('id', pendingRow.id);
@@ -129,7 +129,7 @@ export default function Exam() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [essay, taskType, activeTopic, planType, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, subscription, refreshSub]);
+  }, [essay, taskType, activeTopic, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, refreshSub]);
 
   const saveDraft = useCallback(async () => {
     if (!profile) return;

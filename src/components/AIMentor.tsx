@@ -190,24 +190,9 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
       setMessages(prev => prev.map(m => m.id === 'temp-user' ? (savedMsg as any as Message) : m));
     }
 
-    const essayLimit = 5;
-    const { data: essays } = await supabase
-      .from('essays')
-      .select('task_type, topic, score, feedback')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(essayLimit);
-
-    const essayContext = (essays || []).map((e: any) => ({
-      task_type: e.task_type,
-      topic: e.topic,
-      score: e.score,
-      feedback_summary: e.feedback ? `TA:${e.feedback.taskAchievement?.score}, CC:${e.feedback.coherenceCohesion?.score}, LR:${e.feedback.lexicalResource?.score}, GR:${e.feedback.grammaticalRange?.score}` : null,
-    }));
-
     try {
       const { data: result, error } = await supabase.functions.invoke('ai-mentor', {
-        body: { message: userMessage, chatId, essayContext },
+        body: { message: userMessage, chatId },
       });
 
       if (error) throw error;

@@ -150,7 +150,7 @@ export default function Speaking() {
       // 3. Grade
       const { data: gradeData, error: gradeError } = await supabase.functions
         .invoke('grade-speaking', {
-          body: { transcript, topic: activeTopic, part: PART_INFO[selectedPart].label, userId: user.id },
+          body: { transcript, topic: activeTopic, part: PART_INFO[selectedPart].label },
         });
 
       if (gradeError || !gradeData) {

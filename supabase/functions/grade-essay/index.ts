@@ -1,12 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
-
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
-};
+import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
 
 const systemPrompt = `You are an expert IELTS Writing examiner with years of experience. You will evaluate essays according to the official IELTS Writing band descriptors.
 
@@ -63,48 +58,32 @@ You must respond ONLY with a valid JSON object in this exact format:
 }`;
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
-
-  const admin = serviceClient();
+  const early = preflight(req);
+  if (early) return early;
   let quotaUserId: string | null = null;
+  let admin: ReturnType<typeof serviceClient> | null = null;
 
   try {
-    const { essay, taskType, topic } = await req.json();
-
-    if (!essay || !taskType || !topic) {
-      return new Response(
-        JSON.stringify({ error: 'Missing required fields: essay, taskType, topic' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // ---- Authentication + plan allowance (server-side, cannot be bypassed) ----
+    admin = serviceClient();
     const user = await getRequestUser(req, admin);
-    if (!user) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    if (!user) return json(req, { error: 'Unauthorized' }, 401);
+
+    const body: unknown = await req.json();
+    if (!isRecord(body) || !boundedString(body.essay, 20_000, 20) ||
+        !boundedString(body.topic, 500) ||
+        (body.taskType !== 'Task 1' && body.taskType !== 'Task 2')) {
+      return json(req, { error: 'Invalid essay, task type or topic' }, 400);
     }
+    const { essay, taskType, topic } = body;
+
+    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    if (!OPENAI_API_KEY) return json(req, { error: 'AI service not configured' }, 503);
 
     const quota = await consumeQuota(admin, user.id, 'writing');
     if (!quota.allowed) {
-      return new Response(
-        JSON.stringify({ error: quotaErrorMessage(quota, 'writing'), limitReached: true, plan: quota.plan }),
-        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return json(req, { error: quotaErrorMessage(quota, 'writing'), limitReached: quota.reason === 'limit_reached', plan: quota.plan }, quota.reason === 'quota_check_failed' ? 503 : 403);
     }
     quotaUserId = user.id;
-
-    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
-    if (!OPENAI_API_KEY) {
-      console.error('OPENAI_API_KEY is not configured');
-      await refundQuota(admin, quotaUserId, 'writing');
-      return new Response(
-        JSON.stringify({ error: 'AI service not configured' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
 
 
     // All plans use gpt-4o-mini for speed and cost efficiency
@@ -129,6 +108,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
+      signal: AbortSignal.timeout(60_000),
       headers: {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'Content-Type': 'application/json',
@@ -148,18 +128,13 @@ Provide your evaluation as a JSON object following the exact format specified. M
       const errorText = await response.text();
       console.error('OpenAI error:', response.status, errorText);
       await refundQuota(admin, quotaUserId, 'writing');
+      quotaUserId = null;
 
       if (response.status === 429) {
-        return new Response(
-          JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
-          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
+        return json(req, { error: 'Rate limit exceeded. Please try again later.' }, 429);
       }
 
-      return new Response(
-        JSON.stringify({ error: 'Failed to get AI response' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return json(req, { error: 'Failed to get AI response' }, 502);
     }
 
     const aiResponse = await response.json();
@@ -167,10 +142,8 @@ Provide your evaluation as a JSON object following the exact format specified. M
 
     if (!content) {
       await refundQuota(admin, quotaUserId, 'writing');
-      return new Response(
-        JSON.stringify({ error: 'Invalid AI response' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      quotaUserId = null;
+      return json(req, { error: 'Invalid AI response' }, 502);
     }
 
     let gradeResult;
@@ -179,53 +152,41 @@ Provide your evaluation as a JSON object following the exact format specified. M
     } catch (parseError) {
       console.error('Failed to parse AI response:', parseError);
       await refundQuota(admin, quotaUserId, 'writing');
-      return new Response(
-        JSON.stringify({ error: 'Failed to parse grading result' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      quotaUserId = null;
+      return json(req, { error: 'Failed to parse grading result' }, 502);
     }
 
-    if (!gradeResult.overallBand || !gradeResult.taskAchievement) {
+    if (!isRecord(gradeResult) || typeof gradeResult.overallBand !== 'number' ||
+        !Number.isFinite(gradeResult.overallBand) || gradeResult.overallBand < 0 ||
+        gradeResult.overallBand > 9 || !isRecord(gradeResult.taskAchievement)) {
       await refundQuota(admin, quotaUserId, 'writing');
-      return new Response(
-        JSON.stringify({ error: 'Invalid grading result structure' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      quotaUserId = null;
+      return json(req, { error: 'Invalid grading result structure' }, 502);
     }
 
     // Ensure arrays exist
-    if (!gradeResult.errorCorrections) gradeResult.errorCorrections = [];
-    if (!gradeResult.vocabularyAnalysis) gradeResult.vocabularyAnalysis = [];
-    if (!gradeResult.coherenceCheck) gradeResult.coherenceCheck = [];
-    if (!gradeResult.sentenceComplexity) gradeResult.sentenceComplexity = [];
+    if (!Array.isArray(gradeResult.errorCorrections)) gradeResult.errorCorrections = [];
+    if (!Array.isArray(gradeResult.vocabularyAnalysis)) gradeResult.vocabularyAnalysis = [];
+    if (!Array.isArray(gradeResult.coherenceCheck)) gradeResult.coherenceCheck = [];
+    if (!Array.isArray(gradeResult.sentenceComplexity)) gradeResult.sentenceComplexity = [];
 
     // Log API usage
-    try {
-      await admin.from('api_logs').insert({
-        user_id: quotaUserId,
-        model_used: model,
-        cost: cost,
-      });
-    } catch (logError) {
-      console.error('Failed to log API usage:', logError);
-    }
+    const { error: logError } = await admin.from('api_logs').insert({
+      user_id: user.id, model_used: model, cost,
+    });
+    if (logError) console.error('Failed to log API usage:', logError.message);
 
     gradeResult.modelUsed = 'Scorify AI';
     gradeResult.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
 
     console.log('Essay graded successfully:', gradeResult.overallBand);
 
-    return new Response(
-      JSON.stringify(gradeResult),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    quotaUserId = null;
+    return json(req, gradeResult);
   } catch (error) {
     console.error('Grade essay error:', error);
-    if (quotaUserId) await refundQuota(admin, quotaUserId, 'writing');
-    return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    if (quotaUserId && admin) await refundQuota(admin, quotaUserId, 'writing');
+    return json(req, { error: 'Essay grading failed' }, 500);
 
   }
 });

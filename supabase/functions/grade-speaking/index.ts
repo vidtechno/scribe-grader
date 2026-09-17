@@ -1,10 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
+import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
 
 const SPEAKING_SYSTEM_PROMPT = `You are an expert IELTS Speaking examiner. You will receive a transcript of a candidate's spoken response to an IELTS Speaking topic.
 
@@ -36,49 +32,32 @@ Evaluate the response based on the four official IELTS Speaking criteria and ret
 Be strict but fair. Base scores on IELTS band descriptors. The transcript may contain transcription errors - evaluate the content and language, not transcription accuracy.`;
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
-  }
-
-  const admin = serviceClient();
+  const early = preflight(req);
+  if (early) return early;
   let quotaUserId: string | null = null;
+  let admin: ReturnType<typeof serviceClient> | null = null;
 
   try {
-    const { transcript, topic, part } = await req.json();
-
-    if (!transcript || !topic) {
-      return new Response(JSON.stringify({ error: "Missing transcript or topic" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    // ---- Authentication + plan allowance (server-side, cannot be bypassed) ----
+    admin = serviceClient();
     const user = await getRequestUser(req, admin);
-    if (!user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    if (!user) return json(req, { error: "Unauthorized" }, 401);
+
+    const body: unknown = await req.json();
+    if (!isRecord(body) || !boundedString(body.transcript, 20_000, 10) ||
+        !boundedString(body.topic, 500) ||
+        (body.part !== undefined && !boundedString(body.part, 80))) {
+      return json(req, { error: "Invalid transcript, topic or part" }, 400);
     }
+    const { transcript, topic, part } = body;
+
+    const openaiKey = Deno.env.get("OPENAI_API_KEY");
+    if (!openaiKey) return json(req, { error: "AI service not configured" }, 503);
 
     const quota = await consumeQuota(admin, user.id, "speaking");
     if (!quota.allowed) {
-      return new Response(
-        JSON.stringify({ error: quotaErrorMessage(quota, "speaking"), limitReached: true, plan: quota.plan }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return json(req, { error: quotaErrorMessage(quota, "speaking"), limitReached: quota.reason === "limit_reached", plan: quota.plan }, quota.reason === "quota_check_failed" ? 503 : 403);
     }
     quotaUserId = user.id;
-
-    const openaiKey = Deno.env.get("OPENAI_API_KEY");
-    if (!openaiKey) {
-      await refundQuota(admin, quotaUserId, "speaking");
-      return new Response(JSON.stringify({ error: "API key not configured" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
 
     const userPrompt = `IELTS Speaking ${part || 'Part 2'} Topic: "${topic}"
 
@@ -91,6 +70,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
+      signal: AbortSignal.timeout(60_000),
       headers: {
         Authorization: `Bearer ${openaiKey}`,
         "Content-Type": "application/json",
@@ -110,42 +90,34 @@ Please evaluate this speaking response according to IELTS Speaking band descript
       const errText = await response.text();
       console.error("OpenAI error:", errText);
       await refundQuota(admin, quotaUserId, "speaking");
-      return new Response(JSON.stringify({ error: "AI service error" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      quotaUserId = null;
+      return json(req, { error: "AI service error" }, response.status === 429 ? 429 : 502);
     }
 
     const aiData = await response.json();
-    const feedback = JSON.parse(aiData.choices[0].message.content);
-
-    // Ensure arrays exist
-    feedback.strengths = feedback.strengths || [];
-    feedback.suggestions = feedback.suggestions || [];
-    feedback.errorCorrections = feedback.errorCorrections || [];
-    feedback.vocabularyHighlights = feedback.vocabularyHighlights || [];
-    feedback.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
-
-    try {
-      await admin.from("api_logs").insert({
-        user_id: quotaUserId,
-        model_used: "Speaking AI",
-        cost: 0.005,
-      });
-    } catch (e) {
-      console.error("Failed to log API usage:", e);
+    const feedback: unknown = JSON.parse(aiData.choices?.[0]?.message?.content ?? "null");
+    if (!isRecord(feedback) || typeof feedback.overallBand !== "number" ||
+        !Number.isFinite(feedback.overallBand) || feedback.overallBand < 0 || feedback.overallBand > 9) {
+      throw new Error("Invalid AI grading response");
     }
 
-    return new Response(JSON.stringify(feedback), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // Ensure arrays exist
+    feedback.strengths = Array.isArray(feedback.strengths) ? feedback.strengths : [];
+    feedback.suggestions = Array.isArray(feedback.suggestions) ? feedback.suggestions : [];
+    feedback.errorCorrections = Array.isArray(feedback.errorCorrections) ? feedback.errorCorrections : [];
+    feedback.vocabularyHighlights = Array.isArray(feedback.vocabularyHighlights) ? feedback.vocabularyHighlights : [];
+    feedback.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
+
+    const { error: logError } = await admin.from("api_logs").insert({
+      user_id: user.id, model_used: "Speaking AI", cost: 0.005,
     });
+    if (logError) console.error("Failed to log API usage:", logError.message);
+
+    quotaUserId = null;
+    return json(req, feedback);
   } catch (e) {
     console.error("grade-speaking error:", e);
-    if (quotaUserId) await refundQuota(admin, quotaUserId, "speaking");
-    return new Response(JSON.stringify({ error: e.message || "Unknown error" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    if (quotaUserId && admin) await refundQuota(admin, quotaUserId, "speaking");
+    return json(req, { error: "Speaking grading failed" }, 500);
   }
 });
-

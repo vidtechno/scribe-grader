@@ -1,4 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.90.1";
 
 export type QuotaKind = "writing" | "speaking" | "mock_test";
 
@@ -12,17 +12,20 @@ export interface QuotaResult {
 }
 
 export function serviceClient() {
+  const url = Deno.env.get("SUPABASE_URL");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !key) throw new Error("Supabase service configuration is missing");
   return createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    url,
+    key,
   );
 }
 
 /** Resolves the caller from the Authorization header. Returns null when unauthenticated. */
 export async function getRequestUser(req: Request, supabase: ReturnType<typeof serviceClient>) {
   const authHeader = req.headers.get("Authorization");
-  if (!authHeader) return null;
-  const token = authHeader.replace("Bearer ", "");
+  const token = /^Bearer\s+([^\s]+)$/i.exec(authHeader ?? "")?.[1];
+  if (!token) return null;
   const { data, error } = await supabase.auth.getUser(token);
   if (error || !data?.user) return null;
   return data.user;
@@ -49,7 +52,8 @@ export async function refundQuota(
   kind: QuotaKind,
 ) {
   try {
-    await supabase.rpc("refund_quota", { _user_id: userId, _kind: kind });
+    const { error } = await supabase.rpc("refund_quota", { _user_id: userId, _kind: kind });
+    if (error) console.error("refund_quota failed:", error.message);
   } catch (e) {
     console.error("refund_quota failed:", e);
   }

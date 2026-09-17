@@ -1,10 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { consumeQuota, getRequestUser, quotaErrorMessage, refundQuota, serviceClient } from "../_shared/quota.ts";
+import { boundedString, corsHeaders as responseHeaders, isRecord, json, preflight } from "../_shared/http.ts";
 
 const WRITING_SYSTEM = `You are an expert IELTS Writing examiner. Return ONLY a JSON object with:
 {
@@ -31,9 +27,16 @@ const SPEAKING_SYSTEM = `You are an expert IELTS Speaking examiner. Return ONLY 
   "errorCorrections": [{ "original": "string", "corrected": "string", "explanation": "string", "type": "error" }]
 }`;
 
-async function callOpenAI(system: string, user: string, key: string) {
+type GradeResult = Record<string, unknown> & {
+  overallBand: number;
+  errorCorrections?: unknown[];
+  vocabularyAnalysis?: unknown[];
+};
+
+async function callOpenAI(system: string, user: string, key: string): Promise<GradeResult> {
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
+    signal: AbortSignal.timeout(60_000),
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "gpt-4o-mini",
@@ -42,108 +45,121 @@ async function callOpenAI(system: string, user: string, key: string) {
       response_format: { type: "json_object" },
     }),
   });
-  if (!res.ok) throw new Error(`OpenAI ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw new Error(`OpenAI grading failed: ${res.status}`);
   const data = await res.json();
-  return JSON.parse(data.choices[0].message.content);
+  const result: unknown = JSON.parse(data.choices?.[0]?.message?.content ?? "null");
+  if (!isRecord(result) || typeof result.overallBand !== "number" ||
+      !Number.isFinite(result.overallBand) || result.overallBand < 0 || result.overallBand > 9) {
+    throw new Error("Invalid AI grading result");
+  }
+  return result as GradeResult;
 }
 
-async function transcribeAudioPath(supabase: any, path: string, key: string): Promise<string> {
-  if (!path) return "";
+async function downloadAudio(supabase: ReturnType<typeof serviceClient>, path: string): Promise<Blob> {
   const { data, error } = await supabase.storage.from("speaking-audio").download(path);
-  if (error || !data) return "";
+  if (error || !data) throw new Error("Mock test audio could not be downloaded");
+  if (data.size === 0 || data.size > 15 * 1024 * 1024) throw new Error("Invalid mock test audio size");
+  return data;
+}
+
+async function transcribeAudio(data: Blob, key: string): Promise<string> {
   const fd = new FormData();
   fd.append("file", data, "audio.webm");
   fd.append("model", "whisper-1");
   const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
     method: "POST",
+    signal: AbortSignal.timeout(60_000),
     headers: { Authorization: `Bearer ${key}` },
     body: fd,
   });
-  if (!res.ok) return "";
+  if (!res.ok) throw new Error(`Audio transcription failed: ${res.status}`);
   const json = await res.json();
-  return json.text || "";
+  if (!boundedString(json.text, 20_000)) throw new Error("Invalid audio transcription");
+  return json.text;
 }
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  const early = preflight(req);
+  if (early) return early;
+  const corsHeaders = responseHeaders(req);
 
   let quotaUserId: string | null = null;
-  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  let claimedMockTestId: string | null = null;
+  let verifiedUserId: string | null = null;
+  let admin: ReturnType<typeof serviceClient> | null = null;
 
   try {
-    const { mockTestId } = await req.json();
-    if (!mockTestId) {
-      return new Response(JSON.stringify({ error: "Missing mockTestId" }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
+    admin = serviceClient();
+    const user = await getRequestUser(req, admin);
+    if (!user) return json(req, { error: "Unauthorized" }, 401);
+    verifiedUserId = user.id;
+
+    const body: unknown = await req.json();
+    if (!isRecord(body) || typeof body.mockTestId !== "string" ||
+        !/^[0-9a-f-]{36}$/i.test(body.mockTestId)) {
+      return json(req, { error: "Invalid mockTestId" }, 400);
+    }
+    const mockTestId = body.mockTestId;
+    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
+    if (!OPENAI_API_KEY) return json(req, { error: "AI service not configured" }, 503);
+
+    const { data: mt, error: mtErr } = await admin.from("mock_tests").select("*")
+      .eq("id", mockTestId).eq("user_id", user.id).maybeSingle();
+    if (mtErr) throw mtErr;
+    if (!mt) return json(req, { error: "Mock test not found" }, 404);
+    if (mt.status !== "submitted") return json(req, { error: "Mock test is not ready for grading" }, 409);
+    const audioPrefix = `${user.id}/mock-tests/${mockTestId}/`;
+    if (!boundedString(mt.task1_essay, 20_000, 20) || !boundedString(mt.task2_essay, 20_000, 20) ||
+        !boundedString(mt.task1_topic, 500) || !boundedString(mt.task2_topic, 500) ||
+        ![mt.speaking_p1_audio_url, mt.speaking_p2_audio_url, mt.speaking_p3_audio_url]
+          .every((path) => boundedString(path, 1_000) && path.startsWith(audioPrefix))) {
+      return json(req, { error: "Mock test is incomplete" }, 400);
     }
 
-    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY")!;
-    const supabase = admin;
+    // Only one invocation can claim a submitted test. The request body never
+    // controls the user ID or a row changed with service-role privileges.
+    const { data: claim, error: claimError } = await admin.from("mock_tests")
+      .update({ status: "grading" }).eq("id", mockTestId).eq("user_id", user.id)
+      .eq("status", "submitted").select("id").maybeSingle();
+    if (claimError) throw claimError;
+    if (!claim) return json(req, { error: "Mock test is already being graded" }, 409);
+    claimedMockTestId = mockTestId;
 
-    // Authenticate the caller
-    const authHeader = req.headers.get("Authorization");
-    const token = authHeader?.replace("Bearer ", "") ?? "";
-    const { data: authData } = await supabase.auth.getUser(token);
-    const user = authData?.user;
-    if (!user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-
-    const { data: mt, error: mtErr } = await supabase.from("mock_tests").select("*").eq("id", mockTestId).single();
-    if (mtErr || !mt) throw new Error("Mock test not found");
-    if (mt.user_id !== user.id) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-
-    // Consume one Mock Test allowance server-side
-    const { data: quota, error: quotaErr } = await supabase.rpc("consume_quota", {
-      _user_id: user.id, _kind: "mock_test",
-    });
-    const q = quota as { allowed: boolean; reason?: string; plan?: string; limit?: number } | null;
-    if (quotaErr || !q?.allowed) {
-      const msg = q?.reason === "limit_reached"
-        ? (q.plan === "free"
-            ? "Full Mock Tests are available on Scorify Pro. Upgrade to continue."
-            : `You have used all ${q.limit} Mock Tests in your plan this period.`)
-        : "Could not verify your plan allowance. Please try again.";
-      return new Response(JSON.stringify({ error: msg }), {
-        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
+    const q = await consumeQuota(admin, user.id, "mock_test");
+    if (!q.allowed) {
+      const { error: statusError } = await admin.from("mock_tests")
+        .update({ status: "failed" }).eq("id", mockTestId).eq("user_id", user.id).eq("status", "grading");
+      if (statusError) throw statusError;
+      claimedMockTestId = null;
+      return json(req, { error: quotaErrorMessage(q, "mock_test") }, q.reason === "quota_check_failed" ? 503 : 403);
     }
     quotaUserId = user.id;
+    const supabase = admin;
 
-    await supabase.from("mock_tests").update({ status: "grading" }).eq("id", mockTestId);
+    // Verify every stored audio object before starting paid AI requests.
+    const audio = await Promise.all([
+      downloadAudio(supabase, mt.speaking_p1_audio_url),
+      downloadAudio(supabase, mt.speaking_p2_audio_url),
+      downloadAudio(supabase, mt.speaking_p3_audio_url),
+    ]);
 
-    // Writing Task 1
-    let task1: any = null, task2: any = null, speaking: any = null;
-    if (mt.task1_essay && mt.task1_topic) {
-      task1 = await callOpenAI(
+    const [task1, task2, t1, t2, t3] = await Promise.all([
+      callOpenAI(
         WRITING_SYSTEM,
         `IELTS Task 1.\nTopic: ${mt.task1_topic}\n\nEssay:\n${mt.task1_essay}`,
         OPENAI_API_KEY
-      );
-    }
-    if (mt.task2_essay && mt.task2_topic) {
-      task2 = await callOpenAI(
+      ),
+      callOpenAI(
         WRITING_SYSTEM,
         `IELTS Task 2.\nTopic: ${mt.task2_topic}\n\nEssay:\n${mt.task2_essay}`,
         OPENAI_API_KEY
-      );
-    }
-
-    // Speaking — transcribe all 3 parts, combine, grade once
-    const t1 = await transcribeAudioPath(supabase, mt.speaking_p1_audio_url, OPENAI_API_KEY);
-    const t2 = await transcribeAudioPath(supabase, mt.speaking_p2_audio_url, OPENAI_API_KEY);
-    const t3 = await transcribeAudioPath(supabase, mt.speaking_p3_audio_url, OPENAI_API_KEY);
-    if (t1 || t2 || t3) {
-      const combined = `Part 1 Topic: ${mt.speaking_p1_topic}\nPart 1 Response: ${t1}\n\nPart 2 Topic: ${mt.speaking_p2_topic}\nPart 2 Response: ${t2}\n\nPart 3 Topic: ${mt.speaking_p3_topic}\nPart 3 Response: ${t3}`;
-      speaking = await callOpenAI(SPEAKING_SYSTEM, `Evaluate this full IELTS Speaking exam:\n\n${combined}`, OPENAI_API_KEY);
-    }
+      ),
+      transcribeAudio(audio[0], OPENAI_API_KEY),
+      transcribeAudio(audio[1], OPENAI_API_KEY),
+      transcribeAudio(audio[2], OPENAI_API_KEY),
+    ]);
+    const combined = `Part 1 Topic: ${mt.speaking_p1_topic}\nPart 1 Response: ${t1}\n\nPart 2 Topic: ${mt.speaking_p2_topic}\nPart 2 Response: ${t2}\n\nPart 3 Topic: ${mt.speaking_p3_topic}\nPart 3 Response: ${t3}`;
+    const speaking = await callOpenAI(SPEAKING_SYSTEM, `Evaluate this full IELTS Speaking exam:\n\n${combined}`, OPENAI_API_KEY);
 
     const t1Band = task1?.overallBand ?? 0;
     const t2Band = task2?.overallBand ?? 0;
@@ -155,14 +171,14 @@ serve(async (req) => {
       : (writingBand || spBand);
 
     const grammarErrors =
-      (task1?.errorCorrections?.filter((e: any) => e.type === "error").length || 0) +
-      (task2?.errorCorrections?.filter((e: any) => e.type === "error").length || 0) +
-      (speaking?.errorCorrections?.length || 0);
+      (Array.isArray(task1?.errorCorrections) ? task1.errorCorrections.filter((e: unknown) => isRecord(e) && e.type === "error").length : 0) +
+      (Array.isArray(task2?.errorCorrections) ? task2.errorCorrections.filter((e: unknown) => isRecord(e) && e.type === "error").length : 0) +
+      (Array.isArray(speaking?.errorCorrections) ? speaking.errorCorrections.length : 0);
     const lexicalErrors =
-      (task1?.vocabularyAnalysis?.length || 0) +
-      (task2?.vocabularyAnalysis?.length || 0);
+      (Array.isArray(task1?.vocabularyAnalysis) ? task1.vocabularyAnalysis.length : 0) +
+      (Array.isArray(task2?.vocabularyAnalysis) ? task2.vocabularyAnalysis.length : 0);
 
-    await supabase.from("mock_tests").update({
+    const { data: saved, error: saveError } = await supabase.from("mock_tests").update({
       status: "completed",
       current_step: "done",
       task1_feedback: task1,
@@ -178,22 +194,24 @@ serve(async (req) => {
       grammar_errors_count: grammarErrors,
       lexical_errors_count: lexicalErrors,
       completed_at: new Date().toISOString(),
-    }).eq("id", mockTestId);
+    }).eq("id", mockTestId).eq("user_id", user.id).eq("status", "grading")
+      .select("id").maybeSingle();
+    if (saveError) throw saveError;
+    if (!saved) throw new Error("Mock test status changed during grading");
 
+    quotaUserId = null;
+    claimedMockTestId = null;
     return new Response(JSON.stringify({ ok: true, overall }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" }
     });
-  } catch (e: any) {
+  } catch (e) {
     console.error("process-mock-test error:", e);
-    try {
-      const { mockTestId } = await req.clone().json();
-      await admin.from("mock_tests").update({ status: "failed" }).eq("id", mockTestId);
-    } catch {}
-    if (quotaUserId) {
-      try { await admin.rpc("refund_quota", { _user_id: quotaUserId, _kind: "mock_test" }); } catch {}
+    if (claimedMockTestId && verifiedUserId && admin) {
+      const { error } = await admin.from("mock_tests").update({ status: "failed" })
+        .eq("id", claimedMockTestId).eq("user_id", verifiedUserId).eq("status", "grading");
+      if (error) console.error("Could not mark mock test failed:", error.message);
     }
-    return new Response(JSON.stringify({ error: e.message || "Unknown" }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" }
-    });
+    if (quotaUserId && admin) await refundQuota(admin, quotaUserId, "mock_test");
+    return json(req, { error: "Mock test grading failed" }, 500);
   }
 });
