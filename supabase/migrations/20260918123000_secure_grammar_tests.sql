@@ -2,7 +2,7 @@
 -- the Edge Function returns a safe question view and grades submissions.
 DROP POLICY IF EXISTS "Users view own grammar tests" ON public.grammar_tests;
 DROP POLICY IF EXISTS "Users update own grammar tests" ON public.grammar_tests;
-REVOKE ALL ON public.grammar_tests FROM anon, authenticated;
+REVOKE ALL ON public.grammar_tests FROM PUBLIC, anon, authenticated;
 GRANT ALL ON public.grammar_tests TO service_role;
 
 ALTER TABLE public.grammar_tests
