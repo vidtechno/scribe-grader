@@ -114,7 +114,7 @@ export default function GrammarTest() {
     <main className="pt-24 px-4 sm:px-6 max-w-5xl mx-auto">
       <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"><ArrowLeft className="h-4 w-4" /> Back to Dashboard</Link>
       <div className="flex flex-wrap items-end justify-between gap-3 mb-7">
-        <div><p className="text-sm font-medium text-primary mb-2">Personal daily practice</p><h1 className="text-3xl font-bold">Today’s Grammar Test</h1><p className="text-muted-foreground mt-2">20 questions prepared once a day; answer all 20 in today’s test.</p></div>
+        <div><p className="text-sm font-medium text-primary mb-2">Personal daily practice</p><h1 className="text-3xl font-bold">Today’s Grammar Test</h1><p className="text-muted-foreground mt-2">{completed && test.questions.length === 10 ? 'This earlier attempt used 10 questions. New daily tests show all 20 questions.' : '20 questions prepared once a day; answer all 20 in today’s test.'}</p></div>
         {test && <span className="rounded-full bg-primary/10 text-primary px-3 py-1 text-sm capitalize">{test.difficulty.replace('-', ' ')}</span>}
       </div>
 
