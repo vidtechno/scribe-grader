@@ -1,0 +1,42 @@
+export type GrammarQuestion = { prompt: string; options: string[]; correctAnswer: number; explanation: string; skill: string };
+export type GrammarTestRow = {
+  id: string; user_id: string; test_date: string; source_summary: string;
+  source_essay_ids: string[]; source_essays: Array<{ id: string; task_type: string; topic: string; score: number }>;
+  difficulty: string; questions: GrammarQuestion[]; answers: Record<string, number>;
+  score: number | null; completed_at: string | null; created_at: string;
+};
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+export function validQuestions(value: unknown): value is { questions: GrammarQuestion[] } {
+  if (!isRecord(value) || !Array.isArray(value.questions) || value.questions.length !== 10) return false;
+  return value.questions.every((q) => isRecord(q) && typeof q.prompt === 'string' && q.prompt.length >= 10 && q.prompt.length <= 500 &&
+    typeof q.explanation === 'string' && q.explanation.length >= 5 && q.explanation.length <= 600 &&
+    typeof q.skill === 'string' && q.skill.length >= 2 && q.skill.length <= 80 &&
+    Array.isArray(q.options) && q.options.length === 4 &&
+    q.options.every((option) => typeof option === 'string' && option.trim().length > 0 && option.length <= 240) &&
+    new Set(q.options.map((option: string) => option.trim().toLowerCase())).size === 4 &&
+    Number.isInteger(q.correctAnswer) && Number(q.correctAnswer) >= 0 && Number(q.correctAnswer) < 4);
+}
+
+export function publicTest(row: GrammarTestRow) {
+  const complete = Boolean(row.completed_at);
+  return {
+    id: row.id, test_date: row.test_date, source_summary: row.source_summary,
+    source_essays: row.source_essays ?? [], difficulty: row.difficulty,
+    questions: complete ? row.questions : row.questions.map(({ prompt, options, skill }) => ({ prompt, options, skill })),
+    answers: complete ? row.answers : undefined, score: row.score, completed_at: row.completed_at,
+  };
+}
+
+export function difficultyFor(scores: number[]) {
+  if (!scores.length) return 'intermediate';
+  const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+  return average >= 7 ? 'advanced' : average >= 6 ? 'upper-intermediate' : average >= 5 ? 'intermediate' : 'elementary';
+}
+
+export function gradeAnswers(questions: GrammarQuestion[], selected: number[]) {
+  return questions.reduce((sum, question, index) => sum + Number(question.correctAnswer === selected[index]), 0);
+}

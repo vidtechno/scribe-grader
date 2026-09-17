@@ -98,7 +98,7 @@ function AppRoutes() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <AIMentor externalOpen={mentorOpen} onExternalOpenChange={setMentorOpen} />
-      <BottomNav onMentorClick={() => setMentorOpen(true)} />
+      <BottomNav />
     </>
   );
 }
