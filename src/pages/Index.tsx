@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
-  Check, ExternalLink, Quote, Bot, GraduationCap, Mic, Coins, PenLine, Infinity as InfinityIcon,
+  Check, ExternalLink, Quote, Mic, Coins, PenLine, Infinity as InfinityIcon,
   Headphones, MessageCircle, Volume2, FileAudio
 } from 'lucide-react';
 
@@ -45,7 +45,6 @@ export default function Index() {
     { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Writing Task 1 & 2 and Speaking Parts 1–3 questions.' },
     { icon: Sparkles, title: 'AI Writing Grading', description: 'Instant band score + detailed feedback against the official IELTS criteria.' },
     { icon: Mic, title: 'AI Speaking Practice', description: 'Record your answer, get a transcript and a full speaking band evaluation.' },
-    { icon: Bot, title: 'Private AI Mentor', description: 'A Socratic coach that learns from your essays and guides you to a higher band.' },
   ];
 
   const speakingCriteria = [
@@ -66,7 +65,6 @@ export default function Index() {
 
   const testimonials = [
     { name: 'Aziza M.', score: '7.5', text: 'Scorify.uz helped me improve from Band 6 to 7.5 in just one month. The AI feedback is incredibly detailed!', avatar: 'A' },
-    { name: 'Sardor K.', score: '8.0', text: 'The AI Mentor gave me personalized tips that no textbook could. I got Band 8 in Writing on my first try!', avatar: 'S' },
     { name: 'Nilufar R.', score: '7.0', text: "Best IELTS preparation tool I've used. The instant grading saves so much time compared to waiting for a tutor.", avatar: 'N' },
   ];
 
@@ -87,12 +85,11 @@ export default function Index() {
       operatingSystem: 'Web',
       inLanguage: 'en',
       description:
-        'AI-powered IELTS Writing and Speaking practice with instant band scores, examiner-style feedback, full mock tests and a personal AI Mentor.',
+        'AI-powered IELTS Writing and Speaking practice with instant band scores, examiner-style feedback and full mock tests.',
       featureList: [
         'IELTS Writing Task 1 & Task 2 evaluation',
         'IELTS Speaking Part 1, 2 and 3 evaluation',
         'Full IELTS mock test simulator',
-        'AI Mentor coaching',
         'Band score analytics and history',
       ],
       offers: {
@@ -146,7 +143,7 @@ export default function Index() {
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEOHead
         title="AI IELTS Writing & Speaking Practice"
-        description="Master IELTS Writing and Speaking with AI band scores, examiner-style feedback, real exam topics, timed mock tests and a personal AI Mentor. Start free on Scorify.uz."
+        description="Master IELTS Writing and Speaking with AI band scores, examiner-style feedback, real exam topics and timed mock tests. Start free on Scorify.uz."
         keywords="IELTS, IELTS writing, IELTS speaking, IELTS mock test, IELTS band score, AI essay checker, IELTS Uzbekistan, Scorify.uz"
         path="/"
         jsonLd={landingJsonLd}
@@ -181,7 +178,7 @@ export default function Index() {
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-9 leading-relaxed">
               Instant, examiner-style feedback on your IELTS Writing and Speaking. Real exam topics,
-              timed mock tests, and a personal AI Mentor that shows exactly how to score higher.
+              timed mock tests, and clear suggestions to help you improve.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
@@ -212,7 +209,7 @@ export default function Index() {
               {[
                 { icon: PenLine, value: 'Writing', label: 'Task 1 & 2 analysis', accent: 'text-primary' },
                 { icon: Mic, value: 'Speaking', label: 'Parts 1–3 coaching', accent: 'text-primary' },
-                { icon: Bot, value: 'AI Mentor', label: 'Available 24/7', accent: 'text-brand-red' },
+                { icon: Clock, value: 'Mock Tests', label: 'Timed exam practice', accent: 'text-brand-red' },
               ].map((stat) => (
                 <div key={stat.value} className="p-4 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 shadow-sm hover:shadow-md transition-shadow text-left">
                   <stat.icon className={`h-5 w-5 mb-2 ${stat.accent}`} />
@@ -274,7 +271,7 @@ export default function Index() {
                   </div>
                   <div className="flex-1 rounded-2xl bg-brand-red/5 border border-brand-red/20 py-4 flex flex-col items-center">
                     <span className="text-2xl font-bold text-brand-red">+1.5</span>
-                    <span className="text-[10px] uppercase font-bold tracking-tight text-brand-red/80">With AI Mentor</span>
+                    <span className="text-[10px] uppercase font-bold tracking-tight text-brand-red/80">Practice goal</span>
                   </div>
                 </div>
               </div>
@@ -506,75 +503,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* AI Mentor Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              <motion.div variants={fadeUp} custom={0}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-4">
-                <Bot className="h-3.5 w-3.5" /> New Feature
-              </motion.div>
-              <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">
-                Your Private <span className="gradient-text">AI Mentor</span>
-              </motion.h2>
-              <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mb-6">
-                Get personalized Socratic coaching based on your essay history. Your AI Mentor guides you to discover your own mistakes
-                and build lasting skills.
-              </motion.p>
-              <motion.div variants={fadeUp} custom={3} className="space-y-3">
-                {[
-                  '📝 Analyzes your last 3-5 essays for patterns',
-                  '🎯 Socratic method — guides you to find answers',
-                  '💬 Ask anything about IELTS writing strategy',
-                  '📊 Track your improvement over time',
-                ].map(item => (
-                  <div key={item} className="flex items-center gap-2 text-sm">
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </motion.div>
-              <motion.div variants={fadeUp} custom={4} className="flex flex-wrap items-center gap-3 mt-6">
-                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-                  <PenLine className="h-3.5 w-3.5 text-primary" />
-                  <span>Included in every monthly plan</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30">
-                  <Mic className="h-3.5 w-3.5 text-accent-foreground" />
-                  <span>Writing + Speaking in one place</span>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.6 }}
-              className="glass-card p-6 relative">
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/20 rounded-full blur-xl" />
-              <div className="space-y-3">
-                <div className="flex gap-2">
-                  <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
-                    <GraduationCap className="h-4 w-4" />
-                  </div>
-                  <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-md px-3.5 py-2 text-sm max-w-[85%]">
-                    How can I improve my Task 2 score from 6 to 7?
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Bot className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="bg-secondary/70 rounded-2xl rounded-tl-md px-3.5 py-2 text-sm max-w-[85%]">
-                    Great question! 🎯 Let me ask you something first — when you look at your last essay, what do you think was the weakest part?
-                    <br /><br />
-                    Think about it: did you fully answer ALL parts of the question? 🤔 This is where most Band 6 students lose marks.
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -667,7 +595,7 @@ export default function Index() {
                     <li className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.writing_limit}</strong> Writing evaluations</span></li>
                     <li className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.speaking_limit}</strong> Speaking evaluations</span></li>
                     <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.mock_test_limit}</strong> Full Mock Tests</span></li>
-                    {(plan.features || []).slice(3).map((f: string) => (
+                    {(plan.features || []).slice(3).filter((f: string) => !/mentor/i.test(f)).map((f: string) => (
                       <li key={f} className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
@@ -696,7 +624,7 @@ export default function Index() {
               <Award className="h-12 w-12 text-primary mx-auto mb-4" />
               <h2 className="text-3xl font-bold mb-4">Ready to Achieve Your Target Band?</h2>
               <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-                Join thousands of students who improved their writing scores with AI-powered feedback.
+                Start practicing with AI-powered feedback and track your progress over time.
               </p>
               <Link to={user ? '/dashboard' : '/auth'}>
                 <Button variant="glow" size="xl" className="gap-2">

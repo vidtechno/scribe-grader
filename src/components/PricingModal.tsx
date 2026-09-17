@@ -116,7 +116,7 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
                     <ClipboardList className="h-4 w-4 text-primary flex-shrink-0" />
                     <span><strong>{plan.mock_test_limit}</strong> Full Mock Tests</span>
                   </li>
-                  {(plan.features || []).slice(3).map((f) => (
+                  {(plan.features || []).slice(3).filter((f) => !/mentor/i.test(f)).map((f) => (
                     <li key={f} className="flex items-start gap-2 text-xs text-muted-foreground">
                       <Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
                       <span>{f}</span>

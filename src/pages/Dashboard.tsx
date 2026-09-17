@@ -215,7 +215,7 @@ export default function Dashboard() {
                 <Sparkles className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-semibold mb-1">Mentor's Daily Tip</p>
+                <p className="text-sm font-semibold mb-1">Writing Tip</p>
                 <p className="text-sm text-muted-foreground">{mentorTip}</p>
               </div>
             </div>
@@ -495,7 +495,7 @@ export default function Dashboard() {
                 { icon: PenTool, title: 'Writing goal', desc: 'Aim for 3 essays this week. You have ' + thisWeekEssays + ' so far.', to: '/writing', cta: 'Practice writing' },
                 { icon: Mic, title: 'Speaking goal', desc: 'Record at least 2 Part 2 answers this week to build fluency.', to: '/speaking', cta: 'Practice speaking' },
                 { icon: ClipboardList, title: 'Full mock test', desc: 'Simulate a full exam once a week to build stamina.', to: '/mock-test', cta: 'Start mock test' },
-                { icon: Sparkles, title: 'Ask your AI Mentor', desc: 'Get a personalized tip based on your last essays.', to: '/dashboard', cta: 'Open mentor', mentor: true },
+                { icon: Sparkles, title: 'Review your progress', desc: 'Read feedback from your past essays.', to: '/essays', cta: 'View essays' },
               ].map((g) => (
                 <Link key={g.title} to={g.to} className="p-4 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-all group flex flex-col">
                   <div className="flex items-center gap-2 mb-1.5">
