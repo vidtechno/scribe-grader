@@ -20,7 +20,7 @@ serve(async (req) => {
     const formData = await req.formData();
     const audioFile = formData.get("audio");
     if (!(audioFile instanceof File) || audioFile.size === 0 ||
-        audioFile.size > MAX_AUDIO_BYTES || !AUDIO_TYPES.has(audioFile.type)) {
+        audioFile.size > MAX_AUDIO_BYTES || !AUDIO_TYPES.has(audioFile.type.split(';')[0].toLowerCase())) {
       return json(req, { error: "Invalid audio file" }, 400);
     }
 

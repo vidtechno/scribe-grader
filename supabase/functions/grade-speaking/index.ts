@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { validGrade } from '../_shared/grading.ts';
 import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
 import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
 
@@ -96,8 +97,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
 
     const aiData = await response.json();
     const feedback: unknown = JSON.parse(aiData.choices?.[0]?.message?.content ?? "null");
-    if (!isRecord(feedback) || typeof feedback.overallBand !== "number" ||
-        !Number.isFinite(feedback.overallBand) || feedback.overallBand < 0 || feedback.overallBand > 9) {
+    if (!validGrade(feedback, 'speaking')) {
       throw new Error("Invalid AI grading response");
     }
 

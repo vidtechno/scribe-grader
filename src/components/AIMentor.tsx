@@ -41,16 +41,19 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
 
   // Check if AI chat is globally enabled
   useEffect(() => {
+    if (!user) { setAiChatEnabled(false); return; }
+    let cancelled = false;
     const checkAiChatEnabled = async () => {
       const { data } = await supabase
         .from('app_settings')
         .select('value')
         .eq('key', 'ai_chat_enabled')
         .single();
-      setAiChatEnabled(data?.value === 'true');
+      if (!cancelled) setAiChatEnabled(data?.value === 'true');
     };
     checkAiChatEnabled();
-  }, []);
+    return () => { cancelled = true; };
+  }, [user]);
 
   useEffect(() => {
     if (externalOpen) {

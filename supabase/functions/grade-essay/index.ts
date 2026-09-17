@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { validGrade } from '../_shared/grading.ts';
 
 import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
 import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
@@ -156,9 +157,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
       return json(req, { error: 'Failed to parse grading result' }, 502);
     }
 
-    if (!isRecord(gradeResult) || typeof gradeResult.overallBand !== 'number' ||
-        !Number.isFinite(gradeResult.overallBand) || gradeResult.overallBand < 0 ||
-        gradeResult.overallBand > 9 || !isRecord(gradeResult.taskAchievement)) {
+    if (!validGrade(gradeResult, 'writing')) {
       await refundQuota(admin, quotaUserId, 'writing');
       quotaUserId = null;
       return json(req, { error: 'Invalid grading result structure' }, 502);

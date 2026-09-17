@@ -2,6 +2,8 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { Mic, Square, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { recordingMimeType } from '@/lib/audio';
+import { toast } from 'sonner';
 
 interface SpeechRecorderProps {
   onRecordingComplete: (blob: Blob, duration: number) => void;
@@ -19,6 +21,9 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationRef = useRef<number | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const startedAtRef = useRef(0);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const [starting, setStarting] = useState(false);
 
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current?.state === 'recording') {
@@ -43,23 +48,35 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
       if (timerRef.current) clearInterval(timerRef.current);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop());
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.onstop = null;
+        if (mediaRecorderRef.current.state === 'recording') mediaRecorderRef.current.stop();
+      }
+      void audioContextRef.current?.close().catch(() => {});
     };
   }, []);
 
   const startRecording = async () => {
+    if (starting || isRecording) return;
+    setStarting(true);
     try {
+      if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') {
+        throw new Error('Recording is unavailable in this browser. Please use a current browser over HTTPS.');
+      }
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
       // Audio analysis for wave animation
       const audioCtx = new AudioContext();
+      audioContextRef.current = audioCtx;
       const source = audioCtx.createMediaStreamSource(stream);
       const analyser = audioCtx.createAnalyser();
       analyser.fftSize = 64;
       source.connect(analyser);
       analyserRef.current = analyser;
 
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      const mimeType = recordingMimeType();
+      const mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
 
@@ -68,13 +85,16 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        onRecordingComplete(blob, duration);
+        const blob = new Blob(chunksRef.current, { type: mediaRecorder.mimeType.split(';')[0] });
+        const elapsed = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000));
+        if (blob.size) onRecordingComplete(blob, elapsed);
+        else toast.error('The recording was empty. Please record again.');
         setDuration(0);
         audioCtx.close();
       };
 
       mediaRecorder.start(250);
+      startedAtRef.current = Date.now();
       setIsRecording(true);
       setDuration(0);
 
@@ -92,8 +112,12 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
         animationRef.current = requestAnimationFrame(updateLevels);
       };
       updateLevels();
-    } catch {
-      alert('Microphone access is required for speaking practice.');
+    } catch (error) {
+      streamRef.current?.getTracks().forEach(track => track.stop());
+      void audioContextRef.current?.close().catch(() => {});
+      toast.error(error instanceof Error ? error.message : 'Microphone access is required for speaking practice.');
+    } finally {
+      setStarting(false);
     }
   };
 
@@ -152,6 +176,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
             variant="destructive"
             className="rounded-full w-20 h-20 p-0"
             disabled={isProcessing}
+            aria-label="Stop recording"
           >
             <Square className="h-8 w-8" />
           </Button>
@@ -161,7 +186,8 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
             size="xl"
             variant="glow"
             className="rounded-full w-20 h-20 p-0"
-            disabled={isProcessing}
+            disabled={isProcessing || starting}
+            aria-label="Start recording"
           >
             <Mic className="h-8 w-8" />
           </Button>

@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { functionError } from '@/lib/function-errors';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
@@ -30,8 +31,10 @@ export default function Exam() {
   const { profile, refreshProfile } = useAuth();
   const { writingRemaining, refresh: refreshSub } = useSubscription();
   const isMobile = useIsMobile();
+  const [draft, setDraft] = useState<{ id: string; task_type: string } | null>(null);
+  const draftId = searchParams.get('draft');
   
-  const taskType = searchParams.get('task') === '1' ? 'Task 1' : 'Task 2';
+  const taskType = draft?.task_type === 'Task 1' || (!draft && searchParams.get('task') === '1') ? 'Task 1' : 'Task 2';
   const timeLimit = taskType === 'Task 1' ? 20 * 60 : 40 * 60;
   
   const [topic, setTopic] = useState(() => getRandomTopic(taskType));
@@ -40,6 +43,7 @@ export default function Exam() {
   const [essay, setEssay] = useState('');
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submittingRef = useRef(false);
   const [gradingStep, setGradingStep] = useState(0);
   const [showPricing, setShowPricing] = useState(false);
   const [examStarted, setExamStarted] = useState(false);
@@ -52,10 +56,26 @@ export default function Exam() {
   const isWordCountValid = wordCount >= minWords;
 
   useEffect(() => {
+    if (!draftId || !profile?.user_id) return;
+    let cancelled = false;
+    supabase.from('essays').select('id,task_type,topic,essay_text').eq('id', draftId)
+      .eq('user_id', profile.user_id).eq('status', 'draft').single().then(({ data, error }) => {
+        if (cancelled) return;
+        if (error || !data) { toast.error('This draft is unavailable.'); return; }
+        setDraft(data);
+        setEssay(data.essay_text);
+        setCustomTopic(data.topic);
+        setUseCustomTopic(true);
+        setTimeLeft(data.task_type === 'Task 1' ? 20 * 60 : 40 * 60);
+      });
+    return () => { cancelled = true; };
+  }, [draftId, profile?.user_id]);
+
+  useEffect(() => {
     if (!examStarted || timeLeft <= 0) return;
     const timer = setInterval(() => {
       setTimeLeft(prev => {
-        if (prev <= 1) { clearInterval(timer); handleSubmit(); return 0; }
+        if (prev <= 1) { clearInterval(timer); return 0; }
         return prev - 1;
       });
     }, 1000);
@@ -65,7 +85,6 @@ export default function Exam() {
   // Grading steps animation
   useEffect(() => {
     if (!isSubmitting) { setGradingStep(0); return; }
-    let step = 0;
     setGradingStep(0);
     const intervals: NodeJS.Timeout[] = [];
     let cumulative = 0;
@@ -90,6 +109,7 @@ export default function Exam() {
   };
 
   const handleSubmit = useCallback(async () => {
+    if (submittingRef.current) return;
     if (!profile) { toast.error('Please sign in'); return; }
     if (writingRemaining <= 0) {
       toast.error('You have used all your Writing evaluations for this plan.');
@@ -97,50 +117,67 @@ export default function Exam() {
     }
     if (!isWordCountValid) { toast.error(`Please write at least ${minWords} words`); return; }
 
+    submittingRef.current = true;
     setIsSubmitting(true);
     try {
       const topicText = activeTopic;
       // Usage is consumed server-side by the grade-essay function.
       // Queue the attempt so it shows up in history immediately with a spinner
-      const { data: pendingRow } = await supabase.from('essays').insert({
+      const pending = {
         user_id: profile.user_id, task_type: taskType, topic: topicText,
         essay_text: essay, word_count: wordCount, status: 'processing'
-      }).select().single();
+      };
+      const { data: pendingRow, error: pendingError } = await (draft
+        ? supabase.from('essays').update(pending).eq('id', draft.id).eq('status', 'draft')
+        : supabase.from('essays').insert(pending)).select().single();
+      if (pendingError || !pendingRow) throw new Error('Your essay could not be saved. Please try again.');
 
       const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
         body: { essay, taskType, topic: topicText }
       });
       if (gradeError) {
         if (pendingRow) await supabase.from('essays').update({ status: 'failed', error_message: gradeError.message }).eq('id', pendingRow.id);
-        throw gradeError;
+        throw await functionError(gradeError, 'Failed to grade essay. Please try again.');
       }
       const { data: essayData, error: essayError } = await supabase.from('essays')
         .update({ score: gradeResult.overallBand, feedback: gradeResult, status: 'completed' })
-        .eq('id', pendingRow!.id).select().single();
+        .eq('id', pendingRow.id).select().single();
       if (essayError) throw essayError;
 
       await refreshProfile();
       await refreshSub();
       toast.success('Essay submitted and graded!');
       navigate(`/result/${essayData.id}`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Submit error:', error);
-      toast.error(error.message?.includes('Rate limit') ? 'Too many requests. Please try again.' : 'Failed to grade essay. Please try again.');
+      toast.error(error instanceof Error ? error.message : 'Failed to grade essay. Please try again.');
     } finally {
       setIsSubmitting(false);
+      submittingRef.current = false;
     }
-  }, [essay, taskType, activeTopic, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, refreshSub]);
+  }, [essay, taskType, activeTopic, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, refreshSub, draft]);
+
+  useEffect(() => {
+    if (examStarted && timeLeft === 0) {
+      setExamStarted(false);
+      void handleSubmit();
+    }
+  }, [examStarted, timeLeft, handleSubmit]);
 
   const saveDraft = useCallback(async () => {
     if (!profile) return;
     if (!essay.trim()) { toast.error('Nothing to save'); return; }
-    const { error } = await supabase.from('essays').insert({
+    const payload = {
       user_id: profile.user_id, task_type: taskType, topic: activeTopic,
       essay_text: essay, word_count: wordCount, status: 'draft'
-    });
+    };
+    const { data, error } = await (draft
+      ? supabase.from('essays').update(payload).eq('id', draft.id).eq('status', 'draft')
+      : supabase.from('essays').insert(payload)).select('id,task_type').single();
     if (error) { toast.error('Failed to save draft'); return; }
+    setDraft(data);
     toast.success('Draft saved — resume from History');
-  }, [profile, taskType, essay, wordCount, activeTopic]);
+  }, [profile, taskType, essay, wordCount, activeTopic, draft]);
 
   const startExam = () => {
     if (writingRemaining <= 0) { setShowPricing(true); return; }

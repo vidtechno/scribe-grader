@@ -176,7 +176,7 @@ export default function Writing() {
                 const isDraft = e.status === 'draft';
                 const isProcessing = e.status === 'processing' || e.status === 'queued';
                 const isFailed = e.status === 'failed';
-                const href = isDraft ? '/exam' : `/result/${e.id}`;
+                const href = isDraft ? `/exam?draft=${e.id}` : `/result/${e.id}`;
                 return (
                   <Link key={e.id} to={href} className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
                     <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-sm font-bold ${

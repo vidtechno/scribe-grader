@@ -26,14 +26,19 @@ export function useSubscription() {
   const [loading, setLoading] = useState(true);
 
   const fetchSubscription = useCallback(async () => {
-    if (!user) { setLoading(false); return; }
+    if (!user) { setSubscription(null); setLoading(false); return; }
+    setLoading(true);
     try {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('subscriptions')
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
-      setSubscription((data as unknown as Subscription) || null);
+      if (error) throw error;
+      setSubscription(data || null);
+    } catch (error) {
+      console.error('Unable to load subscription:', error);
+      setSubscription(null);
     } finally {
       setLoading(false);
     }

@@ -12,6 +12,8 @@ import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
 import { Clock, FileText, Send, Mic, ArrowRight, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { audioExtension } from '@/lib/audio';
+import { functionError } from '@/lib/function-errors';
 
 type Step = 'task1' | 'task2' | 'speaking_p1' | 'speaking_p2' | 'speaking_p3' | 'done';
 
@@ -114,8 +116,8 @@ export default function MockTestExam() {
     setUploading(true);
     try {
       const part = step === 'speaking_p1' ? 'p1' : step === 'speaking_p2' ? 'p2' : 'p3';
-      const path = `${user.id}/mock-tests/${mt.id}/${part}-${Date.now()}.webm`;
-      const { error: upErr } = await supabase.storage.from('speaking-audio').upload(path, blob, { contentType: 'audio/webm' });
+      const path = `${user.id}/mock-tests/${mt.id}/${part}-${Date.now()}.${audioExtension(blob.type)}`;
+      const { error: upErr } = await supabase.storage.from('speaking-audio').upload(path, blob, { contentType: blob.type });
       if (upErr) throw upErr;
       const next = advance(step);
       const col = step === 'speaking_p1' ? 'speaking_p1_audio_url' : step === 'speaking_p2' ? 'speaking_p2_audio_url' : 'speaking_p3_audio_url';
@@ -136,13 +138,14 @@ export default function MockTestExam() {
     if (!mt) return;
     setSubmitting(true);
     try {
-      await supabase.from('mock_tests').update({
+      const { error: saveError } = await supabase.from('mock_tests').update({
         status: 'submitted',
         submitted_at: new Date().toISOString(),
       }).eq('id', mt.id);
+      if (saveError) throw saveError;
 
-      // Fire-and-forget AI grading (quota is enforced server-side)
-      supabase.functions.invoke('process-mock-test', { body: { mockTestId: mt.id } }).catch(e => console.error(e));
+      const { error: gradeError } = await supabase.functions.invoke('process-mock-test', { body: { mockTestId: mt.id } });
+      if (gradeError) throw await functionError(gradeError, 'Mock test grading failed. Your answers are saved.');
 
       await refreshProfile();
       navigate(`/mock-test/thank-you/${mt.id}`);

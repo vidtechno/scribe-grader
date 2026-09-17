@@ -1,73 +1,38 @@
-# Welcome to your Lovable project
+# Scorify
 
-## Project info
+IELTS Writing and Speaking practice built with React, Vite and a dedicated Supabase project.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Local development
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Copy `.env.example` to `.env.local`, fill in the public Supabase settings, then run:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm ci
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The development server uses port 8080. `.env` and `.env.local` are ignored by Git. Frontend builds contain only the public Supabase URL and publishable key. Never put a service-role key, OpenAI key or database password in a `VITE_*` variable.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Checks
 
-**Use GitHub Codespaces**
+```sh
+npm run typecheck
+npm test
+npm run build
+npm run lint
+deno test --allow-env supabase/functions/_shared/
+deno check supabase/functions/*/index.ts
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Production configuration
 
-## What technologies are used for this project?
+The frontend is hosted on Vercel at `scorify.uz`. Supabase project: `bywqpgjojnqscelloxew`.
 
-This project is built with:
+- Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` before building.
+- Configure production SMTP in Supabase Auth. Keep email confirmation enabled and verify delivery with an owned account.
+- Allow callback and reset-password URLs for `https://scorify.uz` and `https://www.scorify.uz`.
+- Google OAuth is currently disabled. The authentication form uses email and password.
+- Store `OPENAI_API_KEY` only in Supabase Edge Function secrets.
+- Keep `app_settings.ai_chat_enabled` set to `false` until AI Mentor is explicitly ready.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Do not import demo data or users from the previous project. Browser checks and mocked tests do not replace testing a confirmed user session, email delivery, microphone permissions and paid AI grading.

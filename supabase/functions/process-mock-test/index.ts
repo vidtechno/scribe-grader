@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { validGrade } from '../_shared/grading.ts';
 import { consumeQuota, getRequestUser, quotaErrorMessage, refundQuota, serviceClient } from "../_shared/quota.ts";
 import { boundedString, corsHeaders as responseHeaders, isRecord, json, preflight } from "../_shared/http.ts";
 
@@ -48,8 +49,7 @@ async function callOpenAI(system: string, user: string, key: string): Promise<Gr
   if (!res.ok) throw new Error(`OpenAI grading failed: ${res.status}`);
   const data = await res.json();
   const result: unknown = JSON.parse(data.choices?.[0]?.message?.content ?? "null");
-  if (!isRecord(result) || typeof result.overallBand !== "number" ||
-      !Number.isFinite(result.overallBand) || result.overallBand < 0 || result.overallBand > 9) {
+  if (!validGrade(result, system === WRITING_SYSTEM ? 'writing' : 'speaking')) {
     throw new Error("Invalid AI grading result");
   }
   return result as GradeResult;
@@ -64,7 +64,8 @@ async function downloadAudio(supabase: ReturnType<typeof serviceClient>, path: s
 
 async function transcribeAudio(data: Blob, key: string): Promise<string> {
   const fd = new FormData();
-  fd.append("file", data, "audio.webm");
+  const extension = data.type.startsWith('audio/mp4') ? 'mp4' : data.type.startsWith('audio/ogg') ? 'ogg' : 'webm';
+  fd.append("file", data, `audio.${extension}`);
   fd.append("model", "whisper-1");
   const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
     method: "POST",

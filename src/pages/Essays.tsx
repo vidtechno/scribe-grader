@@ -119,7 +119,7 @@ export default function Essays() {
               const isDraft = essay.status === 'draft';
               const isProcessing = essay.status === 'processing' || essay.status === 'queued';
               const isFailed = essay.status === 'failed';
-              const href = isDraft ? '/exam' : `/result/${essay.id}`;
+              const href = isDraft ? `/exam?draft=${essay.id}` : `/result/${essay.id}`;
               return (
               <motion.div
                 key={essay.id}

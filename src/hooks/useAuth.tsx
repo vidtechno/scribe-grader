@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, useRef, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -21,7 +21,7 @@ interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => Promise<{ error: Error | null; confirmationRequired?: boolean }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -34,17 +34,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const activeUserId = useRef<string | null>(null);
 
   const fetchProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase
+      const { data: initialProfile, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('user_id', userId)
         .single();
       
       if (error) throw error;
-      setProfile(data);
+      let data = initialProfile;
+      // The database creates the profile before email confirmation. Populate
+      // optional signup details only after an authenticated session exists.
+      if (data && activeUserId.current === userId) {
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+        const metadata = currentUser?.id === userId ? currentUser.user_metadata : {};
+        const details: { age?: number; city?: string; phone?: string } = {};
+        if (data.age == null && Number.isInteger(metadata.age) && metadata.age >= 10 && metadata.age <= 80) details.age = metadata.age;
+        if (!data.city && typeof metadata.city === 'string' && metadata.city.trim()) details.city = metadata.city.trim().slice(0, 100);
+        if (!data.phone && typeof metadata.phone === 'string' && metadata.phone.trim()) details.phone = metadata.phone.trim().slice(0, 40);
+        if (Object.keys(details).length) {
+          const result = await supabase.from('profiles').update(details).eq('user_id', userId).select().single();
+          if (!result.error && result.data) data = result.data;
+        }
+        if (activeUserId.current === userId) setProfile(data);
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
@@ -57,40 +73,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    let disposed = false;
+    let authEventReceived = false;
+    const applySession = (next: Session | null) => {
+      if (disposed) return;
+      activeUserId.current = next?.user.id ?? null;
+      setSession(next);
+      setUser(next?.user ?? null);
+      setProfile(null);
+      setLoading(false);
+      if (next?.user) {
+        setTimeout(() => { if (!disposed) void fetchProfile(next.user.id); }, 0);
+      }
+    };
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          setTimeout(() => {
-            fetchProfile(session.user.id);
-          }, 0);
-        } else {
-          setProfile(null);
-        }
-        
-        setLoading(false);
+        authEventReceived = true;
+        applySession(session);
       }
     );
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        fetchProfile(session.user.id);
-      }
-      
-      setLoading(false);
-    });
+      if (!authEventReceived) applySession(session);
+    }).catch(() => { if (!authEventReceived) applySession(null); });
 
-    return () => subscription.unsubscribe();
+    return () => { disposed = true; activeUserId.current = null; subscription.unsubscribe(); };
   }, []);
 
   const signUp = async (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => {
     try {
-      const redirectUrl = `${window.location.origin}/`;
+      const redirectUrl = `${window.location.origin}/auth/callback`;
       
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -106,19 +118,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       });
       
-      if (error) return { error: new Error(error.message) };
-
-      // Update profile with age, city, phone after signup
-      if (data.user) {
-        setTimeout(async () => {
-          await supabase
-            .from('profiles')
-            .update({ age: age || null, city: city || null, phone: phone || null })
-            .eq('user_id', data.user!.id);
-        }, 1000);
-      }
-
-      return { error: null };
+      if (error) return { error };
+      return { error: null, confirmationRequired: !data.session };
     } catch (error) {
       return { error: error as Error };
     }
@@ -131,7 +132,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         password
       });
       
-      return { error: error ? new Error(error.message) : null };
+      return { error };
     } catch (error) {
       return { error: error as Error };
     }

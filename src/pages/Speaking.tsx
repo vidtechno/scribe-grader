@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
@@ -20,6 +20,8 @@ import {
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { audioExtension } from '@/lib/audio';
+import { functionError } from '@/lib/function-errors';
 
 const GRADING_STEPS = [
   { label: 'Transcribing your audio...', icon: Mic, duration: 4000 },
@@ -46,6 +48,7 @@ export default function Speaking() {
   const [useCustomTopic, setUseCustomTopic] = useState(false);
   const [customTopic, setCustomTopic] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const processingRef = useRef(false);
   const [gradingStep, setGradingStep] = useState(0);
   const [showPricing, setShowPricing] = useState(false);
   const [totalAttempts, setTotalAttempts] = useState(0);
@@ -99,6 +102,7 @@ export default function Speaking() {
   };
 
   const handleRecordingComplete = async (blob: Blob, duration: number) => {
+    if (processingRef.current) return;
     if (!user) return;
     if (!canAttempt) {
       toast.error("You have used all your Speaking evaluations for this plan.");
@@ -106,17 +110,24 @@ export default function Speaking() {
       return;
     }
 
+    processingRef.current = true;
     setIsProcessing(true);
     setGradingStep(0);
 
     // Usage is consumed server-side by the grade-speaking function.
 
     // Insert a "processing" row so history shows a spinner instantly
-    const audioFileName = `${user.id}/${Date.now()}.webm`;
-    const { data: pendingRow } = await supabase.from('speaking_attempts').insert({
+    const audioFileName = `${user.id}/${Date.now()}.${audioExtension(blob.type)}`;
+    const { data: pendingRow, error: pendingError } = await supabase.from('speaking_attempts').insert({
       user_id: user.id, topic: activeTopic, part: selectedPart,
       audio_url: audioFileName, duration_seconds: duration, status: 'processing'
     }).select().single();
+    if (pendingError || !pendingRow) {
+      processingRef.current = false;
+      setIsProcessing(false);
+      toast.error('Your recording could not be saved. Please try again.');
+      return;
+    }
 
     // Step through grading animation
     const stepTimers: number[] = [];
@@ -130,19 +141,19 @@ export default function Speaking() {
       // 1. Upload audio
       const { error: uploadError } = await supabase.storage
         .from('speaking-audio')
-        .upload(audioFileName, blob, { contentType: 'audio/webm' });
+        .upload(audioFileName, blob, { contentType: blob.type });
 
       if (uploadError) throw new Error('Audio upload failed');
 
       // 2. Transcribe
       const formData = new FormData();
-      formData.append('audio', blob, 'audio.webm');
+      formData.append('audio', blob, `audio.${audioExtension(blob.type)}`);
 
       const { data: transcribeData, error: transcribeError } = await supabase.functions
         .invoke('transcribe-audio', { body: formData });
 
       if (transcribeError || !transcribeData?.transcript) {
-        throw new Error('Transcription failed');
+        throw await functionError(transcribeError, 'Transcription failed');
       }
 
       const transcript = transcribeData.transcript;
@@ -154,7 +165,7 @@ export default function Speaking() {
         });
 
       if (gradeError || !gradeData) {
-        throw new Error('Grading failed');
+        throw await functionError(gradeError, 'Grading failed');
       }
 
       // 4. Update the pending row with final grade
@@ -166,7 +177,7 @@ export default function Speaking() {
           score: gradeData.overallBand,
           status: 'completed',
         })
-        .eq('id', pendingRow!.id)
+        .eq('id', pendingRow.id)
         .select()
         .single();
       if (saveError) throw saveError;
@@ -185,9 +196,9 @@ export default function Speaking() {
       toast.error(err.message || 'Something went wrong');
       stepTimers.forEach(clearTimeout);
     } finally {
+      processingRef.current = false;
       setIsProcessing(false);
       setGradingStep(0);
-      discardRecording();
     }
   };
 
