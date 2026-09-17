@@ -3,6 +3,7 @@ export type GrammarTestRow = {
   id: string; user_id: string; test_date: string; source_summary: string;
   source_essay_ids: string[]; source_essays: Array<{ id: string; task_type: string; topic: string; score: number }>;
   difficulty: string; questions: GrammarQuestion[]; answers: Record<string, number>;
+  selected_indices: number[]; started_at: string | null;
   score: number | null; completed_at: string | null; created_at: string;
 };
 
@@ -11,7 +12,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 export function validQuestions(value: unknown): value is { questions: GrammarQuestion[] } {
-  if (!isRecord(value) || !Array.isArray(value.questions) || value.questions.length !== 10) return false;
+  if (!isRecord(value) || !Array.isArray(value.questions) || value.questions.length !== 20) return false;
   return value.questions.every((q) => isRecord(q) && typeof q.prompt === 'string' && q.prompt.length >= 10 && q.prompt.length <= 500 &&
     typeof q.explanation === 'string' && q.explanation.length >= 5 && q.explanation.length <= 600 &&
     typeof q.skill === 'string' && q.skill.length >= 2 && q.skill.length <= 80 &&
@@ -23,12 +24,27 @@ export function validQuestions(value: unknown): value is { questions: GrammarQue
 
 export function publicTest(row: GrammarTestRow) {
   const complete = Boolean(row.completed_at);
+  const selected = row.selected_indices?.length === 10 ? row.selected_indices : [];
+  const questions = selected.map((index) => row.questions[index]).filter(Boolean);
   return {
     id: row.id, test_date: row.test_date, source_summary: row.source_summary,
     source_essays: row.source_essays ?? [], difficulty: row.difficulty,
-    questions: complete ? row.questions : row.questions.map(({ prompt, options, skill }) => ({ prompt, options, skill })),
+    pool_size: row.questions.length, started: selected.length === 10,
+    questions: complete ? questions : questions.map(({ prompt, options, skill }) => ({ prompt, options, skill })),
     answers: complete ? row.answers : undefined, score: row.score, completed_at: row.completed_at,
   };
+}
+
+export function randomTenIndices(poolSize = 20): number[] {
+  if (poolSize < 10) throw new Error('At least ten questions are required');
+  const indices = Array.from({ length: poolSize }, (_, index) => index);
+  for (let i = indices.length - 1; i > 0; i--) {
+    const random = new Uint32Array(1);
+    crypto.getRandomValues(random);
+    const j = random[0] % (i + 1);
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  return indices.slice(0, 10);
 }
 
 export function difficultyFor(scores: number[]) {

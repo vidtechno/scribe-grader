@@ -11,11 +11,12 @@ type Question = { prompt: string; options: string[]; skill: string; correctAnswe
 type SourceEssay = { id: string; task_type: string; topic: string; score: number };
 type GrammarTestData = {
   id: string; test_date: string; source_summary: string; source_essays: SourceEssay[];
-  difficulty: string; questions: Question[]; answers?: Record<string, number>;
+  difficulty: string; pool_size: number; started: boolean;
+  questions: Question[]; answers?: Record<string, number>;
   score: number | null; completed_at: string | null;
 };
 type History = { id: string; test_date: string; source_summary: string; difficulty: string; score: number; completed_at: string };
-type Action = 'today' | 'generate' | 'submit' | 'history';
+type Action = 'today' | 'generate' | 'start' | 'submit' | 'history';
 
 async function request<T>(action: Action, extra: Record<string, unknown> = {}): Promise<T> {
   const { data, error } = await supabase.functions.invoke('generate-grammar-test', { body: { action, ...extra } });
@@ -72,6 +73,16 @@ export default function GrammarTest() {
     } finally { setBusy(false); }
   };
 
+  const start = async () => {
+    setBusy(true); setError('');
+    try {
+      const result = await request<{ test: GrammarTestData }>('start');
+      setTest(result.test); setCurrent(0); setSelected({});
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not start today’s test.');
+    } finally { setBusy(false); }
+  };
+
   const submit = async () => {
     if (!test) return;
     if (Object.keys(selected).length !== test.questions.length) {
@@ -102,7 +113,7 @@ export default function GrammarTest() {
     <main className="pt-24 px-4 sm:px-6 max-w-5xl mx-auto">
       <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"><ArrowLeft className="h-4 w-4" /> Back to Dashboard</Link>
       <div className="flex flex-wrap items-end justify-between gap-3 mb-7">
-        <div><p className="text-sm font-medium text-primary mb-2">Personal daily practice</p><h1 className="text-3xl font-bold">Today’s Grammar Test</h1><p className="text-muted-foreground mt-2">Ten questions based on your latest graded Writing exams.</p></div>
+        <div><p className="text-sm font-medium text-primary mb-2">Personal daily practice</p><h1 className="text-3xl font-bold">Today’s Grammar Test</h1><p className="text-muted-foreground mt-2">20 questions prepared once a day; 10 randomly selected when you start.</p></div>
         {test && <span className="rounded-full bg-primary/10 text-primary px-3 py-1 text-sm capitalize">{test.difficulty.replace('-', ' ')}</span>}
       </div>
 
@@ -116,8 +127,15 @@ export default function GrammarTest() {
           <BrainCircuit className="w-12 h-12 text-primary mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-3">Ready for your daily practice?</h2>
           <p className="text-muted-foreground max-w-xl mx-auto mb-3">AI uses feedback from your last three graded essays. If you have fewer, it uses what is available. If you have none, it gives you a general diagnostic test.</p>
-          <p className="text-sm text-muted-foreground mb-6">The test is generated only when you start it, then saved for today.</p>
-          <Button disabled={busy || !ready} onClick={() => void generate()}>{busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />}{busy ? 'Preparing ten questions…' : 'Generate today’s test'}</Button>
+          <p className="text-sm text-muted-foreground mb-6">Generate 20 questions once today. Starting the test chooses 10 at random and saves that selection.</p>
+          <Button disabled={busy || !ready} onClick={() => void generate()}>{busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />}{busy ? 'Preparing 20 questions…' : 'Generate today’s questions'}</Button>
+        </div>
+        : !test.started ? <div className="glass-card p-8 sm:p-12 text-center">
+          <BrainCircuit className="w-12 h-12 text-primary mx-auto mb-4" />
+          <h2 className="text-2xl font-bold mb-3">Your 20 questions are ready</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto mb-3">AI prepared today’s pool from your recent Writing feedback. When you start, 10 questions are chosen randomly. Your selection stays the same if you refresh the page.</p>
+          <p className="text-sm text-muted-foreground mb-6">{test.source_summary}</p>
+          <Button disabled={busy} onClick={() => void start()}>{busy ? 'Starting…' : 'Start today’s test'}</Button>
         </div>
         : completed && !reviewing ? <div className="glass-card p-8 sm:p-12 text-center">
           <CheckCircle2 className="h-14 w-14 text-primary mx-auto mb-4" /><h2 className="text-2xl font-bold">Today’s result</h2>
