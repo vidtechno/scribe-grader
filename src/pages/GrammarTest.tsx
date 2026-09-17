@@ -15,7 +15,7 @@ type GrammarTestData = {
   questions: Question[]; answers?: Record<string, number>;
   score: number | null; completed_at: string | null;
 };
-type History = { id: string; test_date: string; source_summary: string; difficulty: string; score: number; completed_at: string };
+type History = { id: string; test_date: string; source_summary: string; difficulty: string; score: number; completed_at: string; selected_indices?: number[] };
 type Action = 'today' | 'generate' | 'start' | 'submit' | 'history';
 
 async function request<T>(action: Action, extra: Record<string, unknown> = {}): Promise<T> {
@@ -86,7 +86,7 @@ export default function GrammarTest() {
   const submit = async () => {
     if (!test) return;
     if (Object.keys(selected).length !== test.questions.length) {
-      setError('Please answer all ten questions before finishing.'); return;
+      setError(`Please answer all ${test.questions.length} questions before finishing.`); return;
     }
     setBusy(true); setError('');
     try {
@@ -96,6 +96,7 @@ export default function GrammarTest() {
       setHistory((previous) => [{
         id: result.test.id, test_date: result.test.test_date, source_summary: result.test.source_summary,
         difficulty: result.test.difficulty, score: result.test.score ?? 0,
+        selected_indices: Array.from({ length: result.test.questions.length }, (_, index) => index),
         completed_at: result.test.completed_at ?? new Date().toISOString(),
       }, ...previous.filter((item) => item.id !== result.test.id)]);
     } catch (cause) {
@@ -108,12 +109,12 @@ export default function GrammarTest() {
   const selectedAnswer = completed ? test?.answers?.[String(current)] : selected[current];
 
   return <div className="min-h-screen bg-background pb-24">
-    <SEOHead title="Daily Grammar Test" description="Ten grammar questions based on your recent IELTS writing." path="/grammar-test" noindex />
+    <SEOHead title="Daily Grammar Test" description="Twenty grammar questions based on your recent IELTS writing." path="/grammar-test" noindex />
     <Navbar />
     <main className="pt-24 px-4 sm:px-6 max-w-5xl mx-auto">
       <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"><ArrowLeft className="h-4 w-4" /> Back to Dashboard</Link>
       <div className="flex flex-wrap items-end justify-between gap-3 mb-7">
-        <div><p className="text-sm font-medium text-primary mb-2">Personal daily practice</p><h1 className="text-3xl font-bold">Today’s Grammar Test</h1><p className="text-muted-foreground mt-2">20 questions prepared once a day; 10 randomly selected when you start.</p></div>
+        <div><p className="text-sm font-medium text-primary mb-2">Personal daily practice</p><h1 className="text-3xl font-bold">Today’s Grammar Test</h1><p className="text-muted-foreground mt-2">20 questions prepared once a day; answer all 20 in today’s test.</p></div>
         {test && <span className="rounded-full bg-primary/10 text-primary px-3 py-1 text-sm capitalize">{test.difficulty.replace('-', ' ')}</span>}
       </div>
 
@@ -127,26 +128,26 @@ export default function GrammarTest() {
           <BrainCircuit className="w-12 h-12 text-primary mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-3">Ready for your daily practice?</h2>
           <p className="text-muted-foreground max-w-xl mx-auto mb-3">AI uses feedback from your last three graded essays. If you have fewer, it uses what is available. If you have none, it gives you a general diagnostic test.</p>
-          <p className="text-sm text-muted-foreground mb-6">Generate 20 questions once today. Starting the test chooses 10 at random and saves that selection.</p>
+          <p className="text-sm text-muted-foreground mb-6">Generate 20 questions once today, then answer all 20. Your test stays available if you refresh the page.</p>
           <Button disabled={busy || !ready} onClick={() => void generate()}>{busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />}{busy ? 'Preparing 20 questions…' : 'Generate today’s questions'}</Button>
         </div>
         : !test.started ? <div className="glass-card p-8 sm:p-12 text-center">
           <BrainCircuit className="w-12 h-12 text-primary mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-3">Your 20 questions are ready</h2>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-3">AI prepared today’s pool from your recent Writing feedback. When you start, 10 questions are chosen randomly. Your selection stays the same if you refresh the page.</p>
+          <p className="text-muted-foreground max-w-xl mx-auto mb-3">Today’s 20 questions use your recent Writing feedback when available. All 20 will appear in the test, and your test stays available if you refresh the page.</p>
           <p className="text-sm text-muted-foreground mb-6">{test.source_summary}</p>
           <Button disabled={busy} onClick={() => void start()}>{busy ? 'Starting…' : 'Start today’s test'}</Button>
         </div>
         : completed && !reviewing ? <div className="glass-card p-8 sm:p-12 text-center">
           <CheckCircle2 className="h-14 w-14 text-primary mx-auto mb-4" /><h2 className="text-2xl font-bold">Today’s result</h2>
-          <p className="text-5xl font-bold text-primary my-4">{test.score}/10</p>
+          <p className="text-5xl font-bold text-primary my-4">{test.score}/{test.questions.length}</p>
           <p className="text-muted-foreground max-w-xl mx-auto mb-6">{test.source_summary}</p>
           <Button onClick={() => { setReviewing(true); setCurrent(0); }}>Review answers and explanations</Button>
         </div>
         : <div className="grid lg:grid-cols-[1fr_280px] gap-6">
           <section className="glass-card p-5 sm:p-8">
-            <div className="flex justify-between text-sm text-muted-foreground mb-4"><span>Question {current + 1} of 10</span><span>{completed ? 'Review' : `${Object.keys(selected).length} answered`}</span></div>
-            <div className="h-2 bg-secondary rounded-full mb-7"><div className="h-full bg-primary rounded-full" style={{ width: `${(current + 1) * 10}%` }} /></div>
+            <div className="flex justify-between text-sm text-muted-foreground mb-4"><span>Question {current + 1} of {test.questions.length}</span><span>{completed ? 'Review' : `${Object.keys(selected).length} answered`}</span></div>
+            <div className="h-2 bg-secondary rounded-full mb-7"><div className="h-full bg-primary rounded-full" style={{ width: `${(current + 1) / test.questions.length * 100}%` }} /></div>
             <p className="text-xs uppercase tracking-wide text-primary mb-2">{question?.skill}</p>
             <h2 className="text-xl font-semibold mb-6">{question?.prompt}</h2>
             <div className="space-y-3">{question?.options.map((option, index) => {
@@ -160,9 +161,9 @@ export default function GrammarTest() {
             {completed && <div className="bg-secondary/50 rounded-xl p-4 mt-5 text-sm"><p className="font-semibold mb-1">Explanation</p>{question?.explanation}</div>}
             <div className="flex justify-between gap-3 mt-8">
               <Button variant="outline" disabled={current === 0} onClick={() => setCurrent((value) => value - 1)}>Previous</Button>
-              {current < 9 ? <Button onClick={() => setCurrent((value) => value + 1)}>Next</Button>
+              {current < test.questions.length - 1 ? <Button onClick={() => setCurrent((value) => value + 1)}>Next</Button>
                 : completed ? <Button onClick={() => setReviewing(false)}>View result</Button>
-                  : <Button disabled={busy || Object.keys(selected).length !== 10} onClick={() => void submit()}>{busy ? 'Saving…' : 'Finish and see result'}</Button>}
+                  : <Button disabled={busy || Object.keys(selected).length !== test.questions.length} onClick={() => void submit()}>{busy ? 'Saving…' : 'Finish and see result'}</Button>}
             </div>
           </section>
           <aside className="glass-card p-5 h-fit">
@@ -177,7 +178,7 @@ export default function GrammarTest() {
       <section className="mt-8"><h2 className="text-lg font-semibold mb-3">Previous results</h2>
         {history.length ? <div className="grid sm:grid-cols-2 gap-3">{history.map((item) => <div key={item.id} className="glass-card p-4 flex items-center justify-between">
           <div><p className="font-medium">{item.test_date}</p><p className="text-xs text-muted-foreground capitalize">{item.difficulty.replace('-', ' ')} · completed</p></div>
-          <span className="text-xl font-bold text-primary">{item.score}/10</span>
+          <span className="text-xl font-bold text-primary">{item.score}/{[10, 20].includes(item.selected_indices?.length ?? 0) ? item.selected_indices?.length : 10}</span>
         </div>)}</div> : <p className="text-sm text-muted-foreground">Your completed daily tests will appear here.</p>}
       </section>
     </main>

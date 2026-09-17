@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getRequestUser, serviceClient } from "../_shared/quota.ts";
 import { isRecord, json, preflight } from "../_shared/http.ts";
-import { buildQuestionPool, difficultyFor, gradeAnswers, publicTest, randomTenIndices, validQuestions, type GrammarTestRow } from "../_shared/grammar.ts";
+import { buildQuestionPool, difficultyFor, gradeAnswers, publicTest, validQuestions, type GrammarTestRow } from "../_shared/grammar.ts";
 import { FALLBACK_QUESTIONS } from "../_shared/grammar-fallback.ts";
 
 const SELECT = 'id,user_id,test_date,source_summary,source_essay_ids,source_essays,difficulty,questions,selected_indices,started_at,answers,score,completed_at,created_at';
@@ -42,7 +42,7 @@ serve(async (req) => {
 
     if (action === 'history') {
       const { data, error } = await admin.from('grammar_tests')
-        .select('id,test_date,source_summary,difficulty,score,completed_at')
+        .select('id,test_date,source_summary,difficulty,score,completed_at,selected_indices')
         .eq('user_id', user.id).not('completed_at', 'is', null)
         .order('test_date', { ascending: false }).limit(30);
       if (error) return json(req, { error: 'Could not load test history.' }, 503);
@@ -51,15 +51,19 @@ serve(async (req) => {
 
     if (action === 'submit') {
       if (typeof body.testId !== 'string' || !/^[0-9a-f-]{36}$/i.test(body.testId) || !Array.isArray(body.answers) ||
-          body.answers.length !== 10 || !body.answers.every((answer: unknown) => Number.isInteger(answer) && Number(answer) >= 0 && Number(answer) < 4)) {
-        return json(req, { error: 'Answer all ten questions.' }, 400);
+          !body.answers.every((answer: unknown) => Number.isInteger(answer) && Number(answer) >= 0 && Number(answer) < 4)) {
+        return json(req, { error: 'Answer every question.' }, 400);
       }
       const { data: row, error } = await admin.from('grammar_tests').select(SELECT)
         .eq('id', body.testId).eq('user_id', user.id).maybeSingle();
       if (error || !row) return json(req, { error: 'Test not found.' }, 404);
-      const test = row as GrammarTestRow;
+      const stored = row as GrammarTestRow;
+      const test = stored.questions.length === 10 && !stored.selected_indices?.length
+        ? { ...stored, selected_indices: Array.from({ length: 10 }, (_, index) => index), started_at: stored.created_at }
+        : stored;
       if (test.completed_at) return json(req, { test: publicTest(test) });
-      if (!Array.isArray(test.questions) || test.questions.length !== 20 || test.selected_indices?.length !== 10) {
+      if (!Array.isArray(test.questions) || ![10, 20].includes(test.questions.length) ||
+          ![10, 20].includes(test.selected_indices?.length ?? 0) || body.answers.length !== test.selected_indices.length) {
         return json(req, { error: 'Start the test before submitting answers.' }, 409);
       }
       const selected = body.answers as number[];
@@ -67,7 +71,7 @@ serve(async (req) => {
       const score = gradeAnswers(questions, selected);
       const answers = Object.fromEntries(selected.map((answer, index) => [String(index), answer]));
       const { data: saved, error: saveError } = await admin.from('grammar_tests')
-        .update({ answers, score, completed_at: new Date().toISOString() })
+        .update({ answers, score, completed_at: new Date().toISOString(), selected_indices: test.selected_indices, started_at: test.started_at })
         .eq('id', test.id).eq('user_id', user.id).is('completed_at', null).select(SELECT).maybeSingle();
       if (saveError) return json(req, { error: 'Could not save your result.' }, 503);
       if (saved) return json(req, { test: publicTest(saved as GrammarTestRow) });
@@ -79,14 +83,14 @@ serve(async (req) => {
     const { data: existing, error: lookupError } = await admin.from('grammar_tests').select(SELECT)
       .eq('user_id', user.id).eq('test_date', today).maybeSingle();
     if (lookupError) return json(req, { error: 'Grammar Test database is not ready yet.' }, 503);
-    if (existing?.completed_at && Array.isArray(existing.questions) && existing.questions.length === 10) {
+    if (existing && Array.isArray(existing.questions) && existing.questions.length === 10) {
       const legacy = { ...existing, selected_indices: Array.from({ length: 10 }, (_, index) => index), started_at: existing.created_at };
       return json(req, { test: publicTest(legacy as GrammarTestRow) });
     }
     if (existing && Array.isArray(existing.questions) && existing.questions.length === 20) {
       if (action === 'start') {
         if (existing.started_at) return json(req, { test: publicTest(existing as GrammarTestRow) });
-        const selectedIndices = randomTenIndices();
+        const selectedIndices = Array.from({ length: 20 }, (_, index) => index);
         const { data: started, error: startError } = await admin.from('grammar_tests')
           .update({ selected_indices: selectedIndices, started_at: new Date().toISOString() })
           .eq('id', existing.id).eq('user_id', user.id).is('started_at', null).select(SELECT).maybeSingle();

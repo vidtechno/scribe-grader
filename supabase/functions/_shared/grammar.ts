@@ -60,27 +60,16 @@ export function buildQuestionPool(batches: unknown[], fallback: GrammarQuestion[
 
 export function publicTest(row: GrammarTestRow) {
   const complete = Boolean(row.completed_at);
-  const selected = row.selected_indices?.length === 10 ? row.selected_indices : [];
+  // Keep ten-question attempts from the previous release reviewable.
+  const selected = [10, 20].includes(row.selected_indices?.length ?? 0) ? row.selected_indices : [];
   const questions = selected.map((index) => row.questions[index]).filter(Boolean);
   return {
     id: row.id, test_date: row.test_date, source_summary: row.source_summary,
     source_essays: row.source_essays ?? [], difficulty: row.difficulty,
-    pool_size: row.questions.length, started: selected.length === 10,
+    pool_size: row.questions.length, started: selected.length > 0,
     questions: complete ? questions : questions.map(({ prompt, options, skill }) => ({ prompt, options, skill })),
     answers: complete ? row.answers : undefined, score: row.score, completed_at: row.completed_at,
   };
-}
-
-export function randomTenIndices(poolSize = 20): number[] {
-  if (poolSize < 10) throw new Error('At least ten questions are required');
-  const indices = Array.from({ length: poolSize }, (_, index) => index);
-  for (let i = indices.length - 1; i > 0; i--) {
-    const random = new Uint32Array(1);
-    crypto.getRandomValues(random);
-    const j = random[0] % (i + 1);
-    [indices[i], indices[j]] = [indices[j], indices[i]];
-  }
-  return indices.slice(0, 10);
 }
 
 export function difficultyFor(scores: number[]) {

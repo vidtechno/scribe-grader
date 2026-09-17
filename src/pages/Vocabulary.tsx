@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Check, Eye, RotateCcw, X } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
@@ -21,6 +21,8 @@ function quizOptions(word: Word): Word[] {
   return [picks[2], picks[0], picks[3], picks[1]];
 }
 
+const TOPICS = ['All topics', ...new Set(WORDS.map((word) => word.topic))];
+
 export default function Vocabulary() {
   const { user } = useAuth();
   const storageKey = `scorify-vocabulary-v2-${user?.id ?? 'guest'}`;
@@ -32,14 +34,19 @@ export default function Vocabulary() {
   const [quizChoice, setQuizChoice] = useState<number | null>(null);
   const [sessionCorrect, setSessionCorrect] = useState(0);
 
-  const topics = useMemo(() => ['All topics', ...new Set(WORDS.map((word) => word.topic))], []);
+  useEffect(() => {
+    setProgress(readProgress(storageKey));
+    setSeen([]); setRevealed(false); setQuizChoice(null); setSessionCorrect(0);
+  }, [storageKey]);
+
   const topicWords = useMemo(() => topic === 'All topics' ? WORDS : WORDS.filter((word) => word.topic === topic), [topic]);
-  const due = dueWords(topicWords, progress);
-  const pending = due.filter((word) => !seen.includes(word.word));
+  const due = useMemo(() => dueWords(topicWords, progress), [topicWords, progress]);
+  const seenWords = useMemo(() => new Set(seen), [seen]);
+  const pending = useMemo(() => due.filter((word) => !seenWords.has(word.word)), [due, seenWords]);
   const current = pending[0];
-  const options = current ? quizOptions(current) : [];
-  const learned = WORDS.filter((word) => (progress[word.word]?.stage ?? 0) > 0).length;
-  const dueCount = dueWords(WORDS, progress).length;
+  const options = useMemo(() => current ? quizOptions(current) : [], [current]);
+  const learned = useMemo(() => WORDS.filter((word) => (progress[word.word]?.stage ?? 0) > 0).length, [progress]);
+  const dueCount = useMemo(() => dueWords(WORDS, progress).length, [progress]);
 
   const changeTopic = (next: string) => { setTopic(next); setSeen([]); setRevealed(false); setQuizChoice(null); setSessionCorrect(0); };
   const changeMode = (next: 'cards' | 'quiz') => { setMode(next); setSeen([]); setRevealed(false); setQuizChoice(null); setSessionCorrect(0); };
@@ -72,7 +79,7 @@ export default function Vocabulary() {
         <div className="glass-card p-4"><p className="text-sm text-muted-foreground">Ready to review</p><p className="text-2xl font-bold">{dueCount}</p></div>
         <div className="glass-card p-4"><p className="text-sm text-muted-foreground">Correct this session</p><p className="text-2xl font-bold">{sessionCorrect}</p></div>
       </div>
-      <div className="flex gap-2 overflow-x-auto pb-3 mb-4" aria-label="Vocabulary topics">{topics.map((item) => <Button key={item} size="sm" variant={topic === item ? 'default' : 'outline'} onClick={() => changeTopic(item)}>{item}</Button>)}</div>
+      <div className="flex gap-2 overflow-x-auto pb-3 mb-4" aria-label="Vocabulary topics">{TOPICS.map((item) => <Button key={item} size="sm" variant={topic === item ? 'default' : 'outline'} onClick={() => changeTopic(item)}>{item}</Button>)}</div>
       <div className="flex gap-2 mb-6">
         <Button variant={mode === 'cards' ? 'default' : 'outline'} onClick={() => changeMode('cards')}><BookOpen className="h-4 w-4 mr-2" /> Flashcards</Button>
         <Button variant={mode === 'quiz' ? 'default' : 'outline'} onClick={() => changeMode('quiz')}><Check className="h-4 w-4 mr-2" /> Meaning quiz</Button>
@@ -108,7 +115,7 @@ export default function Vocabulary() {
         <aside className="glass-card p-5 h-fit">
           <h3 className="font-semibold mb-4">How it works</h3>
           <ol className="space-y-4 text-sm text-muted-foreground"><li><strong className="text-primary mr-2">1.</strong>Choose an IELTS topic and Flashcards or Meaning quiz.</li><li><strong className="text-primary mr-2">2.</strong>Try to recall the meaning before revealing it, or pick the right answer.</li><li><strong className="text-primary mr-2">3.</strong>Remembered words return after 1, 3, 7, 14 and 30 days. Missed words stay ready to practise.</li></ol>
-          <p className="text-xs text-muted-foreground border-t border-border pt-4 mt-5">Progress is saved in this browser for your account. It is not yet synced across devices.</p>
+          <p className="text-xs text-muted-foreground border-t border-border pt-4 mt-5">Words and reviews work on this device without AI or database requests. Progress is saved in this browser for your account and is not synced across devices.</p>
         </aside>
       </div>
     </main>
