@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { safeReturnTo } from '@/lib/returnTo';
 
 interface Profile {
   id: string;
@@ -102,7 +103,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => {
     try {
-      const redirectUrl = `${window.location.origin}/auth/callback`;
+      const next = safeReturnTo(sessionStorage.getItem('scorify:returnTo'));
+      const redirectUrl = `${window.location.origin}/auth/callback${next === '/dashboard' ? '' : `?next=${encodeURIComponent(next)}`}`;
       
       const { data, error } = await supabase.auth.signUp({
         email,

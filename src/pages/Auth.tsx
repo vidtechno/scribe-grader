@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { authErrorMessage } from '@/lib/auth-errors';
 import { supabase } from '@/integrations/supabase/client';
+import { safeReturnTo } from '@/lib/returnTo';
 
 const emailSchema = z.string().email('Please enter a valid email address');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
@@ -28,8 +29,28 @@ export default function Auth() {
   const [confirmationEmail, setConfirmationEmail] = useState('');
   const [recoveryMode, setRecoveryMode] = useState(false);
   const [recoverySent, setRecoverySent] = useState(false);
+  const [googleEnabled, setGoogleEnabled] = useState(false);
   const navigate = useNavigate();
+  const next = safeReturnTo(new URLSearchParams(window.location.search).get('next'));
+  if (next !== '/dashboard') sessionStorage.setItem('scorify:returnTo', next);
+  else sessionStorage.removeItem('scorify:returnTo');
   const { signIn, signUp } = useAuth();
+
+  useEffect(() => {
+    if (typeof fetch !== 'function') return;
+    const controller = new AbortController();
+    fetch(`${import.meta.env.VITE_SUPABASE_URL}/auth/v1/settings`, {
+      headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY }, signal: controller.signal,
+    }).then(r => r.json()).then(settings => setGoogleEnabled(settings.external?.google === true)).catch(() => {});
+    return () => controller.abort();
+  }, []);
+
+  const signInWithGoogle = async () => {
+    if (next !== '/dashboard') sessionStorage.setItem('scorify:returnTo', next);
+    const callback = `${window.location.origin}/auth/callback${next === '/dashboard' ? '' : `?next=${encodeURIComponent(next)}`}`;
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: callback } });
+    if (error) toast.error(authErrorMessage(error));
+  };
 
   const validateForm = () => {
     try {
@@ -82,7 +103,7 @@ export default function Auth() {
           }
         } else {
           toast.success('Welcome back!');
-          navigate('/dashboard');
+          navigate(next);
         }
       } else {
         const { error, confirmationRequired } = await signUp(email.trim(), password, fullName.trim(), Number(age), city.trim(), phone.trim() || undefined);
@@ -97,7 +118,7 @@ export default function Auth() {
           setPassword('');
         } else {
           toast.success('Account created! Welcome to Scorify.uz');
-          navigate('/dashboard');
+          navigate(next);
         }
       }
     } catch (error) {
@@ -131,6 +152,9 @@ export default function Auth() {
 
         {/* Auth Card */}
         <div className="glass-card p-8">
+          {googleEnabled && <Button type="button" variant="outline" className="w-full mb-5" onClick={() => void signInWithGoogle()}>
+            Continue with Google
+          </Button>}
           <div className="flex p-1 bg-muted/50 rounded-xl mb-6">
             <button
               type="button"

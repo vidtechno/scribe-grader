@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format, subDays, isAfter, startOfDay } from 'date-fns';
+import { teacherApi } from '@/lib/teacher';
 
 interface Profile {
   id: string;
@@ -224,6 +225,16 @@ export default function Admin() {
     } catch (e: any) {
       toast.error(e.message || 'Failed to assign plan');
     } finally { setUpdatingUser(null); }
+  };
+
+  const assignTeacherPlan = async (userId: string, plan: string) => {
+    if (!window.confirm(`Activate ${plan === 'teacher_pro' ? 'Teacher Pro' : 'Teacher'} for 30 days?`)) return;
+    setUpdatingUser(userId);
+    try {
+      await teacherApi('admin_assign', { teacherId: userId, plan });
+      toast.success('Teacher plan activated for 30 days. Student plan unchanged.');
+    } catch (e) { toast.error(e instanceof Error ? e.message : 'Could not activate Teacher plan'); }
+    finally { setUpdatingUser(null); }
   };
 
   const extendPlan = async (userId: string, days: number) => {
@@ -446,6 +457,10 @@ export default function Admin() {
                                   <SelectItem key={p.slug} value={p.slug}>{p.label}</SelectItem>
                                 ))}
                               </SelectContent>
+                            </Select>
+                            <Select onValueChange={(val) => void assignTeacherPlan(profile.user_id,val)} disabled={updatingUser===profile.user_id}>
+                              <SelectTrigger className="w-40 h-8 text-xs mt-2"><SelectValue placeholder="Teacher plan…" /></SelectTrigger>
+                              <SelectContent><SelectItem value="teacher">Teacher · 49k</SelectItem><SelectItem value="teacher_pro">Teacher Pro · 99k</SelectItem></SelectContent>
                             </Select>
                           </td>
                           <td className="p-4 text-center hidden sm:table-cell">

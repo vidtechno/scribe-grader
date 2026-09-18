@@ -1,0 +1,17 @@
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Navbar } from '@/components/Navbar';
+import { SEOHead } from '@/components/SEOHead';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import { teacherApi, typeName, formatDeadline, type Test } from '@/lib/teacher';
+import { toast } from 'sonner';
+import { ClipboardList, Clock, Calendar, ArrowRight, User } from 'lucide-react';
+
+export default function TeacherInvite(){const {code}=useParams();const {user}=useAuth();const navigate=useNavigate();const [test,setTest]=useState<(Test&{teacherName:string})|null>(null);const [loading,setLoading]=useState(true);const [busy,setBusy]=useState(false);const [error,setError]=useState('');
+  useEffect(()=>{if(!code)return;void teacherApi<Test&{teacherName:string}>('invite',{code}).then(setTest).catch(e=>setError(e instanceof Error?e.message:'Invite unavailable')).finally(()=>setLoading(false));},[code]);
+  const start=async()=>{if(!user){navigate(`/auth?next=${encodeURIComponent(`/t/${code}`)}`);return;}setBusy(true);try{const r=await teacherApi<{test:{attempt:{id:string}}}>('start',{code});navigate(`/my-tests/${r.test.attempt.id}`);}catch(e){toast.error(e instanceof Error?e.message:'Could not start');}finally{setBusy(false);}};
+  return <div className="min-h-screen bg-background pb-24"><SEOHead title="Teacher assessment invite" description="Open your Scorify assessment invite." path={`/t/${code??''}`} noindex/><Navbar/><main className="max-w-2xl mx-auto px-4 pt-28 pb-12">
+    {loading?<div className="glass-card p-8">Loading invite…</div>:error||!test?<div className="glass-card p-8 text-center"><h1 className="text-2xl font-bold">Invite unavailable</h1><p className="text-muted-foreground mt-2">{error||'This link is invalid or no longer available.'}</p><Button asChild className="mt-5"><Link to="/dashboard">Go to Scorify</Link></Button></div>:<div className="glass-card p-6 sm:p-9"><div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl grid place-items-center"><ClipboardList/></div><p className="text-primary font-semibold text-sm mt-6">{typeName[test.type]}</p><h1 className="text-3xl font-bold mt-2">{test.title}</h1><p className="text-muted-foreground mt-3 whitespace-pre-wrap">{test.description||'Read the instructions and start when ready.'}</p><div className="grid sm:grid-cols-2 gap-3 mt-7">{[[User,'Teacher',test.teacherName],[Clock,'Time limit',`${test.settings?.timeLimit??30} minutes`],[Calendar,'Deadline',formatDeadline(test.settings?.deadline)],[ClipboardList,'Attempts',test.settings?.attempts===0?'Unlimited':String(test.settings?.attempts??1)]].map(([Icon,label,value])=><div className="rounded-xl border p-4" key={String(label)}><p className="text-xs text-muted-foreground">{String(label)}</p><p className="font-medium mt-1">{String(value)}</p></div>)}</div><Button onClick={start} disabled={busy||test.state==='scheduled'||test.state==='finished'} className="w-full mt-7" size="lg">{!user?'Sign in or create a free account':busy?'Starting…':test.state==='scheduled'?'Not started yet':test.state==='finished'?'Test finished':'Start Test'}<ArrowRight className="w-4 h-4 ml-2"/></Button><p className="text-xs text-muted-foreground text-center mt-3">A free Scorify account is enough. Your teacher covers the assessment usage.</p></div>}
+  </main></div>;
+}

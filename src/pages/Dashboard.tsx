@@ -228,8 +228,13 @@ export default function Dashboard() {
         </Link>
 
         <Link to="/grammar-test" className="block glass-card-hover p-5 mb-6 group">
-          <div className="flex items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center"><BrainCircuit className="h-5 w-5 text-accent" /></div><div><p className="font-semibold">Today’s Grammar Test</p><p className="text-sm text-muted-foreground">A 10-question test based on your latest writing.</p></div></div><ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" /></div>
+          <div className="flex items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center"><BrainCircuit className="h-5 w-5 text-accent" /></div><div><p className="font-semibold">Today’s Grammar Test</p><p className="text-sm text-muted-foreground">20 questions based on your latest writing.</p></div></div><ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" /></div>
         </Link>
+
+        <div className="grid sm:grid-cols-2 gap-3 mb-6">
+          <Link to="/my-tests" className="glass-card-hover p-5 flex items-center justify-between gap-3"><div><p className="font-semibold">My Tests</p><p className="text-sm text-muted-foreground">Teacher assessments and saved results</p></div><ClipboardList className="w-6 h-6 text-primary flex-shrink-0"/></Link>
+          <Link to="/teacher" className="glass-card-hover p-5 flex items-center justify-between gap-3"><div><p className="font-semibold">Teacher Mode</p><p className="text-sm text-muted-foreground">Create and share IELTS assessments</p></div><BookOpen className="w-6 h-6 text-primary flex-shrink-0"/></Link>
+        </div>
 
         {/* Plan Usage Tracker */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}

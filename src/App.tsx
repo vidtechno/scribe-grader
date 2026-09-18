@@ -34,6 +34,12 @@ import BlogComputerBasedWriting from "./pages/BlogComputerBasedWriting";
 import NotFound from "./pages/NotFound";
 import Vocabulary from "./pages/Vocabulary";
 import GrammarTest from "./pages/GrammarTest";
+import TeacherMode from "./pages/TeacherMode";
+import TeacherTest from "./pages/TeacherTest";
+import TeacherInvite from "./pages/TeacherInvite";
+import MyTests from "./pages/MyTests";
+import TeacherRunner from "./pages/TeacherRunner";
+import { safeReturnTo } from "./lib/returnTo";
 
 const queryClient = new QueryClient();
 
@@ -45,15 +51,17 @@ function ScrollToTop() {
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const location = useLocation();
   if (loading) return <LoadingScreen />;
-  if (!user) return <Navigate to="/auth" replace />;
+  if (!user) return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname))}`} replace />;
   return <>{children}</>;
 }
 
 function AuthRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const location = useLocation();
   if (loading) return <LoadingScreen />;
-  if (user) return <Navigate to="/dashboard" replace />;
+  if (user) return <Navigate to={safeReturnTo(new URLSearchParams(location.search).get('next'))} replace />;
   return <>{children}</>;
 }
 
@@ -80,6 +88,11 @@ function AppRoutes() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/vocabulary" element={<ProtectedRoute><Vocabulary /></ProtectedRoute>} />
         <Route path="/grammar-test" element={<ProtectedRoute><GrammarTest /></ProtectedRoute>} />
+        <Route path="/teacher" element={<ProtectedRoute><TeacherMode /></ProtectedRoute>} />
+        <Route path="/teacher/tests/:id" element={<ProtectedRoute><TeacherTest /></ProtectedRoute>} />
+        <Route path="/t/:code" element={<TeacherInvite />} />
+        <Route path="/my-tests" element={<ProtectedRoute><MyTests /></ProtectedRoute>} />
+        <Route path="/my-tests/:id" element={<ProtectedRoute><TeacherRunner /></ProtectedRoute>} />
         <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
         <Route path="/writing" element={<ProtectedRoute><Writing /></ProtectedRoute>} />
         <Route path="/result/:id" element={<ProtectedRoute><Result /></ProtectedRoute>} />

@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { safeReturnTo } from '@/lib/returnTo';
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -19,7 +20,8 @@ export default function AuthCallback() {
       completed = true;
       clearTimeout(timeout);
       unsubscribe?.();
-      navigate('/dashboard', { replace: true });
+      navigate(safeReturnTo(new URLSearchParams(window.location.search).get('next') || sessionStorage.getItem('scorify:returnTo')), { replace: true });
+      sessionStorage.removeItem('scorify:returnTo');
     };
 
     const run = async () => {

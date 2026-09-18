@@ -135,6 +135,11 @@ export default function Profile() {
           </div>
         </motion.div>
 
+        <div className="grid sm:grid-cols-2 gap-3 mb-6">
+          <Link to="/my-tests" className="glass-card-hover p-4 block"><strong>My Tests</strong><p className="text-sm text-muted-foreground">Continue teacher assessments and review results</p></Link>
+          <Link to="/teacher" className="glass-card-hover p-4 block"><strong>Teacher Mode</strong><p className="text-sm text-muted-foreground">Create tests and follow learner progress</p></Link>
+        </div>
+
         {/* Plan usage + history */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
           className="glass-card p-6 mb-6">
