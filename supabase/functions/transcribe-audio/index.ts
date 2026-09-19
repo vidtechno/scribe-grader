@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getRequestUser, serviceClient } from "../_shared/quota.ts";
 import { boundedString, json, preflight } from "../_shared/http.ts";
+import { logAudioUsage } from "../_shared/ai-usage.ts";
 
 const MAX_AUDIO_BYTES = 15 * 1024 * 1024;
 const AUDIO_TYPES = new Set(["audio/webm", "audio/mp4", "audio/mpeg", "audio/wav", "audio/x-wav", "audio/ogg"]);
@@ -55,6 +56,7 @@ serve(async (req) => {
     whisperForm.append("file", audioFile, audioFile.name || "audio.webm");
     whisperForm.append("model", "whisper-1");
     whisperForm.append("language", "en");
+    whisperForm.append("response_format", "verbose_json");
 
     const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
@@ -71,6 +73,8 @@ serve(async (req) => {
     const transcript = typeof result === "object" && result !== null && "text" in result
       ? result.text : null;
     if (!boundedString(transcript, 20_000)) return json(req, { error: "Invalid transcription result" }, 502);
+    const duration = typeof result === 'object' && result !== null && 'duration' in result ? Number(result.duration) : 0;
+    await logAudioUsage(admin,user.id,'transcription','whisper-1',duration);
     return json(req, { transcript });
   } catch (error) {
     console.error("transcribe-audio error:", error);

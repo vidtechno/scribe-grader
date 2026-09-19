@@ -3,6 +3,7 @@ import { validGrade } from '../_shared/grading.ts';
 
 import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
 import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
+import { logTextUsage } from "../_shared/ai-usage.ts";
 
 const systemPrompt = `You are an expert IELTS Writing examiner with years of experience. You will evaluate essays according to the official IELTS Writing band descriptors.
 
@@ -89,7 +90,6 @@ serve(async (req) => {
 
     // All plans use gpt-4o-mini for speed and cost efficiency
     const model = 'gpt-4o-mini';
-    const cost = 0.005;
 
     const userPrompt = `Please evaluate this IELTS ${taskType} essay.
 
@@ -169,11 +169,7 @@ Provide your evaluation as a JSON object following the exact format specified. M
     if (!Array.isArray(gradeResult.coherenceCheck)) gradeResult.coherenceCheck = [];
     if (!Array.isArray(gradeResult.sentenceComplexity)) gradeResult.sentenceComplexity = [];
 
-    // Log API usage
-    const { error: logError } = await admin.from('api_logs').insert({
-      user_id: user.id, model_used: model, cost,
-    });
-    if (logError) console.error('Failed to log API usage:', logError.message);
+    await logTextUsage(admin,user.id,'writing',model,aiResponse.usage,{ taskType });
 
     gradeResult.modelUsed = 'Scorify AI';
     gradeResult.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };

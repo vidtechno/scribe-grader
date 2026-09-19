@@ -65,6 +65,7 @@ interface Announcement {
   created_at: string;
   view_count?: number;
 }
+type AiUsageSummary = { label:string; input_tokens:number; output_tokens:number; audio_seconds:number; cost_usd:number; requests:number };
 
 // One subscription controls both Student and Teacher Mode.
 const PLANS: { slug: string; label: string }[] = [
@@ -95,6 +96,7 @@ export default function Admin() {
   // Settings state
   const [aiChatEnabled, setAiChatEnabled] = useState(false);
   const [togglingAiChat, setTogglingAiChat] = useState(false);
+  const [aiUsage, setAiUsage] = useState<AiUsageSummary[]>([]);
 
   useEffect(() => { checkAdminStatus(); }, [user]);
 
@@ -111,11 +113,12 @@ export default function Admin() {
 
   const fetchData = async () => {
     try {
-      const [usersRes, subsRes, essaysRes, settingsRes] = await Promise.all([
+      const [usersRes, subsRes, essaysRes, settingsRes, aiUsageRes] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('subscriptions').select('*'),
         supabase.from('essays').select('user_id'),
         supabase.from('app_settings').select('key, value').eq('key', 'ai_chat_enabled').single(),
+        supabase.rpc('admin_ai_usage_summary'),
       ]);
 
       setUsers(usersRes.data || []);
@@ -131,6 +134,7 @@ export default function Admin() {
       if (settingsRes.data) {
         setAiChatEnabled(settingsRes.data.value === 'true');
       }
+      if (!aiUsageRes.error && Array.isArray(aiUsageRes.data)) setAiUsage(aiUsageRes.data as AiUsageSummary[]);
 
       fetchAnnouncements();
     } catch (error) {
@@ -331,6 +335,12 @@ export default function Admin() {
             </motion.div>
           ))}
         </div>
+
+        <section className="glass-card p-5 sm:p-6 mb-6">
+          <div className="flex items-start gap-3 mb-5"><div className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center"><Bot className="w-5 h-5"/></div><div><h2 className="font-bold text-lg">AI usage and estimated cost</h2><p className="text-sm text-muted-foreground">Actual tokens returned by OpenAI. Whisper is billed by recorded audio duration, so it appears as audio minutes.</p></div></div>
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">{aiUsage.length?aiUsage.map(period=><div className="rounded-2xl border bg-background p-4" key={period.label}><p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{period.label}</p><p className="text-2xl font-bold text-primary mt-2">${Number(period.cost_usd).toFixed(4)}</p><div className="text-xs text-muted-foreground space-y-1 mt-3"><p>{Number(period.input_tokens).toLocaleString()} input tokens</p><p>{Number(period.output_tokens).toLocaleString()} output tokens</p><p>{(Number(period.audio_seconds)/60).toFixed(1)} audio minutes</p><p>{Number(period.requests).toLocaleString()} paid API calls</p></div></div>):<div className="sm:col-span-2 xl:col-span-4 rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">No tracked AI usage yet. New calls will appear after the database migration and Edge Function deployment.</div>}</div>
+          <p className="text-xs text-muted-foreground mt-4">Cost estimates use the configured model rates saved by the backend: GPT-4o mini token pricing and Whisper audio pricing. OpenAI billing remains the final source of truth.</p>
+        </section>
 
         {/* User Growth */}
         <div className="grid md:grid-cols-2 gap-4 mb-6">

@@ -2,6 +2,7 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { getRequestUser, serviceClient } from '../_shared/quota.ts';
 import { boundedString, isRecord, json, preflight } from '../_shared/http.ts';
 import { validGrade } from '../_shared/grading.ts';
+import { logTextUsage } from '../_shared/ai-usage.ts';
 
 type Db = ReturnType<typeof serviceClient>;
 type Row = Record<string, unknown>;
@@ -114,7 +115,7 @@ async function rpc(db: Db, name: string, args: Row) {
   if (error) { console.error(name, error.message); fail(error.message.replace(/[^a-z_]/g,' ').trim().slice(0,80) || 'Request failed', 409); }
   return data;
 }
-async function generate(prompt: string, maxTokens = 3000) {
+async function generate(db: Db, userId: string, feature: 'teacher_generation'|'teacher_grading', prompt: string, maxTokens = 3000) {
   const key = Deno.env.get('OPENAI_API_KEY');
   if (!key) fail('AI service unavailable', 503);
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -126,6 +127,7 @@ async function generate(prompt: string, maxTokens = 3000) {
   });
   if (!response.ok) { console.error('Teacher AI failed', response.status); fail('AI is temporarily unavailable', 502); }
   const data = await response.json();
+  await logTextUsage(db,userId,feature,'gpt-4o-mini',data.usage);
   try { return JSON.parse(data.choices?.[0]?.message?.content ?? '') as unknown; }
   catch { fail('AI returned invalid content', 502); }
 }
@@ -202,10 +204,18 @@ serve(async req => {
       case 'duplicate': {
         if (typeof body.id!=='string') fail('Invalid test');
         const t=await ownedTest(db,body.id,uid); await requirePlan(db,uid);
-        const {data,error}=await db.from('teacher_tests').insert({ teacher_id:uid,type:t.type,title:`Copy of ${t.title}`.slice(0,160),
+        const copyTitle=boundedString(body.title,160,3)?String(body.title).trim():`Copy of ${t.title}`.slice(0,160);
+        const {data,error}=await db.from('teacher_tests').insert({ teacher_id:uid,type:t.type,title:copyTitle,
           description:t.description,prompt:t.prompt,questions:t.questions,settings:t.settings }).select('*').single();
         if (error) fail('Could not duplicate',503);
         return json(req,{ test:data });
+      }
+      case 'delete': {
+        if (typeof body.id!=='string') fail('Invalid test');
+        await ownedTest(db,body.id,uid);
+        const deleted=await rpc(db,'teacher_delete_test',{p_test:body.id,p_teacher:uid});
+        if (!deleted) fail('Test not found',404);
+        return json(req,{ ok:true });
       }
       case 'generate': {
         await requirePlan(db,uid);
@@ -218,7 +228,7 @@ serve(async req => {
             const wanted=Math.min(10,Number(body.count)-all.length);
             let batch:Row[]|null=null;
             for (let retry=0;retry<2 && !batch;retry++) {
-              const output=await generate(`Create EXACTLY ${wanted} distinct CEFR ${body.level} multiple choice grammar questions on ${body.topics}. Additional instructions: ${String(body.instructions??'').slice(0,300)}. Avoid these existing questions: ${all.map(q=>q.text).join(' | ').slice(0,1500)}. Return {"questions":[{"text":"...","options":["A","B","C","D"],"correct":0,"explanation":"...","topic":"..."}]}. Correct is zero-based index.`, wanted*320+500);
+              const output=await generate(db,uid,'teacher_generation',`Create EXACTLY ${wanted} distinct CEFR ${body.level} multiple choice grammar questions on ${body.topics}. Additional instructions: ${String(body.instructions??'').slice(0,300)}. Avoid these existing questions: ${all.map(q=>q.text).join(' | ').slice(0,1500)}. Return {"questions":[{"text":"...","options":["A","B","C","D"],"correct":0,"explanation":"...","topic":"..."}]}. Correct is zero-based index.`, wanted*320+500);
               if (isRecord(output) && Array.isArray(output.questions) && output.questions.length===wanted) {
                 try { const parsed=questionsOf(output.questions); if (parsed.every(q=>!all.some(old=>old.text===q.text))) batch=parsed; } catch { /* Retry malformed output once. */ }
               }
@@ -228,7 +238,7 @@ serve(async req => {
           }
           return json(req,{ questions:all });
         }
-        const output=await generate(`Create one original IELTS ${body.type==='writing_task_1'?'Writing Task 1':'Writing Task 2'} prompt. Return {"prompt":"..."}. ${String(body.instructions??'').slice(0,300)}`);
+        const output=await generate(db,uid,'teacher_generation',`Create one original IELTS ${body.type==='writing_task_1'?'Writing Task 1':'Writing Task 2'} prompt. Return {"prompt":"..."}. ${String(body.instructions??'').slice(0,300)}`);
         if (!isRecord(output) || !boundedString(output.prompt,5000,20)) fail('AI returned invalid prompt',502);
         return json(req,{ prompt:output.prompt });
       }
@@ -279,7 +289,7 @@ serve(async req => {
         if (!claimed) return json(req,{ pending:true });
         try {
           if (!await rpc(db,'teacher_claim_ai',{p_user:t.teacher_id,p_kind:'grade'})) fail('AI grading rate limit reached. Retry in an hour.',429);
-          const output=await generate(`You are an IELTS Writing examiner. Grade this ${t.type==='writing_task_1'?'Task 1':'Task 2'} essay strictly on official band descriptors. Prompt: ${String(t.prompt).slice(0,5000)}. Essay: ${String(a.essay).slice(0,20000)}. Return JSON with overallBand (0-9 in half bands), taskAchievement, coherenceCohesion, lexicalResource, grammaticalRange (each {score,feedback}), strengths (array), suggestions (array), errorCorrections (array of {original,corrected,explanation,type}), vocabularyAnalysis (array), coherenceCheck (array), sentenceComplexity (array).`, 4500);
+          const output=await generate(db,String(t.teacher_id),'teacher_grading',`You are an IELTS Writing examiner. Grade this ${t.type==='writing_task_1'?'Task 1':'Task 2'} essay strictly on official band descriptors. Prompt: ${String(t.prompt).slice(0,5000)}. Essay: ${String(a.essay).slice(0,20000)}. Return JSON with overallBand (0-9 in half bands), taskAchievement, coherenceCohesion, lexicalResource, grammaticalRange (each {score,feedback}), strengths (array), suggestions (array), errorCorrections (array of {original,corrected,explanation,type}), vocabularyAnalysis (array), coherenceCheck (array), sentenceComplexity (array).`, 4500);
           if (!validGrade(output,'writing')) fail('AI grading was incomplete',502);
           await rpc(db,'teacher_finish_grading',{p_attempt:a.id,p_grade:output});
           const latest=await attemptFor(db,body.id,uid);

@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getRequestUser, serviceClient } from "../_shared/quota.ts";
 import { boundedString, corsHeaders as responseHeaders, isRecord, json, preflight } from "../_shared/http.ts";
+import { logTextUsage } from "../_shared/ai-usage.ts";
 
 const MENTOR_SYSTEM_PROMPT = `You are an elite IELTS Writing Mentor — a proactive Socratic tutor who helps students discover their own mistakes. 🎓
 
@@ -167,12 +168,7 @@ serve(async (req) => {
     if (!boundedString(reply, 10_000)) return json(req, { error: 'Invalid AI response' }, 502);
 
 
-    const { error: logError } = await supabase.from('api_logs').insert({
-      user_id: user.id,
-      model_used: 'gpt-4o-mini',
-      cost: 0.005,
-    });
-    if (logError) console.error('Failed to log mentor usage:', logError.message);
+    await logTextUsage(supabase,user.id,'ai_mentor','gpt-4o-mini',aiResponse.usage);
 
     return new Response(JSON.stringify({ reply, usage: currentUsage + 1, limit: dailyLimit }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });

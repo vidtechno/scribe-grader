@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { validGrade } from '../_shared/grading.ts';
 import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
 import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
+import { logTextUsage } from "../_shared/ai-usage.ts";
 
 const SPEAKING_SYSTEM_PROMPT = `You are an expert IELTS Speaking examiner. You will receive a transcript of a candidate's spoken response to an IELTS Speaking topic.
 
@@ -108,10 +109,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
     feedback.vocabularyHighlights = Array.isArray(feedback.vocabularyHighlights) ? feedback.vocabularyHighlights : [];
     feedback.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
 
-    const { error: logError } = await admin.from("api_logs").insert({
-      user_id: user.id, model_used: "Speaking AI", cost: 0.005,
-    });
-    if (logError) console.error("Failed to log API usage:", logError.message);
+    await logTextUsage(admin,user.id,'speaking','gpt-4o-mini',aiData.usage,{ part:part ?? 'Part 2' });
 
     quotaUserId = null;
     return json(req, feedback);

@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { validGrade } from '../_shared/grading.ts';
 import { consumeQuota, getRequestUser, quotaErrorMessage, refundQuota, serviceClient } from "../_shared/quota.ts";
 import { boundedString, corsHeaders as responseHeaders, isRecord, json, preflight } from "../_shared/http.ts";
+import { logAudioUsage, logTextUsage } from "../_shared/ai-usage.ts";
 
 const WRITING_SYSTEM = `You are an expert IELTS Writing examiner. Return ONLY a JSON object with:
 {
@@ -34,7 +35,7 @@ type GradeResult = Record<string, unknown> & {
   vocabularyAnalysis?: unknown[];
 };
 
-async function callOpenAI(system: string, user: string, key: string): Promise<GradeResult> {
+async function callOpenAI(system: string, user: string, key: string): Promise<{ result: GradeResult; usage: Record<string,number> }> {
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     signal: AbortSignal.timeout(60_000),
@@ -52,7 +53,7 @@ async function callOpenAI(system: string, user: string, key: string): Promise<Gr
   if (!validGrade(result, system === WRITING_SYSTEM ? 'writing' : 'speaking')) {
     throw new Error("Invalid AI grading result");
   }
-  return result as GradeResult;
+  return { result: result as GradeResult, usage: data.usage ?? {} };
 }
 
 async function downloadAudio(supabase: ReturnType<typeof serviceClient>, path: string): Promise<Blob> {
@@ -62,11 +63,12 @@ async function downloadAudio(supabase: ReturnType<typeof serviceClient>, path: s
   return data;
 }
 
-async function transcribeAudio(data: Blob, key: string): Promise<string> {
+async function transcribeAudio(data: Blob, key: string): Promise<{ text:string; duration:number }> {
   const fd = new FormData();
   const extension = data.type.startsWith('audio/mp4') ? 'mp4' : data.type.startsWith('audio/ogg') ? 'ogg' : 'webm';
   fd.append("file", data, `audio.${extension}`);
   fd.append("model", "whisper-1");
+  fd.append("response_format", "verbose_json");
   const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
     method: "POST",
     signal: AbortSignal.timeout(60_000),
@@ -76,7 +78,7 @@ async function transcribeAudio(data: Blob, key: string): Promise<string> {
   if (!res.ok) throw new Error(`Audio transcription failed: ${res.status}`);
   const json = await res.json();
   if (!boundedString(json.text, 20_000)) throw new Error("Invalid audio transcription");
-  return json.text;
+  return { text:json.text, duration:Number(json.duration ?? 0) };
 }
 
 serve(async (req) => {
@@ -144,7 +146,7 @@ serve(async (req) => {
       downloadAudio(supabase, mt.speaking_p3_audio_url),
     ]);
 
-    const [task1, task2, t1, t2, t3] = await Promise.all([
+    const [task1Call, task2Call, t1Call, t2Call, t3Call] = await Promise.all([
       callOpenAI(
         WRITING_SYSTEM,
         `IELTS Task 1.\nTopic: ${mt.task1_topic}\n\nEssay:\n${mt.task1_essay}`,
@@ -159,8 +161,19 @@ serve(async (req) => {
       transcribeAudio(audio[1], OPENAI_API_KEY),
       transcribeAudio(audio[2], OPENAI_API_KEY),
     ]);
+    await Promise.all([
+      logTextUsage(admin,user.id,'mock_writing','gpt-4o-mini',task1Call.usage,{ task:'Task 1', mockTestId }),
+      logTextUsage(admin,user.id,'mock_writing','gpt-4o-mini',task2Call.usage,{ task:'Task 2', mockTestId }),
+      logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t1Call.duration,{ part:1, mockTestId }),
+      logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t2Call.duration,{ part:2, mockTestId }),
+      logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t3Call.duration,{ part:3, mockTestId }),
+    ]);
+    const task1=task1Call.result, task2=task2Call.result;
+    const t1=t1Call.text, t2=t2Call.text, t3=t3Call.text;
     const combined = `Part 1 Topic: ${mt.speaking_p1_topic}\nPart 1 Response: ${t1}\n\nPart 2 Topic: ${mt.speaking_p2_topic}\nPart 2 Response: ${t2}\n\nPart 3 Topic: ${mt.speaking_p3_topic}\nPart 3 Response: ${t3}`;
-    const speaking = await callOpenAI(SPEAKING_SYSTEM, `Evaluate this full IELTS Speaking exam:\n\n${combined}`, OPENAI_API_KEY);
+    const speakingCall = await callOpenAI(SPEAKING_SYSTEM, `Evaluate this full IELTS Speaking exam:\n\n${combined}`, OPENAI_API_KEY);
+    await logTextUsage(admin,user.id,'mock_speaking','gpt-4o-mini',speakingCall.usage,{ mockTestId });
+    const speaking=speakingCall.result;
 
     const t1Band = task1?.overallBand ?? 0;
     const t2Band = task2?.overallBand ?? 0;

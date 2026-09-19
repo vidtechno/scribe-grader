@@ -697,6 +697,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_ai_usage_summary: { Args: never; Returns: Json }
       admin_extend_subscription: {
         Args: { _days?: number; _user_id: string }
         Returns: Json

@@ -6,15 +6,17 @@ const BASE_URL = "https://www.scorify.uz";
 
 interface SitemapEntry {
   path: string;
+  priority: string;
+  changefreq: 'weekly' | 'monthly';
 }
 
 // Only public, indexable routes. Authenticated app routes are excluded.
 const entries: SitemapEntry[] = [
-  { path: "/" },
-  { path: "/blog/computer-based-ielts-writing" },
-  { path: "/ielts-writing-task-1" },
-  { path: "/ielts-writing-task-2" },
-  { path: "/ielts-speaking-practice" },
+  { path: "/", priority: "1.0", changefreq: "weekly" },
+  { path: "/ielts-writing-task-1", priority: "0.9", changefreq: "monthly" },
+  { path: "/ielts-writing-task-2", priority: "0.9", changefreq: "monthly" },
+  { path: "/ielts-speaking-practice", priority: "0.9", changefreq: "monthly" },
+  { path: "/blog/computer-based-ielts-writing", priority: "0.8", changefreq: "monthly" },
 ];
 
 function generateSitemap(list: SitemapEntry[]) {
@@ -22,6 +24,8 @@ function generateSitemap(list: SitemapEntry[]) {
     [
       `  <url>`,
       `    <loc>${BASE_URL}${e.path}</loc>`,
+      `    <changefreq>${e.changefreq}</changefreq>`,
+      `    <priority>${e.priority}</priority>`,
       `  </url>`,
     ].filter(Boolean).join("\n"),
   );
