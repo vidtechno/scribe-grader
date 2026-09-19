@@ -1,10 +1,21 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { validGrade } from '../_shared/grading.ts';
+import { calibratedOverall, validGrade } from '../_shared/grading.ts';
 import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
 import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
 import { logTextUsage } from "../_shared/ai-usage.ts";
 
-const SPEAKING_SYSTEM_PROMPT = `You are an expert IELTS Speaking examiner. You will receive a transcript of a candidate's spoken response to an IELTS Speaking topic.
+const SPEAKING_SYSTEM_PROMPT = `You are a strict, evidence-based IELTS Speaking examiner. You will receive a transcript, answer duration and transcription-quality signals.
+
+CALIBRATION RULES:
+- Score Fluency and Coherence, Lexical Resource, Grammatical Range and Accuracy, and Pronunciation independently in 0.5 bands.
+- Band 7 Fluency requires sustained speech with only occasional self-correction and effective discourse markers. Short, underdeveloped answers cannot receive Band 7.
+- Band 7 Grammar requires a range of structures with frequent error-free sentences. Repeated basic errors normally place the score at 5.0–6.0.
+- Band 7 Lexical Resource requires flexible paraphrase and some less common language used with awareness of collocation.
+- Audio is transcribed separately. Do not claim to hear sounds. Treat Pronunciation as a conservative estimate based on transcription confidence, answer intelligibility and any unclear fragments; explicitly state this limitation in its feedback.
+- Use duration and approximate words per minute when judging fluency and development. Do not invent pauses or pronunciation features absent from the supplied evidence.
+- Before scoring, silently audit each sentence. Feedback for every criterion must cite concrete wording or measurable evidence.
+- Return at least 3 exact error corrections. If there are fewer true errors, include specific natural-language improvements marked as "improvement".
+- The overall band must equal the four-criterion average rounded to the nearest 0.5.
 
 Evaluate the response based on the four official IELTS Speaking criteria and return a JSON object with this EXACT structure:
 
@@ -47,10 +58,15 @@ serve(async (req) => {
     const body: unknown = await req.json();
     if (!isRecord(body) || !boundedString(body.transcript, 20_000, 10) ||
         !boundedString(body.topic, 500) ||
-        (body.part !== undefined && !boundedString(body.part, 80))) {
+        (body.part !== undefined && !boundedString(body.part, 80)) ||
+        (body.durationSeconds !== undefined && (typeof body.durationSeconds !== 'number' || body.durationSeconds < 1 || body.durationSeconds > 900))) {
       return json(req, { error: "Invalid transcript, topic or part" }, 400);
     }
     const { transcript, topic, part } = body;
+    const durationSeconds = typeof body.durationSeconds === 'number' ? body.durationSeconds : null;
+    const transcription = isRecord(body.transcription) ? body.transcription : {};
+    const wordCount = transcript.trim().split(/\s+/).length;
+    const wordsPerMinute = durationSeconds ? Math.round(wordCount * 60 / durationSeconds) : null;
 
     const openaiKey = Deno.env.get("OPENAI_API_KEY");
     if (!openaiKey) return json(req, { error: "AI service not configured" }, 503);
@@ -68,6 +84,8 @@ Candidate's transcript:
 ${transcript}
 """
 
+Evidence: ${wordCount} words; duration ${durationSeconds ?? 'unknown'} seconds; approximate rate ${wordsPerMinute ?? 'unknown'} words per minute; transcription confidence ${typeof transcription.averageLogprob==='number'?transcription.averageLogprob:'unknown'}; no-speech probability ${typeof transcription.noSpeechProbability==='number'?transcription.noSpeechProbability:'unknown'}.
+
 Please evaluate this speaking response according to IELTS Speaking band descriptors. Return ONLY the JSON object.`;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -78,7 +96,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "gpt-4o",
         messages: [
           { role: "system", content: SPEAKING_SYSTEM_PROMPT },
           { role: "user", content: userPrompt },
@@ -101,6 +119,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
     if (!validGrade(feedback, 'speaking')) {
       throw new Error("Invalid AI grading response");
     }
+    feedback.overallBand = calibratedOverall(feedback,'speaking');
 
     // Ensure arrays exist
     feedback.strengths = Array.isArray(feedback.strengths) ? feedback.strengths : [];
@@ -109,7 +128,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
     feedback.vocabularyHighlights = Array.isArray(feedback.vocabularyHighlights) ? feedback.vocabularyHighlights : [];
     feedback.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
 
-    await logTextUsage(admin,user.id,'speaking','gpt-4o-mini',aiData.usage,{ part:part ?? 'Part 2' });
+    await logTextUsage(admin,user.id,'speaking','gpt-4o',aiData.usage,{ part:part ?? 'Part 2' });
 
     quotaUserId = null;
     return json(req, feedback);

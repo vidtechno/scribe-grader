@@ -1,11 +1,20 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { validGrade } from '../_shared/grading.ts';
+import { calibratedOverall, validGrade } from '../_shared/grading.ts';
 
 import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
 import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
 import { logTextUsage } from "../_shared/ai-usage.ts";
 
-const systemPrompt = `You are an expert IELTS Writing examiner with years of experience. You will evaluate essays according to the official IELTS Writing band descriptors.
+const systemPrompt = `You are a strict, evidence-based IELTS Writing examiner. Evaluate the response as it is written, using the four official IELTS Writing criteria. Do not reward ambition when control and accuracy are weak. Do not assume intended meaning when the sentence is unclear.
+
+CALIBRATION RULES:
+- Score Task Achievement/Response, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy independently in 0.5 bands.
+- Band 7 for Grammatical Range and Accuracy requires frequent error-free sentences and good control of complex structures. Frequent agreement, article, tense, word-form, punctuation, fragment, or run-on errors normally place this criterion at 5.0–6.0.
+- Band 7 Lexical Resource requires flexible, precise vocabulary with only occasional inappropriate choices. Repeated awkward collocations or wrong word forms must lower it.
+- A memorised-looking introduction, length, or advanced words alone cannot justify Band 7.
+- For Task 1, check overview, key-feature selection, comparisons, data accuracy, and the 150-word expectation. For Task 2, check whether every part is answered, the position is clear and developed, ideas are supported, and the 250-word expectation.
+- Before choosing scores, silently audit every sentence. Then make each feedback paragraph cite at least two concrete excerpts or patterns from the response.
+- The overall band must equal the four-criterion average rounded to the nearest 0.5.
 
 For each essay, you must provide:
 1. An overall band score (0-9, can use .5 increments)
@@ -17,9 +26,9 @@ For each essay, you must provide:
 3. Specific feedback for each criterion
 4. 3-5 key strengths of the essay
 5. 3-5 specific suggestions for improvement
-6. Error corrections: Find ALL grammatical errors, spelling mistakes, incorrect word usage, and awkward phrasing in the essay. For each error:
-   - Provide the original wrong text
-   - Provide the corrected version
+6. Error corrections: Find ALL grammatical errors, spelling mistakes, incorrect word usage, punctuation problems and awkward phrasing in the essay. Return at least 8 items when the response contains that many issues. If it has fewer than 3 true errors, add specific high-band improvements so the array still has at least 3 items. For every item:
+   - Copy the exact original phrase or sentence
+   - Provide a natural corrected phrase or full sentence
    - Provide a brief explanation of WHY it's wrong (grammar rule, style issue, etc.)
    - Provide a "type" field: either "error" (for mistakes) or "improvement" (for high-band alternatives/style upgrades)
 7. Vocabulary Range Analysis: Identify repeated common/basic words and suggest academic high-band synonyms. For each:
@@ -77,6 +86,7 @@ serve(async (req) => {
       return json(req, { error: 'Invalid essay, task type or topic' }, 400);
     }
     const { essay, taskType, topic } = body;
+    const wordCount = essay.trim().split(/\s+/).length;
 
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
     if (!OPENAI_API_KEY) return json(req, { error: 'AI service not configured' }, 503);
@@ -88,12 +98,12 @@ serve(async (req) => {
     quotaUserId = user.id;
 
 
-    // All plans use gpt-4o-mini for speed and cost efficiency
-    const model = 'gpt-4o-mini';
+    const model = 'gpt-4o';
 
     const userPrompt = `Please evaluate this IELTS ${taskType} essay.
 
 Topic: ${topic}
+Submitted word count: ${wordCount} (expected minimum: ${taskType==='Task 1'?150:250})
 
 Essay:
 ${essay}
@@ -162,6 +172,8 @@ Provide your evaluation as a JSON object following the exact format specified. M
       quotaUserId = null;
       return json(req, { error: 'Invalid grading result structure' }, 502);
     }
+
+    gradeResult.overallBand = calibratedOverall(gradeResult,'writing');
 
     // Ensure arrays exist
     if (!Array.isArray(gradeResult.errorCorrections)) gradeResult.errorCorrections = [];

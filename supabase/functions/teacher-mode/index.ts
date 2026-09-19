@@ -1,7 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { getRequestUser, serviceClient } from '../_shared/quota.ts';
 import { boundedString, isRecord, json, preflight } from '../_shared/http.ts';
-import { validGrade } from '../_shared/grading.ts';
+import { calibratedOverall, validGrade } from '../_shared/grading.ts';
 import { logTextUsage } from '../_shared/ai-usage.ts';
 
 type Db = ReturnType<typeof serviceClient>;
@@ -118,16 +118,17 @@ async function rpc(db: Db, name: string, args: Row) {
 async function generate(db: Db, userId: string, feature: 'teacher_generation'|'teacher_grading', prompt: string, maxTokens = 3000) {
   const key = Deno.env.get('OPENAI_API_KEY');
   if (!key) fail('AI service unavailable', 503);
+  const model=feature==='teacher_grading'?'gpt-4o':'gpt-4o-mini';
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method:'POST', signal:AbortSignal.timeout(65000),
     headers:{ Authorization:`Bearer ${key}`, 'Content-Type':'application/json' },
-    body:JSON.stringify({ model:'gpt-4o-mini', temperature:0.4, response_format:{ type:'json_object' },
+    body:JSON.stringify({ model, temperature:feature==='teacher_grading'?0.15:0.4, response_format:{ type:'json_object' },
       max_tokens:maxTokens, messages:[{ role:'system', content:'Return only a valid JSON object. Educational IELTS and grammar content must be accurate and appropriate.' },
       { role:'user', content:prompt }] }),
   });
   if (!response.ok) { console.error('Teacher AI failed', response.status); fail('AI is temporarily unavailable', 502); }
   const data = await response.json();
-  await logTextUsage(db,userId,feature,'gpt-4o-mini',data.usage);
+  await logTextUsage(db,userId,feature,model,data.usage);
   try { return JSON.parse(data.choices?.[0]?.message?.content ?? '') as unknown; }
   catch { fail('AI returned invalid content', 502); }
 }
@@ -289,8 +290,9 @@ serve(async req => {
         if (!claimed) return json(req,{ pending:true });
         try {
           if (!await rpc(db,'teacher_claim_ai',{p_user:t.teacher_id,p_kind:'grade'})) fail('AI grading rate limit reached. Retry in an hour.',429);
-          const output=await generate(db,String(t.teacher_id),'teacher_grading',`You are an IELTS Writing examiner. Grade this ${t.type==='writing_task_1'?'Task 1':'Task 2'} essay strictly on official band descriptors. Prompt: ${String(t.prompt).slice(0,5000)}. Essay: ${String(a.essay).slice(0,20000)}. Return JSON with overallBand (0-9 in half bands), taskAchievement, coherenceCohesion, lexicalResource, grammaticalRange (each {score,feedback}), strengths (array), suggestions (array), errorCorrections (array of {original,corrected,explanation,type}), vocabularyAnalysis (array), coherenceCheck (array), sentenceComplexity (array).`, 4500);
+          const output=await generate(db,String(t.teacher_id),'teacher_grading',`You are a strict, evidence-based IELTS Writing examiner. Score each official criterion independently. Band 7 Grammar requires frequent error-free sentences; frequent article, agreement, tense, punctuation, fragment or word-form errors must lower the score. Cite exact evidence in every criterion. Silently audit every sentence and return at least 3 exact corrections, and at least 8 when the essay contains that many issues. Overall must equal the four-score average rounded to 0.5. Grade this ${t.type==='writing_task_1'?'Task 1':'Task 2'} essay. Prompt: ${String(t.prompt).slice(0,5000)}. Essay: ${String(a.essay).slice(0,20000)}. Return JSON with overallBand (0-9 in half bands), taskAchievement, coherenceCohesion, lexicalResource, grammaticalRange (each {score,feedback}), strengths (at least 3), suggestions (at least 3), errorCorrections (array of {original,corrected,explanation,type where type is error or improvement}), vocabularyAnalysis (array), coherenceCheck (array), sentenceComplexity (array).`, 6000);
           if (!validGrade(output,'writing')) fail('AI grading was incomplete',502);
+          output.overallBand=calibratedOverall(output,'writing');
           await rpc(db,'teacher_finish_grading',{p_attempt:a.id,p_grade:output});
           const latest=await attemptFor(db,body.id,uid);
           return json(req,{ result:resultFor(t,latest,false) });

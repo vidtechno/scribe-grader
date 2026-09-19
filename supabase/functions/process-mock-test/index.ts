@@ -1,10 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { validGrade } from '../_shared/grading.ts';
+import { calibratedOverall, validGrade } from '../_shared/grading.ts';
 import { consumeQuota, getRequestUser, quotaErrorMessage, refundQuota, serviceClient } from "../_shared/quota.ts";
 import { boundedString, corsHeaders as responseHeaders, isRecord, json, preflight } from "../_shared/http.ts";
 import { logAudioUsage, logTextUsage } from "../_shared/ai-usage.ts";
 
-const WRITING_SYSTEM = `You are an expert IELTS Writing examiner. Return ONLY a JSON object with:
+const WRITING_SYSTEM = `You are a strict IELTS Writing examiner. Apply the official four criteria independently and cite concrete evidence. Band 7 Grammar requires frequent error-free sentences; repeated basic errors must lower the score. Audit every sentence and return at least 3 exact corrections (or specific improvements if genuinely necessary). The overall band must be the four-score average rounded to 0.5. Return ONLY a JSON object with:
 {
   "overallBand": number,
   "taskAchievement": { "score": number, "feedback": "string" },
@@ -17,7 +17,7 @@ const WRITING_SYSTEM = `You are an expert IELTS Writing examiner. Return ONLY a 
   "vocabularyAnalysis": [{ "word": "string", "count": number, "suggestions": ["string"] }]
 }`;
 
-const SPEAKING_SYSTEM = `You are an expert IELTS Speaking examiner. Return ONLY JSON:
+const SPEAKING_SYSTEM = `You are a strict IELTS Speaking examiner. Apply the four official criteria independently. Do not give Band 7 when answers are short, underdeveloped, repetitive, or contain frequent grammar errors. Pronunciation is only a conservative transcript-based estimate; say so. Return at least 3 exact corrections or improvements. Overall is the four-score average rounded to 0.5. Return ONLY JSON:
 {
   "overallBand": number,
   "fluencyCoherence": { "score": number, "feedback": "string" },
@@ -41,7 +41,7 @@ async function callOpenAI(system: string, user: string, key: string): Promise<{ 
     signal: AbortSignal.timeout(60_000),
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "gpt-4o-mini",
+      model: "gpt-4o",
       messages: [{ role: "system", content: system }, { role: "user", content: user }],
       temperature: 0.3,
       response_format: { type: "json_object" },
@@ -53,6 +53,7 @@ async function callOpenAI(system: string, user: string, key: string): Promise<{ 
   if (!validGrade(result, system === WRITING_SYSTEM ? 'writing' : 'speaking')) {
     throw new Error("Invalid AI grading result");
   }
+  (result as Record<string,unknown>).overallBand = calibratedOverall(result as Record<string,unknown>,system === WRITING_SYSTEM ? 'writing' : 'speaking');
   return { result: result as GradeResult, usage: data.usage ?? {} };
 }
 
@@ -162,8 +163,8 @@ serve(async (req) => {
       transcribeAudio(audio[2], OPENAI_API_KEY),
     ]);
     await Promise.all([
-      logTextUsage(admin,user.id,'mock_writing','gpt-4o-mini',task1Call.usage,{ task:'Task 1', mockTestId }),
-      logTextUsage(admin,user.id,'mock_writing','gpt-4o-mini',task2Call.usage,{ task:'Task 2', mockTestId }),
+      logTextUsage(admin,user.id,'mock_writing','gpt-4o',task1Call.usage,{ task:'Task 1', mockTestId }),
+      logTextUsage(admin,user.id,'mock_writing','gpt-4o',task2Call.usage,{ task:'Task 2', mockTestId }),
       logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t1Call.duration,{ part:1, mockTestId }),
       logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t2Call.duration,{ part:2, mockTestId }),
       logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t3Call.duration,{ part:3, mockTestId }),
@@ -172,7 +173,7 @@ serve(async (req) => {
     const t1=t1Call.text, t2=t2Call.text, t3=t3Call.text;
     const combined = `Part 1 Topic: ${mt.speaking_p1_topic}\nPart 1 Response: ${t1}\n\nPart 2 Topic: ${mt.speaking_p2_topic}\nPart 2 Response: ${t2}\n\nPart 3 Topic: ${mt.speaking_p3_topic}\nPart 3 Response: ${t3}`;
     const speakingCall = await callOpenAI(SPEAKING_SYSTEM, `Evaluate this full IELTS Speaking exam:\n\n${combined}`, OPENAI_API_KEY);
-    await logTextUsage(admin,user.id,'mock_speaking','gpt-4o-mini',speakingCall.usage,{ mockTestId });
+    await logTextUsage(admin,user.id,'mock_speaking','gpt-4o',speakingCall.usage,{ mockTestId });
     const speaking=speakingCall.result;
 
     const t1Band = task1?.overallBand ?? 0;

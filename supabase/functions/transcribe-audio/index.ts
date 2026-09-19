@@ -75,7 +75,12 @@ serve(async (req) => {
     if (!boundedString(transcript, 20_000)) return json(req, { error: "Invalid transcription result" }, 502);
     const duration = typeof result === 'object' && result !== null && 'duration' in result ? Number(result.duration) : 0;
     await logAudioUsage(admin,user.id,'transcription','whisper-1',duration);
-    return json(req, { transcript });
+    const segments = typeof result === 'object' && result !== null && 'segments' in result && Array.isArray(result.segments) ? result.segments : [];
+    const probabilities = segments.map((segment: unknown)=>typeof segment==='object' && segment!==null && 'no_speech_prob' in segment ? Number(segment.no_speech_prob) : NaN).filter(Number.isFinite);
+    const logprobs = segments.map((segment: unknown)=>typeof segment==='object' && segment!==null && 'avg_logprob' in segment ? Number(segment.avg_logprob) : NaN).filter(Number.isFinite);
+    return json(req, { transcript, metrics:{ duration,
+      averageLogprob:logprobs.length?logprobs.reduce((a:number,b:number)=>a+b,0)/logprobs.length:null,
+      noSpeechProbability:probabilities.length?probabilities.reduce((a:number,b:number)=>a+b,0)/probabilities.length:null } });
   } catch (error) {
     console.error("transcribe-audio error:", error);
     return json(req, { error: "Transcription failed" }, 500);
