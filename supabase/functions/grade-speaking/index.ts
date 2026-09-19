@@ -96,7 +96,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           { role: "system", content: SPEAKING_SYSTEM_PROMPT },
           { role: "user", content: userPrompt },
@@ -128,7 +128,7 @@ Please evaluate this speaking response according to IELTS Speaking band descript
     feedback.vocabularyHighlights = Array.isArray(feedback.vocabularyHighlights) ? feedback.vocabularyHighlights : [];
     feedback.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
 
-    await logTextUsage(admin,user.id,'speaking','gpt-4o',aiData.usage,{ part:part ?? 'Part 2' });
+    await logTextUsage(admin,user.id,'speaking','gpt-4o-mini',aiData.usage,{ part:part ?? 'Part 2' });
 
     quotaUserId = null;
     return json(req, feedback);

@@ -98,7 +98,7 @@ serve(async (req) => {
     quotaUserId = user.id;
 
 
-    const model = 'gpt-4o';
+    const model = 'gpt-4o-mini';
 
     const userPrompt = `Please evaluate this IELTS ${taskType} essay.
 

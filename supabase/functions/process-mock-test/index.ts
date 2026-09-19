@@ -41,7 +41,7 @@ async function callOpenAI(system: string, user: string, key: string): Promise<{ 
     signal: AbortSignal.timeout(60_000),
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "gpt-4o",
+      model: "gpt-4o-mini",
       messages: [{ role: "system", content: system }, { role: "user", content: user }],
       temperature: 0.3,
       response_format: { type: "json_object" },
@@ -163,8 +163,8 @@ serve(async (req) => {
       transcribeAudio(audio[2], OPENAI_API_KEY),
     ]);
     await Promise.all([
-      logTextUsage(admin,user.id,'mock_writing','gpt-4o',task1Call.usage,{ task:'Task 1', mockTestId }),
-      logTextUsage(admin,user.id,'mock_writing','gpt-4o',task2Call.usage,{ task:'Task 2', mockTestId }),
+      logTextUsage(admin,user.id,'mock_writing','gpt-4o-mini',task1Call.usage,{ task:'Task 1', mockTestId }),
+      logTextUsage(admin,user.id,'mock_writing','gpt-4o-mini',task2Call.usage,{ task:'Task 2', mockTestId }),
       logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t1Call.duration,{ part:1, mockTestId }),
       logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t2Call.duration,{ part:2, mockTestId }),
       logAudioUsage(admin,user.id,'mock_transcription','whisper-1',t3Call.duration,{ part:3, mockTestId }),
@@ -173,7 +173,7 @@ serve(async (req) => {
     const t1=t1Call.text, t2=t2Call.text, t3=t3Call.text;
     const combined = `Part 1 Topic: ${mt.speaking_p1_topic}\nPart 1 Response: ${t1}\n\nPart 2 Topic: ${mt.speaking_p2_topic}\nPart 2 Response: ${t2}\n\nPart 3 Topic: ${mt.speaking_p3_topic}\nPart 3 Response: ${t3}`;
     const speakingCall = await callOpenAI(SPEAKING_SYSTEM, `Evaluate this full IELTS Speaking exam:\n\n${combined}`, OPENAI_API_KEY);
-    await logTextUsage(admin,user.id,'mock_speaking','gpt-4o',speakingCall.usage,{ mockTestId });
+    await logTextUsage(admin,user.id,'mock_speaking','gpt-4o-mini',speakingCall.usage,{ mockTestId });
     const speaking=speakingCall.result;
 
     const t1Band = task1?.overallBand ?? 0;

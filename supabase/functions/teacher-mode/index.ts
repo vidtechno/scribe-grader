@@ -118,7 +118,7 @@ async function rpc(db: Db, name: string, args: Row) {
 async function generate(db: Db, userId: string, feature: 'teacher_generation'|'teacher_grading', prompt: string, maxTokens = 3000) {
   const key = Deno.env.get('OPENAI_API_KEY');
   if (!key) fail('AI service unavailable', 503);
-  const model=feature==='teacher_grading'?'gpt-4o':'gpt-4o-mini';
+  const model='gpt-4o-mini';
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method:'POST', signal:AbortSignal.timeout(65000),
     headers:{ Authorization:`Bearer ${key}`, 'Content-Type':'application/json' },
