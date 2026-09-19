@@ -35,7 +35,9 @@ const fadeUp = {
 
 export default function Dashboard() {
   const { profile, refreshProfile } = useAuth();
-  const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
+  const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed,
+    teacherGrammarLimit, teacherGrammarUsed, teacherWritingLimit, teacherWritingUsed, entitlement,
+    expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
   const navigate = useNavigate();
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
@@ -258,7 +260,7 @@ export default function Dashboard() {
                 <Crown className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Current plan</p>
+                <p className="text-sm text-muted-foreground">Current unified plan</p>
                 <p className="text-xl font-bold flex items-center gap-2">
                   {planName}
                   {expiresAt && (
@@ -267,12 +269,14 @@ export default function Dashboard() {
                     </span>
                   )}
                 </p>
+                {planType !== 'free' && <p className="text-xs text-muted-foreground mt-1">{entitlement.priceUzs} so'm/month · Student and Teacher Mode</p>}
               </div>
             </div>
             <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
               <Crown className="h-4 w-4" /> {planType === 'free' ? 'Upgrade Plan' : 'Change Plan'}
             </Button>
           </div>
+          <p className="text-xs font-bold uppercase tracking-[.16em] text-muted-foreground mb-3">Personal usage</p>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
               { label: 'Writing', icon: PenTool, used: writingUsed, limit: writingLimit, color: 'bg-primary' },
@@ -295,6 +299,10 @@ export default function Dashboard() {
               );
             })}
           </div>
+          {(planType !== 'free' || teacherGrammarUsed > 0 || teacherWritingUsed > 0) && <div className="mt-5 pt-5 border-t"><div className="flex items-center justify-between gap-3 mb-3"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-muted-foreground">Teacher usage</p><p className="text-xs text-muted-foreground mt-1">Successful student work only. Creating and publishing tests is unlimited.</p></div><Link to="/teacher" className="text-sm font-semibold text-primary">Open Teacher Mode</Link></div><div className="grid sm:grid-cols-2 gap-4">{[
+            {label:'Grammar submissions',used:teacherGrammarUsed,limit:teacherGrammarLimit,icon:BrainCircuit},
+            {label:'Writing evaluations',used:teacherWritingUsed,limit:teacherWritingLimit,icon:PenLine},
+          ].map(u=>{const pct=u.limit?Math.min(100,100*u.used/u.limit):0;return <div key={u.label} className="glass-card-hover p-4"><div className="flex justify-between gap-2 text-sm"><span className="flex items-center gap-2 font-medium"><u.icon className="h-4 w-4 text-primary"/>{u.label}</span><span className="text-xs text-muted-foreground">{u.used}/{u.limit} used</span></div><div className="w-full h-2 bg-secondary rounded-full overflow-hidden mt-3"><div className="h-full bg-primary" style={{width:`${pct}%`}}/></div></div>})}</div></div>}
           {planType === 'free' && (
             <div className="mt-4 flex items-start gap-2 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">
               <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0" />

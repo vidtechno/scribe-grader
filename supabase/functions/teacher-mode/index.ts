@@ -64,11 +64,16 @@ async function entitlement(db: Db, uid: string) {
   if (error) fail('Could not check Teacher plan', 503);
   return data;
 }
-async function requirePlan(db: Db, uid: string, pro = false) {
+async function requirePlan(db: Db, uid: string) {
   const p = await entitlement(db, uid);
-  if (!p) fail('Teacher subscription required', 403);
-  if (pro && p.plan !== 'teacher_pro') fail('Teacher Pro required', 403);
+  if (!p || !['go','plus'].includes(String(p.plan))) fail('Scorify Go or Plus is required to create Teacher tests', 403);
   return p;
+}
+async function planLimits(db: Db, slug: unknown) {
+  const { data, error } = await db.from('subscription_plans')
+    .select('teacher_grammar_limit,teacher_writing_limit').eq('slug', String(slug)).eq('is_active', true).maybeSingle();
+  if (error || !data) fail('Could not check Teacher quota', 503);
+  return { grammar:Number(data.teacher_grammar_limit), writing:Number(data.teacher_writing_limit) };
 }
 function canShow(mode: unknown, deadline: unknown) {
   return mode === 'immediate' || (mode === 'after_deadline' && !!deadline && Date.now() >= Date.parse(String(deadline)));
@@ -142,17 +147,13 @@ serve(async req => {
     if (!user) fail('Sign in required', 401);
     const uid = user.id;
     switch (body.action) {
-      case 'admin_assign': {
-        if (typeof body.teacherId!=='string' || !['teacher','teacher_pro'].includes(String(body.plan))) fail('Invalid plan assignment');
-        await rpc(db,'admin_assign_teacher_plan',{p_admin:uid,p_teacher:body.teacherId,p_plan:body.plan});
-        return json(req,{ok:true});
-      }
       case 'overview': {
         const plan = await entitlement(db, uid);
+        const limits = plan ? await planLimits(db, plan.plan) : null;
         const { data: tests, error } = await db.from('teacher_tests').select('id,title,type,description,settings,invite_code,published_at,first_started_at,created_at')
           .eq('teacher_id', uid).order('created_at', { ascending:false }).limit(100);
         if (error) fail('Could not load tests',503);
-        return json(req, { plan, limits:plan ? { grammar:plan.plan==='teacher_pro'?3500:750, writing:plan.plan==='teacher_pro'?250:50 } : null,
+        return json(req, { plan, limits,
           tests:(tests ?? []).map(brief) });
       }
       case 'create': {
@@ -272,11 +273,12 @@ serve(async req => {
         if (a.grade_status==='graded') return json(req,{ result:resultFor(t,a,false) });
         const period=await entitlement(db,String(t.teacher_id));
         if (!period) fail('Teacher subscription expired',403);
-        if (period.writing_used >= (period.plan==='teacher_pro'?250:50)) fail('Teacher Writing quota exhausted',403);
+        const limits=await planLimits(db,period.plan);
+        if (period.writing_used >= limits.writing) fail(`You've used all ${limits.writing} Teacher Writing evaluations for this billing period.`,403);
         const claimed=await rpc(db,'teacher_claim_grading',{p_attempt:a.id});
         if (!claimed) return json(req,{ pending:true });
         try {
-          if (!await rpc(db,'teacher_claim_ai',{p_user:uid,p_kind:'grade'})) fail('AI grading rate limit reached. Retry in an hour.',429);
+          if (!await rpc(db,'teacher_claim_ai',{p_user:t.teacher_id,p_kind:'grade'})) fail('AI grading rate limit reached. Retry in an hour.',429);
           const output=await generate(`You are an IELTS Writing examiner. Grade this ${t.type==='writing_task_1'?'Task 1':'Task 2'} essay strictly on official band descriptors. Prompt: ${String(t.prompt).slice(0,5000)}. Essay: ${String(a.essay).slice(0,20000)}. Return JSON with overallBand (0-9 in half bands), taskAchievement, coherenceCohesion, lexicalResource, grammaticalRange (each {score,feedback}), strengths (array), suggestions (array), errorCorrections (array of {original,corrected,explanation,type}), vocabularyAnalysis (array), coherenceCheck (array), sentenceComplexity (array).`, 4500);
           if (!validGrade(output,'writing')) fail('AI grading was incomplete',502);
           await rpc(db,'teacher_finish_grading',{p_attempt:a.id,p_grade:output});
@@ -349,16 +351,16 @@ serve(async req => {
         }
         const bands:Row={}; for (const a of scored) bands[String(a.score)]=Number(bands[String(a.score)]??0)+1;
         const criteria=['taskAchievement','coherenceCohesion','lexicalResource','grammaticalRange']; const averages:Row={};
-        if (plan?.plan==='teacher_pro') for (const c of criteria) {
+        if (plan) for (const c of criteria) {
           const values=scored.map(a=>Number((a.result as Row)?.[c] && ((a.result as Row)[c] as Row).score)).filter(Number.isFinite);
           averages[c]=values.length?values.reduce((x,y)=>x+y,0)/values.length:null;
         }
         return json(req,{ type:t.type,count:scored.length,average:scored.length?scored.reduce((n,a)=>n+Number(a.score),0)/scored.length:0,bands,criteria:averages,
-          pro:plan?.plan==='teacher_pro' });
+          pro:Boolean(plan) });
       }
       case 'export': {
         if (typeof body.id!=='string') fail('Invalid test');
-        const t=await ownedTest(db,body.id,uid); await requirePlan(db,uid,true);
+        const t=await ownedTest(db,body.id,uid); await requirePlan(db,uid);
         const {data,error}=await db.from('teacher_attempts').select('student_id,attempt_number,started_at,submitted_at,score,grade_status,result')
           .eq('test_id',t.id).order('started_at').limit(10000);
         if (error) fail('Could not export',503);
@@ -370,22 +372,6 @@ serve(async req => {
           attempt:a.attempt_number,status:a.grade_status,score:a.score,startedAt:a.started_at,submittedAt:a.submitted_at,
           task:scoreOf(a,'taskAchievement'),coherence:scoreOf(a,'coherenceCohesion'),
           lexical:scoreOf(a,'lexicalResource'),grammar:scoreOf(a,'grammaticalRange') })) });
-      }
-      case 'class_analysis': {
-        if (typeof body.id!=='string') fail('Invalid test');
-        const t=await ownedTest(db,body.id,uid); await requirePlan(db,uid,true);
-        const existing=await one(db,'teacher_class_analyses','test_id',body.id);
-        if (existing && body.refresh!==true) return json(req,{ analysis:existing });
-        if (!await rpc(db,'teacher_claim_ai',{p_user:uid,p_kind:'analysis'})) fail('AI analysis rate limit reached. Try again later.',429);
-        const {data,error}=await db.from('teacher_attempts').select('score,result').eq('test_id',t.id).eq('grade_status','graded').limit(300);
-        if (error) fail('Could not load class results',503);
-        if ((data??[]).length<3) fail('At least three graded essays are needed');
-        const summary=(data??[]).map(a=>({ band:a.score, strengths:(a.result as Row)?.strengths, suggestions:(a.result as Row)?.suggestions }));
-        const output=await generate(`Analyze this IELTS class aggregate and give lesson priorities. Return {"summary":"...","strengths":["..."],"weaknesses":["..."],"lessons":["..."]}. Data: ${JSON.stringify(summary).slice(0,20000)}`);
-        if (!isRecord(output) || !boundedString(output.summary,3000)) fail('AI returned invalid analysis',502);
-        const {data:stored,error:saveError}=await db.from('teacher_class_analyses').upsert({test_id:t.id,analysis:output,source_count:summary.length,generated_at:new Date().toISOString()}).select().single();
-        if (saveError) fail('Could not save analysis',503);
-        return json(req,{ analysis:stored });
       }
       default: fail('Unknown action',404);
     }

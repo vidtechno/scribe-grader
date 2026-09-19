@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format, subDays, isAfter, startOfDay } from 'date-fns';
-import { teacherApi } from '@/lib/teacher';
 
 interface Profile {
   id: string;
@@ -48,6 +47,10 @@ interface Subscription {
   speaking_used: number;
   mock_test_limit: number;
   mock_test_used: number;
+  teacher_grammar_limit: number;
+  teacher_grammar_used: number;
+  teacher_writing_limit: number;
+  teacher_writing_used: number;
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
@@ -63,10 +66,11 @@ interface Announcement {
   view_count?: number;
 }
 
-// Only two plans exist: Free and Scorify Pro.
+// One subscription controls both Student and Teacher Mode.
 const PLANS: { slug: string; label: string }[] = [
   { slug: 'free', label: 'Free' },
-  { slug: 'pro',  label: 'Scorify Pro (49k UZS)' },
+  { slug: 'go', label: 'Scorify Go (49k UZS)' },
+  { slug: 'plus', label: 'Scorify Plus (99k UZS)' },
 ];
 
 export default function Admin() {
@@ -221,20 +225,10 @@ export default function Admin() {
       const { error } = await (supabase.rpc as any)('admin_set_subscription', { _user_id: userId, _plan_slug: slug });
       if (error) throw error;
       await refreshSub(userId);
-      toast.success(slug === 'pro' ? 'Scorify Pro activated for 30 days' : 'Moved to Free plan');
+      toast.success(slug === 'free' ? 'Moved to Free plan' : `${slug === 'plus' ? 'Scorify Plus' : 'Scorify Go'} activated`);
     } catch (e: any) {
       toast.error(e.message || 'Failed to assign plan');
     } finally { setUpdatingUser(null); }
-  };
-
-  const assignTeacherPlan = async (userId: string, plan: string) => {
-    if (!window.confirm(`Activate ${plan === 'teacher_pro' ? 'Teacher Pro' : 'Teacher'} for 30 days?`)) return;
-    setUpdatingUser(userId);
-    try {
-      await teacherApi('admin_assign', { teacherId: userId, plan });
-      toast.success('Teacher plan activated for 30 days. Student plan unchanged.');
-    } catch (e) { toast.error(e instanceof Error ? e.message : 'Could not activate Teacher plan'); }
-    finally { setUpdatingUser(null); }
   };
 
   const extendPlan = async (userId: string, days: number) => {
@@ -243,7 +237,7 @@ export default function Admin() {
       const { error } = await (supabase.rpc as any)('admin_extend_subscription', { _user_id: userId, _days: days });
       if (error) throw error;
       await refreshSub(userId);
-      toast.success(`Subscription extended by ${days} days`);
+      toast.success(`Subscription renewed for ${days} days with fresh quotas`);
     } catch (e: any) {
       toast.error(e.message || 'Failed to extend subscription');
     } finally { setUpdatingUser(null); }
@@ -272,7 +266,7 @@ export default function Admin() {
   );
 
   const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
-  const proUsers = Object.values(subscriptions).filter(x => x.plan_type === 'pro').length;
+  const proUsers = Object.values(subscriptions).filter(x => x.plan_type === 'go' || x.plan_type === 'plus').length;
 
   const now = new Date();
   const todayStart = startOfDay(now);
@@ -321,7 +315,7 @@ export default function Admin() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[
             { icon: Users, value: users.length, label: 'Total Users', color: 'text-primary' },
-            { icon: Coins, value: proUsers, label: 'Pro Subscribers', color: 'text-primary' },
+            { icon: Coins, value: proUsers, label: 'Paid Subscribers', color: 'text-primary' },
             { icon: FileText, value: totalEssays, label: 'Total Essays', color: 'text-primary' },
             { icon: BarChart3, value: Object.keys(subscriptions).length, label: 'Subscriptions', color: 'text-primary' },
           ].map((stat, i) => (
@@ -458,10 +452,6 @@ export default function Admin() {
                                 ))}
                               </SelectContent>
                             </Select>
-                            <Select onValueChange={(val) => void assignTeacherPlan(profile.user_id,val)} disabled={updatingUser===profile.user_id}>
-                              <SelectTrigger className="w-40 h-8 text-xs mt-2"><SelectValue placeholder="Teacher plan…" /></SelectTrigger>
-                              <SelectContent><SelectItem value="teacher">Teacher · 49k</SelectItem><SelectItem value="teacher_pro">Teacher Pro · 99k</SelectItem></SelectContent>
-                            </Select>
                           </td>
                           <td className="p-4 text-center hidden sm:table-cell">
                             <span className="text-sm">{essayCounts[profile.user_id] || 0}</span>
@@ -471,7 +461,7 @@ export default function Admin() {
                               <div className="space-y-1 min-w-[140px]">
                                 <Progress value={subProgress} className="h-1.5" />
                                 <div className="flex justify-between text-xs text-muted-foreground">
-                                  <span>W {sub.writing_used}/{sub.writing_limit} · S {sub.speaking_used}/{sub.speaking_limit} · M {sub.mock_test_used}/{sub.mock_test_limit}</span>
+                                  <span>Personal W {sub.writing_used}/{sub.writing_limit} · S {sub.speaking_used}/{sub.speaking_limit} · M {sub.mock_test_used}/{sub.mock_test_limit}<br/>Teacher G {sub.teacher_grammar_used}/{sub.teacher_grammar_limit} · W {sub.teacher_writing_used}/{sub.teacher_writing_limit}</span>
                                   {daysLeft !== null && (
                                     <span className={isExpired ? 'text-destructive' : ''}>
                                       {isExpired ? 'Expired' : `${daysLeft}d left`}
@@ -493,7 +483,7 @@ export default function Admin() {
                               <Button variant="outline" size="sm" className="h-8 text-xs"
                                 onClick={() => extendPlan(profile.user_id, 30)}
                                 disabled={updatingUser === profile.user_id}>
-                                {updatingUser === profile.user_id ? <Loader2 className="h-3 w-3 animate-spin" /> : '+30 days'}
+                                {updatingUser === profile.user_id ? <Loader2 className="h-3 w-3 animate-spin" /> : 'Renew 30d'}
                               </Button>
                               <Button variant="ghost" size="sm" className="h-8 text-xs"
                                 onClick={() => assignPlan(profile.user_id, 'free')}

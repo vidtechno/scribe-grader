@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import { getPlanEntitlement, normalizePlanSlug, type PlanSlug } from '@/lib/plans';
 
 export interface Subscription {
   id: string;
@@ -13,6 +14,10 @@ export interface Subscription {
   speaking_used: number;
   mock_test_limit: number;
   mock_test_used: number;
+  teacher_grammar_limit: number;
+  teacher_grammar_used: number;
+  teacher_writing_limit: number;
+  teacher_writing_used: number;
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
@@ -53,8 +58,9 @@ export function useSubscription() {
   const expiresAt = s?.expires_at ? new Date(s.expires_at) : null;
   const isExpired = expiresAt ? expiresAt.getTime() < Date.now() : false;
   const daysRemaining = expiresAt ? Math.max(0, Math.ceil((expiresAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))) : null;
-  const planType = s?.plan_type || 'free';
-  const planName = s?.plan_name || (planType.charAt(0).toUpperCase() + planType.slice(1));
+  const planType: PlanSlug = normalizePlanSlug(s?.plan_type);
+  const entitlement = getPlanEntitlement(planType);
+  const planName = s?.plan_name || entitlement.name;
 
   return {
     subscription,
@@ -68,6 +74,12 @@ export function useSubscription() {
     writingUsed: s?.writing_used ?? 0,
     speakingUsed: s?.speaking_used ?? 0,
     mockUsed: s?.mock_test_used ?? 0,
+    teacherGrammarLimit: s?.teacher_grammar_limit ?? entitlement.teacher.grammarSubmissions,
+    teacherGrammarUsed: s?.teacher_grammar_used ?? 0,
+    teacherWritingLimit: s?.teacher_writing_limit ?? entitlement.teacher.writingEvaluations,
+    teacherWritingUsed: s?.teacher_writing_used ?? 0,
+    canUseTeacherMode: entitlement.teacher.unlimitedTests,
+    entitlement,
     expiresAt,
     daysRemaining,
     isExpired,

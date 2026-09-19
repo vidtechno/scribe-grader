@@ -1,4 +1,4 @@
-import { Crown, Sparkles, Zap, Star } from 'lucide-react';
+import { Crown, Sparkles, Star } from 'lucide-react';
 
 interface SubscriptionBadgeProps {
   planType?: string;
@@ -12,12 +12,10 @@ export function SubscriptionBadge({ planType = 'free', planName, size = 'sm' }: 
   const label = planName || planType.charAt(0).toUpperCase() + planType.slice(1);
   const style = (() => {
     switch (planType) {
-      case 'pro':
+      case 'plus':
         return { Icon: Crown, cls: 'bg-gradient-to-r from-amber-400/20 to-amber-600/20 text-amber-700 dark:text-amber-300 border border-amber-500/30' };
-      case 'standard':
+      case 'go':
         return { Icon: Sparkles, cls: 'bg-gradient-to-r from-primary/20 to-primary/10 text-primary border border-primary/30' };
-      case 'starter':
-        return { Icon: Zap, cls: 'bg-secondary text-foreground border border-border' };
       default:
         return { Icon: Star, cls: 'bg-muted text-muted-foreground border border-border' };
     }

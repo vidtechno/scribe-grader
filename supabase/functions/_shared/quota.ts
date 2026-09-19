@@ -68,8 +68,10 @@ const LABELS: Record<QuotaKind, string> = {
 export function quotaErrorMessage(result: QuotaResult, kind: QuotaKind): string {
   if (result.reason === "limit_reached") {
     return result.plan === "free"
-      ? `You have used your free ${LABELS[kind]}. Upgrade to Scorify Pro to keep practising.`
-      : `You have used all ${result.limit} ${LABELS[kind]} in your plan this period.`;
+      ? `You have used your free ${LABELS[kind]}. Upgrade to Scorify Go or Plus to keep practising.`
+      : result.plan === "go"
+        ? `You've used all ${result.limit} ${LABELS[kind]} in your Scorify Go plan. Upgrade to Scorify Plus for a higher limit.`
+        : `You've used all ${result.limit} ${LABELS[kind]} in your Scorify Plus plan. Your allowance resets on renewal.`;
   }
   if (result.reason === "no_subscription") return "No active plan found for this account.";
   return "Could not verify your plan allowance. Please try again.";

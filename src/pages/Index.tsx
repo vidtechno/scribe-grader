@@ -8,7 +8,6 @@ import { SEOHead } from '@/components/SEOHead';
 import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
-import { TEACHER_PLANS } from '@/lib/teacher-plans';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
@@ -514,7 +513,7 @@ export default function Index() {
             <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mt-5 leading-relaxed max-w-2xl">Build Grammar or IELTS Writing assessments without spreadsheets or scattered messages. Share one secure link, let students complete the work in their own accounts, and review every result from one clear workspace.</motion.p>
             <motion.div variants={fadeUp} custom={3} className="grid sm:grid-cols-2 gap-3 mt-7">
               {[
-                'Unlimited test creation on every Teacher plan',
+                'Unlimited test creation on Go and Plus',
                 'Automatic Grammar scoring and AI Writing feedback',
                 'Individual submissions and class-level analytics',
                 'Free Scorify account is enough for your students',
@@ -522,7 +521,7 @@ export default function Index() {
             </motion.div>
             <motion.div variants={fadeUp} custom={4} className="flex flex-col sm:flex-row gap-3 mt-8">
               <Link to={user ? '/teacher' : '/auth?next=%2Fteacher'}><Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">Open Teacher Mode <ArrowRight className="w-4 h-4"/></Button></Link>
-              <a href="#pricing"><Button variant="outline" size="lg" className="w-full sm:w-auto">Compare Teacher plans</Button></a>
+              <a href="#pricing"><Button variant="outline" size="lg" className="w-full sm:w-auto">Compare Go and Plus</Button></a>
             </motion.div>
           </motion.div>
           <motion.div initial={{opacity:0,x:30}} whileInView={{opacity:1,x:0}} viewport={{once:true}} className="rounded-3xl border bg-card p-5 sm:p-7 shadow-xl shadow-primary/5">
@@ -588,7 +587,7 @@ export default function Index() {
               Simple <span className="gradient-text">Monthly Plans</span>
             </motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">
-              Practise independently with Scorify Pro, or manage assessments and student results with a Teacher plan.
+              One subscription gives you personal IELTS practice and the full current Teacher Mode. Choose Go or Plus based on your monthly usage.
             </motion.p>
           </motion.div>
 
@@ -618,6 +617,7 @@ export default function Index() {
                       {plan.badge}
                     </div>
                   )}
+                  <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary mb-2">Student + Teacher Mode</p>
                   <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
                   {plan.description && (
                     <p className="text-xs text-muted-foreground mb-4">{plan.description}</p>
@@ -626,36 +626,27 @@ export default function Index() {
                     <span className="text-3xl font-bold text-primary">{plan.price_uzs}</span>
                     <span className="text-sm text-muted-foreground">so'm / month</span>
                   </div>
-                  <ul className="space-y-2 mb-6 flex-1 text-sm">
+                  <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">Personal usage</p>
+                  <ul className="space-y-2 mb-4 text-sm">
                     <li className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.writing_limit}</strong> Writing evaluations</span></li>
                     <li className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.speaking_limit}</strong> Speaking evaluations</span></li>
                     <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.mock_test_limit}</strong> Full Mock Tests</span></li>
-                    {(Array.isArray(plan.features) ? plan.features.filter((feature): feature is string => typeof feature === 'string') : []).slice(3).filter((feature) => !/mentor/i.test(feature)).map((feature) => (
-                      <li key={feature} className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" /><span>{feature}</span></li>
-                    ))}
+                  </ul>
+                  <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">Teacher usage</p>
+                  <ul className="space-y-2 mb-6 flex-1 text-sm">
+                    <li className="flex items-center gap-2"><GraduationCap className="h-4 w-4 text-primary"/><span><strong>Unlimited</strong> tests</span></li>
+                    <li className="flex items-center gap-2"><BrainCircuit className="h-4 w-4 text-primary"/><span><strong>{plan.teacher_grammar_limit.toLocaleString()}</strong> Grammar submissions</span></li>
+                    <li className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary"/><span><strong>{plan.teacher_writing_limit}</strong> Writing evaluations</span></li>
+                    <li className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5"/><span>Invite links, settings, participants, results and question analytics</span></li>
+                    <li className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5"/><span>Grammar practice, AI Mentor and progress history included</span></li>
                   </ul>
                   <Button variant={popular ? 'glow' : 'outline'} className="w-full gap-2"
                     onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.price_uzs} so'm / oy).`)}`, '_blank')}>
-                    <ExternalLink className="h-4 w-4" /> Buy via Telegram
+                    <ExternalLink className="h-4 w-4" /> Get {plan.name}
                   </Button>
                 </motion.div>
               );
             })}
-            {TEACHER_PLANS.map((plan, index) => (
-              <motion.div key={plan.slug} variants={fadeUp} custom={subPlans.length + index}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className={`relative rounded-2xl border p-6 flex flex-col ${plan.badge ? 'border-primary bg-primary/5 shadow-xl shadow-primary/10' : 'border-border glass-card'}`}>
-                {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">{plan.badge}</div>}
-                <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary mb-2">For teachers</p>
-                <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
-                <p className="text-xs text-muted-foreground mb-4 min-h-10">{plan.description}</p>
-                <div className="flex items-baseline gap-1 mb-5"><span className="text-3xl font-bold text-primary">{plan.priceUzs}</span><span className="text-sm text-muted-foreground">so'm / month</span></div>
-                <ul className="space-y-2 mb-6 flex-1 text-sm">
-                  {plan.features.map(feature=><li key={feature} className="flex items-start gap-2"><Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0"/><span>{feature}</span></li>)}
-                </ul>
-                <Button variant={plan.badge ? 'glow' : 'outline'} className="w-full gap-2" onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.priceUzs} so'm / oy).`)}`, '_blank')}><ExternalLink className="h-4 w-4"/> Buy via Telegram</Button>
-              </motion.div>
-            ))}
           </motion.div>
 
           <p className="text-xs text-muted-foreground text-center mt-8">

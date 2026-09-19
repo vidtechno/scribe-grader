@@ -125,7 +125,7 @@ serve(async (req) => {
     const q = quota as { allowed: boolean; reason?: string; plan?: string; used?: number; limit?: number } | null;
     if (!q?.allowed) {
       if (q?.reason === 'plan_required') {
-        return json(req, { error: 'AI Mentor is available on Scorify Pro. Upgrade to unlock! 🔓' }, 403);
+        return json(req, { error: 'AI Mentor is available on Scorify Go and Plus. Upgrade to unlock.' }, 403);
       }
       return json(req, { error: `Daily limit reached (${q?.limit} messages). Come back tomorrow! 🌅`, limitReached: true }, 429);
     }
