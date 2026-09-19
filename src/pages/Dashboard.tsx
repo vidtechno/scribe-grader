@@ -15,7 +15,7 @@ import {
   PenTool, FileText, TrendingUp, Clock, CreditCard,
   ChevronRight, Sparkles, Award, BarChart3, Calendar,
   Zap, Crown, Target, BookOpen, Star, Check, ExternalLink, Mic, Coins, History, AlertCircle
-  , ClipboardList, PenLine, ArrowRight, Plus, Languages, BrainCircuit
+  , ClipboardList, PenLine, ArrowRight, Plus, BrainCircuit, GraduationCap
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, isAfter } from 'date-fns';
@@ -198,7 +198,7 @@ export default function Dashboard() {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1">
                 Welcome back, <span className="gradient-text">{profile?.full_name?.split(' ')[0] || 'Student'}</span>
               </h1>
-              <p className="text-muted-foreground text-sm sm:text-base">Ready to improve your IELTS writing skills?</p>
+              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl">Choose one clear activity for today. Practise Writing or Speaking, strengthen your grammar, or create a class assessment.</p>
             </div>
             <div className="flex items-center gap-3 flex-wrap">
               <SubscriptionBadge planType={planType} planName={planName} size="md" />
@@ -222,19 +222,18 @@ export default function Dashboard() {
           </motion.div>
         )}
 
-        {/* Plan Usage Tracker */}
-        <Link to="/vocabulary" className="block glass-card-hover p-5 mb-6 group">
-          <div className="flex items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center"><Languages className="h-5 w-5 text-primary" /></div><div><p className="font-semibold">Vocabulary Builder</p><p className="text-sm text-muted-foreground">Learn useful IELTS words in a quick daily session.</p></div></div><ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" /></div>
-        </Link>
-
-        <Link to="/grammar-test" className="block glass-card-hover p-5 mb-6 group">
-          <div className="flex items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center"><BrainCircuit className="h-5 w-5 text-accent" /></div><div><p className="font-semibold">Today’s Grammar Test</p><p className="text-sm text-muted-foreground">20 questions based on your latest writing.</p></div></div><ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" /></div>
-        </Link>
-
-        <div className="grid sm:grid-cols-2 gap-3 mb-6">
-          <Link to="/my-tests" className="glass-card-hover p-5 flex items-center justify-between gap-3"><div><p className="font-semibold">My Tests</p><p className="text-sm text-muted-foreground">Teacher assessments and saved results</p></div><ClipboardList className="w-6 h-6 text-primary flex-shrink-0"/></Link>
-          <Link to="/teacher" className="glass-card-hover p-5 flex items-center justify-between gap-3"><div><p className="font-semibold">Teacher Mode</p><p className="text-sm text-muted-foreground">Create and share IELTS assessments</p></div><BookOpen className="w-6 h-6 text-primary flex-shrink-0"/></Link>
-        </div>
+        <section className="mb-7">
+          <div className="flex items-end justify-between gap-4 mb-4"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">Start here</p><h2 className="text-xl sm:text-2xl font-bold mt-1">What would you like to practise?</h2></div><Link to="/my-tests" className="hidden sm:inline-flex text-sm font-semibold text-primary hover:underline">My assigned tests</Link></div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              {to:'/writing',icon:PenTool,title:'IELTS Writing',text:'Write Task 1 or Task 2 and receive an estimated band with clear corrections.'},
+              {to:'/speaking',icon:Mic,title:'IELTS Speaking',text:'Record Parts 1–3 and review fluency, grammar, vocabulary and pronunciation.'},
+              {to:'/grammar-test',icon:BrainCircuit,title:'Daily Grammar',text:'Complete a focused daily test created from patterns in your recent writing.'},
+              {to:'/teacher',icon:GraduationCap,title:'Teacher Mode',text:'Create Grammar or Writing assessments, share a link and review class results.'},
+            ].map(item=><Link key={item.to} to={item.to} className="group glass-card-hover p-5 min-h-[190px] flex flex-col"><span className="w-11 h-11 rounded-xl bg-primary/10 text-primary grid place-items-center"><item.icon className="w-5 h-5"/></span><h3 className="font-bold text-lg mt-5">{item.title}</h3><p className="text-sm text-muted-foreground leading-relaxed mt-2 flex-1">{item.text}</p><span className="text-sm font-semibold text-primary mt-4 inline-flex items-center gap-1">Open <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1"/></span></Link>)}
+          </div>
+          <Link to="/my-tests" className="sm:hidden inline-flex mt-3 text-sm font-semibold text-primary">View my assigned tests</Link>
+        </section>
 
         {/* Plan Usage Tracker */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}

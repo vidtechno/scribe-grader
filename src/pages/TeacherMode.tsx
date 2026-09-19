@@ -34,8 +34,8 @@ export default function TeacherMode() {
     <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-10 space-y-8">
       <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div><span className="inline-flex items-center gap-2 text-primary text-sm font-semibold"><GraduationCap className="w-4 h-4"/> Teacher Mode</span>
-          <h1 className="text-3xl sm:text-4xl font-bold mt-2">Teach with Scorify</h1>
-          <p className="text-muted-foreground mt-2">Create assessments, share an invite, and follow every learner's progress.</p></div>
+          <h1 className="text-3xl sm:text-4xl font-bold mt-2">Your teaching workspace</h1>
+          <p className="text-muted-foreground mt-2 max-w-2xl">Create a test in a few steps, send one link to students, then review submissions and class progress here.</p></div>
         {plan && <Button onClick={()=>setCreating(v=>!v)} className="gap-2"><Plus className="w-4 h-4"/>Create Test</Button>}
       </header>
       {loading?<div className="glass-card p-8">Loading Teacher Mode…</div>:!plan?<section className="glass-card p-6 sm:p-10 max-w-3xl">
@@ -50,10 +50,10 @@ export default function TeacherMode() {
           <Usage title="Grammar submissions" used={plan.grammar_used} limit={limits?.grammar??0}/>
           <Usage title="Writing evaluations" used={plan.writing_used} limit={limits?.writing??0}/>
         </div>
-        {creating && <section className="glass-card p-5 sm:p-7 space-y-5"><div><h2 className="text-xl font-bold">New assessment</h2><p className="text-sm text-muted-foreground">Create a draft. You can add content, settings and publish it later.</p></div>
-          <div className="grid sm:grid-cols-3 gap-3">{(['grammar','writing_task_1','writing_task_2'] as AssessmentType[]).map(k=><button type="button" key={k} onClick={()=>setType(k)} className={`text-left rounded-xl border p-4 transition-colors ${type===k?'border-primary bg-primary/10':'hover:border-primary/50'}`}><div className="text-primary mb-3">{k==='grammar'?<BookOpen/>:<PenLine/>}</div><strong>{typeName[k]}</strong></button>)}</div>
-          <Input aria-label="Test name" placeholder="Test name" value={title} onChange={e=>setTitle(e.target.value)}/><Textarea aria-label="Instructions" placeholder="Instructions for students (optional)" value={description} onChange={e=>setDescription(e.target.value)}/>
-          <div className="flex gap-2"><Button disabled={busy} onClick={create}>{busy?'Creating…':'Create draft'}</Button><Button variant="outline" onClick={()=>setCreating(false)}>Cancel</Button></div>
+        {creating && <section className="glass-card p-5 sm:p-8 space-y-7 border-primary/20"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">New test</p><h2 className="text-2xl font-bold mt-1">Start with the basics</h2><p className="text-sm text-muted-foreground mt-2">First choose the test type and give it a name. Questions, timing and the student link come on the next screen.</p></div>
+          <div><p className="text-sm font-semibold mb-3"><span className="text-primary mr-2">1.</span>Choose a test type</p><div className="grid sm:grid-cols-3 gap-3">{(['grammar','writing_task_1','writing_task_2'] as AssessmentType[]).map(k=><button type="button" key={k} onClick={()=>setType(k)} className={`text-left rounded-2xl border p-5 transition-all ${type===k?'border-primary bg-primary/10 ring-2 ring-primary/10':'bg-background hover:border-primary/40'}`}><div className="text-primary mb-3">{k==='grammar'?<BookOpen/>:<PenLine/>}</div><strong className="block">{typeName[k]}</strong><span className="text-xs text-muted-foreground mt-1 block">{k==='grammar'?'Multiple-choice questions with automatic scoring.':'One IELTS prompt with AI band feedback.'}</span></button>)}</div></div>
+          <div className="grid sm:grid-cols-2 gap-4"><label className="text-sm font-semibold"><span className="text-primary mr-2">2.</span>Test name<Input className="mt-2" aria-label="Test name" placeholder="For example: Unit 4 Grammar" value={title} onChange={e=>setTitle(e.target.value)}/></label><label className="text-sm font-semibold"><span className="text-primary mr-2">3.</span>Student instructions<Textarea className="mt-2" aria-label="Instructions" placeholder="Optional short instructions" value={description} onChange={e=>setDescription(e.target.value)}/></label></div>
+          <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2"><Button variant="outline" onClick={()=>setCreating(false)}>Cancel</Button><Button disabled={busy} onClick={create}>{busy?'Creating…':'Continue to questions'} <ArrowRight className="w-4 h-4"/></Button></div>
         </section>}
         <Tabs defaultValue="tests"><TabsList><TabsTrigger value="tests">My Tests</TabsTrigger><TabsTrigger value="results">Results</TabsTrigger></TabsList>
           <TabsContent value="tests" className="mt-5"><TestList tests={tests} copy={copy}/></TabsContent>

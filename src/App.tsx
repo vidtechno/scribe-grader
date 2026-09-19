@@ -32,7 +32,6 @@ import MockTestThankYou from "./pages/MockTestThankYou";
 import MockTestResult from "./pages/MockTestResult";
 import BlogComputerBasedWriting from "./pages/BlogComputerBasedWriting";
 import NotFound from "./pages/NotFound";
-import Vocabulary from "./pages/Vocabulary";
 import GrammarTest from "./pages/GrammarTest";
 import TeacherMode from "./pages/TeacherMode";
 import TeacherTest from "./pages/TeacherTest";
@@ -86,7 +85,7 @@ function AppRoutes() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/blog/computer-based-ielts-writing" element={<BlogComputerBasedWriting />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/vocabulary" element={<ProtectedRoute><Vocabulary /></ProtectedRoute>} />
+        <Route path="/vocabulary" element={<Navigate to="/dashboard" replace />} />
         <Route path="/grammar-test" element={<ProtectedRoute><GrammarTest /></ProtectedRoute>} />
         <Route path="/teacher" element={<ProtectedRoute><TeacherMode /></ProtectedRoute>} />
         <Route path="/teacher/tests/:id" element={<ProtectedRoute><TeacherTest /></ProtectedRoute>} />

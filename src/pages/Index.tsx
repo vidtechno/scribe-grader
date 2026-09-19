@@ -13,7 +13,7 @@ import {
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
   Check, ExternalLink, Quote, Mic, Coins, PenLine, Infinity as InfinityIcon,
-  Headphones, MessageCircle, Volume2, FileAudio
+  Headphones, MessageCircle, Volume2, FileAudio, BrainCircuit, GraduationCap
 } from 'lucide-react';
 
 const fadeUp = {
@@ -43,9 +43,10 @@ export default function Index() {
   }, []);
 
   const features = [
-    { icon: Target, title: 'Real IELTS Topics', description: 'Practice with authentic Writing Task 1 & 2 and Speaking Parts 1–3 questions.' },
-    { icon: Sparkles, title: 'AI Writing Grading', description: 'Instant band score + detailed feedback against the official IELTS criteria.' },
-    { icon: Mic, title: 'AI Speaking Practice', description: 'Record your answer, get a transcript and a full speaking band evaluation.' },
+    { icon: Sparkles, title: 'Writing feedback', description: 'Write IELTS Task 1 or Task 2 and receive an estimated band, criterion scores and clear corrections.' },
+    { icon: Mic, title: 'Speaking practice', description: 'Record Parts 1–3, read the transcript and review fluency, grammar, vocabulary and pronunciation.' },
+    { icon: BrainCircuit, title: 'Daily Grammar', description: 'Practise with a focused daily test based on recurring patterns in your recent writing.' },
+    { icon: GraduationCap, title: 'Teacher Mode', description: 'Create Grammar and Writing assessments, share one link and review every learner’s result.' },
   ];
 
   const speakingCriteria = [
@@ -166,19 +167,18 @@ export default function Index() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
-              AI-Powered IELTS Prep
+              IELTS practice made clear
             </motion.div>
 
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 leading-[1.08] tracking-tight">
-              Practise IELTS Writing <br />
-              <span className="gradient-text">and Speaking with feedback</span>
+              Build your IELTS score <br />
+              <span className="gradient-text">one clear practice at a time</span>
             </motion.h1>
 
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-9 leading-relaxed">
-              Instant, examiner-style feedback on your IELTS Writing and Speaking. Real exam topics,
-              timed mock tests, and clear suggestions to help you improve.
+              Practise Writing, Speaking and Grammar with clear AI feedback. Teachers can also create assessments, share them with students and track results in one place.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
@@ -193,7 +193,7 @@ export default function Index() {
                 <>
                   <Link to="/auth">
                     <Button variant="glow" size="xl" className="gap-2 group">
-                      Start Practicing Free
+                      Start practising free
                       <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
@@ -325,10 +325,10 @@ export default function Index() {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }}
             className="text-center mb-16">
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">
-              Everything You Need to <span className="gradient-text">Succeed</span>
+              Four simple ways to <span className="gradient-text">move forward</span>
             </motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">
-              Our platform provides comprehensive tools to help you prepare for the IELTS Writing test.
+              Each tool explains what to do, keeps your results and shows the next useful step.
             </motion.p>
           </motion.div>
 
@@ -652,8 +652,8 @@ export default function Index() {
       <footer className="py-8 px-4 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-primary" />
-            <span className="font-bold">Scorify.uz</span>
+            <img src="/logo.png" alt="Scorify" className="h-8 w-8 object-contain" />
+            <span className="font-bold">Scorify<span className="text-primary">.uz</span></span>
           </div>
           <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. Independent IELTS practice.</p>
         </div>

@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { BookOpen, Mail, Lock, User, Loader2, ArrowRight, MapPin, Phone, Calendar } from 'lucide-react';
+import { Mail, Lock, User, Loader2, ArrowRight, MapPin, Phone, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { authErrorMessage } from '@/lib/auth-errors';
@@ -139,10 +139,8 @@ export default function Auth() {
       <div className="w-full max-w-md relative animate-fade-in">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
-            <BookOpen className="h-8 w-8 text-primary" />
-          </div>
-          <h1 className="text-3xl font-bold gradient-text">
+          <img src="/logo.png" alt="Scorify" className="w-16 h-16 object-contain mx-auto mb-4" />
+          <h1 className="text-3xl font-bold">
             {isLogin ? 'Sign in to Scorify.uz' : 'Create your Scorify.uz account'}
           </h1>
           <p className="text-muted-foreground mt-2">

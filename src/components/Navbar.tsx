@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
-import { LogOut, User, BookOpen, LayoutDashboard, Shield, Trophy, Crown, ClipboardList, PenLine, PenTool, Mic, Languages, GraduationCap } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, GraduationCap, BrainCircuit } from 'lucide-react';
 import { PricingModal } from '@/components/PricingModal';
 import { useSubscription } from '@/hooks/useSubscription';
 
@@ -28,12 +28,12 @@ export function Navbar() {
   const handleSignOut = async () => { await signOut(); navigate('/auth'); };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border/70">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link to={user ? '/dashboard' : '/'} className="flex items-center gap-2">
-            <BookOpen className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold gradient-text">Scorify.uz</span>
+          <Link to={user ? '/dashboard' : '/'} className="flex items-center gap-2.5 shrink-0">
+            <img src="/logo.png" alt="Scorify" className="h-9 w-9 object-contain" />
+            <span className="text-xl font-extrabold tracking-tight">Scorify<span className="text-primary">.uz</span></span>
           </Link>
 
           {user ? (
@@ -52,16 +52,11 @@ export function Navbar() {
                   <span className="hidden sm:inline">Dashboard</span>
                 </Button>
               </Link>
-              <Link to="/my-tests" className="hidden lg:block"><Button variant="ghost" size="sm" className="gap-2"><ClipboardList className="h-4 w-4" />My Tests</Button></Link>
-              <Link to="/teacher" className="hidden lg:block"><Button variant="outline" size="sm" className="gap-2"><GraduationCap className="h-4 w-4" />Teacher Mode</Button></Link>
               <Link to="/writing" className="hidden md:block">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <PenTool className="h-4 w-4" />
                   <span className="hidden sm:inline">Writing</span>
                 </Button>
-              </Link>
-              <Link to="/vocabulary" className="hidden lg:block">
-                <Button variant="ghost" size="sm" className="gap-2"><Languages className="h-4 w-4" /><span>Vocabulary</span></Button>
               </Link>
               <Link to="/speaking" className="hidden md:block">
                 <Button variant="ghost" size="sm" className="gap-2">
@@ -69,18 +64,13 @@ export function Navbar() {
                   <span className="hidden sm:inline">Speaking</span>
                 </Button>
               </Link>
-              <Link to="/mock-test" className="hidden md:block">
+              <Link to="/grammar-test" className="hidden lg:block">
                 <Button variant="ghost" size="sm" className="gap-2">
-                  <ClipboardList className="h-4 w-4" />
-                  <span className="hidden sm:inline">Mock Test</span>
+                  <BrainCircuit className="h-4 w-4" />
+                  <span>Daily Grammar</span>
                 </Button>
               </Link>
-              <Link to="/leaderboard" className="hidden md:block">
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <Trophy className="h-4 w-4" />
-                  <span className="hidden sm:inline">Ranking</span>
-                </Button>
-              </Link>
+              <Link to="/teacher" className="hidden lg:block"><Button variant="outline" size="sm" className="gap-2 border-primary/25 bg-primary/5"><GraduationCap className="h-4 w-4" />Teacher</Button></Link>
               <button
                 onClick={() => setShowPricing(true)}
                 className="glass-card px-3 py-1.5 flex items-center gap-2 hover:bg-primary/10 transition-colors"

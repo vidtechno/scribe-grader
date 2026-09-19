@@ -6,41 +6,41 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 220 20% 18%;
+    --background: 35 55% 97%;
+    --foreground: 355 22% 14%;
     --card: 0 0% 100%;
     --card-foreground: 220 20% 18%;
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 18%;
-    --primary: 158 55% 40%;
+    --primary: 354 88% 45%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 16% 93%;
-    --secondary-foreground: 220 20% 25%;
-    --muted: 210 14% 95%;
-    --muted-foreground: 220 10% 50%;
-    --accent: 158 50% 35%;
+    --secondary: 34 42% 92%;
+    --secondary-foreground: 355 22% 20%;
+    --muted: 35 35% 94%;
+    --muted-foreground: 355 9% 44%;
+    --accent: 8 92% 57%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 18% 88%;
-    --input: 214 18% 88%;
-    --ring: 158 55% 40%;
-    --radius: 0.75rem;
+    --border: 22 22% 87%;
+    --input: 22 22% 87%;
+    --ring: 354 88% 45%;
+    --radius: 1rem;
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 220 20% 18%;
-    --sidebar-primary: 158 55% 40%;
+    --sidebar-primary: 354 88% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 210 16% 95%;
     --sidebar-accent-foreground: 220 20% 25%;
     --sidebar-border: 214 18% 88%;
     --sidebar-ring: 158 55% 40%;
-    --emerald-glow: 158 55% 40%;
-    --emerald-dark: 158 55% 30%;
-    --glass-bg: 210 20% 97%;
-    --glass-border: 214 18% 90%;
-    --brand-red: 4 78% 55%;
-    --brand-red-soft: 14 85% 60%;
-    --gradient-brand: linear-gradient(120deg, hsl(var(--primary)), hsl(var(--brand-red-soft)) 55%, hsl(var(--brand-red)));
+    --emerald-glow: 354 88% 45%;
+    --emerald-dark: 350 88% 36%;
+    --glass-bg: 35 55% 98%;
+    --glass-border: 22 22% 87%;
+    --brand-red: 348 92% 39%;
+    --brand-red-soft: 8 96% 58%;
+    --gradient-brand: linear-gradient(135deg, hsl(8 96% 58%), hsl(var(--primary)) 52%, hsl(var(--brand-red)));
   }
 
   .dark {
@@ -50,29 +50,29 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
-    --primary: 158 64% 52%;
-    --primary-foreground: 222 47% 6%;
+    --primary: 354 92% 62%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 158 64% 42%;
+    --accent: 8 92% 61%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 20%;
     --input: 217 33% 20%;
-    --ring: 158 64% 52%;
+    --ring: 354 92% 62%;
     --sidebar-background: 222 47% 6%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 158 64% 52%;
+    --sidebar-primary: 354 92% 62%;
     --sidebar-primary-foreground: 222 47% 6%;
     --sidebar-accent: 217 33% 17%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 33% 20%;
     --sidebar-ring: 158 64% 52%;
-    --emerald-glow: 158 64% 52%;
-    --emerald-dark: 158 64% 35%;
+    --emerald-glow: 354 92% 62%;
+    --emerald-dark: 350 82% 43%;
     --glass-bg: 222 47% 11%;
     --glass-border: 217 33% 25%;
     --brand-red: 4 84% 62%;
@@ -89,12 +89,13 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
+    background-image: radial-gradient(circle at 100% 0%, hsl(var(--primary) / .055), transparent 28rem);
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-card border border-border rounded-xl shadow-sm;
+    @apply bg-card/95 border border-border rounded-2xl shadow-sm;
   }
 
   .glass-card-hover {
@@ -102,12 +103,12 @@
   }
 
   .glass-card-hover:hover {
-    @apply border-primary/40 shadow-md;
+    @apply border-primary/35 shadow-lg -translate-y-0.5;
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--brand-red-soft)), hsl(var(--brand-red)), hsl(var(--primary)));
+    background-image: linear-gradient(90deg, hsl(var(--brand-red-soft)), hsl(var(--primary)), hsl(var(--brand-red)));
     background-size: 200% auto;
     animation: gradient-flow 3s ease infinite;
   }
