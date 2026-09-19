@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { teacherApi, typeName, defaultSettings, type AssessmentType, type Test } from '@/lib/teacher';
-import { BookOpen, GraduationCap, Plus, PenLine, ClipboardList, BarChart3, Copy, ArrowRight, Sparkles } from 'lucide-react';
+import { BookOpen, GraduationCap, Plus, PenLine, ClipboardList, BarChart3, Copy, ArrowRight, Sparkles, Link2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 type Period = { plan:'teacher'|'teacher_pro'; grammar_used:number; writing_used:number; starts_at:string; ends_at:string };
@@ -38,6 +38,16 @@ export default function TeacherMode() {
           <p className="text-muted-foreground mt-2 max-w-2xl">Create a test in a few steps, send one link to students, then review submissions and class progress here.</p></div>
         {plan && <Button onClick={()=>setCreating(v=>!v)} className="gap-2"><Plus className="w-4 h-4"/>Create Test</Button>}
       </header>
+      <section className="rounded-3xl border border-primary/15 bg-gradient-to-br from-primary/[.08] to-card p-5 sm:p-7">
+        <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">Quick guide</p><h2 className="text-xl sm:text-2xl font-bold mt-1">From an idea to class results in three steps</h2><p className="text-sm text-muted-foreground mt-2">Students only need a free Scorify account to open your secure link and complete the assessment.</p></div>
+        <div className="grid md:grid-cols-3 gap-3 mt-6">
+          {[
+            {icon:ClipboardList,n:'1',title:'Create the test',text:'Choose Grammar, Writing Task 1 or Task 2. Add questions, instructions and timing.'},
+            {icon:Link2,n:'2',title:'Publish and share',text:'Publish when it is ready, then copy one secure link and send it to your students.'},
+            {icon:BarChart3,n:'3',title:'Review progress',text:'See every submission, score and answer. Use class analytics to plan the next lesson.'},
+          ].map(step=><div key={step.n} className="rounded-2xl border bg-background/80 p-4"><div className="flex items-center justify-between"><span className="w-9 h-9 rounded-xl bg-primary/10 text-primary grid place-items-center"><step.icon className="w-4 h-4"/></span><span className="text-xs font-bold text-primary">STEP {step.n}</span></div><h3 className="font-bold mt-4">{step.title}</h3><p className="text-sm text-muted-foreground mt-1 leading-relaxed">{step.text}</p></div>)}
+        </div>
+      </section>
       {loading?<div className="glass-card p-8">Loading Teacher Mode…</div>:!plan?<section className="glass-card p-6 sm:p-10 max-w-3xl">
         <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary grid place-items-center"><GraduationCap/></div>
         <h2 className="text-2xl font-bold mt-5">Teacher access</h2><p className="text-muted-foreground mt-2">Your Student account stays the same. A Teacher subscription unlocks unlimited test creation and usage based on completed student submissions.</p>

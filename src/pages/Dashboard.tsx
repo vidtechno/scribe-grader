@@ -235,6 +235,20 @@ export default function Dashboard() {
           <Link to="/my-tests" className="sm:hidden inline-flex mt-3 text-sm font-semibold text-primary">View my assigned tests</Link>
         </section>
 
+        <section className="mb-7 rounded-3xl border border-primary/15 bg-gradient-to-r from-primary/[.07] to-card p-5 sm:p-6">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-8">
+            <div className="lg:max-w-xs"><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">A clear routine</p><h2 className="text-xl font-bold mt-1">Practise, understand, improve</h2><p className="text-sm text-muted-foreground mt-2">Scorify keeps your feedback and results so every new practice can build on the last one.</p></div>
+            <div className="grid sm:grid-cols-3 gap-3 flex-1">
+              {[
+                ['1','Choose one skill','Start with Writing, Speaking or today’s Grammar test.'],
+                ['2','Read the feedback','Focus on the corrections and the weakest scoring criterion.'],
+                ['3','Practise again','Use your history to see what improved and what still needs work.'],
+              ].map(step=><div key={step[0]} className="rounded-2xl border bg-background/80 p-4"><span className="text-xs font-bold text-primary">STEP {step[0]}</span><h3 className="font-semibold mt-2">{step[1]}</h3><p className="text-xs text-muted-foreground mt-1 leading-relaxed">{step[2]}</p></div>)}
+            </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-primary/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"><p className="text-sm text-muted-foreground"><strong className="text-foreground">Teaching a class?</strong> Teacher Mode lets you create a test, send one link and review every student’s result.</p><Link to="/teacher" className="inline-flex items-center gap-1 text-sm font-semibold text-primary whitespace-nowrap">See Teacher Mode <ArrowRight className="w-4 h-4"/></Link></div>
+        </section>
+
         {/* Plan Usage Tracker */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="glass-card p-6 mb-6">

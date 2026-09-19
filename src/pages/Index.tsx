@@ -8,12 +8,14 @@ import { SEOHead } from '@/components/SEOHead';
 import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
+import { TEACHER_PLANS } from '@/lib/teacher-plans';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Target, Sparkles, Clock, BarChart3, MessageSquare,
   ChevronRight, CheckCircle, Star, Award, Zap, Crown,
   Check, ExternalLink, Quote, Mic, Coins, PenLine, Infinity as InfinityIcon,
-  Headphones, MessageCircle, Volume2, FileAudio, BrainCircuit, GraduationCap
+  Headphones, MessageCircle, Volume2, FileAudio, BrainCircuit, GraduationCap, Link2, Users,
+  ArrowRight, ClipboardList
 } from 'lucide-react';
 
 const fadeUp = {
@@ -503,6 +505,39 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Teacher Mode */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_.95fr] gap-10 items-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <motion.div variants={fadeUp} custom={0} className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary mb-5"><GraduationCap className="w-4 h-4"/> Teacher Mode</motion.div>
+            <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold leading-tight">Create the assessment once. <span className="gradient-text">Scorify organises the results.</span></motion.h2>
+            <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mt-5 leading-relaxed max-w-2xl">Build Grammar or IELTS Writing assessments without spreadsheets or scattered messages. Share one secure link, let students complete the work in their own accounts, and review every result from one clear workspace.</motion.p>
+            <motion.div variants={fadeUp} custom={3} className="grid sm:grid-cols-2 gap-3 mt-7">
+              {[
+                'Unlimited test creation on every Teacher plan',
+                'Automatic Grammar scoring and AI Writing feedback',
+                'Individual submissions and class-level analytics',
+                'Free Scorify account is enough for your students',
+              ].map(item=><div key={item} className="flex items-start gap-2 text-sm"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0"/><span>{item}</span></div>)}
+            </motion.div>
+            <motion.div variants={fadeUp} custom={4} className="flex flex-col sm:flex-row gap-3 mt-8">
+              <Link to={user ? '/teacher' : '/auth?next=%2Fteacher'}><Button variant="glow" size="lg" className="gap-2 w-full sm:w-auto">Open Teacher Mode <ArrowRight className="w-4 h-4"/></Button></Link>
+              <a href="#pricing"><Button variant="outline" size="lg" className="w-full sm:w-auto">Compare Teacher plans</Button></a>
+            </motion.div>
+          </motion.div>
+          <motion.div initial={{opacity:0,x:30}} whileInView={{opacity:1,x:0}} viewport={{once:true}} className="rounded-3xl border bg-card p-5 sm:p-7 shadow-xl shadow-primary/5">
+            <p className="text-xs font-bold uppercase tracking-[.18em] text-primary">How it works</p>
+            <div className="space-y-3 mt-5">
+              {[
+                {icon:ClipboardList,n:'01',title:'Create',text:'Choose a test type, add questions or an IELTS prompt, and set the rules.'},
+                {icon:Link2,n:'02',title:'Share',text:'Publish the test and send its secure invite link to your class.'},
+                {icon:Users,n:'03',title:'Review',text:'Open the results dashboard to compare scores, answers and common mistakes.'},
+              ].map(step=><div key={step.n} className="flex gap-4 rounded-2xl border bg-background p-4"><span className="w-11 h-11 shrink-0 rounded-xl bg-primary/10 text-primary grid place-items-center"><step.icon className="w-5 h-5"/></span><div><div className="flex items-center gap-2"><span className="text-[10px] font-bold text-primary">{step.n}</span><h3 className="font-bold">{step.title}</h3></div><p className="text-sm text-muted-foreground mt-1 leading-relaxed">{step.text}</p></div></div>)}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -553,7 +588,7 @@ export default function Index() {
               Simple <span className="gradient-text">Monthly Plans</span>
             </motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">
-              Choose the plan that fits your prep intensity. Every plan includes AI-graded Writing, Speaking and full Mock Tests.
+              Practise independently with Scorify Pro, or manage assessments and student results with a Teacher plan.
             </motion.p>
           </motion.div>
 
@@ -606,6 +641,21 @@ export default function Index() {
                 </motion.div>
               );
             })}
+            {TEACHER_PLANS.map((plan, index) => (
+              <motion.div key={plan.slug} variants={fadeUp} custom={subPlans.length + index}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className={`relative rounded-2xl border p-6 flex flex-col ${plan.badge ? 'border-primary bg-primary/5 shadow-xl shadow-primary/10' : 'border-border glass-card'}`}>
+                {plan.badge && <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">{plan.badge}</div>}
+                <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary mb-2">For teachers</p>
+                <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
+                <p className="text-xs text-muted-foreground mb-4 min-h-10">{plan.description}</p>
+                <div className="flex items-baseline gap-1 mb-5"><span className="text-3xl font-bold text-primary">{plan.priceUzs}</span><span className="text-sm text-muted-foreground">so'm / month</span></div>
+                <ul className="space-y-2 mb-6 flex-1 text-sm">
+                  {plan.features.map(feature=><li key={feature} className="flex items-start gap-2"><Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0"/><span>{feature}</span></li>)}
+                </ul>
+                <Button variant={plan.badge ? 'glow' : 'outline'} className="w-full gap-2" onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.priceUzs} so'm / oy).`)}`, '_blank')}><ExternalLink className="h-4 w-4"/> Buy via Telegram</Button>
+              </motion.div>
+            ))}
           </motion.div>
 
           <p className="text-xs text-muted-foreground text-center mt-8">
