@@ -12,13 +12,31 @@ const faqLd = (faq: { q: string; a: string }[]) => ({ '@context': 'https://schem
 const faqHtml = (faq: { q: string; a: string }[]) => faq.map(f => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
 const hero = (eyebrow: string, h1: string, lead: string, crumbs: string) => `<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb">${crumbs}</nav><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p></div></section>`;
 const article = (ld: unknown, title: string, desc: string) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, inLanguage: 'en', author: { '@type': 'Organization', name: 'Scorify.uz' }, publisher: { '@type': 'Organization', name: 'Scorify.uz', logo: { '@type': 'ImageObject', url: `${SITE}/logo.png` } }, ...(ld as object) });
+const GUIDES = {
+  writing: [
+    ['/blog/ielts-writing-task-2-essay-structure', 'Task 2 essay structure: the Band 7+ template', 'A paragraph-by-paragraph plan with a full annotated example.'],
+    ['/blog/improve-ielts-writing-band-6-to-7', 'Improve IELTS Writing from Band 6 to 7', 'Ten fixes with before-and-after examples.'],
+    ['/blog/ielts-writing-task-2-qanday-yoziladi', 'IELTS Writing Task 2 qanday yoziladi?', 'O‘zbek tilida bosqichma-bosqich qo‘llanma.'],
+  ],
+  speaking: [
+    ['/blog/ielts-30-kunlik-tayyorgarlik-rejasi', 'IELTS ga 30 kunda tayyorlanish', 'Writing va Speaking uchun kunlik reja (o‘zbek tilida).'],
+    ['/blog/ielts-band-score-explained', 'IELTS band scores explained', 'How Speaking and Writing are marked, criterion by criterion.'],
+    ['/blog/improve-ielts-writing-band-6-to-7', 'Improve IELTS Writing from Band 6 to 7', 'Ten practical fixes that move your score.'],
+  ],
+  score: [
+    ['/blog/ielts-band-score-explained', 'IELTS band scores explained', 'How the overall band and each criterion are calculated.'],
+    ['/blog/improve-ielts-writing-band-6-to-7', 'Improve IELTS Writing from Band 6 to 7', 'Ten practical fixes that move your score.'],
+    ['/blog/ielts-30-kunlik-tayyorgarlik-rejasi', 'IELTS ga 30 kunda tayyorlanish', 'Kunlik reja (o‘zbek tilida).'],
+  ],
+} as const;
+const studyGuides = (kind: keyof typeof GUIDES) => `<section class="section"><h2>Study guides</h2><div class="grid">${GUIDES[kind].map(([href, t, d]) => `<a class="card" href="${href}"><div class="body"><h3>${esc(t)}</h3><p>${esc(d)}</p></div></a>`).join('')}</div></section>`;
 const link = (base: string, slug: string, text: string) => `<a class="card" href="${base}/${slug}"><div class="body"><h3>${esc(text)}</h3></div></a>`;
 
 /* ---------- Speaking Part 1 ---------- */
 function part1Hub() {
   const body = `${hero('IELTS Speaking Part 1', 'IELTS Speaking Part 1 topics with sample answers', 'Common Part 1 questions on everyday topics, with natural model answers, useful vocabulary and tips you can use today.', '<a href="/">Home</a> / Speaking Part 1')}
 <main class="page"><div class="wrap"><div class="grid">${PART1.map(t => `<a class="card" href="/ielts-speaking-part-1/${t.slug}"><div class="body"><h3>${esc(t.title)}</h3><p>${esc(t.intro)}</p></div></a>`).join('')}</div>
-<section class="section"><h2>How Part 1 works</h2><p>Part 1 lasts four to five minutes. The examiner asks about familiar topics such as your home, work or hobbies. Answer directly in two or three sentences, add a reason or short example, and keep a natural pace. Long speeches are not needed.</p></section>${ctaBox('Practise Part 1 out loud', 'Record your answer and get a fluency, vocabulary, grammar and pronunciation score from AI.', '/auth', 'Practise speaking')}</div></main>`;
+<section class="section"><h2>How Part 1 works</h2><p>Part 1 lasts four to five minutes. The examiner asks about familiar topics such as your home, work or hobbies. Answer directly in two or three sentences, add a reason or short example, and keep a natural pace. Long speeches are not needed.</p></section>${studyGuides('speaking')}${ctaBox('Practise Part 1 out loud', 'Record your answer and get a fluency, vocabulary, grammar and pronunciation score from AI.', '/auth', 'Practise speaking')}</div></main>`;
   return page({ title: 'IELTS Speaking Part 1 Topics and Sample Answers | Scorify.uz', description: `${PART1.length} common IELTS Speaking Part 1 topics with model answers, vocabulary and examiner-style tips. Practise with instant AI feedback.`, path: '/ielts-speaking-part-1', body, jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Speaking Part 1', path: '/ielts-speaking-part-1' }])] });
 }
 function part1Page(t: Part1Topic) {
@@ -31,6 +49,7 @@ function part1Page(t: Part1Topic) {
 <section><h2>Questions and sample answers</h2>${t.qa.map(x => `<div class="qa"><h3>${esc(x.q)}</h3><p>${esc(x.a)}</p></div>`).join('')}</section>
 <section class="section"><h2>Useful vocabulary</h2>${vocabList(t.vocab)}</section>
 <section class="section"><h2>Tips for this topic</h2>${bullets(t.tips)}</section>
+${studyGuides('speaking')}
 ${ctaBox(`Answer these ${t.title.toLowerCase()} questions yourself`, 'Record your own answers and get instant feedback on fluency, grammar, vocabulary and pronunciation.', '/auth', 'Practise speaking')}
 <section class="section"><h2>More Part 1 topics</h2><div class="grid">${others.map(o => link('/ielts-speaking-part-1', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
@@ -43,7 +62,7 @@ function part2Hub() {
   const body = `${hero('IELTS Speaking Part 2', 'IELTS Speaking Part 2 cue cards with band 7 sample answers', 'Popular “Describe a…” topics with a model answer, key vocabulary and the Part 3 follow-up questions examiners often ask.', '<a href="/">Home</a> / Speaking Part 2')}
 <main class="page"><div class="wrap">${cats.map(cat => `<section class="section"><h2>${esc(cat)}</h2><div class="grid">${CUE_CARDS.filter(c => c.category === cat).map(c => `<a class="card" href="/ielts-speaking-part-2/${c.slug}"><div class="body"><h3>${esc(c.title)}</h3><p>${esc(c.cue)}</p></div></a>`).join('')}</div></section>`).join('')}
 <section class="section"><h2>How to answer a cue card</h2><p>You get one minute to prepare and then speak for up to two minutes. Use your minute to jot down keywords for each bullet point, start with a clear opening sentence and finish with a short reflection. Talking for the full two minutes matters: stopping early limits your fluency score.</p></section>
-${ctaBox('Time yourself on a real cue card', 'Practise Part 2 with a timer, record your answer and get a band estimate.', '/auth', 'Practise Part 2')}</div></main>`;
+${studyGuides('speaking')}${ctaBox('Time yourself on a real cue card', 'Practise Part 2 with a timer, record your answer and get a band estimate.', '/auth', 'Practise Part 2')}</div></main>`;
   return page({ title: 'IELTS Speaking Part 2 Cue Cards and Sample Answers | Scorify.uz', description: `${CUE_CARDS.length} IELTS Speaking Part 2 cue cards with band 7 sample answers, vocabulary and Part 3 questions. Practise free with AI feedback.`, path: '/ielts-speaking-part-2', body, jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Speaking Part 2', path: '/ielts-speaking-part-2' }])] });
 }
 function part2Page(c: CueCard) {
@@ -58,6 +77,7 @@ function part2Page(c: CueCard) {
 <section class="section"><h2>Key vocabulary</h2>${vocabList(c.vocab)}</section>
 <section class="section"><h2>Tips for this cue card</h2>${bullets(c.tips)}</section>
 <section class="section"><h2>Part 3 follow-up questions</h2>${c.part3.map(x => `<div class="qa"><h3>${esc(x.q)}</h3><p><strong>Idea:</strong> ${esc(x.idea)}</p></div>`).join('')}</section>
+${studyGuides('speaking')}
 ${ctaBox('Now record your own answer', 'Speak for two minutes and get a fluency, grammar, vocabulary and pronunciation score with feedback.', '/auth', 'Practise this topic')}
 <section class="section"><h2>More cue cards</h2><div class="grid">${others.map(o => link('/ielts-speaking-part-2', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
@@ -70,7 +90,7 @@ function task2Hub() {
   const body = `${hero('IELTS Writing Task 2', 'IELTS Writing Task 2 questions, outlines and band 7+ sample essays', 'Real-style essay questions grouped by topic, each with an analysis of the task, a clear plan, a full model essay and vocabulary.', '<a href="/">Home</a> / Writing Task 2 questions')}
 <main class="page"><div class="wrap">${cats.map(cat => `<section class="section"><h2>${esc(cat)}</h2><div class="grid">${TASK2.filter(c => c.category === cat).map(c => `<a class="card" href="/ielts-writing-task-2-questions/${c.slug}"><div class="body"><div class="meta"><span>${esc(c.type)}</span></div><h3>${esc(c.title)}</h3><p>${esc(c.question)}</p></div></a>`).join('')}</div></section>`).join('')}
 <section class="section"><h2>The five essay types</h2><ul><li><strong>Opinion:</strong> state clearly whether you agree or disagree and defend that position throughout.</li><li><strong>Discussion + opinion:</strong> explain both views fairly, then give your own.</li><li><strong>Problem and solution:</strong> describe the main problems, then suggest realistic solutions.</li><li><strong>Advantages and disadvantages:</strong> weigh both sides, then say which is stronger if asked.</li><li><strong>Two-part question:</strong> answer each question directly in its own paragraph.</li></ul></section>
-${ctaBox('Write your own essay and get a band score', 'Pick a question, write for 40 minutes and receive criterion scores and corrections from AI.', '/auth', 'Practise Writing')}</div></main>`;
+${studyGuides('writing')}${ctaBox('Write your own essay and get a band score', 'Pick a question, write for 40 minutes and receive criterion scores and corrections from AI.', '/auth', 'Practise Writing')}</div></main>`;
   return page({ title: 'IELTS Writing Task 2 Questions, Outlines and Sample Essays | Scorify.uz', description: `${TASK2.length} IELTS Writing Task 2 questions with analysis, essay plans and full band 7+ sample answers. Practise free with AI feedback.`, path: '/ielts-writing-task-2-questions', body, jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Writing Task 2 questions', path: '/ielts-writing-task-2-questions' }])] });
 }
 function task2Page(q: Task2Question) {
@@ -93,6 +113,7 @@ function task2Page(q: Task2Question) {
 <section class="section"><h2>Why this essay scores well</h2><ul><li><strong>Task Response:</strong> every part of the question is answered and the position stays consistent from the introduction to the conclusion.</li><li><strong>Coherence and Cohesion:</strong> each paragraph has one clear idea, linked with natural connectors rather than a list of memorised phrases.</li><li><strong>Lexical Resource:</strong> topic vocabulary is precise and varied, without forcing rare words.</li><li><strong>Grammatical Range and Accuracy:</strong> a mix of simple and complex sentences, with conditionals and relative clauses used accurately.</li></ul></section>
 <section class="section"><h2>Useful vocabulary</h2>${vocabList(q.vocab)}</section>
 <section class="section"><h2>Common mistakes on this question</h2>${bullets(q.mistakes)}</section>
+${studyGuides('writing')}
 ${ctaBox('Write your own answer to this question', 'Get a band score, criterion feedback and corrections on your essay in seconds.', '/auth', 'Check my essay')}
 <section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section>
 <section class="section"><h2>More Task 2 questions</h2><div class="grid">${others.map(o => link('/ielts-writing-task-2-questions', o.slug, o.title)).join('')}</div></section>
@@ -114,7 +135,7 @@ function calculator() {
 <p style="margin:24px 0 4px;color:#64748b">Your overall band</p><div class="result" id="out">6.5</div><p id="avg" style="color:#64748b;margin-top:8px"></p></section>
 <script>(function(){var ids=['l','r','w','s'];function calc(){var t=0;ids.forEach(function(i){t+=parseFloat(document.getElementById(i).value)});var a=t/4;var f=Math.floor(a);var d=a-f;var b;if(d<0.25)b=f;else if(d<0.75)b=f+0.5;else b=f+1;document.getElementById('out').textContent=b.toFixed(1);document.getElementById('avg').textContent='Average of your four scores: '+a.toFixed(2)}ids.forEach(function(i){document.getElementById(i).addEventListener('change',calc)});calc()})()</script>
 <section class="section"><h2>How the overall band is rounded</h2><ul><li>Average ending in <strong>.25</strong> rounds up to the next half band (6.25 → 6.5).</li><li>Average ending in <strong>.75</strong> rounds up to the next whole band (6.75 → 7.0).</li><li>Other averages round to the nearest half or whole band (6.125 → 6.0, 6.375 → 6.5).</li></ul></section>
-<section class="section"><h2>Improve your Writing and Speaking scores</h2><p>Writing and Speaking are usually the hardest to raise without feedback. Scorify gives you an estimated band, criterion scores and corrections after every practice.</p></section>
+${studyGuides('score')}<section class="section"><h2>Improve your Writing and Speaking scores</h2><p>Writing and Speaking are usually the hardest to raise without feedback. Scorify gives you an estimated band, criterion scores and corrections after every practice.</p></section>
 ${ctaBox()}<section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq.slice(0, 3))}</section></div></main>`;
   return page({ title: 'IELTS Band Score Calculator – Overall Band | Scorify.uz', description: 'Free IELTS band score calculator. Enter your Listening, Reading, Writing and Speaking scores to get your overall band using the official rounding rule.', path: '/ielts-band-score-calculator', body, jsonLd: [faqLd(faq.slice(0, 3)), { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'IELTS Band Score Calculator', url: `${SITE}/ielts-band-score-calculator`, applicationCategory: 'EducationalApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }, breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Band score calculator', path: '/ielts-band-score-calculator' }])] });
 }

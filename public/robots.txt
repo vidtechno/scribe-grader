@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /referral
+Disallow: /auth
+Disallow: /exam
+Disallow: /result/
+Disallow: /speaking-result/
+Disallow: /mock-test/
 
 Sitemap: https://www.scorify.uz/sitemap.xml

@@ -24,7 +24,7 @@ const NAV = [
 
 export function page(o: PageOptions): string {
   const url = `${SITE}${o.path}`;
-  const og = o.ogImage || `${SITE}/logo.png`;
+  const og = o.ogImage || `${SITE}/og-image.png`;
   const robots = o.robots || 'index, follow, max-image-preview:large, max-snippet:-1';
   return `<!doctype html>
 <html lang="${esc(o.lang || 'en')}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,6 +33,7 @@ export function page(o: PageOptions): string {
 <meta name="robots" content="${esc(robots)}">
 <link rel="canonical" href="${esc(url)}">
 ${(o.alternates || []).map(a => `<link rel="alternate" hreflang="${esc(a.lang)}" href="${esc(SITE + a.path)}">`).join('\n')}
+<link rel="alternate" type="application/rss+xml" title="Scorify IELTS Blog" href="/blog/rss.xml">
 <link rel="icon" href="/logo.png?v=3" type="image/png"><link rel="apple-touch-icon" href="/logo.png?v=3">
 <meta property="og:site_name" content="Scorify.uz"><meta property="og:type" content="${esc(o.ogType || 'website')}">
 <meta property="og:title" content="${esc(o.title)}"><meta property="og:description" content="${esc(o.description)}">
