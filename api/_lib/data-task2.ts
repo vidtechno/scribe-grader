@@ -1,6 +1,8 @@
 import type { Task2Question } from './types.js';
 
-export const TASK2: Task2Question[] = [
+import { TASK2_MORE } from './data-task2-more.js';
+
+const TASK2_CORE: Task2Question[] = [
   {
     slug: "social-media-negative-impact",
     title: "Social media and its impact on society",
@@ -347,3 +349,5 @@ export const TASK2: Task2Question[] = [
     mistakes: ["Giving only one view fully.", "Using “we should protect the earth” as a conclusion without a specific point.", "Not clarifying which side you prefer."],
   },
 ];
+
+export const TASK2: Task2Question[] = [...TASK2_CORE, ...TASK2_MORE];

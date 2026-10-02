@@ -61,4 +61,13 @@ describe('programmatic SEO content', () => {
       v.groups.forEach(g => { expect(g.items.length, `${v.slug}: ${g.head}`).toBeGreaterThanOrEqual(5); g.items.forEach(i => expect(i.example.length, i.word).toBeGreaterThan(20)); });
     }
   });
+
+  it('gives every Task 1 page chart data and a report of at least 150 words', () => {
+    expect(TASK1.length).toBeGreaterThanOrEqual(12);
+    for (const t of TASK1) {
+      expect(words(t.sample), t.slug).toBeGreaterThanOrEqual(150);
+      expect(t.sample.length, t.slug).toBeGreaterThanOrEqual(4);
+      expect(t.language.length, t.slug).toBeGreaterThanOrEqual(6);
+    }
+  });
 });
