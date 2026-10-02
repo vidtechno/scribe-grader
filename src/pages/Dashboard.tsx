@@ -200,7 +200,7 @@ export default function Dashboard() {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1">
                 Welcome back, <span className="gradient-text">{profile?.full_name?.split(' ')[0] || 'Student'}</span>
               </h1>
-              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl">Choose one clear activity for today. Practise Writing or Speaking, strengthen your grammar, or create a class assessment.</p>
+              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl">Choose one clear activity for today. Practise Writing or Speaking, or strengthen your grammar.</p>
             </div>
             <div className="flex items-center gap-3 flex-wrap">
               <SubscriptionBadge planType={planType} planName={planName} size="md" />
