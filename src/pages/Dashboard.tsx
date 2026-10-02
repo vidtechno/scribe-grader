@@ -64,7 +64,7 @@ function PracticeCard({ icon: Icon, title, text, left, limit, used, last, averag
 }
 
 export default function Dashboard() {
-  const { profile, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const { planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, entitlement,
     expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
   const navigate = useNavigate();
@@ -124,7 +124,8 @@ export default function Dashboard() {
     ...speaking.filter(x => x.status !== 'draft').map(x => ({ kind: 'speaking' as const, id: x.id, title: x.topic, score: x.score, at: new Date(x.created_at) })),
   ].sort((a, b) => +b.at - +a.at).slice(0, 6), [essays, speaking]);
 
-  const firstName = profile?.full_name?.split(' ')[0] || 'there';
+  const meta = user?.user_metadata as { full_name?: string; name?: string } | undefined;
+  const firstName = (profile?.full_name || meta?.full_name || meta?.name || user?.email?.split('@')[0] || 'there').split(' ')[0];
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden pb-24 md:pb-0">
