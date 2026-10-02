@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { SITE, SUPABASE_KEY, SUPABASE_URL, breadcrumbLd, ctaBox, esc, notFoundPage, page, send, slugify } from './_lib/shell.js';
 import { getPost, listPosts, type Post } from './_lib/posts.js';
 import { extractFaq } from './_lib/faq.js';
+import { SECTIONS, totalPages } from './_lib/catalog.js';
 
 const PAGE_SIZE = 12;
 const fmt = (iso: string, lang: string) => new Date(iso).toLocaleDateString(lang === 'uz' ? 'uz-UZ' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -32,7 +33,6 @@ const card = (p: { slug: string; title: string; excerpt: string | null; cover_im
 <div class="body"><div class="meta"><span>${esc(fmt(p.published_at, p.lang))}</span>${p.reading_minutes ? `<span>${p.reading_minutes} min read</span>` : ''}<span>${p.lang === 'uz' ? 'O‘zbekcha' : 'English'}</span></div>
 <h3>${esc(p.title)}</h3>${p.excerpt ? `<p>${esc(p.excerpt)}</p>` : ''}</div></a>`;
 
-const LEGACY = { slug: 'computer-based-ielts-writing', title: 'Computer-based IELTS Writing: how to prepare', excerpt: 'What changes on the computer-delivered test and how to practise for it.', cover_image_url: null, tags: ['writing'], published_at: '2026-01-15T00:00:00Z', reading_minutes: 6, lang: 'en' };
 
 async function renderList(url: URL) {
   const lang = url.searchParams.get('lang');
@@ -41,23 +41,29 @@ async function renderList(url: URL) {
   const all = await listPosts();
   const tags = [...new Set(all.flatMap(p => p.tags))].sort();
   const posts = all.filter(p => (!lang || p.lang === lang) && (!tag || p.tags.includes(tag)));
-  const showLegacy = (!lang || lang === 'en') && !tag;
-  const pages = Math.max(1, Math.ceil((posts.length + (showLegacy ? 1 : 0)) / PAGE_SIZE));
-  const combined = [...(showLegacy ? [LEGACY] : []), ...posts];
-  const items = combined.slice((pageNo - 1) * PAGE_SIZE, pageNo * PAGE_SIZE).map(card);
-  const qs = (extra: Record<string, string>) => { const p = new URLSearchParams({ ...(lang ? { lang } : {}), ...(tag ? { tag } : {}), ...extra }); const s = p.toString(); return `/blog${s ? '?' + s : ''}`; };
   const filtered = !!(lang || tag || pageNo > 1);
+  const featured = !filtered ? all.find(p => p.cover_image_url) : undefined;
+  const rest = featured ? posts.filter(p => p.slug !== featured.slug) : posts;
+  const pages = Math.max(1, Math.ceil(rest.length / PAGE_SIZE));
+  const items = rest.slice((pageNo - 1) * PAGE_SIZE, pageNo * PAGE_SIZE).map(card);
+  const qs = (extra: Record<string, string>) => { const p = new URLSearchParams({ ...(lang ? { lang } : {}), ...(tag ? { tag } : {}), ...extra }); const s = p.toString(); return `/blog${s ? '?' + s : ''}`; };
+  const sections = SECTIONS();
+  const hubs = !filtered ? `<section class="section"><div class="section-head"><h2>Practice hubs</h2><span style="color:#64748b;font-size:.9rem">${totalPages()} free pages with model answers</span></div>
+<div class="hubs">${sections.map(h => `<a class="hub" href="${h.href}"><span class="ico" aria-hidden="true">${h.icon}</span><h3>${esc(h.title)}</h3><p>${esc(h.desc)}</p>${h.count ? `<span class="count">${h.count} pages →</span>` : '<span class="count">Free tool →</span>'}</a>`).join('')}</div></section>` : '';
+  const feature = featured ? `<section class="section" style="margin-top:0"><a class="feature" href="/blog/${esc(featured.slug)}"><img src="${esc(featured.cover_image_url || '')}" alt="${esc(featured.cover_alt || featured.title)}" width="800" height="450" fetchpriority="high"><div class="body"><div class="meta"><span class="tag">Latest</span><span>${esc(fmt(featured.published_at, featured.lang))}</span>${featured.reading_minutes ? `<span>${featured.reading_minutes} min read</span>` : ''}</div><h3>${esc(featured.title)}</h3>${featured.excerpt ? `<p>${esc(featured.excerpt)}</p>` : ''}<span style="color:var(--brand);font-weight:700">Read the guide →</span></div></a></section>` : '';
   const body = `
-<section class="hero"><div class="wrap"><span class="eyebrow">Scorify blog</span><h1>IELTS tips, sample answers and study guides</h1>
-<p class="lead">Practical advice for IELTS Writing and Speaking, in English and Uzbek. Learn the strategies behind higher band scores.</p>
+<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / Blog</nav><span class="eyebrow">Scorify blog</span><h1>IELTS guides, sample answers and practice topics</h1>
+<p class="lead">Everything for IELTS Writing and Speaking in one place: step-by-step guides in English and Uzbek, plus ${totalPages()} practice pages with model answers.</p>
 <div class="pills" aria-label="Filter by language"><a class="pill${!lang ? ' on' : ''}" href="/blog">All</a><a class="pill${lang === 'en' ? ' on' : ''}" href="/blog?lang=en">English</a><a class="pill${lang === 'uz' ? ' on' : ''}" href="/blog?lang=uz">O‘zbekcha</a></div>
 ${tags.length ? `<div class="pills" aria-label="Topics">${tags.slice(0, 16).map(t => `<a class="pill${t === tag ? ' on' : ''}" href="${qs({ tag: t }).replace(/&?page=\d+/, '')}">${esc(t)}</a>`).join('')}</div>` : ''}</div></section>
-<main class="page"><div class="wrap">${items.length ? `<div class="grid">${items.join('')}</div>` : '<p class="lead">No articles here yet. Check back soon!</p>'}
+<main class="page"><div class="wrap">${feature}
+${items.length ? `<section class="section" style="margin-top:${featured ? '40px' : '0'}"><div class="section-head"><h2>${filtered ? 'Articles' : 'Latest articles'}</h2></div><div class="grid">${items.join('')}</div></section>` : (featured ? '' : '<p class="lead">No articles here yet. Check back soon!</p>')}
 ${pages > 1 ? `<nav class="pager" aria-label="Pages">${pageNo > 1 ? `<a class="btn ghost" href="${qs({ page: String(pageNo - 1) })}">← Newer</a>` : ''}<span style="align-self:center;color:#64748b">Page ${pageNo} of ${pages}</span>${pageNo < pages ? `<a class="btn ghost" href="${qs({ page: String(pageNo + 1) })}">Older →</a>` : ''}</nav>` : ''}
-${ctaBox()}</div></main>`;
+${hubs}
+${ctaBox('Try the practice yourself', 'Write an essay or record a speaking answer and get a band score with corrections in seconds. Your first evaluation is free.', '/auth', 'Check my English free')}</div></main>`;
   return page({
-    title: 'IELTS Blog: Writing & Speaking Tips, Samples and Guides | Scorify.uz',
-    description: 'Free IELTS Writing and Speaking tips, sample answers, vocabulary and study plans in English and Uzbek from Scorify.uz.',
+    title: 'IELTS Blog: Guides, Sample Answers and Practice Topics | Scorify.uz',
+    description: 'Free IELTS Writing and Speaking guides, sample answers, vocabulary and practice topics in English and Uzbek from Scorify.uz.',
     path: '/blog', body, robots: filtered ? 'noindex, follow' : undefined,
     alternates: [{ lang: 'x-default', path: '/blog' }],
     jsonLd: [{ '@context': 'https://schema.org', '@type': 'Blog', name: 'Scorify IELTS Blog', url: `${SITE}/blog`, publisher: { '@type': 'Organization', name: 'Scorify.uz', logo: `${SITE}/logo.png` } }, breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])],

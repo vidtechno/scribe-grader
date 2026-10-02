@@ -1,6 +1,8 @@
 import type { Part1Topic } from './types.js';
 
-export const PART1: Part1Topic[] = [
+import { PART1_MORE } from './data-part1-more.js';
+
+const PART1_CORE: Part1Topic[] = [
   {
     slug: "hometown",
     title: "Hometown",
@@ -182,3 +184,5 @@ export const PART1: Part1Topic[] = [
     tips: ["Balance advantages and disadvantages: “On the one hand… on the other hand…”.", "Use present perfect for change: “Technology has changed…”.", "Give concrete examples: apps, devices, situations."],
   },
 ];
+
+export const PART1: Part1Topic[] = [...PART1_CORE, ...PART1_MORE];

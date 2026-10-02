@@ -15,6 +15,11 @@
       "source": "/ielts-speaking-practice.html",
       "destination": "/ielts-speaking-practice",
       "permanent": true
+    },
+    {
+      "source": "/blog/computer-based-ielts-writing",
+      "destination": "/blog",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -25,10 +30,6 @@
     {
       "source": "/blog/rss.xml",
       "destination": "/api/blog?feed=1"
-    },
-    {
-      "source": "/blog/computer-based-ielts-writing",
-      "destination": "/index.html"
     },
     {
       "source": "/blog/:slug",
@@ -61,6 +62,30 @@
     {
       "source": "/ielts-writing-task-2-questions/:slug",
       "destination": "/api/seo?kind=wt2&slug=:slug"
+    },
+    {
+      "source": "/ielts-speaking-part-3",
+      "destination": "/api/seo?kind=sp3"
+    },
+    {
+      "source": "/ielts-speaking-part-3/:slug",
+      "destination": "/api/seo?kind=sp3&slug=:slug"
+    },
+    {
+      "source": "/ielts-writing-task-1-samples",
+      "destination": "/api/seo?kind=wt1"
+    },
+    {
+      "source": "/ielts-writing-task-1-samples/:slug",
+      "destination": "/api/seo?kind=wt1&slug=:slug"
+    },
+    {
+      "source": "/ielts-vocabulary",
+      "destination": "/api/seo?kind=vocab"
+    },
+    {
+      "source": "/ielts-vocabulary/:slug",
+      "destination": "/api/seo?kind=vocab&slug=:slug"
     },
     {
       "source": "/ielts-band-score-calculator",

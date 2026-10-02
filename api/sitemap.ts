@@ -4,6 +4,9 @@ import { listPosts } from './_lib/posts.js';
 import { PART1 } from './_lib/data-part1.js';
 import { CUE_CARDS } from './_lib/data-part2.js';
 import { TASK2 } from './_lib/data-task2.js';
+import { PART3 } from './_lib/data-part3.js';
+import { TASK1 } from './_lib/data-task1.js';
+import { VOCAB } from './_lib/data-vocab.js';
 
 type Url = { path: string; priority: string; changefreq: string; lastmod?: string };
 /** Bump when the static or programmatic content changes meaningfully. */
@@ -18,11 +21,16 @@ export default async function handler(_req: IncomingMessage, res: ServerResponse
     { path: '/ielts-writing-task-2-questions', priority: '0.9', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
     { path: '/ielts-speaking-part-1', priority: '0.9', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
     { path: '/ielts-speaking-part-2', priority: '0.9', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
+    { path: '/ielts-speaking-part-3', priority: '0.9', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
+    { path: '/ielts-writing-task-1-samples', priority: '0.9', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
+    { path: '/ielts-vocabulary', priority: '0.8', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
     { path: '/ielts-band-score-calculator', priority: '0.8', changefreq: 'monthly', lastmod: CONTENT_UPDATED },
     { path: '/blog', priority: '0.8', changefreq: 'daily', lastmod: CONTENT_UPDATED },
-    { path: '/blog/computer-based-ielts-writing', priority: '0.7', changefreq: 'monthly', lastmod: '2026-01-15' },
     ...TASK2.map(q => ({ path: `/ielts-writing-task-2-questions/${q.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
     ...PART1.map(t => ({ path: `/ielts-speaking-part-1/${t.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
+    ...PART3.map(t => ({ path: `/ielts-speaking-part-3/${t.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
+    ...TASK1.map(t => ({ path: `/ielts-writing-task-1-samples/${t.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
+    ...VOCAB.map(v => ({ path: `/ielts-vocabulary/${v.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
     ...CUE_CARDS.map(c => ({ path: `/ielts-speaking-part-2/${c.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
   ];
   try {

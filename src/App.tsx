@@ -31,7 +31,6 @@ const MockTestDashboard = lazy(() => import("./pages/MockTestDashboard"));
 const MockTestExam = lazy(() => import("./pages/MockTestExam"));
 const MockTestThankYou = lazy(() => import("./pages/MockTestThankYou"));
 const MockTestResult = lazy(() => import("./pages/MockTestResult"));
-const BlogComputerBasedWriting = lazy(() => import("./pages/BlogComputerBasedWriting"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const GrammarTest = lazy(() => import("./pages/GrammarTest"));
 import { safeReturnTo } from "./lib/returnTo";
@@ -79,7 +78,6 @@ function AppRoutes() {
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
         <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route path="/blog/computer-based-ielts-writing" element={<BlogComputerBasedWriting />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/vocabulary" element={<Navigate to="/dashboard" replace />} />
         <Route path="/grammar-test" element={<ProtectedRoute><GrammarTest /></ProtectedRoute>} />

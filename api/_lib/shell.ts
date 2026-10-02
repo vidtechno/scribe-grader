@@ -15,10 +15,10 @@ export type PageOptions = {
 };
 
 const NAV = [
-  ['/ielts-writing-task-2-questions', 'Writing Task 2'],
-  ['/ielts-speaking-part-2', 'Speaking Part 2'],
-  ['/ielts-speaking-part-1', 'Speaking Part 1'],
-  ['/ielts-band-score-calculator', 'Band Calculator'],
+  ['/ielts-writing-task-2-questions', 'Writing'],
+  ['/ielts-speaking-part-2', 'Speaking'],
+  ['/ielts-vocabulary', 'Vocabulary'],
+  ['/ielts-band-score-calculator', 'Calculator'],
   ['/blog', 'Blog'],
 ];
 
@@ -50,10 +50,11 @@ ${o.head || ''}
 ${o.body}
 <footer class="site"><div class="wrap"><div class="cols">
 <div><h4>Scorify.uz</h4><p>AI-graded IELTS Writing and Speaking practice with band scores and examiner-style feedback.</p><a class="btn" href="/auth" style="display:inline-flex">Start practising</a></div>
-<div><h4>Writing</h4><a href="/ielts-writing-task-1">IELTS Writing Task 1</a><a href="/ielts-writing-task-2">IELTS Writing Task 2</a><a href="/ielts-writing-task-2-questions">Task 2 questions &amp; outlines</a></div>
-<div><h4>Speaking</h4><a href="/ielts-speaking-practice">Speaking practice</a><a href="/ielts-speaking-part-1">Part 1 topics</a><a href="/ielts-speaking-part-2">Part 2 cue cards</a></div>
-<div><h4>Resources</h4><a href="/blog">Blog</a><a href="/ielts-band-score-calculator">Band score calculator</a><a href="/blog/computer-based-ielts-writing">Computer-based IELTS</a></div>
-</div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS is a registered trademark of its owners; Scorify.uz is not affiliated with IELTS.</p></div></footer>
+<div><h4>Writing</h4><a href="/ielts-writing-task-2-questions">Task 2 questions &amp; essays</a><a href="/ielts-writing-task-1-samples">Task 1 samples</a><a href="/ielts-writing-task-2">Task 2 guide</a><a href="/ielts-writing-task-1">Task 1 guide</a></div>
+<div><h4>Speaking</h4><a href="/ielts-speaking-part-1">Part 1 topics</a><a href="/ielts-speaking-part-2">Part 2 cue cards</a><a href="/ielts-speaking-part-3">Part 3 discussions</a><a href="/ielts-speaking-practice">Speaking practice</a></div>
+<div><h4>Resources</h4><a href="/blog">Blog &amp; guides</a><a href="/ielts-vocabulary">Vocabulary by topic</a><a href="/ielts-band-score-calculator">Band score calculator</a><a href="/blog/rss.xml">RSS feed</a></div>
+</div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS is a registered trademark of its owners; Scorify.uz is not affiliated with IELTS.</p></div>
+</footer>
 </body></html>`;
 }
 
