@@ -54,4 +54,11 @@ describe('programmatic SEO content', () => {
     expect(PART1.length).toBeGreaterThanOrEqual(30);
     expect(PART3.length).toBeGreaterThanOrEqual(16);
   });
+
+  it('gives every vocabulary page at least three groups of six items with examples', () => {
+    for (const v of VOCAB) {
+      expect(v.groups.length, v.slug).toBeGreaterThanOrEqual(3);
+      v.groups.forEach(g => { expect(g.items.length, `${v.slug}: ${g.head}`).toBeGreaterThanOrEqual(5); g.items.forEach(i => expect(i.example.length, i.word).toBeGreaterThan(20)); });
+    }
+  });
 });

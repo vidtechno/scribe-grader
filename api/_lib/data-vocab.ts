@@ -1,2 +1,142 @@
 import type { VocabPage } from './types.js';
-export const VOCAB: VocabPage[] = [];
+
+const item = (word: string, meaning: string, example: string) => ({ word, meaning, example });
+
+export const VOCAB: VocabPage[] = [
+  {
+    slug: "education",
+    title: "IELTS Vocabulary for Education",
+    intro: "Education is one of the most common IELTS topics in Writing Task 2 and Speaking Parts 1 and 3. These words and phrases help you discuss schools, universities and learning accurately.",
+    groups: [
+      { head: "Schools and teaching", items: [
+        item("curriculum", "the subjects taught in a school or course", "The curriculum should include practical skills as well as theory."),
+        item("compulsory education", "schooling that children are required to attend", "Compulsory education ends at sixteen in many countries."),
+        item("class size", "the number of students in a class", "Smaller class sizes allow teachers to give more attention to each student."),
+        item("tuition fees", "money paid for teaching", "High tuition fees discourage some talented students from applying."),
+        item("peer pressure", "influence from people of the same age", "Teenagers are often affected by peer pressure at school."),
+        item("rote learning", "learning by repeating facts without understanding", "Rote learning may help in exams but does not develop critical thinking."),
+      ] },
+      { head: "Universities and careers", items: [
+        item("higher education", "study at university level", "Higher education should be accessible to all who have the ability."),
+        item("vocational training", "education for a specific job", "Vocational training prepares young people for skilled work."),
+        item("graduate", "a person who has finished a degree", "Many graduates struggle to find jobs related to their field."),
+        item("employability", "how likely someone is to be hired", "Internships improve students' employability."),
+        item("academic achievement", "success in studies", "Parental support has a strong effect on academic achievement."),
+        item("lifelong learning", "learning throughout your life", "Lifelong learning helps workers adapt to changing technology."),
+      ] },
+      { head: "Learning and skills", items: [
+        item("critical thinking", "the ability to analyse and judge information", "Schools should teach critical thinking, not only facts."),
+        item("hands-on experience", "practical experience", "Hands-on experience makes science lessons more memorable."),
+        item("distance learning", "studying remotely, often online", "Distance learning gives flexibility to working adults."),
+        item("self-discipline", "the ability to control yourself and work without supervision", "Online courses demand a high level of self-discipline."),
+        item("extracurricular activities", "activities outside normal lessons", "Extracurricular activities build teamwork and confidence."),
+        item("literacy", "the ability to read and write", "Raising literacy rates has been a priority for many governments."),
+      ] },
+    ],
+    tips: ["Use collocations (class size, higher education) rather than single words.", "Do not memorise long lists; choose ten words and use them in a real essay this week.", "Check that each word fits your sentence: “graduate” is a person, “graduation” is the event."],
+  },
+  {
+    slug: "technology",
+    title: "IELTS Vocabulary for Technology",
+    intro: "Technology appears in many forms in IELTS: social media, artificial intelligence, online shopping and privacy. Use this vocabulary to describe benefits and risks precisely.",
+    groups: [
+      { head: "Devices and the internet", items: [
+        item("cutting-edge", "very modern and advanced", "The hospital uses cutting-edge equipment to diagnose diseases."),
+        item("user-friendly", "easy to use", "The app is user-friendly, so even older people can use it."),
+        item("go viral", "spread quickly on the internet", "The video went viral within a few hours."),
+        item("digital divide", "the gap between people who have technology and those who do not", "Rural areas are often affected by the digital divide."),
+        item("online platform", "a website or app for a purpose", "Online platforms have made it easier to start a small business."),
+        item("screen time", "time spent using screens", "Excessive screen time can harm children's sleep."),
+      ] },
+      { head: "Benefits", items: [
+        item("streamline", "make a process simpler and more efficient", "Automation can streamline many office tasks."),
+        item("boost productivity", "increase how much work is done", "Collaboration tools can boost productivity in small teams."),
+        item("instant access", "being able to get something immediately", "Smartphones give instant access to information."),
+        item("breakthrough", "an important discovery or advance", "A medical breakthrough has improved cancer treatment."),
+        item("remote working", "working away from the office", "Remote working reduces commuting time and costs."),
+        item("accessibility", "how easy something is to reach or use", "Subtitles improve the accessibility of videos."),
+      ] },
+      { head: "Risks and concerns", items: [
+        item("data privacy", "protection of personal information", "Companies must respect users' data privacy."),
+        item("cyberbullying", "bullying using digital devices", "Cyberbullying can have serious effects on young people."),
+        item("addictive", "hard to stop using", "Many social media apps are designed to be addictive."),
+        item("job displacement", "workers losing jobs because of automation", "Job displacement is a concern in manufacturing."),
+        item("misinformation", "wrong information spread widely", "Misinformation spreads faster than corrections."),
+        item("over-reliance", "depending too much on something", "Over-reliance on calculators may weaken basic maths skills."),
+      ] },
+    ],
+    tips: ["Balance benefits and risks in the same paragraph with “however” or “whereas”.", "Prefer precise words like “data privacy” to vague words like “problems”.", "Use present perfect for change: “Technology has transformed…”."],
+  },
+  {
+    slug: "environment",
+    title: "IELTS Vocabulary for the Environment",
+    intro: "Environmental topics appear regularly in Task 2 and Speaking Part 3. This word list covers problems, causes and solutions in clear, natural English.",
+    groups: [
+      { head: "Problems", items: [
+        item("climate change", "long-term change in global weather patterns", "Climate change is making droughts more frequent."),
+        item("greenhouse gases", "gases that trap heat in the atmosphere", "Burning fossil fuels increases greenhouse gases."),
+        item("deforestation", "the cutting down of forests", "Deforestation destroys the habitat of many species."),
+        item("air pollution", "harmful substances in the air", "Air pollution is a major health risk in big cities."),
+        item("endangered species", "animals or plants at risk of extinction", "Poaching has pushed several endangered species to the edge."),
+        item("water scarcity", "a shortage of fresh water", "Water scarcity affects farming in dry regions."),
+      ] },
+      { head: "Causes and effects", items: [
+        item("fossil fuels", "coal, oil and gas", "Dependence on fossil fuels increases emissions."),
+        item("industrial waste", "waste produced by factories", "Industrial waste has polluted several rivers."),
+        item("carbon footprint", "the amount of carbon dioxide you produce", "Flying frequently increases your carbon footprint."),
+        item("habitat loss", "the destruction of places where wildlife lives", "Habitat loss is the main threat to biodiversity."),
+        item("rising sea levels", "the increase in the height of oceans", "Rising sea levels threaten coastal cities."),
+        item("extreme weather", "very unusual and harsh weather", "Extreme weather causes damage to crops and homes."),
+      ] },
+      { head: "Solutions", items: [
+        item("renewable energy", "power from sources that do not run out", "Investment in renewable energy can cut emissions."),
+        item("recycling scheme", "a programme to reuse materials", "A recycling scheme reduces the amount of waste in landfills."),
+        item("public transport", "buses, trains and metros for everyone", "Improving public transport reduces traffic and pollution."),
+        item("sustainable development", "growth that does not harm the future", "Sustainable development balances the economy and nature."),
+        item("conservation", "protection of nature and resources", "Conservation projects have helped some species recover."),
+        item("raise awareness", "make people more informed about an issue", "Schools can raise awareness through practical projects."),
+      ] },
+    ],
+    tips: ["Link problems to solutions in the same essay.", "Use “contribute to”, “lead to” and “result in” for cause and effect.", "Avoid exaggeration: say “may lead to”, not “will destroy”."],
+  },
+  {
+    slug: "linking-words",
+    title: "IELTS Linking Words and Phrases for Writing",
+    intro: "Linking words connect ideas and make your writing easy to follow, but only when they fit the logic. Use this list to choose the connector that matches the relationship between your sentences.",
+    groups: [
+      { head: "Adding and giving examples", items: [
+        item("in addition", "also, as another point", "In addition, public transport reduces air pollution."),
+        item("furthermore", "used to add a stronger point", "Furthermore, remote work saves commuting time."),
+        item("for instance", "introducing an example", "Many cities, for instance Oslo, have created car-free zones."),
+        item("such as", "introducing examples inside a sentence", "Subjects such as maths and languages are essential."),
+        item("in particular", "highlighting a specific point", "Young people, in particular, are affected by social media."),
+        item("not only … but also", "adding two related ideas", "It not only saves money but also reduces stress."),
+      ] },
+      { head: "Contrast and concession", items: [
+        item("however", "showing a contrast with a previous sentence", "However, this policy has a serious drawback."),
+        item("whereas", "contrasting two things in one sentence", "Cars are fast, whereas bicycles are cheaper."),
+        item("although", "accepting a point but giving a different view", "Although online learning is convenient, it lacks social contact."),
+        item("admittedly", "accepting a point before disagreeing", "Admittedly, the cost is high, but the benefits are greater."),
+        item("on the other hand", "introducing an opposite view", "On the other hand, some people prefer to work in an office."),
+        item("nevertheless", "despite what was just said", "Nevertheless, the plan deserves support."),
+      ] },
+      { head: "Cause, result and purpose", items: [
+        item("because of", "showing cause before a noun", "Many roads are closed because of heavy snow."),
+        item("as a result", "showing a consequence", "As a result, more people are choosing to cycle."),
+        item("therefore", "for this reason", "Therefore, governments should invest in training."),
+        item("consequently", "as a consequence", "Consequently, employers struggle to find skilled workers."),
+        item("so that", "showing purpose", "Schools offer evening classes so that adults can study."),
+        item("lead to", "cause a result", "Long working hours can lead to stress."),
+      ] },
+      { head: "Concluding and summarising", items: [
+        item("in conclusion", "starting the final paragraph", "In conclusion, the advantages outweigh the disadvantages."),
+        item("to sum up", "summarising briefly", "To sum up, a balanced approach is best."),
+        item("overall", "considering everything", "Overall, I believe tougher rules are necessary."),
+        item("given these points", "based on what has been said", "Given these points, a ban seems justified."),
+        item("on balance", "after considering both sides", "On balance, the benefits are greater."),
+        item("all things considered", "taking everything into account", "All things considered, remote work benefits most employees."),
+      ] },
+    ],
+    tips: ["Do not start every sentence with a connector; vary sentence beginnings.", "Check the punctuation: “however” usually has a comma after it.", "Choose the connector for the logic, not for the sound of it."],
+  },
+];

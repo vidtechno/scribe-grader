@@ -1,6 +1,8 @@
 import type { CueCard } from './types.js';
 
-export const CUE_CARDS: CueCard[] = [
+import { CUE_MORE } from './data-part2-more.js';
+
+const CUE_CORE: CueCard[] = [
   {
     slug: "describe-a-person-who-influenced-you",
     title: "Describe a person who has influenced you",
@@ -322,3 +324,5 @@ export const CUE_CARDS: CueCard[] = [
     ],
   },
 ];
+
+export const CUE_CARDS: CueCard[] = [...CUE_CORE, ...CUE_MORE];

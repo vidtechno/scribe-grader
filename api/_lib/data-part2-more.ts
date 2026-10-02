@@ -1,0 +1,528 @@
+import type { CueCard } from './types.js';
+
+export const CUE_MORE: CueCard[] = [
+  {
+    slug: "describe-a-gift-you-gave-or-received",
+    title: "Describe a gift you gave to someone",
+    category: "Experiences",
+    cue: "Describe a gift that you gave to someone.",
+    points: ["what the gift was", "who you gave it to", "why you chose it", "and explain how the person reacted"],
+    sample: [
+      "I would like to talk about a handmade photo album that I gave to my grandmother on her seventieth birthday last year. It was not expensive, but it took me almost a month to prepare.",
+      "I collected old and recent photos of our family, from my grandparents' wedding to my little cousin's first day at school, and I wrote a short note under each picture. I chose this gift because my grandmother has everything she needs, and I thought the most valuable present would be something that shows how much we care about her.",
+      "When I gave it to her at the family dinner, she was silent for a moment and then started to cry. She turned the pages slowly and told stories about each photograph, and everyone around the table joined in. It was one of the most emotional evenings I can remember, and I am very glad that I chose to make something instead of buying it.",
+      "Since then, she keeps the album on the table next to her bed. That experience taught me that a thoughtful gift does not have to be costly; what matters is the time and love behind it."
+    ],
+    vocab: [["thoughtful", "showing care for others"], ["sentimental value", "importance because of memories"], ["handmade", "made by hand, not bought"], ["touched", "emotionally moved"], ["token of appreciation", "a small gift to show thanks"], ["meaningful", "having an important purpose or feeling"], ["treasure", "keep as something valuable"]],
+    tips: ["Tell the story in order: choice, giving, reaction.", "Describe the other person's feelings with specific words.", "End with what you learned."],
+    part3: [
+      { q: "Why do people give gifts?", idea: "To show love, gratitude or respect, and to mark special occasions." },
+      { q: "Is it better to give money or a present?", idea: "Money is practical, but a present shows personal thought; it depends on the relationship." },
+      { q: "Have gift traditions changed in your country?", idea: "Yes, online shopping and gift cards are common now, but handmade and personal gifts are still valued." },
+    ],
+  },
+  {
+    slug: "describe-a-festival-you-enjoyed",
+    title: "Describe a festival or celebration you enjoyed",
+    category: "Experiences",
+    cue: "Describe a festival or celebration that you enjoyed.",
+    points: ["what the festival was", "where and when it took place", "what people did", "and explain why you enjoyed it"],
+    sample: [
+      "A celebration I really enjoyed was Navruz, the spring festival, which I attended in the old part of my city two years ago. It takes place every March, and the whole country celebrates the beginning of spring.",
+      "The streets were decorated with flowers and bright flags, and there were stages with traditional music and dancing. Families sat on the grass, shared plov and sumalak, and children played games. I joined my cousins in a tug-of-war contest, and we laughed so much that my stomach hurt.",
+      "What I enjoyed most was the atmosphere. Everyone was smiling and friendly, and even strangers greeted each other with good wishes. It felt like one big family.",
+      "The food played a big part too. Every family brings a dish to share, so you can taste recipes from different regions in a single afternoon. I remember an old lady offering me a piece of her homemade sweets and insisting that I try them all.",
+      "I also like that the festival is a real tradition, not just a show. It reminds people of their roots, and every year I look forward to it more than any other celebration."
+    ],
+    vocab: [["festive atmosphere", "a joyful, celebratory mood"], ["decorated", "made beautiful with ornaments"], ["tradition", "a custom passed down over time"], ["roots", "family or cultural origins"], ["look forward to", "wait for with pleasure"], ["gathering", "a meeting of people"], ["uplifting", "making you feel happy"]],
+    tips: ["Use sensory details: music, food, colours.", "Use present simple for what happens every year and past simple for your visit.", "Explain a feeling, not just events."],
+    part3: [
+      { q: "Why are festivals important?", idea: "They keep traditions alive and bring communities together." },
+      { q: "Do you think festivals have become too commercial?", idea: "Some have, because of advertising and expensive gifts, but family traditions still matter." },
+      { q: "Should governments fund local festivals?", idea: "Yes, within reason, because they support culture, tourism and local businesses." },
+    ],
+  },
+  {
+    slug: "describe-a-park-or-garden",
+    title: "Describe a park or garden you like",
+    category: "Places",
+    cue: "Describe a park or garden that you like to visit.",
+    points: ["where it is", "what it looks like", "what you do there", "and explain why you like it"],
+    sample: [
+      "I would like to describe Mustaqillik Park in my city, which I visit almost every weekend. It is about fifteen minutes from my home by bus, and it is one of the largest green areas in the centre.",
+      "The park has wide paths lined with tall trees, a small lake with ducks and several fountains. In spring, the flower beds are full of tulips, and in the evening the lights make the whole place feel magical. There are also cafés, a playground and a corner where elderly men play chess.",
+      "I usually go there with friends to walk, talk and sometimes read on a bench by the lake. Sometimes I jog in the early morning, when the air is fresh and there are only a few people around.",
+      "One memory stands out in particular. Last spring, my friends and I had a small picnic by the lake and stayed until sunset. We talked about our plans for the future, and the ducks even came close to our blanket, which made the whole afternoon feel peaceful and special.",
+      "The reason I like it is that it gives me a break from the noise of the city. Even a short walk there makes me feel calmer, and I think every city needs places like this."
+    ],
+    vocab: [["lush", "full of healthy green plants"], ["tranquil", "calm and peaceful"], ["stroll", "walk slowly for pleasure"], ["flower bed", "an area planted with flowers"], ["escape from", "get away from"], ["fresh air", "clean, pleasant air"], ["green space", "parks and gardens in a city"]],
+    tips: ["Describe the scene first, then your activities.", "Use adjectives with purpose: tranquil, lush, lively.", "Link the place to your wellbeing."],
+    part3: [
+      { q: "Why are parks important in cities?", idea: "They improve air quality, offer exercise space and reduce stress." },
+      { q: "Do people spend enough time outdoors?", idea: "Many spend too long indoors with screens and should use parks more." },
+      { q: "Who should pay for the maintenance of parks?", idea: "Mainly local government, with help from businesses and volunteers." },
+    ],
+  },
+  {
+    slug: "describe-a-restaurant-you-visited",
+    title: "Describe a restaurant you went to",
+    category: "Lifestyle",
+    cue: "Describe a restaurant that you have been to.",
+    points: ["where it is", "who you went with", "what you ate", "and explain what you liked or disliked about it"],
+    sample: [
+      "I would like to talk about a small family restaurant in Samarkand that I visited last summer with my cousins. It is hidden in a quiet street near the old town, so you would not find it unless you knew about it.",
+      "We ordered traditional food: grilled lamb skewers, fresh salads and warm bread from the tandoor. The meat was juicy and full of flavour, and the owner brought us free tea at the end because we were guests. The prices were also very reasonable.",
+      "What I liked most was the atmosphere. The tables were arranged in a courtyard under a grape vine, and soft music was playing in the background. The staff were friendly and made us feel welcome.",
+      "I should also mention the dessert, which was a plate of fresh fruit and honey cakes that the owner's wife had made that morning. We were already full, but nobody could resist, and we finished every piece while chatting about the day's sightseeing.",
+      "The only thing I disliked was that service was slow because the place was full. But the food was worth the wait, and I would happily go back and recommend it to any visitor."
+    ],
+    vocab: [["cosy", "warm and comfortable"], ["mouth-watering", "looking or smelling delicious"], ["reasonably priced", "not too expensive"], ["ambience", "the atmosphere of a place"], ["homemade", "made at home, not bought"], ["service", "the way staff look after customers"], ["a hidden gem", "a good place few people know"]],
+    tips: ["Describe food with taste and texture words.", "Mention one small negative to sound balanced.", "Use past simple for your visit."],
+    part3: [
+      { q: "Why do people eat out?", idea: "For convenience, social occasions and a change from cooking at home." },
+      { q: "Is home cooking healthier than eating out?", idea: "Usually, because you control the ingredients and portions." },
+      { q: "How have restaurants changed?", idea: "More delivery and online ordering, with healthier and international menus." },
+    ],
+  },
+  {
+    slug: "describe-a-job-you-would-like-to-do",
+    title: "Describe a job you would like to do in the future",
+    category: "Education",
+    cue: "Describe a job you would like to do in the future.",
+    points: ["what the job is", "what skills you need", "how you would prepare", "and explain why you would like to do it"],
+    sample: [
+      "A job I would really like to do in the future is working as a software engineer for an international company. I have been interested in technology since I was a teenager, and this career seems both challenging and creative.",
+      "To succeed in this job, you need strong problem-solving skills, patience and a good level of English, because most documentation and teamwork happens in English. You also have to keep learning, since technologies change very quickly.",
+      "At the moment, I am preparing by studying programming languages online and working on small projects, such as a simple mobile app. In the future, I would also like to find an internship, because practical experience is what employers value most.",
+      "I have also talked to a cousin who works in this field, and he explained that the work is not only about writing code but also about communicating with clients and colleagues. That made me realise I need to improve my speaking skills as well, so I practise English every day.",
+      "I would like this job because I enjoy building things that people can actually use. It also offers good career prospects and the possibility of working remotely, so I could travel and still work."
+    ],
+    vocab: [["challenging", "difficult in an interesting way"], ["career prospects", "chances of progress in a job"], ["problem-solving", "finding solutions to difficulties"], ["internship", "short-term work experience"], ["hands-on experience", "practical experience"], ["work remotely", "work away from the office"], ["rewarding", "giving satisfaction"]],
+    tips: ["Use “would” for the future.", "Separate skills, preparation and motivation clearly.", "Mention a concrete step you are already taking."],
+    part3: [
+      { q: "What jobs will be popular in the future?", idea: "Technology, healthcare and renewable energy jobs will probably grow." },
+      { q: "Is salary the most important factor in choosing a job?", idea: "It matters, but job satisfaction and growth matter too." },
+      { q: "Should students get work experience at school?", idea: "Yes, it helps them understand careers and develop practical skills." },
+    ],
+  },
+  {
+    slug: "describe-a-mobile-app-you-use",
+    title: "Describe a mobile app you often use",
+    category: "Technology",
+    cue: "Describe a mobile application that you often use.",
+    points: ["what the app is", "how often you use it", "what you use it for", "and explain why it is useful to you"],
+    sample: [
+      "The app I use most often is a language-learning app, which I downloaded about a year ago when I started preparing for IELTS. I open it every day, usually for about twenty minutes before bed.",
+      "It gives me short lessons on vocabulary, grammar and listening, and it sets a daily goal that keeps me motivated. There is also a feature that reminds me of words I have forgotten, so I can review them at the right time.",
+      "What I like is that the lessons are short and interactive, so I do not get bored. I can also track my progress, and seeing a long streak of days makes me want to continue.",
+      "Another feature I find useful is the speaking exercise, where the app asks me to record a short answer and gives feedback on my pronunciation. At first I felt shy talking to my phone, but now I enjoy it, and I can clearly hear my accent getting better week by week.",
+      "It is useful because it fits into my busy schedule. I can learn on the bus or in a queue, and over the past year my vocabulary has grown noticeably."
+    ],
+    vocab: [["user-friendly", "easy to use"], ["interactive", "allowing you to take part"], ["track progress", "see how much you have improved"], ["notification", "an alert on a device"], ["streak", "a series of days in a row"], ["fits into my schedule", "is convenient for my timetable"], ["download", "copy a program to your device"]],
+    tips: ["Use present simple for habits and past simple for when you started.", "Explain one feature in detail.", "Mention a limitation for balance."],
+    part3: [
+      { q: "Do apps make people's lives easier?", idea: "Yes, for banking, travel and learning, though they can also distract." },
+      { q: "Are people too dependent on apps?", idea: "Some are; they struggle with simple tasks without their phones." },
+      { q: "What apps will be popular in the future?", idea: "Health, education and artificial intelligence assistants." },
+    ],
+  },
+  {
+    slug: "describe-a-sports-event-you-watched",
+    title: "Describe a sports event you watched",
+    category: "Experiences",
+    cue: "Describe a sports event that you watched.",
+    points: ["what the event was", "where you watched it", "who you watched it with", "and explain how you felt about it"],
+    sample: [
+      "I would like to describe a football match that I watched in the stadium last autumn, between my city's team and a big rival from the capital. I went with two close friends, and we had bought the tickets weeks earlier.",
+      "The stadium was full, and the noise before the game was incredible. Fans sang, waved flags and beat drums. For most of the match nothing happened, but in the last ten minutes our team scored a goal and then defended brilliantly until the final whistle.",
+      "When the goal went in, everybody jumped up and hugged strangers. I screamed so loudly that I lost my voice for the next day.",
+      "Before the match, we walked to the stadium with thousands of other fans, and the street was full of people in team colours. A vendor sold us hot tea and sunflower seeds, and strangers shared jokes about the referee. That friendly atmosphere is something you simply cannot feel at home.",
+      "I felt proud and excited, and the experience reminded me that sport brings people together. Even though I usually watch matches on television, being there in person was much more powerful."
+    ],
+    vocab: [["atmosphere", "the feeling of a place or event"], ["rival", "a competing team or person"], ["final whistle", "the end of a match"], ["fans", "enthusiastic supporters"], ["thrilling", "very exciting"], ["defend", "protect your goal or position"], ["spectator", "a person who watches"]],
+    tips: ["Build up to the key moment, then describe your reaction.", "Use emotional adjectives: thrilled, proud, exhausted.", "Contrast watching live and on TV."],
+    part3: [
+      { q: "Why are some sports more popular than others?", idea: "Because of tradition, simple rules, media coverage and national success." },
+      { q: "Is sport important for national identity?", idea: "Yes, victories create pride and unity." },
+      { q: "Should sports stars be paid so much?", idea: "They earn a lot from sponsors, but essential workers deserve more respect." },
+    ],
+  },
+  {
+    slug: "describe-a-time-you-were-very-busy",
+    title: "Describe a time when you were very busy",
+    category: "Experiences",
+    cue: "Describe a time when you were very busy.",
+    points: ["when it was", "what you were doing", "why you were so busy", "and explain how you managed it"],
+    sample: [
+      "I remember a very busy period last spring, when I was preparing for my final university exams and also working part-time at a bookshop. It lasted about a month, and it was one of the most tiring times of my life.",
+      "In the mornings I attended lectures, in the afternoon I worked, and in the evenings I studied until midnight. I also had a group presentation to finish, so I had almost no time for friends or hobbies.",
+      "To manage it, I made a strict weekly plan and divided each task into small steps. I also asked my manager to give me shorter shifts during the exam week, and my family helped by taking care of housework.",
+      "At one point, I almost gave up, because I felt that I could not do everything. A close friend noticed that I looked exhausted and invited me for a short walk. Just twenty minutes of fresh air and honest conversation helped me see that the situation was difficult but not impossible.",
+      "In the end, I passed all my exams with good marks. The experience taught me how important planning is, and now I never leave tasks until the last minute."
+    ],
+    vocab: [["hectic", "very busy and full of activity"], ["overwhelmed", "having too much to deal with"], ["prioritise", "put the most important things first"], ["deadline", "the last time to finish something"], ["juggle", "manage several things at once"], ["exhausted", "extremely tired"], ["time management", "planning how to use time"]],
+    tips: ["Use past continuous for background (“I was preparing…”).", "Explain the method you used to cope.", "Finish with a lesson learned."],
+    part3: [
+      { q: "Are people busier today than in the past?", idea: "Many feel so, because of technology and long working hours." },
+      { q: "How can people manage their time better?", idea: "By planning, setting priorities and avoiding distractions." },
+      { q: "Is being busy always bad?", idea: "No, being active can be rewarding, but constant stress is harmful." },
+    ],
+  },
+  {
+    slug: "describe-a-friend-you-have-known-for-a-long-time",
+    title: "Describe a friend you have known for a long time",
+    category: "People",
+    cue: "Describe a friend that you have known for a long time.",
+    points: ["who this person is", "how you met", "what you do together", "and explain why you are still friends"],
+    sample: [
+      "I would like to talk about my friend Jasur, whom I have known for more than twelve years. We met on the first day of primary school, when we were both nervous and sat at the same desk.",
+      "Since then, we have gone through a lot together. We played football in the yard, studied for the same exams and supported each other during difficult times. Although we now attend different universities, we meet almost every weekend to play football or have a long conversation.",
+      "He is honest, funny and very reliable. If I have a problem, he listens without judging me, and he always tells me the truth, even when it is not what I want to hear.",
+      "One memory that shows our friendship is the day I failed an important exam in my second year. Jasur did not say much; he simply came to my house with a football, and we played for two hours. That evening I felt much better, and I realised how lucky I am to have him.",
+      "I think we are still friends because we respect each other and make an effort to stay in touch. A friendship like this is rare, and I am really grateful for it."
+    ],
+    vocab: [["lifelong friend", "a friend for your whole life"], ["reliable", "can be trusted"], ["go through", "experience something difficult"], ["stay in touch", "keep contact"], ["supportive", "giving help and encouragement"], ["rare", "not often found"], ["mutual respect", "respect between both people"]],
+    tips: ["Use present perfect for duration: “I have known him for…”.", "Give qualities with a short example.", "Explain why the friendship lasts."],
+    part3: [
+      { q: "Is it easy to make friends as an adult?", idea: "It is harder because of work and family commitments, but shared activities help." },
+      { q: "Can online friendships be as strong as real-life ones?", idea: "They can be, but meeting in person builds deeper trust." },
+      { q: "What do friends do for each other?", idea: "They support, advise and share good and bad moments." },
+    ],
+  },
+  {
+    slug: "describe-a-family-member-you-spend-time-with",
+    title: "Describe a family member you spend a lot of time with",
+    category: "People",
+    cue: "Describe a family member that you spend a lot of time with.",
+    points: ["who this person is", "what they look like", "what you do together", "and explain why you enjoy spending time with them"],
+    sample: [
+      "The family member I spend most time with is my younger brother, Aziz, who is fifteen. We share a room, so we see each other every day, and we are close even though we are quite different.",
+      "He is tall and slim with short dark hair, and he usually wears a football shirt. He is very energetic and funny, while I am calmer and more serious, which means we balance each other well.",
+      "Together we play video games, kick a ball in the yard and watch films on weekends. Sometimes I help him with his maths homework, and in return he helps me fix my computer.",
+      "There was a funny moment last summer when we decided to cook dinner for our parents. Aziz burnt the rice, and I forgot the salt, but we laughed so much that it did not matter. Our parents ate everything and said it was the best meal they had ever had.",
+      "I enjoy his company because he makes me laugh and never lets me take life too seriously. I feel lucky to have a brother who is also a friend."
+    ],
+    vocab: [["sibling", "a brother or sister"], ["energetic", "full of energy"], ["balance each other", "have opposite qualities that work well together"], ["share a room", "sleep in the same room"], ["bond", "a close connection"], ["in return", "as an exchange"], ["good company", "pleasant to be with"]],
+    tips: ["Describe appearance briefly, then personality.", "Mention routines with present simple.", "Use contrast words: while, although."],
+    part3: [
+      { q: "Do family members spend enough time together?", idea: "Often not, because of work, school and phones." },
+      { q: "How can parents spend quality time with children?", idea: "By eating together, playing and listening without distractions." },
+      { q: "Do brothers and sisters influence each other?", idea: "Yes, especially in habits, interests and attitudes." },
+    ],
+  },
+  {
+    slug: "describe-a-piece-of-clothing-you-like",
+    title: "Describe a piece of clothing you like to wear",
+    category: "Lifestyle",
+    cue: "Describe a piece of clothing that you like to wear.",
+    points: ["what it is", "when and where you got it", "when you wear it", "and explain why you like it"],
+    sample: [
+      "A piece of clothing that I really like is my dark blue denim jacket. I bought it about three years ago in a small shop near my university, and it was on sale, which made it even better.",
+      "It is simple but stylish, with a soft fabric and a slightly loose fit. I wear it in autumn and spring, when it is not too cold, usually with jeans or a plain white T-shirt.",
+      "I like it because it goes with almost everything, and it is very comfortable, so I do not have to think about what to wear in the morning. It is also well made, so after three years it still looks almost new.",
+      "I also like it because it has some history. Once, on a trip to the mountains, it kept me warm when the weather suddenly changed, and a small tear on the sleeve reminds me of climbing a fence on that day. I decided not to repair it because it makes the jacket feel unique.",
+      "Another reason is emotional: I wore it on my first day at university, and many of my best memories with friends are connected with it. I plan to keep it for a long time."
+    ],
+    vocab: [["stylish", "fashionable"], ["loose fit", "not tight"], ["goes with everything", "matches most clothes"], ["well made", "of good quality"], ["on sale", "sold at a reduced price"], ["practical", "useful in real life"], ["sentimental", "connected with feelings and memories"]],
+    tips: ["Describe fabric, colour and fit.", "Say when and where you wear it.", "Add a personal memory."],
+    part3: [
+      { q: "Why do people follow fashion?", idea: "To fit in, express themselves and feel confident." },
+      { q: "Are clothes too cheap today?", idea: "Fast fashion is cheap but wasteful for the environment." },
+      { q: "Should schools have uniforms?", idea: "They create equality and discipline, but limit self-expression." },
+    ],
+  },
+  {
+    slug: "describe-a-film-you-enjoyed",
+    title: "Describe a film you enjoyed watching",
+    category: "Media",
+    cue: "Describe a film that you enjoyed watching.",
+    points: ["what the film was", "when and where you watched it", "what it was about", "and explain why you enjoyed it"],
+    sample: [
+      "A film I really enjoyed is “Interstellar”, which I watched at the cinema with my brother about four years ago. I had heard a lot of good reviews, so I had high expectations.",
+      "The film is about a group of astronauts who travel through a wormhole to find a new home for humanity, because the Earth is becoming uninhabitable. The story also follows the relationship between a father and his daughter, which gives it an emotional centre.",
+      "I enjoyed the film for several reasons. The visual effects were stunning, the music was powerful, and the story made me think about time, love and the future of our planet.",
+      "One scene in particular stayed in my mind: the moment when the father watches years of video messages from his children. It was so emotional that many people in the cinema were crying. I had never expected a science-fiction film to touch me like that.",
+      "When I left the cinema, my brother and I talked about it for hours. It is rare for a film to be both exciting and thoughtful, and I would happily watch it again."
+    ],
+    vocab: [["gripping plot", "an exciting story"], ["visual effects", "images created by technology"], ["thought-provoking", "making you think deeply"], ["soundtrack", "the music in a film"], ["emotional", "affecting your feelings"], ["high expectations", "hoping it will be very good"], ["review", "an opinion about a film"]],
+    tips: ["Summarise the plot in two or three sentences, not more.", "Give two or three clear reasons for enjoying it.", "Use present simple for the story."],
+    part3: [
+      { q: "Why do people like watching films?", idea: "To relax, escape reality and experience other lives." },
+      { q: "Do films influence people's behaviour?", idea: "They can, especially children, through role models and fashion." },
+      { q: "Will cinemas disappear?", idea: "Streaming is growing, but cinemas offer a shared experience that people value." },
+    ],
+  },
+  {
+    slug: "describe-a-person-who-cooks-well",
+    title: "Describe a person who cooks very well",
+    category: "People",
+    cue: "Describe a person who cooks very well.",
+    points: ["who this person is", "what kind of food they cook", "how you know about their cooking", "and explain why you think they cook so well"],
+    sample: [
+      "The person I would like to describe is my grandmother, who is, in my opinion, the best cook in our family. She has been cooking for her family for more than fifty years.",
+      "She makes traditional dishes such as plov, samsa and manti, and everything she prepares smells amazing. I know about her cooking because I have eaten her food at every family gathering since I was a child.",
+      "I think she cooks so well because she uses fresh ingredients from her garden and never rushes. She also adjusts the taste by feeling and experience instead of measuring everything.",
+      "I remember one winter evening when I was ill, and she made a simple chicken soup with noodles for me. I do not know exactly what she added, but after a few spoons I felt much better. Since then, I have always connected her cooking with care and comfort.",
+      "Another reason is that she cooks with love. Even a simple soup tastes special when she makes it, and I always ask her to teach me the recipes, although I can never copy them exactly."
+    ],
+    vocab: [["fresh ingredients", "newly produced food items"], ["traditional dishes", "meals typical of a culture"], ["by feel", "without exact measurements"], ["flavour", "taste of food"], ["recipe", "instructions for cooking"], ["family gathering", "a meeting of relatives"], ["delicious", "very tasty"]],
+    tips: ["Name specific dishes.", "Use present perfect for her long experience.", "Explain what makes her skilled."],
+    part3: [
+      { q: "Do young people cook less than before?", idea: "Yes, because of convenience food and busy lives." },
+      { q: "Is cooking an important life skill?", idea: "Yes, it saves money and supports a healthy diet." },
+      { q: "Should cooking be taught at school?", idea: "Yes, basic cooking and nutrition would help children live healthily." },
+    ],
+  },
+  {
+    slug: "describe-a-crowded-place",
+    title: "Describe a place that is full of people",
+    category: "Places",
+    cue: "Describe a place where there are a lot of people.",
+    points: ["where it is", "when you went there", "what you saw people doing", "and explain how you felt about the place"],
+    sample: [
+      "A place that is always full of people is the central bazaar in my city, which I visited last weekend with my mother. It is one of the largest markets in the region, and it opens early in the morning.",
+      "When we arrived, the noise was incredible. Sellers were shouting prices, customers were bargaining and children were running between the stalls. There were piles of fruit, spices and bread, and the smell of grilled meat was everywhere.",
+      "At first I felt overwhelmed because it was so crowded and I had to hold my mother's arm to avoid losing her. Gradually, though, I began to enjoy the energy of the place.",
+      "What impressed me most was the variety. In one corner, a man was selling dried fruits and nuts; in another, an old woman was weaving baskets, and nearby a boy was playing a small drum to attract customers. Everything looked colourful, and I took many photos to remember it.",
+      "I think the bazaar is a fascinating part of our culture. It is a bit tiring, but it shows the real life of the city, and I would recommend it to any visitor."
+    ],
+    vocab: [["bustling", "full of busy activity"], ["stalls", "small market shops"], ["bargain", "negotiate a lower price"], ["overwhelming", "too much to deal with"], ["lively", "full of energy"], ["packed", "very full of people"], ["vibrant", "bright and full of life"]],
+    tips: ["Use all five senses.", "Show how your feelings changed.", "Use past continuous for the scene."],
+    part3: [
+      { q: "Why do people like crowded places?", idea: "The energy and the sense of community can be exciting." },
+      { q: "Are cities too crowded?", idea: "Many are, which causes pollution and expensive housing." },
+      { q: "How can governments reduce overcrowding?", idea: "By developing smaller cities and improving public transport." },
+    ],
+  },
+  {
+    slug: "describe-a-time-you-received-good-news",
+    title: "Describe a time you received good news",
+    category: "Experiences",
+    cue: "Describe a time when you received good news.",
+    points: ["what the news was", "when and how you received it", "who you told", "and explain how you felt"],
+    sample: [
+      "I would like to describe the day I found out that I had passed the entrance exam to my university. It was a hot July afternoon two years ago, and I had been waiting for the results for almost two weeks.",
+      "I was at home, refreshing the website every few minutes, when I finally saw my name on the list. At first I did not believe it, so I checked it three times. Then I shouted so loudly that my whole family came running into the room.",
+      "I told my parents first, and they hugged me and started to cry. After that, I called my best friends, and in the evening we all had a small celebration.",
+      "Later that evening, my father surprised us by taking the whole family to a restaurant, which he rarely does. He gave a short speech about how proud he was, and my younger brother promised to follow my example. I felt that my success belonged to the whole family, not only to me.",
+      "I felt a mixture of relief, joy and pride. All the months of hard work were suddenly worth it, and it was the day I felt that my future had really begun."
+    ],
+    vocab: [["relief", "a feeling after worry ends"], ["overjoyed", "extremely happy"], ["entrance exam", "a test to enter a university"], ["hard work paid off", "effort brought results"], ["sink in", "become fully understood"], ["celebration", "a party for a happy event"], ["breakthrough", "an important success"]],
+    tips: ["Tell the build-up, the moment and the reaction.", "Use a mix of tenses accurately.", "Describe the physical reaction: shouting, crying, hugging."],
+    part3: [
+      { q: "Do people share good news with others?", idea: "Yes, sharing makes happiness stronger and builds closeness." },
+      { q: "Is bad news harder to deliver than good news?", idea: "Yes, it needs sensitivity and honesty." },
+      { q: "How do people celebrate success?", idea: "With family dinners, small parties or time off." },
+    ],
+  },
+  {
+    slug: "describe-an-outdoor-activity-you-enjoy",
+    title: "Describe an outdoor activity you enjoy",
+    category: "Lifestyle",
+    cue: "Describe an outdoor activity that you enjoy doing.",
+    points: ["what the activity is", "where you do it", "who you do it with", "and explain why you enjoy it"],
+    sample: [
+      "An outdoor activity I really enjoy is hiking in the mountains. I go with a group of friends about once a month, usually to the hills near Tashkent, which are only two hours away.",
+      "We start early in the morning to avoid the heat, carry water and snacks, and follow marked trails. On the way we stop to take photos and enjoy the views, and at the top we have a picnic.",
+      "I enjoy hiking because it is a great workout, but it also clears my mind. When I am walking among trees with no phone signal, I forget my worries and feel calm.",
+      "I remember one trip in particular, when we reached the top just before sunset. The sky turned orange and pink, and the valley below looked like a painting. Nobody spoke for a few minutes, and I felt grateful that we had made the effort to climb up there.",
+      "Another reason is the company. Sharing a challenge with friends and cheering each other on makes our friendship stronger, and I always return home tired but truly happy."
+    ],
+    vocab: [["trail", "a path for walking"], ["workout", "a session of exercise"], ["breathtaking views", "extremely beautiful scenery"], ["fresh air", "clean, pleasant air"], ["challenging", "difficult in an interesting way"], ["clear your mind", "stop worrying"], ["scenery", "natural views"]],
+    tips: ["Mention frequency and place.", "Explain physical and mental benefits.", "Add the social side."],
+    part3: [
+      { q: "Why do people enjoy outdoor activities?", idea: "They offer exercise, fresh air and a break from technology." },
+      { q: "Are people spending less time outdoors?", idea: "Yes, particularly children, because of screens." },
+      { q: "How can cities encourage outdoor activity?", idea: "By building parks, cycle paths and safe public spaces." },
+    ],
+  },
+  {
+    slug: "describe-an-important-object-you-own",
+    title: "Describe something you own that is important to you",
+    category: "Experiences",
+    cue: "Describe something you own which is very important to you.",
+    points: ["what it is", "how long you have had it", "how you use it", "and explain why it is important to you"],
+    sample: [
+      "Something very important to me is an old wristwatch that my grandfather gave me when I turned eighteen. It is not valuable in terms of money, but it means a lot to me.",
+      "I have had it for about five years, and I wear it almost every day. It is a simple silver watch with a brown leather strap, and it stopped working once, so I took it to a repair shop to be fixed.",
+      "It is important to me because it reminds me of my grandfather. He used to tell me that the best use of time is spending it with people you love, and every time I look at the watch, I remember that advice.",
+      "Sometimes I wind the watch by hand, even though I could easily use my phone to check the time. The small ritual makes me pause for a moment during a busy day, and I often think about my grandfather's quiet habits and the way he never seemed in a hurry.",
+      "I think it also gives me a sense of responsibility about time. I try not to be late and not to waste my days, and I hope to give it to my own child one day."
+    ],
+    vocab: [["sentimental value", "importance because of memories"], ["heirloom", "an item passed down in a family"], ["cherish", "treasure"], ["leather strap", "a band made of leather"], ["reminder", "something that helps you remember"], ["priceless", "too valuable to have a price"], ["keepsake", "an item kept as a memory"]],
+    tips: ["Explain the emotional value, not the price.", "Use present perfect for duration.", "Tell a short story linked to the object."],
+    part3: [
+      { q: "Why do people keep old things?", idea: "They hold memories and connect people with the past." },
+      { q: "Are people today too materialistic?", idea: "Many value possessions highly, though experiences matter more to some." },
+      { q: "Should we repair things instead of buying new ones?", idea: "Yes, it saves money and reduces waste." },
+    ],
+  },
+  {
+    slug: "describe-a-time-you-waited-for-something",
+    title: "Describe a time when you waited for something special",
+    category: "Experiences",
+    cue: "Describe a time when you had to wait for something special.",
+    points: ["what you waited for", "how long you waited", "what you did while waiting", "and explain how you felt"],
+    sample: [
+      "I would like to talk about a time when I waited for the results of my first IELTS test. The exam was in October, and the results were published thirteen days later.",
+      "During that time, I tried to keep myself busy. I went to university as usual, met friends and even started a small course in web design. But every day I checked my email several times, hoping the result had arrived.",
+      "I felt nervous and impatient, especially in the last three days. I was imagining different scenarios, from a very good score to a disappointing one, and I could not concentrate on anything for long.",
+      "My mother was very supportive during that period. She cooked my favourite meals and kept telling me that whatever the result, I had done my best. Her calm attitude helped me stay positive, and I started to understand that waiting is easier when you have people who believe in you.",
+      "Finally, the email came, and I got a score that was better than I had expected. The experience taught me that waiting is part of success, and that worrying does not change the result."
+    ],
+    vocab: [["on edge", "nervous and unable to relax"], ["impatient", "unable to wait calmly"], ["keep myself busy", "stay occupied"], ["anxious", "worried"], ["anticipation", "excitement about something to come"], ["disappointing", "not as good as hoped"], ["come through", "arrive"]],
+    tips: ["Describe feelings and actions during the wait.", "Use past perfect for earlier events.", "End with the result and a lesson."],
+    part3: [
+      { q: "Are people less patient today?", idea: "Yes, instant technology has made us used to quick results." },
+      { q: "What are the benefits of patience?", idea: "It reduces stress and helps people make better decisions." },
+      { q: "Which situations make people wait for a long time?", idea: "Hospitals, public offices and official results." },
+    ],
+  },
+  {
+    slug: "describe-a-neighbour-you-get-along-with",
+    title: "Describe a neighbour you get on well with",
+    category: "People",
+    cue: "Describe a neighbour that you get along with.",
+    points: ["who this person is", "how long you have known them", "what you do together", "and explain why you get along well"],
+    sample: [
+      "I would like to describe Mr Rashid, an elderly neighbour who lives on the same floor as my family. We have known him for about ten years, ever since we moved into the building.",
+      "He is a retired teacher with a lot of stories, and he is always polite and calm. We often meet on the stairs and chat for a few minutes, and on weekends I sometimes join him for tea and a game of chess.",
+      "We get along well because we respect each other. He gives me useful advice about my studies, and I help him with things like carrying heavy bags or setting up his phone.",
+      "A small example shows our relationship. Last winter, when the heating stopped working in our building, Mr Rashid invited us to his flat, which has a wood stove, and we spent the evening drinking tea and listening to his stories about the old days. It was a cold night, but a very warm memory.",
+      "In a big city, many neighbours never speak to each other, so I feel lucky to have someone like him nearby. It makes our building feel like a small community."
+    ],
+    vocab: [["get along with", "have a good relationship with"], ["retired", "no longer working because of age"], ["polite", "showing good manners"], ["community", "a group of people living nearby"], ["chat", "talk in a friendly way"], ["mutual respect", "respect from both sides"], ["lend a hand", "help"]],
+    tips: ["Describe the person and one routine you share.", "Use present simple for regular habits.", "Explain the benefits of good neighbours."],
+    part3: [
+      { q: "Are neighbours as close as they used to be?", idea: "Less so in cities, but villages still have strong ties." },
+      { q: "How can people build a sense of community?", idea: "Through shared events, local clubs and friendly habits." },
+      { q: "What problems can neighbours cause?", idea: "Noise, parking disputes and rubbish." },
+    ],
+  },
+  {
+    slug: "describe-an-interesting-conversation",
+    title: "Describe an interesting conversation you had",
+    category: "Experiences",
+    cue: "Describe an interesting conversation you had.",
+    points: ["who you talked to", "where and when it happened", "what you talked about", "and explain why it was interesting"],
+    sample: [
+      "I would like to describe a conversation I had with a tourist from Japan at a café in Samarkand last summer. I was practising my English, and he asked if he could sit at my table because it was crowded.",
+      "We started with simple topics like food and travel, but soon we were talking about differences between our countries. He told me about the way people in Japan respect silence on trains, and I explained our tradition of welcoming guests with tea and bread.",
+      "It was interesting because I learned something new about another culture, and he was also curious about mine. We talked for almost two hours and forgot about the time.",
+      "What also impressed me was how polite and open-minded he was. When I made a few grammar mistakes, he never corrected me in an unkind way; instead, he smiled and repeated the sentence correctly. That helped me relax, and I spoke more confidently as our conversation continued.",
+      "Afterwards, we exchanged contact details, and we still send each other messages. That conversation made me realise that talking with people from different backgrounds is the best way to learn."
+    ],
+    vocab: [["strike up a conversation", "start talking to someone"], ["curious", "wanting to know more"], ["cultural differences", "ways cultures are not the same"], ["exchange details", "share contact information"], ["engaging", "holding your interest"], ["background", "a person's origin or experience"], ["lose track of time", "forget how long has passed"]],
+    tips: ["Say how the conversation started and where it went.", "Use reported speech simply: “He told me that…”.", "Explain what you learned."],
+    part3: [
+      { q: "Are people having fewer face-to-face conversations?", idea: "Yes, because of messaging and social media." },
+      { q: "What makes someone interesting to talk to?", idea: "Curiosity, good listening and varied experiences." },
+      { q: "Is it important to learn about other cultures?", idea: "Yes, it builds understanding and reduces prejudice." },
+    ],
+  },
+  {
+    slug: "describe-a-long-journey",
+    title: "Describe a long journey you took",
+    category: "Experiences",
+    cue: "Describe a long journey that you took.",
+    points: ["where you went", "how you travelled", "who you travelled with", "and explain what you remember most about it"],
+    sample: [
+      "I would like to describe a long train journey from Tashkent to Bukhara that I took with my family two years ago. It lasted about five hours, but it felt much shorter because we enjoyed it so much.",
+      "We travelled on a modern high-speed train, which was clean and comfortable. My parents sat by the window and talked, while my brother and I played cards. Outside, we could see endless fields and small villages, and the landscape slowly changed from green to desert.",
+      "What I remember most is the food. We had bought bread, cheese and fruit before the trip, and a friendly passenger offered us tea from his flask. It was a simple picnic, but it tasted wonderful.",
+      "During the trip, I also met an elderly couple who were travelling to visit their grandchildren. They shared photos with us and gave my brother some sweets. Their kindness made the journey feel less like a trip and more like a gathering of friends, and I still remember their smiles.",
+      "I also remember arriving in Bukhara in the evening, when the old city was beautifully lit. That journey was tiring, but it is one of my favourite family memories."
+    ],
+    vocab: [["scenery", "natural views"], ["endless", "seeming to have no end"], ["tiring", "making you feel tired"], ["on board", "on a train, plane or ship"], ["passenger", "a person travelling in a vehicle"], ["journey", "a long trip"], ["unforgettable", "impossible to forget"]],
+    tips: ["Include time, transport and companions.", "Describe one moment in detail.", "Use past simple and past continuous."],
+    part3: [
+      { q: "Is travelling by train better than by plane?", idea: "Trains are more relaxing and eco-friendly for short distances; planes are faster for long ones." },
+      { q: "Why do people take long journeys?", idea: "For holidays, family visits and work." },
+      { q: "How will transport change in the future?", idea: "More electric and high-speed options will appear." },
+    ],
+  },
+  {
+    slug: "describe-something-you-learned-from-someone",
+    title: "Describe something you learned from another person",
+    category: "Education",
+    cue: "Describe something you learned from another person.",
+    points: ["what you learned", "who taught you", "how you learned it", "and explain why it was useful"],
+    sample: [
+      "Something I learned from another person is how to ride a bicycle, and my father was the one who taught me. I was about seven years old, and I was afraid of falling.",
+      "He took me to an empty street on a Sunday morning, held the back of the saddle and ran beside me. Every time I lost balance, he told me to look forward and not at the ground. After about an hour, I realised that he had let go, and I was riding on my own.",
+      "It was useful because I could suddenly travel around my neighbourhood with my friends, and later I started cycling to school. It also gave me confidence that I could learn difficult things if I practised.",
+      "I also remember falling once and scraping my knee. I wanted to stop, but my father said that falling is part of learning, and he helped me stand up. That sentence has stayed with me, and I now apply it to exams, sports and any new challenge in my life.",
+      "Even now, whenever I try something new, I remember my father's patience and his advice to keep looking forward."
+    ],
+    vocab: [["lose balance", "start to fall"], ["let go", "stop holding"], ["confidence", "belief in yourself"], ["patient", "calm when waiting or teaching"], ["practise", "do something repeatedly to improve"], ["on my own", "without help"], ["advice", "suggestions to help"]],
+    tips: ["Tell the learning process step by step.", "Use past simple and past continuous.", "Connect the skill with a later benefit."],
+    part3: [
+      { q: "Who is the best person to learn from: a teacher or a friend?", idea: "Teachers give structure; friends give support and informal practice." },
+      { q: "Is it easier to learn as a child?", idea: "Children learn quickly, but adults are more focused." },
+      { q: "What skills should everyone learn?", idea: "Communication, first aid, cooking and financial basics." },
+    ],
+  },
+  {
+    slug: "describe-a-quiet-place-you-like",
+    title: "Describe a quiet place you like to spend time in",
+    category: "Places",
+    cue: "Describe a quiet place that you like to spend time in.",
+    points: ["where it is", "what it looks like", "what you do there", "and explain why you like it"],
+    sample: [
+      "A quiet place I like to spend time in is the university library, on the second floor, near the big windows. It is about ten minutes from my dormitory, and I go there almost every evening.",
+      "The room is spacious and bright, with long wooden tables, comfortable chairs and rows of books. There is almost no noise except the soft sound of pages turning, and from my favourite seat I can see a small garden outside.",
+      "I usually study, read and write assignments there, but sometimes I just sit with a book and drink tea from my flask. It is the best place to concentrate, because there are no distractions.",
+      "There is also a small tradition among the regular students: we leave sticky notes with motivational messages on the shared desks. Reading a short note like “You can do it” from a stranger always makes me smile, and it reminds me that other people are working hard just like me.",
+      "I like it because it helps me relax and focus at the same time. After a noisy day, a few hours in that quiet room make me feel calm and ready for the next day."
+    ],
+    vocab: [["peaceful", "calm and quiet"], ["distraction", "something that stops you concentrating"], ["spacious", "having plenty of room"], ["concentrate", "focus your attention"], ["retreat", "a quiet place to get away"], ["dormitory", "a student residence"], ["atmosphere", "the feeling of a place"]],
+    tips: ["Describe sounds and light, not only objects.", "Link the place to its effect on you.", "Use present simple for regular routines."],
+    part3: [
+      { q: "Why do some people need quiet to work?", idea: "Noise reduces concentration and increases stress." },
+      { q: "Are cities too noisy?", idea: "Traffic and construction make many places loud, affecting health." },
+      { q: "How can people find quiet in a busy life?", idea: "Parks, libraries, early mornings and switching off devices." },
+    ],
+  },
+  {
+    slug: "describe-a-building-you-like",
+    title: "Describe a building you like",
+    category: "Places",
+    cue: "Describe a building that you like.",
+    points: ["where it is", "what it looks like", "what it is used for", "and explain why you like it"],
+    sample: [
+      "A building I really like is the Registan complex in Samarkand, a group of three historic madrasas built hundreds of years ago. I first saw it when I was twelve, and I have visited it several times since.",
+      "It stands around a large square, and the facades are covered with blue, turquoise and gold tiles in complex patterns. The domes shine in the sunlight, and in the evening the whole complex is lit up.",
+      "Originally, the buildings were schools where students studied religion and science. Today, they are mainly a tourist attraction, although some of the rooms house souvenir shops and small exhibitions.",
+      "One evening I sat on the steps of the square with a friend who had come from abroad, and we watched the lights turn on one by one. She said it was the most beautiful place she had ever seen, and I felt proud to show her a part of my country that I love so much.",
+      "I like it because of its beauty and history. Standing in front of it, I feel proud of my heritage, and I think it shows how much skill and imagination our ancestors had."
+    ],
+    vocab: [["facade", "the front of a building"], ["intricate", "with many small details"], ["landmark", "a famous building or place"], ["heritage", "history and traditions passed down"], ["dome", "a rounded roof"], ["architecture", "the design of buildings"], ["magnificent", "extremely beautiful"]],
+    tips: ["Describe shape, colour and material.", "Say what it was and what it is now.", "Explain the emotional effect on you."],
+    part3: [
+      { q: "Why should old buildings be preserved?", idea: "They show history and attract tourists." },
+      { q: "Do modern buildings have the same character as old ones?", idea: "Some do, but many focus on function rather than beauty." },
+      { q: "Who should pay for the restoration of historic buildings?", idea: "Governments, with support from donations and ticket sales." },
+    ],
+  },
+  {
+    slug: "describe-a-time-you-made-a-mistake",
+    title: "Describe a time when you made a mistake",
+    category: "Experiences",
+    cue: "Describe a time when you made a mistake.",
+    points: ["what the mistake was", "when it happened", "how you realised it", "and explain what you did about it"],
+    sample: [
+      "I would like to talk about a mistake I made last year when I sent an important email to the wrong person. It was an application for a scholarship, and the person I accidentally sent it to was my friend, not the committee.",
+      "I only realised the error two days later, when I checked my sent messages and saw the wrong address. I felt a wave of panic, because the deadline was the next morning.",
+      "I immediately wrote a new email to the correct address, attached all the documents again and added a short apology and explanation. I also called the office to confirm that they had received it.",
+      "What helped me most during that stressful day was staying calm and thinking step by step. I made a list of what I needed to do, and I asked my teacher for advice about how to write the apology. Her support showed me that people are usually understanding when you are honest.",
+      "Fortunately, they accepted my application. Since then, I always read the address twice before I press send, and I have learned that it is better to admit a mistake and fix it quickly than to hide it."
+    ],
+    vocab: [["realise", "become aware of something"], ["panic", "sudden strong fear"], ["deadline", "the last time to finish something"], ["apologise", "say sorry"], ["learn the hard way", "learn from a painful experience"], ["admit", "accept that you did something wrong"], ["fortunately", "luckily"]],
+    tips: ["Show the sequence: mistake, realisation, action, result.", "Use past perfect for earlier events.", "Finish with the lesson."],
+    part3: [
+      { q: "Is it good to learn from mistakes?", idea: "Yes, mistakes show what to improve and build resilience." },
+      { q: "Do people find it difficult to admit mistakes?", idea: "Often, because of pride and fear of criticism." },
+      { q: "Should schools punish students for mistakes?", idea: "No, they should guide and explain, not only punish." },
+    ],
+  },
+];
