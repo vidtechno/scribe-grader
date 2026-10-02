@@ -8,14 +8,14 @@ describe('unified subscription entitlements', () => {
 
   it('defines the exact Go allowances for personal usage', () => {
     expect(PLAN_ENTITLEMENTS.go).toMatchObject({
-      name: 'Scorify Go', priceUzs: '49 000',
+      name: 'Scorify Go', priceUsd: '5', priceUzs: '49 000',
       personal: { writing: 20, speaking: 15, mockTests: 3 },
     });
   });
 
   it('defines the exact Plus allowances for personal usage', () => {
     expect(PLAN_ENTITLEMENTS.plus).toMatchObject({
-      name: 'Scorify Plus', priceUzs: '99 000',
+      name: 'Scorify Plus', priceUsd: '9', priceUzs: '99 000',
       personal: { writing: 50, speaking: 40, mockTests: 8 },
     });
   });

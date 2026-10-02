@@ -3,21 +3,24 @@ export type PlanSlug = 'free' | 'go' | 'plus';
 export type PlanEntitlement = {
   slug: PlanSlug;
   name: string;
+  /** Primary price, shown in US dollars. */
+  priceUsd: string;
+  /** Local price for payments made in Uzbekistan. */
   priceUzs: string;
   personal: { writing: number; speaking: number; mockTests: number };
 };
 
 export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
   free: {
-    slug: 'free', name: 'Free', priceUzs: '0',
+    slug: 'free', name: 'Free', priceUsd: '0', priceUzs: '0',
     personal: { writing: 1, speaking: 1, mockTests: 0 },
   },
   go: {
-    slug: 'go', name: 'Scorify Go', priceUzs: '49 000',
+    slug: 'go', name: 'Scorify Go', priceUsd: '5', priceUzs: '49 000',
     personal: { writing: 20, speaking: 15, mockTests: 3 },
   },
   plus: {
-    slug: 'plus', name: 'Scorify Plus', priceUzs: '99 000',
+    slug: 'plus', name: 'Scorify Plus', priceUsd: '9', priceUzs: '99 000',
     personal: { writing: 50, speaking: 40, mockTests: 8 },
   },
 };

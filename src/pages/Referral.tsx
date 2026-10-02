@@ -99,7 +99,7 @@ export default function Referral() {
             <div className={`rounded-2xl border p-5 ${counted >= GO_AT ? 'border-primary/40 bg-primary/5' : ''}`}>
               <p className="text-xs font-bold uppercase tracking-wide text-primary mb-1">{GO_AT} friends</p>
               <h3 className="font-bold text-lg flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" />1 month Scorify Go</h3>
-              <p className="text-sm text-muted-foreground mt-1">Worth 49 000 so'm. Activate it yourself when you are ready.</p>
+              <p className="text-sm text-muted-foreground mt-1">Worth $5. Activate it yourself when you are ready.</p>
               {data?.go_claimed_at ? <p className="text-sm font-medium text-primary mt-3 flex items-center gap-1"><Check className="h-4 w-4" />Activated {format(new Date(data.go_claimed_at), 'd MMM yyyy')}</p>
                 : data?.plus_granted_at ? <p className="text-sm text-muted-foreground mt-3">Skipped — you earned Plus.</p>
                 : data?.can_claim_go ? <Button variant="glow" className="mt-3 gap-2 w-full" onClick={claim} disabled={claiming}>{claiming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}Activate Scorify Go</Button>
@@ -108,7 +108,7 @@ export default function Referral() {
             <div className={`rounded-2xl border p-5 ${counted >= PLUS_AT ? 'border-primary/40 bg-primary/5' : ''}`}>
               <p className="text-xs font-bold uppercase tracking-wide text-primary mb-1">{PLUS_AT} friends</p>
               <h3 className="font-bold text-lg flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" />1 month Scorify Plus</h3>
-              <p className="text-sm text-muted-foreground mt-1">Worth 99 000 so'm. Activated automatically the moment your 20th friend joins.</p>
+              <p className="text-sm text-muted-foreground mt-1">Worth $9. Activated automatically the moment your 20th friend joins.</p>
               {data?.plus_granted_at ? <p className="text-sm font-medium text-primary mt-3 flex items-center gap-1"><Check className="h-4 w-4" />Activated {format(new Date(data.plus_granted_at), 'd MMM yyyy')}</p>
                 : <p className="text-sm text-muted-foreground mt-3">{Math.max(0, PLUS_AT - counted)} more friend{PLUS_AT - counted === 1 ? '' : 's'} to unlock</p>}
             </div>

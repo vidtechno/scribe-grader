@@ -4,6 +4,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { PricingModal } from '@/components/PricingModal';
+import { PriceTag } from '@/components/PriceTag';
+import { getPlanEntitlement } from '@/lib/plans';
 import { SEOHead } from '@/components/SEOHead';
 import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
@@ -588,10 +590,7 @@ export default function Index() {
                   {plan.description && (
                     <p className="text-xs text-muted-foreground mb-4">{plan.description}</p>
                   )}
-                  <div className="flex items-baseline gap-1 mb-5">
-                    <span className="text-3xl font-bold text-primary">{plan.price_uzs}</span>
-                    <span className="text-sm text-muted-foreground">so'm / month</span>
-                  </div>
+                  <div className="mb-5"><PriceTag usd={getPlanEntitlement(plan.slug).priceUsd} uzs={getPlanEntitlement(plan.slug).priceUzs} /></div>
                   <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">Personal usage</p>
                   <ul className="space-y-2 mb-4 text-sm">
                     <li className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.writing_limit}</strong> Writing evaluations</span></li>
@@ -602,7 +601,7 @@ export default function Index() {
                     <li className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5"/><span>Daily Grammar, AI Mentor and progress history included</span></li>
                   </ul>
                   <Button variant={popular ? 'glow' : 'outline'} className="w-full gap-2"
-                    onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.price_uzs} so'm / oy).`)}`, '_blank')}>
+                    onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman ($${getPlanEntitlement(plan.slug).priceUsd} / oy yoki ${getPlanEntitlement(plan.slug).priceUzs} so'm / oy).`)}`, '_blank')}>
                     <ExternalLink className="h-4 w-4" /> Get {plan.name}
                   </Button>
                 </motion.div>

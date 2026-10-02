@@ -116,7 +116,7 @@ export default function Profile() {
                 <Crown className="h-5 w-5 text-primary" />
                 <span className="text-lg font-bold">{planName}</span>
               </div>
-              {planType !== 'free' && <p className="text-xs text-muted-foreground">{entitlement.priceUzs} so'm/month</p>}
+              {planType !== 'free' && <p className="text-xs text-muted-foreground">${entitlement.priceUsd}/month · {entitlement.priceUzs} so'm</p>}
               {expiresAt && (
                 <p className={`text-xs ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>
                   {isExpired ? 'Expired' : `${daysRemaining} days left`} · {format(expiresAt, 'MMM d, yyyy')}

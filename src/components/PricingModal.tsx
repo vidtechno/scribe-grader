@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { PriceTag } from '@/components/PriceTag';
+import { getPlanEntitlement } from '@/lib/plans';
 import { Button } from '@/components/ui/button';
 import { Check, ExternalLink, PenLine, Mic, ClipboardList, Sparkles, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -51,7 +53,7 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
 
   const handleBuy = (plan: Plan) => {
     const msg = encodeURIComponent(
-      `Salom! Men "${plan.name}" tarifini sotib olmoqchiman (${plan.price_uzs} so'm / oy).`
+      `Salom! Men "${plan.name}" tarifini sotib olmoqchiman ($${getPlanEntitlement(plan.slug).priceUsd} / oy yoki ${getPlanEntitlement(plan.slug).priceUzs} so'm / oy).`
     );
     window.open(`https://t.me/${TELEGRAM_USERNAME}?text=${msg}`, '_blank');
   };
@@ -106,10 +108,7 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
                 {plan.description && (
                   <p className="text-xs text-muted-foreground mb-3">{plan.description}</p>
                 )}
-                <div className="flex items-baseline gap-1 mb-4">
-                  <span className="text-3xl font-bold text-primary">{plan.price_uzs}</span>
-                  <span className="text-xs text-muted-foreground">so'm / month</span>
-                </div>
+                <div className="mb-4"><PriceTag usd={getPlanEntitlement(plan.slug).priceUsd} uzs={getPlanEntitlement(plan.slug).priceUzs} /></div>
                 <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">Personal usage</p>
                 <ul className="space-y-2 mb-4">
                   <li className="flex items-center gap-2 text-sm">
