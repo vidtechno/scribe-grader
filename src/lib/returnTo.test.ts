@@ -1,14 +1,13 @@
 import { describe,it,expect } from 'vitest';
 import { safeReturnTo } from './returnTo';
 
-describe('invite return destination',()=>{
-  it('preserves a secure assessment invite',()=>{
-    expect(safeReturnTo('/t/1234567890abcdef1234567890abcdef')).toBe('/t/1234567890abcdef1234567890abcdef');
-    expect(safeReturnTo('/my-tests')).toBe('/my-tests');
-    expect(safeReturnTo('/teacher')).toBe('/teacher');
+describe('post-auth return destination',()=>{
+  it('falls back to the dashboard for any destination',()=>{
+    expect(safeReturnTo('/dashboard')).toBe('/dashboard');
+    expect(safeReturnTo(null)).toBe('/dashboard');
   });
   it('rejects open redirects and unrelated paths',()=>{
-    for (const value of ['//evil.com','https://evil.com/t/1234567890abcdef','/\\evil.com','/t/short','/admin','/t/1234567890abcdef%2F..'])
+    for (const value of ['//evil.com','https://evil.com/x','/\\evil.com','/admin'])
       expect(safeReturnTo(value)).toBe('/dashboard');
   });
 });

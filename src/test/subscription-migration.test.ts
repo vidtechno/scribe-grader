@@ -2,34 +2,25 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-const sql = readFileSync(
-  join(process.cwd(), 'supabase/migrations/20260919130000_unified_go_plus_subscriptions.sql'),
-  'utf8',
-) + readFileSync(join(process.cwd(), 'supabase/migrations/20260919010000_teacher_mode.sql'), 'utf8');
+const read = (f: string) => readFileSync(join(process.cwd(), 'supabase/migrations', f), 'utf8');
+const unified = read('20260919130000_unified_go_plus_subscriptions.sql');
+const removal = read('20261002000000_remove_teacher_mode.sql');
 
-describe('unified subscription database migration', () => {
+describe('subscription database migrations', () => {
   it('installs only Free, Go and Plus as active plan identifiers', () => {
-    expect(sql).toContain("not in ('free','go','plus')");
-    expect(sql).toContain("('go','Scorify Go'");
-    expect(sql).toContain("('plus','Scorify Plus'");
-  });
-
-  it('keeps personal and Teacher usage in separate counters', () => {
-    expect(sql).toContain('teacher_writing_used integer not null default 0');
-    expect(sql).toContain('teacher_writing_used=teacher_writing_used+1');
-    expect(sql).toContain('teacher_grammar_used=teacher_grammar_used+1');
-    expect(sql).not.toContain('set writing_used=writing_used+1 where user_id=t.teacher_id');
-  });
-
-  it('charges successful Teacher attempts idempotently', () => {
-    expect(sql).toContain("if a.submitted_at is not null then return coalesce(a.result,'{}'::jsonb)");
-    expect(sql).toContain("if a.grade_status='graded' then return true");
-    expect(sql).toContain("unique references public.teacher_attempts(id)");
+    expect(unified).toContain("not in ('free','go','plus')");
+    expect(unified).toContain("('go','Scorify Go'");
+    expect(unified).toContain("('plus','Scorify Plus'");
   });
 
   it('preserves usage on a mid-period Go/Plus switch and resets on renewal', () => {
-    expect(sql).toContain('preserve_usage:=');
-    expect(sql).toContain("old.plan_type<>_plan_slug and old.expires_at>now()");
-    expect(sql).toContain("public.admin_set_subscription(_user_id,s.plan_type,now(),now()+make_interval(days=>_days))");
+    expect(removal).toContain('preserve_usage:=');
+    expect(removal).toContain("old.plan_type<>_plan_slug and old.expires_at>now()");
+  });
+
+  it('removes Teacher Mode objects and no longer references them in subscription functions', () => {
+    expect(removal).toContain('drop table if exists public.teacher_tests');
+    const functions = removal.slice(0, removal.indexOf('-- Drop Teacher Mode'));
+    expect(functions.replace(/^--.*$/gm, '').toLowerCase()).not.toContain('teacher');
   });
 });

@@ -544,9 +544,6 @@ export type Database = {
           slug: string | null
           sort_order: number
           speaking_limit: number
-          teacher_grammar_limit: number
-          teacher_tests_unlimited: boolean
-          teacher_writing_limit: number
           updated_at: string
           writing_limit: number
         }
@@ -569,9 +566,6 @@ export type Database = {
           slug?: string | null
           sort_order?: number
           speaking_limit?: number
-          teacher_grammar_limit?: number
-          teacher_tests_unlimited?: boolean
-          teacher_writing_limit?: number
           updated_at?: string
           writing_limit?: number
         }
@@ -594,9 +588,6 @@ export type Database = {
           slug?: string | null
           sort_order?: number
           speaking_limit?: number
-          teacher_grammar_limit?: number
-          teacher_tests_unlimited?: boolean
-          teacher_writing_limit?: number
           updated_at?: string
           writing_limit?: number
         }
@@ -617,10 +608,6 @@ export type Database = {
           speaking_limit: number
           speaking_used: number
           started_at: string
-          teacher_grammar_limit: number
-          teacher_grammar_used: number
-          teacher_writing_limit: number
-          teacher_writing_used: number
           updated_at: string
           user_id: string
           writing_limit: number
@@ -640,10 +627,6 @@ export type Database = {
           speaking_limit?: number
           speaking_used?: number
           started_at?: string
-          teacher_grammar_limit?: number
-          teacher_grammar_used?: number
-          teacher_writing_limit?: number
-          teacher_writing_used?: number
           updated_at?: string
           user_id: string
           writing_limit?: number
@@ -663,10 +646,6 @@ export type Database = {
           speaking_limit?: number
           speaking_used?: number
           started_at?: string
-          teacher_grammar_limit?: number
-          teacher_grammar_used?: number
-          teacher_writing_limit?: number
-          teacher_writing_used?: number
           updated_at?: string
           user_id?: string
           writing_limit?: number

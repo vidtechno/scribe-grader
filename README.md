@@ -26,6 +26,8 @@ deno check supabase/functions/*/index.ts
 
 ## Production configuration
 
+Teacher Mode has been removed; the product focuses on personal IELTS Writing and Speaking. Apply `supabase/migrations/20261002000000_remove_teacher_mode.sql` to drop its database objects.
+
 The frontend is hosted on Vercel at `scorify.uz`. Supabase project: `bywqpgjojnqscelloxew`.
 
 - Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` before building.

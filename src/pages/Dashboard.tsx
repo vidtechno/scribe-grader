@@ -36,7 +36,7 @@ const fadeUp = {
 export default function Dashboard() {
   const { profile, refreshProfile } = useAuth();
   const { subscription, planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed,
-    teacherGrammarLimit, teacherGrammarUsed, teacherWritingLimit, teacherWritingUsed, entitlement,
+    entitlement,
     expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
   const navigate = useNavigate();
   const [essays, setEssays] = useState<Essay[]>([]);
@@ -125,7 +125,7 @@ export default function Dashboard() {
           setSpeakingAvg((scored.reduce((a, d) => a + (d.score || 0), 0) / scored.length).toFixed(1));
         }
       }
-    } catch {}
+    } catch { /* best-effort */ }
   };
 
   const fetchMockTests = async () => {
@@ -136,7 +136,7 @@ export default function Dashboard() {
         .order('created_at', { ascending: false })
         .limit(5);
       setRecentMockTests(data || []);
-    } catch {}
+    } catch { /* best-effort */ }
   };
 
   const fetchDrafts = async () => {
@@ -146,7 +146,7 @@ export default function Dashboard() {
         supabase.from('speaking_attempts').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
       ]);
       setDraftsCount((e.count || 0) + (s.count || 0));
-    } catch {}
+    } catch { /* best-effort */ }
   };
 
   const last10Scored = essays.filter(e => e.score !== null).slice(0, 10).reverse();
@@ -225,16 +225,14 @@ export default function Dashboard() {
         )}
 
         <section className="mb-7">
-          <div className="flex items-end justify-between gap-4 mb-4"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">Start here</p><h2 className="text-xl sm:text-2xl font-bold mt-1">What would you like to practise?</h2></div><Link to="/my-tests" className="hidden sm:inline-flex text-sm font-semibold text-primary hover:underline">My assigned tests</Link></div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="flex items-end justify-between gap-4 mb-4"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">Start here</p><h2 className="text-xl sm:text-2xl font-bold mt-1">What would you like to practise?</h2></div></div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
               {to:'/writing',icon:PenTool,title:'IELTS Writing',text:'Write Task 1 or Task 2 and receive an estimated band with clear corrections.'},
               {to:'/speaking',icon:Mic,title:'IELTS Speaking',text:'Record Parts 1–3 and review fluency, grammar, vocabulary and pronunciation.'},
               {to:'/grammar-test',icon:BrainCircuit,title:'Daily Grammar',text:'Complete a focused daily test created from patterns in your recent writing.'},
-              {to:'/teacher',icon:GraduationCap,title:'Teacher Mode',text:'Create Grammar or Writing assessments, share a link and review class results.'},
             ].map(item=><Link key={item.to} to={item.to} className="group glass-card-hover p-5 min-h-[190px] flex flex-col"><span className="w-11 h-11 rounded-xl bg-primary/10 text-primary grid place-items-center"><item.icon className="w-5 h-5"/></span><h3 className="font-bold text-lg mt-5">{item.title}</h3><p className="text-sm text-muted-foreground leading-relaxed mt-2 flex-1">{item.text}</p><span className="text-sm font-semibold text-primary mt-4 inline-flex items-center gap-1">Open <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1"/></span></Link>)}
           </div>
-          <Link to="/my-tests" className="sm:hidden inline-flex mt-3 text-sm font-semibold text-primary">View my assigned tests</Link>
         </section>
 
         <section className="mb-7 rounded-3xl border border-primary/15 bg-gradient-to-r from-primary/[.07] to-card p-5 sm:p-6">
@@ -248,7 +246,6 @@ export default function Dashboard() {
               ].map(step=><div key={step[0]} className="rounded-2xl border bg-background/80 p-4"><span className="text-xs font-bold text-primary">STEP {step[0]}</span><h3 className="font-semibold mt-2">{step[1]}</h3><p className="text-xs text-muted-foreground mt-1 leading-relaxed">{step[2]}</p></div>)}
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-primary/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"><p className="text-sm text-muted-foreground"><strong className="text-foreground">Teaching a class?</strong> Teacher Mode lets you create a test, send one link and review every student’s result.</p><Link to="/teacher" className="inline-flex items-center gap-1 text-sm font-semibold text-primary whitespace-nowrap">See Teacher Mode <ArrowRight className="w-4 h-4"/></Link></div>
         </section>
 
         {/* Plan Usage Tracker */}
@@ -269,7 +266,7 @@ export default function Dashboard() {
                     </span>
                   )}
                 </p>
-                {planType !== 'free' && <p className="text-xs text-muted-foreground mt-1">{entitlement.priceUzs} so'm/month · Student and Teacher Mode</p>}
+                {planType !== 'free' && <p className="text-xs text-muted-foreground mt-1">{entitlement.priceUzs} so'm/month</p>}
               </div>
             </div>
             <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
@@ -299,10 +296,6 @@ export default function Dashboard() {
               );
             })}
           </div>
-          {(planType !== 'free' || teacherGrammarUsed > 0 || teacherWritingUsed > 0) && <div className="mt-5 pt-5 border-t"><div className="flex items-center justify-between gap-3 mb-3"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-muted-foreground">Teacher usage</p><p className="text-xs text-muted-foreground mt-1">Successful student work only. Creating and publishing tests is unlimited.</p></div><Link to="/teacher" className="text-sm font-semibold text-primary">Open Teacher Mode</Link></div><div className="grid sm:grid-cols-2 gap-4">{[
-            {label:'Grammar submissions',used:teacherGrammarUsed,limit:teacherGrammarLimit,icon:BrainCircuit},
-            {label:'Writing evaluations',used:teacherWritingUsed,limit:teacherWritingLimit,icon:PenLine},
-          ].map(u=>{const pct=u.limit?Math.min(100,100*u.used/u.limit):0;return <div key={u.label} className="glass-card-hover p-4"><div className="flex justify-between gap-2 text-sm"><span className="flex items-center gap-2 font-medium"><u.icon className="h-4 w-4 text-primary"/>{u.label}</span><span className="text-xs text-muted-foreground">{u.used}/{u.limit} used</span></div><div className="w-full h-2 bg-secondary rounded-full overflow-hidden mt-3"><div className="h-full bg-primary" style={{width:`${pct}%`}}/></div></div>})}</div></div>}
           {planType === 'free' && (
             <div className="mt-4 flex items-start gap-2 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">
               <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0" />
@@ -320,7 +313,7 @@ export default function Dashboard() {
             </h2>
             <span className="text-xs text-muted-foreground hidden sm:inline">Tap a card to start</span>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {/* Writing Hub */}
             <Link to="/writing" className="group glass-card-hover p-4 sm:p-5 text-left relative overflow-hidden block">
               <div className="absolute -top-6 -right-6 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />

@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, GraduationCap, BrainCircuit } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit } from 'lucide-react';
 import { PricingModal } from '@/components/PricingModal';
 import { useSubscription } from '@/hooks/useSubscription';
 
@@ -70,7 +70,6 @@ export function Navbar() {
                   <span>Daily Grammar</span>
                 </Button>
               </Link>
-              <Link to="/teacher" className="hidden lg:block"><Button variant="outline" size="sm" className="gap-2 border-primary/25 bg-primary/5"><GraduationCap className="h-4 w-4" />Teacher</Button></Link>
               <button
                 onClick={() => setShowPricing(true)}
                 className="glass-card px-3 py-1.5 flex items-center gap-2 hover:bg-primary/10 transition-colors"

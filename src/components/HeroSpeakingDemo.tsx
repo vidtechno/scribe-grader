@@ -25,7 +25,7 @@ export function HeroSpeakingDemo() {
   }, [audioUrl]);
 
   const stop = () => {
-    recorderRef.current?.state === 'recording' && recorderRef.current.stop();
+    if (recorderRef.current?.state === 'recording') recorderRef.current.stop();
   };
 
   const start = async () => {

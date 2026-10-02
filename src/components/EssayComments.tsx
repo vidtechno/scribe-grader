@@ -34,7 +34,7 @@ export function EssayComments({ essayId }: Props) {
       .order('created_at', { ascending: false });
     const list = (rows as any[]) || [];
     const userIds = Array.from(new Set(list.map(c => c.user_id)));
-    let names: Record<string, string> = {};
+    const names: Record<string, string> = {};
     if (userIds.length) {
       const { data: profs } = await supabase
         .from('profiles')

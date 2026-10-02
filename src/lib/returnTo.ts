@@ -4,10 +4,6 @@ export function safeReturnTo(value: string | null | undefined): string {
   try {
     const url = new URL(value, 'https://scorify.uz');
     if (url.origin !== 'https://scorify.uz') return '/dashboard';
-    if (/^\/t\/[A-Za-z0-9-]{16,100}$/.test(url.pathname)) return url.pathname;
-    if (url.pathname === '/my-tests') return url.pathname;
-    if (url.pathname === '/teacher') return url.pathname;
-    if (/^\/(my-tests|teacher\/tests)\/[0-9a-fA-F-]{36}$/.test(url.pathname)) return url.pathname;
     return '/dashboard';
   } catch { return '/dashboard'; }
 }

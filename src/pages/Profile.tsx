@@ -19,8 +19,7 @@ import { motion } from 'framer-motion';
 
 export default function Profile() {
   const { user, profile, signOut, refreshProfile } = useAuth();
-  const { planName, planType, entitlement, expiresAt, daysRemaining, isExpired, writingUsed, writingLimit, speakingUsed, speakingLimit, mockUsed, mockLimit,
-    teacherGrammarUsed,teacherGrammarLimit,teacherWritingUsed,teacherWritingLimit } = useSubscription();
+  const { planName, planType, entitlement, expiresAt, daysRemaining, isExpired, writingUsed, writingLimit, speakingUsed, speakingLimit, mockUsed, mockLimit } = useSubscription();
   const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -124,7 +123,7 @@ export default function Profile() {
                 <Crown className="h-5 w-5 text-primary" />
                 <span className="text-lg font-bold">{planName}</span>
               </div>
-              {planType !== 'free' && <p className="text-xs text-muted-foreground">{entitlement.priceUzs} so'm/month · Student + Teacher</p>}
+              {planType !== 'free' && <p className="text-xs text-muted-foreground">{entitlement.priceUzs} so'm/month</p>}
               {expiresAt && (
                 <p className={`text-xs ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>
                   {isExpired ? 'Expired' : `${daysRemaining} days left`} · {format(expiresAt, 'MMM d, yyyy')}
@@ -138,8 +137,6 @@ export default function Profile() {
         </motion.div>
 
         <div className="grid sm:grid-cols-2 gap-3 mb-6">
-          <Link to="/my-tests" className="glass-card-hover p-4 block"><strong>My Tests</strong><p className="text-sm text-muted-foreground">Continue teacher assessments and review results</p></Link>
-          <Link to="/teacher" className="glass-card-hover p-4 block"><strong>Teacher Mode</strong><p className="text-sm text-muted-foreground">Create tests and follow learner progress</p></Link>
         </div>
 
         {/* Plan usage + history */}
@@ -166,10 +163,6 @@ export default function Profile() {
               );
             })}
           </div>
-          {planType !== 'free' && <><h3 className="text-sm font-semibold mb-3 flex items-center gap-2"><GraduationCap className="h-4 w-4 text-primary"/>Teacher usage</h3><div className="grid sm:grid-cols-2 gap-3 mb-6">{[
-            {label:'Grammar submissions',used:teacherGrammarUsed,limit:teacherGrammarLimit},
-            {label:'Writing evaluations',used:teacherWritingUsed,limit:teacherWritingLimit},
-          ].map(u=><div key={u.label} className="glass-card-hover p-3"><p className="text-xs text-muted-foreground mb-1">{u.label}</p><p className="text-sm font-semibold mb-1">{u.used}/{u.limit} used</p><div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden"><div className="h-full bg-primary" style={{width:`${u.limit?Math.min(100,100*u.used/u.limit):0}%`}}/></div></div>)}</div></>}
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
             <History className="h-4 w-4 text-primary" /> Subscription History
           </h3>

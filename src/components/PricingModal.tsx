@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Check, ExternalLink, PenLine, Mic, ClipboardList, Sparkles, Crown, GraduationCap, BookOpen } from 'lucide-react';
+import { Check, ExternalLink, PenLine, Mic, ClipboardList, Sparkles, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -15,8 +15,6 @@ interface Plan {
   writing_limit: number;
   speaking_limit: number;
   mock_test_limit: number;
-  teacher_grammar_limit: number;
-  teacher_writing_limit: number;
   features: string[];
   description: string | null;
   sort_order: number;
@@ -66,7 +64,7 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
             <Crown className="h-6 w-6 text-primary" /> Choose Your Plan
           </DialogTitle>
           <DialogDescription className="text-center">
-            One subscription unlocks both personal IELTS practice and Teacher Mode.
+            One subscription unlocks AI-graded IELTS Writing and Speaking practice.
           </DialogDescription>
         </DialogHeader>
 
@@ -103,7 +101,7 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
                     {plan.badge}
                   </div>
                 )}
-                <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary mb-2">Student + Teacher Mode</p>
+                <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary mb-2">IELTS Practice</p>
                 <h3 className="font-bold text-lg">{plan.name}</h3>
                 {plan.description && (
                   <p className="text-xs text-muted-foreground mb-3">{plan.description}</p>
@@ -127,12 +125,7 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
                     <span><strong>{plan.mock_test_limit}</strong> Full Mock Tests</span>
                   </li>
                 </ul>
-                <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">Teacher usage</p>
                 <ul className="space-y-2 mb-5 flex-1">
-                  <li className="flex items-center gap-2 text-sm"><GraduationCap className="h-4 w-4 text-primary"/><span><strong>Unlimited</strong> test creation</span></li>
-                  <li className="flex items-center gap-2 text-sm"><BookOpen className="h-4 w-4 text-primary"/><span><strong>{plan.teacher_grammar_limit.toLocaleString()}</strong> Grammar submissions</span></li>
-                  <li className="flex items-center gap-2 text-sm"><PenLine className="h-4 w-4 text-primary"/><span><strong>{plan.teacher_writing_limit}</strong> Writing evaluations</span></li>
-                  <li className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5"/><span>Invite links, test settings, participants and question analytics</span></li>
                   <li className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5"/><span>Daily Grammar, AI Mentor and progress history included</span></li>
                 </ul>
                 <Button

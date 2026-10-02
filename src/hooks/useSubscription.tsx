@@ -14,10 +14,6 @@ export interface Subscription {
   speaking_used: number;
   mock_test_limit: number;
   mock_test_used: number;
-  teacher_grammar_limit: number;
-  teacher_grammar_used: number;
-  teacher_writing_limit: number;
-  teacher_writing_used: number;
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
@@ -74,11 +70,6 @@ export function useSubscription() {
     writingUsed: s?.writing_used ?? 0,
     speakingUsed: s?.speaking_used ?? 0,
     mockUsed: s?.mock_test_used ?? 0,
-    teacherGrammarLimit: s?.teacher_grammar_limit ?? entitlement.teacher.grammarSubmissions,
-    teacherGrammarUsed: s?.teacher_grammar_used ?? 0,
-    teacherWritingLimit: s?.teacher_writing_limit ?? entitlement.teacher.writingEvaluations,
-    teacherWritingUsed: s?.teacher_writing_used ?? 0,
-    canUseTeacherMode: entitlement.teacher.unlimitedTests,
     entitlement,
     expiresAt,
     daysRemaining,

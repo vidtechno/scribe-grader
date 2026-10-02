@@ -12,6 +12,7 @@ import { SEOHead } from '@/components/SEOHead';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AdminAnalytics } from '@/components/AdminAnalytics';
 import { motion } from 'framer-motion';
 import { 
   Users, CreditCard, Plus, Minus, Search, Shield, Loader2,
@@ -47,10 +48,6 @@ interface Subscription {
   speaking_used: number;
   mock_test_limit: number;
   mock_test_used: number;
-  teacher_grammar_limit: number;
-  teacher_grammar_used: number;
-  teacher_writing_limit: number;
-  teacher_writing_used: number;
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
@@ -67,7 +64,6 @@ interface Announcement {
 }
 type AiUsageSummary = { label:string; input_tokens:number; output_tokens:number; audio_seconds:number; cost_usd:number; requests:number };
 
-// One subscription controls both Student and Teacher Mode.
 const PLANS: { slug: string; label: string }[] = [
   { slug: 'free', label: 'Free' },
   { slug: 'go', label: 'Scorify Go (49k UZS)' },
@@ -392,6 +388,7 @@ export default function Admin() {
           <TabsList className="w-full sm:w-auto">
             <TabsTrigger value="users" className="gap-1"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
             <TabsTrigger value="announcements" className="gap-1"><Megaphone className="h-3.5 w-3.5" /> Announcements</TabsTrigger>
+            <TabsTrigger value="analytics" className="gap-1"><BarChart3 className="h-3.5 w-3.5" /> Analytics</TabsTrigger>
             <TabsTrigger value="settings" className="gap-1"><Settings className="h-3.5 w-3.5" /> Settings</TabsTrigger>
           </TabsList>
 
@@ -471,7 +468,7 @@ export default function Admin() {
                               <div className="space-y-1 min-w-[140px]">
                                 <Progress value={subProgress} className="h-1.5" />
                                 <div className="flex justify-between text-xs text-muted-foreground">
-                                  <span>Personal W {sub.writing_used}/{sub.writing_limit} · S {sub.speaking_used}/{sub.speaking_limit} · M {sub.mock_test_used}/{sub.mock_test_limit}<br/>Teacher G {sub.teacher_grammar_used}/{sub.teacher_grammar_limit} · W {sub.teacher_writing_used}/{sub.teacher_writing_limit}</span>
+                                  <span>W {sub.writing_used}/{sub.writing_limit} · S {sub.speaking_used}/{sub.speaking_limit} · M {sub.mock_test_used}/{sub.mock_test_limit}</span>
                                   {daysLeft !== null && (
                                     <span className={isExpired ? 'text-destructive' : ''}>
                                       {isExpired ? 'Expired' : `${daysLeft}d left`}
@@ -589,6 +586,8 @@ export default function Admin() {
           </TabsContent>
 
           {/* Settings Tab */}
+          <TabsContent value="analytics"><AdminAnalytics /></TabsContent>
+
           <TabsContent value="settings">
             <div className="glass-card p-6">
               <h3 className="font-semibold mb-6 flex items-center gap-2">

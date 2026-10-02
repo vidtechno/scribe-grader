@@ -9,35 +9,30 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { AIMentor } from "@/components/AIMentor";
 import { BottomNav } from "@/components/BottomNav";
 import { Announcements } from "@/components/Announcements";
-import { useState, useEffect } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import AuthCallback from "./pages/AuthCallback";
-import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import Exam from "./pages/Exam";
-import Result from "./pages/Result";
-import Essays from "./pages/Essays";
-import Leaderboard from "./pages/Leaderboard";
-import Admin from "./pages/Admin";
-import Speaking from "./pages/Speaking";
-import Writing from "./pages/Writing";
-import SpeakingResult from "./pages/SpeakingResult";
-import SpeakingHistory from "./pages/SpeakingHistory";
-import Drafts from "./pages/Drafts";
-import Profile from "./pages/Profile";
-import MockTestDashboard from "./pages/MockTestDashboard";
-import MockTestExam from "./pages/MockTestExam";
-import MockTestThankYou from "./pages/MockTestThankYou";
-import MockTestResult from "./pages/MockTestResult";
-import BlogComputerBasedWriting from "./pages/BlogComputerBasedWriting";
-import NotFound from "./pages/NotFound";
-import GrammarTest from "./pages/GrammarTest";
-import TeacherMode from "./pages/TeacherMode";
-import TeacherTest from "./pages/TeacherTest";
-import TeacherInvite from "./pages/TeacherInvite";
-import MyTests from "./pages/MyTests";
-import TeacherRunner from "./pages/TeacherRunner";
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Exam = lazy(() => import("./pages/Exam"));
+const Result = lazy(() => import("./pages/Result"));
+const Essays = lazy(() => import("./pages/Essays"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const Admin = lazy(() => import("./pages/Admin"));
+const Speaking = lazy(() => import("./pages/Speaking"));
+const Writing = lazy(() => import("./pages/Writing"));
+const SpeakingResult = lazy(() => import("./pages/SpeakingResult"));
+const SpeakingHistory = lazy(() => import("./pages/SpeakingHistory"));
+const Drafts = lazy(() => import("./pages/Drafts"));
+const Profile = lazy(() => import("./pages/Profile"));
+const MockTestDashboard = lazy(() => import("./pages/MockTestDashboard"));
+const MockTestExam = lazy(() => import("./pages/MockTestExam"));
+const MockTestThankYou = lazy(() => import("./pages/MockTestThankYou"));
+const MockTestResult = lazy(() => import("./pages/MockTestResult"));
+const BlogComputerBasedWriting = lazy(() => import("./pages/BlogComputerBasedWriting"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const GrammarTest = lazy(() => import("./pages/GrammarTest"));
 import { safeReturnTo } from "./lib/returnTo";
 
 const queryClient = new QueryClient();
@@ -78,6 +73,7 @@ function AppRoutes() {
     <>
       <ScrollToTop />
       <Announcements />
+      <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
@@ -87,11 +83,6 @@ function AppRoutes() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/vocabulary" element={<Navigate to="/dashboard" replace />} />
         <Route path="/grammar-test" element={<ProtectedRoute><GrammarTest /></ProtectedRoute>} />
-        <Route path="/teacher" element={<ProtectedRoute><TeacherMode /></ProtectedRoute>} />
-        <Route path="/teacher/tests/:id" element={<ProtectedRoute><TeacherTest /></ProtectedRoute>} />
-        <Route path="/t/:code" element={<TeacherInvite />} />
-        <Route path="/my-tests" element={<ProtectedRoute><MyTests /></ProtectedRoute>} />
-        <Route path="/my-tests/:id" element={<ProtectedRoute><TeacherRunner /></ProtectedRoute>} />
         <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
         <Route path="/writing" element={<ProtectedRoute><Writing /></ProtectedRoute>} />
         <Route path="/result/:id" element={<ProtectedRoute><Result /></ProtectedRoute>} />
@@ -109,6 +100,7 @@ function AppRoutes() {
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
       <AIMentor externalOpen={mentorOpen} onExternalOpenChange={setMentorOpen} />
       <BottomNav />
     </>
