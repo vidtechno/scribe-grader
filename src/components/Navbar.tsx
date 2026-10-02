@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen } from 'lucide-react';
 import { PricingModal } from '@/components/PricingModal';
 import { useSubscription } from '@/hooks/useSubscription';
 
@@ -70,6 +70,18 @@ export function Navbar() {
                   <span>Daily Grammar</span>
                 </Button>
               </Link>
+              <a href="/blog" className="hidden xl:block">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <BookOpen className="h-4 w-4" />
+                  <span>Blog</span>
+                </Button>
+              </a>
+              <Link to="/referral" className="hidden xl:block">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <Gift className="h-4 w-4" />
+                  <span>Invite</span>
+                </Button>
+              </Link>
               <button
                 onClick={() => setShowPricing(true)}
                 className="glass-card px-3 py-1.5 flex items-center gap-2 hover:bg-primary/10 transition-colors"
@@ -92,6 +104,9 @@ export function Navbar() {
             </div>
           ) : (
             <div className="flex items-center gap-2">
+              <a href="/blog" className="hidden sm:block"><Button variant="ghost" size="sm" className="gap-2"><BookOpen className="h-4 w-4" />Blog</Button></a>
+              <a href="/ielts-writing-task-2-questions" className="hidden lg:block"><Button variant="ghost" size="sm">Task 2 questions</Button></a>
+              <a href="/ielts-speaking-part-2" className="hidden lg:block"><Button variant="ghost" size="sm">Speaking cue cards</Button></a>
               <ThemeToggle />
               <Link to="/auth">
                 <Button variant="glow">Sign In</Button>

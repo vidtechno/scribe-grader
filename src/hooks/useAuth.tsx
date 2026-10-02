@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { safeReturnTo } from '@/lib/returnTo';
+import { clearStoredReferral, getStoredReferral } from '@/lib/referral';
 
 interface Profile {
   id: string;
@@ -22,8 +22,6 @@ interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => Promise<{ error: Error | null; confirmationRequired?: boolean }>;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
@@ -46,22 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .single();
       
       if (error) throw error;
-      let data = initialProfile;
-      // The database creates the profile before email confirmation. Populate
-      // optional signup details only after an authenticated session exists.
-      if (data && activeUserId.current === userId) {
-        const { data: { user: currentUser } } = await supabase.auth.getUser();
-        const metadata = currentUser?.id === userId ? currentUser.user_metadata : {};
-        const details: { age?: number; city?: string; phone?: string } = {};
-        if (data.age == null && Number.isInteger(metadata.age) && metadata.age >= 10 && metadata.age <= 80) details.age = metadata.age;
-        if (!data.city && typeof metadata.city === 'string' && metadata.city.trim()) details.city = metadata.city.trim().slice(0, 100);
-        if (!data.phone && typeof metadata.phone === 'string' && metadata.phone.trim()) details.phone = metadata.phone.trim().slice(0, 40);
-        if (Object.keys(details).length) {
-          const result = await supabase.from('profiles').update(details).eq('user_id', userId).select().single();
-          if (!result.error && result.data) data = result.data;
-        }
-        if (activeUserId.current === userId) setProfile(data);
-      }
+      if (initialProfile && activeUserId.current === userId) setProfile(initialProfile);
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
@@ -84,7 +67,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setProfile(null);
       setLoading(false);
       if (next?.user) {
-        setTimeout(() => { if (!disposed) void fetchProfile(next.user.id); }, 0);
+        setTimeout(() => {
+          if (disposed) return;
+          void fetchProfile(next.user.id);
+          const ref = getStoredReferral();
+          if (ref) {
+            // A referral is claimed once; the database ignores existing accounts and repeats.
+            supabase.rpc('claim_referral', { _code: ref }).then(({ error }) => { if (!error) clearStoredReferral(); });
+          }
+        }, 0);
       }
     };
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -101,45 +92,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => { disposed = true; activeUserId.current = null; subscription.unsubscribe(); };
   }, []);
 
-  const signUp = async (email: string, password: string, fullName: string, age?: number, city?: string, phone?: string) => {
-    try {
-      const next = safeReturnTo(sessionStorage.getItem('scorify:returnTo'));
-      const redirectUrl = `${window.location.origin}/auth/callback${next === '/dashboard' ? '' : `?next=${encodeURIComponent(next)}`}`;
-      
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            full_name: fullName,
-            age: age || null,
-            city: city || null,
-            phone: phone || null,
-          }
-        }
-      });
-      
-      if (error) return { error };
-      return { error: null, confirmationRequired: !data.session };
-    } catch (error) {
-      return { error: error as Error };
-    }
-  };
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-      
-      return { error };
-    } catch (error) {
-      return { error: error as Error };
-    }
-  };
-
   const signOut = async () => {
     await supabase.auth.signOut();
     setProfile(null);
@@ -151,8 +103,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       session,
       profile,
       loading,
-      signUp,
-      signIn,
       signOut,
       refreshProfile
     }}>

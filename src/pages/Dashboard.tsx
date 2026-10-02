@@ -10,6 +10,8 @@ import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { PricingModal } from '@/components/PricingModal';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { SEOHead } from '@/components/SEOHead';
+import { GoalsCard } from '@/components/GoalsCard';
+import { ReferralBanner } from '@/components/ReferralBanner';
 import { motion } from 'framer-motion';
 import { 
   PenTool, FileText, TrendingUp, Clock, CreditCard,
@@ -223,6 +225,9 @@ export default function Dashboard() {
             </div>
           </motion.div>
         )}
+
+        <ReferralBanner />
+        <GoalsCard />
 
         <section className="mb-7">
           <div className="flex items-end justify-between gap-4 mb-4"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">Start here</p><h2 className="text-xl sm:text-2xl font-bold mt-1">What would you like to practise?</h2></div></div>

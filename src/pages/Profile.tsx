@@ -8,10 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
-import {
-  User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target,
-  Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap
-} from 'lucide-react';
+import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap, Gift, BookOpen } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
@@ -28,8 +25,6 @@ export default function Profile() {
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [city, setCity] = useState('');
-  const [phone, setPhone] = useState('');
 
   const [stats, setStats] = useState({
     essays: 0, speaking: 0, avgEssay: 'N/A' as string,
@@ -42,8 +37,6 @@ export default function Profile() {
     const parts = (profile.full_name || '').trim().split(' ');
     setFirstName(parts[0] || '');
     setLastName(parts.slice(1).join(' ') || '');
-    setCity(profile.city || '');
-    setPhone(profile.phone || '');
   }, [profile]);
 
   useEffect(() => {
@@ -75,7 +68,7 @@ export default function Profile() {
     const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
     const { error } = await supabase
       .from('profiles')
-      .update({ full_name: fullName, city: city.trim() || null, phone: phone.trim() || null })
+      .update({ full_name: fullName })
       .eq('user_id', user.id);
     setSaving(false);
     if (error) { toast.error('Failed to save'); return; }
@@ -228,14 +221,6 @@ export default function Profile() {
               <Label className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" /> Email</Label>
               <Input value={profile?.email || ''} disabled />
             </div>
-            <div className="space-y-2">
-              <Label className="flex items-center gap-1"><Phone className="h-3.5 w-3.5" /> Phone</Label>
-              <Input value={phone} onChange={(e) => setPhone(e.target.value)} disabled={!editing} placeholder="+998 ..." />
-            </div>
-            <div className="space-y-2 sm:col-span-2">
-              <Label className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> City</Label>
-              <Input value={city} onChange={(e) => setCity(e.target.value)} disabled={!editing} placeholder="Tashkent" />
-            </div>
           </div>
         </motion.div>
 
@@ -284,6 +269,14 @@ export default function Profile() {
             <Trophy className="h-5 w-5 text-primary" />
             <span className="font-medium text-sm">Leaderboard</span>
           </Link>
+          <Link to="/referral" className="glass-card-hover p-4 flex items-center gap-3">
+            <Gift className="h-5 w-5 text-primary" />
+            <span className="font-medium text-sm">Invite friends, earn free months</span>
+          </Link>
+          <a href="/blog" className="glass-card-hover p-4 flex items-center gap-3">
+            <BookOpen className="h-5 w-5 text-primary" />
+            <span className="font-medium text-sm">IELTS blog and guides</span>
+          </a>
         </motion.div>
 
         <div className="flex justify-end">

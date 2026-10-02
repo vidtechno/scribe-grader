@@ -121,6 +121,99 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_posts: {
+        Row: {
+          alt_slug: string | null
+          author_name: string
+          content_html: string
+          cover_alt: string | null
+          cover_image_url: string | null
+          created_at: string
+          created_by: string | null
+          excerpt: string | null
+          id: string
+          lang: string
+          published_at: string | null
+          reading_minutes: number | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          status: string
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          alt_slug?: string | null
+          author_name?: string
+          content_html?: string
+          cover_alt?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          excerpt?: string | null
+          id?: string
+          lang?: string
+          published_at?: string | null
+          reading_minutes?: number | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          status?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          alt_slug?: string | null
+          author_name?: string
+          content_html?: string
+          cover_alt?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          excerpt?: string | null
+          id?: string
+          lang?: string
+          published_at?: string | null
+          reading_minutes?: number | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          status?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_goals: {
+        Row: {
+          exam_date: string | null
+          target_band: number
+          updated_at: string
+          user_id: string
+          weekly_essays: number
+          weekly_speaking: number
+        }
+        Insert: {
+          exam_date?: string | null
+          target_band?: number
+          updated_at?: string
+          user_id: string
+          weekly_essays?: number
+          weekly_speaking?: number
+        }
+        Update: {
+          exam_date?: string | null
+          target_band?: number
+          updated_at?: string
+          user_id?: string
+          weekly_essays?: number
+          weekly_speaking?: number
+        }
+        Relationships: []
+      }
       essay_comments: {
         Row: {
           content: string
@@ -677,6 +770,18 @@ export type Database = {
     }
     Functions: {
       admin_ai_usage_summary: { Args: never; Returns: Json }
+      admin_blog_daily: {
+        Args: { _days?: number; _post?: string }
+        Returns: { day: string; views: number; visitors: number }[]
+      }
+      admin_blog_stats: {
+        Args: never
+        Returns: { post_id: string; unique_visitors: number; views: number; views_30d: number; views_7d: number }[]
+      }
+      claim_referral: { Args: { _code: string }; Returns: Json }
+      claim_referral_reward: { Args: never; Returns: Json }
+      my_referral: { Args: never; Returns: Json }
+      track_blog_view: { Args: { _slug: string; _visitor: string }; Returns: undefined }
       admin_extend_subscription: {
         Args: { _days?: number; _user_id: string }
         Returns: Json

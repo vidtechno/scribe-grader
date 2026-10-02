@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AdminAnalytics } from '@/components/AdminAnalytics';
+import { BlogManager } from '@/components/admin/BlogManager';
 import { motion } from 'framer-motion';
 import { 
   Users, CreditCard, Plus, Minus, Search, Shield, Loader2,
@@ -482,6 +483,7 @@ export default function Admin() {
           <TabsList className="w-full sm:w-auto">
             <TabsTrigger value="users" className="gap-1"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
             <TabsTrigger value="announcements" className="gap-1"><Megaphone className="h-3.5 w-3.5" /> Announcements</TabsTrigger>
+            <TabsTrigger value="blog" className="gap-1"><FileText className="h-3.5 w-3.5" /> Blog</TabsTrigger>
             <TabsTrigger value="analytics" className="gap-1"><BarChart3 className="h-3.5 w-3.5" /> Analytics</TabsTrigger>
             <TabsTrigger value="settings" className="gap-1"><Settings className="h-3.5 w-3.5" /> Settings</TabsTrigger>
           </TabsList>
@@ -730,6 +732,8 @@ export default function Admin() {
           </TabsContent>
 
           {/* Settings Tab */}
+          <TabsContent value="blog"><BlogManager /></TabsContent>
+
           <TabsContent value="analytics"><AdminAnalytics /></TabsContent>
 
           <TabsContent value="settings">

@@ -13,7 +13,6 @@ import { Suspense, lazy, useState, useEffect } from "react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
-const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Exam = lazy(() => import("./pages/Exam"));
 const Result = lazy(() => import("./pages/Result"));
@@ -25,6 +24,8 @@ const Writing = lazy(() => import("./pages/Writing"));
 const SpeakingResult = lazy(() => import("./pages/SpeakingResult"));
 const SpeakingHistory = lazy(() => import("./pages/SpeakingHistory"));
 const Drafts = lazy(() => import("./pages/Drafts"));
+const AdminBlogEditor = lazy(() => import("./pages/AdminBlogEditor"));
+const Referral = lazy(() => import("./pages/Referral"));
 const Profile = lazy(() => import("./pages/Profile"));
 const MockTestDashboard = lazy(() => import("./pages/MockTestDashboard"));
 const MockTestExam = lazy(() => import("./pages/MockTestExam"));
@@ -78,7 +79,6 @@ function AppRoutes() {
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
         <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/blog/computer-based-ielts-writing" element={<BlogComputerBasedWriting />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/vocabulary" element={<Navigate to="/dashboard" replace />} />
@@ -92,11 +92,13 @@ function AppRoutes() {
         <Route path="/speaking-result/:id" element={<ProtectedRoute><SpeakingResult /></ProtectedRoute>} />
         <Route path="/speaking-history" element={<ProtectedRoute><SpeakingHistory /></ProtectedRoute>} />
         <Route path="/drafts" element={<ProtectedRoute><Drafts /></ProtectedRoute>} />
+        <Route path="/referral" element={<ProtectedRoute><Referral /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/mock-test" element={<ProtectedRoute><MockTestDashboard /></ProtectedRoute>} />
         <Route path="/mock-test/exam/:id" element={<ProtectedRoute><MockTestExam /></ProtectedRoute>} />
         <Route path="/mock-test/thank-you/:id" element={<ProtectedRoute><MockTestThankYou /></ProtectedRoute>} />
         <Route path="/mock-test/result/:id" element={<ProtectedRoute><MockTestResult /></ProtectedRoute>} />
+        <Route path="/admin/blog/:id" element={<ProtectedRoute><AdminBlogEditor /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>

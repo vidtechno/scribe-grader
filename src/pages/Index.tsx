@@ -643,6 +643,9 @@ export default function Index() {
           <h2 id="free-guides-heading" className="text-3xl font-bold mb-3">Free IELTS Writing and Speaking guides</h2>
           <p className="text-muted-foreground mb-7 max-w-2xl">Learn the task format and practise one useful skill before taking a full test.</p>
           <div className="grid md:grid-cols-3 gap-4">
+            <a href="/ielts-writing-task-2-questions" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Task 2 questions and sample essays</h3><p className="text-sm text-muted-foreground">Essay questions with analysis, plans and full band 7+ model answers.</p></a>
+            <a href="/ielts-speaking-part-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Speaking Part 2 cue cards</h3><p className="text-sm text-muted-foreground">Popular “Describe a…” topics with sample answers and Part 3 questions.</p></a>
+            <a href="/blog" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Scorify blog</h3><p className="text-sm text-muted-foreground">IELTS tips and study guides in English and Uzbek.</p></a>
             <a href="/ielts-writing-task-1" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Writing Task 1</h3><p className="text-sm text-muted-foreground">Find the main features, write an overview and compare data accurately.</p></a>
             <a href="/ielts-writing-task-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Writing Task 2</h3><p className="text-sm text-muted-foreground">Plan a clear position and develop it with relevant examples.</p></a>
             <a href="/ielts-speaking-practice" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Speaking practice</h3><p className="text-sm text-muted-foreground">Try Parts 1–3 questions and a repeatable recording routine.</p></a>
@@ -651,14 +654,28 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-border">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="Scorify" className="h-8 w-8 object-contain" />
-            <span className="font-bold">Scorify<span className="text-primary">.uz</span></span>
+      <footer className="py-10 px-4 border-t border-border">
+        <div className="max-w-6xl mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <img src="/logo.png" alt="Scorify" className="h-8 w-8 object-contain" />
+              <span className="font-bold">Scorify<span className="text-primary">.uz</span></span>
+            </div>
+            <p className="text-muted-foreground">AI-graded IELTS Writing and Speaking practice.</p>
           </div>
-          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. Independent IELTS practice.</p>
+          <div className="space-y-2"><p className="font-semibold">Writing</p>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-writing-task-1">IELTS Writing Task 1</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-writing-task-2">IELTS Writing Task 2</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-writing-task-2-questions">Task 2 questions</a></div>
+          <div className="space-y-2"><p className="font-semibold">Speaking</p>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-speaking-practice">Speaking practice</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-speaking-part-1">Part 1 topics</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-speaking-part-2">Part 2 cue cards</a></div>
+          <div className="space-y-2"><p className="font-semibold">Resources</p>
+            <a className="block text-muted-foreground hover:text-primary" href="/blog">Blog</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-band-score-calculator">Band score calculator</a></div>
         </div>
+        <p className="max-w-6xl mx-auto mt-8 text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. Independent IELTS practice.</p>
       </footer>
 
       <PricingModal open={showPricing} onOpenChange={setShowPricing} />
