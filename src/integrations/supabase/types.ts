@@ -681,6 +681,19 @@ export type Database = {
         Args: { _days?: number; _user_id: string }
         Returns: Json
       }
+      admin_user_overview: {
+        Args: never
+        Returns: {
+          user_id: string
+          joined_at: string
+          last_sign_in_at: string | null
+          email_confirmed_at: string | null
+          essays_count: number
+          speaking_count: number
+          mock_count: number
+          last_activity_at: string | null
+        }[]
+      }
       admin_set_subscription: {
         Args: {
           _expires_at?: string

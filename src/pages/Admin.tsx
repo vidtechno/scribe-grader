@@ -20,7 +20,7 @@ import {
   DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight, Settings, Bot, Coins, Gift
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { format, subDays, isAfter, startOfDay } from 'date-fns';
+import { format, subDays, isAfter, startOfDay, formatDistanceToNow } from 'date-fns';
 
 interface Profile {
   id: string;
@@ -53,6 +53,24 @@ interface Subscription {
   is_active: boolean;
 }
 
+interface UserOverview {
+  user_id: string;
+  joined_at: string;
+  last_sign_in_at: string | null;
+  email_confirmed_at: string | null;
+  essays_count: number;
+  speaking_count: number;
+  mock_count: number;
+  last_activity_at: string | null;
+}
+
+type SortKey = 'newest' | 'oldest' | 'last_seen' | 'most_active' | 'name';
+type PlanFilter = 'all' | 'free' | 'paid' | 'expired';
+type SeenFilter = 'all' | '24h' | '7d' | 'inactive_7d' | 'never';
+
+const ago = (iso: string | null | undefined) => iso ? formatDistanceToNow(new Date(iso), { addSuffix: true }) : 'Never';
+const csvCell = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+
 interface Announcement {
   id: string;
   type: string;
@@ -79,6 +97,10 @@ export default function Admin() {
   const [subscriptions, setSubscriptions] = useState<Record<string, Subscription>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingUser, setUpdatingUser] = useState<string | null>(null);
+  const [overview, setOverview] = useState<Record<string, UserOverview>>({});
+  const [sortBy, setSortBy] = useState<SortKey>('newest');
+  const [planFilter, setPlanFilter] = useState<PlanFilter>('all');
+  const [seenFilter, setSeenFilter] = useState<SeenFilter>('all');
   const [essayCounts, setEssayCounts] = useState<Record<string, number>>({});
   const [viewEssaysUser, setViewEssaysUser] = useState<{ userId: string; name: string } | null>(null);
   const [userEssays, setUserEssays] = useState<any[]>([]);
@@ -109,13 +131,20 @@ export default function Admin() {
 
   const fetchData = async () => {
     try {
-      const [usersRes, subsRes, essaysRes, settingsRes, aiUsageRes] = await Promise.all([
+      const [usersRes, subsRes, essaysRes, settingsRes, aiUsageRes, overviewRes] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('subscriptions').select('*'),
         supabase.from('essays').select('user_id'),
         supabase.from('app_settings').select('key, value').eq('key', 'ai_chat_enabled').single(),
         supabase.rpc('admin_ai_usage_summary'),
+        supabase.rpc('admin_user_overview'),
       ]);
+
+      if (!overviewRes.error && Array.isArray(overviewRes.data)) {
+        const map: Record<string, UserOverview> = {};
+        (overviewRes.data as UserOverview[]).forEach(o => { map[o.user_id] = o; });
+        setOverview(map);
+      }
 
       setUsers(usersRes.data || []);
 
@@ -257,13 +286,64 @@ export default function Admin() {
     }
   };
 
-  const filteredUsers = users.filter(u =>
+  const searchedUsers = users.filter(u =>
     u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     u.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     u.city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     u.phone?.includes(searchQuery) ||
     (u.public_id || '').includes(searchQuery.trim())
   );
+
+  const lastSeenOf = (id: string) => {
+    const o = overview[id];
+    const t = Math.max(o?.last_sign_in_at ? +new Date(o.last_sign_in_at) : 0, o?.last_activity_at ? +new Date(o.last_activity_at) : 0);
+    return t || null;
+  };
+  const activityOf = (id: string) => {
+    const o = overview[id];
+    return o ? Number(o.essays_count) + Number(o.speaking_count) + Number(o.mock_count) : 0;
+  };
+
+  const filteredUsers = searchedUsers
+    .filter(u => {
+      const sub = subscriptions[u.user_id];
+      const paid = sub?.plan_type === 'go' || sub?.plan_type === 'plus';
+      const expired = !!sub?.expires_at && new Date(sub.expires_at) < new Date();
+      if (planFilter === 'free' && paid) return false;
+      if (planFilter === 'paid' && !paid) return false;
+      if (planFilter === 'expired' && !expired) return false;
+      const seen = lastSeenOf(u.user_id);
+      const age = seen ? Date.now() - seen : Infinity;
+      if (seenFilter === '24h' && age > 864e5) return false;
+      if (seenFilter === '7d' && age > 7 * 864e5) return false;
+      if (seenFilter === 'inactive_7d' && age <= 7 * 864e5) return false;
+      if (seenFilter === 'never' && !!overview[u.user_id]?.last_sign_in_at) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'oldest': return +new Date(a.created_at) - +new Date(b.created_at);
+        case 'last_seen': return (lastSeenOf(b.user_id) ?? 0) - (lastSeenOf(a.user_id) ?? 0);
+        case 'most_active': return activityOf(b.user_id) - activityOf(a.user_id);
+        case 'name': return (a.full_name || a.email).localeCompare(b.full_name || b.email);
+        default: return +new Date(b.created_at) - +new Date(a.created_at);
+      }
+    });
+
+  const exportCsv = () => {
+    const header = ['Email', 'Name', 'Public ID', 'Phone', 'City', 'Plan', 'Plan expires', 'Joined', 'Last sign-in', 'Last activity', 'Essays', 'Speaking', 'Mock tests'];
+    const rows = filteredUsers.map(u => {
+      const o = overview[u.user_id]; const sub = subscriptions[u.user_id];
+      return [u.email, u.full_name, u.public_id, u.phone, u.city, sub?.plan_type || 'free', sub?.expires_at, u.created_at,
+        o?.last_sign_in_at, o?.last_activity_at, o?.essays_count ?? 0, o?.speaking_count ?? 0, o?.mock_count ?? 0].map(csvCell).join(',');
+    });
+    const blob = new Blob([[header.map(csvCell).join(','), ...rows].join('\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `scorify-users-${format(new Date(), 'yyyy-MM-dd')}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
 
   const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
   const proUsers = Object.values(subscriptions).filter(x => x.plan_type === 'go' || x.plan_type === 'plus').length;
@@ -277,7 +357,9 @@ export default function Admin() {
   const newUsersWeek = users.filter(u => isAfter(new Date(u.created_at), weekAgo)).length;
   const newUsersMonth = users.filter(u => isAfter(new Date(u.created_at), monthAgo)).length;
 
-  const revenueEstimate = 0;
+  const active24h = users.filter(u => { const t = lastSeenOf(u.user_id); return !!t && Date.now() - t < 864e5; }).length;
+  const active7d = users.filter(u => { const t = lastSeenOf(u.user_id); return !!t && Date.now() - t < 7 * 864e5; }).length;
+  const unconfirmed = Object.values(overview).filter(o => !o.email_confirmed_at).length;
 
   if (authLoading || loading) return <LoadingScreen />;
   if (!user) { navigate('/auth'); return null; }
@@ -307,7 +389,7 @@ export default function Admin() {
           </div>
           <div>
             <h1 className="text-2xl font-bold">Admin Panel</h1>
-            <p className="text-muted-foreground">Users, plans, announcements & analytics</p>
+            <p className="text-muted-foreground">Users, activity, plans, announcements & analytics</p>
           </div>
         </motion.div>
 
@@ -358,6 +440,18 @@ export default function Admin() {
                 <span className="text-muted-foreground">Last 30 Days</span>
                 <span className="font-medium text-primary">+{newUsersMonth}</span>
               </div>
+              <div className="flex justify-between text-sm border-t border-border/50 pt-2">
+                <span className="text-muted-foreground">Active in last 24h</span>
+                <span className="font-medium text-primary">{active24h}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Active in last 7 days</span>
+                <span className="font-medium text-primary">{active7d}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Unconfirmed emails</span>
+                <span className="font-medium">{unconfirmed}</span>
+              </div>
             </div>
           </motion.div>
 
@@ -401,6 +495,39 @@ export default function Admin() {
                 <Input placeholder="Search users by ID, email, name, city, or phone..." value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 input-glass" />
               </div>
+              <div className="flex flex-wrap items-center gap-2 mt-4">
+                <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortKey)}>
+                  <SelectTrigger className="w-44 h-9 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest first</SelectItem>
+                    <SelectItem value="oldest">Oldest first</SelectItem>
+                    <SelectItem value="last_seen">Last seen</SelectItem>
+                    <SelectItem value="most_active">Most active</SelectItem>
+                    <SelectItem value="name">Name A–Z</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={planFilter} onValueChange={(v) => setPlanFilter(v as PlanFilter)}>
+                  <SelectTrigger className="w-36 h-9 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All plans</SelectItem>
+                    <SelectItem value="free">Free only</SelectItem>
+                    <SelectItem value="paid">Paid only</SelectItem>
+                    <SelectItem value="expired">Expired</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={seenFilter} onValueChange={(v) => setSeenFilter(v as SeenFilter)}>
+                  <SelectTrigger className="w-44 h-9 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Any activity</SelectItem>
+                    <SelectItem value="24h">Seen in last 24h</SelectItem>
+                    <SelectItem value="7d">Seen in last 7 days</SelectItem>
+                    <SelectItem value="inactive_7d">Inactive 7+ days</SelectItem>
+                    <SelectItem value="never">Never signed in</SelectItem>
+                  </SelectContent>
+                </Select>
+                <span className="text-xs text-muted-foreground ml-auto">{filteredUsers.length} of {users.length} users</span>
+                <Button variant="outline" size="sm" className="h-9 text-xs" onClick={exportCsv}>Export CSV</Button>
+              </div>
             </div>
 
             {/* Users Table */}
@@ -412,7 +539,8 @@ export default function Admin() {
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground">User</th>
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden md:table-cell">Details</th>
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground">Plan</th>
-                      <th className="text-center p-4 text-sm font-medium text-muted-foreground hidden sm:table-cell">Essays</th>
+                      <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden sm:table-cell">Joined / Last seen</th>
+                      <th className="text-center p-4 text-sm font-medium text-muted-foreground hidden xl:table-cell">Activity</th>
                       <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden lg:table-cell">Subscription</th>
                       <th className="text-right p-4 text-sm font-medium text-muted-foreground">Actions</th>
                     </tr>
@@ -460,8 +588,24 @@ export default function Admin() {
                               </SelectContent>
                             </Select>
                           </td>
-                          <td className="p-4 text-center hidden sm:table-cell">
-                            <span className="text-sm">{essayCounts[profile.user_id] || 0}</span>
+                          <td className="p-4 hidden sm:table-cell">
+                            <div className="text-xs space-y-0.5 whitespace-nowrap">
+                              <span className="block" title={format(new Date(profile.created_at), 'PPpp')}>Joined {format(new Date(profile.created_at), 'dd MMM yyyy')}</span>
+                              <span className="block text-muted-foreground" title={overview[profile.user_id]?.last_sign_in_at ? format(new Date(overview[profile.user_id].last_sign_in_at!), 'PPpp') : undefined}>
+                                Seen {ago(overview[profile.user_id]?.last_sign_in_at)}
+                              </span>
+                              {overview[profile.user_id] && !overview[profile.user_id].email_confirmed_at && (
+                                <span className="inline-block text-[10px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive">Email unconfirmed</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="p-4 text-center hidden xl:table-cell">
+                            <span className="text-xs text-muted-foreground whitespace-nowrap">
+                              {overview[profile.user_id]
+                                ? `E ${overview[profile.user_id].essays_count} · S ${overview[profile.user_id].speaking_count} · M ${overview[profile.user_id].mock_count}`
+                                : essayCounts[profile.user_id] || 0}
+                            </span>
+                            <span className="block text-[10px] text-muted-foreground">last: {ago(overview[profile.user_id]?.last_activity_at)}</span>
                           </td>
                           <td className="p-4 hidden lg:table-cell">
                             {sub ? (
