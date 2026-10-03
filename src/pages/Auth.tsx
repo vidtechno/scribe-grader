@@ -30,7 +30,7 @@ export default function Auth() {
 
       <div className="w-full max-w-md relative animate-fade-in">
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="Scorify" className="w-16 h-16 object-contain mx-auto mb-4" />
+          <img src="/logo-128.webp" alt="Scorify" className="w-16 h-16 object-contain mx-auto mb-4" />
           <h1 className="text-3xl font-bold">Welcome to Scorify.uz</h1>
           <p className="text-muted-foreground mt-2">Sign in with Google to start practising IELTS Writing and Speaking.</p>
         </div>

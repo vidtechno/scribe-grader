@@ -3,10 +3,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { useState, useEffect } from 'react';
+import { Suspense, lazy, useState, useEffect } from 'react';
 import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen } from 'lucide-react';
-import { PricingModal } from '@/components/PricingModal';
+
 import { useSubscription } from '@/hooks/useSubscription';
+
+const PricingModal = lazy(() => import('@/components/PricingModal').then(m => ({ default: m.PricingModal })));
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
@@ -32,7 +34,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to={user ? '/dashboard' : '/'} className="flex items-center gap-2.5 shrink-0">
-            <img src="/logo.png" alt="Scorify" className="h-9 w-9 object-contain" />
+            <img src="/logo-128.webp" alt="Scorify" className="h-9 w-9 object-contain" />
             <span className="text-xl font-extrabold tracking-tight">Scorify<span className="text-primary">.uz</span></span>
           </Link>
 
@@ -115,7 +117,7 @@ export function Navbar() {
           )}
         </div>
       </div>
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
+      {showPricing && <Suspense fallback={null}><PricingModal open={showPricing} onOpenChange={setShowPricing} /></Suspense>}
     </nav>
   );
 }

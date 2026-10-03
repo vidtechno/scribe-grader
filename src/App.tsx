@@ -6,9 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { LoadingScreen } from "@/components/LoadingScreen";
-import { AIMentor } from "@/components/AIMentor";
 import { BottomNav } from "@/components/BottomNav";
-import { Announcements } from "@/components/Announcements";
 import { Suspense, lazy, useState, useEffect } from "react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -34,6 +32,9 @@ const MockTestResult = lazy(() => import("./pages/MockTestResult"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const GrammarTest = lazy(() => import("./pages/GrammarTest"));
 import { safeReturnTo } from "./lib/returnTo";
+
+const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
+const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
 
 const queryClient = new QueryClient();
 
@@ -68,11 +69,12 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 
 function AppRoutes() {
   const [mentorOpen, setMentorOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <>
       <ScrollToTop />
-      <Announcements />
+      {user && <Suspense fallback={null}><Announcements /></Suspense>}
       <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
@@ -101,7 +103,7 @@ function AppRoutes() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
-      <AIMentor externalOpen={mentorOpen} onExternalOpenChange={setMentorOpen} />
+      {user && <Suspense fallback={null}><AIMentor externalOpen={mentorOpen} onExternalOpenChange={setMentorOpen} /></Suspense>}
       <BottomNav />
     </>
   );

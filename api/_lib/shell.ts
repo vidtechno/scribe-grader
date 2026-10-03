@@ -34,7 +34,7 @@ export function page(o: PageOptions): string {
 <link rel="canonical" href="${esc(url)}">
 ${(o.alternates || []).map(a => `<link rel="alternate" hreflang="${esc(a.lang)}" href="${esc(SITE + a.path)}">`).join('\n')}
 <link rel="alternate" type="application/rss+xml" title="Scorify IELTS Blog" href="/blog/rss.xml">
-<link rel="icon" href="/logo.png?v=3" type="image/png"><link rel="apple-touch-icon" href="/logo.png?v=3">
+<link rel="icon" href="/logo-48.png" type="image/png"><link rel="apple-touch-icon" href="/logo-180.png">
 <meta property="og:site_name" content="Scorify.uz"><meta property="og:type" content="${esc(o.ogType || 'website')}">
 <meta property="og:title" content="${esc(o.title)}"><meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${esc(url)}"><meta property="og:image" content="${esc(og)}">
@@ -45,7 +45,7 @@ ${(o.jsonLd || []).map(jsonLdScript).join('\n')}
 ${o.head || ''}
 <script defer data-website-id="dfid_2f7mA21xdCYfavtY5a4n6" data-domain="scorify.uz" src="https://datafa.st/js/script.js"></script>
 </head><body>
-<header class="site"><div class="wrap"><a class="brand" href="/"><img src="/logo.png" alt="" width="32" height="32">Scorify.uz</a>
+<header class="site"><div class="wrap"><a class="brand" href="/"><img src="/logo-128.webp" alt="" width="32" height="32">Scorify.uz</a>
 <nav class="links" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}<a class="btn" href="/auth">Practise free</a></nav></div></header>
 ${o.body}
 <footer class="site"><div class="wrap"><div class="cols">

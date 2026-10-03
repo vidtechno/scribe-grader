@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { BrainCircuit, LayoutDashboard, Mic, PenTool, User as UserIcon } from 'lucide-react';
+import { BookOpen, LayoutDashboard, Mic, PenTool, User as UserIcon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 export function BottomNav() {
@@ -15,13 +15,13 @@ export function BottomNav() {
       <div className="flex items-end justify-around h-16 px-2">
         <NavItem icon={LayoutDashboard} label="Home" active={active('/dashboard')} onClick={() => navigate('/dashboard')} />
         <NavItem icon={PenTool} label="Writing" active={active('/writing')} onClick={() => navigate('/writing')} />
-        <button type="button" onClick={() => navigate('/grammar-test')} aria-label="Today's Grammar Test" aria-current={active('/grammar-test') ? 'page' : undefined}
+        <a href="/blog" aria-label="IELTS blog and guides"
           className="relative -mt-6 flex-1 flex flex-col items-center justify-center text-primary">
           <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background">
-            <BrainCircuit className="h-6 w-6 text-primary-foreground" />
+            <BookOpen className="h-6 w-6 text-primary-foreground" />
           </span>
-          <span className="text-[10px] font-semibold mt-1 whitespace-nowrap">Daily Test</span>
-        </button>
+          <span className="text-[10px] font-semibold mt-1 whitespace-nowrap">Blog</span>
+        </a>
         <NavItem icon={Mic} label="Speaking" active={active('/speaking')} onClick={() => navigate('/speaking')} />
         <NavItem icon={UserIcon} label="Profile" active={active('/profile')} onClick={() => navigate('/profile')} />
       </div>

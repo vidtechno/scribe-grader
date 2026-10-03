@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { Suspense, lazy, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
-import { PricingModal } from '@/components/PricingModal';
 import { PriceTag } from '@/components/PriceTag';
 import { getPlanEntitlement } from '@/lib/plans';
 import { SEOHead } from '@/components/SEOHead';
@@ -27,6 +26,25 @@ const fadeUp = {
 const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
+
+/** Mobile-only call to action that appears once a visitor has scrolled past the hero. */
+function StickyCta() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 520);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  if (!show) return null;
+  return (
+    <div className="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-background/95 backdrop-blur border-t border-border safe-area-bottom">
+      <Link to="/auth"><Button variant="glow" size="lg" className="w-full gap-2">Check my English free <ChevronRight className="h-5 w-5" /></Button></Link>
+    </div>
+  );
+}
+
+const PricingModal = lazy(() => import('@/components/PricingModal').then(m => ({ default: m.PricingModal })));
 
 export default function Index() {
   const { user } = useAuth();
@@ -205,6 +223,14 @@ export default function Index() {
                 </>
               )}
             </motion.div>
+
+            {!user && (
+              <p className="mt-4 text-sm text-muted-foreground flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-1">
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Free first Writing and Speaking evaluation</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />One-tap Google sign-in</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />No card needed</span>
+              </p>
+            )}
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
               className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-12">
@@ -657,7 +683,7 @@ export default function Index() {
         <div className="max-w-6xl mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <img src="/logo.png" alt="Scorify" className="h-8 w-8 object-contain" />
+              <img src="/logo-128.webp" alt="Scorify" className="h-8 w-8 object-contain" />
               <span className="font-bold">Scorify<span className="text-primary">.uz</span></span>
             </div>
             <p className="text-muted-foreground">AI-graded IELTS Writing and Speaking practice.</p>
@@ -677,7 +703,8 @@ export default function Index() {
         <p className="max-w-6xl mx-auto mt-8 text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. Independent IELTS practice.</p>
       </footer>
 
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
+      {!user && <StickyCta />}
+      {showPricing && <Suspense fallback={null}><PricingModal open={showPricing} onOpenChange={setShowPricing} /></Suspense>}
     </div>
   );
 }
