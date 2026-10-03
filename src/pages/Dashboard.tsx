@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
@@ -7,13 +7,14 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useActivityData } from '@/hooks/useDashboardData';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
-import { GoalsCard } from '@/components/GoalsCard';
+const GoalsCard = lazy(() => import('@/components/GoalsCard').then(m => ({ default: m.GoalsCard })));
 import { ReferralBanner } from '@/components/ReferralBanner';
 
 type Activity = { kind: 'essay' | 'speaking'; id: string; title: string; score: number | null; at: Date };
@@ -69,31 +70,20 @@ export default function Dashboard() {
     expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
   const navigate = useNavigate();
   const [showPricing, setShowPricing] = useState(false);
-  const [essays, setEssays] = useState<{ id: string; topic: string; score: number | null; created_at: string; status: string | null }[]>([]);
-  const [speaking, setSpeaking] = useState<{ id: string; topic: string; part: number | string | null; score: number | null; created_at: string; status: string | null }[]>([]);
-  const [draftsCount, setDraftsCount] = useState(0);
-  const [tip, setTip] = useState<string | null>(null);
+  const activityQ = useActivityData();
+  const essays = useMemo(() => activityQ.data?.essays ?? [], [activityQ.data]);
+  const speaking = useMemo(() => activityQ.data?.speaking ?? [], [activityQ.data]);
+  const draftsCount = useMemo(() => essays.filter(x => x.status === 'draft').length + speaking.filter(x => x.status === 'draft').length, [essays, speaking]);
+  const tip = useMemo(() => {
+    const scored = essays.filter(x => x.status !== 'draft' && x.score !== null);
+    if (scored.length < 2) return null;
+    const [latest, previous] = [scored[0].score as number, scored[1].score as number];
+    return latest > previous ? `Your latest essay improved from Band ${previous} to ${latest}. Keep building vocabulary variety.`
+      : latest < previous ? `Your latest score (${latest}) dipped from ${previous}. Plan for a few minutes before writing; structure is key.`
+      : `You are consistent at Band ${latest}. Try more complex sentence structures to break through.`;
+  }, [essays]);
 
-  const load = useCallback(async () => {
-    const [e, s] = await Promise.all([
-      supabase.from('essays').select('id, topic, score, created_at, status').order('created_at', { ascending: false }).limit(50),
-      supabase.from('speaking_attempts').select('id, topic, part, score, created_at, status').order('created_at', { ascending: false }).limit(50),
-    ]);
-    const essayRows = e.data || [];
-    const speakingRows = s.data || [];
-    setEssays(essayRows);
-    setSpeaking(speakingRows);
-    setDraftsCount(essayRows.filter(x => x.status === 'draft').length + speakingRows.filter(x => x.status === 'draft').length);
-    const scored = essayRows.filter(x => x.status !== 'draft' && x.score !== null);
-    if (scored.length >= 2) {
-      const [latest, previous] = [scored[0].score as number, scored[1].score as number];
-      setTip(latest > previous ? `Your latest essay improved from Band ${previous} to ${latest}. Keep building vocabulary variety.`
-        : latest < previous ? `Your latest score (${latest}) dipped from ${previous}. Plan for a few minutes before writing; structure is key.`
-        : `You are consistent at Band ${latest}. Try more complex sentence structures to break through.`);
-    }
-  }, []);
-
-  useEffect(() => { void load(); void refreshProfile(); }, [load, refreshProfile]);
+  useEffect(() => { void refreshProfile(); }, [refreshProfile]);
 
   // Live-refresh the plan when an admin (or the referral program) changes it.
   useEffect(() => {
@@ -160,7 +150,7 @@ export default function Dashboard() {
         {/* 2. Goals and plan */}
         <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6 items-start mb-6">
           <div className="min-w-0">
-            <GoalsCard />
+            <Suspense fallback={<div className="glass-card p-6 mb-7 h-[280px] animate-pulse" />}><GoalsCard /></Suspense>
             {tip && planType !== 'free' && (
               <div className="glass-card p-4 mb-6 border-l-4 border-l-primary flex items-start gap-3">
                 <Sparkles className="h-4 w-4 text-primary mt-0.5 shrink-0" />

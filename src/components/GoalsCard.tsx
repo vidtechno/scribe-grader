@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { ACTIVITY_WEEKS, useActivityData, useGoalsData } from '@/hooks/useDashboardData';
 import { Link } from 'react-router-dom';
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { addWeeks, differenceInCalendarDays, eachDayOfInterval, format, startOfDay, startOfWeek, subDays } from 'date-fns';
@@ -17,7 +19,7 @@ type Attempt = { kind: 'essay' | 'speaking'; score: number | null; at: Date };
 
 const DEFAULT_GOALS: Goals = { target_band: 7, weekly_essays: 3, weekly_speaking: 2, exam_date: null };
 const BANDS = Array.from({ length: 11 }, (_, i) => 4 + i * 0.5);
-const WEEKS = 8;
+const WEEKS = ACTIVITY_WEEKS;
 
 const roundHalf = (n: number) => Math.round(n * 2) / 2;
 const dayKey = (d: Date) => format(d, 'yyyy-MM-dd');
@@ -45,34 +47,21 @@ function Ring({ value, goal, label, icon: Icon }: { value: number; goal: number;
 
 export function GoalsCard() {
   const { user } = useAuth();
-  const [goals, setGoals] = useState<Goals>(DEFAULT_GOALS);
-  const [hasGoals, setHasGoals] = useState(false);
-  const [attempts, setAttempts] = useState<Attempt[]>([]);
-  const [loading, setLoading] = useState(true);
+  const goalsQ = useGoalsData();
+  const activityQ = useActivityData();
+  const qc = useQueryClient();
+  const [goalsOverride, setGoalsOverride] = useState<Goals | null>(null);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<Goals>(DEFAULT_GOALS);
   const [saving, setSaving] = useState(false);
 
-  const load = useCallback(async () => {
-    if (!user) return;
-    const since = subDays(new Date(), 7 * WEEKS + 7).toISOString();
-    const [g, e, s] = await Promise.all([
-      supabase.from('user_goals').select('*').eq('user_id', user.id).maybeSingle(),
-      supabase.from('essays').select('score, created_at, status').gte('created_at', since).order('created_at', { ascending: false }).limit(500),
-      supabase.from('speaking_attempts').select('score, created_at, status').gte('created_at', since).order('created_at', { ascending: false }).limit(500),
-    ]);
-    if (g.data) {
-      setGoals({ target_band: Number(g.data.target_band), weekly_essays: g.data.weekly_essays, weekly_speaking: g.data.weekly_speaking, exam_date: g.data.exam_date });
-      setHasGoals(true);
-    }
-    const rows: Attempt[] = [
-      ...(e.data || []).filter(x => x.status !== 'draft').map(x => ({ kind: 'essay' as const, score: x.score, at: new Date(x.created_at) })),
-      ...(s.data || []).filter(x => x.status !== 'draft').map(x => ({ kind: 'speaking' as const, score: x.score, at: new Date(x.created_at) })),
-    ];
-    setAttempts(rows);
-    setLoading(false);
-  }, [user]);
-  useEffect(() => { void load(); }, [load]);
+  const goals: Goals = goalsOverride ?? goalsQ.data ?? DEFAULT_GOALS;
+  const hasGoals = !!(goalsOverride ?? goalsQ.data);
+  const loading = goalsQ.isLoading || activityQ.isLoading;
+  const attempts: Attempt[] = useMemo(() => [
+    ...(activityQ.data?.essays || []).filter(x => x.status !== 'draft').map(x => ({ kind: 'essay' as const, score: x.score, at: new Date(x.created_at) })),
+    ...(activityQ.data?.speaking || []).filter(x => x.status !== 'draft').map(x => ({ kind: 'speaking' as const, score: x.score, at: new Date(x.created_at) })),
+  ], [activityQ.data]);
 
   const stats = useMemo(() => {
     const now = new Date();
@@ -114,11 +103,11 @@ export function GoalsCard() {
     const { error } = await supabase.from('user_goals').upsert({ user_id: user.id, ...draft, updated_at: new Date().toISOString() });
     setSaving(false);
     if (error) { toast.error('Could not save your goals'); return; }
-    setGoals(draft); setHasGoals(true); setEditing(false);
+    setGoalsOverride(draft); void qc.invalidateQueries({ queryKey: ['goals'] }); setEditing(false);
     toast.success('Goals saved');
   };
 
-  if (loading) return <div className="glass-card p-6 mb-7 flex justify-center"><Loader2 className="h-5 w-5 animate-spin text-primary" /></div>;
+  if (loading) return <div className="glass-card p-6 mb-7 h-[280px] animate-pulse"><div className="h-4 w-40 rounded bg-secondary/60 mb-4" /><div className="h-3 w-64 rounded bg-secondary/40 mb-8" /><div className="h-24 rounded-xl bg-secondary/30" /></div>;
 
   const gap = stats.current != null ? goals.target_band - stats.current : null;
   const examDays = goals.exam_date ? differenceInCalendarDays(new Date(goals.exam_date), new Date()) : null;
