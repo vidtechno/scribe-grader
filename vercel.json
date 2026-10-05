@@ -288,6 +288,15 @@
           "value": "noindex, nofollow"
         }
       ]
+    },
+    {
+      "source": "/tg",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }

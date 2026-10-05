@@ -1,1 +1,9 @@
 project_id = "bywqpgjojnqscelloxew"
+
+# Telegram calls the bot webhook without a Supabase JWT; the function verifies Telegram's secret header.
+[functions.telegram-bot]
+verify_jwt = false
+
+# Sign-in with Telegram runs before the visitor has a session; signed-in actions check the JWT in code.
+[functions.telegram-auth]
+verify_jwt = false

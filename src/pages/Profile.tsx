@@ -10,6 +10,8 @@ import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap, Gift, BookOpen } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
+import { TelegramConnectCard } from '@/components/TelegramConnectCard';
+import { displayEmail } from '@/lib/telegram';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
@@ -96,7 +98,7 @@ export default function Profile() {
             <div className="flex-1 min-w-0">
               <h1 className="text-2xl font-bold truncate">{profile?.full_name || 'Student'}</h1>
               <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
-                <Mail className="h-4 w-4 flex-shrink-0" /> <span className="truncate">{profile?.email}</span>
+                <Mail className="h-4 w-4 flex-shrink-0" /> <span className="truncate">{displayEmail(profile?.email) ?? 'Signed in with Telegram'}</span>
               </p>
               {(profile as any)?.public_id && (
                 <p className="text-xs text-muted-foreground mt-1 flex items-center gap-2">
@@ -129,8 +131,7 @@ export default function Profile() {
           </div>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 gap-3 mb-6">
-        </div>
+        <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
 
         {/* Plan usage + history */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
@@ -219,7 +220,7 @@ export default function Profile() {
             </div>
             <div className="space-y-2">
               <Label className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" /> Email</Label>
-              <Input value={profile?.email || ''} disabled />
+              <Input value={displayEmail(profile?.email) ?? 'Telegram account'} disabled />
             </div>
           </div>
         </motion.div>

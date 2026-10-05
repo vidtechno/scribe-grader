@@ -4,7 +4,7 @@ AI-powered IELTS Writing and Speaking practice at [scorify.uz](https://www.scori
 
 ## Status (October 2026)
 
-Live in production. Personal practice only (Teacher Mode was removed). Sign-in is Google only.
+Live in production. Personal practice only (Teacher Mode was removed). Sign-in with Google or Telegram.
 
 ### Product
 - **Writing** Task 1 and Task 2 with timer, drafts, history and detailed results with corrections.
@@ -13,6 +13,7 @@ Live in production. Personal practice only (Teacher Mode was removed). Sign-in i
 - **Dashboard**: quick-start actions, goals and streak (target band, weekly plan, exam countdown, 8-week trend), recent activity, plan status.
 - **Referral program**: 10 friends = 1 month Go, 20 friends = 1 month Plus. Only accounts created in the last 24 hours can be claimed; at most 20 are counted per cycle; a cycle resets when the referral-granted plan expires.
 - **Announcements** sent by admins.
+- **Telegram bot** connected to the same accounts: sign-in with Telegram, Mini App (`/tg`), automatic result notifications, stats, goals, plan, leaderboard, referrals, daily practice, reminders and an admin panel. Answers are still submitted only on the website. See [docs/telegram-bot.md](docs/telegram-bot.md).
 
 ### Plans (USD first, UZS for local payments)
 | Plan | Price / month | Writing | Speaking | Mock tests |
@@ -42,7 +43,7 @@ Server-rendered pages from Vercel serverless functions (`api/*.ts`), cached at t
 Vendor chunks split in `vite.config.ts` (react, radix, supabase, motion). The editor and chart libraries are not in the landing preload set. AI Mentor, announcements, pricing modal and the goals chart load lazily. Dashboard data uses shared TanStack Query caches (`src/hooks/useDashboardData.ts`).
 
 ## Stack
-React 18, Vite, TypeScript, Tailwind + shadcn/ui, TanStack Query, framer-motion, recharts. Supabase (auth, Postgres with RLS, RPCs, storage, Edge Functions: `grade-essay`, `grade-speaking`, `transcribe-audio`, `ai-mentor`, `generate-grammar-test`, `process-mock-test`). Hosted on Vercel; every push to `main` deploys automatically.
+React 18, Vite, TypeScript, Tailwind + shadcn/ui, TanStack Query, framer-motion, recharts. Supabase (auth, Postgres with RLS, RPCs, storage, Edge Functions: `grade-essay`, `grade-speaking`, `transcribe-audio`, `ai-mentor`, `generate-grammar-test`, `process-mock-test`, `telegram-bot`, `telegram-auth`). Hosted on Vercel; every push to `main` deploys automatically.
 
 ## Local development
 
@@ -71,10 +72,11 @@ deno check supabase/functions/*/index.ts
 Supabase project: `bywqpgjojnqscelloxew`. Frontend on Vercel at `scorify.uz` / `www.scorify.uz`.
 
 - Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` for builds. The `api/*` functions read blog posts from Supabase REST.
-- Authentication is Google OAuth only; the email provider is disabled. Allow callback URLs for `https://scorify.uz` and `https://www.scorify.uz`.
+- Authentication: Google OAuth and Telegram (bot confirmation or Mini App, handled by `telegram-auth`). Allow callback URLs for `https://scorify.uz` and `https://www.scorify.uz`.
+- Store `TELEGRAM_BOT_TOKEN` in Supabase Edge Function secrets; deployment steps for the bot are in [docs/telegram-bot.md](docs/telegram-bot.md).
 - Store `OPENAI_API_KEY` only in Supabase Edge Function secrets.
-- Migrations are applied manually in the Supabase SQL editor. Latest: `20261002000000_remove_teacher_mode`, `20261003000000_admin_user_overview`, `20261004000000_growth_referrals_goals_blog`. Blog posts were inserted with ad-hoc SQL, not migrations.
+- Migrations are applied manually in the Supabase SQL editor. Latest: `20261003000000_admin_user_overview`, `20261004000000_growth_referrals_goals_blog`, `20261005000000_telegram_bot`. Blog posts were inserted with ad-hoc SQL, not migrations.
 - Do not import demo data or users from the previous project.
 
 ## Roadmap
-Telegram sign-in, a broader online payment flow, further landing JS reduction and A/B conversion tests, more blog and programmatic SEO content, Bing/Yandex indexing.
+A broader online payment flow, further landing JS reduction and A/B conversion tests, more blog and programmatic SEO content, Bing/Yandex indexing.
