@@ -6,6 +6,13 @@ describe('unified subscription entitlements', () => {
     expect(PAID_PLAN_SLUGS).toEqual(['go', 'plus']);
   });
 
+  it('defines the exact Free allowances for personal usage', () => {
+    expect(PLAN_ENTITLEMENTS.free).toMatchObject({
+      name: 'Free', priceUsd: '0', priceUzs: '0',
+      personal: { writing: 3, speaking: 2, mockTests: 0 },
+    });
+  });
+
   it('defines the exact Go allowances for personal usage', () => {
     expect(PLAN_ENTITLEMENTS.go).toMatchObject({
       name: 'Scorify Go', priceUsd: '5', priceUzs: '49 000',

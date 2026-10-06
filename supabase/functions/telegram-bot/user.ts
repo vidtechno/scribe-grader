@@ -42,7 +42,7 @@ export async function handleStart(ctx: Ctx, payload: string) {
       return showMenu(ctx, [
         "Assalomu alaykum! 👋 Sizni do'stingiz <b>Scorify</b>ga taklif qildi.\n",
         "Scorify IELTS Writing va Speaking javoblaringizni bir necha soniyada band bo'yicha baholaydi.\n",
-        hint(`«${BTN.start}» tugmasini bosing — taklif avtomatik hisoblanadi, sizga esa bepul Writing va Speaking baholash beriladi.`),
+        hint(`«${BTN.start}» tugmasini bosing — taklif avtomatik hisoblanadi, sizga esa 3 ta bepul Writing va 2 ta Speaking baholash beriladi.`),
       ].join("\n"));
     }
   }
@@ -72,7 +72,7 @@ export async function showStart(ctx: Ctx, prefix = "") {
   await reply(ctx, [
     `${prefix}${title("🚀", "Scorify'ni boshlaymiz")}\n`,
     "🆕 <b>Yangi foydalanuvchimisiz?</b>",
-    "Bir bosishda Telegram orqali hisob oching — 1 ta Writing va 1 ta Speaking baholash sovg'a.\n",
+    "Bir bosishda Telegram orqali hisob oching — 3 ta Writing va 2 ta Speaking baholash sovg'a.\n",
     "🔗 <b>Saytda Google orqali hisobingiz bormi?</b>",
     "Uni ulang — barcha natijalaringiz shu yerda bo'ladi.",
   ].join("\n"), [
@@ -89,7 +89,7 @@ export async function register(ctx: Ctx) {
   await showMenu(ctx, created
     ? [
       title("🎉", "Xush kelibsiz! Hisobingiz tayyor."),
-      "\nSizga <b>Free</b> tarif berildi: 1 ta Writing va 1 ta Speaking baholash.\n",
+      "\nSizga <b>Free</b> tarif berildi: 3 ta Writing va 2 ta Speaking baholash.\n",
       quote("✍️ Esse va 🎤 speaking ilova ichida topshiriladi — natija tayyor bo'lishi bilan shu yerga yuboraman.\n" +
         "💻 Kompyuterda saytga <b>Continue with Telegram</b> orqali kirasiz."),
     ].join("\n")

@@ -66,8 +66,8 @@ export default function Auth() {
         </div>
 
         <div className="mt-6 grid gap-2 text-sm text-muted-foreground">
-          <p className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary" /> Free Writing evaluation to start</p>
-          <p className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary" /> Free Speaking evaluation to start</p>
+          <p className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary" /> 3 free Writing evaluations with full feedback</p>
+          <p className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary" /> 2 free Speaking evaluations</p>
           <p className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> Band scores with clear, examiner-style feedback</p>
         </div>
       </div>
