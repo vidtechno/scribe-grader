@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Word } from '../types';
-import { prefetch, speak } from '../speech';
+import { speak } from '../speech';
 import { SpeakButton } from './SpeakButton';
 
 /** The lesson's 10 words, one card at a time: hear it, say it, then reveal the meaning. */
@@ -10,7 +10,6 @@ export function Flashcards({ words, onFinish }: { words: Word[]; onFinish: () =>
   const [i, setI] = useState(0);
   const [shown, setShown] = useState(false);
   const w = words[i];
-  useEffect(() => { prefetch(words.map((x) => x.en)); }, [words]);
   useEffect(() => { setShown(false); void speak(w.en); }, [w]);
   const last = i === words.length - 1;
   return (

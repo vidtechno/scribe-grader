@@ -71,7 +71,8 @@ function Choice({ prompt, say, listen, opts, a, answered, mode, finish }: {
   finish: (fb: Feedback) => void;
 }) {
   const [picked, setPicked] = useState<number | null>(null);
-  useEffect(() => { if (listen && say) void speak(say); }, [listen, say]);
+  const [reveal, setReveal] = useState(false);
+  useEffect(() => { setReveal(false); if (listen && say) void speak(say); }, [listen, say]);
   const pick = (i: number) => {
     if (answered) return;
     setPicked(i);
@@ -81,7 +82,13 @@ function Choice({ prompt, say, listen, opts, a, answered, mode, finish }: {
   return (
     <div>
       {listen && say ? (
-        <div className="flex justify-center py-4"><SpeakButton text={say} size="lg" slow /></div>
+        <div className="flex flex-col items-center gap-2 py-4">
+          <SpeakButton text={say} size="lg" slow />
+          {/* Some phones play no sound at all: the learner must still be able to continue. */}
+          {reveal
+            ? <p className="text-sm rounded-lg bg-secondary px-3 py-1.5">«{say}»</p>
+            : <button type="button" onClick={() => setReveal(true)} className="text-xs text-muted-foreground underline underline-offset-2 hover:text-primary">Ovoz eshitilmayaptimi? Matnni ko'rsatish</button>}
+        </div>
       ) : (
         prompt && <div className="text-lg sm:text-xl font-medium mb-4 flex items-start gap-3 leading-snug">{say && <SpeakButton text={say} size="md" slow />}<span className="flex-1">{prompt}</span></div>
       )}

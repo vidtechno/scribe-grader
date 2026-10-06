@@ -1,10 +1,14 @@
-// Outline of the Beginner course. The lesson content itself lives in content/beginner/u*/ and is
+// Outline of the course. Units are numbered through all levels (Beginner u1–u5, then Elementary from u6), so a learner
+// who finishes one level simply continues with the next. The lesson content lives in content/<level>/u*/ and is
 // loaded per unit, so the roadmap stays light.
 import type { Lesson, LevelId, UnitMeta } from './types';
 
+/** Elementary is built (5 lessons) but stays closed until its lessons have had an editor's review. */
+const A1_OPEN = false;
+
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },
-  { id: 'a1', title: 'Elementary', cefr: 'A1', text: "Oddiy gaplarni tushunaman, o'zim haqimda biroz gapira olaman.", available: false },
+  { id: 'a1', title: 'Elementary', cefr: 'A1', text: "Oddiy gaplarni tushunaman, o'zim haqimda biroz gapira olaman.", available: A1_OPEN },
   { id: 'a2', title: 'Pre-Intermediate', cefr: 'A2', text: "Kundalik mavzularda gaplasha olaman, lekin xatolarim ko'p.", available: false },
   { id: 'b1', title: 'Intermediate', cefr: 'B1', text: "Ko'p narsani tushunaman, fikrimni ayta olaman.", available: false },
   { id: 'b2', title: 'Upper-Intermediate', cefr: 'B2', text: "Erkin gaplashaman, murakkab matnlarni o'qiyman.", available: false },
@@ -16,7 +20,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u1', n: 1, title: 'Letters & Sounds', titleUz: 'Harflar va tovushlar',
     description: "Alifbo, ingliz tovushlari, salomlashish, sonlar va birinchi so'zlar.",
-    tone: 'from-rose-500 to-orange-400',
+    level: 'beginner', tone: 'from-rose-500 to-orange-400',
     lessons: [
       { id: 'u1-l1', title: 'The alphabet: A–M', titleUz: 'Alifbo: A–M' },
       { id: 'u1-l2', title: 'The alphabet: N–Z', titleUz: 'Alifbo: N–Z' },
@@ -31,7 +35,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u2', n: 2, title: 'To be: Who am I?', titleUz: 'To be: men kimman?',
     description: "Olmoshlar, am / is / are, inkor va savol, a / an, ko'plik, this / that, egalik.",
-    tone: 'from-violet-500 to-fuchsia-500',
+    level: 'beginner', tone: 'from-violet-500 to-fuchsia-500',
     lessons: [
       { id: 'u2-l1', title: 'Personal pronouns', titleUz: 'Kishilik olmoshlari' },
       { id: 'u2-l2', title: 'To be: am / is / are', titleUz: 'To be: am / is / are' },
@@ -46,7 +50,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u3', n: 3, title: 'Everyday Life', titleUz: 'Kundalik hayot',
     description: "Katta sonlar, Present Simple, vaqt, kun tartibi, in / on / at, always / never.",
-    tone: 'from-sky-500 to-cyan-400',
+    level: 'beginner', tone: 'from-sky-500 to-cyan-400',
     lessons: [
       { id: 'u3-l1', title: 'Numbers 20–100, age & prices', titleUz: 'Sonlar 20–100, yosh va narx' },
       { id: 'u3-l2', title: 'Present Simple: I / you / we / they', titleUz: 'Present Simple: I / you / we / they' },
@@ -61,7 +65,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u4', n: 4, title: 'The World Around Me', titleUz: 'Atrofimizdagi dunyo',
     description: "Wh-savollar, there is / are, joy predloglari, much / many, can, buyruq, have got, Present Continuous.",
-    tone: 'from-emerald-500 to-teal-400',
+    level: 'beginner', tone: 'from-emerald-500 to-teal-400',
     lessons: [
       { id: 'u4-l1', title: 'Wh- questions', titleUz: "Wh-savollar: what, where, who…" },
       { id: 'u4-l2', title: 'There is / there are', titleUz: 'There is / there are, some / any' },
@@ -76,7 +80,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u5', n: 5, title: 'Past & Future', titleUz: "O'tgan va kelasi zamon",
     description: "Ikki hozirgi zamon farqi, was / were, Past Simple, noto'g'ri fe'llar, going to, will, qiyoslash.",
-    tone: 'from-amber-500 to-yellow-400',
+    level: 'beginner', tone: 'from-amber-500 to-yellow-400',
     lessons: [
       { id: 'u5-l1', title: 'Present Simple vs Continuous', titleUz: 'Present Simple yoki Continuous?' },
       { id: 'u5-l2', title: 'was / were', titleUz: "O'tgan zamon: was / were" },
@@ -89,6 +93,44 @@ export const BEGINNER_UNITS: UnitMeta[] = [
     ],
   },
 ];
+
+// Elementary is released in steps. Only the first five lessons of unit 6 are open; units 7–11 and lessons 6–8 of
+// unit 6 are already written in content/a1 but stay out of this outline (and out of the loaders below) until released.
+export const A1_UNITS: UnitMeta[] = [
+  {
+    id: 'u6', n: 6, level: 'a1', title: 'People & Places', titleUz: 'Odamlar va joylar',
+    description: "Tanishuv, odamlarni tasvirlash, xarakter, mine / yours va Whose?, tartib sonlar va sanalar.",
+    tone: 'from-indigo-500 to-blue-400',
+    lessons: [
+      { id: 'u6-l1', title: 'Nice to meet you!', titleUz: 'Tanishuv va qisqa suhbat' },
+      { id: 'u6-l2', title: 'What does she look like?', titleUz: "Tashqi ko'rinishni tasvirlash" },
+      { id: 'u6-l3', title: 'Personality: very, quite, really', titleUz: 'Xarakter va sifatlar: very, quite, really' },
+      { id: 'u6-l4', title: 'mine, yours… Whose?', titleUz: 'Egalik olmoshlari: mine, yours… va Whose?' },
+      { id: 'u6-l5', title: 'Ordinal numbers & dates', titleUz: 'Tartib sonlar va sanalar' },
+    ],
+  },
+];
+
+/** Levels that are only partly released: shown under their units. */
+export const PARTIAL_LEVELS: Partial<Record<LevelId, string>> = {
+  a1: "Elementary darslari bosqichma-bosqich qo'shilmoqda. Yangi darslar tez orada!",
+};
+
+/** Every unit of every level, in course order. */
+export const COURSE_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...(A1_OPEN ? A1_UNITS : [])];
+
+export function unitsOf(level: LevelId): UnitMeta[] {
+  return COURSE_UNITS.filter((u) => u.level === level);
+}
+
+/** Position of a unit inside its level (1-based): Elementary starts again at 1. */
+export function unitNo(unit: UnitMeta): number {
+  return unitsOf(unit.level).findIndex((u) => u.id === unit.id) + 1;
+}
+
+export function levelOf(levelId: string | null | undefined) {
+  return LEVELS.find((l) => l.id === levelId) ?? LEVELS[0];
+}
 
 export const UNIT_TEST = {
   /** Share of correct answers needed to pass a unit test. */
@@ -104,7 +146,7 @@ export const TRIAL_DAYS = 7;
 /** The in-lesson "Ask AI mentor" button. Off until the mentor is opened for the course. */
 export const LESSON_MENTOR_ENABLED = false;
 
-export const ALL_LESSONS = BEGINNER_UNITS.flatMap((u) => u.lessons.map((l) => ({ ...l, unitId: u.id })));
+export const ALL_LESSONS = COURSE_UNITS.flatMap((u) => u.lessons.map((l) => ({ ...l, unitId: u.id, level: u.level })));
 
 const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[] }>> = {
   u1: () => import('./content/beginner/u1'),
@@ -112,6 +154,7 @@ const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[] }>> = {
   u3: () => import('./content/beginner/u3'),
   u4: () => import('./content/beginner/u4'),
   u5: () => import('./content/beginner/u5'),
+  u6: () => import('./content/a1/u6'),
 };
 
 export async function loadUnit(unitId: string): Promise<Lesson[]> {

@@ -1,15 +1,26 @@
 import { useState } from 'react';
 import { Turtle, Volume2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { speak } from '../speech';
+
+let warned = false;
+function warnNoSound() {
+  if (warned) return;
+  warned = true;
+  toast.message("Ovoz chiqmadi", {
+    description: "Telefoningiz ovozi va internetni tekshiring. Eshitish mashqlarida «Matnni ko'rsatish» tugmasi bilan davom etishingiz mumkin.",
+  });
+}
 
 /** Play button for English text, with an optional slow-speed button. */
 export function SpeakButton({ text, size = 'sm', slow = false, label }: { text: string; size?: 'sm' | 'md' | 'lg'; slow?: boolean; label?: string }) {
   const [playing, setPlaying] = useState(false);
   const play = async (isSlow: boolean) => {
     setPlaying(true);
-    // Lesson text may carry markdown marks or emoji; the speech engine should only get the words.
-    const plain = text.replace(/[*`_]/g, '').replace(/[☀-➿\u{1f300}-\u{1faff}]/gu, '').trim();
-    try { await speak(plain, { slow: isSlow }); } finally { setPlaying(false); }
+    try {
+      const ok = await speak(text, { slow: isSlow });
+      if (!ok) warnNoSound();
+    } finally { setPlaying(false); }
   };
   const dim = size === 'lg' ? 'h-16 w-16' : size === 'md' ? 'h-10 w-10' : 'h-8 w-8';
   const icon = size === 'lg' ? 'h-7 w-7' : size === 'md' ? 'h-5 w-5' : 'h-4 w-4';

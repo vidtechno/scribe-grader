@@ -1,0 +1,213 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u6-l7",
+  title: "In town: asking the way",
+  titleUz: "Shaharda: yo'l so'rash va ko'rsatish",
+  goal: "Shaharda muloyim yo'l so'raysiz (**Excuse me, how do I get to…? Is there a pharmacy near here?**) va yo'l ko'rsatasiz (**Go straight on, take the second left, it's opposite the bank**). Javobni tinglab tushunasiz.",
+  slides: [
+    {
+      title: "Shahardagi joylar",
+      blocks: [
+        {
+          t: "table", head: ["Joy", "O'zbekcha"],
+          rows: [
+            ["pharmacy / chemist's", "dorixona"],
+            ["post office", "pochta"],
+            ["bank / cash machine", "bank / bankomat"],
+            ["bus stop", "avtobus bekati"],
+            ["metro station", "metro bekati"],
+            ["square", "maydon"],
+            ["museum", "muzey"],
+            ["supermarket", "supermarket"],
+            ["hospital", "kasalxona"],
+            ["car park", "avtoturargoh"],
+          ],
+          speak: [0],
+        },
+        {
+          t: "table", head: ["Ko'chadagi narsalar", "O'zbekcha"],
+          rows: [
+            ["traffic lights", "svetofor"],
+            ["crossroads", "chorraha"],
+            ["corner", "burchak, muyulish"],
+            ["bridge", "ko'prik"],
+            ["the end of the street", "ko'chaning oxiri"],
+          ],
+          speak: [0],
+        },
+        { t: "tip", tone: "info", md: "**traffic lights** — doim ko'plikda: *Turn left at the traffic lights.* **crossroads** — oxirida *s* bor, lekin bitta chorraha: *at the crossroads*." },
+        { t: "check", ex: { k: "match", pairs: [["pharmacy", "dorixona"], ["traffic lights", "svetofor"], ["crossroads", "chorraha"], ["square", "maydon"], ["bridge", "ko'prik"]] } },
+      ],
+    },
+    {
+      title: "Yo'l so'rash",
+      blocks: [
+        { t: "p", md: "Notanish odamga murojaat **Excuse me** bilan boshlanadi (*Hey!* — qo'pol eshitiladi). Keyin uch xil savoldan birini bering:" },
+        {
+          t: "table", head: ["Savol", "O'zbekcha"],
+          rows: [
+            ["Excuse me, how do I get to the museum?", "Kechirasiz, muzeyga qanday borsam bo'ladi?"],
+            ["Excuse me, is there a pharmacy near here?", "Kechirasiz, bu yerga yaqin dorixona bormi?"],
+            ["Excuse me, where's the nearest bus stop?", "Kechirasiz, eng yaqin avtobus bekati qayerda?"],
+            ["Is it far?", "Uzoqmi?"],
+            ["Can you show me on the map?", "Xaritada ko'rsata olasizmi?"],
+          ],
+          speak: [0],
+        },
+        {
+          t: "compare",
+          good: { title: "To'g'ri", items: ["How do I get to the station?", "Is there a bank near here?", "Where's the nearest metro station?"] },
+          bad: { title: "Xato", items: ["How I get to the station?", "Is there bank near here?", "Where is nearest metro station?"] },
+        },
+        { t: "tip", tone: "warn", md: "**near here** — \"bu yerga yaqin\". ❌ *near to here* emas. **the nearest** — \"eng yaqin\" (*the biggest* kabi) — **the** shart!" },
+        { t: "tip", tone: "good", md: "**get to** — \"…ga yetib bormoq\". *How do I get to Amir Temur Square?* \n**home** bilan **to** yo'q: *How do I get home?*" },
+        { t: "check", ex: { k: "choice", q: "Muloyim savol:", opts: ["Hey, where is bank?", "Excuse me, is there a bank near here?", "Sorry, bank where?", "Excuse me, there is a bank near here?"], a: 1, why: "**Excuse me** + **Is there a… near here?**" } },
+      ],
+    },
+    {
+      title: "Yo'l ko'rsatish: buyruq gaplar",
+      blocks: [
+        { t: "p", md: "Yo'l ko'rsatganda **buyruq gap** ishlatamiz (fe'lning birinchi shakli, egasiz):" },
+        {
+          t: "table", head: ["Ibora", "O'zbekcha"],
+          rows: [
+            ["Go straight on.", "To'g'riga yuring."],
+            ["Turn left. / Turn right.", "Chapga buriling. / O'ngga buriling."],
+            ["Take the first left.", "Birinchi chapga buriling."],
+            ["Take the second right.", "Ikkinchi o'ngga buriling."],
+            ["Go past the bank.", "Bankning yonidan o'tib keting."],
+            ["Cross the road.", "Yo'lni kesib o'ting."],
+            ["Go along this street.", "Shu ko'cha bo'ylab yuring."],
+            ["Turn left at the traffic lights.", "Svetoforda chapga buriling."],
+          ],
+          speak: [0],
+        },
+        {
+          t: "compare",
+          good: { title: "To'g'ri", items: ["Turn left.", "Go straight on.", "Take the second right."] },
+          bad: { title: "Xato", items: ["Turn to left.", "Go to straight.", "Take the two right."] },
+        },
+        { t: "tip", tone: "warn", md: "**Turn left** — predlogsiz va eng qisqa. *Turn to the left* ham to'g'ri, lekin ❌ *Turn to left* (the siz) — xato. **the first / second / third** — 5-darsdagi tartib sonlar: *Take the **third** right.*" },
+        { t: "check", ex: { k: "fill", q: "Go straight on and ___ the second left.", a: ["take"], why: "**Take the second left** — ikkinchi chapga buriling." } },
+      ],
+    },
+    {
+      title: "Qayerda joylashgan: opposite, next to, on the corner",
+      blocks: [
+        {
+          t: "table", head: ["Predlog", "O'zbekcha", "Misol"],
+          rows: [
+            ["on the left / on the right", "chap / o'ng tomonda", "The bank is on the left."],
+            ["opposite", "qarshisida", "It's opposite the park."],
+            ["next to", "yonida", "It's next to the post office."],
+            ["between", "orasida", "It's between the bank and the café."],
+            ["on the corner (of)", "burchakda", "It's on the corner of Navoi Street."],
+            ["at the end of", "oxirida", "It's at the end of the street."],
+          ],
+          speak: [2],
+        },
+        {
+          t: "compare",
+          good: { title: "To'g'ri", items: ["It's opposite the bank.", "It's on the corner.", "It's on your left."] },
+          bad: { title: "Xato", items: ["It's opposite of the bank.", "It's in the corner of the street.", "It's in your left."] },
+        },
+        { t: "tip", tone: "warn", md: "**opposite** dan keyin odatda **of** yo'q: *opposite the bank*. Ko'chada **on the corner**, xona ichida **in the corner**: *The TV is in the corner of the room.*" },
+        { t: "p", md: "Masofani aytish: **It's about five minutes' walk.** (Piyoda 5 daqiqacha.) **It's not far.** **It's a long way — take a taxi.**" },
+        { t: "check", ex: { k: "choice", q: "\"Dorixona bankning qarshisida.\"", opts: ["The pharmacy is opposite of the bank.", "The pharmacy is opposite the bank.", "The pharmacy is opposite to bank.", "The pharmacy opposite is the bank."], a: 1 } },
+      ],
+    },
+    {
+      title: "Dialog: Toshkent markazida",
+      blocks: [
+        {
+          t: "dialog", lines: [
+            { who: "Tourist", en: "Excuse me, how do I get to the Amir Temur Museum?", uz: "Kechirasiz, Amir Temur muzeyiga qanday borsam bo'ladi?" },
+            { who: "Nilufar", en: "The museum? It's not far. Go straight on along this street.", uz: "Muzeygami? Uzoq emas. Shu ko'cha bo'ylab to'g'riga yuring." },
+            { who: "Nilufar", en: "Turn right at the traffic lights and go past the bank.", uz: "Svetoforda o'ngga buriling va bankning yonidan o'tib keting." },
+            { who: "Nilufar", en: "Then cross the road. The museum is on your left, opposite the square.", uz: "Keyin yo'lni kesib o'ting. Muzey chap tomoningizda, maydon qarshisida." },
+            { who: "Tourist", en: "So, straight on, right at the traffic lights, past the bank, and it's on the left?", uz: "Demak, to'g'riga, svetoforda o'ngga, bankning yonidan o'tib, chap tomonda?" },
+            { who: "Nilufar", en: "That's right. It's about ten minutes' walk.", uz: "To'g'ri. Piyoda o'n daqiqacha." },
+            { who: "Tourist", en: "Thank you very much!", uz: "Katta rahmat!" },
+            { who: "Nilufar", en: "You're welcome. Enjoy the museum!", uz: "Arzimaydi. Muzey sizga yoqsin!" },
+          ],
+        },
+        { t: "tip", tone: "good", md: "Foydali usul: yo'lni **qisqa takrorlab** tekshiring — *So, straight on, then right…?* Bu sizni noto'g'ri tushunishdan saqlaydi. Tushunmasangiz: **Sorry, can you say that again, please?**" },
+        { t: "check", ex: { k: "tf", q: "Dialogga ko'ra, muzey **maydon qarshisida, chap tomonda**.", a: true, why: "*The museum is on your left, opposite the square.*" } },
+        { t: "check", ex: { k: "choice", q: "Svetoforda turist nima qilishi kerak?", opts: ["turn left", "turn right", "cross the road", "go straight on"], a: 1 } },
+      ],
+    },
+    {
+      title: "Talaffuz va matn",
+      blocks: [
+        {
+          t: "sounds", items: [
+            { label: "straight on", say: "Go straight on.", uz: "**\"streyt-on\"** — *gh* o'qilmaydi, *straight* va *on* qo'shilib ketadi.", examples: ["straight on", "Go straight on."] },
+            { label: "opposite", say: "opposite", uz: "**\"O-pə-zit\"** — urg'u **birinchi** bo'g'inda.", examples: ["opposite", "opposite the bank"] },
+            { label: "pharmacy", say: "pharmacy", uz: "**\"FA:-mə-si\"** — *ph* = **f**.", examples: ["pharmacy"] },
+            { label: "Excuse me", say: "Excuse me", uz: "**\"ik-SKYU:Z-mi\"** — urg'u ikkinchi bo'g'inda.", examples: ["Excuse me."] },
+          ],
+        },
+        {
+          t: "text", title: "A message from a friend",
+          en: "Hi Kate! Welcome to Samarkand! Here's the way from your hotel to my house. When you leave the hotel, turn left and go straight on for about two hundred metres. At the crossroads, turn right into Mustaqillik Street. Go past a big supermarket and a pharmacy. Then take the second left. My house is at the end of that street, on the corner, next to a small bakery. It has a green gate. It's only about fifteen minutes' walk. If you get lost, call me! See you soon, Madina",
+          uz: "Salom, Keyt! Samarqandga xush kelibsan! Mana, mehmonxonangdan uyimgacha bo'lgan yo'l. Mehmonxonadan chiqqach, chapga burilib, ikki yuz metrcha to'g'riga yur. Chorrahada o'ngga, Mustaqillik ko'chasiga buril. Katta supermarket va dorixonaning yonidan o'tib ket. Keyin ikkinchi chapga buril. Mening uyim o'sha ko'chaning oxirida, burchakda, kichkina novvoyxonaning yonida. Darvozasi yashil. Piyoda atigi o'n besh daqiqacha. Adashib qolsang, qo'ng'iroq qil! Tez orada ko'rishguncha, Madina",
+        },
+        { t: "check", ex: { k: "choice", q: "Madinaning uyi nimaning yonida?", opts: ["next to a pharmacy", "next to a supermarket", "next to a small bakery", "next to the hotel"], a: 2 } },
+      ],
+    },
+  ],
+  words: [
+    { en: "pharmacy", uz: "dorixona", ipa: "ˈfɑː.mə.si", pos: "noun", ex: "Is there a pharmacy near here?", exUz: "Bu yerga yaqin dorixona bormi?" },
+    { en: "traffic lights", uz: "svetofor", ipa: "ˈtræf.ɪk laɪts", pos: "noun", ex: "Turn left at the traffic lights.", exUz: "Svetoforda chapga buriling." },
+    { en: "crossroads", uz: "chorraha", ipa: "ˈkrɒs.rəʊdz", pos: "noun", ex: "Turn right at the crossroads.", exUz: "Chorrahada o'ngga buriling." },
+    { en: "corner", uz: "burchak, muyulish", ipa: "ˈkɔː.nə", pos: "noun", ex: "The café is on the corner.", exUz: "Kafe burchakda." },
+    { en: "opposite", uz: "qarshisida", ipa: "ˈɒp.ə.zɪt", pos: "preposition", ex: "The bank is opposite the hotel.", exUz: "Bank mehmonxonaning qarshisida." },
+    { en: "straight on", uz: "to'g'riga", ipa: "ˌstreɪt ˈɒn", pos: "adverb", ex: "Go straight on for two minutes.", exUz: "Ikki daqiqa to'g'riga yuring." },
+    { en: "turn", uz: "burilmoq", ipa: "tɜːn", pos: "verb", ex: "Turn right after the bridge.", exUz: "Ko'prikdan keyin o'ngga buriling." },
+    { en: "cross", uz: "kesib o'tmoq", ipa: "krɒs", pos: "verb", ex: "Cross the road at the traffic lights.", exUz: "Yo'lni svetoforda kesib o'ting." },
+    { en: "go past", uz: "yonidan o'tib ketmoq", ipa: "ɡəʊ ˈpɑːst", pos: "verb", ex: "Go past the school and turn left.", exUz: "Maktabning yonidan o'tib, chapga buriling." },
+    { en: "nearest", uz: "eng yaqin", ipa: "ˈnɪə.rɪst", pos: "adjective", ex: "Where's the nearest metro station?", exUz: "Eng yaqin metro bekati qayerda?" },
+  ],
+  practice: [
+    { k: "match", pairs: [["Turn left.", "Chapga buriling."], ["Go straight on.", "To'g'riga yuring."], ["Cross the road.", "Yo'lni kesib o'ting."], ["Go past the bank.", "Bankning yonidan o'ting."], ["Take the first right.", "Birinchi o'ngga buriling."]] },
+    { k: "match", pairs: [["opposite", "qarshisida"], ["next to", "yonida"], ["between", "orasida"], ["on the corner", "burchakda"], ["at the end of", "oxirida"]] },
+    { k: "listen", say: "Take the second left.", opts: ["Take the second left.", "Take the second right.", "Take the first left."], a: 0 },
+    { k: "listen", say: "It's opposite the post office.", opts: ["It's next to the post office.", "It's opposite the post office.", "It's behind the post office."], a: 1 },
+    { k: "choice", q: "Qaysi gap **xato**?", opts: ["Turn right at the bridge.", "Go straight on.", "Turn to left at the bank.", "Take the third left."], a: 2, why: "**Turn left** yoki **Turn to the left** — lekin *to left* (the siz) xato." },
+    { k: "choice", q: "\"Eng yaqin bankomat qayerda?\"", opts: ["Where's nearest cash machine?", "Where's the nearest cash machine?", "Where's the near cash machine?", "Where the nearest cash machine is?"], a: 1, why: "**the nearest** — *the* shart; savolda *is* egadan oldin." },
+    { k: "choice", q: "Ko'chada kafe burchakda joylashgan:", opts: ["The café is in the corner.", "The café is on the corner.", "The café is at corner."], a: 1, why: "Ko'chada — **on the corner**." },
+    { k: "fill", q: "Excuse me, how do I get ___ the station?", a: ["to"], why: "**get to** + joy." },
+    { k: "fill", q: "Is there a supermarket near ___?", a: ["here"], uz: "Bu yerga yaqin supermarket bormi?" },
+    { k: "fill", q: "The bank is ___ the café and the school.", a: ["between"], uz: "Bank kafe va maktab orasida." },
+    { k: "tf", q: "**It's opposite of the hospital** — to'g'ri gap.", a: false, why: "**opposite** dan keyin **of** yo'q: *opposite the hospital*." },
+    { k: "tf", q: "Notanish odamdan yo'l so'raganda **Excuse me** bilan boshlash kerak.", a: true },
+    { k: "order", uz: "Svetoforda o'ngga buriling.", words: ["Turn", "right", "at", "the", "traffic", "lights."], extra: ["to", "in"] },
+    { k: "order", uz: "Kechirasiz, bu yerga yaqin dorixona bormi?", words: ["Excuse", "me,", "is", "there", "a", "pharmacy", "near", "here?"], extra: ["to", "are"] },
+    { k: "translate", uz: "Ko'prikdan o'tib, chapga buriling.", a: ["Cross the bridge and turn left", "Go over the bridge and turn left", "Cross the bridge, then turn left", "Cross the bridge and then turn left", "Go across the bridge and turn left", "Go over the bridge, then turn left", "Go over the bridge and then turn left", "Go across the bridge, then turn left", "Cross the bridge and turn to the left"] },
+    { k: "translate", uz: "Uzoqmi?", a: ["Is it far", "Is it far away", "Is it a long way", "Is it far from here"] },
+    { k: "speak", say: "Excuse me, how do I get to the museum?", uz: "Kechirasiz, muzeyga qanday borsam bo'ladi?" },
+  ],
+  quiz: [
+    { k: "choice", q: "\"Ikkinchi o'ngga buriling.\"", opts: ["Take the two right.", "Take the second right.", "Turn the second to right.", "Take second the right."], a: 1 },
+    { k: "choice", q: "— Is there a bank near here? — …", opts: ["Yes, there's one opposite the park.", "Yes, it's a bank.", "Yes, there are.", "Yes, I am."], a: 0 },
+    { k: "fill", q: "Go ___ the hospital and turn left.", a: ["past"], uz: "Kasalxonaning yonidan o'tib, chapga buriling." },
+    { k: "fill", q: "Where's the ___ bus stop? (near)", a: ["nearest"], uz: "Eng yaqin avtobus bekati qayerda?" },
+    { k: "listen", say: "Turn left at the crossroads.", opts: ["Turn left at the crossroads.", "Turn right at the crossroads.", "Turn left at the traffic lights."], a: 0 },
+    { k: "tf", q: "Madinaning xabariga ko'ra, uyning darvozasi yashil.", a: true, why: "*It has a green gate.*" },
+    { k: "match", pairs: [["post office", "pochta"], ["car park", "avtoturargoh"], ["bus stop", "avtobus bekati"], ["square", "maydon"]] },
+    { k: "order", uz: "Muzey o'ng tomoningizda.", words: ["The", "museum", "is", "on", "your", "right."], extra: ["in", "at"] },
+    { k: "translate", uz: "Piyoda besh daqiqacha.", a: ["It's about five minutes' walk", "It is about five minutes' walk", "It's about a five-minute walk", "It is about a five-minute walk", "It's about five minutes on foot", "It is about five minutes on foot", "About five minutes' walk", "It's about 5 minutes' walk", "It's about five minutes walk", "It is about five minutes walk", "It's five minutes' walk", "It is five minutes' walk", "It's a five-minute walk", "It is a five-minute walk", "It's about a five minute walk"] },
+    { k: "choice", q: "Yo'lni tushunmadingiz. Nima deysiz?", opts: ["Sorry, can you say that again, please?", "Excuse me, turn left.", "You're welcome.", "Go straight on, please."], a: 0 },
+  ],
+  summary: [
+    "Savol: **Excuse me, how do I get to…? / Is there a… near here? / Where's the nearest…?**",
+    "Yo'l ko'rsatish (buyruq): **Go straight on, turn left/right, take the second left, go past…, cross the road**.",
+    "Joylashuv: **on the left, opposite (❌ of), next to, between, on the corner, at the end of**.",
+    "Masofa: **It's not far. It's about ten minutes' walk.**",
+    "Tushunmasangiz: **Sorry, can you say that again, please?** — va yo'lni qisqa takrorlab tekshiring.",
+  ],
+  homework: "Uyingizdan eng yaqin dorixona, bekat va do'konga boradigan yo'lni inglizcha yozing (har biriga 3–4 gap): *Leave the house, turn right, go straight on…* Keyin Madinaning xabariga o'xshab, mehmonga uyingizga qanday kelishni tushuntiruvchi qisqa xabar yozing.",
+};
+
+export default lesson;
