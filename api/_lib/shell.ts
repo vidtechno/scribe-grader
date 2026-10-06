@@ -34,7 +34,7 @@ export function page(o: PageOptions): string {
 <link rel="canonical" href="${esc(url)}">
 ${(o.alternates || []).map(a => `<link rel="alternate" hreflang="${esc(a.lang)}" href="${esc(SITE + a.path)}">`).join('\n')}
 <link rel="alternate" type="application/rss+xml" title="Scorify IELTS Blog" href="/blog/rss.xml">
-<link rel="icon" href="/logo-48.png" type="image/png"><link rel="apple-touch-icon" href="/logo-180.png">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/logo-48.png" type="image/png" sizes="48x48"><link rel="apple-touch-icon" href="/logo-180.png">
 <meta property="og:site_name" content="Scorify.uz"><meta property="og:type" content="${esc(o.ogType || 'website')}">
 <meta property="og:title" content="${esc(o.title)}"><meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${esc(url)}"><meta property="og:image" content="${esc(og)}">
