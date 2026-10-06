@@ -226,7 +226,7 @@ export default function Index() {
 
             {!user && (
               <p className="mt-4 text-sm text-muted-foreground flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-1">
-                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Free first Writing and Speaking evaluation</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />3 free Writing and 2 Speaking evaluations</span>
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />One-tap Google sign-in</span>
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />No card needed</span>
               </p>

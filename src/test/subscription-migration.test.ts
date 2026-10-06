@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 const read = (f: string) => readFileSync(join(process.cwd(), 'supabase/migrations', f), 'utf8');
 const unified = read('20260919130000_unified_go_plus_subscriptions.sql');
 const removal = read('20261002000000_remove_teacher_mode.sql');
+const freeAllowance = read('20261007000000_free_plan_3_writing_2_speaking.sql');
 
 describe('subscription database migrations', () => {
   it('installs only Free, Go and Plus as active plan identifiers', () => {
@@ -22,5 +23,11 @@ describe('subscription database migrations', () => {
     expect(removal).toContain('drop table if exists public.teacher_tests');
     const functions = removal.slice(0, removal.indexOf('-- Drop Teacher Mode'));
     expect(functions.replace(/^--.*$/gm, '').toLowerCase()).not.toContain('teacher');
+  });
+
+  it('gives the Free plan 3 Writing and 2 Speaking evaluations, also to existing Free users', () => {
+    const sql = freeAllowance.replace(/^--.*$/gm, '');
+    expect(sql).toMatch(/update public\.subscription_plans set[\s\S]*writing_limit=3, speaking_limit=2[\s\S]*where slug='free'/);
+    expect(sql).toMatch(/update public\.subscriptions set writing_limit=3, speaking_limit=2\s+where plan_type='free'/);
   });
 });

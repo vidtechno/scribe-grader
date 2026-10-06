@@ -13,7 +13,7 @@ export type PlanEntitlement = {
 export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
   free: {
     slug: 'free', name: 'Free', priceUsd: '0', priceUzs: '0',
-    personal: { writing: 1, speaking: 1, mockTests: 0 },
+    personal: { writing: 3, speaking: 2, mockTests: 0 },
   },
   go: {
     slug: 'go', name: 'Scorify Go', priceUsd: '5', priceUzs: '49 000',

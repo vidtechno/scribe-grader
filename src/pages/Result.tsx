@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { useSubscription } from '@/hooks/useSubscription';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
-import { BlurredContent } from '@/components/BlurredContent';
 import { ErrorCorrections } from '@/components/ErrorCorrections';
-import { PricingModal } from '@/components/PricingModal';
 import { EssayComments } from '@/components/EssayComments';
 import { SEOHead } from '@/components/SEOHead';
 import { 
   ArrowLeft, Award, BookOpen, MessageSquare, CheckCircle,
-  Target, FileText, AlertTriangle, Crown,
+  Target, FileText, AlertTriangle,
   BookA, Link2, Layers
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
@@ -72,14 +69,6 @@ export default function Result() {
   const { id } = useParams<{ id: string }>();
   const [essay, setEssay] = useState<Essay | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showPricing, setShowPricing] = useState(false);
-  const { isPremium } = useSubscription();
-
-  // Lifetime Premium unlocks every advanced section. Non-premium users see
-  // a teaser with blurred parts so they're nudged to buy more credits.
-  const isFree = !isPremium;
-  const isPro = isPremium;
-  const isProPlus = isPremium;
 
   useEffect(() => {
     if (!id) return;
@@ -120,13 +109,6 @@ export default function Result() {
     if (score >= 7) return 'text-primary';
     if (score >= 5) return 'text-yellow-500';
     return 'text-destructive';
-  };
-
-  const renderFeedbackText = (text: string) => {
-    if (isFree) {
-      return <BlurredContent text={text} visibleWords={8} onUpgrade={() => setShowPricing(true)} />;
-    }
-    return <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>;
   };
 
   const sentenceColors: Record<string, string> = {
@@ -212,221 +194,113 @@ export default function Result() {
             <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.25s' }}>
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-destructive" /> Error Corrections & Improvements
-                {isFree && (
-                  <span className="ml-auto flex items-center gap-1 text-xs text-primary cursor-pointer" onClick={() => setShowPricing(true)}>
-                    <Crown className="h-3.5 w-3.5" /> Premium
-                  </span>
-                )}
               </h2>
-              {isFree ? (
-                <div>
-                  <ErrorCorrections corrections={(feedback.errorCorrections || []).filter(c => c.type !== 'improvement')} limitCount={3} />
-                  {(feedback.errorCorrections || []).length > 3 && (
-                    <div className="relative mt-4">
-                      <div className="blur-sm pointer-events-none">
-                        <ErrorCorrections corrections={(feedback.errorCorrections || []).slice(3, 6)} />
-                      </div>
-                      <div className="absolute inset-0 flex items-center justify-center bg-card/60 rounded-lg">
-                        <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                          <Crown className="h-4 w-4" /> Get credits to see all corrections
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <ErrorCorrections corrections={feedback.errorCorrections || []} />
-              )}
+              <ErrorCorrections corrections={feedback.errorCorrections || []} />
             </div>
 
-            {/* Advanced Analysis - Pro/Pro Plus only */}
-            {isPro && (
-              <>
-                {/* Vocabulary Range Analysis */}
-                {feedback.vocabularyAnalysis && feedback.vocabularyAnalysis.length > 0 && (
-                  <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.27s' }}>
-                    <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <BookA className="h-5 w-5 text-primary" /> 
-                      {isProPlus ? 'Topic-Specific Vocabulary' : 'Vocabulary Range Analysis'}
-                      {!isProPlus && (
-                        <span className="ml-auto flex items-center gap-1 text-xs text-primary cursor-pointer" onClick={() => setShowPricing(true)}>
-                          <Crown className="h-3.5 w-3.5" /> Pro Plus
-                        </span>
-                      )}
-                    </h2>
-                    <p className="text-xs text-muted-foreground mb-4">
-                      {isProPlus ? 'Academic words for your essay topic with synonyms' : 'Repeated basic words and their academic alternatives'}
-                    </p>
-                    <div className="grid sm:grid-cols-2 gap-3">
-                      {(isProPlus ? feedback.vocabularyAnalysis : feedback.vocabularyAnalysis.slice(0, 1)).map((item, i) => (
-                        <div key={i} className="rounded-lg border border-border bg-secondary/20 p-3">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="font-mono text-sm font-medium text-destructive">"{item.word}"</span>
-                            <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">used {item.count}x</span>
-                          </div>
-                          <div className="flex flex-wrap gap-1.5">
-                            {item.suggestions.map((s, j) => (
-                              <span key={j} className="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">{s}</span>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    {!isProPlus && feedback.vocabularyAnalysis.length > 1 && (
-                      <div className="relative mt-3">
-                        <div className="blur-sm pointer-events-none grid sm:grid-cols-2 gap-3">
-                          {feedback.vocabularyAnalysis.slice(1, 3).map((item, i) => (
-                            <div key={i} className="rounded-lg border border-border bg-secondary/20 p-3">
-                              <span className="font-mono text-sm">"{item.word}"</span>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="absolute inset-0 flex items-center justify-center bg-card/60 rounded-lg">
-                          <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                            <Crown className="h-4 w-4" /> Unlock with Pro Plus
-                          </Button>
-                        </div>
+            {/* Vocabulary Range Analysis */}
+            {feedback.vocabularyAnalysis && feedback.vocabularyAnalysis.length > 0 && (
+              <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.27s' }}>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <BookA className="h-5 w-5 text-primary" /> 
+                  Topic-Specific Vocabulary
+                </h2>
+                <p className="text-xs text-muted-foreground mb-4">Academic words for your essay topic with synonyms</p>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {feedback.vocabularyAnalysis.map((item, i) => (
+                    <div key={i} className="rounded-lg border border-border bg-secondary/20 p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-mono text-sm font-medium text-destructive">"{item.word}"</span>
+                        <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">used {item.count}x</span>
                       </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Coherence Check */}
-                {feedback.coherenceCheck && feedback.coherenceCheck.length > 0 && (
-                  <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.29s' }}>
-                    <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <Link2 className="h-5 w-5 text-primary" /> 
-                      {isProPlus ? 'Visual Coherence Map' : 'Coherence Check'}
-                      {!isProPlus && (
-                        <span className="ml-auto flex items-center gap-1 text-xs text-primary cursor-pointer" onClick={() => setShowPricing(true)}>
-                          <Crown className="h-3.5 w-3.5" /> Pro Plus
-                        </span>
-                      )}
-                    </h2>
-                    <p className="text-xs text-muted-foreground mb-4">Paragraph transitions and linking words analysis</p>
-                    <div className="space-y-3">
-                      {(isProPlus ? feedback.coherenceCheck : feedback.coherenceCheck.slice(0, 1)).map((item, i) => {
-                        const statusColors = {
-                          strong: 'border-green-300 dark:border-green-800 bg-green-50 dark:bg-green-950/20',
-                          weak: 'border-yellow-300 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-950/20',
-                          missing: 'border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/20',
-                        };
-                        const statusBadge = {
-                          strong: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
-                          weak: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300',
-                          missing: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
-                        };
-                        return (
-                          <div key={i} className={`rounded-lg border p-3 ${statusColors[item.status]}`}>
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-sm font-medium">{item.location}</span>
-                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${statusBadge[item.status]}`}>{item.status}</span>
-                            </div>
-                            {item.suggestion && item.status !== 'strong' && (
-                              <p className="text-xs text-muted-foreground italic">Suggestion: {item.suggestion}</p>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    {!isProPlus && feedback.coherenceCheck.length > 1 && (
-                      <div className="relative mt-3">
-                        <div className="blur-sm pointer-events-none space-y-3">
-                          {feedback.coherenceCheck.slice(1, 3).map((item, i) => (
-                            <div key={i} className="rounded-lg border border-border p-3">
-                              <span className="text-sm">{item.location}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="absolute inset-0 flex items-center justify-center bg-card/60 rounded-lg">
-                          <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                            <Crown className="h-4 w-4" /> Unlock Visual Map
-                          </Button>
-                        </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {item.suggestions.map((s, j) => (
+                          <span key={j} className="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">{s}</span>
+                        ))}
                       </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Sentence Complexity Map - Pro Plus only */}
-                {isProPlus && feedback.sentenceComplexity && feedback.sentenceComplexity.length > 0 && (
-                  <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.31s' }}>
-                    <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <Layers className="h-5 w-5 text-primary" /> Sentence Complexity Map
-                    </h2>
-                    <div className="flex items-center gap-3 mb-4 flex-wrap">
-                      <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-blue-200 dark:bg-blue-800"></span> Simple</span>
-                      <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-yellow-200 dark:bg-yellow-800"></span> Compound</span>
-                      <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-green-200 dark:bg-green-800"></span> Complex</span>
                     </div>
-                    <div className="space-y-2 max-h-[400px] overflow-y-auto">
-                      {feedback.sentenceComplexity.map((item, i) => (
-                        <div key={i} className={`text-xs px-3 py-2 rounded ${sentenceColors[item.type]}`}>
-                          <span className="font-medium capitalize mr-2">[{item.type}]</span>
-                          {item.sentence}
-                        </div>
-                      ))}
-                    </div>
-                    {(() => {
-                      const total = feedback.sentenceComplexity!.length;
-                      const simple = feedback.sentenceComplexity!.filter(s => s.type === 'simple').length;
-                      const compound = feedback.sentenceComplexity!.filter(s => s.type === 'compound').length;
-                      const complex = feedback.sentenceComplexity!.filter(s => s.type === 'complex').length;
-                      return (
-                        <div className="mt-4 grid grid-cols-3 gap-3 text-center">
-                          <div className="p-2 rounded bg-blue-50 dark:bg-blue-950/30">
-                            <p className="text-lg font-bold text-blue-600">{Math.round((simple/total)*100)}%</p>
-                            <p className="text-xs text-muted-foreground">Simple</p>
-                          </div>
-                          <div className="p-2 rounded bg-yellow-50 dark:bg-yellow-950/30">
-                            <p className="text-lg font-bold text-yellow-600">{Math.round((compound/total)*100)}%</p>
-                            <p className="text-xs text-muted-foreground">Compound</p>
-                          </div>
-                          <div className="p-2 rounded bg-green-50 dark:bg-green-950/30">
-                            <p className="text-lg font-bold text-green-600">{Math.round((complex/total)*100)}%</p>
-                            <p className="text-xs text-muted-foreground">Complex</p>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                )}
-
-                {/* Blurred Sentence Complexity for Pro (not Pro Plus) */}
-                {!isProPlus && feedback.sentenceComplexity && feedback.sentenceComplexity.length > 0 && (
-                  <div className="relative mb-8">
-                    <div className="blur-sm pointer-events-none glass-card p-6">
-                      <h2 className="text-lg font-semibold mb-2">Sentence Complexity Map</h2>
-                      <p className="text-sm text-muted-foreground">Visual breakdown of sentence types...</p>
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center bg-card/40 rounded-lg">
-                      <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                        <Crown className="h-4 w-4" /> Unlock with Pro Plus
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </>
+                  ))}
+                </div>
+              </div>
             )}
 
-            {/* Blurred Advanced Analysis for Free users */}
-            {isFree && (
-              <div className="relative mb-8">
-                <div className="blur-sm pointer-events-none space-y-4">
-                  <div className="glass-card p-6">
-                    <h2 className="text-lg font-semibold mb-2">Vocabulary Range Analysis</h2>
-                    <p className="text-sm text-muted-foreground">Detailed vocabulary analysis with academic synonyms...</p>
-                  </div>
-                  <div className="glass-card p-6">
-                    <h2 className="text-lg font-semibold mb-2">Coherence Check</h2>
-                    <p className="text-sm text-muted-foreground">Paragraph transition analysis...</p>
-                  </div>
+            {/* Coherence Check */}
+            {feedback.coherenceCheck && feedback.coherenceCheck.length > 0 && (
+              <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.29s' }}>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Link2 className="h-5 w-5 text-primary" /> 
+                  Visual Coherence Map
+                </h2>
+                <p className="text-xs text-muted-foreground mb-4">Paragraph transitions and linking words analysis</p>
+                <div className="space-y-3">
+                  {feedback.coherenceCheck.map((item, i) => {
+                    const statusColors = {
+                      strong: 'border-green-300 dark:border-green-800 bg-green-50 dark:bg-green-950/20',
+                      weak: 'border-yellow-300 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-950/20',
+                      missing: 'border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/20',
+                    };
+                    const statusBadge = {
+                      strong: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
+                      weak: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300',
+                      missing: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
+                    };
+                    return (
+                      <div key={i} className={`rounded-lg border p-3 ${statusColors[item.status]}`}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium">{item.location}</span>
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${statusBadge[item.status]}`}>{item.status}</span>
+                        </div>
+                        {item.suggestion && item.status !== 'strong' && (
+                          <p className="text-xs text-muted-foreground italic">Suggestion: {item.suggestion}</p>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-card/40 rounded-lg">
-                  <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={() => setShowPricing(true)}>
-                    <Crown className="h-4 w-4" /> Get credits for Advanced Analysis
-                  </Button>
+              </div>
+            )}
+
+            {/* Sentence Complexity Map */}
+            {feedback.sentenceComplexity && feedback.sentenceComplexity.length > 0 && (
+              <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.31s' }}>
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Layers className="h-5 w-5 text-primary" /> Sentence Complexity Map
+                </h2>
+                <div className="flex items-center gap-3 mb-4 flex-wrap">
+                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-blue-200 dark:bg-blue-800"></span> Simple</span>
+                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-yellow-200 dark:bg-yellow-800"></span> Compound</span>
+                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-green-200 dark:bg-green-800"></span> Complex</span>
                 </div>
+                <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                  {feedback.sentenceComplexity.map((item, i) => (
+                    <div key={i} className={`text-xs px-3 py-2 rounded ${sentenceColors[item.type]}`}>
+                      <span className="font-medium capitalize mr-2">[{item.type}]</span>
+                      {item.sentence}
+                    </div>
+                  ))}
+                </div>
+                {(() => {
+                  const total = feedback.sentenceComplexity!.length;
+                  const simple = feedback.sentenceComplexity!.filter(s => s.type === 'simple').length;
+                  const compound = feedback.sentenceComplexity!.filter(s => s.type === 'compound').length;
+                  const complex = feedback.sentenceComplexity!.filter(s => s.type === 'complex').length;
+                  return (
+                    <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                      <div className="p-2 rounded bg-blue-50 dark:bg-blue-950/30">
+                        <p className="text-lg font-bold text-blue-600">{Math.round((simple/total)*100)}%</p>
+                        <p className="text-xs text-muted-foreground">Simple</p>
+                      </div>
+                      <div className="p-2 rounded bg-yellow-50 dark:bg-yellow-950/30">
+                        <p className="text-lg font-bold text-yellow-600">{Math.round((compound/total)*100)}%</p>
+                        <p className="text-xs text-muted-foreground">Compound</p>
+                      </div>
+                      <div className="p-2 rounded bg-green-50 dark:bg-green-950/30">
+                        <p className="text-lg font-bold text-green-600">{Math.round((complex/total)*100)}%</p>
+                        <p className="text-xs text-muted-foreground">Complex</p>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             )}
 
@@ -442,11 +316,7 @@ export default function Result() {
                       <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle className="h-3 w-3 text-primary" />
                       </span>
-                      {isFree ? (
-                        <BlurredContent text={strength} visibleWords={8} onUpgrade={() => setShowPricing(true)} />
-                      ) : (
-                        <span className="text-sm text-muted-foreground">{strength}</span>
-                      )}
+                      <span className="text-sm text-muted-foreground">{strength}</span>
                     </li>
                   ))}
                 </ul>
@@ -462,11 +332,7 @@ export default function Result() {
                       <span className="w-6 h-6 rounded-full bg-yellow-500/10 flex items-center justify-center flex-shrink-0 mt-0.5 text-yellow-500 text-xs font-bold">
                         {index + 1}
                       </span>
-                      {isFree ? (
-                        <BlurredContent text={suggestion} visibleWords={8} onUpgrade={() => setShowPricing(true)} />
-                      ) : (
-                        <span className="text-sm text-muted-foreground">{suggestion}</span>
-                      )}
+                      <span className="text-sm text-muted-foreground">{suggestion}</span>
                     </li>
                   ))}
                 </ul>
@@ -487,7 +353,7 @@ export default function Result() {
                 ].map((section) => (
                   <div key={section.title} className="pb-4 border-b border-border last:border-0 last:pb-0">
                     <h3 className="font-medium mb-2">{section.title}</h3>
-                    {renderFeedbackText(section.content)}
+                    <p className="text-sm text-muted-foreground leading-relaxed">{section.content}</p>
                   </div>
                 ))}
               </div>
@@ -518,7 +384,6 @@ export default function Result() {
           <EssayComments essayId={essay.id} />
         </div>
       )}
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
     </div>
   );
 }
