@@ -27,8 +27,8 @@ const lesson: Lesson = {
             { en: "Can I have a window seat, please?", uz: "Deraza yonidagi o'rindiq bersangiz, iltimos." },
           ],
         },
-        { t: "tip", tone: "info", md: "Ingliz tilida \"... ga\" — **to**: *a ticket **to** Khiva*. ❌ *a ticket for Khiva* — bu \"Xiva uchun\" (Xiva shahri nomiga) degan ma'no beradi, ishlatmang." },
-        { t: "check", ex: { k: "choice", q: "Siz Samarqandga borib, shu kuni qaytmoqchisiz. Nima deysiz?", opts: ["A single to Samarkand, please.", "A return ticket to Samarkand, please.", "A return ticket for Samarkand, please.", "A ticket return to Samarkand, please."], a: 1, why: "Borib-kelish — **return**, yo'nalish — **to**." } },
+        { t: "tip", tone: "info", md: "Yo'nalish (\"... ga\") — **to**: *a ticket **to** Khiva, the train **to** Bukhara*. O'zbekcha \"Xivaga\" dagi **-ga** ni ❌ *at* yoki *in* bilan tarjima qilmang." },
+        { t: "check", ex: { k: "choice", q: "Siz Samarqandga borib, shu kuni qaytmoqchisiz. Nima deysiz?", opts: ["A single to Samarkand, please.", "A return ticket to Samarkand, please.", "A return ticket at Samarkand, please.", "A ticket return to Samarkand, please."], a: 1, why: "Borib-kelish — **return**, yo'nalish — **to**." } },
       ],
     },
     {

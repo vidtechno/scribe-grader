@@ -156,7 +156,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Could I ___ the room, please?", opts: ["to see", "seeing", "see", "saw"], a: 2, why: "**Could I + V1**: *Could I **see** the room?*" },
     { k: "choice", q: "Resepshndagi xodim gapni tushunmadingiz. Nima deysiz?", opts: ["Could I repeat that, please?", "Could you repeat that, please?", "You repeat, please.", "Could you to repeat that?"], a: 1, why: "Xodim takrorlashi kerak → **Could you** repeat that, please?" },
     { k: "choice", q: "*Could I check out at two?* — Muloyim rad javobini tanlang:", opts: ["No, you couldn't.", "I'm afraid not.", "No, I couldn't.", "Yes, you could."], a: 1, why: "**I'm afraid not** — muloyim \"yo'q\"." },
-    { k: "fill", q: "___ I have a room with a view, please?", a: ["Could", "Can"], uz: "Manzarali xona bersangiz, iltimos.", why: "Ruxsat/so'rov → **Could I…?** (yoki *Can I…?*)." },
+    { k: "fill", q: "___ I have a room with a view, please?", a: ["Could", "Can", "May"], uz: "Manzarali xona bersangiz, iltimos.", why: "Ruxsat/so'rov → **Could I…?** (yoki *Can I…?*)." },
     { k: "fill", q: "Breakfast is ___ in the price.", a: ["included"], uz: "Nonushta narxga kiradi.", why: "**included** — narxga kirgan." },
     { k: "fill", q: "Could you ___ me up at seven, please?", a: ["wake"], uz: "Meni yettida uyg'otib qo'ya olasizmi?", why: "**wake up** — uyg'otmoq: *Could you **wake** me up…?*" },
     { k: "tf", q: "**Could I…?** bu yerda o'tgan zamonni bildiradi.", a: false, why: "Iltimosda **could** — o'tgan zamon emas, muloyim so'rov." },

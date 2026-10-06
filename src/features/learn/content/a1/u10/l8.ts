@@ -64,7 +64,7 @@ const lesson: Lesson = {
           bad: { title: "Xato", items: ["on friday i'm flying to london.", "My friend speaks english and turkish.", "Hi Ben"] },
         },
         { t: "tip", tone: "info", md: "O'zbekchada *dushanba, iyul, ingliz tili* kichik harf bilan yoziladi — shuning uchun bu juda ko'p uchraydigan xato. Inglizchada: **Monday, July, English**." },
-        { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri yozilgan?", opts: ["in june i visited samarkand.", "In June I visited Samarkand.", "In june I visited Samarkand.", "In June i visited samarkand."], a: 1, why: "**June, I, Samarkand** — bosh harf bilan." } },
+        { t: "check", ex: { k: "choice", q: "Qaysi so'z inglizchada doim **bosh harf** bilan yoziladi?", opts: ["summer", "morning", "june", "holiday"], a: 2, why: "Oylar bosh harf bilan: **June**. Fasllar (*summer*) va boshqa so'zlar — kichik harf bilan." } },
       ],
     },
     {
