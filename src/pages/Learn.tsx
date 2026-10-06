@@ -9,7 +9,7 @@ import { Navbar } from '@/components/Navbar';
 import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ALL_LESSONS, BEGINNER_UNITS, LEVELS, TRIAL_DAYS, loadUnit } from '@/features/learn/course';
+import { ALL_LESSONS, LEVELS, TRIAL_DAYS, levelOf, loadUnit } from '@/features/learn/course';
 import {
   callLearning, courseMap, learningErrorMessage, learningStats, trialDaysLeft, useLearningState, useRefreshLearning,
   type LearningState,
@@ -20,6 +20,8 @@ import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { shuffle } from '@/features/learn/check';
+
+const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts'];
 
 export default function Learn() {
   const { data: state, isLoading, error } = useLearningState();
@@ -83,7 +85,7 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
           </motion.button>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground text-center mt-6">Ingliz tilini biroz bilsangiz ham Beginner'dan boshlashni tavsiya qilamiz: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi.</p>
+      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi. Elementary'ni tanlasangiz, ro'yxatdagi Beginner darslari takrorlash uchun ochiq turadi.</p>
     </div>
   );
 }
@@ -91,19 +93,23 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
 function CourseHome({ state }: { state: LearningState }) {
   const navigate = useNavigate();
   const [tab, setTab] = useState<'map' | 'words'>('map');
+  const [levelTab, setLevelTab] = useState<LevelId | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
   const map = useMemo(() => courseMap(state), [state]);
   const stats = useMemo(() => learningStats(state), [state]);
   const daysLeft = trialDaysLeft(state.access);
   const locked = !state.access.allowed;
   const maxXp = Math.max(20, ...stats.week.map((d) => d.xp));
+  const level = levelTab ?? (map.activeLevel as LevelId);
+  const startLevel = state.profile?.level ?? 'beginner';
+  const shownLevels = LEVELS.filter((l) => l.available && LEVEL_ORDER.indexOf(l.id) >= LEVEL_ORDER.indexOf(startLevel as LevelId) || l.id === level);
   const continueTo = map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : null;
 
   return (
     <div>
       <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Beginner · Noldan</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).title} · {levelOf(startLevel).cefr}dan boshlagan</p>
           <h1 className="text-2xl sm:text-3xl font-extrabold">Ingliz tili kursi</h1>
         </div>
         {continueTo && !locked && (
@@ -125,7 +131,7 @@ function CourseHome({ state }: { state: LearningState }) {
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4" aria-label="Statistika">
         <StatCard icon={Flame} tone="text-orange-500" label="Streak" value={`${state.streak} kun`} hint={stats.todayDone ? 'Bugungi reja bajarildi ✓' : 'Bugun hali dars qilinmadi'} />
         <StatCard icon={Zap} tone="text-amber-500" label="Jami XP" value={String(state.profile?.xp ?? 0)} hint={`${stats.activeDays} faol kun`} />
-        <StatCard icon={Trophy} tone="text-primary" label="Darslar" value={`${map.doneCount} / ${map.total}`} hint={`${map.passed.size} / ${BEGINNER_UNITS.length} bosqich testi`} />
+        <StatCard icon={Trophy} tone="text-primary" label="Darslar" value={`${map.doneCount} / ${map.total}`} hint={`${map.unitsPassed} / ${map.unitsTotal} bosqich testi`} />
         <StatCard icon={BookA} tone="text-emerald-500" label="So'zlar" value={String(map.doneCount * 10)} hint={stats.accuracy !== null ? `Aniqlik ${stats.accuracy}% · ${stats.minutes} daq` : 'Birinchi darsdan boshlang'} />
       </section>
       <section className="glass-card p-4 mb-6" aria-label="Haftalik faollik">
@@ -153,7 +159,19 @@ function CourseHome({ state }: { state: LearningState }) {
       </div>
 
       {tab === 'map' ? (
-        <Roadmap state={state} onLocked={() => (locked ? setShowPaywall(true) : toast("Bu qism hali yopiq — avvalgi darslar va bosqich testini tugating."))} />
+        <>
+          {shownLevels.length > 1 && (
+            <div className="flex gap-2 mb-6 overflow-x-auto" role="tablist" aria-label="Daraja">
+              {shownLevels.map((l) => (
+                <button key={l.id} type="button" role="tab" aria-selected={level === l.id} onClick={() => setLevelTab(l.id)}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold border whitespace-nowrap transition-colors ${level === l.id ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground'}`}>
+                  {l.title} <span className="opacity-70 text-xs">{l.cefr === 'Noldan' ? '0' : l.cefr}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast("Bu qism hali yopiq — avvalgi darslar va bosqich testini tugating."))} />
+        </>
       ) : (
         <WordBook state={state} locked={locked} />
       )}

@@ -36,6 +36,8 @@ export type Block =
   | { t: 'sounds'; items: SoundCard[] }
   | { t: 'compare'; good: { title: string; items: string[] }; bad: { title: string; items: string[] } }
   | { t: 'dialog'; lines: { who: string; en: string; uz: string }[] }
+  /** A short reading passage (English, 40–140 words) with audio and a hidden Uzbek translation. */
+  | { t: 'text'; title?: string; en: string; uz: string }
   | { t: 'check'; ex: Exercise };
 
 export interface Slide {
@@ -97,6 +99,8 @@ export interface UnitMeta {
   /** Tailwind gradient classes for the unit banner. */
   tone: string;
   lessons: LessonMeta[];
+  /** The level this unit belongs to. */
+  level: LevelId;
 }
 
 export type LevelId = 'beginner' | 'a1' | 'a2' | 'b1' | 'b2' | 'c1' | 'ielts';

@@ -2,7 +2,8 @@ import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, Crown, Hourglass, Lock, Play, ShieldCheck, Star } from 'lucide-react';
-import { BEGINNER_UNITS, LEVELS } from '../course';
+import { LEVELS, levelOf, unitNo, unitsOf } from '../course';
+import type { LevelId } from '../types';
 import type { LearningState, NodeState } from '../api';
 import { courseMap } from '../api';
 
@@ -11,7 +12,7 @@ const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
 const ROW = 92;
 const WIDTH = 300;
 
-export function Roadmap({ state, onLocked }: { state: LearningState; onLocked: () => void }) {
+export function Roadmap({ state, level, onLocked }: { state: LearningState; level: LevelId; onLocked: () => void }) {
   const navigate = useNavigate();
   const map = courseMap(state);
   const stars = new Map(state.progress.map((p) => [p.lesson_id, p.stars]));
@@ -19,10 +20,11 @@ export function Roadmap({ state, onLocked }: { state: LearningState; onLocked: (
 
   return (
     <div className="space-y-10">
-      {BEGINNER_UNITS.map((unit) => {
+      {unitsOf(level).map((unit) => {
         const doneInUnit = unit.lessons.filter((l) => map.lessonState.get(l.id) === 'done').length;
         const testState = map.unitTest.get(unit.id)!;
         const unitLocked = unit.lessons.every((l) => map.lessonState.get(l.id) === 'locked');
+        const review = unit.lessons.every((l) => map.lessonState.get(l.id) === 'open' || map.lessonState.get(l.id) === 'done') && testState !== 'passed';
         const nodes = [...unit.lessons.map((l) => ({ kind: 'lesson' as const, id: l.id, title: l.titleUz })), { kind: 'test' as const, id: unit.id, title: 'Bosqich testi' }];
         const points = nodes.map((_, i) => ({ x: WIDTH / 2 + OFFSETS[i % OFFSETS.length], y: 44 + i * ROW }));
         const height = 44 + (nodes.length - 1) * ROW + 70;
@@ -33,10 +35,10 @@ export function Roadmap({ state, onLocked }: { state: LearningState; onLocked: (
           return `C ${prev.x} ${midY}, ${p.x} ${midY}, ${p.x} ${p.y}`;
         }).join(' ');
         return (
-          <section key={unit.id} aria-label={`${unit.n}-bosqich`}>
+          <section key={unit.id} aria-label={`${unitNo(unit)}-bosqich`}>
             <div className={`rounded-2xl p-5 text-white bg-gradient-to-br ${unit.tone} shadow-lg relative overflow-hidden ${unitLocked ? 'opacity-70 saturate-50' : ''}`}>
               <div className="absolute -right-6 -top-8 w-32 h-32 rounded-full bg-white/10" />
-              <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{unit.n}-bosqich · Beginner</p>
+              <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{unitNo(unit)}-bosqich · {levelOf(unit.level).title}{review ? " · takrorlash uchun ochiq" : ''}</p>
               <h2 className="text-xl font-extrabold mt-0.5">{unit.titleUz}</h2>
               <p className="text-sm opacity-90 mt-1 max-w-md">{unit.description}</p>
               <div className="mt-3 flex items-center gap-3">
@@ -99,12 +101,14 @@ function LessonNode({ x, y, state, stars, number, onClick }: { x: number; y: num
     ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-white shadow-[0_6px_0_0_rgb(180,120,20)]'
     : state === 'current'
       ? 'bg-gradient-to-b from-primary to-brand-red-soft text-primary-foreground shadow-[0_6px_0_0_hsl(var(--primary)/0.55)]'
-      : 'bg-secondary text-muted-foreground shadow-[0_6px_0_0_hsl(var(--border))]';
+      : state === 'open'
+        ? 'bg-card border-2 border-primary/40 text-primary shadow-[0_6px_0_0_hsl(var(--border))]'
+        : 'bg-secondary text-muted-foreground shadow-[0_6px_0_0_hsl(var(--border))]';
   return (
     <div className="absolute" style={{ left: x, top: y }}>
       {state === 'current' && <span className="absolute -translate-x-1/2 -translate-y-1/2 w-[86px] h-[86px] rounded-full border-4 border-primary/30 animate-ping" />}
       <motion.button type="button" whileHover={{ scale: 1.06 }} onClick={onClick} className={`${base} ${style}`} aria-label={`${number}-dars`}>
-        {state === 'done' ? <Check className="h-8 w-8" strokeWidth={3} /> : state === 'current' ? <Play className="h-7 w-7 fill-current" /> : <Lock className="h-6 w-6" />}
+        {state === 'done' ? <Check className="h-8 w-8" strokeWidth={3} /> : state === 'current' || state === 'open' ? <Play className="h-7 w-7 fill-current" /> : <Lock className="h-6 w-6" />}
       </motion.button>
       {state === 'done' && (
         <div className="absolute -translate-x-1/2 top-[30px] flex gap-0.5">

@@ -1,4 +1,5 @@
-import { AlertTriangle, CheckCircle2, Info, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { useState } from 'react';
+import { AlertTriangle, BookOpen, CheckCircle2, Eye, EyeOff, Info, ThumbsDown, ThumbsUp } from 'lucide-react';
 import type { Block } from '../types';
 import { ExerciseView } from './ExerciseView';
 import { Md } from './Md';
@@ -115,9 +116,38 @@ export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct
           })}
         </div>
       );
+    case 'text':
+      return <ReadingText title={block.title} en={block.en} uz={block.uz} />;
     case 'check':
       return <ExerciseView ex={block.ex} mode="inline" onDone={(c) => onCheck?.(c)} />;
   }
+}
+
+/** A short English passage: read it, listen to it, then check the translation if needed. */
+function ReadingText({ title, en, uz }: { title?: string; en: string; uz: string }) {
+  const [showUz, setShowUz] = useState(false);
+  return (
+    <div className="rounded-2xl border border-primary/25 bg-primary/[0.04] p-4">
+      <div className="flex items-center gap-2 mb-2.5">
+        <BookOpen className="h-4 w-4 text-primary shrink-0" />
+        <p className="font-semibold text-sm flex-1 min-w-0">{title ?? 'Reading'}</p>
+        <SpeakButton text={en} slow />
+      </div>
+      <div className="space-y-2 text-[15px] leading-relaxed">
+        {en.split('\n').filter(Boolean).map((para, i) => <p key={i}><Md text={para} /></p>)}
+      </div>
+      <button type="button" onClick={() => setShowUz((v) => !v)}
+        className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
+        {showUz ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+        {showUz ? 'Tarjimani yashirish' : "Tarjimasini ko'rish"}
+      </button>
+      {showUz && (
+        <div className="mt-2 space-y-1.5 text-sm text-muted-foreground border-t border-border pt-2">
+          {uz.split('\n').filter(Boolean).map((para, i) => <p key={i}><Md text={para} /></p>)}
+        </div>
+      )}
+    </div>
+  );
 }
 
 /** Only plain English lines get a play button (not pronunciation spellings in quotes or Uzbek notes). */

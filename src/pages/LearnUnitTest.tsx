@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Crown, Hourglass, Loader2, RotateCcw, ShieldCheck, X, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
-import { BEGINNER_UNITS, UNIT_TEST, loadUnit } from '@/features/learn/course';
+import { COURSE_UNITS, UNIT_TEST, levelOf, loadUnit, unitNo } from '@/features/learn/course';
 import type { Exercise, Lesson } from '@/features/learn/types';
 import { callLearning, courseMap, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { unitTestQuestions } from '@/features/learn/practice';
@@ -19,7 +19,7 @@ export default function LearnUnitTest() {
   const navigate = useNavigate();
   const { data: state, isLoading } = useLearningState();
   const refresh = useRefreshLearning();
-  const unit = BEGINNER_UNITS.find((u) => u.id === unitId);
+  const unit = COURSE_UNITS.find((u) => u.id === unitId);
   const [lessons, setLessons] = useState<Lesson[] | null>(null);
   const [questions, setQuestions] = useState<Exercise[] | null>(null);
   const [i, setI] = useState(0);
@@ -53,7 +53,7 @@ export default function LearnUnitTest() {
     const score = answers.filter(Boolean).length;
     const pct = Math.round((score / questions.length) * 100);
     const passed = outcome.status === 'passed';
-    const next = BEGINNER_UNITS[unit.n];
+    const next = COURSE_UNITS[unit.n];
     return (
       <Shell>
         <div className="text-center py-6">
@@ -61,7 +61,7 @@ export default function LearnUnitTest() {
             className={`mx-auto mb-4 w-24 h-24 rounded-[30px] rotate-45 grid place-items-center ${passed ? 'bg-gradient-to-br from-amber-300 to-yellow-500' : 'bg-gradient-to-br from-slate-400 to-slate-500'}`}>
             {passed ? <Crown className="h-11 w-11 text-white -rotate-45" /> : <Hourglass className="h-10 w-10 text-white -rotate-45" />}
           </motion.div>
-          <h1 className="text-2xl font-extrabold mb-1">{passed ? `${unit.n}-bosqich yakunlandi!` : 'Bu safar o\'tmadi'}</h1>
+          <h1 className="text-2xl font-extrabold mb-1">{passed ? `${unitNo(unit)}-bosqich yakunlandi!` : 'Bu safar o\'tmadi'}</h1>
           <p className="text-muted-foreground mb-5">Natija: {score} / {questions.length} ({pct}%). O'tish uchun {UNIT_TEST.passPercent}% kerak.</p>
           {!passed && (
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-left mb-5">
@@ -72,8 +72,8 @@ export default function LearnUnitTest() {
           )}
           <MistakeReview questions={questions} answers={answers} />
           <div className="space-y-2.5 mt-6">
-            {passed && next && <Button size="lg" variant="glow" className="w-full" onClick={() => navigate('/learn')}>{next.n}-bosqichga o'tish: {next.titleUz}</Button>}
-            {passed && !next && <p className="font-semibold text-primary">🎉 Beginner darajasini to'liq tugatdingiz! Keyingi daraja tez orada.</p>}
+            {passed && next && <Button size="lg" variant="glow" className="w-full" onClick={() => navigate('/learn')}>{unitNo(next)}-bosqichga o'tish: {next.titleUz}</Button>}
+            {passed && !next && <p className="font-semibold text-primary">🎉 {levelOf(unit.level).title} darajasini to'liq tugatdingiz! Keyingi daraja tez orada.</p>}
             {!passed && outcome.status === 'failed' && <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => { setOutcome(null); setQuestions(null); setAnswers([]); setI(0); }}><RotateCcw className="h-4 w-4" />Qayta urinish</Button>}
             <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Yo'l xaritasiga</Button>
           </div>
@@ -136,7 +136,7 @@ export default function LearnUnitTest() {
 function Shell({ children, onExit, progress }: { children: React.ReactNode; onExit?: () => void; progress?: number }) {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Bosqich testi" description="Beginner bosqich testi" path="/learn/test" noindex />
+      <SEOHead title="Bosqich testi" description="Bosqich testi" path="/learn/test" noindex />
       {onExit && (
         <header className="fixed top-0 inset-x-0 z-40 bg-background/90 backdrop-blur border-b border-border">
           <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">

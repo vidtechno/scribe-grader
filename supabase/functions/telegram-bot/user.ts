@@ -253,11 +253,15 @@ export async function showDailyTest(ctx: Ctx) {
 
 interface LearningSummary {
   started: boolean;
+  level?: string;
   access: { allowed: boolean; reason: string; trial_ends_at?: string };
   xp?: number; streak?: number; lessons_done?: number; tests_passed?: number; today_done?: boolean; next_lesson_title?: string | null;
 }
-export const COURSE_LESSONS = 40;
-export const COURSE_UNITS = 5;
+// Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, Elementary 6 more).
+const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
+  beginner: { name: "Beginner", lessons: 88, units: 11 },
+  a1: { name: "Elementary (A1)", lessons: 48, units: 6 },
+};
 
 export async function showLearn(ctx: Ctx) {
   const userId = await requireUser(ctx);
@@ -283,14 +287,15 @@ export async function showLearn(ctx: Ctx) {
   }
   const trialLeft = s.access.reason === "trial" && s.access.trial_ends_at
     ? Math.max(0, Math.ceil((new Date(s.access.trial_ends_at).getTime() - Date.now()) / 86_400_000)) : null;
-  const done = s.lessons_done ?? 0;
+  const size = COURSE_SIZE[s.level ?? "beginner"] ?? COURSE_SIZE.beginner;
+  const done = Math.min(s.lessons_done ?? 0, size.lessons);
   const lines = [
-    title("🎓", "Ingliz tili kursi · Beginner"),
+    title("🎓", `Ingliz tili kursi · ${size.name}`),
     s.today_done ? hint("Bugungi dars bajarildi — barakalla! 🎉") : hint("Bugun hali dars qilinmadi — 15 daqiqa ajrating."),
     "",
-    `${bar(done, COURSE_LESSONS, 10)}  <b>${done}</b>/${COURSE_LESSONS} dars`,
+    `${bar(done, size.lessons, 10)}  <b>${done}</b>/${size.lessons} dars`,
     kv("🔥 Streak", `${s.streak ?? 0} kun`) + " · " + kv("⚡ XP", String(s.xp ?? 0)),
-    kv("🏆 Bosqich testlari", `${s.tests_passed ?? 0}/${COURSE_UNITS}`) + " · " + kv("🧠 So'zlar", String(done * 10)),
+    kv("🏆 Bosqich testlari", `${Math.min(s.tests_passed ?? 0, size.units)}/${size.units}`) + " · " + kv("🧠 So'zlar", String(done * 10)),
     s.next_lesson_title ? `\n▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>` : "",
     trialLeft !== null ? `\n${hint(`⏳ Bepul davr: ${trialLeft} kun qoldi`)}` : "",
     !s.access.allowed ? `\n${quote("🔒 Bepul 7 kun tugadi. Natijalaringiz saqlangan — davom etish uchun Scorify Go yoki Plus tarifini oling.")}` : "",

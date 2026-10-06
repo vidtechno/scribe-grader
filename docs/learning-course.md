@@ -1,13 +1,17 @@
 # English course ("O'rganish")
 
 A course for Uzbek speakers that starts from zero. Every lesson is written in advance (no AI is used while learning).
-Explanations are in Uzbek; examples and exercises are in English. Only **Beginner** is built; A1–C1 and IELTS show
-"Tez orada" (coming soon).
+Explanations are in Uzbek; examples and exercises are in English. **Beginner** (units 1–5) and **Elementary / A1**
+(units 6–11) are built; A2–C1 and IELTS show "Tez orada" (coming soon).
 
 ## Structure
 
-- 5 units × 8 lessons = 40 lessons. The outline is in `src/features/learn/course.ts`; the lessons are in
-  `src/features/learn/content/beginner/u1..u5/l1..l8.ts` (one chunk per unit, loaded on demand).
+- Beginner: 5 units × 8 lessons = 40 lessons. Elementary: 6 units × 8 lessons = 48 lessons. Unit ids run through all
+  levels (u1–u5 Beginner, u6–u11 Elementary). The outline is in `src/features/learn/course.ts`; the lessons are in
+  `src/features/learn/content/beginner/u1..u5/` and `content/a1/u6..u11/` (`l1..l8.ts`, one chunk per unit, loaded on demand).
+- The learner picks a starting level. Beginner learners continue into Elementary after passing the Beginner unit
+  tests; Elementary learners start at unit 6 and can revisit the Beginner lessons (shown as open for review, not required).
+- From Elementary on every lesson has connected English to read or listen to (a `text` reading block or a dialogue).
 - Lesson flow (`src/pages/LearnLesson.tsx`):
   1. **Review**: the previous lesson's key points plus 3 questions from its quiz.
   2. **Theory slides** with examples, tables, ✅/❌ comparisons, dialogues, sound cards, and quick checks the learner must answer.
@@ -48,5 +52,5 @@ Uzbek. The global AI mentor switch in the admin panel still applies.
 
 ## Adding content
 
-Write lessons in the same format, run `npx vitest run src/features/learn` (the validator checks structure, answer
+Write lessons in the same format (add a new level folder, its units to `course.ts` and the level to `learning_start` in a migration), run `npx vitest run src/features/learn` (the validator checks structure, answer
 keys, word counts and exercise variety), and keep ids in sync with `course.ts`.

@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { ALL_LESSONS, BEGINNER_UNITS } from './course';
+import { ALL_LESSONS, COURSE_UNITS } from './course';
 
 export interface LessonProgress {
   lesson_id: string; best_score: number; total: number; stars: number; attempts: number; completed_at: string | null;
@@ -49,35 +49,58 @@ export function useRefreshLearning() {
   return () => qc.invalidateQueries({ queryKey: ['learning-state'] });
 }
 
-export type NodeState = 'done' | 'current' | 'locked';
+/** `open` = a lesson of a level below the learner's starting level: free to revisit, not required. */
+export type NodeState = 'done' | 'current' | 'open' | 'locked';
+export type TestState = 'locked' | 'open' | 'passed' | 'cooldown';
 
-/** Which lessons and unit tests are open, derived from progress (lessons in order, units gated by their test). */
+/**
+ * Which lessons and unit tests are open, derived from progress. The path starts at the first unit of the level the
+ * learner chose: lessons go in order and each unit opens after the previous unit's test is passed. Units of lower
+ * levels stay open for review but are not required.
+ */
 export function courseMap(state: LearningState | undefined) {
   const done = new Set((state?.progress ?? []).filter((p) => p.completed_at).map((p) => p.lesson_id));
   const passed = new Set((state?.tests ?? []).filter((t) => t.passed_at).map((t) => t.unit_id));
   const lessonState = new Map<string, NodeState>();
-  const unitTest = new Map<string, 'locked' | 'open' | 'passed' | 'cooldown'>();
+  const unitTest = new Map<string, TestState>();
+  const startLevel = state?.profile?.level ?? 'beginner';
+  const startIndex = Math.max(0, COURSE_UNITS.findIndex((u) => u.level === startLevel));
   let open = true;
   let current: string | null = null;
-  for (const unit of BEGINNER_UNITS) {
+  COURSE_UNITS.forEach((unit, index) => {
+    const allDone = unit.lessons.every((l) => done.has(l.id));
+    const t = state?.tests.find((x) => x.unit_id === unit.id);
+    const cooling = !!t?.locked_until && new Date(t.locked_until) > new Date();
+    if (index < startIndex) {
+      for (const l of unit.lessons) lessonState.set(l.id, done.has(l.id) ? 'done' : 'open');
+      unitTest.set(unit.id, passed.has(unit.id) ? 'passed' : cooling ? 'cooldown' : 'open');
+      return;
+    }
     for (const l of unit.lessons) {
       if (done.has(l.id)) lessonState.set(l.id, 'done');
       else if (open) { lessonState.set(l.id, 'current'); current ??= l.id; open = false; }
       else lessonState.set(l.id, 'locked');
     }
-    const allDone = unit.lessons.every((l) => done.has(l.id));
-    const t = state?.tests.find((x) => x.unit_id === unit.id);
     if (passed.has(unit.id)) unitTest.set(unit.id, 'passed');
     else if (!allDone) unitTest.set(unit.id, 'locked');
-    else if (t?.locked_until && new Date(t.locked_until) > new Date()) unitTest.set(unit.id, 'cooldown');
+    else if (cooling) unitTest.set(unit.id, 'cooldown');
     else unitTest.set(unit.id, 'open');
     // The next unit opens only after this unit's test is passed.
     open = allDone && passed.has(unit.id);
-  }
-  const doneCount = done.size;
+  });
+  const path = COURSE_UNITS.slice(startIndex);
+  const pathLessons = path.flatMap((u) => u.lessons);
   const nextLesson = current ? ALL_LESSONS.find((l) => l.id === current) ?? null : null;
-  const pendingTest = BEGINNER_UNITS.find((u) => unitTest.get(u.id) === 'open' || unitTest.get(u.id) === 'cooldown') ?? null;
-  return { lessonState, unitTest, doneCount, total: ALL_LESSONS.length, nextLesson, pendingTest, done, passed };
+  const pendingTest = path.find((u) => unitTest.get(u.id) === 'open' || unitTest.get(u.id) === 'cooldown') ?? null;
+  // The level shown first: the one with the next step, else the level the learner chose.
+  const activeLevel = nextLesson?.level ?? pendingTest?.level ?? startLevel;
+  return {
+    lessonState, unitTest, nextLesson, pendingTest, done, passed, activeLevel,
+    doneCount: pathLessons.filter((l) => done.has(l.id)).length,
+    total: pathLessons.length,
+    unitsPassed: path.filter((u) => passed.has(u.id)).length,
+    unitsTotal: path.length,
+  };
 }
 
 export function learningStats(state: LearningState | undefined) {

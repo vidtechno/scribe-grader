@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { BEGINNER_UNITS } from './course';
+import { COURSE_UNITS } from './course';
 import type { Exercise, Lesson } from './types';
 
-// Validates every lesson of the Beginner course. Run one unit with: UNIT=u2 npx vitest run src/features/learn
+// Validates every lesson of the course. Run one unit with: UNIT=u2 npx vitest run src/features/learn
 const only = process.env.UNIT;
-const units = BEGINNER_UNITS.filter((u) => !only || u.id === only);
+const units = COURSE_UNITS.filter((u) => !only || u.id === only);
 
 function exerciseProblems(ex: Exercise, where: string): string[] {
   const p: string[] = [];
@@ -49,7 +49,7 @@ function exerciseProblems(ex: Exercise, where: string): string[] {
   return p;
 }
 
-function lessonProblems(lesson: Lesson): string[] {
+function lessonProblems(lesson: Lesson, level: string): string[] {
   const p: string[] = [];
   const id = lesson.id;
   if (lesson.slides.length < 4 || lesson.slides.length > 9) p.push(`${id}: needs 4–9 slides (has ${lesson.slides.length})`);
@@ -59,8 +59,12 @@ function lessonProblems(lesson: Lesson): string[] {
     s.blocks.forEach((b, j) => {
       if (b.t === 'check') { checks++; p.push(...exerciseProblems(b.ex, `${id} slide ${i + 1} check ${j + 1}`)); }
       if (b.t === 'table' && b.rows.some((r) => r.length !== b.head.length)) p.push(`${id}: slide ${i + 1} table row width`);
+      if (b.t === 'text' && (!b.en.trim() || !b.uz.trim())) p.push(`${id}: slide ${i + 1} reading text needs en and uz`);
     });
   });
+  // From Elementary on, every lesson has connected English to read or listen to, not only single sentences.
+  const blocks = lesson.slides.flatMap((s) => s.blocks);
+  if (level !== 'beginner' && !blocks.some((b) => b.t === 'text' || b.t === 'dialog')) p.push(`${id}: needs a reading text or a dialogue`);
   if (checks < 2) p.push(`${id}: needs at least 2 quick checks inside slides (has ${checks})`);
   if (lesson.words.length !== 10) p.push(`${id}: needs exactly 10 words (has ${lesson.words.length})`);
   if (new Set(lesson.words.map((w) => w.en.toLowerCase())).size !== lesson.words.length) p.push(`${id}: duplicate words`);
@@ -76,7 +80,7 @@ function lessonProblems(lesson: Lesson): string[] {
   return p;
 }
 
-describe('Beginner course content', () => {
+describe('Course content', () => {
   for (const unit of units) {
     it(`${unit.id}: every lesson is complete and valid`, async () => {
       const { loadUnit } = await import('./course');
@@ -86,7 +90,7 @@ describe('Beginner course content', () => {
         expect(l.title).toBe(unit.lessons[i].title);
         expect(l.titleUz).toBe(unit.lessons[i].titleUz);
       });
-      expect(lessons.flatMap(lessonProblems)).toEqual([]);
+      expect(lessons.flatMap((l) => lessonProblems(l, unit.level))).toEqual([]);
     });
   }
 });

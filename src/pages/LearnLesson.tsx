@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
-import { ALL_LESSONS, BEGINNER_UNITS, LESSON_MENTOR_ENABLED, LESSON_PASS_PERCENT, loadLesson } from '@/features/learn/course';
+import { ALL_LESSONS, COURSE_UNITS, LESSON_MENTOR_ENABLED, LESSON_PASS_PERCENT, levelOf, loadLesson } from '@/features/learn/course';
 import type { Exercise, Lesson } from '@/features/learn/types';
 import { callLearning, courseMap, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { reviewQuestions, wordDrills } from '@/features/learn/practice';
@@ -57,7 +57,7 @@ export default function LearnLesson() {
   }
 
   const { lesson, previous } = content;
-  const unit = BEGINNER_UNITS.find((u) => u.lessons.some((l) => l.id === id))!;
+  const unit = COURSE_UNITS.find((u) => u.lessons.some((l) => l.id === id))!;
   const index = ALL_LESSONS.findIndex((l) => l.id === id);
   const next = ALL_LESSONS[index + 1] ?? null;
 
@@ -65,7 +65,7 @@ export default function LearnLesson() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title={`${lesson.title} — Beginner`} description={lesson.goal} path={`/learn/lesson/${id}`} noindex />
+      <SEOHead title={`${lesson.title} — ${levelOf(unit.level).title}`} description={lesson.goal} path={`/learn/lesson/${id}`} noindex />
       <TopBar phase={phase} onExit={exit} lesson={lesson} />
       <main className="max-w-2xl mx-auto px-4 pt-20 pb-28">
         {phase === 'intro' && <Intro lesson={lesson} unitTitle={`${unit.n}-bosqich · ${unit.titleUz}`} hasReview={!!previous}
