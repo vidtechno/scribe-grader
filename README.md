@@ -13,7 +13,16 @@ Live in production. Personal practice only (Teacher Mode was removed). Sign-in w
 - **Dashboard**: quick-start actions, goals and streak (target band, weekly plan, exam countdown, 8-week trend), recent activity, plan status.
 - **Referral program**: 10 friends = 1 month Go, 20 friends = 1 month Plus. Only accounts created in the last 24 hours can be claimed; at most 20 are counted per cycle; a cycle resets when the referral-granted plan expires.
 - **Announcements** sent by admins.
-- **Telegram bot** connected to the same accounts: sign-in with Telegram, Mini App (`/tg`), automatic result notifications, stats, goals, plan, leaderboard, referrals, daily practice, reminders and an admin panel. Answers are still submitted only on the website. See [docs/telegram-bot.md](docs/telegram-bot.md).
+- **Telegram bot** with sign-in, Mini App and result notifications (see [Telegram bot](#telegram-bot)).
+
+### Telegram bot
+Part of the same product (same Supabase project, accounts, plans and results), not a separate service. Built in a separate Claude session; full details in [docs/telegram-bot.md](docs/telegram-bot.md).
+
+- **Sign-in:** "Continue with Telegram" on `/auth` (bot confirmation) and automatic sign-in in the Mini App (`/tg`); Google users can connect Telegram from Profile. Handled by the `telegram-auth` Edge Function.
+- **Learner menu:** Writing, Speaking, daily grammar test, vocabulary quiz, useful articles and a cabinet with results history, stats, goals, plan, leaderboard, referrals and settings. Essays and spoken answers are never accepted in chat; buttons open the website pages inside the Mini App.
+- **Notifications:** Writing, Speaking and Mock Test results arrive automatically (database triggers → `telegram_outbox` → `pg_net` → bot). Also daily test reminders (18:00–20:00 Tashkent), plan expiry warnings, a Sunday weekly report and announcements of new blog posts.
+- **Bot admin panel:** statistics, broadcasts with audience selection, user search and plan changes, latest sign-ups, website announcements and bot health. Edge Function: `telegram-bot`; scheduled jobs run with `pg_cron`.
+- **Safety:** tables are service-role only, triggers never block saving a result, the bot token lives in Supabase Vault.
 
 ### Plans (USD first, UZS for local payments)
 | Plan | Price / month | Writing | Speaking | Mock tests |
@@ -75,7 +84,7 @@ Supabase project: `bywqpgjojnqscelloxew`. Frontend on Vercel at `scorify.uz` / `
 - Authentication: Google OAuth and Telegram (bot confirmation or Mini App, handled by `telegram-auth`). Allow callback URLs for `https://scorify.uz` and `https://www.scorify.uz`.
 - The Telegram bot token is stored in Supabase Vault (`telegram_bot_token`); deployment details are in [docs/telegram-bot.md](docs/telegram-bot.md).
 - Store `OPENAI_API_KEY` only in Supabase Edge Function secrets.
-- Migrations are applied manually in the Supabase SQL editor. Latest: `20261003000000_admin_user_overview`, `20261004000000_growth_referrals_goals_blog`, `20261005000000_telegram_bot`. Blog posts were inserted with ad-hoc SQL, not migrations.
+- Migrations are applied manually in the Supabase SQL editor. Latest: `20261003000000_admin_user_overview`, `20261004000000_growth_referrals_goals_blog`, `20261005000000_telegram_bot`, `20261006000000_telegram_daily_test_and_blog`. Blog posts were inserted with ad-hoc SQL, not migrations.
 - Do not import demo data or users from the previous project.
 
 ## Roadmap
