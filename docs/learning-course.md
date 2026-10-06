@@ -27,7 +27,7 @@ Explanations are in Uzbek; examples and exercises are in English. **Beginner** (
   - When a lesson opens, its clips are loaded into the browser's memory and released when the next lesson opens, so a tap plays at once. Nothing touches our database.
   - Texts without a recording fall back to the free Dictionary API (single words), a free online voice (sentences) and the device's own voice.
   - If nothing plays, the play button says so once and listening exercises show a "Matnni ko'rsatish" link, so a learner is never stuck.
-  - The recordings use the free voice available in the build environment (espeak-ng + mbrola). To get a more natural voice, run `pip install edge-tts` and `npx tsx scripts/generate-lesson-audio.ts --engine edge --force` on a machine with internet, then commit `public/audio`.
+  - The first recordings used espeak-ng + mbrola, which mispronounces some words. The **Lesson audio** workflow (Actions tab, `.github/workflows/lesson-audio.yml`) re-records everything with a natural neural voice (Microsoft Aria via `edge-tts`, free, no key) and pushes the `audio/neural-voice` branch; open it as a pull request and merge. The same can be run locally: `pip install edge-tts` then `npx tsx scripts/generate-lesson-audio.ts --engine edge --force`.
   - After adding or changing lessons run `npx tsx scripts/generate-lesson-audio.ts` (needs `espeak-ng`, `mbrola-us1` and `ffmpeg`); only new texts are recorded. A test fails when a released lesson has a text without a recording. Speak exercises use the browser's speech recognition when available, otherwise "repeat aloud".
 - **Statistics**: streak (Tashkent days), XP, lessons, words, accuracy, minutes, last 7 days, and "Lug'atim" (all learned words with audio and a 10-word review drill).
 
