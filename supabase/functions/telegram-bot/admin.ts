@@ -256,7 +256,7 @@ async function botStatus(ctx: Ctx) {
   ].join("\n"), [
     [cb("🔧 Webhook va menyuni qayta sozlash", "ad:bot:setup")],
     [cb("♻️ Xatolarni qayta yuborish", "ad:bot:retry"), cb("📬 Navbatni yuborish", "ad:bot:drain")],
-    [cb("⏰ Kunlik eslatmalarni hozir yuborish", "ad:bot:daily")],
+    [cb("⏰ Eslatmalarni hozir yuborish", "ad:bot:daily")],
     [cb("🔄 Yangilash", "ad:bot")],
     ...HOME,
   ]);
@@ -318,11 +318,16 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
         return reply(ctx, "📬 Navbatdagi xabarlar yuborilmoqda.", [[cb("⬅️ Bot holati", "ad:bot")]]);
       }
       if (a === "daily") {
-        const { data, error } = await ctx.db.rpc("telegram_daily_jobs");
-        if (error) throw error;
+        const [jobs, tests] = await Promise.all([
+          ctx.db.rpc("telegram_daily_jobs"),
+          ctx.db.rpc("telegram_enqueue_daily_test_reminders", { _window_minutes: 0 }),
+        ]);
+        if (jobs.error) throw jobs.error;
+        if (tests.error) throw tests.error;
         background(drain(ctx.db));
-        const r = (data ?? {}) as Record<string, number>;
-        return reply(ctx, `⏰ Navbatga qo'yildi:\n• Tarif tugashi: ${r.plan_expiring ?? 0}\n• Mashq eslatmasi: ${r.practice_reminder ?? 0}\n• Haftalik hisobot: ${r.weekly_report ?? 0}`,
+        const r = (jobs.data ?? {}) as Record<string, number>;
+        return reply(ctx, `⏰ Navbatga qo'yildi:\n• Kunlik test eslatmasi: ${tests.data ?? 0}\n• Tarif tugashi: ${r.plan_expiring ?? 0}\n• Haftalik hisobot: ${r.weekly_report ?? 0}\n\n` +
+          "<i>Avtomatik rejim: har kuni 18:00–20:00 oralig'ida navbatma-navbat.</i>",
           [[cb("⬅️ Bot holati", "ad:bot")]]);
       }
       return botStatus(ctx);
