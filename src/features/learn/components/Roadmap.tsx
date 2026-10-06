@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, Crown, Hourglass, Lock, Play, ShieldCheck, Star } from 'lucide-react';
-import { LEVELS, levelOf, unitNo, unitsOf } from '../course';
+import { LEVELS, PARTIAL_LEVELS, levelOf, unitNo, unitsOf } from '../course';
 import type { LevelId } from '../types';
 import type { LearningState, NodeState } from '../api';
 import { courseMap } from '../api';
@@ -78,6 +78,13 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
           </section>
         );
       })}
+
+      {PARTIAL_LEVELS[level] && (
+        <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4 text-sm text-center text-muted-foreground">
+          <p className="font-semibold text-foreground mb-0.5">{levelOf(level).title} davomi tez orada</p>
+          <p>{PARTIAL_LEVELS[level]}</p>
+        </div>
+      )}
 
       <section aria-label="Keyingi darajalar" className="pt-2">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Keyingi darajalar</h2>

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Crown, Hourglass, Loader2, RotateCcw, ShieldCheck, X, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
+import { exerciseAudioTexts } from '@/features/learn/audio-plan';
+import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { COURSE_UNITS, UNIT_TEST, levelOf, loadUnit, unitNo } from '@/features/learn/course';
 import type { Exercise, Lesson } from '@/features/learn/types';
 import { callLearning, courseMap, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
@@ -26,6 +28,8 @@ export default function LearnUnitTest() {
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [error, setError] = useState('');
+  const audioTexts = useMemo(() => (questions ? questions.flatMap(exerciseAudioTexts) : null), [questions]);
+  useLessonAudio(audioTexts, `${unitId}-${questions ? 'q' : ''}`);
 
   useEffect(() => { if (unit) loadUnit(unit.id).then(setLessons).catch(() => setError("Test yuklanmadi.")); }, [unit]);
   const map = useMemo(() => courseMap(state), [state]);
@@ -73,7 +77,7 @@ export default function LearnUnitTest() {
           <MistakeReview questions={questions} answers={answers} />
           <div className="space-y-2.5 mt-6">
             {passed && next && <Button size="lg" variant="glow" className="w-full" onClick={() => navigate('/learn')}>{unitNo(next)}-bosqichga o'tish: {next.titleUz}</Button>}
-            {passed && !next && <p className="font-semibold text-primary">🎉 {levelOf(unit.level).title} darajasini to'liq tugatdingiz! Keyingi daraja tez orada.</p>}
+            {passed && !next && <p className="font-semibold text-primary">🎉 Hozircha mavjud {levelOf(unit.level).title} darslarini tugatdingiz! Davomi tez orada.</p>}
             {!passed && outcome.status === 'failed' && <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => { setOutcome(null); setQuestions(null); setAnswers([]); setI(0); }}><RotateCcw className="h-4 w-4" />Qayta urinish</Button>}
             <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Yo'l xaritasiga</Button>
           </div>

@@ -9,7 +9,7 @@ const lesson: Lesson = {
     {
       title: "Savol: What does she look like?",
       blocks: [
-        { t: "p", md: "Odamning **tashqi ko'rinishi** haqida so'rash uchun maxsus savol bor: **What does he / she look like?** — \"U qanaqa ko'rinishda? (Ko'rinishi qanaqa?)\". Javobda ikki fe'l ishlatiladi: **be** va **have (got)**." },
+        { t: "p", md: "Odamning **tashqi ko'rinishi** haqida so'rash uchun maxsus savol bor: **What does he / she look like?** — \"U qanaqa ko'rinishda? (Ko'rinishi qanaqa?)\". Javobda asosan **be** va **have (got)** ishlatiladi, kiyim-ko'zoynak uchun **wear**." },
         {
           t: "table", head: ["Fe'l", "Nima uchun", "Misol"],
           rows: [
@@ -167,7 +167,7 @@ const lesson: Lesson = {
     { k: "fill", q: "What does your sister look ___?", a: ["like"] },
     { k: "tf", q: "**He is high** — \"U baland bo'yli\" degani uchun to'g'ri gap.", a: false, why: "Odam haqida **tall**: *He is tall.*" },
     { k: "tf", q: "**She looks like her mother** — \"U onasiga o'xshaydi\" degani.", a: true },
-    { k: "order", uz: "Uning (erkak) kalta qora sochi va soqoli bor.", words: ["He", "has", "short", "black", "hair", "and", "a", "beard."], extra: ["hairs", "is"] },
+    { k: "order", uz: "Uning (erkak) kalta qora sochi va soqoli bor.", words: ["He", "has", "short", "black", "hair", "and", "a", "beard."], extra: ["hairs", "is"], alt: [["He", "has", "a", "beard", "and", "short", "black", "hair"]] },
     { k: "translate", uz: "U (she) o'rta bo'yli va ozg'in.", a: ["She is medium height and slim", "She's medium height and slim", "She is medium height and thin", "She's medium height and thin", "She is of medium height and slim", "She's of medium height and slim", "She is of medium height and thin", "She's of medium height and thin", "She is average height and slim", "She's average height and slim", "She is average height and thin", "She's average height and thin", "She is medium-height and slim", "She's medium-height and slim"] },
     { k: "translate", uz: "Uning (he) ko'k ko'zlari bor.", a: ["He has blue eyes", "He's got blue eyes", "He has got blue eyes", "His eyes are blue"] },
     { k: "speak", say: "She's tall and slim, and she has long dark hair.", uz: "U baland bo'yli va qaddi-qomati kelishgan, sochi uzun va qora." },
@@ -180,7 +180,7 @@ const lesson: Lesson = {
     { k: "listen", say: "He has a moustache.", opts: ["He has a moustache.", "He has a mistake.", "He has a message."], a: 0 },
     { k: "tf", q: "Odamni tasvirlaganda **fat** o'rniga **a bit overweight** deyish muloyimroq.", a: true },
     { k: "match", pairs: [["bald", "kal"], ["wavy", "to'lqinsimon"], ["beard", "soqol"], ["good-looking", "kelishgan"]] },
-    { k: "order", uz: "U (ayol) chiroyli jigarrang ko'zlarga ega va ko'zoynak taqadi.", words: ["She", "has", "beautiful", "brown", "eyes", "and", "wears", "glasses."], extra: ["eyes brown", "wear"] },
+    { k: "order", uz: "U (ayol) chiroyli jigarrang ko'zlarga ega va ko'zoynak taqadi.", words: ["She", "has", "beautiful", "brown", "eyes", "and", "wears", "glasses."], extra: ["eyes brown", "wear"], alt: [["She", "wears", "glasses", "and", "has", "beautiful", "brown", "eyes"]] },
     { k: "translate", uz: "Siz otangizga o'xshaysiz.", a: ["You look like your father", "You look like your dad"] },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["He is bald.", "He looks happy.", "He has fair hair.", "He looks like happy."], a: 3, why: "Sifat oldidan **like** yo'q: *He looks happy.*" },
   ],

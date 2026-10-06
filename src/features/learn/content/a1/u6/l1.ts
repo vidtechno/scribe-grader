@@ -148,7 +148,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Uzoq vaqtdan keyin eski do'stingizni ko'rdingiz. Nima deysiz?", opts: ["Nice to meet you!", "Nice to see you again!", "Nice to meet you too!"], a: 1, why: "Tanish odamga: **Nice to see you (again)!** *meet* — faqat birinchi tanishuvda." },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["This is my friend, Aziz.", "These are my parents.", "He is my brother, let me introduce.", "Emma, this is Jasur."], a: 2, why: "Tanishtirishda **This is my brother** yoki **Let me introduce my brother** deymiz." },
     { k: "fill", q: "What do you ___? — I'm a pharmacist.", a: ["do"], why: "Kasb so'raladi: **What do you do?**" },
-    { k: "fill", q: "I'm from Uzbekistan. What ___ you?", a: ["about", "how"], why: "**What about you?** = Siz-chi?" },
+    { k: "fill", q: "I'm from Uzbekistan. What ___ you?", a: ["about"], why: "**What about you?** = Siz-chi?" },
     { k: "fill", q: "It was nice ___ meet you.", a: ["to"], why: "**It was nice to meet you.**" },
     { k: "tf", q: "**What are you doing?** — bu odamning kasbini so'raydigan savol.", a: false, why: "Kasb — **What do you do?** *What are you doing?* — hozir nima qilayotganini so'raydi." },
     { k: "tf", q: "**Actually** o'zbekchaga \"aslida\" deb tarjima qilinadi.", a: true, why: "*Actually, I'm a student.* — Aslida men talabaman." },

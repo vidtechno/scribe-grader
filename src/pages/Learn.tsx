@@ -20,6 +20,8 @@ import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { shuffle } from '@/features/learn/check';
+import { exerciseAudioTexts } from '@/features/learn/audio-plan';
+import { useLessonAudio } from '@/features/learn/useLessonAudio';
 
 const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts'];
 
@@ -259,6 +261,7 @@ function WordDrill({ items, onClose, onFinished }: { items: Exercise[]; onClose:
   const [correct, setCorrect] = useState(0);
   const [startedAt] = useState(Date.now());
   const [finished, setFinished] = useState(false);
+  useLessonAudio(items.flatMap(exerciseAudioTexts), 'drill');
   const finish = async (score: number) => {
     setFinished(true);
     try {

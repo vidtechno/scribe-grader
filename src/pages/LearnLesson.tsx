@@ -11,6 +11,8 @@ import { ALL_LESSONS, COURSE_UNITS, LESSON_MENTOR_ENABLED, LESSON_PASS_PERCENT, 
 import type { Exercise, Lesson } from '@/features/learn/types';
 import { callLearning, courseMap, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { reviewQuestions, wordDrills } from '@/features/learn/practice';
+import { lessonAudioTexts } from '@/features/learn/audio-plan';
+import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { BlockView } from '@/features/learn/components/BlockView';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { Flashcards } from '@/features/learn/components/Flashcards';
@@ -47,6 +49,9 @@ export default function LearnLesson() {
 
   const map = useMemo(() => courseMap(state), [state]);
   const meta = ALL_LESSONS.find((l) => l.id === id);
+  // The lesson's audio loads into memory once and is freed when the next lesson opens, so every tap plays at once.
+  const audioTexts = useMemo(() => (content ? lessonAudioTexts(content.lesson, content.previous) : null), [content]);
+  useLessonAudio(audioTexts, id);
 
   if (loadError || !meta) return <Centered><p className="mb-4">{loadError || 'Dars topilmadi.'}</p><Link to="/learn"><Button>Darslarga qaytish</Button></Link></Centered>;
   if (stateLoading || !content) return <Centered><Loader2 className="h-8 w-8 animate-spin text-primary" /></Centered>;
