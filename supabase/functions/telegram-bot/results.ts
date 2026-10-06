@@ -1,7 +1,7 @@
 // Result cards for Writing, Speaking and Mock Tests (used in the results menu and in notifications).
 import { esc, truncate } from "../_shared/telegram.ts";
 import type { Db } from "../_shared/telegram-accounts.ts";
-import { app, band, cb, fmtDate, type InlineKeyboard } from "./ui.ts";
+import { app, band, cb, fmtDate, hint, type InlineKeyboard, quote, title } from "./ui.ts";
 
 export type ResultKind = "e" | "s" | "m";
 
@@ -15,16 +15,16 @@ function corrections(fb: Rec, n: number): string {
     .map(rec).filter((c) => typeof c.original === "string" && typeof c.corrected === "string" && c.type !== "improvement")
     .slice(0, n);
   if (!items.length) return "";
-  return "\n🛠 <b>Asosiy xatolar:</b>\n" + items.map((c) =>
-    `• <s>${esc(truncate(c.original, 90))}</s>\n   ✅ ${esc(truncate(c.corrected, 110))}`).join("\n");
+  return "\n🛠 <b>Asosiy xatolar</b>\n" + quote(items.map((c) =>
+    `❌ <s>${esc(truncate(c.original, 90))}</s>\n✅ ${esc(truncate(c.corrected, 110))}`).join("\n\n"), items.length > 2);
 }
 
 function goalLine(score: number | null, target?: number | null): string {
   if (typeof score !== "number" || !target) return "";
   const gap = Math.round((target - score) * 2) / 2;
   return gap <= 0
-    ? `\n🎯 Maqsadingiz (${band(target)}) bajarildi! 🎉`
-    : `\n🎯 Maqsadingizgacha (${band(target)}): yana <b>${band(gap)}</b> band`;
+    ? `\n🎯 Maqsad (${band(target)}) bajarildi! 🎉`
+    : `\n🎯 Maqsadgacha (${band(target)}) yana <b>${band(gap)}</b> band`;
 }
 
 function delta(score: number | null, previous: number | null): string {
@@ -54,17 +54,17 @@ export async function resultCard(
     const strengths = list(fb.strengths, opts.full ? 3 : 1);
     const tips = list(fb.suggestions, opts.full ? 3 : 2);
     const text = [
-      opts.notification ? "✍️ <b>Writing natijangiz tayyor!</b>\n" : `✍️ <b>Writing · ${esc(e.task_type)}</b>\n`,
-      `📌 <i>${esc(truncate(e.topic, 160))}</i>`,
-      `📅 ${fmtDate(e.created_at, true)} · ${e.word_count ?? 0} so'z\n`,
+      opts.notification ? title("✍️", "Writing natijangiz tayyor!") : title("✍️", `Writing · ${esc(e.task_type)}`),
+      hint(`${esc(truncate(e.topic, 160))}`),
+      hint(`📅 ${fmtDate(e.created_at, true)} · ${e.word_count ?? 0} so'z`) + "\n",
       `🏅 Umumiy band: <b>${band(e.score)}</b>${delta(e.score, prev?.score ?? null)}`,
       `• Task ${e.task_type === "Task 1" ? "Achievement" : "Response"}: <b>${crit(fb, "taskAchievement")}</b>`,
       `• Coherence & Cohesion: <b>${crit(fb, "coherenceCohesion")}</b>`,
       `• Lexical Resource: <b>${crit(fb, "lexicalResource")}</b>`,
       `• Grammar Range & Accuracy: <b>${crit(fb, "grammaticalRange")}</b>`,
       goalLine(e.score, target),
-      strengths.length ? `\n💪 <b>Kuchli tomon:</b>\n${strengths.map((s) => `• ${esc(truncate(s, 220))}`).join("\n")}` : "",
-      tips.length ? `\n📌 <b>Nimani yaxshilash kerak:</b>\n${tips.map((s) => `• ${esc(truncate(s, 220))}`).join("\n")}` : "",
+      strengths.length ? `\n💪 <b>Kuchli tomon</b>\n${quote(strengths.map((s) => `• ${esc(truncate(s, 220))}`).join("\n"))}` : "",
+      tips.length ? `📌 <b>Nimani yaxshilash kerak</b>\n${quote(tips.map((s) => `• ${esc(truncate(s, 220))}`).join("\n"), tips.length > 2)}` : "",
       corrections(fb, opts.full ? 4 : 2),
     ].filter(Boolean).join("\n");
     return { text, keyboard: [[app("📄 To'liq tahlilni ochish", `/result/${e.id}`)], [app("✍️ Yana esse yozish", "/writing")], ...back] };
@@ -80,9 +80,9 @@ export async function resultCard(
     const tips = list(fb.suggestions, opts.full ? 3 : 2);
     const fillers = rec(fb.fluencyNotes);
     const text = [
-      opts.notification ? "🎤 <b>Speaking natijangiz tayyor!</b>\n" : `🎤 <b>Speaking · ${esc(s.part)}</b>\n`,
-      `📌 <i>${esc(truncate(s.topic, 160))}</i>`,
-      `📅 ${fmtDate(s.created_at, true)}${s.duration_seconds ? ` · ${Math.round(s.duration_seconds)} soniya` : ""}\n`,
+      opts.notification ? title("🎤", "Speaking natijangiz tayyor!") : title("🎤", `Speaking · ${esc(s.part)}`),
+      hint(`${esc(truncate(s.topic, 160))}`),
+      hint(`📅 ${fmtDate(s.created_at, true)}${s.duration_seconds ? ` · ${Math.round(s.duration_seconds)} soniya` : ""}`) + "\n",
       `🏅 Umumiy band: <b>${band(s.score)}</b>${delta(s.score, prev?.score ?? null)}`,
       `• Fluency & Coherence: <b>${crit(fb, "fluencyCoherence")}</b>`,
       `• Lexical Resource: <b>${crit(fb, "lexicalResource")}</b>`,
@@ -90,7 +90,7 @@ export async function resultCard(
       `• Pronunciation: <b>${crit(fb, "pronunciation")}</b>`,
       typeof fillers.fillerCount === "number" ? `🗣 To'ldiruvchi so'zlar (um, uh…): ${fillers.fillerCount} ta` : "",
       goalLine(s.score, target),
-      tips.length ? `\n📌 <b>Maslahatlar:</b>\n${tips.map((t) => `• ${esc(truncate(t, 220))}`).join("\n")}` : "",
+      tips.length ? `\n📌 <b>Maslahatlar</b>\n${quote(tips.map((t) => `• ${esc(truncate(t, 220))}`).join("\n"), tips.length > 2)}` : "",
       corrections(fb, opts.full ? 3 : 2),
     ].filter(Boolean).join("\n");
     return { text, keyboard: [[app("📄 To'liq tahlilni ochish", `/speaking-result/${s.id}`)], [app("🎤 Yana mashq qilish", "/speaking")], ...back] };
@@ -101,8 +101,8 @@ export async function resultCard(
     .eq("id", id).eq("user_id", userId).maybeSingle();
   if (!m || m.status !== "completed") return null;
   const text = [
-    opts.notification ? "🧪 <b>Mock test natijangiz tayyor!</b>\n" : "🧪 <b>Full Mock Test</b>\n",
-    `📅 ${fmtDate(m.completed_at ?? m.created_at, true)}\n`,
+    opts.notification ? title("🧪", "Mock test natijangiz tayyor!") : title("🧪", "Full Mock Test"),
+    hint(`📅 ${fmtDate(m.completed_at ?? m.created_at, true)}`) + "\n",
     `🏅 Umumiy band: <b>${band(m.overall_band)}</b>`,
     `• Writing Task 1: <b>${band(m.task1_band)}</b>`,
     `• Writing Task 2: <b>${band(m.task2_band)}</b>`,

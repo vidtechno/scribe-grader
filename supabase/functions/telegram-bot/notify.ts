@@ -1,8 +1,8 @@
 // Delivers queued messages from telegram_outbox: results, referral and plan updates, reminders and broadcasts.
-import { sleep, tg, TelegramError } from "../_shared/telegram.ts";
+import { esc, SITE_URL, sleep, tg, TelegramError, truncate } from "../_shared/telegram.ts";
 import type { Db } from "../_shared/telegram-accounts.ts";
-import { app, band, bar, cb, daysUntil, fmtDate, type InlineKeyboard, PLAN_LABEL } from "./ui.ts";
-import { countSince, loadOverview, scoreStats, streakDays, weekStart } from "./data.ts";
+import { app, band, bar, cb, daysUntil, fmtDate, hint, type InlineKeyboard, page, PLAN_LABEL, quote, title, tzDate } from "./ui.ts";
+import { loadOverview, scoreStats, streakDays } from "./data.ts";
 import { resultCard } from "./results.ts";
 import { functionUrl } from "./setup.ts";
 
@@ -12,7 +12,7 @@ interface OutboxItem {
 }
 
 type Delivery =
-  | { text: string; keyboard?: InlineKeyboard }
+  | { text: string; keyboard?: InlineKeyboard; preview?: string }
   | { copy: { from_chat_id: number; message_id: number } };
 
 async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
@@ -31,11 +31,11 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       const { data } = await db.rpc("telegram_referral_summary", { _user: userId });
       const r = (data ?? {}) as { counted?: number; can_claim_go?: boolean };
       const n = r.counted ?? 0;
-      const next = n < 10 ? `Go mukofotigacha yana <b>${10 - n}</b> ta do'st.` : n < 20 ? `Plus mukofotigacha yana <b>${20 - n}</b> ta do'st.` : "Siz maksimal mukofotni oldingiz! 🏆";
+      const next = n < 10 ? `Go mukofotigacha yana <b>${10 - n}</b> ta do'st` : n < 20 ? `Plus mukofotigacha yana <b>${20 - n}</b> ta do'st` : "Siz maksimal mukofotni oldingiz! 🏆";
       return {
         text: p.counted
-          ? `🎉 <b>Yangi do'stingiz qo'shildi!</b>\n\n👥 Hisoblangan: <b>${n}</b>/20 ${bar(n, 20, 10)}\n${next}`
-          : "👋 Havolangiz orqali yangi do'stingiz qo'shildi (bu davrda 20 talik limit to'lgan).",
+          ? [title("🎉", "Yangi do'stingiz qo'shildi!") + "\n", `${bar(n, 20, 10)}  <b>${n}</b>/20`, hint(next)].join("\n")
+          : `${title("👋", "Havolangiz orqali yangi do'st keldi")}\n${hint("Bu davrda 20 talik limit to'lgan — keyingi davrda yana hisoblanadi.")}`,
         keyboard: r.can_claim_go ? [[cb("🎉 1 oy Go'ni faollashtirish", "n:rf:claim")]] : [[cb("🎁 Taklif bo'limi", "n:u:invite")]],
       };
     }
@@ -43,40 +43,28 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       const plan = String(p.plan ?? "free"), old = String(p.old_plan ?? "");
       if (plan === "free") {
         return {
-          text: `ℹ️ <b>${PLAN_LABEL[old] ?? "Pullik"} tarifingiz muddati tugadi.</b>\nHozir sizda Free tarif. Mashqlarni davom ettirish uchun tarifni yangilang.`,
+          text: `${title("ℹ️", `${PLAN_LABEL[old] ?? "Pullik"} tarifingiz muddati tugadi`)}\n` +
+            hint("Hozir sizda Free tarif. Mashqlarni uzilishsiz davom ettirish uchun tarifni yangilang."),
           keyboard: [[cb("💎 Tariflar", "n:u:plan")]],
         };
       }
       const extended = plan === old;
       return {
-        text: `${extended ? "⏳" : "🎉"} <b>${PLAN_LABEL[plan] ?? plan} ${extended ? "uzaytirildi" : "faollashtirildi"}!</b>\n` +
-          (p.expires_at ? `Amal qiladi: <b>${fmtDate(String(p.expires_at), true)}</b> gacha.` : "") +
-          "\n\nOmad! Mashqlarni boshlang 👇",
+        text: [
+          title(extended ? "⏳" : "🎉", `${PLAN_LABEL[plan] ?? plan} ${extended ? "uzaytirildi" : "faollashtirildi"}!`),
+          p.expires_at ? hint(`${fmtDate(String(p.expires_at), true)} gacha amal qiladi.`) : "",
+          "\nOmad! Mashqlarni boshlang 👇",
+        ].filter(Boolean).join("\n"),
         keyboard: [[app("✍️ Writing", "/writing"), app("🎤 Speaking", "/speaking")], [cb("💎 Tarifim", "n:u:plan")]],
       };
     }
     case "plan_expiring": {
       const days = Number(p.days ?? 1);
       return {
-        text: `⏰ <b>${PLAN_LABEL[String(p.plan)] ?? "Tarif"}</b> ${days <= 1 ? "<b>ertaga</b>" : `<b>${days} kundan</b> keyin`} tugaydi` +
-          (p.expires_at ? ` (${fmtDate(String(p.expires_at), true)})` : "") + ".\n\nUzilishsiz davom etish uchun hozir yangilang.",
+        text: title("⏰", `${PLAN_LABEL[String(p.plan)] ?? "Tarif"} ${days <= 1 ? "ertaga" : `${days} kundan keyin`} tugaydi`) +
+          (p.expires_at ? `\n${hint(fmtDate(String(p.expires_at), true))}` : "") +
+          "\n\nMashqlar uzilib qolmasligi uchun hozir yangilang.",
         keyboard: [[cb("💳 Tarifni yangilash", "n:u:plan")]],
-      };
-    }
-    case "practice_reminder": {
-      if (!userId) return null;
-      const o = await loadOverview(db, userId);
-      const ws = weekStart();
-      const weekW = countSince(o.essays, ws), weekS = countSince(o.speaking, ws);
-      const streak = streakDays([...o.essays, ...o.speaking]);
-      return {
-        text: [
-          "⏰ <b>Bugungi mashq qoldi!</b>\n",
-          streak > 0 ? `🔥 ${streak} kunlik streakingizni yo'qotmang.` : "Har kungi 20 daqiqa — bandni ko'tarishning eng ishonchli yo'li.",
-          `\n📅 Bu hafta: Writing ${weekW}/${o.goals.weekly_essays} · Speaking ${weekS}/${o.goals.weekly_speaking}`,
-          o.goals.exam_date && daysUntil(o.goals.exam_date) >= 0 ? `🗓 Imtihongacha ${daysUntil(o.goals.exam_date)} kun` : "",
-        ].filter(Boolean).join("\n"),
-        keyboard: [[app("✍️ Esse yozish", "/writing"), app("🎤 Speaking", "/speaking")], [cb("💡 Kunlik mashq", "n:u:daily")]],
       };
     }
     case "weekly_report": {
@@ -87,14 +75,70 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       const s = scoreStats(o.speaking.filter((e) => e.created_at >= since));
       return {
         text: [
-          "📬 <b>Haftalik hisobot</b>\n",
-          `✍️ Writing: ${w.count} ta${w.count ? ` · o'rtacha <b>${band(w.avg)}</b> · eng yaxshi <b>${band(w.best)}</b>` : ""}`,
-          `🎤 Speaking: ${s.count} ta${s.count ? ` · o'rtacha <b>${band(s.avg)}</b> · eng yaxshi <b>${band(s.best)}</b>` : ""}`,
-          `🎯 Reja: Writing ${w.count}/${o.goals.weekly_essays} · Speaking ${s.count}/${o.goals.weekly_speaking}`,
-          `🔥 Streak: ${streakDays([...o.essays, ...o.speaking])} kun`,
-          "\nYangi haftada ham davom eting! 💪",
+          title("📬", "Haftalik hisobot"),
+          hint("Shu hafta qilgan ishlaringiz") + "\n",
+          `✍️ Writing: <b>${w.count}</b> ta${w.count ? ` · o'rtacha <b>${band(w.avg)}</b> · eng yaxshi <b>${band(w.best)}</b>` : ""}`,
+          `🎤 Speaking: <b>${s.count}</b> ta${s.count ? ` · o'rtacha <b>${band(s.avg)}</b> · eng yaxshi <b>${band(s.best)}</b>` : ""}`,
+          quote(`🎯 Reja: Writing ${w.count}/${o.goals.weekly_essays} · Speaking ${s.count}/${o.goals.weekly_speaking}\n` +
+            `🔥 Streak: ${streakDays([...o.essays, ...o.speaking])} kun`),
+          hint("Yangi haftada ham shu ruhda davom eting! 💪"),
         ].join("\n"),
-        keyboard: [[cb("📊 Statistika", "n:u:stats"), cb("🎯 Maqsad", "n:u:goal")]],
+        keyboard: [[cb("📊 Natijalarim", "n:u:stats"), cb("🎯 Maqsad", "n:u:goal")]],
+      };
+    }
+    case "daily_test_reminder": {
+      const today = tzDate();
+      if (p.date && p.date !== today) return null; // stale reminder from another day
+      if (!userId) {
+        return {
+          text: [
+            title("📝", "Har kuni 5 daqiqa — IELTS grammatikasi uchun"),
+            "\nScorify har kuni 10 ta savollik mini-test tayyorlaydi — sizning xatolaringiz asosida.",
+            hint("Hisob ochish 10 soniya oladi, birinchi testni esa bugunoq ishlashingiz mumkin."),
+          ].join("\n"),
+          keyboard: [[cb("🚀 Boshlash", "n:u:start")], [cb("🧠 Hozircha so'z testi", "n:q:n")]],
+        };
+      }
+      const { data: done } = await db.from("grammar_tests").select("id").eq("user_id", userId).eq("test_date", today)
+        .not("completed_at", "is", null).maybeSingle();
+      if (done) return null; // finished it after the reminder was queued
+      const o = await loadOverview(db, userId);
+      const streak = streakDays([...o.essays, ...o.speaking]);
+      const headlines = [
+        title("📝", "Bugungi grammatika testi hali ishlanmadi"),
+        title("⏳", "Bugungi testingiz sizni kutmoqda"),
+        title("🎯", "5 daqiqa — va bugungi mashq bajarildi"),
+      ];
+      const day = Number(today.replaceAll("-", ""));
+      const extras = [
+        streak > 0 ? `🔥 ${streak} kunlik streakingizni uzmang!` : "",
+        o.goals.exam_date && daysUntil(o.goals.exam_date) >= 0 ? `🗓 Imtihongacha <b>${daysUntil(o.goals.exam_date)}</b> kun qoldi.` : "",
+      ].filter(Boolean);
+      return {
+        text: [
+          headlines[day % headlines.length],
+          "\n10 ta savol — sizning xatolaringiz asosida tuzilgan.",
+          hint("Har kuni ozgina mashq — imtihonda katta farq."),
+          extras.length ? "\n" + quote(extras.join("\n")) : "",
+        ].filter(Boolean).join("\n"),
+        keyboard: [[app("📝 Testni boshlash", "/grammar-test")], [cb("🧠 So'z testi", "n:q:n")]],
+      };
+    }
+    case "blog_post": {
+      if (typeof p.post_id !== "string") return null;
+      const { data: post } = await db.from("blog_posts").select("slug,title,excerpt,lang,reading_minutes,status,published_at")
+        .eq("id", p.post_id).maybeSingle();
+      if (!post || post.status !== "published") return null;
+      const url = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`;
+      return {
+        text: [
+          title("🆕", `Yangi maqola${post.lang === "en" ? " · English" : ""}`) + "\n",
+          `<b>${esc(post.title)}</b>`,
+          post.excerpt ? quote(esc(truncate(post.excerpt, 280))) : "",
+          post.reading_minutes ? hint(`⏱ ${post.reading_minutes} daqiqalik o'qish`) : "",
+        ].filter(Boolean).join("\n"),
+        preview: url,
+        keyboard: [[page("📖 Maqolani o'qish", url)], [cb("📚 Boshqa maqolalar", "n:u:blog")]],
       };
     }
     case "broadcast": {
@@ -126,7 +170,9 @@ async function deliver(db: Db, item: OutboxItem): Promise<boolean> {
     } else {
       await tg("sendMessage", {
         chat_id: item.telegram_id, text: d.text, parse_mode: "HTML",
-        link_preview_options: { is_disabled: true },
+        link_preview_options: d.preview
+          ? { url: d.preview, prefer_large_media: true, show_above_text: true }
+          : { is_disabled: true },
         ...(d.keyboard ? { reply_markup: { inline_keyboard: d.keyboard } } : {}),
       });
     }
@@ -183,7 +229,7 @@ export async function drain(db: Db): Promise<Record<string, unknown>> {
     if (r) {
       await tg("sendMessage", {
         chat_id: r.created_by, parse_mode: "HTML",
-        text: `📣 <b>Xabar yuborish yakunlandi</b>\n\nJami: ${r.total}\n✅ Yetkazildi: ${r.sent}\n🚫 Botni bloklagan: ${r.skipped}\n⚠️ Xato: ${r.failed}`,
+        text: `📣 <b>Xabar yuborish yakunlandi</b>\n\nJami: <b>${r.total}</b>\n✅ Yetkazildi: ${r.sent}\n🚫 Botni bloklagan: ${r.skipped}\n⚠️ Xato: ${r.failed}`,
       }).catch((e) => console.error("broadcast report failed:", e));
     }
   }

@@ -22,20 +22,34 @@ export const cb = (text: string, data: string): Button => ({ text, callback_data
 export const link = (text: string, url: string): Button => ({ text, url });
 /** Opens a page of the website inside Telegram (Mini App) with automatic sign-in. */
 export const app = (text: string, path: string): Button => ({ text, web_app: { url: webAppUrl(path) } });
+/** Opens any page of scorify.uz inside Telegram without signing in (blog pages are public). */
+export const page = (text: string, url: string): Button => ({ text, web_app: { url } });
 
+/** Main keyboard: practice first, everything else lives in the cabinet. */
 export const BTN = {
+  writing: "✍️ Writing",
+  speaking: "🎤 Speaking",
+  dailyTest: "📝 Kunlik test",
+  quiz: "🧠 So'z testi",
+  articles: "📖 Foydali maqolalar",
+  cabinet: "👤 Kabinet",
+  start: "🚀 Boshlash",
+  help: "❓ Yordam",
+  admin: "👑 Admin panel",
+} as const;
+
+/** Labels of earlier keyboards. People who still have them keep working buttons. */
+export const LEGACY_BTN = {
   stats: "📊 Statistika",
   results: "📝 Natijalarim",
+  results2: "📊 Natijalarim",
   goal: "🎯 Maqsadim",
   plan: "💎 Tarifim",
   top: "🏆 Reyting",
   invite: "🎁 Do'stlarni taklif qilish",
   daily: "💡 Kunlik mashq",
-  quiz: "🧠 So'z testi",
   open: "🚀 Ilovani ochish",
   settings: "⚙️ Sozlamalar",
-  help: "❓ Yordam",
-  admin: "👑 Admin panel",
   register: "✅ Ro'yxatdan o'tish",
   linkGoogle: "🔗 Google hisobimni ulash",
 } as const;
@@ -43,20 +57,28 @@ export const BTN = {
 export function mainKeyboard(ctx: Ctx) {
   const rows: { text: string }[][] = ctx.account.user_id
     ? [
-      [{ text: BTN.stats }, { text: BTN.results }],
-      [{ text: BTN.goal }, { text: BTN.plan }],
-      [{ text: BTN.daily }, { text: BTN.quiz }],
-      [{ text: BTN.top }, { text: BTN.invite }],
-      [{ text: BTN.open }, { text: BTN.settings }],
+      [{ text: BTN.writing }, { text: BTN.speaking }],
+      [{ text: BTN.dailyTest }, { text: BTN.quiz }],
+      [{ text: BTN.articles }, { text: BTN.cabinet }],
     ]
     : [
-      [{ text: BTN.register }, { text: BTN.linkGoogle }],
-      [{ text: BTN.daily }, { text: BTN.quiz }],
-      [{ text: BTN.open }, { text: BTN.help }],
+      [{ text: BTN.start }, { text: BTN.quiz }],
+      [{ text: BTN.articles }, { text: BTN.help }],
     ];
   if (ctx.isAdmin) rows.push([{ text: BTN.admin }]);
-  return { keyboard: rows, resize_keyboard: true, is_persistent: true, input_field_placeholder: "Bo'limni tanlang" };
+  return { keyboard: rows, resize_keyboard: true, is_persistent: true, input_field_placeholder: "Bo'limni tanlang 👇" };
 }
+
+// ---------- message design: one consistent look for every screen ----------
+/** Bold screen title with an emoji. */
+export const title = (emoji: string, text: string) => `${emoji} <b>${text}</b>`;
+/** Short italic subtitle / hint under a title. */
+export const hint = (text: string) => `<i>${text}</i>`;
+/** Quoted block for tips, examples and long feedback; long blocks collapse in Telegram. */
+export const quote = (html: string, expandable = false) =>
+  `<blockquote${expandable ? " expandable" : ""}>${html}</blockquote>`;
+/** Key–value line, e.g. "Band: 6.5". */
+export const kv = (label: string, value: string) => `${label}: <b>${value}</b>`;
 
 const MAX_TEXT = 4000;
 

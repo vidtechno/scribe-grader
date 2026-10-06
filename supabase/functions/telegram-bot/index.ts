@@ -5,7 +5,7 @@
 import { serviceClient } from "../_shared/quota.ts";
 import { adminIds, botToken, initBotToken, safeEqual, tg, type TelegramUser, webAppUrl, webhookSecret } from "../_shared/telegram.ts";
 import { isSiteAdmin, upsertTelegramAccount } from "../_shared/telegram-accounts.ts";
-import { BTN, type Ctx, send, setState } from "./ui.ts";
+import { BTN, type Ctx, LEGACY_BTN, send, setState } from "./ui.ts";
 import * as user from "./user.ts";
 import { adminCallback, adminInput, showAdmin } from "./admin.ts";
 import { drain } from "./notify.ts";
@@ -37,31 +37,48 @@ async function buildCtx(from: TelegramUser, chatId: number): Promise<Ctx> {
 }
 
 const MENU: Record<string, (ctx: Ctx) => Promise<unknown>> = {
-  [BTN.stats]: user.showStats,
-  [BTN.results]: (c) => user.showResults(c, "a"),
-  [BTN.goal]: user.showGoal,
-  [BTN.plan]: user.showPlan,
-  [BTN.top]: (c) => user.showTop(c, "w"),
-  [BTN.invite]: user.showInvite,
-  [BTN.daily]: user.showDaily,
+  [BTN.writing]: user.showWriting,
+  [BTN.speaking]: user.showSpeaking,
+  [BTN.dailyTest]: user.showDailyTest,
   [BTN.quiz]: user.newQuiz,
-  [BTN.open]: user.openApp,
-  [BTN.settings]: user.showSettings,
+  [BTN.articles]: user.showArticles,
+  [BTN.cabinet]: user.showCabinet,
+  [BTN.start]: (c) => user.showStart(c),
   [BTN.help]: user.showHelp,
-  [BTN.register]: user.register,
-  [BTN.linkGoogle]: user.linkInfo,
+};
+
+/** Buttons of older keyboards: still answered, and the new keyboard is sent along. */
+const LEGACY: Record<string, (ctx: Ctx) => Promise<unknown>> = {
+  [LEGACY_BTN.stats]: user.showStats,
+  [LEGACY_BTN.results]: user.showStats,
+  [LEGACY_BTN.results2]: user.showStats,
+  [LEGACY_BTN.goal]: user.showGoal,
+  [LEGACY_BTN.plan]: user.showPlan,
+  [LEGACY_BTN.top]: (c) => user.showTop(c, "w"),
+  [LEGACY_BTN.invite]: user.showInvite,
+  [LEGACY_BTN.daily]: user.showDaily,
+  [LEGACY_BTN.open]: user.openApp,
+  [LEGACY_BTN.settings]: user.showSettings,
+  [LEGACY_BTN.register]: user.register,
+  [LEGACY_BTN.linkGoogle]: user.linkInfo,
 };
 
 const COMMANDS: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   menu: (c) => user.showMenu(c),
+  writing: user.showWriting,
+  speaking: user.showSpeaking,
+  test: user.showDailyTest,
+  quiz: user.newQuiz,
+  articles: user.showArticles,
+  blog: user.showArticles,
+  cabinet: user.showCabinet,
+  results: user.showStats,
   stats: user.showStats,
-  results: (c) => user.showResults(c, "a"),
   goal: user.showGoal,
   plan: user.showPlan,
   top: (c) => user.showTop(c, "w"),
   invite: user.showInvite,
   daily: user.showDaily,
-  quiz: user.newQuiz,
   app: user.openApp,
   settings: user.showSettings,
   help: user.showHelp,
@@ -89,9 +106,13 @@ async function onMessage(msg: Message) {
   }
 
   // Menu buttons always win over a pending dialog.
-  if (MENU[text] || text === BTN.admin) {
+  if (MENU[text] || LEGACY[text] || text === BTN.admin) {
     if (ctx.account.state) await setState(ctx, null);
     if (text === BTN.admin) return ctx.isAdmin ? showAdmin(ctx) : user.showMenu(ctx);
+    if (LEGACY[text]) {
+      await user.showMenu(ctx, "✨ <b>Menyu yangilandi</b> — endi hammasi ixchamroq.\n<i>Natijalar, maqsad, tarif va boshqalar «👤 Kabinet» ichida.</i>");
+      return LEGACY[text](ctx);
+    }
     return MENU[text](ctx);
   }
 
@@ -101,8 +122,8 @@ async function onMessage(msg: Message) {
   }
 
   await send(ctx.chatId,
-    "🤖 Men esse yoki speaking javoblarini qabul qilmayman — ular saytda (ilovada) baholanadi va natija shu yerga keladi.\n\n" +
-    "Kerakli bo'limni pastdagi menyudan tanlang 👇",
+    "✍️ Esse va 🎤 speaking javoblari ilova ichida topshiriladi — u yerda sun'iy intellekt ularni baholaydi, natijani esa shu yerga yuboraman.\n\n" +
+    "Boshqa bo'limlar pastdagi menyuda 👇",
     { inline_keyboard: [[{ text: "✍️ Writing", web_app: { url: webAppUrl("/writing") } },
       { text: "🎤 Speaking", web_app: { url: webAppUrl("/speaking") } }]] });
 }
@@ -132,8 +153,10 @@ async function onCallback(q: CallbackQuery) {
         const map: Record<string, (c: Ctx) => Promise<unknown>> = {
           stats: user.showStats, plan: user.showPlan, goal: user.showGoal, invite: user.showInvite, daily: user.showDaily,
           settings: user.showSettings, help: user.showHelp, open: user.openApp, register: user.register, linkinfo: user.linkInfo,
+          cab: user.showCabinet, blog: user.showArticles, start: (c) => user.showStart(c), test: user.showDailyTest,
+          writing: user.showWriting, speaking: user.showSpeaking,
         };
-        if (parts[1] === "register" || parts[1] === "daily") ctx.messageId = undefined;
+        if (parts[1] === "register") ctx.messageId = undefined;
         if (map[parts[1]]) await map[parts[1]](ctx);
         break;
       }

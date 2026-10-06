@@ -9,16 +9,12 @@ export function functionUrl(): string {
 
 const USER_COMMANDS = [
   { command: "start", description: "Bosh menyu" },
-  { command: "stats", description: "Statistikam" },
-  { command: "results", description: "Natijalarim" },
-  { command: "goal", description: "Maqsad va haftalik reja" },
-  { command: "plan", description: "Tarif va limitlar" },
-  { command: "top", description: "Writing reytingi" },
-  { command: "invite", description: "Do'stlarni taklif qilish" },
-  { command: "daily", description: "Kunlik mashq" },
+  { command: "writing", description: "IELTS Writing" },
+  { command: "speaking", description: "IELTS Speaking" },
+  { command: "test", description: "Kunlik grammatika testi" },
   { command: "quiz", description: "So'z testi" },
-  { command: "app", description: "Scorify ilovasini ochish" },
-  { command: "settings", description: "Bildirishnomalar" },
+  { command: "articles", description: "Foydali maqolalar" },
+  { command: "cabinet", description: "Kabinet: natijalar, maqsad, tarif" },
   { command: "help", description: "Yordam" },
 ];
 
@@ -50,13 +46,13 @@ export async function setupBot(db: Db): Promise<Record<string, unknown>> {
     menu_button: { type: "web_app", text: "Scorify", web_app: { url: `${SITE_URL}/tg?next=%2Fdashboard` } },
   }));
   await step("setMyShortDescription", () => tg("setMyShortDescription", {
-    short_description: "IELTS Writing va Speaking natijalaringiz, statistika, maqsad va kunlik mashq — Scorify.uz bilan bog'langan bot.",
+    short_description: "IELTS Writing va Speaking natijalaringiz, kunlik testlar va foydali maqolalar — Scorify.uz rasmiy boti.",
   }));
   await step("setMyDescription", () => tg("setMyDescription", {
-    description: "Scorify — IELTS Writing va Speaking'ni sun'iy intellekt yordamida baholaydigan platforma.\n\n" +
-      "Bu bot orqali:\n• natijalaringiz avtomatik keladi\n• statistika, maqsad va tarifingizni kuzatasiz\n" +
-      "• har kuni yangi so'z, savol va grammatika maslahatini olasiz\n• saytni Telegram ichida ochib, bir bosishda kirasiz\n\n" +
-      "Boshlash uchun «Start» tugmasini bosing.",
+    description: "Scorify — IELTS Writing va Speaking javoblaringizni bir necha soniyada band bo'yicha baholaydigan platforma.\n\n" +
+      "Bu botda:\n• natijalaringiz avtomatik keladi — mezonlar va xatolar tahlili bilan\n• har kuni grammatika testi va so'z mashqi\n" +
+      "• IELTS bo'yicha foydali maqolalar\n• saytni Telegram ichida ochib, bir bosishda kirasiz\n\n" +
+      "Boshlash uchun «Start»ni bosing 👇",
   }));
   await step("drain_url", async () => {
     const { error } = await db.from("telegram_settings").upsert({ key: "drain_url", value: url, updated_at: new Date().toISOString() });
