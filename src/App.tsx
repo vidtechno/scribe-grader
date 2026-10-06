@@ -31,6 +31,7 @@ const MockTestThankYou = lazy(() => import("./pages/MockTestThankYou"));
 const MockTestResult = lazy(() => import("./pages/MockTestResult"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const GrammarTest = lazy(() => import("./pages/GrammarTest"));
+const TelegramApp = lazy(() => import("./pages/TelegramApp"));
 import { safeReturnTo } from "./lib/returnTo";
 
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
@@ -80,6 +81,7 @@ function AppRoutes() {
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/tg" element={<TelegramApp />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/vocabulary" element={<Navigate to="/dashboard" replace />} />
         <Route path="/grammar-test" element={<ProtectedRoute><GrammarTest /></ProtectedRoute>} />

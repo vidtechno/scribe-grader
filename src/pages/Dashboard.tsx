@@ -16,6 +16,7 @@ import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 const GoalsCard = lazy(() => import('@/components/GoalsCard').then(m => ({ default: m.GoalsCard })));
 import { ReferralBanner } from '@/components/ReferralBanner';
+import { TelegramPromo } from '@/components/TelegramConnectCard';
 
 type Activity = { kind: 'essay' | 'speaking'; id: string; title: string; score: number | null; at: Date };
 
@@ -180,6 +181,7 @@ export default function Dashboard() {
               </div>
               {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Upgrade from $5/month for 20 Writing and 15 Speaking evaluations.</p>}
             </section>
+            <TelegramPromo />
             <ReferralBanner />
           </aside>
         </div>
