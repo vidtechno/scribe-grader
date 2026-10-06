@@ -84,6 +84,11 @@ async function allLessons(): Promise<Lesson[]> {
 }
 
 async function main() {
+  // Fail at once (not after thousands of recordings) when a needed tool is missing.
+  const tools: [string, string][] = [['ffmpeg', '-version'], engine === 'edge' ? ['edge-tts', '--help'] : ['espeak-ng', '--version']];
+  for (const [tool, flagToProbe] of tools) {
+    try { await run(tool, [flagToProbe]); } catch { throw new Error(`${tool} is not installed (or not on PATH)`); }
+  }
   mkdirSync(OUT, { recursive: true });
   const texts = new Map<string, string>();
   for (const lesson of await allLessons()) {
@@ -122,4 +127,4 @@ async function main() {
   if (failed.length) { console.error(`${failed.length} failed:\n${failed.slice(0, 20).join('\n')}`); process.exitCode = 1; }
 }
 
-void main();
+main().catch((e: Error) => { console.error(e.message); process.exit(1); });
