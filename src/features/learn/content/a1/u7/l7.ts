@@ -191,8 +191,8 @@ const lesson: Lesson = {
     { k: "fill", q: "I usually stay at work ___ seven. Then I go home.", a: ["until", "till"], uz: "Odatda yettigacha ishda qolaman. Keyin uyga ketaman.", why: "Yolg'iz \"…gacha\" → **until / till**." },
     { k: "fill", q: "Don't eat sweets before ___ lunch. (have)", a: ["having"], uz: "Tushlikdan oldin shirinlik yemang." },
     { k: "tf", q: "**What time the bus leaves?** — to'g'ri savol.", a: false, why: "**does** kerak: *What time **does** the bus **leave**?*" },
-    { k: "order", uz: "Bank ertalab to'qqizda ochiladi.", words: ["The", "bank", "opens", "at", "nine", "in", "the", "morning"], extra: ["open", "on"], alt: [["The", "bank", "opens", "at", "nine"]] },
-    { k: "translate", uz: "Yotishdan oldin tishlaringizni yuving.", a: ["Brush your teeth before going to bed.", "Brush your teeth before you go to bed.", "Clean your teeth before going to bed.", "Clean your teeth before you go to bed.", "Brush your teeth before bed.", "Clean your teeth before bed.", "Wash your teeth before going to bed."], why: "**before + -ing** yoki **before + gap**." },
+    { k: "order", uz: "Bank ertalab to'qqizda ochiladi.", words: ["The", "bank", "opens", "at", "nine", "in", "the", "morning"], extra: ["open", "on"], alt: [["In", "the", "morning", "the", "bank", "opens", "at", "nine"]] },
+    { k: "translate", uz: "Yotishdan oldin tishlaringizni yuving.", a: ["Brush your teeth before going to bed.", "Brush your teeth before you go to bed.", "Clean your teeth before going to bed.", "Clean your teeth before you go to bed.", "Brush your teeth before bed.", "Clean your teeth before bed."], why: "**before + -ing** yoki **before + gap**." },
     { k: "choice", q: "Matnda (A day trip to Samarkand) Siyob bozori qachongacha ochiq?", opts: ["until 5:45", "until six", "until 7 p.m.", "until midnight"], a: 1, why: "*The Siab Bazaar is open **until six**.*" },
   ],
   summary: [
