@@ -4,7 +4,7 @@
 //   status / link_start / unlink / settings – Telegram card on the profile page (signed-in users)
 import { getRequestUser, serviceClient } from "../_shared/quota.ts";
 import { isRecord, json, preflight } from "../_shared/http.ts";
-import { botLink, botToken, randomCode, sha256Hex, safeEqual, truncate, validateInitData } from "../_shared/telegram.ts";
+import { botLink, botToken, initBotToken, randomCode, sha256Hex, safeEqual, truncate, validateInitData } from "../_shared/telegram.ts";
 import {
   createSessionToken, ensureScorifyUser, isTelegramEmail, type TelegramAccount, upsertTelegramAccount,
 } from "../_shared/telegram-accounts.ts";
@@ -26,6 +26,7 @@ Deno.serve(async (req) => {
 
   try {
     const db = serviceClient();
+    await initBotToken(db);
     const body: unknown = await req.json().catch(() => null);
     if (!isRecord(body) || typeof body.action !== "string") return json(req, { error: "Invalid request" }, 400);
 

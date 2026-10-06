@@ -188,6 +188,12 @@ export async function drain(db: Db): Promise<Record<string, unknown>> {
     }
   }
 
+  // Housekeeping: expired sign-in codes and old delivered messages.
+  const dayAgo = new Date(Date.now() - 86_400_000).toISOString();
+  const twoMonthsAgo = new Date(Date.now() - 60 * 86_400_000).toISOString();
+  await db.from("telegram_auth_requests").delete().lt("expires_at", dayAgo);
+  await db.from("telegram_outbox").delete().in("status", ["sent", "skipped", "failed"]).lt("created_at", twoMonthsAgo);
+
   const { count } = await db.from("telegram_outbox").select("id", { count: "exact", head: true })
     .eq("status", "pending").lte("send_after", new Date().toISOString());
   if (count) {

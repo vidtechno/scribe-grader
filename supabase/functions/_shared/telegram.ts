@@ -20,10 +20,21 @@ export class TelegramError extends Error {
   }
 }
 
+let vaultToken: string | null = null;
+
+/** Bot token from the TELEGRAM_BOT_TOKEN secret, or from Supabase Vault (loaded by initBotToken). */
 export function botToken(): string {
-  const token = Deno.env.get("TELEGRAM_BOT_TOKEN");
+  const token = Deno.env.get("TELEGRAM_BOT_TOKEN") ?? vaultToken;
   if (!token) throw new Error("TELEGRAM_BOT_TOKEN is not configured");
   return token;
+}
+
+/** Loads the token from Vault once per instance when no function secret is set. */
+export async function initBotToken(db: { rpc: (fn: string) => PromiseLike<{ data: unknown; error: unknown }> }) {
+  if (Deno.env.get("TELEGRAM_BOT_TOKEN") || vaultToken) return;
+  const { data, error } = await db.rpc("telegram_bot_token");
+  if (error) console.error("could not read the bot token from Vault:", error);
+  if (typeof data === "string" && data) vaultToken = data;
 }
 
 export function adminIds(): Set<number> {

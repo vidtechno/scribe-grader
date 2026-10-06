@@ -3,7 +3,7 @@
 //   POST {"drain":true}                       → deliver queued notifications (called by pg_net / pg_cron)
 //   GET  ?setup=<bot token>                   → register webhook, commands and menu button (run once after deploy)
 import { serviceClient } from "../_shared/quota.ts";
-import { adminIds, botToken, safeEqual, tg, type TelegramUser, webAppUrl, webhookSecret } from "../_shared/telegram.ts";
+import { adminIds, botToken, initBotToken, safeEqual, tg, type TelegramUser, webAppUrl, webhookSecret } from "../_shared/telegram.ts";
 import { isSiteAdmin, upsertTelegramAccount } from "../_shared/telegram-accounts.ts";
 import { BTN, type Ctx, send, setState } from "./ui.ts";
 import * as user from "./user.ts";
@@ -196,6 +196,7 @@ function background(p: Promise<unknown>): Promise<void> | void {
 
 Deno.serve(async (req) => {
   const url = new URL(req.url);
+  await initBotToken(db);
 
   if (req.method === "GET" && url.searchParams.has("setup")) {
     let token: string;

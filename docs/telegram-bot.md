@@ -47,17 +47,16 @@ Telegram webhook ───────────────► telegram-bot (
 - Accounts created through Telegram use the placeholder email `tg<telegram id>@telegram.scorify.uz` (never shown in the UI). Sign-in creates a one-time Supabase magic-link token on the server and the browser exchanges it with `verifyOtp`.
 - A Google user connects Telegram from Profile. If that Telegram already had an **empty** Telegram-only account, it is replaced; an account with results or a paid plan is never merged automatically.
 
-## Deploy (once)
+## Deployment (done on 2026-10-06)
 
-1. **Database**: run `supabase/migrations/20261005000000_telegram_bot.sql` in the SQL editor. It enables `pg_net` and `pg_cron` when available and schedules the jobs.
-2. **Secret**: Edge Functions → Secrets → add `TELEGRAM_BOT_TOKEN` (from BotFather). Optional: `TELEGRAM_ADMIN_IDS` (comma-separated extra admin Telegram IDs).
-3. **Functions** (JWT verification is turned off for these two in `supabase/config.toml`):
-   ```sh
-   npx supabase functions deploy telegram-bot telegram-auth --project-ref bywqpgjojnqscelloxew
-   ```
-4. **Connect the bot** by opening once in a browser:
-   `https://bywqpgjojnqscelloxew.supabase.co/functions/v1/telegram-bot?setup=<TELEGRAM_BOT_TOKEN>`
-   It sets the webhook (with a secret header), commands, the "Scorify" menu button (Mini App) and descriptions. The admin panel has the same action under 🤖 Bot holati.
-5. **Website**: merge to `main`; Vercel deploys `/tg`, the Telegram button on `/auth` and the Profile card.
+- Database: migration `20261005000000_telegram_bot.sql` applied to `scorify-production`; `pg_net` and `pg_cron` enabled; cron jobs `telegram-outbox-retry` (every minute) and `telegram-daily-jobs` (13:05 UTC) scheduled.
+- Bot token: stored in Supabase Vault as `telegram_bot_token` (read by `telegram_bot_token()`, service role only). A `TELEGRAM_BOT_TOKEN` Edge Function secret, if added later, takes precedence. To rotate the token: `/revoke` in BotFather, then `select vault.update_secret((select id from vault.secrets where name='telegram_bot_token'), '<new token>');` and run the setup URL again.
+- Functions `telegram-bot` and `telegram-auth` deployed with JWT verification off (they authenticate requests themselves).
+- Webhook, commands, menu button and descriptions set via `https://bywqpgjojnqscelloxew.supabase.co/functions/v1/telegram-bot?setup=<token>` (also available in the admin panel → 🤖 Bot holati).
+- Telegram ID 6117815120 is linked to the admin account.
+- Verified in production: Mini App sign-in creates an account and the returned token is exchanged for a session (works with the Email provider disabled); outbox → pg_net → bot → Telegram delivery works.
 
-No BotFather changes are required. If Telegram sign-in on the website returns "Email logins are disabled", enable the Email provider in Supabase Auth (keep "Confirm email" on); the website still only shows Telegram and Google.
+To redeploy functions after code changes:
+```sh
+npx supabase functions deploy telegram-bot telegram-auth --project-ref bywqpgjojnqscelloxew
+```

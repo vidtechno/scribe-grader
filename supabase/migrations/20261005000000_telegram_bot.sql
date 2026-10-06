@@ -93,6 +93,19 @@ revoke all on public.telegram_accounts, public.telegram_auth_requests, public.te
 grant all on public.telegram_accounts, public.telegram_auth_requests, public.telegram_broadcasts,
   public.telegram_outbox, public.telegram_settings to service_role;
 
+-- Bot token stored in Supabase Vault (secret name: telegram_bot_token). A TELEGRAM_BOT_TOKEN
+-- Edge Function secret takes precedence when it is set.
+create or replace function public.telegram_bot_token()
+returns text language plpgsql stable security definer set search_path=public as $$
+declare t text;
+begin
+  execute 'select decrypted_secret from vault.decrypted_secrets where name = $1 order by created_at desc limit 1'
+    into t using 'telegram_bot_token';
+  return t;
+exception when others then
+  return null;
+end; $$;
+
 -- ============================================================
 -- Referral helpers usable without a browser session (the bot creates accounts server-side).
 -- claim_referral / claim_referral_reward keep their behaviour and now delegate here.
@@ -263,14 +276,11 @@ exception when others then
   return new;
 end; $$;
 
-drop trigger if exists telegram_essay_result on public.essays;
-create trigger telegram_essay_result after insert or update of status on public.essays
+create or replace trigger telegram_essay_result after insert or update of status on public.essays
   for each row execute function public.telegram_on_result();
-drop trigger if exists telegram_speaking_result on public.speaking_attempts;
-create trigger telegram_speaking_result after insert or update of status on public.speaking_attempts
+create or replace trigger telegram_speaking_result after insert or update of status on public.speaking_attempts
   for each row execute function public.telegram_on_result();
-drop trigger if exists telegram_mock_result on public.mock_tests;
-create trigger telegram_mock_result after insert or update of status on public.mock_tests
+create or replace trigger telegram_mock_result after insert or update of status on public.mock_tests
   for each row execute function public.telegram_on_result();
 
 create or replace function public.telegram_on_referral()
@@ -284,8 +294,7 @@ exception when others then
   raise warning 'telegram_on_referral: %', sqlerrm;
   return new;
 end; $$;
-drop trigger if exists telegram_referral_new on public.referrals;
-create trigger telegram_referral_new after insert on public.referrals
+create or replace trigger telegram_referral_new after insert on public.referrals
   for each row execute function public.telegram_on_referral();
 
 create or replace function public.telegram_on_plan_change()
@@ -303,8 +312,7 @@ exception when others then
   raise warning 'telegram_on_plan_change: %', sqlerrm;
   return new;
 end; $$;
-drop trigger if exists telegram_plan_change on public.subscriptions;
-create trigger telegram_plan_change after update of plan_type, expires_at on public.subscriptions
+create or replace trigger telegram_plan_change after update of plan_type, expires_at on public.subscriptions
   for each row execute function public.telegram_on_plan_change();
 
 -- ============================================================
@@ -353,10 +361,6 @@ begin
       if public.telegram_enqueue_for_user(r.user_id,'weekly_report','{}'::jsonb,'reminders') then n_week := n_week+1; end if;
     end loop;
   end if;
-
-  -- Housekeeping.
-  delete from public.telegram_auth_requests where expires_at < now()-interval '1 day';
-  delete from public.telegram_outbox where status in ('sent','skipped','failed') and created_at < now()-interval '60 days';
 
   if n_exp+n_rem+n_week > 0 then perform public.telegram_kick(); end if;
   return jsonb_build_object('plan_expiring',n_exp,'practice_reminder',n_rem,'weekly_report',n_week);
@@ -562,6 +566,7 @@ do $$
 declare f text;
 begin
   foreach f in array array[
+    'public.telegram_bot_token()',
     'public.internal_claim_referral(uuid,text)',
     'public.internal_claim_referral_reward(uuid)',
     'public.telegram_referral_summary(uuid)',

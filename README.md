@@ -73,7 +73,7 @@ Supabase project: `bywqpgjojnqscelloxew`. Frontend on Vercel at `scorify.uz` / `
 
 - Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` for builds. The `api/*` functions read blog posts from Supabase REST.
 - Authentication: Google OAuth and Telegram (bot confirmation or Mini App, handled by `telegram-auth`). Allow callback URLs for `https://scorify.uz` and `https://www.scorify.uz`.
-- Store `TELEGRAM_BOT_TOKEN` in Supabase Edge Function secrets; deployment steps for the bot are in [docs/telegram-bot.md](docs/telegram-bot.md).
+- The Telegram bot token is stored in Supabase Vault (`telegram_bot_token`); deployment details are in [docs/telegram-bot.md](docs/telegram-bot.md).
 - Store `OPENAI_API_KEY` only in Supabase Edge Function secrets.
 - Migrations are applied manually in the Supabase SQL editor. Latest: `20261003000000_admin_user_overview`, `20261004000000_growth_referrals_goals_blog`, `20261005000000_telegram_bot`. Blog posts were inserted with ad-hoc SQL, not migrations.
 - Do not import demo data or users from the previous project.
