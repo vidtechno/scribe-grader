@@ -1,10 +1,13 @@
 // Pronunciation without paid APIs. Sources, best first:
-//  1. a clip that was prepared when the lesson opened (instant) — single words use human recordings from the free
-//     Dictionary API, sentences use a free online voice;
-//  2. the device's own speech engine (when it has an English voice);
-//  3. the online voice, waited for a few seconds (phones without any speech engine).
-// Clips live only in the browser's memory, for the lesson that is open: opening another lesson (or leaving the course)
-// releases them. Nothing here touches our own backend.
+//  1. recordings of our own, pre-made for every text of the course and served as static files (/audio/<key>.mp3,
+//     see scripts/generate-lesson-audio.ts): they play on every phone, whatever its speech engine or network;
+//  2. for texts without a recording: human recordings of single words from the free Dictionary API, and a free
+//     online voice for sentences;
+//  3. the device's own speech engine (when it has an English voice).
+// The clips of the open lesson are loaded into memory when it opens, so a tap plays at once; opening another lesson
+// (or leaving the course) releases them. Nothing here touches our database.
+
+import { audioKey } from './audio-key';
 
 const SINGLE_WORD = /^[a-z][a-z'-]{2,}$/i;
 const MAX_CHUNK = 180;
@@ -71,6 +74,19 @@ let playing: HTMLAudioElement | null = null;
 
 const keyOf = (text: string) => text.toLowerCase();
 
+// Which texts have a recording of our own (public/audio/manifest.json, written by the generator).
+let manifestPromise: Promise<Set<string>> | null = null;
+let manifestSet: Set<string> | null = null;
+function loadManifest(): Promise<Set<string>> {
+  manifestPromise ??= fetch('/audio/manifest.json')
+    .then((r) => (r.ok ? r.json() : { keys: [] }))
+    .then((m: { keys?: string[] }) => new Set(m.keys ?? []))
+    .catch(() => new Set<string>())
+    .then((set) => { manifestSet = set; return set; });
+  return manifestPromise;
+}
+const hosted = (text: string) => manifestSet?.has(audioKey(text)) ?? false;
+
 function disposeClip(c: Clip) {
   try { c.audio.pause(); c.audio.removeAttribute('src'); c.audio.load(); } catch { /* already gone */ }
 }
@@ -130,7 +146,12 @@ function getClips(text: string): Promise<Clip[] | null> {
   const gen = generation;
   const made = (async (): Promise<Clip[] | null> => {
     let list: Clip[] | null = null;
-    if (SINGLE_WORD.test(text)) {
+    await loadManifest();
+    if (hosted(text)) {
+      const clip = makeClip(`/audio/${audioKey(text)}.mp3`);
+      list = (await clip.whenReady) ? [clip] : (disposeClip(clip), null);
+    }
+    if (!list && SINGLE_WORD.test(text)) {
       const url = await dictionaryUrl(text);
       if (url) {
         const clip = makeClip(url);
@@ -148,6 +169,7 @@ function getClips(text: string): Promise<Clip[] | null> {
 
 /** Starts loading the audio of the open lesson in the background (a few files at a time). */
 export function prepareAudio(texts: string[]) {
+  void loadManifest();
   const gen = generation;
   const queue = [...new Set(texts.map(cleanText).filter(Boolean))];
   const worker = async () => {
@@ -218,9 +240,17 @@ export async function speak(text: string, opts: { slow?: boolean } = {}): Promis
     return synth(clean, slow);
   }
 
-  // Not ready yet: a device voice answers at once; without one the online clip is waited for.
+  // Not ready yet. Our own recording is a small same-site file: wait for it. Otherwise a device voice answers at
+  // once, and without one the online clip is waited for.
+  await Promise.race([loadManifest(), sleep(1500)]);
   const device = englishVoice() !== null;
   const pending = getClips(clean);
+  if (hosted(clean)) {
+    clips = await Promise.race([pending, sleep(6000).then(() => null)]);
+    if (token !== playToken) return true;
+    if (clips?.length && (await playClips(clips, slow, token))) return true;
+    return synth(clean, slow);
+  }
   if (device) {
     if (await synth(clean, slow)) return true;
     clips = await Promise.race([pending, sleep(2500).then(() => null)]);

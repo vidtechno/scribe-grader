@@ -4,6 +4,7 @@ import type { Block } from '../types';
 import { ExerciseView } from './ExerciseView';
 import { Md } from './Md';
 import { SpeakButton } from './SpeakButton';
+import { isEnglish } from '../audio-plan';
 
 /** Renders one theory block. `onCheck` reports the result of an inline quick check. */
 export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct: boolean) => void }) {
@@ -148,12 +149,4 @@ function ReadingText({ title, en, uz }: { title?: string; en: string; uz: string
       )}
     </div>
   );
-}
-
-/** Only plain English lines get a play button (not pronunciation spellings in quotes or Uzbek notes). */
-function isEnglish(text: string): boolean {
-  const plain = text.replace(/[*`]/g, '');
-  return /^[A-Za-z0-9 ,.'?!;:()\u2013\u2014-]+$/.test(plain)
-    && !/\b[og]'/i.test(plain)
-    && !/\b(va|yoki|emas|bilan|uchun|kabi|deb)\b/i.test(plain);
 }
