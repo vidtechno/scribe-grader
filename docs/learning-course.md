@@ -23,7 +23,12 @@ Explanations are in Uzbek; examples and exercises are in English. **Beginner** (
   - 20 questions drawn from every lesson of the unit; pass at 80%.
   - 2 attempts; after two failures the test locks for 48 hours (time to review), then 2 new attempts open.
   - The next unit opens only after the test is passed.
-- **Pronunciation**: single words play human recordings from the free Dictionary API (dictionaryapi.dev). Everything else uses the browser's built-in speech engine. Neither has a cost or a key; there is also a slow button. Speak exercises use the browser's speech recognition when available, otherwise "repeat aloud".
+- **Pronunciation**: every English text of the course is pre-recorded as a small mp3 (`public/audio/<key>.mp3`, about 2 600 files, 20 MB), served as static files by the site, so sound works on every phone (also those with no speech engine, such as many Android phones in Telegram or Hola). `manifest.json` lists the files; the file name is a hash of the text (`audioKey`).
+  - When a lesson opens, its clips are loaded into the browser's memory and released when the next lesson opens, so a tap plays at once. Nothing touches our database.
+  - Texts without a recording fall back to the free Dictionary API (single words), a free online voice (sentences) and the device's own voice.
+  - If nothing plays, the play button says so once and listening exercises show a "Matnni ko'rsatish" link, so a learner is never stuck.
+  - The recordings use the free voice available in the build environment (espeak-ng + mbrola). To get a more natural voice, run `pip install edge-tts` and `npx tsx scripts/generate-lesson-audio.ts --engine edge --force` on a machine with internet, then commit `public/audio`.
+  - After adding or changing lessons run `npx tsx scripts/generate-lesson-audio.ts` (needs `espeak-ng`, `mbrola-us1` and `ffmpeg`); only new texts are recorded. A test fails when a released lesson has a text without a recording. Speak exercises use the browser's speech recognition when available, otherwise "repeat aloud".
 - **Statistics**: streak (Tashkent days), XP, lessons, words, accuracy, minutes, last 7 days, and "Lug'atim" (all learned words with audio and a 10-word review drill).
 
 ## Access
