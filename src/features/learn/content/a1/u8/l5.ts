@@ -9,7 +9,7 @@ const lesson: Lesson = {
     {
       title: "Kiyimlar va \"a pair of\"",
       blocks: [
-        { t: "p", md: "Beginner darajasida *jacket, shoe, hat* ni bildik. Endi ko'proq kiyim nomlari. Diqqat: **ikki qismli** kiyimlar (ikki oyoq!) inglizchada **doim ko'plikda**:" },
+        { t: "p", md: "Beginner darajasida *jacket, shoe, hat* ni bildik. Endi ko'proq kiyim nomlari. Diqqat: **ikki qismli** kiyimlar (ikki oyoq!) inglizchada **doim ko'plikda** (tuflilar ham ko'plikda ishlatiladi, lekin *a shoe* — bitta tufli — ham bo'ladi):" },
         {
           t: "table", head: ["Birlik (a / an)", "Doim ko'plik", "O'zbekcha"],
           rows: [
@@ -17,7 +17,7 @@ const lesson: Lesson = {
             ["a dress", "jeans", "ko'ylak (ayollar) / jinsi shim"],
             ["a skirt", "shorts", "yubka / shortik"],
             ["a coat", "glasses", "palto / ko'zoynak"],
-            ["a T-shirt", "shoes, boots, socks", "futbolka / poyabzal, etik, paypoq"],
+            ["a T-shirt", "pyjamas (UK)", "futbolka / pijama"],
           ],
           speak: [0, 1],
         },
@@ -65,7 +65,7 @@ const lesson: Lesson = {
           ],
           speak: [0, 1],
         },
-        { t: "tip", tone: "warn", md: "**enough** sifatdan **keyin** keladi: *big enough* ✅, *enough big* ❌.\n**too** ≠ **very**! *very* — shunchaki \"juda\", *too* — \"haddan tashqari, shuning uchun muammo\".\n*This dress is **very** beautiful.* ✅ (maqtov)\n*This dress is **too** beautiful.* ❌ (g'alati: chiroyliligi muammomi?)" },
+        { t: "tip", tone: "warn", md: "**enough** sifatdan **keyin** keladi: *big enough* ✅, *enough big* ❌.\n**too** ≠ **very**! *very* — shunchaki \"juda\", *too* — \"haddan tashqari, shuning uchun muammo\".\n*This dress is **very** beautiful.* ✅ (maqtov)\n*This dress is **too** beautiful.* (odatda g'alati: chiroyliligi muammomi? — maqtov uchun *very* yoki *so*)" },
         {
           t: "compare",
           good: { title: "To'g'ri", items: ["The coat is too big for me.", "My shoes aren't big enough.", "This bag is very nice. I'll take it."] },
@@ -147,7 +147,7 @@ const lesson: Lesson = {
   words: [
     { en: "trousers", uz: "shim", ipa: "ˈtraʊ.zəz", pos: "noun (plural)", ex: "These trousers are too long.", exUz: "Bu shim juda uzun." },
     { en: "dress", uz: "ko'ylak (ayollar)", ipa: "dres", pos: "noun", ex: "She's wearing a beautiful red dress.", exUz: "U chiroyli qizil ko'ylak kiygan." },
-    { en: "a pair of", uz: "bir juft …", ipa: "ə ˈpeər əv", pos: "phrase", ex: "I bought a new pair of jeans.", exUz: "Yangi jinsi shim sotib oldim." },
+    { en: "a pair of", uz: "bir juft …", ipa: "ə ˈpeə əv", pos: "phrase", ex: "I bought a new pair of jeans.", exUz: "Yangi jinsi shim sotib oldim." },
     { en: "size", uz: "o'lcham", ipa: "saɪz", pos: "noun", ex: "What size are you?", exUz: "O'lchamingiz qanday?" },
     { en: "try on", uz: "kiyib ko'rmoq", ipa: "ˌtraɪ ˈɒn", pos: "phrasal verb", ex: "Can I try these shoes on?", exUz: "Bu tuflilarni kiyib ko'rsam bo'ladimi?" },
     { en: "fitting room", uz: "kiyinish (kiyib ko'rish) xonasi", ipa: "ˈfɪt.ɪŋ ˌruːm", pos: "noun", ex: "The fitting room is on the left.", exUz: "Kiyinish xonasi chap tomonda." },

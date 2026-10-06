@@ -128,7 +128,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Our trip to Khiva",
           en: "Last May my family went on holiday to Khiva. First, we took the fast train from Tashkent to Bukhara. It took about four hours, and the journey was very comfortable.\nWe spent two days in Bukhara. Then my uncle drove us to Khiva. It took six hours, but the desert was beautiful.\nIn Khiva we stayed at a small hotel inside the old town, so we walked everywhere on foot. We went sightseeing, climbed a minaret and bought souvenirs. My little brother rode a camel!\nAt the end of the week, we flew home from Urgench. The flight took only an hour and a half.",
-          uz: "O'tgan may oyida oilam bilan Xivaga dam olishga bordik. Avval Toshkentdan Buxorogacha tezyurar poyezdga chiqdik. Taxminan to'rt soat yurdik va yo'l juda qulay bo'ldi.\nBuxoroda ikki kun qoldik. Keyin amakim bizni mashinada Xivaga olib bordi. Olti soat ketdi, lekin cho'l juda chiroyli edi.\nXivada eski shahar ichidagi kichik mehmonxonada qoldik, shuning uchun hamma joyga piyoda yurdik. Diqqatga sazovor joylarni aylandik, minoraga chiqdik va esdalik sovg'alari oldik. Ukam tuyaga mindi!\nHafta oxirida Urganchdan uyga samolyotda uchdik. Parvoz atigi bir yarim soat davom etdi.",
+          uz: "O'tgan may oyida oilam bilan Xivaga dam olishga bordik. Avval Toshkentdan Buxorogacha tezyurar poyezdga chiqdik. Yo'l taxminan to'rt soat davom etdi va juda qulay bo'ldi.\nBuxoroda ikki kun qoldik. Keyin amakim bizni mashinada Xivaga olib bordi. Olti soat ketdi, lekin cho'l juda chiroyli edi.\nXivada eski shahar ichidagi kichik mehmonxonada qoldik, shuning uchun hamma joyga piyoda yurdik. Diqqatga sazovor joylarni aylandik, minoraga chiqdik va esdalik sovg'alari oldik. Ukam tuyaga mindi!\nHafta oxirida Urganchdan uyga samolyotda uchdik. Parvoz atigi bir yarim soat davom etdi.",
         },
         { t: "check", ex: { k: "choice", q: "How did the family get from Bukhara to Khiva?", opts: ["By train.", "By plane.", "By car.", "On foot."], a: 2, why: "*…my uncle drove us to Khiva.*" } },
         { t: "check", ex: { k: "tf", q: "Oila Toshkentga poyezdda qaytdi.", a: false, why: "*…we **flew** home from Urgench.* — samolyotda." } },
@@ -171,7 +171,7 @@ const lesson: Lesson = {
     { k: "match", pairs: [["fly", "flew"], ["drive", "drove"], ["ride", "rode"], ["take", "took"], ["get", "got"]] },
     { k: "match", pairs: [["on foot", "piyoda"], ["souvenir", "esdalik sovg'asi"], ["abroad", "chet elda"], ["get off", "tushmoq"], ["go sightseeing", "diqqatga sazovor joylarni aylanmoq"]] },
     { k: "choice", q: "\"U ishga piyoda boradi.\"", opts: ["He goes to work by foot.", "He goes to work on foot.", "He goes to work with foot.", "He goes to work on feet."], a: 1, why: "\"Piyoda\" — **on foot**." },
-    { k: "choice", q: "She ___ the taxi and paid the driver.", opts: ["got off", "got out of", "got down", "went off"], a: 1, why: "Taksi — kichik mashina → **get out of**." },
+    { k: "choice", q: "She ___ the taxi and thanked the driver.", opts: ["got off", "got out of", "got down", "went off"], a: 1, why: "Taksi — kichik mashina → **get out of**." },
     { k: "choice", q: "Qaysi gap **to'g'ri**?", opts: ["We went to abroad.", "We went on holiday to Italy.", "We went to holiday to Italy.", "We went on the holiday in abroad."], a: 1 },
     { k: "fill", q: "My grandfather ___ a horse when he was young. (ride)", a: ["rode"] },
     { k: "fill", q: "We went to Tashkent ___ train.", a: ["by"] },
@@ -192,7 +192,7 @@ const lesson: Lesson = {
     { k: "fill", q: "How did you get to the old town? — We walked. We went on ___.", a: ["foot"] },
     { k: "listen", say: "How did you get there?", opts: ["How did you get there?", "How did you get here?", "Who did you get there?"], a: 0 },
     { k: "tf", q: "Xivaga sayohatda oila Buxorodan Xivaga mashinada bordi va yo'l olti soat davom etdi.", a: true, why: "*…my uncle drove us to Khiva. It took six hours…*" },
-    { k: "order", uz: "Ukam tuyaga mindi.", words: ["My", "brother", "rode", "a", "camel"], extra: ["ride", "drove"] },
+    { k: "order", uz: "Ukam tuyaga mindi.", words: ["My", "brother", "rode", "a", "camel"], extra: ["ride", "rided"] },
     { k: "translate", uz: "U (she) chet elda ishlaydi.", a: ["She works abroad", "She is working abroad", "She's working abroad"] },
   ],
   summary: [

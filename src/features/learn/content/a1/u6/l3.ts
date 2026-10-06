@@ -76,11 +76,11 @@ const lesson: Lesson = {
     {
       title: "Gapdagi o'rni: a very kind man, quite a…",
       blocks: [
-        { t: "p", md: "Sifat ot bilan kelsa, **a / an** dan keyin **very / really** turadi: **a very kind man**. Lekin **quite** — **a / an** dan **oldin**: **quite a kind man**." },
+        { t: "p", md: "Sifat ot bilan kelsa, **a / an** dan keyin **very / really** turadi: **a very kind man**. Lekin **quite** odatda **a / an** dan **oldin** turadi: **quite a kind man**." },
         {
           t: "compare",
           good: { title: "To'g'ri", items: ["She's a very clever girl.", "He's a really funny guy.", "It's quite a long way.", "He's quite shy."] },
-          bad: { title: "Xato", items: ["She's very a clever girl.", "He's a funny really guy.", "It's a quite long way.", "He's shy quite."] },
+          bad: { title: "Xato", items: ["She's very a clever girl.", "He's a funny really guy.", "It's quite long a way.", "He's shy quite."] },
         },
         { t: "p", md: "Yana bir katta xato: **very** fe'l bilan ishlatilmaydi! Fe'lni kuchaytirish uchun **really** (fe'ldan oldin) yoki **very much** (gap oxirida):" },
         {
@@ -89,7 +89,7 @@ const lesson: Lesson = {
           bad: { title: "Xato", items: ["I very like my teacher.", "I like very much my teacher.", "We very love Samarkand."] },
         },
         { t: "tip", tone: "warn", md: "O'zbekchada \"juda yoqtiraman\" deymiz, shuning uchun ❌ *I very like* xatosi juda ko'p uchraydi. Eslab qoling: **I really like it** yoki **I like it very much**." },
-        { t: "check", ex: { k: "order", uz: "Men singlimni juda yaxshi ko'raman.", words: ["I", "really", "love", "my", "sister."], extra: ["very", "much"] } },
+        { t: "check", ex: { k: "order", uz: "Men singlimni juda yaxshi ko'raman.", words: ["I", "really", "love", "my", "sister."], extra: ["very", "a"] } },
       ],
     },
     {
@@ -140,8 +140,8 @@ const lesson: Lesson = {
     { k: "listen", say: "He isn't very polite.", opts: ["He is very polite.", "He isn't very polite.", "He isn't very patient."], a: 1 },
     { k: "choice", q: "— What's your sister like? — …", opts: ["She likes tea.", "She's quite shy but very kind.", "She has long hair.", "She's like kind."], a: 1, why: "*What's she like?* — xarakter haqida." },
     { k: "choice", q: "Qaysi gap **to'g'ri**?", opts: ["I very like this city.", "I like very much this city.", "I really like this city.", "I very much like very this city."], a: 2, why: "Fe'l bilan **really**: *I really like…* yoki *I like this city very much.*" },
-    { k: "choice", q: "So'z tartibi to'g'ri gap:", opts: ["He's a quite nice man.", "He's quite a nice man.", "He's nice quite a man.", "He's a man quite nice."], a: 1, why: "**quite** — **a** dan oldin: *quite a nice man*." },
-    { k: "fill", q: "Thank you for the present! You're very ___.", a: ["generous", "kind", "nice"], hint: "saxiy", why: "Sovg'a beradigan — **generous**." },
+    { k: "choice", q: "So'z tartibi to'g'ri gap:", opts: ["He's quite nice a man.", "He's quite a nice man.", "He's nice quite a man.", "He's a man quite nice."], a: 1, why: "**quite** — **a** dan oldin: *quite a nice man*." },
+    { k: "fill", q: "Thank you for the present! You're very ___.", a: ["generous", "kind", "nice", "sweet"], hint: "saxiy", why: "Sovg'a beradigan — **generous**." },
     { k: "fill", q: "He never says \"please\" or \"thank you\". He's very ___.", a: ["rude", "impolite"], hint: "qo'pol" },
     { k: "fill", q: "I like your brother very ___.", a: ["much"], why: "**I like… very much** — gap oxirida." },
     { k: "tf", q: "**a bit** odatda salbiy sifatlar bilan ishlatiladi: *a bit lazy, a bit rude*.", a: true },

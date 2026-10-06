@@ -110,11 +110,11 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "text", title: "Sports day",
-          en: "Last Saturday there was a sports day at my son's school in Fergana. It began at nine, and all the parents came to watch.\nFirst, the children ran a 100-metre race. My son, Amir, ran very fast, but near the end he fell and hurt his knee. Luckily, he didn't break anything! He got up and finished the race.\nThen there was a swimming competition. Amir's class swam really well and won a cup. In the afternoon, the girls sang Uzbek songs, and everybody wore the school colours — blue and white.\nI forgot my camera at home, so I couldn't take any photos. But I will never forget that day.",
-          uz: "O'tgan shanba Farg'onadagi o'g'limning maktabida sport kuni bo'ldi. U soat to'qqizda boshlandi va barcha ota-onalar tomosha qilgani kelishdi.\nAvval bolalar 100 metrga yugurishdi. O'g'lim Amir juda tez yugurdi, lekin marraga yaqin yiqilib, tizzasini lat yedirdi. Baxtimizga, hech narsasini sindirmadi! U o'rnidan turib, poygani tugatdi.\nKeyin suzish musobaqasi bo'ldi. Amirning sinfi juda yaxshi suzdi va kubok yutdi. Tushdan keyin qizlar o'zbek qo'shiqlarini kuylashdi, hamma maktab ranglarida — ko'k va oq kiyimda edi.\nMen fotoapparatimni uyda unutib qoldirdim, shuning uchun birorta ham surat ololmadim. Lekin bu kunni hech qachon unutmayman.",
+          en: "Last Saturday there was a sports day at my son's school in Fergana. It began at nine, and all the parents came to watch.\nFirst, the children ran a 100-metre race. My son, Amir, ran very fast, but near the end he fell and cut his knee. Luckily, he didn't break anything! He got up and finished the race.\nThen there was a swimming competition. Amir's class swam really well and won a cup. In the afternoon, the girls sang Uzbek songs, and everybody wore the school colours — blue and white.\nI forgot my camera at home, so I couldn't take any photos. But I will never forget that day.",
+          uz: "O'tgan shanba Farg'onadagi o'g'limning maktabida sport kuni bo'ldi. U soat to'qqizda boshlandi va barcha ota-onalar tomosha qilgani kelishdi.\nAvval bolalar 100 metrga yugurishdi. O'g'lim Amir juda tez yugurdi, lekin marraga yaqin yiqilib, tizzasini kesib oldi. Baxtimizga, hech narsasini sindirmadi! U o'rnidan turib, poygani tugatdi.\nKeyin suzish musobaqasi bo'ldi. Amirning sinfi juda yaxshi suzdi va kubok yutdi. Tushdan keyin qizlar o'zbek qo'shiqlarini kuylashdi, hamma maktab ranglarida — ko'k va oq kiyimda edi.\nMen fotoapparatimni uyda unutib qoldirdim, shuning uchun birorta ham surat ololmadim. Lekin bu kunni hech qachon unutmayman.",
         },
-        { t: "check", ex: { k: "tf", q: "Amir yiqildi va oyog'ini sindirdi.", a: false, why: "*…he fell and hurt his knee. Luckily, he **didn't break** anything!*" } },
-        { t: "check", ex: { k: "choice", q: "Why couldn't the writer take any photos?", opts: ["Because the camera broke.", "Because he forgot his camera at home.", "Because there was a power cut.", "Because Amir fell."], a: 1, why: "*I forgot my camera at home, so I couldn't take any photos.*" } },
+        { t: "check", ex: { k: "tf", q: "Amir yiqildi va oyog'ini sindirdi.", a: false, why: "*…he fell and cut his knee. Luckily, he **didn't break** anything!*" } },
+        { t: "check", ex: { k: "choice", q: "Why couldn't the writer take any photos?", opts: ["Because the camera broke.", "Because the writer forgot the camera at home.", "Because there was a power cut.", "Because Amir fell."], a: 1, why: "*I forgot my camera at home, so I couldn't take any photos.*" } },
       ],
     },
     {
@@ -170,7 +170,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Yesterday it ___ to rain at five.", opts: ["begun", "began", "beginned", "begins"], a: 1 },
     { k: "choice", q: "Javob: *\"Our team won.\"* Savol:", opts: ["Which team winned?", "Which team won?", "Which team did won?", "Which team win?"], a: 1, why: "Ega so'raladi → **did** yo'q, V2: *Which team **won**?*" },
     { k: "choice", q: "Qaysi gap **to'g'ri**?", opts: ["There was many people at the concert.", "We didn't caught the train.", "I couldn't find my keys, so I was late.", "Where you bought this dress?"], a: 2, why: "Qolganlari: *There **were** many people; didn't **catch**; Where **did you buy**…?*" },
-    { k: "fill", q: "My grandmother ___ off a chair and hurt her arm. (fall)", a: ["fell"] },
+    { k: "fill", q: "My grandmother ___ off a chair and broke her arm. (fall)", a: ["fell"] },
     { k: "fill", q: "We ___ in the sea every day on holiday. (swim)", a: ["swam"] },
     { k: "fill", q: "Did you ___ a jacket? It was cold yesterday. (wear)", a: ["wear"] },
     { k: "listen", say: "I caught a cold.", opts: ["I caught a cold.", "I got a coat.", "I cut a cold."], a: 0 },

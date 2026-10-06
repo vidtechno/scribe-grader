@@ -31,7 +31,7 @@ const lesson: Lesson = {
     {
       title: "Boshqa odamni tanishtirish: This is…",
       blocks: [
-        { t: "p", md: "Do'stingiz yoki hamkasbingizni tanishtirganda ingliz tilida **This is…** deyiladi — odam yoningizda tursa ham **He is…** emas! Ism oldidan odatda kimligini aytamiz:" },
+        { t: "p", md: "Do'stingiz yoki hamkasbingizni tanishtirganda ingliz tilida **This is…** deyiladi — odam yoningizda tursa ham odatda **He is…** demaymiz! Ism oldidan odatda kimligini aytamiz:" },
         {
           t: "examples", items: [
             { en: "This is my friend, Dilshod.", uz: "Bu do'stim Dilshod." },
@@ -148,14 +148,14 @@ const lesson: Lesson = {
     { k: "choice", q: "Uzoq vaqtdan keyin eski do'stingizni ko'rdingiz. Nima deysiz?", opts: ["Nice to meet you!", "Nice to see you again!", "Nice to meet you too!"], a: 1, why: "Tanish odamga: **Nice to see you (again)!** *meet* — faqat birinchi tanishuvda." },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["This is my friend, Aziz.", "These are my parents.", "He is my brother, let me introduce.", "Emma, this is Jasur."], a: 2, why: "Tanishtirishda **This is my brother** yoki **Let me introduce my brother** deymiz." },
     { k: "fill", q: "What do you ___? — I'm a pharmacist.", a: ["do"], why: "Kasb so'raladi: **What do you do?**" },
-    { k: "fill", q: "I'm from Uzbekistan. What ___ you?", a: ["about"], why: "**What about you?** = Siz-chi?" },
+    { k: "fill", q: "I'm from Uzbekistan. What ___ you?", a: ["about", "how"], why: "**What about you?** = Siz-chi?" },
     { k: "fill", q: "It was nice ___ meet you.", a: ["to"], why: "**It was nice to meet you.**" },
     { k: "tf", q: "**What are you doing?** — bu odamning kasbini so'raydigan savol.", a: false, why: "Kasb — **What do you do?** *What are you doing?* — hozir nima qilayotganini so'raydi." },
     { k: "tf", q: "**Actually** o'zbekchaga \"aslida\" deb tarjima qilinadi.", a: true, why: "*Actually, I'm a student.* — Aslida men talabaman." },
-    { k: "order", uz: "Bu mening qo'shnim, Rustam.", words: ["This", "is", "my", "neighbour,", "Rustam."], extra: ["He", "it"] },
+    { k: "order", uz: "Bu mening qo'shnim, Rustam.", words: ["This", "is", "my", "neighbour,", "Rustam."], extra: ["these", "it"] },
     { k: "order", uz: "Aytgancha, familiyangiz nima?", words: ["By", "the", "way,", "what's", "your", "surname?"], extra: ["name's", "you"] },
-    { k: "translate", uz: "Tanishganimdan xursandman.", a: ["Nice to meet you", "Pleased to meet you", "It's nice to meet you", "It is nice to meet you", "Nice to meet you!"] },
-    { k: "translate", uz: "Siz kim bo'lib ishlaysiz?", a: ["What do you do", "What's your job", "What is your job", "What do you do for a living"] },
+    { k: "translate", uz: "Tanishganimdan xursandman.", a: ["Nice to meet you", "Pleased to meet you", "It's nice to meet you", "It is nice to meet you", "Glad to meet you", "I'm glad to meet you", "I'm pleased to meet you", "Nice to meet you!"] },
+    { k: "translate", uz: "Siz kim bo'lib ishlaysiz?", a: ["What do you do", "What's your job", "What is your job", "What do you do for a living", "What do you do for work", "What is your profession", "What's your profession"] },
     { k: "speak", say: "Hi, I'm Aziz. This is my colleague, Kamola.", uz: "Salom, men Azizman. Bu hamkasbim Kamola." },
   ],
   quiz: [
@@ -166,8 +166,8 @@ const lesson: Lesson = {
     { k: "fill", q: "Malika and Sevara, ___ are my parents.", a: ["these"], uz: "Malika va Sevara, bular mening ota-onam.", why: "Ko'plik — **These are…**" },
     { k: "tf", q: "Yangi tanishga **Mr Bobur** deb murojaat qilish to'g'ri.", a: false, why: "**Mr / Mrs / Ms** familiya bilan: *Mr Karimov*." },
     { k: "match", pairs: [["actually", "aslida"], ["by the way", "aytgancha"], ["introduce", "tanishtirmoq"], ["first name", "ism"]] },
-    { k: "order", uz: "Siz bilan tanishganimdan xursand bo'ldim.", words: ["It", "was", "nice", "to", "meet", "you."], extra: ["met", "is"] },
-    { k: "translate", uz: "Mening ona shahrim — Xiva.", a: ["My hometown is Khiva", "My hometown is Xiva", "My home town is Khiva"] },
+    { k: "order", uz: "Siz bilan tanishganimdan xursand bo'ldim.", words: ["It", "was", "nice", "to", "meet", "you."], extra: ["met", "are"] },
+    { k: "translate", uz: "Mening ona shahrim — Xiva.", a: ["My hometown is Khiva", "My hometown is Xiva", "My home town is Khiva", "Khiva is my hometown"] },
     { k: "choice", q: "Mavzuni o'zgartirmoqchisiz. Qaysi ibora mos?", opts: ["Actually,", "By the way,", "Me too,", "You too,"], a: 1, why: "**By the way** — aytgancha, yangi mavzu boshlanadi." },
   ],
   summary: [

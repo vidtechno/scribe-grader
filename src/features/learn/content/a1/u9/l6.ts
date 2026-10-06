@@ -21,7 +21,7 @@ const lesson: Lesson = {
           speak: [2],
         },
         { t: "tip", tone: "good", md: "Ega bir xil bo'lsa, **and** dan keyin uni takrorlash shart emas: *I went to a café **and** (I) ordered a samsa.* Bu hikoyani tez va tabiiy qiladi." },
-        { t: "check", ex: { k: "choice", q: "The film was long, ___ it was very interesting.", opts: ["and", "but", "so", "because"], a: 1, why: "*uzun* (salbiy) ↔ *qiziqarli* (ijobiy) — qarama-qarshilik → **but**." } },
+        { t: "check", ex: { k: "choice", q: "The film was long, ___ it was very interesting. (lekin)", opts: ["and", "but", "so", "because"], a: 1, why: "*uzun* (salbiy) ↔ *qiziqarli* (ijobiy) — qarama-qarshilik → **but**." } },
       ],
     },
     {
@@ -40,8 +40,8 @@ const lesson: Lesson = {
         { t: "p", md: "Qoida: **so** dan keyin — **natija** (nima bo'ldi?). **because** dan keyin — **sabab** (nega?)." },
         {
           t: "compare",
-          good: { title: "To'g'ri", items: ["It was cold, so I wore a coat.", "I wore a coat because it was cold."] },
-          bad: { title: "Xato (ma'no teskari)", items: ["It was cold because I wore a coat.", "I wore a coat, so it was cold."] },
+          good: { title: "To'g'ri", items: ["It was cold, so I closed the window.", "I closed the window because it was cold."] },
+          bad: { title: "Xato (ma'no teskari)", items: ["It was cold because I closed the window.", "I closed the window, so it was cold."] },
         },
         { t: "check", ex: { k: "choice", q: "I didn't go to school ___ I was ill.", opts: ["so", "because", "but", "and"], a: 1, why: "*kasal edim* — sabab → **because**." } },
         { t: "check", ex: { k: "choice", q: "The shop was closed, ___ I went home.", opts: ["because", "but", "so", "or"], a: 2, why: "*uyga ketdim* — natija → **so**." } },
@@ -99,8 +99,8 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "text", title: "Sardor's lost wallet",
-          en: "Last Friday I went to Chorsu Bazaar because I wanted to buy some spices. It was very crowded, but I found everything and paid. Then I bought some hot bread and went to the bus stop.\nSuddenly, I couldn't find my wallet! I was really worried because my ID card and all my money were in it. I went back to the bread stall, but nobody remembered me.\nUnfortunately, I missed my bus, so I walked home. In the end, I had a surprise. A young man called me in the evening. He found my wallet near the bus stop and saw my phone number on a card inside. I was so surprised and happy!",
-          uz: "O'tgan juma kuni Chorsu bozoriga bordim, chunki ziravor sotib olmoqchi edim. Juda gavjum edi, lekin hamma narsani topdim va pulini to'ladim. Keyin issiq non sotib olib, bekatga bordim.\nTo'satdan hamyonimni topa olmadim! Juda xavotirga tushdim, chunki unda ID-kartam va bor pulim bor edi. Non rastasiga qaytib bordim, lekin hech kim meni eslamadi.\nAfsuski, avtobusimdan qoldim, shuning uchun uyga piyoda bordim. Oxirida esa kutilmagan voqea bo'ldi. Kechqurun bir yigit menga qo'ng'iroq qildi. U hamyonimni bekat yonidan topibdi va ichidagi kartochkada telefon raqamimni ko'ribdi. Juda hayron bo'ldim va xursand bo'ldim!",
+          en: "Last Friday I went to Chorsu Bazaar because I wanted to buy some spices. It was very crowded, but I found everything I needed. Then I bought some hot bread and went to the bus stop.\nSuddenly, I couldn't find my wallet! I was really worried because my ID card and all my money were in it. I went back to the bread stall, but nobody remembered me.\nUnfortunately, I missed my bus, so I walked home. In the end, I had a surprise. A young man called me in the evening. He found my wallet near the bus stop and saw my phone number on a card inside. I was so surprised and happy!",
+          uz: "O'tgan juma kuni Chorsu bozoriga bordim, chunki ziravor sotib olmoqchi edim. Juda gavjum edi, lekin kerakli hamma narsani topdim. Keyin issiq non sotib olib, bekatga bordim.\nTo'satdan hamyonimni topa olmadim! Juda xavotirga tushdim, chunki unda ID-kartam va bor pulim bor edi. Non rastasiga qaytib bordim, lekin hech kim meni eslamadi.\nAfsuski, avtobusimdan qoldim, shuning uchun uyga piyoda bordim. Oxirida esa kutilmagan voqea bo'ldi. Kechqurun bir yigit menga qo'ng'iroq qildi. U hamyonimni bekat yonidan topibdi va ichidagi kartochkada telefon raqamimni ko'ribdi. Juda hayron bo'ldim va xursand bo'ldim!",
         },
         { t: "check", ex: { k: "choice", q: "Why did the writer go to Chorsu Bazaar?", opts: ["Because he wanted to buy some bread.", "Because he wanted to buy some spices.", "Because he lost his wallet.", "Because he missed the bus."], a: 1, why: "*…because I wanted to buy some spices.*" } },
         { t: "check", ex: { k: "tf", q: "Muallif avtobusdan qoldi, shuning uchun taksiga chiqdi.", a: false, why: "*I missed my bus, so I **walked** home.*" } },
@@ -148,7 +148,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I called him twice, ___ he didn't answer.", a: ["but"], uz: "Unga ikki marta qo'ng'iroq qildim, lekin javob bermadi." },
     { k: "fill", q: "She couldn't sleep ___ the neighbours were very noisy.", a: ["because", "as", "since"], uz: "Qo'shnilar juda shovqin qilgani uchun u uxlay olmadi." },
     { k: "fill", q: "It started to rain, ___ we went inside.", a: ["so"], uz: "Yomg'ir yog'a boshladi, shuning uchun ichkariga kirdik." },
-    { k: "fill", q: "I opened the door and ___, a cat ran into the room.", a: ["suddenly"], uz: "Eshikni ochdim va to'satdan xonaga mushuk yugurib kirdi." },
+    { k: "fill", q: "I opened the door and ___, a cat came into the room.", a: ["suddenly"], uz: "Eshikni ochdim va to'satdan xonaga mushuk kirib keldi." },
     { k: "tf", q: "**so** dan keyin sabab, **because** dan keyin natija keladi.", a: false, why: "Aksincha: **so** + natija, **because** + sabab." },
     { k: "tf", q: "Matnda yo'qolgan hamyonni bir yigit topib, egasiga qo'ng'iroq qildi.", a: true, why: "*A young man called me… He found my wallet near the bus stop.*" },
     { k: "order", uz: "Muzey yopiq edi, shuning uchun parkka bordik.", words: ["The", "museum", "was", "closed,", "so", "we", "went", "to", "the", "park"], extra: ["because", "go"] },
@@ -157,7 +157,7 @@ const lesson: Lesson = {
     { k: "speak", say: "I was tired, so I went to bed early.", uz: "Charchagan edim, shuning uchun erta yotdim." },
   ],
   quiz: [
-    { k: "choice", q: "I wanted to buy the jacket, ___ it was too expensive.", opts: ["so", "because", "but", "and"], a: 2 },
+    { k: "choice", q: "I wanted to buy the jacket, ___ it was too expensive.", opts: ["so", "because", "but", "or"], a: 2 },
     { k: "choice", q: "He was hungry ___ he didn't have breakfast.", opts: ["because", "so", "but", "then"], a: 0 },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["Because it was hot, we went to the pool.", "It was hot, so we went to the pool.", "Because it was hot, so we went to the pool.", "We went to the pool because it was hot."], a: 2, why: "**because** va **so** bitta gapda birga kelmaydi." },
     { k: "choice", q: "We waited for two hours. ___, the train arrived.", opts: ["Because", "In the end", "Unfortunately", "Ago"], a: 1, why: "Uzoq kutishdan keyingi yakun → **In the end**." },

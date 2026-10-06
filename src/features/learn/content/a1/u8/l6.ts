@@ -119,7 +119,7 @@ const lesson: Lesson = {
             { who: "Mum", en: "Yes, a little salt and pepper. Finally, eat it with fresh bread. And call me tomorrow!", uz: "Ha, ozgina tuz va murch. Oxirida yangi non bilan ye. Va ertaga menga qo'ng'iroq qil!" },
           ],
         },
-        { t: "check", ex: { k: "order", uz: "Piyozni ozgina yog'da uch daqiqa qovuring.", words: ["Fry", "the", "onion", "in", "a", "little", "oil", "for", "three", "minutes."], extra: ["few", "during"], why: "**a little oil** (sanalmaydi), **for three minutes** (davomida)." } },
+        { t: "check", ex: { k: "order", uz: "Piyozni ozgina yog'da uch daqiqa qovuring.", words: ["Fry", "the", "onion", "in", "a", "little", "oil", "for", "three", "minutes."], extra: ["few", "during"], alt: [["Fry", "the", "onion", "for", "three", "minutes", "in", "a", "little", "oil."]], why: "**a little oil** (sanalmaydi), **for three minutes** (davomida)." } },
       ],
     },
   ],
@@ -150,7 +150,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Avval kartoshkalarni yuving.", words: ["First,", "wash", "the", "potatoes."], extra: ["washes", "you"] },
     { k: "order", uz: "Keyin go'shtni o'n daqiqa qovuring.", words: ["Then", "fry", "the", "meat", "for", "ten", "minutes."], extra: ["during", "fried"] },
     { k: "translate", uz: "Suvni qaynating.", a: ["Boil the water", "Boil water", "Boil some water"] },
-    { k: "translate", uz: "Oxirida salatni non bilan torting.", a: ["Finally serve the salad with bread", "Finally serve the salad with some bread", "Finally serve the salad with the bread", "Finally serve the salad with fresh bread"], why: "Oxirgi qadam — **Finally**, \"tortmoq\" — **serve**." },
+    { k: "translate", uz: "Oxirida salatni non bilan torting.", a: ["Finally serve the salad with bread", "Finally serve the salad with some bread", "Finally serve the salad with the bread", "Finally serve the salad with fresh bread", "At the end serve the salad with bread", "Last serve the salad with bread"], why: "Oxirgi qadam — **Finally**, \"tortmoq\" — **serve**." },
     { k: "speak", say: "First, chop the onions. Then fry them for five minutes.", uz: "Avval piyozni to'g'rang. Keyin uni besh daqiqa qovuring." },
   ],
   quiz: [

@@ -114,7 +114,7 @@ const lesson: Lesson = {
           ],
         },
         { t: "tip", tone: "info", md: "**been to** = borib kelgan: *I've **been to** Paris* — Parijda bo'lganman. Joy oldidan **to** ishlating. (**been** va **gone** farqini keyingi darsda o'rganamiz.)" },
-        { t: "check", ex: { k: "order", uz: "U (she) hech qachon tuya minmagan.", words: ["She", "has", "never", "ridden", "a", "camel."], extra: ["not", "rode"], why: "has + **never** + V3. *never* bilan *not* ishlatilmaydi." } },
+        { t: "check", ex: { k: "order", uz: "U (she) hech qachon tuya minmagan.", words: ["She", "has", "never", "ridden", "a", "camel."], extra: ["ever", "rode"], why: "has + **never** + V3. *never* bilan *not* ishlatilmaydi." } },
       ],
     },
     {
@@ -192,7 +192,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Siz hech qachon tuya minganmisiz?", words: ["Have", "you", "ever", "ridden", "a", "camel?"], extra: ["did", "rode"], why: "**Have + you + ever + V3**." },
     { k: "order", uz: "U (she) Turkiyada ikki marta bo'lgan.", words: ["She", "has", "been", "to", "Turkey", "twice."], extra: ["have", "was"] },
     { k: "translate", uz: "Siz hech qachon chet elda bo'lganmisiz?", a: ["Have you ever been abroad?", "Have you been abroad?", "Have you ever travelled abroad?", "Have you ever traveled abroad?", "Have you ever been to another country?", "Have you ever been to a foreign country?"] },
-    { k: "translate", uz: "Men hech qachon sushi yemaganman.", a: ["I have never eaten sushi.", "I've never eaten sushi.", "I have never tried sushi.", "I've never tried sushi.", "I haven't eaten sushi.", "I have not eaten sushi.", "I haven't ever eaten sushi.", "I haven't tried sushi.", "I have not tried sushi."] },
+    { k: "translate", uz: "Men hech qachon sushi yemaganman.", a: ["I have never eaten sushi.", "I've never eaten sushi.", "I have never tried sushi.", "I've never tried sushi.", "I haven't eaten sushi.", "I have not eaten sushi.", "I haven't ever eaten sushi.", "I haven't tried sushi.", "I have not tried sushi.", "I have never had sushi.", "I've never had sushi."] },
     { k: "speak", say: "I've been to Samarkand three times.", uz: "Men Samarqandda uch marta bo'lganman." },
   ],
   quiz: [

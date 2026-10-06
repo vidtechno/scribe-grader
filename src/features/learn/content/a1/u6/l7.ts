@@ -43,7 +43,7 @@ const lesson: Lesson = {
     {
       title: "Yo'l so'rash",
       blocks: [
-        { t: "p", md: "Notanish odamga murojaat **Excuse me** bilan boshlanadi (❌ *Sorry* yoki *Hey* emas). Keyin uch xil savoldan birini bering:" },
+        { t: "p", md: "Notanish odamga murojaat **Excuse me** bilan boshlanadi (*Hey!* — qo'pol eshitiladi). Keyin uch xil savoldan birini bering:" },
         {
           t: "table", head: ["Savol", "O'zbekcha"],
           rows: [
@@ -60,7 +60,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["How do I get to the station?", "Is there a bank near here?", "Where's the nearest metro station?"] },
           bad: { title: "Xato", items: ["How I get to the station?", "Is there bank near here?", "Where is nearest metro station?"] },
         },
-        { t: "tip", tone: "warn", md: "**near here** — \"bu yerga yaqin\". ❌ *near to here* emas. **the nearest** — \"eng yaqin\" (u5 dagi *the biggest* kabi) — **the** shart!" },
+        { t: "tip", tone: "warn", md: "**near here** — \"bu yerga yaqin\". ❌ *near to here* emas. **the nearest** — \"eng yaqin\" (*the biggest* kabi) — **the** shart!" },
         { t: "tip", tone: "good", md: "**get to** — \"…ga yetib bormoq\". *How do I get to Amir Temur Square?* \n**home** bilan **to** yo'q: *How do I get home?*" },
         { t: "check", ex: { k: "choice", q: "Muloyim savol:", opts: ["Hey, where is bank?", "Excuse me, is there a bank near here?", "Sorry, bank where?", "Excuse me, there is a bank near here?"], a: 1, why: "**Excuse me** + **Is there a… near here?**" } },
       ],
@@ -88,7 +88,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["Turn left.", "Go straight on.", "Take the second right."] },
           bad: { title: "Xato", items: ["Turn to left.", "Go to straight.", "Take the two right."] },
         },
-        { t: "tip", tone: "warn", md: "**Turn left** — predlogsiz! ❌ *Turn to the left* deyish odatiy emas. **the first / second / third** — o'tgan darsdagi tartib sonlar: *Take the **third** right.*" },
+        { t: "tip", tone: "warn", md: "**Turn left** — predlogsiz va eng qisqa. *Turn to the left* ham to'g'ri, lekin ❌ *Turn to left* (the siz) — xato. **the first / second / third** — 5-darsdagi tartib sonlar: *Take the **third** right.*" },
         { t: "check", ex: { k: "fill", q: "Go straight on and ___ the second left.", a: ["take"], why: "**Take the second left** — ikkinchi chapga buriling." } },
       ],
     },
@@ -112,7 +112,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["It's opposite the bank.", "It's on the corner.", "It's on your left."] },
           bad: { title: "Xato", items: ["It's opposite of the bank.", "It's in the corner of the street.", "It's in your left."] },
         },
-        { t: "tip", tone: "warn", md: "**opposite** dan keyin **of** yo'q: *opposite the bank*. Ko'chada **on the corner**, xona ichida **in the corner**: *The TV is in the corner of the room.*" },
+        { t: "tip", tone: "warn", md: "**opposite** dan keyin odatda **of** yo'q: *opposite the bank*. Ko'chada **on the corner**, xona ichida **in the corner**: *The TV is in the corner of the room.*" },
         { t: "p", md: "Masofani aytish: **It's about five minutes' walk.** (Piyoda 5 daqiqacha.) **It's not far.** **It's a long way — take a taxi.**" },
         { t: "check", ex: { k: "choice", q: "\"Dorixona bankning qarshisida.\"", opts: ["The pharmacy is opposite of the bank.", "The pharmacy is opposite the bank.", "The pharmacy is opposite to bank.", "The pharmacy opposite is the bank."], a: 1 } },
       ],
@@ -174,7 +174,7 @@ const lesson: Lesson = {
     { k: "match", pairs: [["opposite", "qarshisida"], ["next to", "yonida"], ["between", "orasida"], ["on the corner", "burchakda"], ["at the end of", "oxirida"]] },
     { k: "listen", say: "Take the second left.", opts: ["Take the second left.", "Take the second right.", "Take the first left."], a: 0 },
     { k: "listen", say: "It's opposite the post office.", opts: ["It's next to the post office.", "It's opposite the post office.", "It's behind the post office."], a: 1 },
-    { k: "choice", q: "Qaysi gap **xato**?", opts: ["Turn right at the bridge.", "Go straight on.", "Turn to left at the bank.", "Take the third left."], a: 2, why: "**Turn left** — predlogsiz." },
+    { k: "choice", q: "Qaysi gap **xato**?", opts: ["Turn right at the bridge.", "Go straight on.", "Turn to left at the bank.", "Take the third left."], a: 2, why: "**Turn left** yoki **Turn to the left** — lekin *to left* (the siz) xato." },
     { k: "choice", q: "\"Eng yaqin bankomat qayerda?\"", opts: ["Where's nearest cash machine?", "Where's the nearest cash machine?", "Where's the near cash machine?", "Where the nearest cash machine is?"], a: 1, why: "**the nearest** — *the* shart; savolda *is* egadan oldin." },
     { k: "choice", q: "Ko'chada kafe burchakda joylashgan:", opts: ["The café is in the corner.", "The café is on the corner.", "The café is at corner."], a: 1, why: "Ko'chada — **on the corner**." },
     { k: "fill", q: "Excuse me, how do I get ___ the station?", a: ["to"], why: "**get to** + joy." },
@@ -184,8 +184,8 @@ const lesson: Lesson = {
     { k: "tf", q: "Notanish odamdan yo'l so'raganda **Excuse me** bilan boshlash kerak.", a: true },
     { k: "order", uz: "Svetoforda o'ngga buriling.", words: ["Turn", "right", "at", "the", "traffic", "lights."], extra: ["to", "in"] },
     { k: "order", uz: "Kechirasiz, bu yerga yaqin dorixona bormi?", words: ["Excuse", "me,", "is", "there", "a", "pharmacy", "near", "here?"], extra: ["to", "are"] },
-    { k: "translate", uz: "Ko'prikdan o'tib, chapga buriling.", a: ["Cross the bridge and turn left", "Go over the bridge and turn left", "Cross the bridge, then turn left", "Cross the bridge and then turn left", "Go across the bridge and turn left"] },
-    { k: "translate", uz: "Uzoqmi?", a: ["Is it far", "Is it far away"] },
+    { k: "translate", uz: "Ko'prikdan o'tib, chapga buriling.", a: ["Cross the bridge and turn left", "Go over the bridge and turn left", "Cross the bridge, then turn left", "Cross the bridge and then turn left", "Go across the bridge and turn left", "Go over the bridge, then turn left", "Go over the bridge and then turn left", "Go across the bridge, then turn left", "Cross the bridge and turn to the left"] },
+    { k: "translate", uz: "Uzoqmi?", a: ["Is it far", "Is it far away", "Is it a long way", "Is it far from here"] },
     { k: "speak", say: "Excuse me, how do I get to the museum?", uz: "Kechirasiz, muzeyga qanday borsam bo'ladi?" },
   ],
   quiz: [
@@ -197,7 +197,7 @@ const lesson: Lesson = {
     { k: "tf", q: "Madinaning xabariga ko'ra, uyning darvozasi yashil.", a: true, why: "*It has a green gate.*" },
     { k: "match", pairs: [["post office", "pochta"], ["car park", "avtoturargoh"], ["bus stop", "avtobus bekati"], ["square", "maydon"]] },
     { k: "order", uz: "Muzey o'ng tomoningizda.", words: ["The", "museum", "is", "on", "your", "right."], extra: ["in", "at"] },
-    { k: "translate", uz: "Piyoda besh daqiqacha.", a: ["It's about five minutes' walk", "It is about five minutes' walk", "It's about a five-minute walk", "It is about a five-minute walk", "It's about five minutes on foot", "It is about five minutes on foot", "About five minutes' walk", "It's about 5 minutes' walk", "It's about five minutes walk", "It is about five minutes walk"] },
+    { k: "translate", uz: "Piyoda besh daqiqacha.", a: ["It's about five minutes' walk", "It is about five minutes' walk", "It's about a five-minute walk", "It is about a five-minute walk", "It's about five minutes on foot", "It is about five minutes on foot", "About five minutes' walk", "It's about 5 minutes' walk", "It's about five minutes walk", "It is about five minutes walk", "It's five minutes' walk", "It is five minutes' walk", "It's a five-minute walk", "It is a five-minute walk", "It's about a five minute walk"] },
     { k: "choice", q: "Yo'lni tushunmadingiz. Nima deysiz?", opts: ["Sorry, can you say that again, please?", "Excuse me, turn left.", "You're welcome.", "Go straight on, please."], a: 0 },
   ],
   summary: [

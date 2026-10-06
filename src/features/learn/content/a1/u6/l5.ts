@@ -98,7 +98,7 @@ const lesson: Lesson = {
           ],
           speak: [1],
         },
-        { t: "tip", tone: "info", md: "2001–2009: **two thousand and one…nine**. 2010 dan keyin ikki usul ham bor: *twenty ten* yoki *two thousand and ten*; hozir ko'pincha **twenty twenty-five** deyiladi." },
+        { t: "tip", tone: "info", md: "2001–2009: odatda **two thousand and one…nine** (AmE da *two thousand one*). 2010 dan keyin ikki usul ham bor: *twenty ten* yoki *two thousand and ten*; hozir ko'pincha **twenty twenty-five** deyiladi." },
         { t: "p", md: "Predloglar (Beginner'dagi qoidani eslang):" },
         {
           t: "table", head: ["Predlog", "Nima bilan", "Misol"],
@@ -201,7 +201,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**13th** — *thirteenth*, **30th** — *thirtieth*.", a: true },
     { k: "order", uz: "Mening tug'ilgan kunim 2-iyulda.", words: ["My", "birthday", "is", "on", "the", "second", "of", "July."], extra: ["in", "two"] },
     { k: "order", uz: "Biz uchinchi qavatda yashaymiz.", words: ["We", "live", "on", "the", "third", "floor."], extra: ["three", "in"] },
-    { k: "translate", uz: "Bugun nechanchi sana?", a: ["What's the date today", "What is the date today", "What's today's date", "What is today's date", "What date is it today", "What's the date"] },
+    { k: "translate", uz: "Bugun nechanchi sana?", a: ["What's the date today", "What is the date today", "What's today's date", "What is today's date", "What date is it today", "What's the date", "What is the date", "What date is it"] },
     { k: "speak", say: "My birthday is on the twelfth of June.", uz: "Mening tug'ilgan kunim 12-iyunda." },
   ],
   quiz: [

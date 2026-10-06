@@ -62,7 +62,7 @@ const lesson: Lesson = {
         {
           t: "dialog", lines: [
             { who: "Aziz", en: "Good morning. Two return tickets to Samarkand, please.", uz: "Xayrli tong. Samarqandga ikkita borib-kelish chiptasi, iltimos." },
-            { who: "Cashier", en: "For today?", uz: "Bugunga-mi?" },
+            { who: "Cashier", en: "For today?", uz: "Bugunga mi?" },
             { who: "Aziz", en: "Yes, on the next train. What time does it leave?", uz: "Ha, keyingi poyezdga. U soat nechada jo'naydi?" },
             { who: "Cashier", en: "At 9:40. It's the Afrosiyob, the fast train.", uz: "9:40 da. Bu Afrosiyob, tezyurar poyezd." },
             { who: "Aziz", en: "Great. When does it arrive in Samarkand?", uz: "Zo'r. Samarqandga qachon yetib boradi?" },
@@ -158,13 +158,13 @@ const lesson: Lesson = {
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["The bus arrives at the station at six.", "We arrive in London at noon.", "They arrive to Tashkent tomorrow.", "When does the train arrive?"], a: 2, why: "**arrive to** ❌ → *arrive **in** Tashkent*." },
     { k: "fill", q: "The train ___ at 7:30 every morning.", a: ["leaves", "departs"], uz: "Poyezd har kuni ertalab 7:30 da jo'naydi.", hint: "leave", why: "Jadval → Present Simple, *the train* = it → **leaves**." },
     { k: "fill", q: "Which platform does the train leave ___?", a: ["from"], uz: "Poyezd qaysi platformadan jo'naydi?", why: "**leave from** + joy: *Which platform does it leave **from**?*" },
-    { k: "fill", q: "I've got a lot of ___. Can you help me?", a: ["luggage", "bags"], uz: "Yukim ko'p. Yordam bera olasizmi?", why: "**luggage** sanalmaydi: *a lot of luggage*." },
+    { k: "fill", q: "I've got a lot of ___. Can you help me?", a: ["luggage", "bags", "suitcases", "baggage"], uz: "Yukim ko'p. Yordam bera olasizmi?", why: "**luggage** sanalmaydi: *a lot of luggage*." },
     { k: "tf", q: "**How many luggages have you got?** — to'g'ri savol.", a: false, why: "**luggage** sanalmaydi: *How **much** luggage have you got?* yoki *How many **bags**…?*" },
     { k: "tf", q: "Nilufar aeroportga uch soat oldin keldi.", a: true, why: "*I arrived at the airport three hours early.*" },
     { k: "order", uz: "Samarqandga keyingi poyezd soat nechada jo'naydi?", words: ["What", "time", "does", "the", "next", "train", "to", "Samarkand", "leave?"], extra: ["leaves", "is"] },
-    { k: "order", uz: "Reysimiz bir soatga kechikmoqda.", words: ["Our", "flight", "is", "delayed", "by", "one", "hour."], extra: ["delay", "for"] },
-    { k: "translate", uz: "Buxoroga bir tomonga chipta, iltimos.", a: ["A single to Bukhara, please", "A single ticket to Bukhara, please", "One single ticket to Bukhara, please", "A one-way ticket to Bukhara, please", "A single to Bukhara please", "A single ticket to Bukhara please"] },
-    { k: "translate", uz: "Poyezd qachon yetib keladi?", a: ["When does the train arrive", "What time does the train arrive", "When does the train get here", "When does the train get in"] },
+    { k: "order", uz: "Reysimiz bir soatga kechikmoqda.", words: ["Our", "flight", "is", "delayed", "by", "one", "hour."], extra: ["delay", "at"] },
+    { k: "translate", uz: "Buxoroga bir tomonga chipta, iltimos.", a: ["A single to Bukhara, please", "A single ticket to Bukhara, please", "One single ticket to Bukhara, please", "A one-way ticket to Bukhara, please", "A single to Bukhara please", "A single ticket to Bukhara please", "A one-way to Bukhara, please", "A one-way ticket to Bukhara please"] },
+    { k: "translate", uz: "Poyezd qachon yetib keladi?", a: ["When does the train arrive", "What time does the train arrive", "When does the train get here", "When does the train get in", "When will the train arrive", "What time will the train arrive", "When does the train get there"] },
     { k: "speak", say: "Two return tickets to Samarkand, please. What time does the train leave?", uz: "Samarqandga ikkita borib-kelish chiptasi, iltimos. Poyezd soat nechada jo'naydi?" },
   ],
   quiz: [
@@ -175,8 +175,8 @@ const lesson: Lesson = {
     { k: "fill", q: "Please show your boarding ___ at the gate.", a: ["pass"], uz: "Iltimos, chiqishda bortga chiqish taloningizni ko'rsating.", why: "**boarding pass**." },
     { k: "fill", q: "We arrived ___ the airport at five o'clock.", a: ["at"], uz: "Aeroportga soat beshda yetib keldik.", why: "Bino/joy → **arrive at** (*at the airport*)." },
     { k: "tf", q: "**The flight is delayed** — reys bekor qilindi, degani.", a: false, why: "**delayed** — kechikmoqda. Bekor qilindi — **cancelled**." },
-    { k: "order", uz: "Qaysi chiqishdan jo'naydi?", words: ["Which", "gate", "does", "it", "leave", "from?"], extra: ["leaves", "at"] },
-    { k: "translate", uz: "Reys kechikmoqda.", a: ["The flight is delayed", "The flight's delayed", "The flight is late", "The flight's late"] },
+    { k: "order", uz: "Qaysi chiqishdan jo'naydi?", words: ["Which", "gate", "does", "it", "leave", "from?"], extra: ["leaves", "at"], alt: [["From", "which", "gate", "does", "it", "leave?"]] },
+    { k: "translate", uz: "Reys kechikmoqda.", a: ["The flight is delayed", "The flight's delayed", "The flight is late", "The flight's late", "The flight has been delayed", "Our flight is delayed", "Our flight is late"] },
     { k: "match", pairs: [["departures", "jo'nash"], ["arrivals", "kelish"], ["security", "xavfsizlik tekshiruvi"], ["hand luggage", "qo'l yuki"]] },
   ],
   summary: [

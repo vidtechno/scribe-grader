@@ -9,7 +9,7 @@ const lesson: Lesson = {
     {
       title: "Ikkinchi fe'l: to yoki -ing?",
       blocks: [
-        { t: "p", md: "Ko'pincha gapda ikkita fe'l ketma-ket keladi: *Men **o'qishni xohlayman**. U **pishirishni yoqtiradi**.* O'zbekchada ikkinchi fe'l har doim **-ish** oladi. Ingliz tilida esa birinchi fe'lga qarab ikkinchisi yo **to + V1**, yo **V-ing** bo'ladi:" },
+        { t: "p", md: "Ko'pincha gapda ikkita fe'l ketma-ket keladi: *Men **o'qishni xohlayman**. U **pishirishni yoqtiradi**.* O'zbekchada ikkinchi fe'l odatda **-ish** shaklida bo'ladi. Ingliz tilida esa birinchi fe'lga qarab ikkinchisi yo **to + V1**, yo **V-ing** bo'ladi:" },
         {
           t: "examples", items: [
             { en: "I want to learn Spanish.", uz: "Ispan tilini o'rganishni xohlayman.", note: "**want** → **to** + V1" },

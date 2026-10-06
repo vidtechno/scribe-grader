@@ -61,7 +61,7 @@ const lesson: Lesson = {
           ],
           speak: [0, 1],
         },
-        { t: "p", md: "1-darsda *coffee* sanalmaydi, *a cup of coffee* deymiz, dedik. Lekin **kafeda buyurtma berganda** ichimliklar \"porsiya\" sifatida sanaladi:" },
+        { t: "p", md: "Shu unitning 1-darsida *coffee* sanalmaydi, *a cup of coffee* deymiz, dedik. Lekin **kafeda buyurtma berganda** ichimliklar \"porsiya\" sifatida sanaladi:" },
         {
           t: "examples", items: [
             { en: "Two coffees and a tea, please.", uz: "Ikki qahva va bitta choy, iltimos.", note: "= two cups of coffee and a cup of tea" },
@@ -122,7 +122,7 @@ const lesson: Lesson = {
             { en: "Let's split the bill.", uz: "Hisobni bo'lib to'laylik." },
           ],
         },
-        { t: "tip", tone: "info", md: "Ofitsiantni chaqirish uchun **Excuse me!** deysiz (*Hey!* yoki qo'l chapak emas). **tip** — choychaqa: Britaniyada odatda hisobning taxminan 10 foizi." },
+        { t: "tip", tone: "info", md: "Ofitsiantni chaqirish uchun **Excuse me!** deysiz (*Hey!* yoki qo'l chapak emas). **tip** — choychaqa: Britaniya restoranlarida ko'pincha hisobning 10–12 foizi qoldiriladi (ba'zan xizmat haqi hisobga allaqachon qo'shilgan bo'ladi)." },
         { t: "check", ex: { k: "order", uz: "Hisobni olib kelasizmi?", words: ["Can", "we", "have", "the", "bill,", "please?"], extra: ["give", "bills"], why: "**Can we have the bill, please?** — standart ibora." } },
       ],
     },
@@ -140,7 +140,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "menu", uz: "menyu", ipa: "ˈmen.juː", pos: "noun", ex: "Could I see the menu, please?", exUz: "Menyuni ko'rsam bo'ladimi?" },
-    { en: "waiter", uz: "ofitsiant", ipa: "ˈweɪ.tə", pos: "noun", ex: "The waiter brought our tea.", exUz: "Ofitsiant choyimizni olib keldi." },
+    { en: "starter", uz: "birinchi (boshlang'ich) taom", ipa: "ˈstɑː.tə", pos: "noun", ex: "I'd like the salad as a starter.", exUz: "Boshlang'ich taom sifatida salat olaman." },
     { en: "order", uz: "buyurtma bermoq; buyurtma", ipa: "ˈɔː.də", pos: "verb / noun", ex: "Are you ready to order?", exUz: "Buyurtma berishga tayyormisiz?" },
     { en: "bill", uz: "hisob (to'lov qog'ozi)", ipa: "bɪl", pos: "noun", ex: "Can we have the bill, please?", exUz: "Hisobni olib kelasizmi?" },
     { en: "main course", uz: "asosiy taom", ipa: "ˌmeɪn ˈkɔːs", pos: "noun", ex: "For my main course I'd like the fish.", exUz: "Asosiy taomga baliq olaman." },
@@ -163,7 +163,7 @@ const lesson: Lesson = {
     { k: "tf", q: "Kafeda buyurtma berganda **two coffees** deyish mumkin (= two cups of coffee).", a: true },
     { k: "match", pairs: [["menu", "menyu"], ["waiter", "ofitsiant"], ["bill", "hisob"], ["dessert", "shirinlik"], ["tip", "choychaqa"]] },
     { k: "order", uz: "Bir qahva va bir bo'lak tort olsam bo'ladimi?", words: ["Could", "I", "have", "a", "coffee", "and", "a", "piece", "of", "cake,", "please?"], extra: ["give", "cakes"], alt: [["Could", "I", "have", "a", "piece", "of", "cake", "and", "a", "coffee,", "please?"]] },
-    { k: "translate", uz: "Men palov olaman. (buyurtma)", a: ["I'll have plov", "I will have plov", "I'll have the plov", "I will have the plov", "I'd like plov", "I would like plov", "I'd like the plov", "I would like the plov", "I'd like some plov", "I'll have some plov", "Can I have the plov", "Could I have the plov", "Can I have plov", "Could I have plov", "I'll have plov please", "I'll have the plov please", "I'd like the plov please", "I'd like plov please", "Could I have the plov please", "Can I have the plov please"] },
+    { k: "translate", uz: "Men palov olaman. (buyurtma)", a: ["I'll have plov", "I will have plov", "I'll have the plov", "I will have the plov", "I'd like plov", "I would like plov", "I'd like the plov", "I would like the plov", "I'd like some plov", "I'll have some plov", "Can I have the plov", "Could I have the plov", "Can I have plov", "Could I have plov", "I'll take the plov", "I'll take plov", "I'll have plov please", "I'll have the plov please", "I'd like the plov please", "I'd like plov please", "Could I have the plov please", "Can I have the plov please"] },
     { k: "translate", uz: "Yana biror narsa?", a: ["Anything else", "Would you like anything else", "Do you want anything else", "Is there anything else", "Do you need anything else"] },
     { k: "speak", say: "Could I have a bowl of soup and a glass of water, please?", uz: "Bir kosa sho'rva va bir stakan suv olsam bo'ladimi?" },
   ],
@@ -176,8 +176,8 @@ const lesson: Lesson = {
     { k: "listen", say: "Can we have the bill, please?", opts: ["Can we have the bill, please?", "Can we have the menu, please?", "Can we have the bowl, please?"], a: 0 },
     { k: "tf", q: "Ofitsiant *Still or sparkling?* deb so'rasa, u suv haqida so'rayapti.", a: true, why: "**still water** — gazsiz, **sparkling water** — gazli." },
     { k: "match", pairs: [["take away", "olib ketish uchun"], ["main course", "asosiy taom"], ["sparkling", "gazli"], ["delicious", "juda mazali"]] },
-    { k: "translate", uz: "Menyuni bera olasizmi?", a: ["Can I have the menu", "Could I have the menu", "Can we have the menu", "Could we have the menu", "Can I see the menu", "Could I see the menu", "Can we see the menu", "Could we see the menu", "Can you give me the menu", "Could you give me the menu", "Can you give us the menu", "Could you give us the menu", "May I have the menu", "May I see the menu", "Can I have the menu please", "Could I have the menu please", "Can we have the menu please", "Could we have the menu please", "Can I see the menu please", "Could I see the menu please"] },
-    { k: "order", uz: "Ikkita choy va bitta somsa, iltimos.", words: ["Two", "teas", "and", "a", "samsa,", "please."], extra: ["tea", "an"] },
+    { k: "translate", uz: "Menyuni bera olasizmi?", a: ["Can I have the menu", "Could I have the menu", "Can we have the menu", "Could we have the menu", "Can I see the menu", "Could I see the menu", "Can we see the menu", "Could we see the menu", "Can you give me the menu", "Could you give me the menu", "Can you give us the menu", "Could you give us the menu", "May I have the menu", "May I see the menu", "Can I have the menu please", "Could I have the menu please", "Can we have the menu please", "Could we have the menu please", "Can I see the menu please", "Could I see the menu please", "Can I get the menu", "Could I get the menu"] },
+    { k: "order", uz: "Ikkita choy va bitta somsa, iltimos.", words: ["Two", "teas", "and", "a", "samsa,", "please."], extra: ["tea", "an"], alt: [["A", "samsa", "and", "two", "teas,", "please."]] },
   ],
   summary: [
     "Buyurtma: **I'd like…, please. / Could I have…? / I'll have…** — *Give me…* qo'pol eshitiladi.",

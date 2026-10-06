@@ -31,7 +31,7 @@ const lesson: Lesson = {
           bad: { title: "Xato", items: ["He have to work on Saturday.", "I have go.", "She has to waits."] },
         },
         { t: "tip", tone: "warn", md: "**-s** faqat bir joyda: **has** to. Asosiy fe'l doim **V1**: *She has to **work*** (❌ *has to works*)." },
-        { t: "check", ex: { k: "fill", q: "Aziz is a doctor. He ___ to work at night sometimes.", a: ["has"], uz: "Aziz shifokor. U ba'zan kechasi ishlashi kerak.", why: "**he** → **has to**." } },
+        { t: "check", ex: { k: "fill", q: "Aziz is a doctor. He ___ to work at night sometimes.", a: ["has", "needs"], uz: "Aziz shifokor. U ba'zan kechasi ishlashi kerak.", why: "**he** → **has to**." } },
       ],
     },
     {
@@ -56,7 +56,7 @@ const lesson: Lesson = {
         {
           t: "examples", items: [
             { en: "It's Sunday. I don't have to get up early.", uz: "Bugun yakshanba. Erta turishim shart emas." },
-            { en: "Uzbek citizens don't have to get a visa for Turkey.", uz: "O'zbekiston fuqarolari Turkiyaga viza olishi shart emas." },
+            { en: "For some countries, you don't have to get a visa.", uz: "Ba'zi davlatlarga viza olishingiz shart emas." },
             { en: "She doesn't have to pay. It's free for children.", uz: "U pul to'lashi shart emas. Bolalarga bepul." },
             { en: "You don't have to bring a towel. The hotel has towels.", uz: "Sochiq olib kelishingiz shart emas. Mehmonxonada sochiq bor." },
           ],
@@ -91,7 +91,7 @@ const lesson: Lesson = {
           bad: { title: "Xato", items: ["Have you to work today?", "Does he has to go?", "Yes, I have."] },
         },
         { t: "check", ex: { k: "choice", q: "___ your brother have to wear a uniform at school?", opts: ["Do", "Does", "Has", "Is"], a: 1, why: "*your brother* = he → **Does … have to**." } },
-        { t: "check", ex: { k: "choice", q: "*Do I have to pay now?* — Qisqa javob:", opts: ["Yes, you have.", "Yes, you do.", "Yes, you have to.", "Yes, you are."], a: 1, why: "**Do…?** savoliga → **Yes, you do. / No, you don't.**" } },
+        { t: "check", ex: { k: "choice", q: "*Do I have to pay now?* — Qisqa javob:", opts: ["Yes, you have.", "Yes, you do.", "Yes, you does.", "Yes, you are."], a: 1, why: "**Do…?** savoliga → **Yes, you do. / No, you don't.**" } },
       ],
     },
     {
@@ -107,7 +107,7 @@ const lesson: Lesson = {
           ],
         },
         { t: "tip", tone: "warn", md: "❌ *I had to went.* — **had** dan keyin ham **to + V1**: ✅ *I had to **go**.*\n❌ *I didn't had to.* — ✅ *I didn't **have** to.*" },
-        { t: "check", ex: { k: "fill", q: "Yesterday I was ill, so I ___ to stay at home.", a: ["had"], uz: "Kecha kasal edim, shuning uchun uyda qolishimga to'g'ri keldi.", why: "O'tgan zamon → **had to**." } },
+        { t: "check", ex: { k: "fill", q: "Yesterday I was ill, so I ___ to stay at home.", a: ["had", "needed"], uz: "Kecha kasal edim, shuning uchun uyda qolishimga to'g'ri keldi.", why: "O'tgan zamon → **had to**." } },
       ],
     },
     {
@@ -130,7 +130,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Nigora's job",
           en: "Nigora is a nurse at a hospital in Tashkent. Her job is interesting, but it isn't easy. She has to start work at seven, so she has to get up at half past five. She has to wear a white uniform and she has to be very careful with medicine.\nSometimes she has to work at night. But she doesn't have to work every weekend — only one Saturday a month. Last week a lot of people had a cold, and she had to stay at the hospital until ten in the evening. \"I was tired,\" she says, \"but I love my job.\"",
-          uz: "Nigora Toshkentdagi kasalxonada hamshira. Uning ishi qiziq, lekin oson emas. U ishni yettida boshlashi kerak, shuning uchun besh yarimda turishi kerak. U oq forma kiyishi va dorilar bilan juda ehtiyot bo'lishi kerak.\nBa'zan kechasi ishlashiga to'g'ri keladi. Lekin har dam olish kuni ishlashi shart emas — oyiga faqat bitta shanba. O'tgan hafta ko'p odam shamollagan edi va u kasalxonada kechki o'ngacha qolishiga to'g'ri keldi. \"Charchadim,\" deydi u, \"lekin ishimni yaxshi ko'raman.\"",
+          uz: "Nigora Toshkentdagi kasalxonada hamshira. Uning ishi qiziq, lekin oson emas. U ishni yettida boshlashi kerak, shuning uchun besh yarimda turishi kerak. U oq forma kiyishi va dorilar bilan juda ehtiyot bo'lishi kerak.\nBa'zan kechasi ishlashiga to'g'ri keladi. Lekin har dam olish kuni ishlashi shart emas — oyiga faqat bitta shanba. O'tgan hafta ko'p odam shamollagan edi va u kasalxonada kechqurun soat o'ngacha qolishiga to'g'ri keldi. \"Charchadim,\" deydi u, \"lekin ishimni yaxshi ko'raman.\"",
         },
         { t: "check", ex: { k: "choice", q: "How often does Nigora have to work on Saturday?", opts: ["every Saturday", "one Saturday a month", "never", "two Saturdays a month"], a: 1, why: "*She doesn't have to work every weekend — only **one Saturday a month**.*" } },
       ],
@@ -156,7 +156,7 @@ const lesson: Lesson = {
     { k: "choice", q: "My sister ___ to study for her exams this weekend.", opts: ["have", "has", "having", "does"], a: 1, why: "*my sister* = she → **has to**." },
     { k: "choice", q: "It's a holiday tomorrow, so we ___ go to work.", opts: ["have to", "don't have to", "doesn't have to", "has to"], a: 1, why: "Bayram — ishga borish **shart emas**: *we **don't have to***." },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["Does he have to work today?", "Do you have to wear a uniform?", "Does she has to pay?", "Did you have to wait?"], a: 2, why: "**Does** dan keyin **have**: *Does she **have** to pay?*" },
-    { k: "fill", q: "You ___ to show your passport at the airport.", a: ["have"], uz: "Aeroportda pasportingizni ko'rsatishingiz kerak.", why: "**you** → **have to**." },
+    { k: "fill", q: "You ___ to show your passport at the airport.", a: ["have", "need"], uz: "Aeroportda pasportingizni ko'rsatishingiz kerak.", why: "**you** → **have to**." },
     { k: "fill", q: "He ___ have to get a visa. It's not necessary for his country.", a: ["doesn't", "does not"], uz: "U viza olishi shart emas. Uning davlati uchun kerak emas.", why: "**he** → **doesn't have to** (shart emas)." },
     { k: "fill", q: "Please ___ in this form and sign here.", a: ["fill"], uz: "Iltimos, bu shaklni to'ldiring va shu yerga imzo qo'ying.", why: "**fill in** a form — shaklni to'ldirmoq." },
     { k: "tf", q: "**You don't have to smoke here** = \"Bu yerda chekish mumkin emas\".", a: false, why: "**don't have to** — shart emas. Taqiq uchun: *You **mustn't / can't** smoke here.*" },
@@ -173,7 +173,7 @@ const lesson: Lesson = {
     { k: "choice", q: "___ you have to work last Saturday?", opts: ["Do", "Did", "Had", "Does"], a: 1, why: "*last Saturday* — o'tgan zamon → **Did you have to…?**" },
     { k: "choice", q: "*Does Ali have to wear a uniform?* — *No, ___.*", opts: ["he hasn't", "he doesn't", "he don't", "he isn't"], a: 1, why: "**Does…?** → **No, he doesn't.**" },
     { k: "choice", q: "To'g'ri gapni tanlang:", opts: ["My mum has to takes medicine.", "My mum have to take medicine.", "My mum has to take medicine.", "My mum has take medicine."], a: 2, why: "**has to + V1**." },
-    { k: "fill", q: "The train was cancelled, so we ___ to take a taxi.", a: ["had"], uz: "Poyezd bekor qilindi, shuning uchun taksiga chiqishimizga to'g'ri keldi.", why: "O'tgan zamon → **had to**." },
+    { k: "fill", q: "The train was cancelled, so we ___ to take a taxi.", a: ["had", "needed"], uz: "Poyezd bekor qilindi, shuning uchun taksiga chiqishimizga to'g'ri keldi.", why: "O'tgan zamon → **had to**." },
     { k: "fill", q: "You need a ___ from your doctor for this medicine.", a: ["prescription"], uz: "Bu dori uchun shifokoringizdan retsept kerak.", why: "**prescription** — retsept." },
     { k: "tf", q: "**I don't have to get up early on Sunday** = Yakshanba kuni erta turishim shart emas.", a: true, why: "**don't have to** — shart emas." },
     { k: "translate", uz: "U (erkak) har kuni ishlashi kerak.", a: ["He has to work every day", "Every day he has to work", "He must work every day", "He's got to work every day", "He has got to work every day", "He needs to work every day"] },

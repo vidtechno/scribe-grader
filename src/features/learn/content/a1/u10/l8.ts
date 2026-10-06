@@ -143,7 +143,7 @@ const lesson: Lesson = {
     { k: "tf", q: "Dilnoza Jasurga esdalik sovg'a oldi.", a: true, why: "*By the way, I bought you a souvenir.*" },
     { k: "order", uz: "Xabaring uchun rahmat!", words: ["Thanks", "for", "your", "message!"], extra: ["to", "you"], alt: [["Thanks", "for", "your", "message"]] },
     { k: "order", uz: "Narxini ayta olasizmi, iltimos?", words: ["Could", "you", "tell", "me", "the", "price,", "please?"], extra: ["say", "to"] },
-    { k: "translate", uz: "Aytgancha, rasmlarimni oldingmi?", a: ["By the way, did you get my photos", "By the way, did you get my pictures", "By the way, did you receive my photos", "By the way, did you receive my pictures", "By the way did you get my photos", "By the way did you get my pictures"] },
+    { k: "translate", uz: "Aytgancha, rasmlarimni oldingmi?", a: ["By the way, did you get my photos", "By the way, did you get my pictures", "By the way, did you receive my photos", "By the way, did you receive my pictures", "By the way did you get my photos", "By the way did you get my pictures", "Did you get my photos, by the way", "Did you get my pictures, by the way"] },
     { k: "speak", say: "Thanks for your email. I'm looking forward to seeing you.", uz: "Xating uchun rahmat. Seni ko'rishni intiqlik bilan kutyapman." },
   ],
   quiz: [

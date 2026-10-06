@@ -106,7 +106,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Ask the doctor",
           en: "Dear Dr Karimova,\nI'm a student and I'm always tired. I go to bed at two in the morning because I watch videos on my phone. I usually skip breakfast and eat junk food for lunch. What should I do? — Sanjar, 19\nDear Sanjar,\nYou shouldn't use your phone in bed — put it in another room at night. You should go to bed before midnight and sleep for seven or eight hours. Breakfast is important, so you shouldn't skip it: eat some eggs or porridge and a piece of fruit. And try to walk for thirty minutes every day. I think you'll feel better in two weeks! — Dr Karimova",
-          uz: "Hurmatli doktor Karimova,\nMen talabaman va doim charchoq yuraman. Tungi soat ikkida yotaman, chunki telefonimda video ko'raman. Odatda nonushtani tashlab ketaman va tushlikka zararli tez ovqat yeyman. Nima qilishim kerak? — Sanjar, 19 yosh\nHurmatli Sanjar,\nTo'shakda telefondan foydalanmang — kechasi uni boshqa xonaga qo'ying. Yarim tundan oldin yotishingiz va yetti-sakkiz soat uxlashingiz kerak. Nonushta muhim, shuning uchun uni tashlab ketmang: bir nechta tuxum yoki bo'tqa va bitta meva yeng. Va har kuni o'ttiz daqiqa yurishga harakat qiling. Menimcha, ikki haftada o'zingizni yaxshiroq his qilasiz! — Doktor Karimova",
+          uz: "Hurmatli doktor Karimova,\nMen talabaman va doim charchab yuraman. Tungi soat ikkida yotaman, chunki telefonimda video ko'raman. Odatda nonushtani tashlab ketaman va tushlikka zararli tez ovqat yeyman. Nima qilishim kerak? — Sanjar, 19 yosh\nHurmatli Sanjar,\nTo'shakda telefondan foydalanmang — kechasi uni boshqa xonaga qo'ying. Yarim tundan oldin yotishingiz va yetti-sakkiz soat uxlashingiz kerak. Nonushta muhim, shuning uchun uni tashlab ketmang: bir nechta tuxum yoki bo'tqa va bitta meva yeng. Va har kuni o'ttiz daqiqa yurishga harakat qiling. Menimcha, ikki haftada o'zingizni yaxshiroq his qilasiz! — Doktor Karimova",
         },
         { t: "check", ex: { k: "tf", q: "Dr Karimova thinks Sanjar should sleep with his phone.", a: false, why: "*You shouldn't use your phone in bed — put it in another room.*" } },
         { t: "check", ex: { k: "choice", q: "What should Sanjar eat for breakfast?", opts: ["junk food", "eggs or porridge and some fruit", "nothing — he should skip it"], a: 1 } },
@@ -118,7 +118,7 @@ const lesson: Lesson = {
         {
           t: "dialog", lines: [
             { who: "Nilufar", en: "You look tired, Aziza. Are you OK?", uz: "Charchagan ko'rinasan, Aziza. Yaxshimisan?" },
-            { who: "Aziza", en: "Not really. I've got exams next week, and I study until three in the morning.", uz: "Unchalik emas. Kelasi hafta imtihonlarim bor, ertalab soat uchgacha o'qiyman." },
+            { who: "Aziza", en: "Not really. I've got exams next week, and I study until three in the morning.", uz: "Unchalik emas. Kelasi hafta imtihonlarim bor, tunda soat uchgacha o'qiyman." },
             { who: "Nilufar", en: "That's too late! I think you should study in the morning, not at night.", uz: "Bu juda kech! Menimcha, kechasi emas, ertalab o'qiganing ma'qul." },
             { who: "Aziza", en: "Maybe. And I drink five cups of coffee a day.", uz: "Balki. Yana kuniga besh chashka qahva ichaman." },
             { who: "Nilufar", en: "Five? You shouldn't drink so much coffee. You should drink more water.", uz: "Beshta? Bunchalik ko'p qahva ichmasliging kerak. Ko'proq suv ich." },
@@ -156,7 +156,7 @@ const lesson: Lesson = {
     { k: "match", pairs: [["junk food", "zararli tez ovqat"], ["skip", "tashlab ketmoq"], ["habit", "odat"], ["sweets", "shirinliklar"], ["stay up late", "kechgacha o'tirmoq"]] },
     { k: "order", uz: "Siz ko'proq sabzavot yeyishingiz kerak.", words: ["You", "should", "eat", "more", "vegetables."], extra: ["to", "eats"] },
     { k: "order", uz: "Nonushtani tashlab ketmasligingiz kerak.", words: ["You", "shouldn't", "skip", "breakfast."], extra: ["don't", "to"] },
-    { k: "translate", uz: "Men nima qilishim kerak? (maslahat so'rab)", a: ["What should I do"] },
+    { k: "translate", uz: "Men nima qilishim kerak? (maslahat so'rab)", a: ["What should I do", "What shall I do"] },
     { k: "translate", uz: "U (he) ko'proq uxlashi kerak.", a: ["He should sleep more", "He should get more sleep"] },
     { k: "speak", say: "I think you should drink more water and go to bed earlier.", uz: "Menimcha, ko'proq suv ichib, ertaroq yotishingiz kerak." },
   ],

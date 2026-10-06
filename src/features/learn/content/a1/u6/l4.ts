@@ -169,8 +169,8 @@ const lesson: Lesson = {
     { k: "tf", q: "**This is mine car** — to'g'ri gap.", a: false, why: "Ot oldidan **my**: *This is my car.* Yoki: *This car is mine.*" },
     { k: "order", uz: "Bu kimning soyaboni? — Opamniki.", words: ["Whose", "umbrella", "is", "this?", "It's", "my", "sister's."], extra: ["Who's", "mine"] },
     { k: "order", uz: "U (erkak) — do'stlarimdan biri.", words: ["He's", "a", "friend", "of", "mine."], extra: ["me.", "my"] },
-    { k: "translate", uz: "Bu kitoblar bizniki.", a: ["These books are ours", "These are our books", "These books belong to us"] },
-    { k: "translate", uz: "Bu telefon kimniki?", a: ["Whose phone is this", "Whose is this phone", "Who does this phone belong to"] },
+    { k: "translate", uz: "Bu kitoblar bizniki.", a: ["These books are ours", "These are our books", "These books belong to us", "These are ours", "The books are ours"] },
+    { k: "translate", uz: "Bu telefon kimniki?", a: ["Whose phone is this", "Whose is this phone", "Who does this phone belong to", "Whose phone is it", "Whose phone is that", "Whose is that phone"] },
     { k: "speak", say: "Whose bag is this? — It's mine, thank you.", uz: "Bu kimning sumkasi? — Meniki, rahmat." },
   ],
   quiz: [

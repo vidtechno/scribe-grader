@@ -45,7 +45,7 @@ const lesson: Lesson = {
         {
           t: "sounds", items: [
             { label: "bought", say: "bought", uz: "**\"bo:t\"** — *gh* o'qilmaydi. *thought, brought* ham shunday.", examples: ["bought", "brought", "thought"] },
-            { label: "heard", say: "heard", uz: "**\"hö:d\"** — *hear* (\"hiə\") dan farqli tovush! ❌ \"hi:rd\" emas.", examples: ["hear", "heard"] },
+            { label: "heard", say: "heard", uz: "**\"hɜ:d\"** — *hear* (\"hiə\") dan farqli tovush! ❌ \"hi:rd\" emas.", examples: ["hear", "heard"] },
             { label: "won", say: "won", uz: "**\"wan\"** — *one* (bir) bilan bir xil eshitiladi.", examples: ["won", "one"] },
           ],
         },
@@ -135,7 +135,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Where is everybody?",
           en: "Kamol comes home from work at seven. The flat is very quiet. Where is everybody?\nHe finds a note on the fridge: \"Dad has gone to the airport. He's driving Grandma to her flight. I've gone to the gym with Nilufar. Akbar has been to the shop and he's bought bread and milk. He's gone to bed — he's got a cold. We've made plov for you, it's in the kitchen! Love, Madina.\"\nKamol smiles. Then he looks for his phone. He can't find it. \"Oh no,\" he thinks. \"I've left it at work again!\"",
-          uz: "Kamol soat yettida ishdan uyga keladi. Kvartira juda jim. Hamma qayerda?\nU muzlatgichda xat topadi: \"Dadam aeroportga ketgan. U buvini reysga olib ketyapti. Men Nilufar bilan sport zaliga ketdim. Akbar do'konga borib keldi va non bilan sut olib keldi. U yotib qoldi — shamollab qolgan. Senga palov qildik, oshxonada! Mehr bilan, Madina.\"\nKamol jilmayadi. Keyin telefonini qidiradi. Topolmaydi. \"Voy,\" deb o'ylaydi u. \"Yana ishda qoldiribman!\"",
+          uz: "Kamol soat yettida ishdan uyga keladi. Kvartira juda jim. Hamma qayerda?\nU muzlatgichda xat topadi: \"Dadam aeroportga ketgan. U buvimni reysga olib ketyapti. Men Nilufar bilan sport zaliga ketdim. Akbar do'konga borib keldi va non bilan sut olib keldi. U yotib qoldi — shamollab qolgan. Senga palov qildik, oshxonada! Mehr bilan, Madina.\"\nKamol jilmayadi. Keyin telefonini qidiradi. Topolmaydi. \"Voy,\" deb o'ylaydi u. \"Yana ishda qoldiribman!\"",
         },
         { t: "check", ex: { k: "tf", q: "Akbar is at the shop now.", a: false, why: "*Akbar **has been** to the shop* — borib kelgan, hozir u **yotoqda** (*He's gone to bed*)." } },
         { t: "check", ex: { k: "choice", q: "Where is Kamol's phone?", opts: ["At the airport.", "At work.", "In the kitchen.", "At the gym."], a: 1, why: "*I've left it at work again!*" } },
@@ -150,7 +150,7 @@ const lesson: Lesson = {
             { who: "Sardor's mum", en: "Sorry, he isn't here. He's gone to Samarkand.", uz: "Kechirasiz, u yo'q. Samarqandga ketgan." },
             { who: "Jamshid", en: "Oh! When is he coming back?", uz: "Voy! Qachon qaytadi?" },
             { who: "Sardor's mum", en: "On Friday. Have you tried his mobile?", uz: "Juma kuni. Uyali telefoniga qo'ng'iroq qilib ko'rdingizmi?" },
-            { who: "Jamshid", en: "Yes, but he hasn't answered. I've sent him three messages too.", uz: "Ha, lekin javob bermadi. Uch marta xabar ham yubordim." },
+            { who: "Jamshid", en: "Yes, but he hasn't answered. I've sent him three messages too.", uz: "Ha, lekin javob bermadi. Uchta xabar ham yubordim." },
             { who: "Sardor's mum", en: "Maybe he's forgotten his charger again! I'll tell him you called.", uz: "Balki yana zaryadlovchisini unutgandir! Qo'ng'iroq qilganingizni aytib qo'yaman." },
           ],
         },
@@ -173,7 +173,7 @@ const lesson: Lesson = {
   practice: [
     { k: "match", pairs: [["write", "written"], ["speak", "spoken"], ["break", "broken"], ["forget", "forgotten"], ["drive", "driven"]] },
     { k: "match", pairs: [["buy", "bought"], ["lose", "lost"], ["find", "found"], ["tell", "told"], ["win", "won"]] },
-    { k: "listen", say: "I've lost my keys.", opts: ["I lost my keys.", "I've lost my keys.", "I've lots of keys."], a: 1 },
+    { k: "listen", say: "I've lost my keys.", opts: ["I've left my keys.", "I've lost my keys.", "I've lots of keys."], a: 1 },
     { k: "listen", say: "He's gone to Bukhara.", opts: ["He's been to Bukhara.", "He's gone to Bukhara.", "He goes to Bukhara."], a: 1, why: "**gone** — \"gon\"; **been** — \"bi:n\"." },
     { k: "fill", q: "Have you ever ___ in the sea? (swim)", a: ["swum"], why: "**swim – swam – swum**." },
     { k: "fill", q: "Somebody has ___ my cup! (break)", a: ["broken"], why: "**break – broke – broken**." },
@@ -184,7 +184,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**She has gone to London** = U Londonga borib kelgan.", a: false, why: "**gone** = ketgan, hali u yerda. Borib kelgan — **has been**." },
     { k: "tf", q: "**buy, make, lose, find** fe'llarining V2 va V3 shakli bir xil.", a: true, why: "*bought – bought, made – made, lost – lost, found – found*." },
     { k: "order", uz: "Men senga elektron xat yubordim.", words: ["I've", "sent", "you", "an", "email."], extra: ["send", "sended"], alt: [["I've", "sent", "an", "email", "to", "you."]] },
-    { k: "translate", uz: "Siz hech mashina haydaganmisiz?", a: ["Have you ever driven a car?", "Have you driven a car?", "Have you ever driven a car before?", "Have you ever driven?"] },
+    { k: "translate", uz: "Siz hech mashina haydaganmisiz?", a: ["Have you ever driven a car?", "Have you driven a car?", "Have you ever driven a car before?", "Have you driven a car before?", "Have you ever driven?"] },
     { k: "translate", uz: "Ular (they) kubokni yutishdi!", a: ["They have won the cup!", "They've won the cup!", "They won the cup!"], why: "Yangilik — Present Perfect tabiiy, Past Simple ham xato emas." },
     { k: "speak", say: "Have you seen my phone? I think I've lost it.", uz: "Telefonimni ko'rdingmi? Menimcha, yo'qotib qo'ydim." },
   ],

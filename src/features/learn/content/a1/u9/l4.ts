@@ -52,7 +52,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["There was a school in our village.", "There were many people at the concert.", "There was a fountain in the square."] },
           bad: { title: "Xato", items: ["In our village had a school.", "It was many people at the concert.", "Was a fountain in the square."] },
         },
-        { t: "tip", tone: "warn", md: "Gapni doim **There** bilan boshlang. **It was** — boshqa narsa: u allaqachon ma'lum narsani tasvirlaydi: *There was a party. **It was** great.* (Bazm bo'ldi. U ajoyib edi.)" },
+        { t: "tip", tone: "warn", md: "Bunday gapni **There** bilan boshlang. **It was** — boshqa narsa: u allaqachon ma'lum narsani tasvirlaydi: *There was a party. **It was** great.* (Bazm bo'ldi. U ajoyib edi.)" },
         {
           t: "examples", items: [
             { en: "There was a small café near the station. It was very cheap.", uz: "Vokzal yonida kichkina kafe bor edi. U juda arzon edi." },
@@ -111,8 +111,8 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "text", title: "My grandmother's street",
-          en: "My grandmother grew up in Chilanzar, in Tashkent, fifty years ago. Her street was very different then.\n\"There weren't any big shops,\" she says. \"There was one small food shop, and there were long queues every morning. There wasn't much traffic, so children could play football in the street. There was a beautiful fountain in the square, and there were apple trees everywhere. We climbed them and ate the apples!\"\n\"We couldn't watch TV every evening, because there was only one TV in the whole street. But we were happy. The street was never empty — it was always noisy and full of children.\"",
-          uz: "Buvim ellik yil oldin Toshkentning Chilonzor tumanida o'sgan. Uning ko'chasi o'shanda juda boshqacha edi.\n\"Katta do'konlar yo'q edi, — deydi u. — Bitta kichkina oziq-ovqat do'koni bor edi va har ertalab uzun navbatlar bo'lardi. Mashinalar ko'p emas edi, shuning uchun bolalar ko'chada futbol o'ynay olardi. Maydonda chiroyli favvora bor edi, hamma yoqda olma daraxtlari bor edi. Biz ularga chiqib, olmalarni yerdik!\"\n\"Har kecha televizor ko'ra olmasdik, chunki butun ko'chada bitta televizor bor edi. Lekin baxtli edik. Ko'cha hech qachon bo'sh bo'lmasdi — doim shovqinli va bolalarga to'la edi.\"",
+          en: "When she was a child, my grandmother lived in Chilanzar, in Tashkent, about fifty years ago. Her street was very different then.\n\"There weren't any big shops,\" she says. \"There was one small food shop, and there were long queues every morning. There wasn't much traffic, so children could play football in the street. There was a beautiful fountain in the square, and there were apple trees everywhere. We climbed them and ate the apples!\"\n\"We couldn't watch TV every evening, because there was only one TV in the whole street. But we were happy. The street was never empty — it was always noisy and full of children.\"",
+          uz: "Buvim bolaligida, taxminan ellik yil oldin, Toshkentning Chilonzor tumanida yashagan. Uning ko'chasi o'shanda juda boshqacha edi.\n\"Katta do'konlar yo'q edi, — deydi u. — Bitta kichkina oziq-ovqat do'koni bor edi va har ertalab uzun navbatlar bo'lardi. Mashinalar ko'p emas edi, shuning uchun bolalar ko'chada futbol o'ynay olardi. Maydonda chiroyli favvora bor edi, hamma yoqda olma daraxtlari bor edi. Biz ularga chiqib, olmalarni yerdik!\"\n\"Har kecha televizor ko'ra olmasdik, chunki butun ko'chada bitta televizor bor edi. Lekin baxtli edik. Ko'cha hech qachon bo'sh bo'lmasdi — doim shovqinli va bolalarga to'la edi.\"",
         },
         { t: "check", ex: { k: "tf", q: "Buvimning bolaligida ko'chada **ko'p mashina bor edi**.", a: false, why: "*There wasn't much traffic* — mashinalar ko'p emas edi." } },
         { t: "check", ex: { k: "choice", q: "Why couldn't they watch TV every evening?", opts: ["Because there was a power cut.", "Because there was only one TV in the street.", "Because they played football.", "Because there weren't any shops."], a: 1, why: "*…because there was only one TV in the whole street.*" } },
@@ -128,7 +128,7 @@ const lesson: Lesson = {
             { who: "Zarina", en: "Oh no! Could you charge your phone?", uz: "Voy! Telefoningni quvvatlay oldingmi?" },
             { who: "Otabek", en: "No, I couldn't. And I couldn't cook dinner, because our cooker is electric.", uz: "Yo'q, ololmadim. Kechki ovqat ham pishira olmadim, chunki plitamiz elektrda ishlaydi." },
             { who: "Zarina", en: "Were there any candles in the house?", uz: "Uyda sham bor edimi?" },
-            { who: "Otabek", en: "Yes, there were. We sat in the kitchen and told stories. It was fun, actually!", uz: "Ha, bor edi. Oshxonada o'tirib, hikoya aytib berdik. Aslida qiziqarli bo'ldi!" },
+            { who: "Otabek", en: "Yes, there were. We stayed in the kitchen and told stories. It was fun, actually!", uz: "Ha, bor edi. Oshxonada qolib, hikoyalar aytib berdik. Aslida qiziqarli bo'ldi!" },
           ],
         },
         { t: "check", ex: { k: "tf", q: "Otabek telefonini quvvatlay oldi: **He could charge his phone.**", a: false, why: "*Could you charge your phone? — **No, I couldn't.***" } },
@@ -160,7 +160,7 @@ const lesson: Lesson = {
     { k: "tf", q: "*There was a lot of people at the bazaar.* — to'g'ri gap.", a: false, why: "**people** — ko'plik → *There **were** a lot of people.*" },
     { k: "tf", q: "**could** so'zida *l* harfi o'qilmaydi: \"kud\".", a: true },
     { k: "order", uz: "Maydonda favvora bor edimi?", words: ["Was", "there", "a", "fountain", "in", "the", "square?"], extra: ["Were", "It"] },
-    { k: "order", uz: "Kecha kechasi uxlay olmadim.", words: ["I", "couldn't", "sleep", "last", "night"], extra: ["slept", "yesterday"] },
+    { k: "order", uz: "Kecha kechasi uxlay olmadim.", words: ["I", "couldn't", "sleep", "last", "night"], extra: ["slept", "can't"] },
     { k: "translate", uz: "Bozor juda gavjum edi.", a: ["The bazaar was very crowded", "The market was very crowded", "The bazaar was really crowded", "The market was really crowded"] },
     { k: "translate", uz: "Kecha svet o'chdi.", a: ["There was a power cut yesterday", "Yesterday there was a power cut", "Yesterday, there was a power cut", "There was a power cut last night", "Last night there was a power cut", "Last night, there was a power cut"] },
     { k: "speak", say: "There was a power cut, so we couldn't watch TV.", uz: "Svet o'chdi, shuning uchun televizor ko'ra olmadik." },
@@ -168,13 +168,13 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "There ___ two cinemas in my town ten years ago.", opts: ["was", "were", "is", "had"], a: 1, why: "*two cinemas* — ko'plik → **were**." },
     { k: "choice", q: "\"Choynakda suv yo'q edi.\"", opts: ["There weren't any water in the kettle.", "There wasn't any water in the kettle.", "It wasn't water in the kettle.", "There wasn't no water in the kettle."], a: 1, why: "**water** — sanalmaydi → **wasn't any**." },
-    { k: "choice", q: "___ you read when you were four?", opts: ["Did", "Could", "Were", "Can"], a: 1, why: "O'tmishdagi qobiliyat haqidagi savol → **Could you…?**" },
-    { k: "choice", q: "*Were there any guests?* — qisqa ijobiy javob:", opts: ["Yes, there was.", "Yes, they were.", "Yes, there were.", "Yes, it was."], a: 2 },
+    { k: "choice", q: "___ you read when you were four? (o'qiy olarmiding?)", opts: ["Did", "Could", "Were", "Can"], a: 1, why: "O'tmishdagi qobiliyat haqidagi savol → **Could you…?**" },
+    { k: "choice", q: "*Were there any guests?* — qisqa ijobiy javob:", opts: ["Yes, there was.", "Yes, there are.", "Yes, there were.", "Yes, it was."], a: 2 },
     { k: "fill", q: "How many people ___ there at the wedding?", a: ["were"] },
     { k: "fill", q: "The music was very loud, so I ___ hear you.", a: ["couldn't", "could not"], uz: "Musiqa juda baland edi, shuning uchun seni eshita olmadim." },
     { k: "listen", say: "Was there a café near the station?", opts: ["Was there a café near the station?", "Is there a café near the station?", "Were there cafés near the station?"], a: 0 },
     { k: "tf", q: "Buvimning hikoyasida ko'chada faqat **bitta televizor** bor edi.", a: true, why: "*…there was only one TV in the whole street.*" },
-    { k: "order", uz: "Ko'chalar bo'sh edi, shuning uchun tez yetib keldik.", words: ["The", "streets", "were", "empty,", "so", "we", "arrived", "quickly"], extra: ["was", "because"] },
+    { k: "order", uz: "Ko'chalar bo'sh edi, shuning uchun tez yetib keldik.", words: ["The", "streets", "were", "empty,", "so", "we", "arrived", "quickly"], extra: ["was", "but"] },
     { k: "translate", uz: "Men bolaligimda daraxtga chiqa olardim.", a: ["I could climb trees when I was a child", "When I was a child I could climb trees", "When I was a child, I could climb trees", "I could climb trees as a child", "As a child I could climb trees", "As a child, I could climb trees"] },
   ],
   summary: [
