@@ -6,6 +6,25 @@ export function displayEmail(email?: string | null): string | null {
   return email && !email.endsWith('@telegram.scorify.uz') ? email : null;
 }
 
+const UUID = '[0-9a-fA-F-]{36}';
+const MINI_APP_PATHS = [
+  /^\/(dashboard|writing|exam|speaking|essays|speaking-history|drafts|mock-test|grammar-test|leaderboard|referral|profile|admin)$/,
+  new RegExp(`^/(result|speaking-result)/${UUID}$`),
+  new RegExp(`^/mock-test/(result|exam|thank-you)/${UUID}$`),
+];
+
+/** Page a bot button may open inside the Mini App; anything else falls back to the dashboard. */
+export function miniAppPath(value: string | null | undefined): string {
+  if (!value || !value.startsWith('/') || value.startsWith('//') || value.includes('\\')) return '/dashboard';
+  try {
+    const url = new URL(value, 'https://scorify.uz');
+    if (url.origin !== 'https://scorify.uz') return '/dashboard';
+    return MINI_APP_PATHS.some((re) => re.test(url.pathname)) ? url.pathname + url.search : '/dashboard';
+  } catch {
+    return '/dashboard';
+  }
+}
+
 /** Session flag: the site is running inside the Telegram Mini App. */
 const TG_FLAG = 'scorify:tg-webapp';
 

@@ -33,6 +33,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const GrammarTest = lazy(() => import("./pages/GrammarTest"));
 const TelegramApp = lazy(() => import("./pages/TelegramApp"));
 import { safeReturnTo } from "./lib/returnTo";
+import { isTelegramWebApp, miniAppPath } from "./lib/telegram";
 
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
 const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
@@ -49,7 +50,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const location = useLocation();
   if (loading) return <LoadingScreen />;
-  if (!user) return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname))}`} replace />;
+  if (!user) {
+    // Inside the Telegram Mini App the session is restored from Telegram, keeping the requested page.
+    if (isTelegramWebApp()) return <Navigate to={`/tg?next=${encodeURIComponent(miniAppPath(location.pathname + location.search))}`} replace />;
+    return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname))}`} replace />;
+  }
   return <>{children}</>;
 }
 

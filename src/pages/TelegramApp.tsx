@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Loader2, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
-import { safeReturnTo } from '@/lib/returnTo';
-import { loadTelegramWebApp, markTelegramWebApp, signInWithTokenHash, telegramAuth } from '@/lib/telegram';
+import { useAuth } from '@/hooks/useAuth';
+import { loadTelegramWebApp, markTelegramWebApp, miniAppPath, signInWithTokenHash, telegramAuth } from '@/lib/telegram';
 
 /** Bot deep-link sections (`startapp` / start_param) mapped to app pages. */
 const START_PARAM_PATHS: Record<string, string> = {
@@ -18,13 +18,16 @@ const START_PARAM_PATHS: Record<string, string> = {
  */
 export default function TelegramApp() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [status, setStatus] = useState<'working' | 'outside' | 'error'>('working');
   const [message, setMessage] = useState('');
+  // Page to open and the account that must be signed in before opening it.
+  const [target, setTarget] = useState<{ path: string; userId: string } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const next = safeReturnTo(new URLSearchParams(window.location.search).get('next'));
+      const next = miniAppPath(new URLSearchParams(window.location.search).get('next'));
       const tg = await loadTelegramWebApp();
       if (cancelled) return;
       if (!tg?.initData) {
@@ -45,8 +48,8 @@ export default function TelegramApp() {
           if (current.session) await supabase.auth.signOut({ scope: 'local' });
           await signInWithTokenHash(result.token_hash);
         }
-        const target = result.start_param && START_PARAM_PATHS[result.start_param] ? START_PARAM_PATHS[result.start_param] : next;
-        if (!cancelled) navigate(target, { replace: true });
+        const path = result.start_param && START_PARAM_PATHS[result.start_param] ? START_PARAM_PATHS[result.start_param] : next;
+        if (!cancelled) setTarget({ path, userId: result.user_id });
       } catch (e) {
         if (cancelled) return;
         setMessage(e instanceof Error ? e.message : 'Sign-in failed');
@@ -55,6 +58,11 @@ export default function TelegramApp() {
     })();
     return () => { cancelled = true; };
   }, [navigate]);
+
+  // Navigate only once the auth context has the new session, so protected pages do not bounce to /auth.
+  useEffect(() => {
+    if (target && user?.id === target.userId) navigate(target.path, { replace: true });
+  }, [target, user, navigate]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6 text-center">
