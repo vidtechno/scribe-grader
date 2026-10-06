@@ -1,0 +1,40 @@
+name: Lesson audio
+
+# Re-records the course audio (public/audio) with a natural neural voice and pushes the result to a branch,
+# ready to be opened as a pull request. Run it from the Actions tab after adding or changing lessons.
+on:
+  workflow_dispatch:
+    inputs:
+      all_units:
+        description: "Also record units that are written but not released yet"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: pip install edge-tts
+      - name: Record
+        run: npx tsx scripts/generate-lesson-audio.ts --engine edge --force --jobs 4 ${{ inputs.all_units && '--all' || '' }}
+      - name: Push to a branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B audio/neural-voice
+          git add public/audio
+          git commit -m "chore(learn): re-record lesson audio with a neural voice"
+          git push --force origin audio/neural-voice

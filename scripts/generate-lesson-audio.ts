@@ -45,15 +45,26 @@ function speechText(text: string): string {
     .trim();
 }
 
+async function withRetries<T>(task: () => Promise<T>, tries = 4): Promise<T> {
+  for (let attempt = 1; ; attempt++) {
+    try { return await task(); } catch (e) {
+      if (attempt >= tries) throw e;
+      await new Promise((r) => setTimeout(r, 1000 * attempt));
+    }
+  }
+}
+
 async function synthesize(text: string, mp3: string, tmp: string) {
   const say = speechText(text);
-  const wav = `${tmp}.wav`;
+  let raw: string;
   if (engine === 'edge') {
-    await run('edge-tts', ['--voice', 'en-US-AriaNeural', '--rate=-10%', '--text', say, '--write-media', wav]);
+    raw = `${tmp}.mp3`;
+    await withRetries(() => run('edge-tts', ['--voice', 'en-US-AriaNeural', '--rate=-10%', '--text', say, '--write-media', raw]));
   } else {
-    await run('espeak-ng', ['-v', 'mb-us1', '-s', '140', '-g', '4', '-w', wav, say]);
+    raw = `${tmp}.wav`;
+    await run('espeak-ng', ['-v', 'mb-us1', '-s', '140', '-g', '4', '-w', raw, say]);
   }
-  await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', wav, '-ac', '1', '-ar', '22050', '-codec:a', 'libmp3lame', '-b:a', '24k', mp3]);
+  await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', raw, '-ac', '1', '-ar', '22050', '-codec:a', 'libmp3lame', '-b:a', '32k', mp3]);
 }
 
 async function allLessons(): Promise<Lesson[]> {
