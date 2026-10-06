@@ -85,8 +85,8 @@ type AiUsageSummary = { label:string; input_tokens:number; output_tokens:number;
 
 const PLANS: { slug: string; label: string }[] = [
   { slug: 'free', label: 'Free' },
-  { slug: 'go', label: 'Scorify Go (49k UZS)' },
-  { slug: 'plus', label: 'Scorify Plus (99k UZS)' },
+  { slug: 'go', label: 'Scorify Go (79k UZS)' },
+  { slug: 'plus', label: 'Scorify Plus (129k UZS)' },
 ];
 
 export default function Admin() {
@@ -249,13 +249,19 @@ export default function Admin() {
     if (subRow) setSubscriptions(prev => ({ ...prev, [userId]: subRow as unknown as Subscription }));
   };
 
-  const assignPlan = async (userId: string, slug: string) => {
+  /** `value` is a plan slug, optionally with a duration in days: "go", "plus:180". */
+  const assignPlan = async (userId: string, value: string) => {
+    const [slug, daysText] = value.split(':');
+    const days = Number(daysText) || 30;
     setUpdatingUser(userId);
     try {
-      const { error } = await (supabase.rpc as any)('admin_set_subscription', { _user_id: userId, _plan_slug: slug });
+      const { error } = await (supabase.rpc as any)('admin_set_subscription', {
+        _user_id: userId, _plan_slug: slug,
+        ...(slug !== 'free' ? { _starts_at: new Date().toISOString(), _expires_at: new Date(Date.now() + days * 86_400_000).toISOString() } : {}),
+      });
       if (error) throw error;
       await refreshSub(userId);
-      toast.success(slug === 'free' ? 'Moved to Free plan' : `${slug === 'plus' ? 'Scorify Plus' : 'Scorify Go'} activated`);
+      toast.success(slug === 'free' ? 'Moved to Free plan' : `${slug === 'plus' ? 'Scorify Plus' : 'Scorify Go'} activated for ${days === 180 ? '6 months' : '30 days'}`);
     } catch (e: any) {
       toast.error(e.message || 'Failed to assign plan');
     } finally { setUpdatingUser(null); }
@@ -585,7 +591,10 @@ export default function Admin() {
                               </SelectTrigger>
                               <SelectContent>
                                 {PLANS.map(p => (
-                                  <SelectItem key={p.slug} value={p.slug}>{p.label}</SelectItem>
+                                  <SelectItem key={p.slug} value={p.slug}>{p.slug === 'free' ? p.label : `${p.label} · 1 month`}</SelectItem>
+                                ))}
+                                {PLANS.filter(p => p.slug !== 'free').map(p => (
+                                  <SelectItem key={`${p.slug}:180`} value={`${p.slug}:180`}>{p.label} · 6 months (-10%)</SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
@@ -637,6 +646,11 @@ export default function Admin() {
                                 onClick={() => extendPlan(profile.user_id, 30)}
                                 disabled={updatingUser === profile.user_id}>
                                 {updatingUser === profile.user_id ? <Loader2 className="h-3 w-3 animate-spin" /> : 'Renew 30d'}
+                              </Button>
+                              <Button variant="outline" size="sm" className="h-8 text-xs"
+                                onClick={() => extendPlan(profile.user_id, 180)}
+                                disabled={updatingUser === profile.user_id}>
+                                Renew 6 mo
                               </Button>
                               <Button variant="ghost" size="sm" className="h-8 text-xs"
                                 onClick={() => assignPlan(profile.user_id, 'free')}

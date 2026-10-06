@@ -49,6 +49,7 @@ serve(async (req) => {
 
     const body: unknown = await req.json();
     if (!isRecord(body) || !boundedString(body.message, 4_000) ||
+        (body.lessonContext !== undefined && !boundedString(body.lessonContext, 600)) ||
         (body.chatId !== undefined &&
           (typeof body.chatId !== 'string' || !/^[0-9a-f-]{36}$/i.test(body.chatId)))) {
       return json(req, { error: 'Invalid message or chat ID' }, 400);
@@ -112,6 +113,13 @@ serve(async (req) => {
 
     const isNewChat = conversationMessages.length === 0;
     let systemPrompt = MENTOR_SYSTEM_PROMPT + essayContextStr;
+    if (typeof body.lessonContext === 'string') {
+      // Opened from a lesson of the English course: a beginner asks about the lesson topic.
+      systemPrompt += `\n\nCOURSE MODE: The student is an Uzbek speaker studying Scorify's English course (Beginner, from zero) and asks about this lesson: ${body.lessonContext.replace(/\s+/g, ' ').slice(0, 600)}\n` +
+        'In course mode: answer in simple Uzbek (Latin script), explain directly and step by step (do not withhold the answer), ' +
+        'give 2-3 short English examples with Uzbek translations, mention pronunciation when useful, and keep to the lesson topic. ' +
+        'If the question is unrelated to learning English, politely bring the student back to the lesson.';
+    }
     if (isNewChat && essayContext && essayContext.length > 0) {
       systemPrompt += '\n\nIMPORTANT: This is a NEW conversation. Start with a personalized greeting that references specific patterns from their essay history. Identify one strength and one weakness to work on today.';
     }

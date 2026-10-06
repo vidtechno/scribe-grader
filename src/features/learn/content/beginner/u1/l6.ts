@@ -1,0 +1,195 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: 'u1-l6',
+  title: 'Numbers 0–20',
+  titleUz: 'Sonlar 0–20',
+  goal: "0 dan 20 gacha sonlarni to'g'ri aytasiz, yozasiz va quloq bilan ajratasiz; **-teen** sonlarining urg'usini bilasiz va yoshingizni, telefon raqamini inglizcha ayta olasiz.",
+  slides: [
+    {
+      title: '0 dan 10 gacha',
+      blocks: [
+        { t: 'p', md: "Sonlar hamma joyda kerak: yosh, narx, vaqt, telefon raqami, xona raqami. Avval eng asosiy 11 ta sonni o'rganamiz. Har birini tinglang va takrorlang:" },
+        {
+          t: 'table', head: ['Son', "So'z", 'Taxminiy talaffuz'],
+          rows: [
+            ['0', 'zero', 'ziərou'],
+            ['1', 'one', 'uan'],
+            ['2', 'two', 'tu:'],
+            ['3', 'three', 'θri: (th!)'],
+            ['4', 'four', 'fo:'],
+            ['5', 'five', 'fayv'],
+            ['6', 'six', 'siks'],
+            ['7', 'seven', 'sevn'],
+            ['8', 'eight', 'eyt'],
+            ['9', 'nine', 'nayn'],
+            ['10', 'ten', 'ten'],
+          ],
+          speak: [1],
+        },
+        { t: 'tip', tone: 'warn', md: "Yozilishi va o'qilishi juda farq qiladigan sonlar: **one** — \"uan\" (\"one\" emas!), **two** — \"tu:\" (w eshitilmaydi), **eight** — \"eyt\" (gh eshitilmaydi), **four** — \"fo:\" (r eshitilmaydi)." },
+        { t: 'check', ex: { k: 'listen', say: 'eight', opts: ['6', '8', '18', '80'], a: 1, why: "\"eyt\" — **eight** (8)." } },
+      ],
+    },
+    {
+      title: 'Qiyin tovushlar',
+      blocks: [
+        {
+          t: 'sounds', items: [
+            { label: '3  three', say: 'three', uz: "**th** — til uchi tishlar orasida, havo puflanadi (4-dars). \"tri:\" desangiz, *tree* (daraxt) bo'lib qoladi!", examples: ['three', 'thirteen'] },
+            { label: '0  zero', say: 'zero', uz: "**\"ziərou\"** — z jarangli, oxirida \"ou\" (O harfining nomi).", examples: ['zero'] },
+            { label: '5  five', say: 'five', uz: "**\"fayv\"** — oxirida **v**: pastki lab tishlarga tegadi. \"fayf\" emas.", examples: ['five', 'fifteen'] },
+            { label: '7  seven', say: 'seven', uz: "**\"sevn\"** — ikkinchi \"e\" deyarli eshitilmaydi. Urg'u boshida: **SE**ven.", examples: ['seven', 'seventeen'] },
+            { label: '12  twelve', say: 'twelve', uz: "**\"tuelv\"** — tw: lablar dumaloq; oxirida **lv**. \"tvelf\" emas.", examples: ['twelve'] },
+          ],
+        },
+        { t: 'check', ex: { k: 'listen', say: 'three', opts: ['tree', 'three', 'free', 'thirty'], a: 1, why: "**three** (3) — th bilan. *tree* — daraxt." } },
+      ],
+    },
+    {
+      title: '11 dan 20 gacha',
+      blocks: [
+        { t: 'p', md: "**11** va **12** — alohida so'zlar, ularni shunchaki yodlash kerak. **13 dan 19 gacha** esa oxiriga **-teen** (\"ti:n\") qo'shiladi — xuddi o'zbekcha \"o'n uch, o'n to'rt\" kabi, faqat \"o'n\" oxirida." },
+        {
+          t: 'table', head: ['Son', "So'z", 'Diqqat'],
+          rows: [
+            ['11', 'eleven', 'i-LE-vn'],
+            ['12', 'twelve', "alohida so'z"],
+            ['13', 'thirteen', 'three emas → thir-'],
+            ['14', 'fourteen', 'four + teen'],
+            ['15', 'fifteen', 'five emas → fif-'],
+            ['16', 'sixteen', 'six + teen'],
+            ['17', 'seventeen', 'seven + teen'],
+            ['18', 'eighteen', 'faqat bitta t!'],
+            ['19', 'nineteen', 'nine + teen'],
+            ['20', 'twenty', 'TWEN-ti'],
+          ],
+          speak: [1],
+        },
+        {
+          t: 'compare',
+          good: { title: "To'g'ri", items: ['thirteen', 'fifteen', 'eighteen', 'twelve'] },
+          bad: { title: "Noto'g'ri", items: ['threeteen', 'fiveteen', 'eightteen', 'twelf'] },
+        },
+        { t: 'check', ex: { k: 'fill', q: '15 = ___', a: ['fifteen'], hint: "five emas, fif-", why: "**fifteen** — \"fiveteen\" emas." } },
+      ],
+    },
+    {
+      title: "Urg'u: thirteen yoki thirty?",
+      blocks: [
+        { t: 'p', md: "Inglizlar ham ba'zan **13** va **30** ni adashtiradi! Farq — **urg'uda** (qaysi bo'g'in kuchli aytilishida):" },
+        { t: 'p', md: "• **-teen** sonlarda urg'u **oxirida**, \"ti:n\" uzun: thir**TEEN**, fif**TEEN**\n• **-ty** sonlarda (30, 50…) urg'u **boshida**, oxiri qisqa \"ti\": **THIR**ty, **FIF**ty" },
+        {
+          t: 'table', head: ['-teen (13–19)', "-ty (o'nliklar)"],
+          rows: [['thirteen', 'thirty'], ['fourteen', 'forty'], ['fifteen', 'fifty'], ['sixteen', 'sixty']],
+          speak: [0, 1],
+        },
+        { t: 'tip', tone: 'info', md: "*thirty, forty, fifty* ni 3-bo'limda batafsil o'rganamiz. Hozir faqat quloqni o'rgating: oxiri **uzun va kuchli** — bu -teen." },
+        { t: 'tip', tone: 'good', md: "Agar ishonchingiz komil bo'lmasa, so'rang: *\"One three or three zero?\"* (bir-uchmi yoki uch-nolmi?)." },
+        { t: 'check', ex: { k: 'listen', say: 'fifteen', opts: ['15', '50', '5', '55'], a: 0, why: "Urg'u oxirida, uzun \"ti:n\" — **fifteen** (15)." } },
+      ],
+    },
+    {
+      title: 'Yosh va telefon raqami',
+      blocks: [
+        {
+          t: 'examples', items: [
+            { en: "I'm twelve.", uz: 'Men 12 yoshdaman.', note: "**years old** ni tushirsa ham bo'ladi" },
+            { en: "I'm eighteen years old.", uz: 'Men 18 yoshdaman.' },
+            { en: 'Room eleven, please.', uz: "11-xona, iltimos." },
+          ],
+        },
+        { t: 'p', md: "**Telefon raqami** raqamma-raqam aytiladi: 90 123 45 67 → *nine zero, one two three, four five, six seven*.\n• **0** ni telefon raqamida ko'pincha **\"oh\"** (\"ou\") deyishadi.\n• Ikki bir xil raqam: **double**: 55 → *double five*." },
+        {
+          t: 'dialog', lines: [
+            { who: 'Anna', en: 'How old are you?', uz: 'Necha yoshdasiz?' },
+            { who: 'Jasur', en: "I'm fifteen. And you?", uz: "15 yoshdaman. O'zingiz-chi?" },
+            { who: 'Anna', en: "I'm thirteen.", uz: '13 yoshdaman.' },
+            { who: 'Jasur', en: "What's your phone number?", uz: 'Telefon raqamingiz qanday?' },
+            { who: 'Anna', en: "It's nine oh, double three, one two.", uz: 'Raqamim: 90 33 12.' },
+            { who: 'Jasur', en: 'Thank you!', uz: 'Rahmat!' },
+          ],
+        },
+        {
+          t: 'compare',
+          good: { title: "To'g'ri", items: ["I'm twelve.", "I'm twelve years old."] },
+          bad: { title: "Noto'g'ri", items: ['I twelve.', 'I have twelve years.'] },
+        },
+        { t: 'check', ex: { k: 'choice', q: "**77** telefon raqamida qanday aytiladi?", opts: ['seven seventeen', 'two seven', 'double seven', 'seventy-seven'], a: 2, why: "Bir xil ikki raqam — **double seven**." } },
+      ],
+    },
+    {
+      title: "Yodlash ro'yxati",
+      blocks: [
+        { t: 'p', md: "Barcha 21 ta sonni bilishingiz kerak, lekin quyidagi 10 tasi eng ko'p xato qilinadigan — ularni alohida yodlang:" },
+        {
+          t: 'examples', items: [
+            { en: 'zero', uz: '0 — nol' },
+            { en: 'three', uz: '3 — uch', note: '**th**!' },
+            { en: 'five', uz: '5 — besh', note: 'oxirida **v**' },
+            { en: 'eight', uz: '8 — sakkiz', note: '"eyt"' },
+            { en: 'eleven', uz: "11 — o'n bir" },
+            { en: 'twelve', uz: "12 — o'n ikki" },
+            { en: 'thirteen', uz: "13 — o'n uch", note: 'thir-**TEEN**' },
+            { en: 'fifteen', uz: "15 — o'n besh", note: 'fif-**TEEN**' },
+            { en: 'eighteen', uz: "18 — o'n sakkiz", note: 'bitta **t**' },
+            { en: 'twenty', uz: '20 — yigirma', note: '**TWEN**-ti' },
+          ],
+        },
+      ],
+    },
+  ],
+  words: [
+    { en: 'zero', uz: 'nol', ipa: 'ˈzɪə.rəʊ', pos: 'number', ex: 'Zero, one, two, three.', exUz: 'Nol, bir, ikki, uch.' },
+    { en: 'three', uz: 'uch', ipa: 'θriː', pos: 'number', ex: 'Three, two, one!', exUz: 'Uch, ikki, bir!' },
+    { en: 'five', uz: 'besh', ipa: 'faɪv', pos: 'number', ex: "I'm five.", exUz: 'Men besh yoshdaman.' },
+    { en: 'eight', uz: 'sakkiz', ipa: 'eɪt', pos: 'number', ex: 'Eight, nine, ten.', exUz: "Sakkiz, to'qqiz, o'n." },
+    { en: 'eleven', uz: "o'n bir", ipa: 'ɪˈlev.ən', pos: 'number', ex: 'Room eleven, please.', exUz: "11-xona, iltimos." },
+    { en: 'twelve', uz: "o'n ikki", ipa: 'twelv', pos: 'number', ex: "I'm twelve.", exUz: "Men o'n ikki yoshdaman." },
+    { en: 'thirteen', uz: "o'n uch", ipa: 'ˌθɜːˈtiːn', pos: 'number', ex: "I'm thirteen.", exUz: "Men o'n uch yoshdaman." },
+    { en: 'fifteen', uz: "o'n besh", ipa: 'ˌfɪfˈtiːn', pos: 'number', ex: "I'm fifteen years old.", exUz: "Men o'n besh yoshdaman." },
+    { en: 'eighteen', uz: "o'n sakkiz", ipa: 'ˌeɪˈtiːn', pos: 'number', ex: "I'm eighteen.", exUz: "Men o'n sakkiz yoshdaman." },
+    { en: 'twenty', uz: 'yigirma', ipa: 'ˈtwen.ti', pos: 'number', ex: "I'm twenty.", exUz: 'Men yigirma yoshdaman.' },
+  ],
+  practice: [
+    { k: 'listen', say: 'five', opts: ['9', '5', '4', '15'], a: 1 },
+    { k: 'listen', say: 'twelve', opts: ['2', '20', '11', '12'], a: 3, why: "**twelve** — 12. *twenty* — 20." },
+    { k: 'listen', say: 'thirteen', opts: ['30', '3', '13', '33'], a: 2, why: "Urg'u oxirida, uzun \"ti:n\" — **thirteen** (13)." },
+    { k: 'listen', say: 'thirty', opts: ['13', '30', '3', '33'], a: 1, why: "Urg'u boshida, qisqa \"ti\" — **thirty** (30)." },
+    { k: 'match', pairs: [['zero', '0'], ['eight', '8'], ['eleven', '11'], ['fifteen', '15'], ['twenty', '20']] },
+    { k: 'choice', q: "**18** qanday yoziladi?", opts: ['eightteen', 'eighteen', 'eigthteen', 'aiteen'], a: 1, why: "**eighteen** — faqat bitta t." },
+    { k: 'choice', q: "*one* qanday o'qiladi?", say: 'one', opts: ['"one"', '"on"', '"uan"', '"oun"'], a: 2, why: "**one** — \"uan\". Yozilishi o'qilishiga o'xshamaydi." },
+    { k: 'tf', q: "15 inglizcha **fiveteen** deb yoziladi.", a: false, why: "To'g'risi — **fifteen**." },
+    { k: 'tf', q: "*thirteen* so'zida urg'u oxirgi bo'g'inga tushadi.", a: true, why: "thir**TEEN** — -teen sonlarda urg'u oxirida." },
+    { k: 'fill', q: 'eleven, twelve, ___, fourteen', a: ['thirteen', '13'], why: "11, 12, **13**, 14 — **thirteen**." },
+    { k: 'fill', q: 'five + three = ___', a: ['eight', '8'], why: "5 + 3 = 8 — **eight**." },
+    { k: 'fill', q: 'ten + ten = ___', a: ['twenty', '20'], why: "10 + 10 = 20 — **twenty**." },
+    { k: 'order', uz: 'Men 15 yoshdaman.', words: ['I', 'am', 'fifteen'], extra: ['have'], why: "Yosh **be** bilan: *I am fifteen.* — \"I have fifteen\" emas." },
+    { k: 'translate', uz: "o'n ikki", a: ['twelve', '12'], why: "12 — **twelve**." },
+    { k: 'speak', say: 'thirteen, thirty, fifteen, fifty', uz: "Urg'uga e'tibor bering: thir-TEEN, THIR-ty" },
+    { k: 'speak', say: 'zero, three, five, eight, eleven, twelve', uz: "Qiyin sonlarni aniq ayting" },
+  ],
+  quiz: [
+    { k: 'listen', say: 'eighteen', opts: ['80', '8', '18', '19'], a: 2 },
+    { k: 'listen', say: 'fifteen', opts: ['50', '15', '5', '16'], a: 1 },
+    { k: 'listen', say: 'nine oh double three one two', opts: ['90 33 12', '90 23 12', '19 33 12', '90 33 20'], a: 0 },
+    { k: 'choice', q: "Qaysi so'z **to'g'ri** yozilgan?", opts: ['threeteen', 'twelf', 'thirteen', 'fiveteen'], a: 2 },
+    { k: 'fill', q: 'seventeen, eighteen, nineteen, ___', a: ['twenty', '20'] },
+    { k: 'fill', q: 'twenty – eight = ___', a: ['twelve', '12'], hint: '20 – 8' },
+    { k: 'translate', uz: 'besh', a: ['five', '5'] },
+    { k: 'translate', uz: "o'n bir", a: ['eleven', '11'] },
+    { k: 'translate', uz: 'Men 20 yoshdaman.', a: ["i'm twenty", 'i am twenty', "i'm twenty years old", 'i am twenty years old', "i'm 20", 'i am 20', "i'm 20 years old", 'i am 20 years old'] },
+    { k: 'tf', q: "Telefon raqamida **44** ni *double four* deb aytish mumkin.", a: true },
+    { k: 'match', pairs: [['three', '3'], ['thirteen', '13'], ['twelve', '12'], ['twenty', '20']] },
+  ],
+  summary: [
+    "**0–10**: zero, one, two, three, four, five, six, seven, eight, nine, ten. Tuzoqlar: *one* = \"uan\", *two* = \"tu:\", *eight* = \"eyt\".",
+    "**11, 12** — alohida so'zlar: **eleven, twelve**. **13–19** = son + **-teen**.",
+    "Imlo tuzoqlari: **thirteen**, **fifteen**, **eighteen** (bitta t).",
+    "Urg'u: thir**TEEN** (13) ↔ **THIR**ty (30).",
+    "Yosh: **I'm twelve.** (\"I have twelve\" emas). Telefon: raqamma-raqam, 0 = *oh*, 55 = *double five*.",
+  ],
+  homework: "Telefon raqamingizni va oila a'zolaringizning yoshini inglizcha ovoz chiqarib ayting. 0 dan 20 gacha, keyin 20 dan 0 gacha teskari sanang. *thirteen–thirty, fifteen–fifty* juftliklarini 5 martadan takrorlang.",
+};
+
+export default lesson;

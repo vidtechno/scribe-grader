@@ -27,6 +27,7 @@ export const page = (text: string, url: string): Button => ({ text, web_app: { u
 
 /** Main keyboard: practice first, everything else lives in the cabinet. */
 export const BTN = {
+  learn: "🎓 Ingliz tili darslari",
   writing: "✍️ Writing",
   speaking: "🎤 Speaking",
   dailyTest: "📝 Kunlik test",
@@ -57,11 +58,13 @@ export const LEGACY_BTN = {
 export function mainKeyboard(ctx: Ctx) {
   const rows: { text: string }[][] = ctx.account.user_id
     ? [
+      [{ text: BTN.learn }],
       [{ text: BTN.writing }, { text: BTN.speaking }],
       [{ text: BTN.dailyTest }, { text: BTN.quiz }],
       [{ text: BTN.articles }, { text: BTN.cabinet }],
     ]
     : [
+      [{ text: BTN.learn }],
       [{ text: BTN.start }, { text: BTN.quiz }],
       [{ text: BTN.articles }, { text: BTN.help }],
     ];

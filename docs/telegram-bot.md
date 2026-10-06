@@ -6,7 +6,7 @@ The bot is part of the website, not a separate product. It uses the same Supabas
 
 | Feature | In the bot | Connected to the website |
 |---|---|---|
-| Main keyboard | Linked: ✍️ Writing · 🎤 Speaking · 📝 Kunlik test · 🧠 So'z testi · 📖 Foydali maqolalar · 👤 Kabinet. Not linked: 🚀 Boshlash · 🧠 So'z testi · 📖 Foydali maqolalar · ❓ Yordam. Everything else (results, goal, plan, leaderboard, referrals, daily practice, settings) lives in 👤 Kabinet. Buttons of older keyboards still work and bring the new keyboard | – |
+| Main keyboard | Top row for everyone: 🎓 Ingliz tili darslari. Linked: ✍️ Writing · 🎤 Speaking · 📝 Kunlik test · 🧠 So'z testi · 📖 Foydali maqolalar · 👤 Kabinet. Not linked: 🚀 Boshlash · 🧠 So'z testi · 📖 Foydali maqolalar · ❓ Yordam. Everything else (results, goal, plan, leaderboard, referrals, daily practice, settings) lives in 👤 Kabinet. Buttons of older keyboards still work and bring the new keyboard | – |
 | Sign up / sign in | "🚀 Boshlash" → "✅ Hisob ochish" creates a Scorify account in one tap | "Continue with Telegram" on `/auth`, automatic sign-in in the Mini App |
 | Results | Writing, Speaking and Mock Test scores arrive automatically (criteria, strengths, tips, top corrections, change vs previous attempt, gap to target) | Database triggers on `essays`, `speaking_attempts`, `mock_tests`; "Open full analysis" opens `/result/:id` etc. in the Mini App |
 | Statistics | averages, best, last, trend, streak, this week vs plan, exam countdown | same tables as the dashboard |
@@ -19,6 +19,7 @@ The bot is part of the website, not a separate product. It uses the same Supabas
 | Vocabulary quiz | multiple choice in both directions, personal score | – |
 | Writing / Speaking / Daily test | cards with remaining evaluations, last score, a tip and buttons that open the page in the Mini App (answers are never accepted in chat) | `/writing`, `/speaking`, `/grammar-test`, `grammar_tests` |
 | Articles | latest 7 published blog posts, each opens inside Telegram; a new post is announced to everyone with news notifications on (with a link preview) | `blog_posts` trigger `telegram_blog_publish` + `pg_cron` job `telegram-blog-posts` for scheduled posts |
+| English course | progress card (lessons, streak, XP, unit tests, next lesson, free-trial days) and a button that opens `/learn`; one evening reminder (20:00–21:00) for learners who started and did not study today | `learning_*` tables, `telegram_learning_summary`, cron `telegram-learn-reminder` (see docs/learning-course.md) |
 | Daily test reminder | everyone who has not finished today's grammar test gets one reminder, sent one by one between 18:00 and 20:00 Tashkent time; skipped if the test is done by then | `pg_cron` job `telegram-daily-test` → `telegram_enqueue_daily_test_reminders(120)` |
 | Other reminders | plan expiring in 3 days / 1 day, Sunday weekly report | `pg_cron` job `telegram-daily-jobs` |
 | Settings | toggle results / reminders / news, disconnect | also on the Profile page |

@@ -50,7 +50,7 @@ export async function handleStart(ctx: Ctx, payload: string) {
     stats: showStats, results: (c) => showResults(c, "a"), goal: showGoal, plan: showPlan, invite: showInvite,
     daily: showDaily, quiz: newQuiz, settings: showSettings, top: (c) => showTop(c, "w"),
     cabinet: showCabinet, articles: showArticles, blog: showArticles, test: showDailyTest,
-    writing: showWriting, speaking: showSpeaking,
+    writing: showWriting, speaking: showSpeaking, learn: showLearn,
   };
   if (sections[payload]) {
     await showMenu(ctx);
@@ -249,6 +249,57 @@ export async function showDailyTest(ctx: Ctx) {
   ]);
 }
 
+// ---------------------------------------------------------------- English course
+
+interface LearningSummary {
+  started: boolean;
+  access: { allowed: boolean; reason: string; trial_ends_at?: string };
+  xp?: number; streak?: number; lessons_done?: number; tests_passed?: number; today_done?: boolean; next_lesson_title?: string | null;
+}
+export const COURSE_LESSONS = 40;
+export const COURSE_UNITS = 5;
+
+export async function showLearn(ctx: Ctx) {
+  const userId = await requireUser(ctx);
+  if (!userId) return;
+  const { data, error } = await ctx.db.rpc("telegram_learning_summary", { _user: userId });
+  if (error) throw error;
+  const s = data as LearningSummary;
+  if (!s.started) {
+    await reply(ctx, [
+      title("🎓", "Ingliz tilini noldan o'rganing"),
+      hint("Harflar va talaffuzdan boshlab, bosqichma-bosqich — IELTS'gacha.") + "\n",
+      "Har bir darsda:",
+      quote([
+        "📖 mavzuni sodda o'zbek tilida tushuntirish va misollar",
+        "🔊 har bir so'z va gapning talaffuzi",
+        "🧠 10 ta yangi so'z — yodlash uchun",
+        "✍️ mashqlar: tinglash, gap tuzish, tarjima, to'ldirish",
+        "🏆 yakuniy test; har bosqich oxirida imtihon",
+      ].join("\n")),
+      s.access.reason === "paid" ? hint("Kurs tarifingizga kiritilgan ✅") : hint("Free tarifda 7 kun bepul, keyin Scorify Go yoki Plus bilan davom etasiz."),
+    ].join("\n"), [[app("🚀 Kursni boshlash", "/learn")]]);
+    return;
+  }
+  const trialLeft = s.access.reason === "trial" && s.access.trial_ends_at
+    ? Math.max(0, Math.ceil((new Date(s.access.trial_ends_at).getTime() - Date.now()) / 86_400_000)) : null;
+  const done = s.lessons_done ?? 0;
+  const lines = [
+    title("🎓", "Ingliz tili kursi · Beginner"),
+    s.today_done ? hint("Bugungi dars bajarildi — barakalla! 🎉") : hint("Bugun hali dars qilinmadi — 15 daqiqa ajrating."),
+    "",
+    `${bar(done, COURSE_LESSONS, 10)}  <b>${done}</b>/${COURSE_LESSONS} dars`,
+    kv("🔥 Streak", `${s.streak ?? 0} kun`) + " · " + kv("⚡ XP", String(s.xp ?? 0)),
+    kv("🏆 Bosqich testlari", `${s.tests_passed ?? 0}/${COURSE_UNITS}`) + " · " + kv("🧠 So'zlar", String(done * 10)),
+    s.next_lesson_title ? `\n▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>` : "",
+    trialLeft !== null ? `\n${hint(`⏳ Bepul davr: ${trialLeft} kun qoldi`)}` : "",
+    !s.access.allowed ? `\n${quote("🔒 Bepul 7 kun tugadi. Natijalaringiz saqlangan — davom etish uchun Scorify Go yoki Plus tarifini oling.")}` : "",
+  ].filter((x) => x !== "");
+  await reply(ctx, lines.join("\n"), s.access.allowed
+    ? [[app("▶️ Darsni davom ettirish", "/learn")]]
+    : [[cb("💎 Tariflar", "u:plan")], [app("🎓 Kursni ochish", "/learn")]]);
+}
+
 // ---------------------------------------------------------------- statistics & results
 
 export async function showStats(ctx: Ctx) {
@@ -431,20 +482,23 @@ export async function showPlan(ctx: Ctx) {
     usage("🧪 Mock test", sub?.mock_test_used, sub?.mock_test_limit),
     "",
     quote([
-      "<b>Scorify Go</b> — $5 / 49 000 so'm oyiga",
-      hint("20 Writing · 15 Speaking · 3 Mock test"),
+      "<b>Scorify Go</b> — $9 / 79 000 so'm oyiga",
+      hint("20 Writing · 15 Speaking · 3 Mock test · 🎓 ingliz tili kursi"),
       "",
-      "<b>Scorify Plus</b> — $9 / 99 000 so'm oyiga",
-      hint("50 Writing · 40 Speaking · 8 Mock test"),
+      "<b>Scorify Plus</b> — $13 / 129 000 so'm oyiga",
+      hint("50 Writing · 40 Speaking · 8 Mock test · 🎓 ingliz tili kursi"),
+      "",
+      "🎉 <b>6 oyga birdan to'lasangiz −10%</b>",
+      hint("Go: 426 600 so'm · Plus: 696 600 so'm (limitlar har 30 kunda yangilanadi)"),
     ].join("\n")),
-    hint("💳 To'lov Telegram orqali. Tasdiqlangach tarif 30 kunga yoqiladi va shu yerga xabar keladi."),
+    hint("💳 To'lov Telegram orqali. Tasdiqlangach tarif yoqiladi va shu yerga xabar keladi."),
   ].join("\n");
   const id = o.profile?.public_id ? ` Mening ID: #${o.profile.public_id}.` : "";
-  const buy = (name: string, price: string) => link(`💳 ${name} — ${price}`,
-    `https://t.me/${PAYMENTS_USERNAME}?text=${encodeURIComponent(`Salom! Men "${name}" tarifini sotib olmoqchiman (${price} / oy).${id}`)}`);
+  const buy = (name: string, period: string, price: string) => link(`💳 ${name} · ${period} — ${price}`,
+    `https://t.me/${PAYMENTS_USERNAME}?text=${encodeURIComponent(`Salom! Men "${name}" tarifini ${period} uchun sotib olmoqchiman: ${price}.${id}`)}`);
   await reply(ctx, text, [
-    [buy("Scorify Go", "49 000 so'm")],
-    [buy("Scorify Plus", "99 000 so'm")],
+    [buy("Scorify Go", "1 oy", "79 000 so'm"), buy("Scorify Go", "6 oy", "426 600 so'm")],
+    [buy("Scorify Plus", "1 oy", "129 000 so'm"), buy("Scorify Plus", "6 oy", "696 600 so'm")],
     [cb("🎁 Bepul olish — do'stlarni taklif qiling", "u:invite")],
     [cb("⬅️ Kabinet", "u:cab")],
   ]);
@@ -674,6 +728,7 @@ export async function settingsAction(ctx: Ctx, parts: string[]) {
 export async function showHelp(ctx: Ctx) {
   await reply(ctx, [
     title("❓", "Scorify bot qanday ishlaydi?") + "\n",
+    "🎓 <b>Ingliz tili darslari</b> — noldan boshlab: tushuntirish, talaffuz, mashq va testlar.",
     "✍️ <b>Writing</b> va 🎤 <b>Speaking</b> — ilovada topshirasiz, natija shu chatga keladi.",
     "📝 <b>Kunlik test</b> — har kuni 10 ta grammatika savoli; ishlamasangiz, 18:00 dan keyin eslatib qo'yaman.",
     "🧠 <b>So'z testi</b> — IELTS lug'atini o'yin tarzida mustahkamlang.",

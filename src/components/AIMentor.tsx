@@ -55,6 +55,18 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
     return () => { cancelled = true; };
   }, [user]);
 
+  // Lessons of the English course open the mentor with the lesson as context.
+  const [lessonContext, setLessonContext] = useState<string | null>(null);
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const context = (e as CustomEvent<{ context?: string }>).detail?.context;
+      if (typeof context === 'string') setLessonContext(context.slice(0, 600));
+      setIsOpen(true);
+    };
+    window.addEventListener('scorify:mentor', onOpen);
+    return () => window.removeEventListener('scorify:mentor', onOpen);
+  }, []);
+
   useEffect(() => {
     if (externalOpen) {
       setIsOpen(true);
@@ -195,7 +207,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
 
     try {
       const { data: result, error } = await supabase.functions.invoke('ai-mentor', {
-        body: { message: userMessage, chatId },
+        body: { message: userMessage, chatId, ...(lessonContext ? { lessonContext } : {}) },
       });
 
       if (error) throw error;
