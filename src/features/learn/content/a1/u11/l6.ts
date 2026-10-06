@@ -145,7 +145,7 @@ const lesson: Lesson = {
     { k: "fill", q: "When I ___ home, I'll call you. (get)", a: ["get"], why: "**when** + Present Simple." },
     { k: "fill", q: "Would you like juice ___ water?", a: ["or"] },
     { k: "fill", q: "We don't have a car ___ a bike.", a: ["or"], uz: "Bizda na mashina, na velosiped bor.", why: "Inkor gapda → **or**." },
-    { k: "fill", q: "After he ___ university, he'll look for a job. (finish)", a: ["finishes"], why: "**after** + Present Simple; *he* → **finishes**." },
+    { k: "fill", q: "After he ___ university, he'll look for a job. (finish)", a: ["finishes", "has finished", "'s finished"], why: "**after** + Present Simple; *he* → **finishes** (*will finish* emas)." },
     { k: "tf", q: "**Before you will leave, turn off the lights.** — to'g'ri gap.", a: false, why: "**before** + Present Simple: *Before you **leave**, turn off the lights.*" },
     { k: "tf", q: "**When I was a child, I lived in a village.** — vergul to'g'ri qo'yilgan.", a: true, why: "*when*-qism boshida → vergul." },
     { k: "listen", say: "When I get home, I'll call you.", opts: ["When I get home, I'll call you.", "When I got home, I called you.", "When I'm home, I call you."], a: 0 },

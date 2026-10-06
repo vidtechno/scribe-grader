@@ -43,7 +43,7 @@ const lesson: Lesson = {
           speak: [0, 1],
         },
         { t: "tip", tone: "good", md: "Odatda **cup** — issiq ichimlik uchun (bandi bor chashka), **glass** — sovuq ichimlik uchun (shisha stakan). O'zbek piyolasidagi choy ham inglizchada oddiygina **a cup of tea** deyiladi." },
-        { t: "tip", tone: "warn", md: "**bowl** — chuqur idish (kosa), **plate** — yassi idish (tarelka). Sho'rva tarelkada emas, kosada: **a bowl of soup** ✅, *a plate of soup* ❌ (g'alati eshitiladi). Palov esa — **a plate of plov**." },
+        { t: "tip", tone: "warn", md: "**bowl** — chuqur idish (kosa), **plate** — yassi idish (tarelka). Sho'rva odatda kosada beriladi: **a bowl of soup**. Palov esa tarelkada — **a plate of plov**." },
         { t: "check", ex: { k: "choice", q: "Kechki ovqatga bir kosa mastava: \"I'd like a ___ of soup.\"", opts: ["glass", "bowl", "cup", "bar"], a: 1, why: "Sho'rva chuqur idishda beriladi — **a bowl of soup**." } },
       ],
     },
