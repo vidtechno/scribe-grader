@@ -141,6 +141,7 @@ export async function userCard(ctx: Ctx, userId: string) {
   ].join("\n");
   const keyboard: InlineKeyboard = [
     [cb("Go +30 kun", `ad:p:go:${userId}`), cb("Plus +30 kun", `ad:p:plus:${userId}`)],
+    [cb("Go +6 oy", `ad:p:go180:${userId}`), cb("Plus +6 oy", `ad:p:plus180:${userId}`)],
     [cb("⬇️ Free'ga o'tkazish", `ad:p:free:${userId}`)],
   ];
   if (u.telegram_id) {
@@ -151,15 +152,24 @@ export async function userCard(ctx: Ctx, userId: string) {
   await reply(ctx, text, keyboard);
 }
 
-async function confirmPlan(ctx: Ctx, plan: string, userId: string) {
-  const what = plan === "free" ? "Free tarifga o'tkazish (limitlar nolga tushadi)" : `${PLAN_LABEL[plan]} — 30 kun (faol bo'lsa uzaytiriladi)`;
+/** "go", "plus" = 30 days; "go180", "plus180" = 6 months. */
+function planChoice(value: string) {
+  const plan = value.replace(/180$/, "");
+  return { plan, days: value.endsWith("180") ? 180 : 30 };
+}
+
+async function confirmPlan(ctx: Ctx, value: string, userId: string) {
+  const { plan, days } = planChoice(value);
+  const what = plan === "free" ? "Free tarifga o'tkazish (limitlar nolga tushadi)"
+    : `${PLAN_LABEL[plan]} — ${days === 180 ? "6 oy (limitlar har 30 kunda yangilanadi)" : "30 kun"} (faol bo'lsa uzaytiriladi)`;
   await reply(ctx, `Tasdiqlaysizmi?\n\n<b>${what}</b>`, [
-    [cb("✅ Ha", `ad:P:${plan}:${userId}`), cb("❌ Yo'q", `ad:u:${userId}`)],
+    [cb("✅ Ha", `ad:P:${value}:${userId}`), cb("❌ Yo'q", `ad:u:${userId}`)],
   ]);
 }
 
-async function applyPlan(ctx: Ctx, plan: string, userId: string) {
-  const { data, error } = await ctx.db.rpc("telegram_admin_set_plan", { _user: userId, _plan: plan, _days: 30 });
+async function applyPlan(ctx: Ctx, value: string, userId: string) {
+  const { plan, days } = planChoice(value);
+  const { data, error } = await ctx.db.rpc("telegram_admin_set_plan", { _user: userId, _plan: plan, _days: days });
   if (error) return reply(ctx, `⚠️ Xato: ${esc(error.message)}`, [[cb("⬅️ Orqaga", `ad:u:${userId}`)]]);
   const r = data as { plan: string; expires_at: string | null; extended: boolean };
   await send(ctx.chatId, `✅ ${PLAN_LABEL[r.plan]} ${r.extended ? "uzaytirildi" : "o'rnatildi"}${r.expires_at ? ` — ${fmtDate(r.expires_at, true)} gacha` : ""}.\n` +
@@ -318,16 +328,18 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
         return reply(ctx, "📬 Navbatdagi xabarlar yuborilmoqda.", [[cb("⬅️ Bot holati", "ad:bot")]]);
       }
       if (a === "daily") {
-        const [jobs, tests] = await Promise.all([
+        const [jobs, tests, lessons] = await Promise.all([
           ctx.db.rpc("telegram_daily_jobs"),
           ctx.db.rpc("telegram_enqueue_daily_test_reminders", { _window_minutes: 0 }),
+          ctx.db.rpc("telegram_enqueue_learn_reminders", { _window_minutes: 0 }),
         ]);
         if (jobs.error) throw jobs.error;
         if (tests.error) throw tests.error;
+        if (lessons.error) throw lessons.error;
         background(drain(ctx.db));
         const r = (jobs.data ?? {}) as Record<string, number>;
-        return reply(ctx, `⏰ Navbatga qo'yildi:\n• Kunlik test eslatmasi: ${tests.data ?? 0}\n• Tarif tugashi: ${r.plan_expiring ?? 0}\n• Haftalik hisobot: ${r.weekly_report ?? 0}\n\n` +
-          "<i>Avtomatik rejim: har kuni 18:00–20:00 oralig'ida navbatma-navbat.</i>",
+        return reply(ctx, `⏰ Navbatga qo'yildi:\n• Kunlik test eslatmasi: ${tests.data ?? 0}\n• Dars eslatmasi: ${lessons.data ?? 0}\n• Tarif tugashi: ${r.plan_expiring ?? 0}\n• Haftalik hisobot: ${r.weekly_report ?? 0}\n\n` +
+          "<i>Avtomatik: kunlik test 18:00–20:00, dars eslatmasi 20:00–21:00, navbatma-navbat.</i>",
           [[cb("⬅️ Bot holati", "ad:bot")]]);
       }
       return botStatus(ctx);

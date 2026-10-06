@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen, GraduationCap } from 'lucide-react';
 
 import { useSubscription } from '@/hooks/useSubscription';
 
@@ -52,6 +52,12 @@ export function Navbar() {
                 <Button variant="ghost" size="sm" className="gap-2">
                   <LayoutDashboard className="h-4 w-4" />
                   <span className="hidden sm:inline">Dashboard</span>
+                </Button>
+              </Link>
+              <Link to="/learn" className="hidden md:block">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <GraduationCap className="h-4 w-4" />
+                  <span className="hidden sm:inline">O'rganish</span>
                 </Button>
               </Link>
               <Link to="/writing" className="hidden md:block">

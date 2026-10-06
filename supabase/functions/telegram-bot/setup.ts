@@ -9,6 +9,7 @@ export function functionUrl(): string {
 
 const USER_COMMANDS = [
   { command: "start", description: "Bosh menyu" },
+  { command: "learn", description: "Ingliz tili darslari (noldan)" },
   { command: "writing", description: "IELTS Writing" },
   { command: "speaking", description: "IELTS Speaking" },
   { command: "test", description: "Kunlik grammatika testi" },
@@ -46,11 +47,11 @@ export async function setupBot(db: Db): Promise<Record<string, unknown>> {
     menu_button: { type: "web_app", text: "Scorify", web_app: { url: `${SITE_URL}/tg?next=%2Fdashboard` } },
   }));
   await step("setMyShortDescription", () => tg("setMyShortDescription", {
-    short_description: "IELTS Writing va Speaking natijalaringiz, kunlik testlar va foydali maqolalar — Scorify.uz rasmiy boti.",
+    short_description: "Ingliz tilini noldan o'rganing, IELTS Writing va Speaking natijalaringizni oling — Scorify.uz rasmiy boti.",
   }));
   await step("setMyDescription", () => tg("setMyDescription", {
     description: "Scorify — IELTS Writing va Speaking javoblaringizni bir necha soniyada band bo'yicha baholaydigan platforma.\n\n" +
-      "Bu botda:\n• natijalaringiz avtomatik keladi — mezonlar va xatolar tahlili bilan\n• har kuni grammatika testi va so'z mashqi\n" +
+      "Bu botda:\n• ingliz tili kursi: noldan boshlab, talaffuz va mashqlar bilan\n• natijalaringiz avtomatik keladi — mezonlar va xatolar tahlili bilan\n• har kuni grammatika testi va so'z mashqi\n" +
       "• IELTS bo'yicha foydali maqolalar\n• saytni Telegram ichida ochib, bir bosishda kirasiz\n\n" +
       "Boshlash uchun «Start»ni bosing 👇",
   }));

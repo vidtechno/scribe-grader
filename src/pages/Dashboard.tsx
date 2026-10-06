@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BrainCircuit, ChevronRight, ClipboardList, Crown, FileText, History, Mic, PenLine, PenTool, Sparkles,
+  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, FileText, GraduationCap, History, Mic, PenLine, PenTool, Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
@@ -131,6 +131,23 @@ export default function Dashboard() {
           <SubscriptionBadge planType={planType} planName={planName} size="md" />
         </motion.div>
 
+        {/* English course */}
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mb-6">
+          <Link to="/learn" className="group block rounded-2xl p-5 sm:p-6 text-white bg-gradient-to-br from-primary via-rose-500 to-orange-400 shadow-lg shadow-primary/20 relative overflow-hidden">
+            <span className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/10" />
+            <span className="absolute right-16 -bottom-14 w-32 h-32 rounded-full bg-white/10" />
+            <span className="relative flex items-center gap-4">
+              <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><GraduationCap className="h-7 w-7" /></span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs font-semibold uppercase tracking-widest opacity-90">Yangi · O'rganish</span>
+                <span className="block text-lg sm:text-xl font-extrabold">Ingliz tilini noldan o'rganing</span>
+                <span className="block text-sm opacity-90">Darslar, talaffuz, mashqlar va bosqich testlari — {planType === 'free' ? '7 kun bepul' : 'tarifingizga kiritilgan'}</span>
+              </span>
+              <ArrowRight className="h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />
+            </span>
+          </Link>
+        </motion.div>
+
         {/* 1. Main practice */}
         <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={1} className="grid md:grid-cols-2 gap-4 mb-6" aria-label="Practice">
           <PracticeCard icon={PenTool} tone="primary" title="IELTS Writing" text="Task 1 and Task 2 with band score and corrections"
@@ -179,7 +196,7 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
-              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Upgrade from $5/month for 20 Writing and 15 Speaking evaluations.</p>}
+              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Upgrade from $9/month: 20 Writing and 15 Speaking evaluations plus the full English course.</p>}
             </section>
             <TelegramPromo />
             <ReferralBanner />
@@ -189,7 +206,7 @@ export default function Dashboard() {
         {/* 3. More practice */}
         <section className="mb-6" aria-label="More practice">
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">More practice</h2>
-          <div className="grid sm:grid-cols-3 gap-3">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {[
               { to: '/grammar-test', icon: BrainCircuit, title: 'Daily Grammar', text: 'A short test based on your recent mistakes' },
               { to: '/mock-test', icon: ClipboardList, title: 'Full Mock Test', text: `Timed Writing + Speaking · ${Math.max(0, mockLimit - mockUsed)} left` },
@@ -201,6 +218,12 @@ export default function Dashboard() {
                 <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
               </Link>
             ))}
+            {/* The blog is a separate (server-rendered) site section, so it is a plain link. */}
+            <a href="/blog" className="group glass-card-hover p-4 flex items-center gap-3">
+              <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><BookOpen className="h-5 w-5" /></span>
+              <span className="min-w-0 flex-1"><span className="block font-semibold text-sm">Blog</span><span className="block text-xs text-muted-foreground truncate">IELTS tips, samples and study plans</span></span>
+              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+            </a>
           </div>
         </section>
 

@@ -14,6 +14,7 @@ Live in production. Personal practice only (Teacher Mode was removed). Sign-in w
 - **Referral program**: 10 friends = 1 month Go, 20 friends = 1 month Plus. Only accounts created in the last 24 hours can be claimed; at most 20 are counted per cycle; a cycle resets when the referral-granted plan expires.
 - **Announcements** sent by admins.
 - **Telegram bot** with sign-in, Mini App and result notifications (see [Telegram bot](#telegram-bot)).
+- **English course from zero** (`/learn`): 40 Beginner lessons with explanations, pronunciation, words, exercises, unit tests and streaks; 7 days free, then Go or Plus (see [docs/learning-course.md](docs/learning-course.md)).
 
 ### Telegram bot
 Part of the same product (same Supabase project, accounts, plans and results), not a separate service. Built in a separate Claude session; full details in [docs/telegram-bot.md](docs/telegram-bot.md).

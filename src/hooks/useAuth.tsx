@@ -8,6 +8,7 @@ interface Profile {
   user_id: string;
   email: string;
   full_name: string | null;
+  public_id?: string | null;
   credits: number;
   age: number | null;
   city: string | null;

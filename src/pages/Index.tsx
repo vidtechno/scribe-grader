@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
-import { PriceTag } from '@/components/PriceTag';
+import { PlanCards } from '@/components/PlanCards';
 import { getPlanEntitlement } from '@/lib/plans';
 import { SEOHead } from '@/components/SEOHead';
 import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
@@ -226,7 +226,7 @@ export default function Index() {
 
             {!user && (
               <p className="mt-4 text-sm text-muted-foreground flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-1">
-                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />3 free Writing and 2 Speaking evaluations</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />3 free Writing and 2 Speaking evaluations · 7-day free English course</span>
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />One-tap Google sign-in</span>
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />No card needed</span>
               </p>
@@ -578,10 +578,10 @@ export default function Index() {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
             className="text-center mb-12">
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">
-              Simple <span className="gradient-text">Monthly Plans</span>
+              Simple <span className="gradient-text">Plans</span>
             </motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">
-              One subscription gives you AI-graded IELTS Writing and Speaking practice. Choose Go or Plus based on your monthly usage.
+              One subscription gives you AI-graded IELTS Writing and Speaking practice and a full English course from zero. Pay monthly, or for 6 months and save 10%.
             </motion.p>
           </motion.div>
 
@@ -596,48 +596,7 @@ export default function Index() {
             </div>
           </motion.div>
 
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {subPlans.map((plan, index: number) => {
-              const popular = (plan.badge || '').toLowerCase().includes('popular');
-              return (
-                <motion.div key={plan.slug} variants={fadeUp} custom={index}
-                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                  className={`relative rounded-2xl border p-6 flex flex-col ${
-                    popular ? 'border-primary bg-primary/5 shadow-xl shadow-primary/10' : 'border-border glass-card'
-                  }`}>
-                  {plan.badge && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">
-                      {plan.badge}
-                    </div>
-                  )}
-                  <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary mb-2">IELTS Practice</p>
-                  <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
-                  {plan.description && (
-                    <p className="text-xs text-muted-foreground mb-4">{plan.description}</p>
-                  )}
-                  <div className="mb-5"><PriceTag usd={getPlanEntitlement(plan.slug).priceUsd} uzs={getPlanEntitlement(plan.slug).priceUzs} /></div>
-                  <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">Personal usage</p>
-                  <ul className="space-y-2 mb-4 text-sm">
-                    <li className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.writing_limit}</strong> Writing evaluations</span></li>
-                    <li className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.speaking_limit}</strong> Speaking evaluations</span></li>
-                    <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary flex-shrink-0" /><span><strong>{plan.mock_test_limit}</strong> Full Mock Tests</span></li>
-                  </ul>
-                  <ul className="space-y-2 mb-6 flex-1 text-sm">
-                    <li className="flex items-start gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-primary mt-0.5"/><span>Daily Grammar, AI Mentor and progress history included</span></li>
-                  </ul>
-                  <Button variant={popular ? 'glow' : 'outline'} className="w-full gap-2"
-                    onClick={() => window.open(`https://t.me/scorify_payments?text=${encodeURIComponent(`Salom! Men "${plan.name}" tarifini sotib olmoqchiman ($${getPlanEntitlement(plan.slug).priceUsd} / oy yoki ${getPlanEntitlement(plan.slug).priceUzs} so'm / oy).`)}`, '_blank')}>
-                    <ExternalLink className="h-4 w-4" /> Get {plan.name}
-                  </Button>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-
-          <p className="text-xs text-muted-foreground text-center mt-8">
-            Payments are handled manually via Telegram <span className="text-primary font-semibold">@scorify_payments</span>. Your plan activates after confirmation and lasts 30 days.
-          </p>
+          <PlanCards plans={subPlans} />
         </div>
       </section>
 

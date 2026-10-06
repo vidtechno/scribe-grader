@@ -8,7 +8,9 @@ export function displayEmail(email?: string | null): string | null {
 
 const UUID = '[0-9a-fA-F-]{36}';
 const MINI_APP_PATHS = [
-  /^\/(dashboard|writing|exam|speaking|essays|speaking-history|drafts|mock-test|grammar-test|leaderboard|referral|profile|admin)$/,
+  /^\/(dashboard|writing|exam|speaking|essays|speaking-history|drafts|mock-test|grammar-test|leaderboard|referral|profile|admin|learn)$/,
+  /^\/learn\/lesson\/u\d{1,2}-l\d{1,2}$/,
+  /^\/learn\/test\/u\d{1,2}$/,
   new RegExp(`^/(result|speaking-result)/${UUID}$`),
   new RegExp(`^/mock-test/(result|exam|thank-you)/${UUID}$`),
 ];

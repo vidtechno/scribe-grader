@@ -124,6 +124,28 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
         keyboard: [[app("📝 Testni boshlash", "/grammar-test")], [cb("🧠 So'z testi", "n:q:n")]],
       };
     }
+    case "learn_reminder": {
+      if (!userId || (p.date && p.date !== tzDate())) return null;
+      const { data } = await db.rpc("telegram_learning_summary", { _user: userId });
+      const s = (data ?? {}) as { started?: boolean; today_done?: boolean; streak?: number; lessons_done?: number;
+        next_lesson_title?: string | null; access?: { allowed?: boolean } };
+      if (!s.started || s.today_done || !s.access?.allowed) return null; // studied after the reminder was queued
+      const streak = s.streak ?? 0;
+      const headlines = [
+        title("📚", "Bugun hali dars qilmadingiz"),
+        title("⏰", "Ingliz tili darsingiz kutyapti"),
+        title("🔥", "15 daqiqa — va bugungi dars tayyor"),
+      ];
+      return {
+        text: [
+          headlines[Number(tzDate().replaceAll("-", "")) % headlines.length],
+          streak > 0 ? `\n${streak} kunlik streakingiz bor — bugun uzilib qolmasin! 💪` : "\nHar kuni ozgina — eng tez natija beradigan yo'l.",
+          s.next_lesson_title ? quote(`▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>`) : "",
+          hint(`Tugatilgan darslar: ${s.lessons_done ?? 0} ta. Nima bo'ldi, bugun vaqt topa olmayapsizmi? 🙂`),
+        ].filter(Boolean).join("\n"),
+        keyboard: [[app("▶️ Darsni boshlash", "/learn")]],
+      };
+    }
     case "blog_post": {
       if (typeof p.post_id !== "string") return null;
       const { data: post } = await db.from("blog_posts").select("slug,title,excerpt,lang,reading_minutes,status,published_at")

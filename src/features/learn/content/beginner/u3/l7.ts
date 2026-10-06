@@ -1,0 +1,170 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: 'u3-l7',
+  title: 'Days, months: in / on / at',
+  titleUz: 'Kunlar, oylar: in / on / at',
+  goal: "Hafta kunlari va oylarni to'g'ri aytasiz va **katta harf** bilan yozasiz. Vaqt predloglarini ajratasiz: **at** seven, **on** Monday, **in** July — o'zbekchadagi bitta \"-da\" o'rniga uchta so'z.",
+  slides: [
+    {
+      title: 'Hafta kunlari',
+      blocks: [
+        { t: 'p', md: "Hafta kunlari ingliz tilida doim **katta harf** bilan yoziladi va hammasi **-day** bilan tugaydi (\"dey\")." },
+        {
+          t: 'table', head: ['Inglizcha', "O'zbekcha", 'Aytilishi'], speak: [0],
+          rows: [
+            ['Monday', 'dushanba', 'MAN-dey'],
+            ['Tuesday', 'seshanba', 'CHYU:Z-dey'],
+            ['Wednesday', 'chorshanba', 'WENZ-dey (d aytilmaydi!)'],
+            ['Thursday', 'payshanba', 'THƏ:Z-dey (th)'],
+            ['Friday', 'juma', 'FRAY-dey'],
+            ['Saturday', 'shanba', 'SÆ-tə-dey'],
+            ['Sunday', 'yakshanba', 'SAN-dey'],
+          ],
+        },
+        { t: 'tip', tone: 'info', md: "**Saturday + Sunday = the weekend** (dam olish kunlari). Qolgan 5 kun — ish kunlari. Inglizlarda hafta odatda **Monday** dan boshlanadi." },
+        { t: 'tip', tone: 'warn', md: "Ikki tuzoq: **Tuesday** (seshanba) va **Thursday** (payshanba) — ikkalasi ham \"T\" bilan boshlanadi. Tuesday — \"chyu:z\", Thursday — tilni tishlar orasiga qo'yib \"th\"." },
+        { t: 'check', ex: { k: 'listen', say: 'Thursday', opts: ['Tuesday', 'Thursday', 'Saturday', 'Wednesday'], a: 1, why: "\"th\" bilan — **Thursday** (payshanba)." } },
+      ],
+    },
+    {
+      title: 'Oylar',
+      blocks: [
+        {
+          t: 'table', head: ['Inglizcha', "O'zbekcha"], speak: [0],
+          rows: [
+            ['January', 'yanvar'],
+            ['February', 'fevral'],
+            ['March', 'mart'],
+            ['April', 'aprel'],
+            ['May', 'may'],
+            ['June', 'iyun'],
+            ['July', 'iyul'],
+            ['August', 'avgust'],
+            ['September', 'sentabr'],
+            ['October', 'oktabr'],
+            ['November', 'noyabr'],
+            ['December', 'dekabr'],
+          ],
+        },
+        { t: 'tip', tone: 'good', md: "Oylar o'zbekchaga o'xshaydi — faqat talaffuzi boshqa. Eng ko'p xato qilinadiganlari: **January** \"DJÆ-nyu-ə-ri\", **June** \"dju:n\", **July** \"dju-LAY\" (urg'u oxirida!), **August** \"O:-gəst\"." },
+        { t: 'tip', tone: 'warn', md: "Oylar ham **katta harf** bilan: *in **J**uly* (\"in july\" emas). O'zbekchada esa kichik harf bilan yoziladi — bu farqni unutmang." },
+        { t: 'check', ex: { k: 'listen', say: 'July', opts: ['June', 'January', 'July', 'August'], a: 2, why: "**July** — \"dju-LAY\", urg'u oxirida. *June* — \"dju:n\", bitta bo'g'in." } },
+      ],
+    },
+    {
+      title: 'in / on / at: uchta "-da"',
+      blocks: [
+        { t: 'p', md: "O'zbekchada hamma vaqt uchun bitta qo'shimcha: dushanba**da**, iyul**da**, soat yetti**da**. Inglizchada esa **uchta** predlog bor. Ularni \"kattadan kichikka\" tartibda eslab qoling:" },
+        {
+          t: 'table', head: ['Predlog', 'Qachon ishlatiladi', 'Misollar'], speak: [2],
+          rows: [
+            ['in', 'katta davr: oy, yil, kun qismi', 'in July, in 2025, in the morning'],
+            ['on', 'aniq kun: hafta kuni, sana', 'on Monday, on Friday, on my birthday'],
+            ['at', 'aniq nuqta: soat, ba\'zi iboralar', "at seven o'clock, at night, at the weekend"],
+          ],
+        },
+        { t: 'tip', tone: 'good', md: "Rasm qilib tasavvur qiling — teskari piramida:\n• **IN** — eng katta (oy, yil)\n• **ON** — o'rtacha (bitta kun)\n• **AT** — eng kichik nuqta (soat)" },
+        { t: 'check', ex: { k: 'fill', q: 'I have English ___ Monday.', a: ['on'], uz: 'Dushanba kuni ingliz tili darsim bor.', why: "Hafta kuni → **on**: *on Monday*." } },
+        { t: 'check', ex: { k: 'fill', q: 'My birthday is ___ January.', a: ['in'], uz: "Tug'ilgan kunim yanvarda.", why: "Oy → **in**: *in January*." } },
+      ],
+    },
+    {
+      title: 'Tipik xatolar va maxsus iboralar',
+      blocks: [
+        { t: 'compare', good: { title: "To'g'ri", items: ['on Monday', 'in July', 'in the morning', 'at night', 'at the weekend', 'every Friday'] }, bad: { title: "Noto'g'ri", items: ['in Monday', 'on July', 'at the morning', 'in the night', 'in weekend', 'on every Friday'] } },
+        { t: 'p', md: "Yodlash kerak bo'lgan iboralar:\n• **in** the morning / **in** the afternoon / **in** the evening\n• lekin: **at** night (kechasi) — *the* siz!\n• **at** the weekend (britancha; amerikaliklar *on the weekend* deydi)\n• **every**, **today**, **this** oldidan predlog qo'yilmaydi: *every Monday, today, this week*" },
+        { t: 'tip', tone: 'info', md: "Sanalar haqida qisqacha: yozuvda **on 5 May** yoki **on May 5**. Bu sonlar maxsus shaklda o'qiladi (\"the fifth of May\") — ularni keyingi bo'limlarda o'rganamiz. Hozircha oy va kunni ayta olish yetarli: *My birthday is **in** May.*" },
+        { t: 'check', ex: { k: 'choice', q: "To'g'ri variantni tanlang: \"Kechasi uxlayman.\"", opts: ['I sleep in night.', 'I sleep on night.', 'I sleep at night.', 'I sleep at the night.'], a: 2, why: "**at night** — maxsus ibora, *the* siz." } },
+      ],
+    },
+    {
+      title: 'Hafta, oy, yil',
+      blocks: [
+        { t: 'examples', items: [
+          { en: 'A week has seven days.', uz: 'Haftada yetti kun bor.' },
+          { en: 'A year has twelve months.', uz: "Yilda o'n ikki oy bor." },
+          { en: 'I go to the market every week.', uz: 'Har hafta bozorga boraman.' },
+          { en: "We don't work at the weekend.", uz: 'Dam olish kunlari ishlamaymiz.' },
+          { en: 'What day is it today? — It\'s Wednesday.', uz: 'Bugun qaysi kun? — Chorshanba.' },
+          { en: 'The lesson is on Monday and Wednesday.', uz: 'Dars dushanba va chorshanba kunlari.' },
+        ] },
+        {
+          t: 'sounds', items: [
+            { label: 'week', say: 'week', uz: "**\"wi:k\"** — uzun \"i:\". *weak* bilan bir xil o'qiladi.", examples: ['a week', 'every week'] },
+            { label: 'month', say: 'month', uz: "**\"manθ\"** — *o* bu yerda \"a\", oxirida **th**. \"mont\" emas!", examples: ['a month', 'twelve months'] },
+            { label: 'year', say: 'year', uz: "**\"yiə\"** — \"yer\" emas. r aytilmaydi.", examples: ['a year', 'this year'] },
+            { label: 'weekend', say: 'weekend', uz: "**\"wi:k-END\"** (britancha) — urg'u oxirida.", examples: ['at the weekend'] },
+          ],
+        },
+        { t: 'check', ex: { k: 'tf', q: "\"I play football on every Sunday\" — to'g'ri gap.", a: false, why: "**every** oldidan predlog qo'yilmaydi: *I play football **every Sunday**.*" } },
+      ],
+    },
+    {
+      title: 'Dialog: haftalik jadval',
+      blocks: [
+        { t: 'dialog', lines: [
+          { who: 'Emma', en: 'What day is it today?', uz: 'Bugun qaysi kun?' },
+          { who: 'Rustam', en: "It's Friday! I like Fridays.", uz: "Juma! Jumani yoqtiraman." },
+          { who: 'Emma', en: 'Do you work at the weekend?', uz: 'Dam olish kunlari ishlaysanmi?' },
+          { who: 'Rustam', en: "No, I don't. On Saturday I play football, and on Sunday I have dinner with my family.", uz: "Yo'q. Shanba kuni futbol o'ynayman, yakshanba kuni oilam bilan kechki ovqat qilaman." },
+          { who: 'Emma', en: 'And in July?', uz: 'Iyulda-chi?' },
+          { who: 'Rustam', en: "In July I don't work. I go to the mountains every year.", uz: "Iyulda ishlamayman. Har yili tog'larga boraman." },
+        ] },
+        { t: 'tip', tone: 'info', md: "Dialogdagi barcha predloglarga qarang: **at** the weekend, **on** Saturday, **on** Sunday, **in** July, *every year* (predlogsiz)." },
+        { t: 'check', ex: { k: 'choice', q: "Rustam futbolni qachon o'ynaydi?", opts: ['on Friday', 'on Saturday', 'on Sunday', 'in July'], a: 1, why: "*On **Saturday** I play football.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'Monday', uz: 'dushanba', ipa: 'ˈmʌn.deɪ', pos: 'noun', ex: 'I have English on Monday.', exUz: 'Dushanba kuni ingliz tili darsim bor.' },
+    { en: 'Wednesday', uz: 'chorshanba', ipa: 'ˈwenz.deɪ', pos: 'noun', ex: "She doesn't work on Wednesday.", exUz: 'U chorshanba kuni ishlamaydi.' },
+    { en: 'Friday', uz: 'juma', ipa: 'ˈfraɪ.deɪ', pos: 'noun', ex: 'We play chess on Friday.', exUz: "Biz juma kuni shaxmat o'ynaymiz." },
+    { en: 'Sunday', uz: 'yakshanba', ipa: 'ˈsʌn.deɪ', pos: 'noun', ex: 'The shop is closed on Sunday.', exUz: 'Do\'kon yakshanba kuni yopiq.' },
+    { en: 'weekend', uz: 'dam olish kunlari (shanba–yakshanba)', ipa: 'ˌwiːkˈend', pos: 'noun', ex: 'I play chess at the weekend.', exUz: "Dam olish kunlari shaxmat o'ynayman." },
+    { en: 'week', uz: 'hafta', ipa: 'wiːk', pos: 'noun', ex: 'A week has seven days.', exUz: 'Haftada yetti kun bor.' },
+    { en: 'month', uz: 'oy (kalendar oyi)', ipa: 'mʌnθ', pos: 'noun', ex: 'He goes to Tashkent every month.', exUz: 'U har oy Toshkentga boradi.' },
+    { en: 'year', uz: 'yil', ipa: 'jɪə', pos: 'noun', ex: 'A year has twelve months.', exUz: "Yilda o'n ikki oy bor." },
+    { en: 'January', uz: 'yanvar', ipa: 'ˈdʒæn.ju.ə.ri', pos: 'noun', ex: "It's cold in January.", exUz: 'Yanvarda sovuq bo\'ladi.' },
+    { en: 'July', uz: 'iyul', ipa: 'dʒuˈlaɪ', pos: 'noun', ex: 'My birthday is in July.', exUz: "Tug'ilgan kunim iyulda." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['Monday', 'dushanba'], ['Wednesday', 'chorshanba'], ['Friday', 'juma'], ['Sunday', 'yakshanba'], ['weekend', 'dam olish kunlari']] },
+    { k: 'listen', say: 'Wednesday', opts: ['Wednesday', 'Weekend', 'Tuesday', 'Monday'], a: 0, why: "**Wednesday** — \"WENZ-dey\", birinchi *d* aytilmaydi." },
+    { k: 'listen', say: 'January', opts: ['June', 'July', 'January', 'February'], a: 2 },
+    { k: 'choice', q: "Qaysi biri to'g'ri?", opts: ['in Friday', 'at Sunday', 'on Monday', 'on the Monday'], a: 2, why: "Hafta kuni — **on**, *the* siz: *on Monday*." },
+    { k: 'tf', q: "Ingliz tilida oylar va hafta kunlari kichik harf bilan yoziladi: *july, monday*.", a: false, why: "Doim **katta harf**: *July, Monday*." },
+    { k: 'fill', q: 'We go to the park ___ Sunday.', a: ['on'], uz: 'Biz yakshanba kuni parkka boramiz.', why: "Kun → **on**." },
+    { k: 'fill', q: "It's hot ___ July.", a: ['in'], uz: 'Iyulda issiq bo\'ladi.', why: "Oy → **in**." },
+    { k: 'fill', q: 'I go to bed ___ eleven.', a: ['at'], uz: "Men o'n birda yotaman.", why: "Soat → **at**." },
+    { k: 'fill', q: 'She reads books ___ the evening.', a: ['in'], uz: "U kechqurun kitob o'qiydi.", why: "**in the evening**." },
+    { k: 'tf', q: "\"at night\" va \"in the morning\" — ikkalasi ham to'g'ri ibora.", a: true, why: "Ha: **in** the morning, lekin **at** night." },
+    { k: 'choice', q: "Bo'sh joyga mos so'z: \"I don't work ___ the weekend.\"", opts: ['in', 'of', 'to', 'at'], a: 3, why: "Britancha: **at the weekend**." },
+    { k: 'order', uz: "Tug'ilgan kunim iyulda.", words: ['My', 'birthday', 'is', 'in', 'July'], extra: ['on'], why: "Oy → **in July**." },
+    { k: 'order', uz: 'U har oy Samarqandga boradi.', words: ['He', 'goes', 'to', 'Samarkand', 'every', 'month'], extra: ['on'], alt: [['every', 'month', 'He', 'goes', 'to', 'Samarkand']], why: "**every** oldidan predlog yo'q." },
+    { k: 'translate', uz: 'Bugun qaysi kun?', a: ['What day is it today', 'What day is today', "What's the day today"], why: "**What day is it today?**" },
+    { k: 'translate', uz: 'Haftada yetti kun bor.', a: ['A week has seven days', 'A week has 7 days', 'There are seven days in a week', 'There are 7 days in a week'], why: "**A week has seven days.**" },
+    { k: 'speak', say: 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday', uz: 'Hafta kunlarini ketma-ket ayting' },
+  ],
+  quiz: [
+    { k: 'listen', say: 'Tuesday', opts: ['Thursday', 'Tuesday', 'Today', 'Sunday'], a: 1 },
+    { k: 'listen', say: 'I play chess at the weekend', opts: ['I play chess on Wednesday', 'I play chess every week', 'I play chess at the weekend', 'I play chess at the week'], a: 2 },
+    { k: 'fill', q: 'The lesson starts ___ nine o\'clock.', a: ['at'] },
+    { k: 'fill', q: 'We have a test ___ Friday.', a: ['on'], uz: 'Juma kuni testimiz bor.' },
+    { k: 'fill', q: "It's cold ___ January.", a: ['in'] },
+    { k: 'choice', q: "Qaysi ibora **noto'g'ri**?", opts: ['in the afternoon', 'at night', 'on the morning', 'on Sunday'], a: 2, why: "To'g'risi: **in** the morning." },
+    { k: 'order', uz: 'Biz dushanba kuni ertalab ingliz tilini o\'rganamiz.', words: ['We', 'study', 'English', 'on', 'Monday', 'morning'], extra: ['in', 'at'], alt: [['on', 'Monday', 'morning', 'We', 'study', 'English']], why: "*Monday morning* — aniq kun, shuning uchun **on**." },
+    { k: 'translate', uz: 'Men yakshanba kuni ishlamayman.', a: ["I don't work on Sunday", 'I do not work on Sunday', "I don't work on Sundays", 'I do not work on Sundays'], why: "**I don't work on Sunday.**" },
+    { k: 'translate', uz: 'Yilda o\'n ikki oy bor.', a: ['A year has twelve months', 'A year has 12 months', 'There are twelve months in a year', 'There are 12 months in a year'] },
+    { k: 'match', pairs: [['in', 'July'], ['on', 'Friday'], ['at', "seven o'clock"], ['in the', 'morning']] },
+  ],
+  summary: [
+    "Hafta kunlari va oylar — doim **katta harf** bilan: *Monday, July*.",
+    "Talaffuz tuzoqlari: **Wednesday** \"WENZ-dey\", **Tuesday / Thursday**, **July** urg'u oxirida, **month** oxirida th.",
+    "**in** — oy, yil, kun qismi (*in July, in the morning*); **on** — kun (*on Monday*); **at** — soat (*at seven, at night, at the weekend*).",
+    "**every, today, this** oldidan predlog yo'q: *every Friday*, \"on every Friday\" emas.",
+  ],
+  homework: "Haftalik jadvalingizni yozing: har bir kun uchun bitta gap (*On Monday I go to work at eight.*). Har bir gapda **on / at / in** ni to'g'ri ishlatganingizni tekshiring va hafta kunlari hamda oylarni ovoz chiqarib 2 marta ayting.",
+};
+
+export default lesson;
