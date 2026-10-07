@@ -110,13 +110,17 @@ function CourseHome({ state }: { state: LearningState }) {
   return (
     <div>
       <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
-        <div>
+        <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).title} · {levelOf(startLevel).cefr}dan boshlagan</p>
           <h1 className="text-2xl sm:text-3xl font-extrabold">Ingliz tili kursi</h1>
         </div>
         {continueTo && !locked && (
-          <Button variant="glow" size="lg" className="gap-2" onClick={() => navigate(continueTo)}>
-            <Play className="h-4 w-4 fill-current" />{map.nextLesson ? `Davom etish: ${map.nextLesson.titleUz}` : 'Bosqich testini topshirish'}
+          <Button variant="glow" size="lg" className="gap-3 w-full sm:w-auto sm:max-w-md min-w-0 h-auto py-2.5 px-4 justify-start" onClick={() => navigate(continueTo)}>
+            <Play className="h-5 w-5 fill-current shrink-0" />
+            <span className="flex flex-col items-start text-left leading-tight min-w-0 whitespace-normal">
+              <span className="text-[11px] font-medium opacity-90">{map.nextLesson ? 'Davom etish' : 'Bosqich testi'}</span>
+              <span className="font-semibold">{map.nextLesson ? map.nextLesson.titleUz : 'Topshirishga tayyor'}</span>
+            </span>
           </Button>
         )}
       </div>

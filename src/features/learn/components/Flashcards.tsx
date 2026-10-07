@@ -34,10 +34,10 @@ export function Flashcards({ words, onFinish }: { words: Word[]; onFinish: () =>
           <Button variant="outline" className="mt-5 gap-2" onClick={() => setShown(true)}><Eye className="h-4 w-4" />Tarjimasini ko'rish</Button>
         )}
       </div>
-      <div className="flex items-center justify-between mt-4 gap-3">
-        <Button variant="ghost" disabled={i === 0} onClick={() => setI(i - 1)} className="gap-1"><ChevronLeft className="h-4 w-4" />Oldingi</Button>
-        <div className="flex gap-1">{words.map((_, k) => <span key={k} className={`h-1.5 w-4 rounded-full ${k <= i ? 'bg-primary' : 'bg-border'}`} />)}</div>
-        <Button variant={last ? 'glow' : 'default'} onClick={() => (last ? onFinish() : setI(i + 1))} className="gap-1">
+      <div className="flex items-center justify-between mt-4 gap-2 sm:gap-3">
+        <Button variant="ghost" disabled={i === 0} onClick={() => setI(i - 1)} className="gap-1 shrink-0 px-2 sm:px-4"><ChevronLeft className="h-4 w-4" />Oldingi</Button>
+        <div className="flex gap-1 flex-1 min-w-0 justify-center">{words.map((_, k) => <span key={k} className={`h-1.5 flex-1 max-w-4 rounded-full ${k <= i ? 'bg-primary' : 'bg-border'}`} />)}</div>
+        <Button variant={last ? 'glow' : 'default'} onClick={() => (last ? onFinish() : setI(i + 1))} className="gap-1 shrink-0 px-3 sm:px-4">
           {last ? "Mashqqa o'tish" : 'Keyingi'}<ChevronRight className="h-4 w-4" />
         </Button>
       </div>
