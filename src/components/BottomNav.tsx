@@ -21,7 +21,7 @@ export function BottomNav() {
           <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background">
             <GraduationCap className="h-6 w-6 text-primary-foreground" />
           </span>
-          <span className="text-[10px] font-semibold mt-1 whitespace-nowrap">O'rganish</span>
+          <span className="text-[10px] font-semibold mt-1 whitespace-nowrap">Learn</span>
         </button>
         <NavItem icon={Mic} label="Speaking" active={active('/speaking')} onClick={() => navigate('/speaking')} />
         <NavItem icon={UserIcon} label="Profile" active={active('/profile')} onClick={() => navigate('/profile')} />

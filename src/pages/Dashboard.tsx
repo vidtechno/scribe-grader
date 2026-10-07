@@ -139,7 +139,7 @@ export default function Dashboard() {
             <span className="relative flex items-center gap-4">
               <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><GraduationCap className="h-7 w-7" /></span>
               <span className="min-w-0 flex-1">
-                <span className="block text-xs font-semibold uppercase tracking-widest opacity-90">Yangi · O'rganish</span>
+                <span className="block text-xs font-semibold uppercase tracking-widest opacity-90">New · Learn</span>
                 <span className="block text-lg sm:text-xl font-extrabold">Ingliz tilini noldan o'rganing</span>
                 <span className="block text-sm opacity-90">Darslar, talaffuz, mashqlar va bosqich testlari — {planType === 'free' ? '7 kun bepul' : 'tarifingizga kiritilgan'}</span>
               </span>

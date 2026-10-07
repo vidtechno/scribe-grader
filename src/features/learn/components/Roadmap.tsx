@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Check, Crown, Hourglass, Lock, Play, ShieldCheck, Star } from 'lucide-react';
 import { LEVELS, PARTIAL_LEVELS, levelOf, unitNo, unitsOf } from '../course';
 import type { LevelId } from '../types';
@@ -9,8 +8,11 @@ import { courseMap } from '../api';
 
 // Nodes follow a gentle S-curve; the path between them is drawn as an SVG line.
 const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
-const ROW = 92;
-const WIDTH = 300;
+const ROW = 104;
+const WIDTH = 320;
+const LABEL_W = 112;
+/** Distance from a node's centre to the edge of its name label. */
+const LABEL_GAP = 46;
 
 export function Roadmap({ state, level, onLocked }: { state: LearningState; level: LevelId; onLocked: () => void }) {
   const navigate = useNavigate();
@@ -61,7 +63,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                     <Fragment key={n.id}>
                       <LessonNode x={p.x} y={p.y} state={st} stars={stars.get(n.id) ?? 0} number={i + 1}
                         onClick={() => (st === 'locked' ? onLocked() : navigate(`/learn/lesson/${n.id}`))} />
-                      <NodeLabel x={p.x} y={p.y} left={labelLeft} title={n.title} dim={st === 'locked'} current={st === 'current'} />
+                      <NodeLabel x={p.x} y={p.y} left={labelLeft} kicker={`${i + 1}-dars`} title={n.title} dim={st === 'locked'} current={st === 'current'} />
                     </Fragment>
                   );
                 }
@@ -69,8 +71,9 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                 return (
                   <Fragment key={n.id}>
                     <TestNode x={p.x} y={p.y} state={testState} onClick={() => (testState === 'locked' ? onLocked() : navigate(`/learn/test/${unit.id}`))} />
-                    <NodeLabel x={p.x} y={p.y} left={labelLeft} dim={testState === 'locked'} current={testState === 'open'}
-                      title={testState === 'cooldown' && t?.locked_until ? `Test ${new Date(t.locked_until).toLocaleString('uz-UZ', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })} da ochiladi` : n.title} />
+                    <NodeLabel x={p.x} y={p.y} left={labelLeft} kicker="Bosqich testi" dim={testState === 'locked'} current={testState === 'open'}
+                      title={testState === 'cooldown' && t?.locked_until ? `${new Date(t.locked_until).toLocaleString('uz-UZ', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })} da ochiladi`
+                        : testState === 'passed' ? "O'tildi ✓" : testState === 'open' ? 'Topshirishga tayyor' : 'Avval darslarni tugating'} />
                   </Fragment>
                 );
               })}
@@ -102,53 +105,60 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
   );
 }
 
+// The wrappers only centre a node on its point. The nodes themselves are animated with CSS on their own element,
+// so a hover or press never moves them off their spot (a transform on the centring element would).
+const NODE_FOCUS = 'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40';
+
 function LessonNode({ x, y, state, stars, number, onClick }: { x: number; y: number; state: NodeState; stars: number; number: number; onClick: () => void }) {
-  const base = 'absolute -translate-x-1/2 -translate-y-1/2 w-[68px] h-[68px] rounded-full grid place-items-center font-extrabold text-lg transition-transform active:scale-95';
   const style = state === 'done'
-    ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-white shadow-[0_6px_0_0_rgb(180,120,20)]'
+    ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-white shadow-[0_6px_0_0_rgb(180,120,20)] hover:shadow-[0_6px_0_0_rgb(180,120,20),0_10px_24px_-4px_rgb(245,158,11,0.55)] active:shadow-[0_2px_0_0_rgb(180,120,20)]'
     : state === 'current'
-      ? 'bg-gradient-to-b from-primary to-brand-red-soft text-primary-foreground shadow-[0_6px_0_0_hsl(var(--primary)/0.55)]'
+      ? 'bg-gradient-to-b from-primary to-brand-red-soft text-primary-foreground shadow-[0_6px_0_0_hsl(var(--primary)/0.55)] hover:shadow-[0_6px_0_0_hsl(var(--primary)/0.55),0_10px_26px_-4px_hsl(var(--primary)/0.6)] active:shadow-[0_2px_0_0_hsl(var(--primary)/0.55)]'
       : state === 'open'
-        ? 'bg-card border-2 border-primary/40 text-primary shadow-[0_6px_0_0_hsl(var(--border))]'
-        : 'bg-secondary text-muted-foreground shadow-[0_6px_0_0_hsl(var(--border))]';
+        ? 'bg-card border-2 border-primary/40 text-primary shadow-[0_6px_0_0_hsl(var(--border))] hover:border-primary hover:shadow-[0_6px_0_0_hsl(var(--border)),0_10px_24px_-6px_hsl(var(--primary)/0.4)] active:shadow-[0_2px_0_0_hsl(var(--border))]'
+        : 'bg-secondary text-muted-foreground shadow-[0_6px_0_0_hsl(var(--border))] active:shadow-[0_2px_0_0_hsl(var(--border))]';
   return (
-    <div className="absolute" style={{ left: x, top: y }}>
-      {state === 'current' && <span className="absolute -translate-x-1/2 -translate-y-1/2 w-[86px] h-[86px] rounded-full border-4 border-primary/30 animate-ping" />}
-      <motion.button type="button" whileHover={{ scale: 1.06 }} onClick={onClick} className={`${base} ${style}`} aria-label={`${number}-dars`}>
-        {state === 'done' ? <Check className="h-8 w-8" strokeWidth={3} /> : state === 'current' || state === 'open' ? <Play className="h-7 w-7 fill-current" /> : <Lock className="h-6 w-6" />}
-      </motion.button>
+    <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
+      {state === 'current' && <span aria-hidden className="absolute -inset-2.5 rounded-full border-4 border-primary/30 animate-ping" />}
+      <button type="button" onClick={onClick} aria-label={`${number}-dars`}
+        className={`group relative w-[68px] h-[68px] rounded-full grid place-items-center font-extrabold text-lg transition-all duration-200 ease-out hover:scale-[1.07] active:scale-95 active:translate-y-[4px] motion-reduce:transition-none motion-reduce:hover:scale-100 ${NODE_FOCUS} ${style}`}>
+        {state === 'done' ? <Check className="h-8 w-8 transition-transform duration-200 group-hover:scale-110" strokeWidth={3} />
+          : state === 'current' || state === 'open' ? <Play className="h-7 w-7 fill-current transition-transform duration-200 group-hover:scale-110 group-hover:translate-x-0.5" />
+            : <Lock className="h-6 w-6" />}
+      </button>
       {state === 'done' && (
-        <div className="absolute -translate-x-1/2 top-[30px] flex gap-0.5">
-          {[1, 2, 3].map((n) => <Star key={n} className={`h-3.5 w-3.5 ${n <= stars ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
+        <div className="absolute left-1/2 -translate-x-1/2 -bottom-3 flex gap-0.5 rounded-full bg-card border border-border px-1.5 py-0.5 shadow-sm">
+          {[1, 2, 3].map((n) => <Star key={n} className={`h-3 w-3 ${n <= stars ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
         </div>
-      )}
-      {state === 'current' && (
-        <span className="absolute -translate-x-1/2 -top-[62px] whitespace-nowrap rounded-lg bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 shadow animate-bounce">BOSHLASH</span>
       )}
     </div>
   );
 }
 
 function TestNode({ x, y, state, onClick }: { x: number; y: number; state: 'locked' | 'open' | 'passed' | 'cooldown'; onClick: () => void }) {
-  const style = state === 'passed' ? 'from-amber-300 to-yellow-500 text-white'
-    : state === 'open' ? 'from-violet-500 to-fuchsia-500 text-white'
+  const style = state === 'passed' ? 'from-amber-300 to-yellow-500 text-white hover:shadow-amber-400/50'
+    : state === 'open' ? 'from-violet-500 to-fuchsia-500 text-white hover:shadow-fuchsia-500/50'
       : state === 'cooldown' ? 'from-slate-400 to-slate-500 text-white' : 'from-secondary to-secondary text-muted-foreground';
   const Icon = state === 'passed' ? Crown : state === 'cooldown' ? Hourglass : state === 'open' ? ShieldCheck : Lock;
   return (
-    <div className="absolute" style={{ left: x, top: y }}>
-      <motion.button type="button" whileHover={{ scale: 1.06 }} onClick={onClick} aria-label="Bosqich testi"
-        className={`absolute -translate-x-1/2 -translate-y-1/2 w-[78px] h-[78px] rounded-[26px] rotate-45 bg-gradient-to-br ${style} shadow-lg grid place-items-center`}>
-        <Icon className="h-8 w-8 -rotate-45" />
-      </motion.button>
+    <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
+      {state === 'open' && <span aria-hidden className="absolute -inset-2 rounded-[30px] rotate-45 border-4 border-fuchsia-400/30 animate-ping" />}
+      <button type="button" onClick={onClick} aria-label="Bosqich testi"
+        className={`group relative w-[78px] h-[78px] rounded-[26px] rotate-45 bg-gradient-to-br ${style} shadow-lg hover:shadow-xl grid place-items-center transition-all duration-200 ease-out hover:scale-[1.07] active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 ${NODE_FOCUS}`}>
+        <Icon className="h-8 w-8 -rotate-45 transition-transform duration-200 group-hover:scale-110" />
+      </button>
     </div>
   );
 }
 
-function NodeLabel({ x, y, left, title, dim, current }: { x: number; y: number; left: boolean; title: string; dim: boolean; current: boolean }) {
+/** The lesson's name next to its node: always readable, never clipped by the screen edge. */
+function NodeLabel({ x, y, left, kicker, title, dim, current }: { x: number; y: number; left: boolean; kicker: string; title: string; dim: boolean; current: boolean }) {
   return (
-    <div className={`absolute -translate-y-1/2 w-[110px] text-xs leading-tight ${left ? 'text-right' : 'text-left'} ${dim ? 'text-muted-foreground/60' : current ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}
-      style={left ? { left: x - 52 - 110, top: y } : { left: x + 52, top: y }}>
-      {title}
+    <div className={`absolute -translate-y-1/2 pointer-events-none ${left ? 'text-right' : 'text-left'}`}
+      style={{ width: LABEL_W, top: y, left: left ? x - LABEL_GAP - LABEL_W : x + LABEL_GAP }}>
+      <p className={`text-[10px] font-bold uppercase tracking-wider ${current ? 'text-primary' : 'text-muted-foreground'}`}>{kicker}</p>
+      <p className={`text-[13px] leading-tight font-semibold ${dim ? 'text-muted-foreground' : 'text-foreground'}`}>{title}</p>
+      {current && <span className="mt-1.5 inline-block rounded-full bg-primary text-primary-foreground text-[10px] font-bold tracking-wide px-2.5 py-0.5 animate-pulse motion-reduce:animate-none">BOSHLASH</span>}
     </div>
   );
 }

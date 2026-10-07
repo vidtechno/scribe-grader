@@ -57,7 +57,7 @@ export function Navbar() {
               <Link to="/learn" className="hidden md:block">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <GraduationCap className="h-4 w-4" />
-                  <span className="hidden sm:inline">O'rganish</span>
+                  <span className="hidden sm:inline">Learn</span>
                 </Button>
               </Link>
               <Link to="/writing" className="hidden md:block">
