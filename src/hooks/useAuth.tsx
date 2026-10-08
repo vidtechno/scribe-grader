@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { clearStoredReferral, getStoredReferral } from '@/lib/referral';
 
 interface Profile {
   id: string;
@@ -9,6 +8,8 @@ interface Profile {
   email: string;
   full_name: string | null;
   public_id?: string | null;
+  username?: string | null;
+  avatar_key?: string | null;
   credits: number;
   age: number | null;
   city: string | null;
@@ -71,11 +72,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setTimeout(() => {
           if (disposed) return;
           void fetchProfile(next.user.id);
-          const ref = getStoredReferral();
-          if (ref) {
-            // A referral is claimed once; the database ignores existing accounts and repeats.
-            supabase.rpc('claim_referral', { _code: ref }).then(({ error }) => { if (!error) clearStoredReferral(); });
-          }
         }, 0);
       }
     };

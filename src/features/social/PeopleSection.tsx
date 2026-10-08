@@ -12,8 +12,10 @@ function List({ items, loading, empty }: { items: SocialCard[] | undefined; load
   return <div className="space-y-2">{items.map((c) => <PersonRow key={c.public_id} card={c} />)}</div>;
 }
 
-export function PeopleSection() {
-  const [tab, setTab] = useState<Tab>('discover');
+export function PeopleSection({ tab: tabProp, onTab }: { tab?: Tab; onTab?: (t: Tab) => void } = {}) {
+  const [own, setOwn] = useState<Tab>('discover');
+  const tab = tabProp ?? own;
+  const setTab = (t: Tab) => { setOwn(t); onTab?.(t); };
   const [q, setQ] = useState('');
   const search = usePeopleSearch(q);
   const suggestions = useSuggestions();

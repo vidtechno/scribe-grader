@@ -1,6 +1,6 @@
 // Learner features of the bot. Writing and Speaking answers are only accepted on the website;
 // the bot shows results, progress, goals, plan, leaderboard, referrals, articles and daily practice.
-import { esc, PAYMENTS_USERNAME, SITE_URL, botLink, truncate } from "../_shared/telegram.ts";
+import { adminIds, esc, PAYMENTS_USERNAME, SITE_URL, botLink, truncate } from "../_shared/telegram.ts";
 import {
   ensureScorifyUser, isTelegramEmail, linkTelegramToUser, type TelegramAccount,
 } from "../_shared/telegram-accounts.ts";
@@ -41,14 +41,17 @@ export async function handleStart(ctx: Ctx, payload: string) {
       ctx.account.pending_ref = code;
       return showMenu(ctx, [
         "Assalomu alaykum! 👋 Sizni do'stingiz <b>Scorify</b>ga taklif qildi.\n",
-        "Scorify IELTS Writing va Speaking javoblaringizni bir necha soniyada band bo'yicha baholaydi.\n",
-        hint(`«${BTN.start}» tugmasini bosing — taklif avtomatik hisoblanadi, sizga esa 3 ta bepul Writing va 2 ta Speaking baholash beriladi.`),
+        "Scorify — ingliz tilini noldan o'rganish va IELTS'ga tayyorlanish platformasi: darslar, talaffuz, mashqlar va testlar.\n",
+        hint(`«${BTN.start}» tugmasini bosing — ro'yxatdan o'tasiz, <b>7 kun Learn bepul</b>. Birinchi darsni tugatsangiz, do'stingiz referal hisoblaydi.`),
       ].join("\n"));
+    }
+    if (ctx.account.user_id) {
+      return showMenu(ctx, "Siz allaqachon ro'yxatdan o'tgansiz — referal havolasi faqat yangi foydalanuvchilar uchun ishlaydi. O'z havolangizni «👤 Kabinet → 🎁 Referal» bo'limidan oling.");
     }
   }
   const sections: Record<string, (c: Ctx) => Promise<void>> = {
     stats: showStats, results: (c) => showResults(c, "a"), goal: showGoal, plan: showPlan, invite: showInvite,
-    daily: showDaily, quiz: newQuiz, settings: showSettings, top: (c) => showTop(c, "w"),
+    daily: showDaily, quiz: newQuiz, settings: showSettings, top: (c) => showTop(c, "w"), referral: showInvite,
     cabinet: showCabinet, articles: showArticles, blog: showArticles, test: showDailyTest,
     writing: showWriting, speaking: showSpeaking, learn: showLearn,
   };
@@ -192,7 +195,7 @@ export async function showWriting(ctx: Ctx) {
       : "Bu oydagi limit tugadi. Tarifni yangilang yoki do'stlarni taklif qilib bepul oy oling.")}`,
   ].join("\n"), remaining
     ? [[app("✍️ Yozishni boshlash", "/writing")], [app("🗂 Esselarim", "/essays"), app("📄 Qoralamalar", "/drafts")]]
-    : [[cb("💎 Tarifni yangilash", "u:plan")], [cb("🎁 Bepul olish", "u:invite")]]);
+    : [[cb("💎 Tarifni yangilash", "u:plan")], [cb("🎁 Referal", "u:invite")]]);
 }
 
 export async function showSpeaking(ctx: Ctx) {
@@ -211,7 +214,7 @@ export async function showSpeaking(ctx: Ctx) {
       : "Bu oydagi limit tugadi. Tarifni yangilang yoki do'stlarni taklif qilib bepul oy oling.")}`,
   ].join("\n"), remaining
     ? [[app("🎤 Gapirishni boshlash", "/speaking")], [app("🗂 Speaking tarixi", "/speaking-history")]]
-    : [[cb("💎 Tarifni yangilash", "u:plan")], [cb("🎁 Bepul olish", "u:invite")]]);
+    : [[cb("💎 Tarifni yangilash", "u:plan")], [cb("🎁 Referal", "u:invite")]]);
 }
 
 export async function showDailyTest(ctx: Ctx) {
@@ -517,7 +520,7 @@ export async function showPlan(ctx: Ctx) {
   await reply(ctx, text, [
     [buy("Learn", "1 oy", "49 000 so'm"), buy("Learn", "6 oy", "264 600 so'm")],
     [buy("IELTS", "1 oy", "129 000 so'm"), buy("IELTS", "6 oy", "696 600 so'm")],
-    [cb("🎁 Bepul olish — do'stlarni taklif qiling", "u:invite")],
+    [cb("🎁 Referal — do'st taklif qiling, pul ishlang", "u:invite")],
     [cb("⬅️ Kabinet", "u:cab")],
   ]);
 }
@@ -553,44 +556,108 @@ export async function showTop(ctx: Ctx, period: string) {
 
 // ---------------------------------------------------------------- referrals
 
+interface RefInfo {
+  code: string; balance: number; earned: number; paid: number; reward: number; min_withdraw: number;
+  invited: number; active: number; buyers: number; rewarded: number; pending_withdrawal: { id: number; amount: number } | null;
+}
+const som = (n: number) => `${String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
+
 export async function showInvite(ctx: Ctx) {
   const userId = await requireUser(ctx);
   if (!userId) return;
-  const { data, error } = await ctx.db.rpc("telegram_referral_summary", { _user: userId });
+  const { data, error } = await ctx.db.rpc("internal_ref_info", { _user: userId });
   if (error) throw error;
-  const r = data as { code: string; counted: number; total_invited: number; can_claim_go: boolean; go_claimed_at: string | null; plus_granted_at: string | null; reward_expires_at: string | null };
-  const siteLink = `${SITE_URL}/?ref=${r.code}`;
-  const botRef = await botLink(`ref_${r.code}`);
+  const r = data as RefInfo;
+  const refLink = await botLink(`ref_${r.code}`);
+  const can = r.balance >= r.min_withdraw && !r.pending_withdrawal;
   const text = [
-    title("🎁", "Do'stlarni taklif qiling — bepul tarif oling") + "\n",
-    "👥 10 ta do'st → <b>1 oy Learn</b>",
-    "👥 20 ta do'st → <b>1 oy IELTS</b> " + hint("(avtomatik)") + "\n",
-    `${bar(r.counted, 20, 10)}  <b>${r.counted}</b>/20`,
-    hint(`Jami taklif qilinganlar: ${r.total_invited}`),
-    r.go_claimed_at ? "✅ Learn mukofoti faollashtirilgan" : "",
-    r.plus_granted_at ? "✅ IELTS mukofoti berilgan" : "",
-    r.reward_expires_at ? hint(`Mukofot muddati: ${fmtDate(r.reward_expires_at, true)}`) : "",
-    "\n🔗 <b>Sayt havolasi</b>",
-    `<code>${esc(siteLink)}</code>`,
-    "🤖 <b>Bot havolasi</b>",
-    `<code>${esc(botRef)}</code>`,
-    "\n" + hint("Faqat yangi ro'yxatdan o'tgan do'stlar hisoblanadi. Havolani bosib nusxa oling."),
-  ].filter(Boolean).join("\n");
-  const share = `https://t.me/share/url?url=${encodeURIComponent(botRef)}&text=${encodeURIComponent("IELTS Writing va Speaking'ni sun'iy intellekt bilan bepul baholang — Scorify 🚀")}`;
+    title("🎁", "Referal — do'st taklif qiling, pul ishlang") + "\n",
+    "<b>Qanday ishlaydi:</b>",
+    quote([
+      "1️⃣ Havolangizni do'stingizga yuboring.",
+      "2️⃣ U havola orqali botga kirib ro'yxatdan o'tadi va <b>kamida 1 ta dars</b> tugatadi — shunda referal hisoblanadi.",
+      `3️⃣ U <b>7 kunlik bepul davrdan keyin</b> istalgan pullik tarifni sotib olsa, balansingizga <b>${som(r.reward)}</b> qo'shiladi.`,
+      `4️⃣ Balans <b>${som(r.min_withdraw)}</b> ga yetganda yechib olasiz.`,
+    ].join("\n")),
+    "🔗 <b>Sizning havolangiz</b>",
+    `<code>${esc(refLink)}</code>`,
+    "\n📊 <b>Statistika</b>",
+    `👥 Taklif qilingan: <b>${r.invited}</b>`,
+    `✅ Dars tugatgan (hisoblangan): <b>${r.active}</b>`,
+    `💳 Pullik tarif olgan: <b>${r.buyers}</b>`,
+    `\n💰 Balans: <b>${som(r.balance)}</b> ${hint(`(${bar(Math.min(r.balance, r.min_withdraw), r.min_withdraw, 10)})`)}`,
+    r.paid > 0 ? hint(`Jami to'langan: ${som(r.paid)}`) : "",
+    r.pending_withdrawal ? `\n⏳ So'rov yuborilgan: <b>${som(r.pending_withdrawal.amount)}</b> — admin tasdiqlashini kuting.` : "",
+    !can && !r.pending_withdrawal ? hint(`Yechib olish uchun yana ${som(Math.max(0, r.min_withdraw - r.balance))} kerak.`) : "",
+  ].filter((x) => x !== "").join("\n");
+  const share = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("Ingliz tilini noldan o'rganing — Scorify'da 7 kun bepul 🚀")}`;
   const keyboard: InlineKeyboard = [[link("📤 Do'stlarga yuborish", share)]];
-  if (r.can_claim_go) keyboard.unshift([cb("🎉 1 oy Learn'ni faollashtirish", "rf:claim")]);
-  keyboard.push([cb("⬅️ Kabinet", "u:cab")]);
+  if (can) keyboard.push([cb(`💸 Yechib olish (${som(r.balance)})`, "rf:w")]);
+  keyboard.push([cb("🔄 Yangilash", "u:invite"), cb("⬅️ Kabinet", "u:cab")]);
   await reply(ctx, text, keyboard);
 }
 
-export async function claimGo(ctx: Ctx) {
+/** Step 1 of a payout: show how much can be withdrawn and ask to confirm. */
+export async function withdrawStart(ctx: Ctx) {
   const userId = await requireUser(ctx);
   if (!userId) return;
-  const { data, error } = await ctx.db.rpc("internal_claim_referral_reward", { _me: userId });
-  if (error) return reply(ctx, `⚠️ ${esc(error.message)}`, [[cb("⬅️ Orqaga", "u:invite")]]);
-  const exp = (data as { expires_at?: string })?.expires_at;
-  await reply(ctx, `${title("🎉", "Learn faollashtirildi!")}${exp ? `\n${hint(`${fmtDate(exp, true)} gacha amal qiladi.`)}` : ""}`,
-    [[cb("💎 Tarifim", "u:plan")]]);
+  const { data } = await ctx.db.rpc("internal_ref_info", { _user: userId });
+  const r = data as RefInfo;
+  if (r.pending_withdrawal) return showInvite(ctx);
+  if (r.balance < r.min_withdraw) {
+    return reply(ctx, `${title("💸", "Yechib olish")}\nBalansingiz ${som(r.balance)}. Yechib olish uchun kamida <b>${som(r.min_withdraw)}</b> kerak.`, [[cb("⬅️ Orqaga", "u:invite")]]);
+  }
+  await reply(ctx, [
+    title("💸", "Pulni yechib olish") + "\n",
+    `Yechib olish mumkin: <b>${som(r.balance)}</b>`,
+    hint("Tasdiqlasangiz, keyingi qadamda karta raqami va karta egasining ismini yozasiz. Admin pulni o'tkazib bergach, sizga xabar keladi."),
+  ].join("\n"), [[cb("✅ Tasdiqlash", "rf:wy"), cb("❌ Bekor qilish", "u:invite")]]);
+}
+
+export async function withdrawConfirm(ctx: Ctx) {
+  await setState(ctx, { awaiting: "wd_card" });
+  await reply(ctx, `${title("💳", "Karta raqami")}\nPul o'tkaziladigan <b>16 xonali karta raqamini</b> yozing.\n${hint("Bekor qilish: /cancel")}`);
+}
+
+/** Handles the card number / holder name messages of the payout dialog. Returns true when the message was consumed. */
+export async function referralInput(ctx: Ctx, text: string): Promise<boolean> {
+  const st = ctx.account.state;
+  if (st?.awaiting !== "wd_card" && st?.awaiting !== "wd_holder") return false;
+  const userId = ctx.account.user_id;
+  if (!userId) { await setState(ctx, null); return true; }
+  if (st.awaiting === "wd_card") {
+    const digits = text.replace(/\D/g, "");
+    if (digits.length !== 16) { await send(ctx.chatId, "Karta raqami 16 ta raqamdan iborat bo'lsin. Qayta yozing yoki /cancel."); return true; }
+    await setState(ctx, { awaiting: "wd_holder", card: digits });
+    await send(ctx.chatId, `${title("👤", "Karta egasi")}\nKarta egasining <b>ism-familiyasini</b> yozing (kartadagidek).`);
+    return true;
+  }
+  const holder = text.trim().replace(/\s+/g, " ");
+  if (holder.length < 3 || holder.length > 60) { await send(ctx.chatId, "Ism-familiyani to'g'ri yozing yoki /cancel."); return true; }
+  const card = String(st.card ?? "");
+  await setState(ctx, null);
+  const { data, error } = await ctx.db.rpc("internal_ref_request_withdrawal", { _user: userId, _card: card, _holder: holder });
+  if (error) {
+    const reason = /balance_too_low/.test(error.message) ? "Balans yetarli emas." : /already_pending/.test(error.message) ? "Sizda tasdiqlanmagan so'rov bor." : "So'rovni yuborib bo'lmadi.";
+    await send(ctx.chatId, `⚠️ ${reason}`);
+    return true;
+  }
+  const w = data as { id: number; amount: number; card: string; holder: string };
+  await send(ctx.chatId, `${title("✅", "So'rov yuborildi")}\n${som(w.amount)} — admin tekshirib, kartangizga o'tkazadi. Tayyor bo'lgach xabar beraman.`);
+  const { data: profile } = await ctx.db.from("profiles").select("full_name,username,public_id").eq("user_id", userId).maybeSingle();
+  const who = `${esc(profile?.full_name ?? ctx.from.first_name ?? "")}${profile?.username ? ` (@${esc(profile.username)})` : ""} · ID #${esc(profile?.public_id ?? "—")}${ctx.from.username ? ` · TG @${esc(ctx.from.username)}` : ""}`;
+  const adminText = [
+    title("💸", "Referal pulini yechib olish so'rovi") + "\n",
+    `👤 ${who}`,
+    `💰 Summa: <b>${som(w.amount)}</b>`,
+    `💳 Karta: <code>${w.card.replace(/(\d{4})(?=\d)/g, "$1 ")}</code>`,
+    `🧾 Karta egasi: <b>${esc(w.holder)}</b>`,
+    hint(`So'rov #${w.id}`),
+  ].join("\n");
+  for (const id of adminIds()) {
+    await send(id, adminText, { inline_keyboard: [[cb("✅ To'landi", `ad:wd:ok:${w.id}`), cb("❌ Rad etish", `ad:wd:no:${w.id}`)]] }).catch((e) => console.error("admin notify failed:", e));
+  }
+  return true;
 }
 
 // ---------------------------------------------------------------- daily practice & quiz
@@ -664,7 +731,7 @@ export async function showCabinet(ctx: Ctx) {
   ].join("\n"), [
     [cb("📊 Natijalarim", "u:stats"), cb("🎯 Maqsad", "u:goal")],
     [cb("💎 Tarif", "u:plan"), cb("🏆 Reyting", "t:w")],
-    [cb("🎁 Do'stlarni taklif", "u:invite"), cb("💡 Kunlik mashq", "u:daily")],
+    [cb("🎁 Referal", "u:invite"), cb("💡 Kunlik mashq", "u:daily")],
     [cb("⚙️ Sozlamalar", "u:settings"), cb("❓ Yordam", "u:help")],
     [app("🌐 Ilovani ochish", "/dashboard")],
   ]);

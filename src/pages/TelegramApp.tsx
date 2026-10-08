@@ -9,7 +9,7 @@ import { loadTelegramWebApp, markTelegramWebApp, miniAppPath, signInWithTokenHas
 /** Bot deep-link sections (`startapp` / start_param) mapped to app pages. */
 const START_PARAM_PATHS: Record<string, string> = {
   writing: '/writing', speaking: '/speaking', results: '/essays', speaking_history: '/speaking-history',
-  mock: '/mock-test', grammar: '/grammar-test', learn: '/learn', referral: '/referral', profile: '/profile', leaderboard: '/leaderboard',
+  mock: '/mock-test', grammar: '/grammar-test', learn: '/learn', referral: '/profile', profile: '/profile', leaderboard: '/leaderboard',
 };
 
 /**

@@ -3,12 +3,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { callLearning } from '@/features/learn/api';
 
 export interface SocialCard {
-  public_id: string; name: string; level: string | null;
+  public_id: string; username?: string | null; avatar?: string | null; name: string; level: string | null;
   xp: number | null; streak: number | null; is_following: boolean; follows_me: boolean;
 }
 export interface SocialSettings { discoverable: boolean; show_progress: boolean; show_ielts: boolean; leaderboard_visible: boolean }
 export interface PublicProfile {
-  public_id: string; name: string; is_me: boolean; member_since: string | null; level: string | null;
+  public_id: string; username?: string | null; avatar?: string | null; name: string; is_me: boolean; member_since: string | null; level: string | null;
   followers: number; following: number; is_following: boolean; follows_me: boolean;
   progress_visible: boolean; ielts_visible: boolean;
   xp?: number; streak?: number; streak_best?: number; lessons_done?: number; words?: number; tests_passed?: number;
@@ -17,7 +17,7 @@ export interface PublicProfile {
   achievements?: { key: string; unlocked_at: string }[];
   ielts?: { writing_count: number; writing_best: number | null; speaking_count: number; speaking_best: number | null };
 }
-export interface LeaderRow { rank: number; public_id: string; name: string; xp: number; level: string | null; streak: number; is_me: boolean; is_following: boolean }
+export interface LeaderRow { rank: number; public_id: string; username?: string | null; avatar?: string | null; name: string; xp: number; level: string | null; streak: number; is_me: boolean; is_following: boolean }
 export interface Leaderboard { scope: string; period: string; total: number; rows: LeaderRow[]; me: { rank: number; xp: number } | null; me_hidden: boolean }
 
 export function socialErrorMessage(e: unknown): string {

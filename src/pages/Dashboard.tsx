@@ -16,8 +16,7 @@ import { PricingModal } from '@/components/PricingModal';
 import { LearnHero } from '@/components/LearnHero';
 import { UsageBar } from '@/components/PracticeCard';
 import { SEOHead } from '@/components/SEOHead';
-const GoalsCard = lazy(() => import('@/components/GoalsCard').then(m => ({ default: m.GoalsCard })));
-import { ReferralBanner } from '@/components/ReferralBanner';
+import { DashboardLearn } from '@/components/DashboardLearn';
 
 type Activity = { kind: 'essay' | 'speaking'; id: string; title: string; score: number | null; at: Date };
 
@@ -121,10 +120,10 @@ export default function Dashboard() {
           </div>
         </motion.section>
 
-        {/* 2. Goals and plan */}
+        {/* 2. Learning, plan */}
         <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6 items-start mb-6">
           <div className="min-w-0">
-            <Suspense fallback={<div className="glass-card p-6 mb-7 h-[280px] animate-pulse" />}><GoalsCard /></Suspense>
+            <DashboardLearn />
             {tip && planType !== 'free' && (
               <div className="glass-card p-4 mb-6 border-l-4 border-l-primary flex items-start gap-3">
                 <Sparkles className="h-4 w-4 text-primary mt-0.5 shrink-0" />
@@ -154,7 +153,6 @@ export default function Dashboard() {
               </div>
               {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Learn — 49 000 so'm/month: the full English course. IELTS — 129 000 so'm/month: Learn plus 50 Writing and 30 Speaking evaluations.</p>}
             </section>
-            <ReferralBanner />
           </aside>
         </div>
 

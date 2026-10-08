@@ -16,6 +16,8 @@ type Delivery =
   | { text: string; keyboard?: InlineKeyboard; preview?: string }
   | { copy: { from_chat_id: number; message_id: number } };
 
+const money = (n: number) => `${String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
+
 async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
   const p = item.payload ?? {};
   const userId = item.user_id;
@@ -27,19 +29,26 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       const kind = item.kind === "essay_result" ? "e" : item.kind === "speaking_result" ? "s" : "m";
       return resultCard(db, kind, p.id, userId, { notification: true });
     }
-    case "referral_new": {
-      if (!userId) return null;
-      const { data } = await db.rpc("telegram_referral_summary", { _user: userId });
-      const r = (data ?? {}) as { counted?: number; can_claim_go?: boolean };
-      const n = r.counted ?? 0;
-      const next = n < 10 ? `Learn mukofotigacha yana <b>${10 - n}</b> ta do'st` : n < 20 ? `IELTS mukofotigacha yana <b>${20 - n}</b> ta do'st` : "Siz maksimal mukofotni oldingiz! 🏆";
+    case "ref_activated":
       return {
-        text: p.counted
-          ? [title("🎉", "Yangi do'stingiz qo'shildi!") + "\n", `${bar(n, 20, 10)}  <b>${n}</b>/20`, hint(next)].join("\n")
-          : `${title("👋", "Havolangiz orqali yangi do'st keldi")}\n${hint("Bu davrda 20 talik limit to'lgan — keyingi davrda yana hisoblanadi.")}`,
-        keyboard: r.can_claim_go ? [[cb("🎉 1 oy Learn'ni faollashtirish", "n:rf:claim")]] : [[cb("🎁 Taklif bo'limi", "n:u:invite")]],
+        text: `${title("🎉", "Referal hisoblandi!")}\nDo'stingiz birinchi darsni tugatdi. U 7 kunlik bepul davrdan keyin pullik tarifni olsa, balansingizga <b>10 000 so'm</b> qo'shiladi.`,
+        keyboard: [[cb("🎁 Referal", "n:u:invite")]],
       };
-    }
+    case "ref_reward":
+      return {
+        text: `${title("💰", `+${money(Number(p.amount ?? 10000))}`)}\nDo'stingiz pullik tarif sotib oldi — referal balansingizga pul qo'shildi!`,
+        keyboard: [[cb("🎁 Referal balansi", "n:u:invite")]],
+      };
+    case "ref_paid":
+      return {
+        text: `${title("✅", "Pul to'landi!")}\n<b>${money(Number(p.amount ?? 0))}</b> kartangizga o'tkazildi. Rahmat, Scorify'ni tarqatganingiz uchun! 🙌`,
+        keyboard: [[cb("🎁 Yana taklif qilish", "n:u:invite")]],
+      };
+    case "ref_rejected":
+      return {
+        text: `${title("↩️", "So'rov rad etildi")}\n<b>${money(Number(p.amount ?? 0))}</b> referal balansingizga qaytarildi. Karta ma'lumotlarini tekshirib, qayta so'rov yuboring.`,
+        keyboard: [[cb("🎁 Referal", "n:u:invite")]],
+      };
     case "plan_changed": {
       const plan = String(p.plan ?? "free"), old = String(p.old_plan ?? "");
       if (plan === "free") {

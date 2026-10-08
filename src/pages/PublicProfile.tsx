@@ -3,7 +3,8 @@ import { ArrowLeft, BookOpen, Flame, Lock, Mic, PenTool, Target, Zap } from 'luc
 import { Navbar } from '@/components/Navbar';
 import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
-import { Avatar, FollowButton, levelLabel } from '@/features/social/components';
+import { FollowButton, levelLabel } from '@/features/social/components';
+import { UserAvatar } from '@/features/social/avatars';
 import { usePublicProfile } from '@/features/social/api';
 import { ACHIEVEMENTS, achievementInfo } from '@/features/learn/achievements';
 
@@ -36,15 +37,26 @@ export default function PublicProfile() {
             </div>
           ) : (
             <div className="space-y-5">
-              <div className="glass-card p-5 flex items-center gap-4">
-                <Avatar name={p.name} size="lg" />
-                <div className="flex-1 min-w-0">
-                  <h1 className="text-xl font-bold truncate">{p.name}</h1>
-                  <p className="text-sm text-muted-foreground">{levelLabel(p.level)} darajasi</p>
-                  <p className="text-xs text-muted-foreground mt-1"><b>{p.followers}</b> obunachi · <b>{p.following}</b> obuna</p>
+              <div className="glass-card p-5 sm:p-6">
+                <div className="flex items-center gap-5 sm:gap-8">
+                  <UserAvatar avatar={p.avatar} name={p.name} size="xl" ring />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-3 mb-3">
+                      <h1 className="text-xl font-semibold truncate">{p.username ? `@${p.username}` : p.name}</h1>
+                      {p.is_me ? <Link to="/profile"><Button variant="outline" size="sm">Profilim</Button></Link>
+                        : <FollowButton publicId={p.public_id} following={p.is_following} />}
+                    </div>
+                    <div className="flex gap-5 text-sm">
+                      <span><b className="block text-base">{p.lessons_done ?? '—'}</b><span className="text-muted-foreground text-xs">dars</span></span>
+                      <span><b className="block text-base">{p.followers}</b><span className="text-muted-foreground text-xs">obunachi</span></span>
+                      <span><b className="block text-base">{p.following}</b><span className="text-muted-foreground text-xs">obuna</span></span>
+                    </div>
+                  </div>
                 </div>
-                {p.is_me ? <Link to="/profile"><Button variant="outline" size="sm">Profilim</Button></Link>
-                  : <FollowButton publicId={p.public_id} following={p.is_following} />}
+                <div className="mt-4">
+                  <p className="font-semibold">{p.name}</p>
+                  <p className="text-sm text-muted-foreground">{levelLabel(p.level)} darajasi{p.follows_me && !p.is_me ? ' · sizga obuna' : ''}</p>
+                </div>
               </div>
 
               {p.progress_visible && p.xp != null ? (
