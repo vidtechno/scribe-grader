@@ -38,7 +38,7 @@ export default function Leaderboard() {
                 <p className="text-sm text-muted-foreground">Kim muntazam o'qiyapti — XP bo'yicha</p>
               </div>
             </div>
-            <Link to="/people"><Button variant="outline" size="sm" className="gap-1.5"><Search className="h-4 w-4" />Odamlar</Button></Link>
+            <Link to="/profile#people"><Button variant="outline" size="sm" className="gap-1.5"><Search className="h-4 w-4" />Do'stlar</Button></Link>
           </div>
 
           <div className="flex flex-wrap gap-2 mb-4">
@@ -76,7 +76,7 @@ export default function Leaderboard() {
             {scope === 'friends' ? <Users className="h-14 w-14 mx-auto mb-3 opacity-30" /> : <Crown className="h-14 w-14 mx-auto mb-3 opacity-30" />}
             <p className="text-lg font-medium">{scope === 'friends' ? "Hali do'stlar yo'q" : period === 'week' ? "Bu hafta hali hech kim o'qimadi" : "Hali reyting yo'q"}</p>
             <p className="text-sm mt-1">{scope === 'friends' ? "Odamlarga obuna bo'ling — ularning natijalari shu yerda chiqadi." : "Bitta dars — va siz birinchisiz!"}</p>
-            {scope === 'friends' && <Link to="/people"><Button className="mt-4">Odamlarni topish</Button></Link>}
+            {scope === 'friends' && <Link to="/profile#people"><Button className="mt-4">Odamlarni topish</Button></Link>}
           </div>
         ) : (
           <div className="space-y-2">

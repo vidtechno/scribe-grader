@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
@@ -11,6 +11,7 @@ import { SEOHead } from '@/components/SEOHead';
 import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap, Gift, BookOpen } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { LearningIdentity } from '@/features/social/LearningIdentity';
+import { PeopleSection } from '@/features/social/PeopleSection';
 import { TelegramConnectCard } from '@/components/TelegramConnectCard';
 import { displayEmail } from '@/lib/telegram';
 import { format } from 'date-fns';
@@ -21,6 +22,7 @@ export default function Profile() {
   const { user, profile, signOut, refreshProfile } = useAuth();
   const { planName, planType, entitlement, expiresAt, daysRemaining, isExpired, writingUsed, writingLimit, speakingUsed, speakingLimit, mockUsed, mockLimit } = useSubscription();
   const navigate = useNavigate();
+  const { hash } = useLocation();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -34,6 +36,13 @@ export default function Profile() {
     bestEssay: 'N/A' as string | number, avgSpeaking: 'N/A' as string,
     bestSpeaking: 'N/A' as string | number,
   });
+
+  // /profile#people scrolls to the friends section once the page has rendered.
+  useEffect(() => {
+    if (hash !== '#people') return;
+    const t = setTimeout(() => document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+    return () => clearTimeout(t);
+  }, [hash]);
 
   useEffect(() => {
     if (!profile) return;
@@ -133,6 +142,7 @@ export default function Profile() {
         </motion.div>
 
         <LearningIdentity />
+        <PeopleSection />
 
         <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
 

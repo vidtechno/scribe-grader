@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, Compass, Flame, GraduationCap, Lock, Play, Shield, Target, Zap } from 'lucide-react';
+import { ArrowRight, Clock, Compass, Flame, GraduationCap, Lock, Play, Target, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { courseMap, learningStats, placementPending, trialDaysLeft, useLearningState } from '@/features/learn/api';
 import { levelOf } from '@/features/learn/course';
@@ -26,7 +26,7 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-widest opacity-90">Learn English</p>
             <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">Ingliz tilini noldan o'rganing</h2>
-            <p className="text-sm opacity-90 mt-1">Darslar, talaffuz, mashqlar va testlar. Free tarifda 7 kun bepul, keyin Go yoki Plus.</p>
+            <p className="text-sm opacity-90 mt-1">Darslar, talaffuz, mashqlar va testlar. Free tarifda 7 kun bepul, keyin Learn yoki IELTS.</p>
           </div>
           <Link to="/learn"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">Boshlash<ArrowRight className="h-4 w-4" /></Button></Link>
         </div>
@@ -64,7 +64,7 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
     : todayXp > 0
       ? `Bugungi maqsad: ${todayXp}/${goal} XP — oz qoldi`
       : info?.broken ? "Streak uzildi, lekin yangisini bugun boshlash mumkin"
-      : info?.at_risk ? `Streak ${info.current} kun — bugun bir dars qiling, uzilmasin`
+      : info?.at_risk ? `Streak ${info.current} kun — ${info.days_left <= 1 ? 'bugun oxirgi kun, bir dars qiling' : 'bir dars qilsangiz, davom etadi'}`
       : `Bugungi maqsad: ${goal} XP (~${Math.max(5, Math.round(goal / 3))} daqiqa)`;
   const pct = map.total ? Math.round((map.doneCount / map.total) * 100) : 0;
   const continueTo = map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
@@ -77,7 +77,7 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
       <div className="relative">
         <div className="flex flex-wrap items-center gap-2 mb-3 text-xs font-semibold">
           <span className="rounded-full bg-white/20 px-2.5 py-1">{level.title} · {level.cefr === 'Noldan' ? '0' : level.cefr}</span>
-          <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Flame className="h-3.5 w-3.5" />{info?.current ?? state.streak} kun{!!info?.freezes && <Shield className="h-3 w-3 ml-0.5 opacity-80" aria-label="Streak himoyasi" />}</span>
+          <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Flame className="h-3.5 w-3.5" />{info?.current ?? state.streak} kun</span>
           <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Zap className="h-3.5 w-3.5" />{state.profile.xp} XP</span>
           {daysLeft !== null && <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />Bepul: {daysLeft} kun</span>}
         </div>
@@ -94,7 +94,7 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
             </p>
           </div>
           {locked ? (
-            <Button size="lg" onClick={onUpgrade} className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Lock className="h-4 w-4" />Go / Plus</Button>
+            <Button size="lg" onClick={onUpgrade} className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Lock className="h-4 w-4" />Learn / IELTS</Button>
           ) : (
             <Link to={continueTo} className="sm:shrink-0">
               <Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{map.nextLesson ? 'Davom etish' : 'Ochish'}</Button>

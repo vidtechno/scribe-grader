@@ -18,7 +18,7 @@ Explanations are in Uzbek; examples and exercises are in English. **Beginner** (
 - Lesson flow (`src/pages/LearnLesson.tsx`):
   1. **Review**: the previous lesson's key points plus 3 questions from its quiz.
   2. **Theory slides** with examples, tables, ✅/❌ comparisons, dialogues, sound cards, and quick checks the learner must answer.
-  3. **10 words** on flashcards with audio, IPA and an example sentence.
+  3. **5–7 new words** (4–8, set by the learning engine) on flashcards with audio, IPA and an example sentence; the lesson's other words are shown briefly.
   4. **Practice**: word drills plus 12–16 mixed exercises (listen, choice, match, fill, word order, translate, true/false, speak). Wrong answers come back at the end of the practice.
   5. **Quiz**: about 10 items. The lesson counts as done at ≥ 70%; 3 stars at ≥ 90%.
   6. **Result**: XP, streak, key points, the words to memorise and homework.
@@ -44,9 +44,9 @@ Explanations are in Uzbek; examples and exercises are in English. **Beginner** (
 
 - **Tables**: `learning_profiles`, `learning_lesson_progress`, `learning_unit_tests`, `learning_daily_activity`. Learners can only read their own rows; all writes go through the functions above.
 - **Prices**:
-  - Go: $9 / 79 000 so'm.
-  - Plus: $13 / 129 000 so'm.
-  - 6 months paid at once: −10% (Go 426 600 so'm, Plus 696 600 so'm). The admin panel and the bot admin panel can grant 6 months.
+  - Learn (slug `go`): 49 000 so'm — the English course only. IELTS (slug `plus`): 129 000 so'm — Learn + 50 Writing + 30 Speaking a month.
+  - Every new account gets a 7-day Learn trial (`subscriptions.learn_trial_ends_at`, set at sign-up) with 3 Writing + 2 Speaking that belong to the trial, not to the IELTS allowance. IELTS has no trial.
+  - 6 months paid at once: −10% (Learn 264 600 so'm, IELTS 696 600 so'm). The admin panel and the bot admin panel can grant 6 months.
   - On long plans the Writing/Speaking/Mock allowance renews every 30 days (`roll_subscription_usage`, also run daily by cron).
 - **Telegram**:
   - Button "🎓 Ingliz tili darslari" and the /learn command show progress and open `/learn`.

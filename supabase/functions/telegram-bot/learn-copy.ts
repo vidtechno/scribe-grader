@@ -5,7 +5,7 @@ import { hint, quote } from "./ui.ts";
 
 export interface LearnSummary {
   started?: boolean; today_done?: boolean; today_xp?: number; daily_goal?: number; xp?: number; week_xp?: number;
-  streak?: number; streak_info?: { current: number; best: number; freezes: number; at_risk: boolean; broken: boolean };
+  streak?: number; streak_info?: { current: number; best: number; at_risk: boolean; broken: boolean; days_left?: number };
   lessons_done?: number; next_lesson_title?: string | null; idle_days?: number | null; access?: { allowed?: boolean };
 }
 
@@ -72,8 +72,8 @@ export function reminderText(slot: Slot, phase: Phase, s: LearnSummary, v: numbe
   else line = streak >= 2 ? fill(pick(EVENING_STREAK, v), vars) : pick(EVENING_PLAIN, v);
 
   const extra: string[] = [];
-  if (phase === "daily" && slot === "evening" && streak >= 2 && s.streak_info?.freezes) {
-    extra.push(hint("🛡 Streak himoyangiz bor — lekin uni ishlatmaganingiz yaxshi."));
+  if (phase === "daily" && slot === "evening" && streak >= 2 && s.streak_info?.days_left === 1) {
+    extra.push(hint("⏳ Bugun streak uchun oxirgi kun — XP va o'rgangan so'zlaringiz esa hech qachon yo'qolmaydi."));
   }
   if (phase !== "last" && s.next_lesson_title) extra.push(quote(`▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>`));
   return [line, ...extra].join("\n");

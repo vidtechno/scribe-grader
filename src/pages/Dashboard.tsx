@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Users,
+  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Trophy, Users,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
@@ -92,8 +92,8 @@ export default function Dashboard() {
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mb-6">
           <LearnHero onUpgrade={() => setShowPricing(true)} />
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Award className="h-4 w-4" />Reyting</Link>
-            <Link to="/people" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Users className="h-4 w-4" />Do'stlar</Link>
+            <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 font-semibold px-3.5 py-1.5 hover:bg-amber-500/20 transition-colors"><Trophy className="h-4 w-4" />Reyting</Link>
+            <Link to="/profile#people" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Users className="h-4 w-4" />Do'stlar</Link>
           </div>
         </motion.div>
 
@@ -152,7 +152,7 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
-              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Upgrade from $9/month: 20 Writing and 15 Speaking evaluations plus the full English course.</p>}
+              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Learn — 49 000 so'm/month: the full English course. IELTS — 129 000 so'm/month: Learn plus 50 Writing and 30 Speaking evaluations.</p>}
             </section>
             <ReferralBanner />
           </aside>

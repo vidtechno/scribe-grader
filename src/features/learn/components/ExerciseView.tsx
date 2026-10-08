@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Check, CheckCircle2, Lightbulb, Mic, RotateCcw, X, XCircle } from 'lucide-react';
+import { Check, CheckCircle2, Lightbulb, Loader2, Mic, RotateCcw, Square, X, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Exercise } from '../types';
-import { checkOrder, checkTyped, shuffle, spokenMatch } from '../check';
+import { checkOrder, checkTyped, judgeSpeech, shuffle, speechQualityHint, type SpeechJudgement, type SpeechQuality } from '../check';
+import { canRecord, startRecording, transcribeClip, type Recording } from '../recognition';
 import { listenOnce, speak, speechRecognitionSupported } from '../speech';
 import { Md } from './Md';
 import { SpeakButton } from './SpeakButton';
@@ -251,35 +252,109 @@ function Match({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'match' }>
   );
 }
 
+const SPEAK_NOTES: Record<string, string> = {
+  great: "Aniq eshitildi! 👏",
+  good: "Yaxshi, tushunarli aytdingiz! 👍",
+  close: "Tushunarli — mashq qilishda davom eting.",
+};
+
+/**
+ * Listen and repeat. The voice is transcribed (Whisper through `transcribe-lesson`, or the browser's recogniser as a
+ * fallback) and compared leniently with the phrase. This tells whether the phrase was understood; it does not claim
+ * the pronunciation is perfect or wrong, and a few honest tries are always enough to move on.
+ */
 function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>; answered: boolean; finish: (fb: Feedback) => void }) {
-  const supported = useMemo(() => speechRecognitionSupported(), []);
-  const [listening, setListening] = useState(false);
+  const cloud = useMemo(() => canRecord(), []);
+  const browser = useMemo(() => speechRecognitionSupported(), []);
+  const [phase, setPhase] = useState<'idle' | 'recording' | 'working'>('idle');
   const [heard, setHeard] = useState<string | null>(null);
+  const [verdict, setVerdict] = useState<SpeechJudgement | null>(null);
+  const [hint, setHint] = useState<string | null>(null);
+  const [tries, setTries] = useState(0);
+  const [level, setLevel] = useState(0);
+  const [cloudWorks, setCloudWorks] = useState(cloud);
+  const recording = useRef<Recording | null>(null);
   useEffect(() => { void speak(ex.say); }, [ex.say]);
-  const record = async () => {
-    setListening(true);
-    const text = await listenOnce();
-    setListening(false);
+  useEffect(() => () => recording.current?.cancel(), []);
+
+  const judge = (text: string, quality: SpeechQuality | null) => {
+    const j = judgeSpeech(text, ex.say);
+    const n = tries + 1;
+    setTries(n);
     setHeard(text);
-    if (spokenMatch(text, ex.say) >= 0.6) finish({ correct: true, note: "Zo'r talaffuz! 👏" });
+    setVerdict(j);
+    setHint(speechQualityHint(text, quality, j.passed));
+    if (j.passed) finish({ correct: true, note: SPEAK_NOTES[j.level] });
+    else if (n >= 3) finish({ correct: true, note: "Mashq sifatida hisoblandi — davom etamiz. Keyinroq yana urinib ko'ring." });
   };
+
+  const stopAndSend = async () => {
+    const r = recording.current;
+    if (!r) return;
+    recording.current = null;
+    setPhase('working');
+    try {
+      const { blob } = await r.stop();
+      const t = await transcribeClip(blob);
+      judge(t.transcript, t.quality);
+    } catch {
+      // The voice service is unavailable: use the browser's recogniser next time (or the self-check button).
+      setCloudWorks(false);
+      setHint("Ovoz xizmatiga ulanib bo'lmadi. Qayta urinib ko'ring.");
+    } finally { setPhase('idle'); }
+  };
+
+  const start = async () => {
+    if (phase !== 'idle' || answered) return;
+    if (cloudWorks) {
+      try {
+        setLevel(0);
+        recording.current = await startRecording(9000, setLevel, () => void stopAndSend());
+        setPhase('recording');
+      } catch {
+        setHint("Mikrofonga ruxsat berilmadi. Brauzer sozlamalarida mikrofonni yoqing.");
+        setCloudWorks(false);
+      }
+      return;
+    }
+    setPhase('recording');
+    const text = await listenOnce();
+    setPhase('idle');
+    judge(text, null);
+  };
+
+  const canListen = cloudWorks || browser;
   return (
     <div className="text-center">
       <p className="text-2xl sm:text-3xl font-bold mb-1">{ex.say}</p>
       {ex.uz && <p className="text-sm text-muted-foreground mb-4">{ex.uz}</p>}
       <div className="flex justify-center mb-5"><SpeakButton text={ex.say} size="lg" slow /></div>
-      {supported ? (
+      {canListen ? (
         <>
-          <Button type="button" size="lg" variant={listening ? 'destructive' : 'glow'} disabled={answered || listening} onClick={record} className="gap-2 rounded-full px-6">
-            <Mic className="h-5 w-5" />{listening ? 'Gapiring…' : 'Mikrofonni bosing va ayting'}
+          <Button type="button" size="lg" variant={phase === 'recording' ? 'destructive' : 'glow'} disabled={answered || phase === 'working'}
+            onClick={() => (phase === 'recording' && recording.current ? void stopAndSend() : void start())} className="gap-2 rounded-full px-6">
+            {phase === 'working' ? <Loader2 className="h-5 w-5 animate-spin" /> : phase === 'recording' ? <Square className="h-4 w-4 fill-current" /> : <Mic className="h-5 w-5" />}
+            {phase === 'working' ? 'Tinglayapman…' : phase === 'recording' ? (cloudWorks ? "Tugatish uchun bosing" : 'Gapiring…') : tries ? 'Yana urinib ko\'rish' : 'Mikrofonni bosing va ayting'}
           </Button>
-          {heard !== null && !answered && (
-            <div className="mt-4 text-sm">
-              <p className="text-muted-foreground">Eshitildi: <span className="font-semibold text-foreground">"{heard || '—'}"</span></p>
-              <p className="text-amber-700 dark:text-amber-300 mt-1">Yana bir bor urinib ko'ring — sekinroq va aniqroq.</p>
+          {phase === 'recording' && cloudWorks && (
+            <div className="mx-auto mt-3 h-1.5 w-40 rounded-full bg-secondary overflow-hidden" aria-hidden>
+              <div className="h-full bg-destructive transition-[width] duration-100" style={{ width: `${Math.max(6, level * 100)}%` }} />
             </div>
           )}
-          {!answered && <button type="button" className="block mx-auto mt-4 text-xs text-muted-foreground underline" onClick={() => finish({ correct: true })}>Hozir gapira olmayman — o'tkazib yuborish</button>}
+          {heard !== null && !answered && (
+            <div className="mt-4 text-sm space-y-1">
+              <p className="text-muted-foreground">Eshitildi: <span className="font-semibold text-foreground">"{heard || '—'}"</span></p>
+              {verdict && verdict.missing.length > 0 && !hint && <p className="text-amber-700 dark:text-amber-300">Yana bir bor ayting: <b>{verdict.missing.join(', ')}</b></p>}
+              {!verdict?.missing.length && !hint && <p className="text-amber-700 dark:text-amber-300">Yana bir bor urinib ko'ring — biroz sekinroq va aniqroq.</p>}
+            </div>
+          )}
+          {hint && !answered && <p className="mt-3 text-sm text-amber-700 dark:text-amber-300 max-w-sm mx-auto">{hint}</p>}
+          {!answered && (
+            <button type="button" className={`block mx-auto mt-4 text-xs underline ${tries >= 2 ? 'text-foreground font-medium' : 'text-muted-foreground'}`} onClick={() => finish({ correct: true })}>
+              Hozir gapira olmayman — o'tkazib yuborish
+            </button>
+          )}
+          <p className="text-[11px] text-muted-foreground mt-3 max-w-xs mx-auto">Bu — gapingiz tanildimi-yo'qmi tekshiruvi, talaffuz bahosi emas. Aksent muammo emas.</p>
         </>
       ) : (
         <>

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 vi.mock('@/integrations/supabase/client', () => ({ supabase: {} }));
-import { checkOrder, checkTyped, normalize, spokenMatch } from './check';
+import { checkOrder, checkTyped, judgeSpeech, normalize, speechQualityHint, spokenMatch } from './check';
 import { unitTestQuestions, wordDrills } from './practice';
 import { courseMap, type LearningState } from './api';
 import { ALL_LESSONS } from './course';
@@ -86,5 +86,35 @@ describe('course map', () => {
     expect(m.lessonState.get('u2-l1')).toBe('current');
     const cooldown = courseMap({ ...base, progress: done(unit1), tests: [{ unit_id: 'u1', attempts: 2, best_score: 10, best_total: 20, passed_at: null, locked_until: new Date(Date.now() + 3_600_000).toISOString(), last_attempt_at: null }] });
     expect(cooldown.unitTest.get('u1')).toBe('cooldown');
+  });
+});
+
+describe('judgeSpeech (lenient speaking practice)', () => {
+  it('accepts the exact phrase and ignores case, punctuation and extra words', () => {
+    expect(judgeSpeech('Hello, my name is Anvar.', 'My name is Anvar').level).toBe('great');
+    expect(judgeSpeech('uh I have a window', 'I have a window').passed).toBe(true);
+  });
+  it('does not punish accents: sound-alike words, endings and small slips still pass', () => {
+    expect(judgeSpeech('I see yellow', 'I see yellow').passed).toBe(true);
+    expect(judgeSpeech('vindow', 'window').passed).toBe(true);      // one letter off
+    expect(judgeSpeech('windows', 'window').passed).toBe(true);     // ending
+    expect(judgeSpeech('right', 'write').passed).toBe(true);        // sounds alike
+    expect(judgeSpeech('I am from Uzbekistan', "I'm from Uzbekistan").level).toBe('great'); // contraction
+    expect(judgeSpeech('I have 2 brothers', 'I have two brothers').level).toBe('great');    // number
+  });
+  it('ignores a dropped article but not a missing content word', () => {
+    expect(judgeSpeech('I have book', 'I have a book').passed).toBe(true);
+    expect(judgeSpeech('I have', 'I have a red book').passed).toBe(false);
+  });
+  it('fails clearly different or empty speech and reports what was missing', () => {
+    const j = judgeSpeech('good morning teacher', 'I like coffee');
+    expect(j.passed).toBe(false);
+    expect(j.missing).toEqual(expect.arrayContaining(['like', 'coffee']));
+    expect(judgeSpeech('', 'hello').level).toBe('retry');
+  });
+  it('gives recording advice only when it did not pass', () => {
+    expect(speechQualityHint('', { noSpeechProbability: 0.9, duration: 1 }, false)).toMatch(/eshitilmadi/);
+    expect(speechQualityHint('mumble', { avgLogprob: -1.6 }, false)).toMatch(/sifati past/);
+    expect(speechQualityHint('hello', { avgLogprob: -1.6 }, true)).toBeNull();
   });
 });

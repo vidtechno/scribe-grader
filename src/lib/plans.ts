@@ -12,34 +12,42 @@ export type PlanEntitlement = {
   features: string[];
 };
 
+/**
+ * Internal slugs stay `go` and `plus` (referrals, the admin panel, the bot and the database use them);
+ * what people see is Learn (`go`) and IELTS (`plus`).
+ */
 export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
   free: {
     slug: 'free', name: 'Free', priceUsd: '0', priceUzs: '0',
     personal: { writing: 3, speaking: 2, mockTests: 0 },
-    features: ['English course: 7 days free', 'Daily Grammar test', 'Result history'],
+    features: ['7 days of the full Learn course', '3 Writing evaluations', '2 Speaking evaluations'],
   },
   go: {
-    slug: 'go', name: 'Scorify Go', priceUsd: '9', priceUzs: '79 000',
-    personal: { writing: 20, speaking: 15, mockTests: 3 },
+    slug: 'go', name: 'Learn', priceUsd: '4', priceUzs: '49 000',
+    personal: { writing: 0, speaking: 0, mockTests: 0 },
     features: [
-      'English course from zero: lessons, pronunciation, exercises and unit tests',
-      'Word lists with audio, streaks and learning statistics',
-      'Full feedback on every essay and speaking answer',
-      'Daily Grammar test based on your mistakes',
-      'AI Mentor, progress history and Telegram notifications',
+      'All English lessons: Beginner to Upper-Intermediate and every level we add',
+      'Adaptive learning that follows your results',
+      'Smart vocabulary review (spaced repetition)',
+      'Grammar review and a notebook of your mistakes',
+      'XP, streak and learning progress',
+      'Telegram reminders and learning updates',
     ],
   },
   plus: {
-    slug: 'plus', name: 'Scorify Plus', priceUsd: '13', priceUzs: '129 000',
-    personal: { writing: 50, speaking: 40, mockTests: 8 },
+    slug: 'plus', name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
+    personal: { writing: 50, speaking: 30, mockTests: 3 },
     features: [
-      'Everything in Go',
-      '2.5× more Writing and Speaking evaluations',
-      '8 timed Full Mock Tests every month',
-      'Best for an intensive IELTS preparation month',
+      'Everything in Learn',
+      'IELTS Writing: 50 evaluations every month',
+      'IELTS Speaking: 30 evaluations every month',
+      'AI scoring with detailed feedback',
     ],
   },
 };
+
+/** Every new account starts with this free Learn trial (and the Free Writing/Speaking allowance, separate from IELTS limits). */
+export const LEARN_TRIAL_DAYS = 7;
 
 export const PAID_PLAN_SLUGS: PlanSlug[] = ['go', 'plus'];
 

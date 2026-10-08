@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   BookA, Check, CheckCircle2, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, X, Zap,
@@ -18,6 +18,8 @@ import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
+import { loadSession, recordReview, useReviewQueue } from '@/features/learn/engine/api';
+import { sessionEvents, type SessionItem } from '@/features/learn/engine/engine';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { shuffle } from '@/features/learn/check';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
@@ -64,10 +66,10 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
         <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary text-xs font-semibold px-3 py-1 mb-4"><GraduationCap className="h-4 w-4" />Yangi: ingliz tili kursi</span>
         <h1 className="text-3xl sm:text-4xl font-extrabold mb-3">Ingliz tilini <span className="gradient-text">noldan</span> o'rganing</h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Har bir dars: mavzuni sodda tushuntirish, talaffuz, 10 ta yangi so'z, mashqlar va test. Har bosqich oxirida imtihon —
+          Har bir dars: mavzuni sodda tushuntirish, talaffuz, yangi so'zlar (5–7 ta, natijangizga qarab), mashqlar va test. Eski so'zlar va xatolar esa o'z vaqtida qaytib turadi. Har bosqich oxirida imtihon —
           bilmasdan oldinga o'tib ketmaysiz.
         </p>
-        <p className="text-sm mt-3 font-medium">{paid ? 'Kurs tarifingizga kiritilgan.' : `Free tarifda ${TRIAL_DAYS} kun bepul, keyin Scorify Go yoki Plus.`}</p>
+        <p className="text-sm mt-3 font-medium">{paid ? 'Kurs tarifingizga kiritilgan.' : `Free tarifda ${TRIAL_DAYS} kun bepul, keyin Learn yoki IELTS.`}</p>
       </motion.div>
       <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Darajangizni tanlang</h2>
       <div className="grid sm:grid-cols-2 gap-3">
@@ -119,6 +121,9 @@ function CourseHome({ state }: { state: LearningState }) {
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).title} · {levelOf(startLevel).cefr}dan boshlagan</p>
           <h1 className="text-2xl sm:text-3xl font-extrabold">Ingliz tili kursi</h1>
         </div>
+        <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3.5 py-2 hover:bg-amber-500/20 transition-colors sm:order-last">
+          <Trophy className="h-4 w-4" />Reyting
+        </Link>
         {continueTo && !locked && (
           <Button variant="glow" size="lg" className="gap-3 w-full sm:w-auto sm:max-w-md min-w-0 h-auto py-2.5 px-4 justify-start" onClick={() => navigate(continueTo)}>
             <Play className="h-5 w-5 fill-current shrink-0" />
@@ -133,7 +138,7 @@ function CourseHome({ state }: { state: LearningState }) {
       {daysLeft !== null && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 mb-5 text-sm flex items-center gap-3">
           <Clock className="h-5 w-5 text-amber-600 shrink-0" />
-          <span className="flex-1">Bepul davr: <b>{daysLeft} kun</b> qoldi. Undan keyin kurs Scorify Go va Plus tariflarida davom etadi.</span>
+          <span className="flex-1">Bepul davr: <b>{daysLeft} kun</b> qoldi. Undan keyin kurs Learn va IELTS tariflarida davom etadi.</span>
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
@@ -234,7 +239,9 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
   const refresh = useRefreshLearning();
   const [groups, setGroups] = useState<{ lessonId: string; title: string; words: Word[] }[] | null>(null);
   const [query, setQuery] = useState('');
-  const [drill, setDrill] = useState<Exercise[] | null>(null);
+  const [drill, setDrill] = useState<DrillItem[] | null>(null);
+  const [preparing, setPreparing] = useState(false);
+  const { data: queue } = useReviewQueue();
   const done = useMemo(() => new Set(state.progress.filter((p) => p.completed_at).map((p) => p.lesson_id)), [state.progress]);
 
   useEffect(() => {
@@ -251,16 +258,26 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
   const q = query.trim().toLowerCase();
   const filtered = groups.map((g) => ({ ...g, words: g.words.filter((w) => !q || w.en.toLowerCase().includes(q) || w.uz.toLowerCase().includes(q)) })).filter((g) => g.words.length);
 
-  const startDrill = () => {
-    const picked = shuffle(all).slice(0, 10);
-    setDrill(picked.map((w, i) => {
-      const others = shuffle(all.filter((x) => x.en !== w.en)).slice(0, 3);
-      if (i % 3 === 0) return { k: 'translate', uz: w.uz, a: [w.en], why: `**${w.en}** — ${w.uz}` } as Exercise;
-      const opts = shuffle([w.en, ...others.map((o) => o.en)]);
-      return i % 3 === 1 ? { k: 'listen', say: w.en, opts, a: opts.indexOf(w.en) } as Exercise
-        : { k: 'choice', q: `"**${w.uz}**" inglizcha qanday?`, opts, a: opts.indexOf(w.en) } as Exercise;
-    }));
+  // Smart review: what the engine says is due (words, mistakes, grammar). With nothing due, a free practice round.
+  const startDrill = async () => {
+    setPreparing(true);
+    try {
+      const pool = all.map((w) => ({ en: w.en, uz: w.uz }));
+      const due = queue && (queue.words.length || queue.mistakes.length || queue.grammar.length)
+        ? await loadSession(queue, { max: 10, extraPool: pool, allowSpeak: true }) : [];
+      if (due.length) { setDrill(due.map((item) => ({ ex: item.ex, item }))); return; }
+      const picked = shuffle(all).slice(0, 10);
+      setDrill(picked.map((w, i) => {
+        const others = shuffle(all.filter((x) => x.en !== w.en)).slice(0, 3);
+        if (i % 3 === 0) return { ex: { k: 'translate', uz: w.uz, a: [w.en], why: `**${w.en}** — ${w.uz}` } as Exercise };
+        const opts = shuffle([w.en, ...others.map((o) => o.en)]);
+        return { ex: i % 3 === 1 ? { k: 'listen', say: w.en, opts, a: opts.indexOf(w.en) } as Exercise
+          : { k: 'choice', q: `"**${w.uz}**" inglizcha qanday?`, opts, a: opts.indexOf(w.en) } as Exercise };
+      }));
+    } finally { setPreparing(false); }
   };
+  const stats = queue?.stats;
+  const dueCount = (stats?.due ?? 0) + (stats?.mistakes ?? 0);
 
   return (
     <div>
@@ -269,9 +286,19 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="So'z qidirish…" className="pl-9" />
         </div>
-        <Button variant="glow" className="gap-2" disabled={locked || all.length < 4} onClick={startDrill}><Sparkles className="h-4 w-4" />So'zlarni takrorlash</Button>
+        <Button variant="glow" className="gap-2" disabled={locked || preparing || all.length < 4} onClick={() => void startDrill()}>
+          {preparing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          {dueCount > 0 ? `Takrorlash (${Math.min(dueCount, 10)})` : "So'zlarni takrorlash"}
+        </Button>
       </div>
-      <p className="text-sm text-muted-foreground mb-4">{all.length} ta so'z. Har kuni 5 daqiqa takrorlash — so'zlar uzoq xotirada qolishining eng ishonchli yo'li.</p>
+      {stats && (
+        <div className="grid grid-cols-3 gap-2 mb-4 text-center">
+          <div className="glass-card py-2.5"><p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{stats.mastered}</p><p className="text-[11px] text-muted-foreground">mustahkam</p></div>
+          <div className="glass-card py-2.5"><p className="text-lg font-bold text-primary">{stats.learning + stats.new}</p><p className="text-[11px] text-muted-foreground">o'rganilmoqda</p></div>
+          <div className="glass-card py-2.5"><p className="text-lg font-bold">{dueCount}</p><p className="text-[11px] text-muted-foreground">takrorni kutmoqda</p></div>
+        </div>
+      )}
+      <p className="text-sm text-muted-foreground mb-4">{all.length} ta so'z. Qiyin so'zlar tez-tez, yaxshi bilganlaringiz kamroq qaytadi — vaqti kelganda tizim o'zi eslatadi.</p>
       <div className="space-y-5">
         {filtered.map((g) => (
           <div key={g.lessonId}>
@@ -295,7 +322,11 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
   );
 }
 
-function WordDrill({ items, onClose, onFinished }: { items: Exercise[]; onClose: () => void; onFinished: () => void }) {
+interface DrillItem { ex: Exercise; item?: SessionItem }
+
+function WordDrill({ items: drillItems, onClose, onFinished }: { items: DrillItem[]; onClose: () => void; onFinished: () => void }) {
+  const items = useMemo(() => drillItems.map((d) => d.ex), [drillItems]);
+  const results = useMemo<{ item: SessionItem; correct: boolean }[]>(() => [], []);
   const [i, setI] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [startedAt] = useState(Date.now());
@@ -304,7 +335,8 @@ function WordDrill({ items, onClose, onFinished }: { items: Exercise[]; onClose:
   const finish = async (score: number) => {
     setFinished(true);
     try {
-      await callLearning('learning_log_practice', { _correct: score, _answered: items.length, _seconds: Math.round((Date.now() - startedAt) / 1000) });
+      if (results.length) await recordReview(sessionEvents(results), true);
+      else await callLearning('learning_log_practice', { _correct: score, _answered: items.length, _seconds: Math.round((Date.now() - startedAt) / 1000) });
       onFinished();
     } catch (e) { toast.error(learningErrorMessage(e)); }
   };
@@ -326,6 +358,8 @@ function WordDrill({ items, onClose, onFinished }: { items: Exercise[]; onClose:
           <ExerciseView key={i} ex={items[i]} mode="practice" onDone={(c) => {
             const s = correct + (c ? 1 : 0);
             setCorrect(s);
+            const it = drillItems[i].item;
+            if (it) results.push({ item: it, correct: c });
             if (i + 1 >= items.length) void finish(s); else setI(i + 1);
           }} />
         )}

@@ -15,7 +15,8 @@ export interface LearningAccess {
   allowed: boolean; reason: 'paid' | 'trial' | 'trial_expired' | 'not_started'; plan: string;
   trial_ends_at?: string; expires_at?: string | null;
 }
-export interface StreakInfo { current: number; best: number; freezes: number; done_today: boolean; at_risk: boolean; broken: boolean }
+/** `days_left`: days until three missed days in a row reset the streak (1 = study today). XP and mastery never reset. */
+export interface StreakInfo { current: number; best: number; freezes?: number; done_today: boolean; at_risk: boolean; broken: boolean; days_left: number }
 export interface LearningState {
   profile: {
     level: string; xp: number; trial_started_at: string; next_lesson_title: string | null;
@@ -60,7 +61,7 @@ export function useLearningState() {
 
 export function useRefreshLearning() {
   const qc = useQueryClient();
-  return () => qc.invalidateQueries({ queryKey: ['learning-state'] });
+  return () => Promise.all([qc.invalidateQueries({ queryKey: ['learning-state'] }), qc.invalidateQueries({ queryKey: ['learning-review'] })]);
 }
 
 /** `open` = a lesson of a level below the learner's starting level: free to revisit, not required. */
@@ -157,7 +158,7 @@ export function trialDaysLeft(access: LearningAccess | undefined): number | null
 
 export function learningErrorMessage(e: unknown): string {
   const msg = e instanceof Error ? e.message : String(e);
-  if (msg.includes('learning_locked')) return "Bepul 7 kunlik muddat tugadi. Davom etish uchun Scorify Go yoki Plus tarifini oling.";
+  if (msg.includes('learning_locked')) return "Bepul 7 kunlik muddat tugadi. Davom etish uchun Learn yoki IELTS tarifini oling.";
   if (msg.includes('learning_not_started')) return "Avval darajangizni tanlang.";
   return "Saqlab bo'lmadi. Internetni tekshirib, qayta urinib ko'ring.";
 }

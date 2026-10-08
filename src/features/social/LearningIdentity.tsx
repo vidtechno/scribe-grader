@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Flame, Shield, Target, Trophy, Users, Zap } from 'lucide-react';
+import { BookOpen, Brain, Flame, Target, Trophy, Users, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Switch } from '@/components/ui/switch';
 import { ACHIEVEMENTS } from '@/features/learn/achievements';
 import { callLearning, courseMap, learningErrorMessage, useLearningState } from '@/features/learn/api';
+import { useReviewQueue } from '@/features/learn/engine/api';
 import { COURSE_UNITS, levelOf, unitNo } from '@/features/learn/course';
 import { useSocialList, useSocialSettings, useUpdateSocialSettings, type SocialSettings } from './api';
 
@@ -32,6 +33,7 @@ export function LearningIdentity() {
   const qc = useQueryClient();
   const settings = useSocialSettings();
   const updateSettings = useUpdateSocialSettings();
+  const { data: review } = useReviewQueue();
   const followers = useSocialList('followers');
   const following = useSocialList('following');
   const setGoal = useMutation({
@@ -79,13 +81,13 @@ export function LearningIdentity() {
         <Stat icon={Zap} label="Jami XP" value={lp.xp} />
         <Stat icon={Flame} label={`Streak${info ? ` · rekord ${info.best}` : ''}`} value={`${info?.current ?? state.streak} kun`} tone="text-orange-500" />
         <Stat icon={BookOpen} label="Tugatilgan dars" value={map.doneCount} />
-        <Stat icon={Shield} label="Streak himoyasi" value={info?.freezes ?? 0} tone="text-sky-500" />
+        <Stat icon={Brain} label="Mustahkam so'zlar" value={review?.stats.mastered ?? 0} tone="text-emerald-500" />
       </div>
 
       <div className="flex gap-4 text-sm mb-5">
         <span><b>{followers.data?.length ?? 0}</b> <span className="text-muted-foreground">obunachi</span></span>
         <span><b>{following.data?.length ?? 0}</b> <span className="text-muted-foreground">obuna</span></span>
-        <Link to="/people" className="ml-auto inline-flex items-center gap-1 text-primary font-semibold"><Users className="h-4 w-4" />Odamlar</Link>
+        <a href="#people" className="ml-auto inline-flex items-center gap-1 text-primary font-semibold"><Users className="h-4 w-4" />Do'stlar</a>
         <Link to="/leaderboard" className="inline-flex items-center gap-1 text-primary font-semibold"><Trophy className="h-4 w-4" />Reyting</Link>
       </div>
 

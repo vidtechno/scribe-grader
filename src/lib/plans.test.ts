@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { getPlanEntitlement, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, purchaseLink } from './plans';
 
 describe('unified subscription entitlements', () => {
-  it('offers only Go and Plus as paid plans', () => {
+  it('offers only Learn (go) and IELTS (plus) as paid plans', () => {
     expect(PAID_PLAN_SLUGS).toEqual(['go', 'plus']);
   });
 
@@ -13,17 +13,17 @@ describe('unified subscription entitlements', () => {
     });
   });
 
-  it('defines the exact Go allowances for personal usage', () => {
+  it('defines Learn: 49 000 so\'m, lessons only', () => {
     expect(PLAN_ENTITLEMENTS.go).toMatchObject({
-      name: 'Scorify Go', priceUsd: '9', priceUzs: '79 000',
-      personal: { writing: 20, speaking: 15, mockTests: 3 },
+      name: 'Learn', priceUsd: '4', priceUzs: '49 000',
+      personal: { writing: 0, speaking: 0, mockTests: 0 },
     });
   });
 
-  it('defines the exact Plus allowances for personal usage', () => {
+  it('defines IELTS: 129 000 so\'m, 50 Writing and 30 Speaking a month', () => {
     expect(PLAN_ENTITLEMENTS.plus).toMatchObject({
-      name: 'Scorify Plus', priceUsd: '13', priceUzs: '129 000',
-      personal: { writing: 50, speaking: 40, mockTests: 8 },
+      name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
+      personal: { writing: 50, speaking: 30, mockTests: 3 },
     });
   });
 
@@ -34,14 +34,14 @@ describe('unified subscription entitlements', () => {
   });
 
   it('gives 10% off for 6 months paid in advance', () => {
-    expect(planPrice('go', 'month')).toMatchObject({ usd: '9', uzs: '79 000' });
-    expect(planPrice('go', 'half-year')).toMatchObject({ months: 6, usd: '48.60', uzs: '426 600', perMonthUzs: '71 100', saveUzs: '47 400' });
+    expect(planPrice('go', 'month')).toMatchObject({ usd: '4', uzs: '49 000' });
+    expect(planPrice('go', 'half-year')).toMatchObject({ months: 6, usd: '21.60', uzs: '264 600', perMonthUzs: '44 100', saveUzs: '29 400' });
     expect(planPrice('plus', 'half-year')).toMatchObject({ usd: '70.20', uzs: '696 600', perMonthUzs: '116 100' });
   });
 
   it('pre-fills the payment message with the plan, period and price', () => {
     const text = decodeURIComponent(purchaseLink('plus', 'half-year', 'AB12').split('text=')[1]);
-    expect(text).toContain('"Scorify Plus"');
+    expect(text).toContain('"IELTS"');
     expect(text).toContain('6 oy (-10%)');
     expect(text).toContain("696 600 so'm");
     expect(text).toContain('#AB12');

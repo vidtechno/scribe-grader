@@ -16,7 +16,7 @@ const AUDIENCES: Record<string, string> = {
   linked: "Hisobi ulanganlar",
   unlinked: "Hisobi ulanmaganlar",
   free: "Free tarifdagilar",
-  paid: "Go / Plus tarifdagilar",
+  paid: "Learn / IELTS tarifdagilar",
 };
 
 const HOME: InlineKeyboard = [[cb("⬅️ Admin panel", "ad:home")]];
@@ -47,7 +47,7 @@ async function showStats(ctx: Ctx) {
     `Speaking: bugun ${s.speaking_today} · 7 kun ${s.speaking_7d}`,
     `Mock test (7 kun): ${s.mock_7d}`,
     "\n💎 <b>Faol obunalar</b>",
-    `Go: <b>${s.paid_go}</b> · Plus: <b>${s.paid_plus}</b>`,
+    `Learn: <b>${s.paid_go}</b> · IELTS: <b>${s.paid_plus}</b>`,
     "\n🧠 <b>AI xarajati</b>",
     `24 soat: $${s.ai_cost_today} · 7 kun: $${s.ai_cost_7d} · 30 kun: $${s.ai_cost_30d}`,
     "\n📬 <b>Bildirishnomalar</b>",
@@ -140,8 +140,8 @@ export async function userCard(ctx: Ctx, userId: string) {
     `🧪 Mock: ${u.mocks} ta`,
   ].join("\n");
   const keyboard: InlineKeyboard = [
-    [cb("Go +30 kun", `ad:p:go:${userId}`), cb("Plus +30 kun", `ad:p:plus:${userId}`)],
-    [cb("Go +6 oy", `ad:p:go180:${userId}`), cb("Plus +6 oy", `ad:p:plus180:${userId}`)],
+    [cb("Learn +30 kun", `ad:p:go:${userId}`), cb("IELTS +30 kun", `ad:p:plus:${userId}`)],
+    [cb("Learn +6 oy", `ad:p:go180:${userId}`), cb("IELTS +6 oy", `ad:p:plus180:${userId}`)],
     [cb("⬇️ Free'ga o'tkazish", `ad:p:free:${userId}`)],
   ];
   if (u.telegram_id) {
@@ -328,18 +328,16 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
         return reply(ctx, "📬 Navbatdagi xabarlar yuborilmoqda.", [[cb("⬅️ Bot holati", "ad:bot")]]);
       }
       if (a === "daily") {
-        const [jobs, tests, lessons] = await Promise.all([
+        const [jobs, lessons] = await Promise.all([
           ctx.db.rpc("telegram_daily_jobs"),
-          ctx.db.rpc("telegram_enqueue_daily_test_reminders", { _window_minutes: 0 }),
           ctx.db.rpc("telegram_enqueue_learn_slot", { _slot: "evening", _window_minutes: 0 }),
         ]);
         if (jobs.error) throw jobs.error;
-        if (tests.error) throw tests.error;
         if (lessons.error) throw lessons.error;
         background(drain(ctx.db));
         const r = (jobs.data ?? {}) as Record<string, number>;
-        return reply(ctx, `⏰ Navbatga qo'yildi:\n• Kunlik test eslatmasi: ${tests.data ?? 0}\n• Dars eslatmasi: ${lessons.data ?? 0}\n• Tarif tugashi: ${r.plan_expiring ?? 0}\n• Haftalik hisobot: ${r.weekly_report ?? 0}\n\n` +
-          "<i>Avtomatik: kunlik test 18:00–20:00, dars eslatmalari 09:30 / 14:30 / 20:30 (navbatma-navbat).</i>",
+        return reply(ctx, `⏰ Navbatga qo'yildi:\n• Dars eslatmasi: ${lessons.data ?? 0}\n• Tarif tugashi: ${r.plan_expiring ?? 0}\n• Haftalik hisobot: ${r.weekly_report ?? 0}\n\n` +
+          "<i>Avtomatik: dars eslatmalari 09:30 / 14:30 / 20:30 (navbatma-navbat).</i>",
           [[cb("⬅️ Bot holati", "ad:bot")]]);
       }
       return botStatus(ctx);
