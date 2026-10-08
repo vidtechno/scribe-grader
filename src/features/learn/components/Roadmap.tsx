@@ -1,6 +1,10 @@
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, Crown, Hourglass, Lock, Play, ShieldCheck, Star } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { Check, Crown, Hourglass, Lock, Play, ShieldCheck, Star, Trophy } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
+import { LEVEL_TEST } from '../course';
 import { LEVELS, PARTIAL_LEVELS, levelOf, unitNo, unitsOf } from '../course';
 import type { LevelId } from '../types';
 import type { LearningState, NodeState } from '../api';
@@ -19,6 +23,18 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
   const map = courseMap(state);
   const stars = new Map(state.progress.map((p) => [p.lesson_id, p.stars]));
   const tests = new Map(state.tests.map((t) => [t.unit_id, t]));
+  const { user } = useAuth();
+  const { data: levelTest } = useQuery({
+    queryKey: ['learning', 'level-test', user?.id, level],
+    enabled: !!user,
+    queryFn: async () => {
+      // The table is new and not in the generated types.
+      const { data } = await (supabase as unknown as { from: (t: string) => { select: (c: string) => { eq: (k: string, v: string) => { eq: (k: string, v: string) => { maybeSingle: () => Promise<{ data: { best_score: number; best_total: number; passed_at: string | null } | null }> } } } } })
+        .from('learning_level_tests').select('best_score,best_total,passed_at').eq('user_id', user!.id).eq('level_id', level).maybeSingle();
+      return data;
+    },
+  });
+  const nextLevel = LEVELS[LEVELS.findIndex((l) => l.id === level) + 1];
 
   return (
     <div className="space-y-10">
@@ -81,6 +97,20 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
           </section>
         );
       })}
+
+      <button type="button" onClick={() => navigate(`/learn/level-test/${level}`)}
+        className="w-full text-left rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-brand-red-soft/10 p-4 flex items-center gap-4 hover:border-primary/60 transition-colors">
+        <span className="w-12 h-12 rounded-2xl bg-primary text-primary-foreground grid place-items-center shrink-0"><Trophy className="h-6 w-6" /></span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-bold">{levelOf(level).title} yakuniy testi</span>
+          <span className="block text-xs text-muted-foreground">
+            {LEVEL_TEST.questions} ta savol · {LEVEL_TEST.passPercent}% o'tish
+            {nextLevel?.available ? ` · o'tsangiz ${nextLevel.title}'ga o'tasiz` : ''}
+            {levelTest ? ` · eng yaxshi natija ${Math.round((levelTest.best_score / levelTest.best_total) * 100)}%` : ''}
+          </span>
+        </span>
+        {levelTest?.passed_at ? <Check className="h-5 w-5 text-emerald-500 shrink-0" /> : <Play className="h-5 w-5 text-primary shrink-0" />}
+      </button>
 
       {PARTIAL_LEVELS[level] && (
         <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4 text-sm text-center text-muted-foreground">

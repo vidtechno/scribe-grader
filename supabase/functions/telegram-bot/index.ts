@@ -161,7 +161,7 @@ async function onCallback(q: CallbackQuery) {
           stats: user.showStats, plan: user.showPlan, goal: user.showGoal, invite: user.showInvite, daily: user.showDaily,
           settings: user.showSettings, help: user.showHelp, open: user.openApp, register: user.register, linkinfo: user.linkInfo,
           cab: user.showCabinet, blog: user.showArticles, start: (c) => user.showStart(c), test: user.showDailyTest,
-          writing: user.showWriting, speaking: user.showSpeaking, learn: user.showLearn,
+          writing: user.showWriting, speaking: user.showSpeaking, learn: user.showLearn, dict: user.showDictionary,
         };
         if (parts[1] === "register") ctx.messageId = undefined;
         if (map[parts[1]]) await map[parts[1]](ctx);

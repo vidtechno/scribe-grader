@@ -31,7 +31,7 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
     }
     case "ref_activated":
       return {
-        text: `${title("🎉", "Referal hisoblandi!")}\nDo'stingiz birinchi darsni tugatdi. U 7 kunlik bepul davrdan keyin pullik tarifni olsa, balansingizga <b>10 000 so'm</b> qo'shiladi.`,
+        text: `${title("🎉", "Referal hisoblandi!")}\nDo'stingiz ro'yxatdan o'tdi. U 7 kunlik bepul davrdan keyin pullik tarifni olsa, balansingizga <b>10 000 so'm</b> qo'shiladi.`,
         keyboard: [[cb("🎁 Referal", "n:u:invite")]],
       };
     case "ref_reward":
