@@ -70,7 +70,7 @@ const lesson: Lesson = {
           t: "table", head: ["Hozir", "O'tmish", "O'zbekcha"],
           rows: [
             ["I can swim.", "I could swim when I was six.", "Olti yoshimda suza olardim."],
-            ["She can't drive.", "She couldn't drive two years ago.", "Ikki yil oldin u mashina hayday olmasdi."],
+            ["She can't cook.", "She couldn't cook two years ago.", "Ikki yil oldin u ovqat pishira olmasdi."],
             ["Can you hear me?", "Could you hear me?", "Meni eshita oldingmi?"],
             ["Yes, I can.", "Yes, I could. / No, I couldn't.", "Ha / yo'q."],
           ],
@@ -138,13 +138,13 @@ const lesson: Lesson = {
   words: [
     { en: "playground", uz: "o'yin maydonchasi", ipa: "ˈpleɪ.ɡraʊnd", pos: "noun", ex: "There was a playground near our school.", exUz: "Maktabimiz yonida o'yin maydonchasi bor edi." },
     { en: "field", uz: "dala; maydon", ipa: "fiːld", pos: "noun", ex: "There were cotton fields around the village.", exUz: "Qishloq atrofida paxta dalalari bor edi." },
-    { en: "factory", uz: "zavod, fabrika", ipa: "ˈfæk.tər.i", pos: "noun", ex: "My grandfather worked in a factory.", exUz: "Bobom zavodda ishlagan." },
+    { en: "candle", uz: "sham", ipa: "ˈkæn.dəl", pos: "noun", ex: "We lit a candle during the power cut.", exUz: "Svet o'chganda sham yoqdik." },
     { en: "fountain", uz: "favvora", ipa: "ˈfaʊn.tɪn", pos: "noun", ex: "There was a big fountain in the square.", exUz: "Maydonda katta favvora bor edi." },
     { en: "traffic", uz: "yo'l harakati; tirbandlik", ipa: "ˈtræf.ɪk", pos: "noun", ex: "There was a lot of traffic this morning.", exUz: "Bugun ertalab tirbandlik katta edi." },
     { en: "crowded", uz: "odam gavjum, tiqilinch", ipa: "ˈkraʊ.dɪd", pos: "adj", ex: "The bazaar was very crowded on Sunday.", exUz: "Yakshanba kuni bozor juda gavjum edi." },
-    { en: "empty", uz: "bo'sh", ipa: "ˈemp.ti", pos: "adj", ex: "The streets were empty at night.", exUz: "Kechasi ko'chalar bo'sh edi." },
+    { en: "charge", uz: "quvvatlamoq (telefonni)", ipa: "tʃɑːdʒ", pos: "verb", ex: "I charged my phone before the trip.", exUz: "Safardan oldin telefonimni quvvatladim." },
     { en: "noisy", uz: "shovqinli", ipa: "ˈnɔɪ.zi", pos: "adj", ex: "Our old flat was very noisy.", exUz: "Eski kvartiramiz juda shovqinli edi." },
-    { en: "climb", uz: "(yuqoriga) chiqmoq, tirmashib chiqmoq", ipa: "klaɪm", pos: "verb", ex: "As a child, I could climb trees very well.", exUz: "Bolaligimda daraxtga juda yaxshi chiqa olardim." },
+    { en: "square", uz: "maydon (shahar maydoni)", ipa: "skweə", pos: "noun", ex: "There was a fountain in the square.", exUz: "Maydonda favvora bor edi." },
     { en: "power cut", uz: "svet o'chishi (elektr uzilishi)", ipa: "ˈpaʊə ˌkʌt", pos: "noun", ex: "There was a power cut last night.", exUz: "Kecha kechqurun svet o'chdi." },
   ],
   practice: [

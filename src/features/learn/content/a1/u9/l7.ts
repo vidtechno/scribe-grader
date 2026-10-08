@@ -142,7 +142,7 @@ const lesson: Lesson = {
             { who: "Aziza", en: "Welcome back! Where did you go on holiday?", uz: "Xush kelibsan! Ta'tilda qayerga bording?" },
             { who: "Timur", en: "We went abroad — to Georgia!", uz: "Chet elga bordik — Gruziyaga!" },
             { who: "Aziza", en: "Wow! How did you get there?", uz: "Voy! U yerga qanday bordinglar?" },
-            { who: "Timur", en: "We flew to Tbilisi. It took about three hours.", uz: "Tbilisiga samolyotda uchdik. Taxminan uch soat ketdi." },
+            { who: "Timur", en: "We flew to Tbilisi. It took about four hours.", uz: "Tbilisiga samolyotda uchdik. Taxminan to'rt soat ketdi." },
             { who: "Aziza", en: "Where did you stay?", uz: "Qayerda qoldinglar?" },
             { who: "Timur", en: "With my friend's family. Then we drove to the mountains.", uz: "Do'stimning oilasinikida. Keyin mashinada tog'larga bordik." },
             { who: "Aziza", en: "Did you have a good time?", uz: "Yaxshi dam oldingizmi?" },
@@ -154,7 +154,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "on foot", uz: "piyoda", ipa: "ɒn ˈfʊt", pos: "phrase", ex: "We went to the old town on foot.", exUz: "Eski shaharga piyoda bordik." },
+    { en: "camel", uz: "tuya", ipa: "ˈkæm.əl", pos: "noun", ex: "The children rode a camel in the desert.", exUz: "Bolalar cho'lda tuyaga minishdi." },
     { en: "fly – flew", uz: "uchmoq, samolyotda bormoq", ipa: "flaɪ – fluː", pos: "verb", ex: "We flew to Istanbul last summer.", exUz: "O'tgan yozda Istanbulga samolyotda uchdik." },
     { en: "drive – drove", uz: "(mashina) haydamoq, mashinada bormoq", ipa: "draɪv – drəʊv", pos: "verb", ex: "My dad drove us to the airport.", exUz: "Dadam bizni aeroportga mashinada olib bordi." },
     { en: "ride – rode", uz: "minmoq (velosiped, ot, tuya)", ipa: "raɪd – rəʊd", pos: "verb", ex: "I rode a camel in the desert.", exUz: "Cho'lda tuyaga mindim." },
@@ -163,7 +163,7 @@ const lesson: Lesson = {
     { en: "go on holiday", uz: "ta'tilga / dam olishga bormoq", ipa: "ˌɡəʊ ɒn ˈhɒl.ə.deɪ", pos: "phrase", ex: "We went on holiday to Turkey.", exUz: "Biz Turkiyaga dam olishga bordik." },
     { en: "go sightseeing", uz: "diqqatga sazovor joylarni aylanmoq", ipa: "ˌɡəʊ ˈsaɪtˌsiː.ɪŋ", pos: "phrase", ex: "We went sightseeing in Samarkand.", exUz: "Samarqandda tarixiy joylarni aylandik." },
     { en: "souvenir", uz: "esdalik sovg'asi", ipa: "ˌsuː.vəˈnɪə", pos: "noun", ex: "I bought a souvenir for my mum.", exUz: "Onamga esdalik sovg'asi oldim." },
-    { en: "abroad", uz: "chet elga, chet elda", ipa: "əˈbrɔːd", pos: "adv", ex: "My brother works abroad.", exUz: "Akam chet elda ishlaydi." },
+    { en: "comfortable", uz: "qulay, rohat", ipa: "ˈkʌm.fə.tə.bəl", pos: "adj", ex: "The train was fast and comfortable.", exUz: "Poyezd tez va qulay edi." },
   ],
   practice: [
     { k: "listen", say: "We drove to Chimgan.", opts: ["We drove to Chimgan.", "We drive to Chimgan.", "We rode to Chimgan."], a: 0, why: "\"drouv\" — **drove**." },

@@ -125,7 +125,7 @@ const lesson: Lesson = {
     { en: "Kind regards", uz: "Hurmat bilan (xat oxirida)", ipa: "ˌkaɪnd rɪˈɡɑːdz", pos: "phrase", ex: "Kind regards, Akmal Rahimov", exUz: "Hurmat bilan, Akmal Rahimov" },
     { en: "look forward to", uz: "intiqlik bilan kutmoq", ipa: "lʊk ˈfɔː.wəd tə", pos: "phrase", ex: "I'm looking forward to the holidays.", exUz: "Ta'tilni intiqlik bilan kutyapman." },
     { en: "let me know", uz: "menga xabar bering", ipa: "ˌlet mi ˈnəʊ", pos: "phrase", ex: "Let me know when you arrive.", exUz: "Yetib kelganingizda menga xabar bering." },
-    { en: "comfortable", uz: "qulay, rohat", ipa: "ˈkʌm.fə.tə.bəl", pos: "adj", ex: "The beds in this hotel are very comfortable.", exUz: "Bu mehmonxonadagi karavotlar juda qulay." },
+    { en: "greetings", uz: "salom, ko'rishgan joydan salom (xatda)", ipa: "ˈɡriː.tɪŋz", pos: "noun (plural)", ex: "Greetings from Samarkand!", exUz: "Samarqanddan salom!" },
     { en: "write back", uz: "javob yozmoq", ipa: "ˌraɪt ˈbæk", pos: "phrasal verb", ex: "Please write back soon.", exUz: "Iltimos, tezroq javob yozing." },
   ],
   practice: [
