@@ -160,8 +160,19 @@ function Fill({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fill' }>; 
   );
 }
 
+/** Partial help for a translation: never the full answer. Step 1 sizes it up, 2 shows first letters, 3 opens the first half. */
+function translateHint(answer: string, step: number): string {
+  const words = answer.replace(/[.!?]+$/, '').split(/\s+/).filter(Boolean);
+  if (step === 1) return `Javob ${words.length} ta so'zdan iborat. Birinchi so'z: ${words[0][0]}…`;
+  const mask = (w: string, keep: number) => w.slice(0, keep) + '_'.repeat(Math.max(w.length - keep, 1));
+  if (step === 2) return words.map((w) => mask(w, 1)).join(' ');
+  const open = Math.max(1, Math.floor(words.length / 2));
+  return words.map((w, i) => (i < open ? w : mask(w, 1))).join(' ');
+}
+
 function Translate({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'translate' }>; answered: boolean; finish: (fb: Feedback) => void }) {
   const [value, setValue] = useState('');
+  const [helps, setHelps] = useState(0);
   const submit = () => {
     const r = checkTyped(value, ex.a);
     finish({ correct: r.correct, expected: r.expected, note: r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
@@ -170,7 +181,17 @@ function Translate({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'trans
     <div>
       <p className="text-xl font-semibold mb-4">🇺🇿 {ex.uz}</p>
       <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="Inglizcha yozing…" />
-      <div className="flex mt-3"><Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button></div>
+      {helps > 0 && !answered && (
+        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 font-mono break-words">💡 {translateHint(ex.a[0], helps)}</p>
+      )}
+      <div className="flex items-center gap-2 mt-3">
+        {!answered && helps < 3 && (
+          <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}>
+            <Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}
+          </Button>
+        )}
+        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
+      </div>
     </div>
   );
 }

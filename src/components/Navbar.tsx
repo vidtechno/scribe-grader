@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen, GraduationCap, ChevronDown, ClipboardList, Target, Trophy } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, BookOpen, GraduationCap, ChevronDown, ClipboardList, Target, Trophy } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 import { useSubscription } from '@/hooks/useSubscription';
@@ -97,12 +97,6 @@ export function Navbar() {
                   <span>Blog</span>
                 </Button>
               </a>
-              <Link to="/profile#referral" className="hidden xl:block">
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <Gift className="h-4 w-4" />
-                  <span>Referal</span>
-                </Button>
-              </Link>
               <button
                 onClick={() => setShowPricing(true)}
                 className="glass-card px-3 py-1.5 flex items-center gap-2 hover:bg-primary/10 transition-colors"
