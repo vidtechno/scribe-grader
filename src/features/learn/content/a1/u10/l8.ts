@@ -83,7 +83,7 @@ const lesson: Lesson = {
         },
         { t: "tip", tone: "warn", md: "**because** — sabab (nega?), **so** — natija (shuning uchun). Adashtirmang:\n✅ *I was ill, **so** I stayed at home.*\n✅ *I stayed at home **because** I was ill.*\n❌ *I was ill, because I stayed at home.*" },
         { t: "check", ex: { k: "choice", q: "The museum was closed, ___ we went to a café.", opts: ["because", "so", "but", "also"], a: 1, why: "Natija → **so**." } },
-        { t: "check", ex: { k: "fill", q: "I can't come to your party ___ I've got a bad cold.", a: ["because"], uz: "Ziyofatingga bora olmayman, chunki qattiq shamollaganman.", why: "Sabab → **because**." } },
+        { t: "check", ex: { k: "fill", q: "I can't come to your party ___ I've got a bad cold.", a: ["because", "as", "since"], uz: "Ziyofatingga bora olmayman, chunki qattiq shamollaganman.", why: "Sabab → **because**." } },
       ],
     },
     {
@@ -125,7 +125,7 @@ const lesson: Lesson = {
     { en: "Kind regards", uz: "Hurmat bilan (xat oxirida)", ipa: "ˌkaɪnd rɪˈɡɑːdz", pos: "phrase", ex: "Kind regards, Akmal Rahimov", exUz: "Hurmat bilan, Akmal Rahimov" },
     { en: "look forward to", uz: "intiqlik bilan kutmoq", ipa: "lʊk ˈfɔː.wəd tə", pos: "phrase", ex: "I'm looking forward to the holidays.", exUz: "Ta'tilni intiqlik bilan kutyapman." },
     { en: "let me know", uz: "menga xabar bering", ipa: "ˌlet mi ˈnəʊ", pos: "phrase", ex: "Let me know when you arrive.", exUz: "Yetib kelganingizda menga xabar bering." },
-    { en: "by the way", uz: "aytgancha", ipa: "ˌbaɪ ðə ˈweɪ", pos: "phrase", ex: "By the way, how was your exam?", exUz: "Aytgancha, imtihoning qanday o'tdi?" },
+    { en: "greetings", uz: "salom, ko'rishgan joydan salom (xatda)", ipa: "ˈɡriː.tɪŋz", pos: "noun (plural)", ex: "Greetings from Samarkand!", exUz: "Samarqanddan salom!" },
     { en: "write back", uz: "javob yozmoq", ipa: "ˌraɪt ˈbæk", pos: "phrasal verb", ex: "Please write back soon.", exUz: "Iltimos, tezroq javob yozing." },
   ],
   practice: [
@@ -156,7 +156,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I've ___ my ticket to this email.", a: ["attached"], uz: "Chiptamni shu xatga biriktirdim.", why: "**attach** — biriktirmoq: *I've attached…*" },
     { k: "tf", q: "Akmal mehmonxonaga poyezdda, kechki 10 atrofida yetib keladi.", a: true, why: "*We are arriving by train at about 10 p.m.*" },
     { k: "translate", uz: "Tezroq javob yoz!", a: ["Write soon", "Write back soon", "Please write soon", "Please write back soon", "Reply soon", "Please reply soon"] },
-    { k: "order", uz: "Men ikki kishilik xona band qilmoqchiman.", words: ["I", "would", "like", "to", "book", "a", "double", "room."], extra: ["booking", "single"], alt: [["I'd", "like", "to", "book", "a", "double", "room."]] },
+    { k: "order", uz: "Men ikki kishilik xona band qilmoqchiman.", words: ["I", "would", "like", "to", "book", "a", "double", "room."], extra: ["booking", "single"] },
   ],
   summary: [
     "Xat: **murojaat → kirish → asosiy qism → yakun → xayrlashuv + ism**.",

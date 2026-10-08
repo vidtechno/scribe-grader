@@ -12,15 +12,15 @@ const lesson: Lesson = {
         { t: "p", md: "Siz **and, but, so, because** bilan gaplarni bog'lashni bilasiz. Bugun **vaqt** bog'lovchilari: **when** (…ganda), **before** (…dan oldin), **after** (…dan keyin). Ular bitta gapni ikkinchisiga \"vaqt\" sifatida ulaydi:" },
         {
           t: "examples", items: [
-            { en: "When I was a child, I lived in Andijan.", uz: "Bolaligimda Andijonda yashaganman." },
-            { en: "I lived in Andijan when I was a child.", uz: "Andijonda bolaligimda yashaganman. (xuddi shu ma'no)" },
+            { en: "When I was a child, I lived in Andijan.", uz: "Bolaligimda Andijonda yashadim." },
+            { en: "I lived in Andijan when I was a child.", uz: "Andijonda bolaligimda yashadim. (xuddi shu ma'no)" },
             { en: "When it rains, we stay at home.", uz: "Yomg'ir yoqqanda uyda qolamiz." },
             { en: "My phone rang when I was in the shower.", uz: "Dush qabul qilayotganimda telefonim jiringladi." },
           ],
         },
         { t: "tip", tone: "info", md: "**Vergul qoidasi**: *when*-qism **boshida** bo'lsa — keyin vergul qo'yiladi: *When I was a child**,** I lived…* **Oxirida** bo'lsa — vergul shart emas: *I lived in Andijan when I was a child.*" },
         { t: "tip", tone: "warn", md: "O'zbekchada **-ganda** fe'lning oxirida keladi. Ingliz tilida **when** o'z qismining **boshida** turadi, ega va fe'l undan keyin keladi: *uyga kel**ganimda*** → ***when** I came home*. ❌ *I home came when*" },
-        { t: "check", ex: { k: "order", uz: "Talaba bo'lganimda Toshkentda yashaganman.", words: ["When", "I", "was", "a", "student,", "I", "lived", "in", "Tashkent."], extra: ["were", "live"], alt: [["I", "lived", "in", "Tashkent", "when", "I", "was", "a", "student."]] } },
+        { t: "check", ex: { k: "order", uz: "Talaba bo'lganimda Toshkentda yashadim.", words: ["When", "I", "was", "a", "student,", "I", "lived", "in", "Tashkent."], extra: ["were", "live"], alt: [["I", "lived", "in", "Tashkent", "when", "I", "was", "a", "student."]] } },
       ],
     },
     {
@@ -100,11 +100,11 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "text", title: "My grandfather",
-          en: "My grandfather, Karim, was born in a small village near Termez in 1950. When he was a child, he helped his father in the fields every day. After he finished school, he joined the army for two years.\nWhen he came back, he went to university in Tashkent and got a degree in engineering. He met my grandmother there. They got married after they graduated.\nHe worked at a big factory for thirty-five years. Before he retired, he trained many young engineers. Now he lives with us and enjoys spending time with his six grandchildren. When I visit him, he always tells me stories about his childhood. He doesn't watch TV or use the internet — he prefers books!",
-          uz: "Bobom Karim 1950-yilda Termiz yaqinidagi kichik qishloqda tug'ilgan. Bolaligida u har kuni dalada otasiga yordam bergan. Maktabni tugatgandan keyin ikki yil armiyada xizmat qilgan.\nQaytib kelgach, Toshkentdagi universitetga o'qishga kirgan va muhandislik bo'yicha diplom olgan. Buvim bilan o'sha yerda tanishgan. Ular o'qishni bitirgandan keyin turmush qurishgan.\nU katta zavodda o'ttiz besh yil ishlagan. Nafaqaga chiqishdan oldin ko'plab yosh muhandislarga ta'lim bergan. Hozir u biz bilan yashaydi va olti nevarasi bilan vaqt o'tkazishni yoqtiradi. Uning oldiga borganimda, u menga doim bolaligi haqida hikoyalar aytib beradi. U televizor ko'rmaydi va internetdan foydalanmaydi — kitobni afzal ko'radi!",
+          en: "My grandfather, Tohir, was born in a small village near Termez in 1950. When he was a child, he helped his father in the fields every day. After he finished school, he joined the army for two years.\nWhen he came back, he went to university in Tashkent and got a degree in engineering. He met my grandmother there. They got married after they graduated.\nHe worked at a big factory for thirty-five years. Before he retired, he trained many young engineers. Now he lives with us and enjoys spending time with his six grandchildren. When I visit him, he always tells me stories about his childhood. He doesn't watch TV or use the internet — he prefers books!",
+          uz: "Bobom Tohir 1950-yilda Termiz yaqinidagi kichik qishloqda tug'ilgan. Bolaligida u har kuni dalada otasiga yordam bergan. Maktabni tugatgandan keyin ikki yil armiyada xizmat qilgan.\nQaytib kelgach, Toshkentdagi universitetga o'qishga kirgan va muhandislik bo'yicha diplom olgan. Buvim bilan o'sha yerda tanishgan. Ular o'qishni bitirgandan keyin turmush qurishgan.\nU katta zavodda o'ttiz besh yil ishlagan. Nafaqaga chiqishdan oldin ko'plab yosh muhandislarga ta'lim bergan. Hozir u biz bilan yashaydi va olti nevarasi bilan vaqt o'tkazishni yoqtiradi. Uning oldiga borganimda, u menga doim bolaligi haqida hikoyalar aytib beradi. U televizor ko'rmaydi va internetdan foydalanmaydi — kitobni afzal ko'radi!",
         },
-        { t: "check", ex: { k: "tf", q: "Karim joined the army before he finished school.", a: false, why: "*After he finished school, he joined the army.*" } },
-        { t: "check", ex: { k: "choice", q: "When did Karim and his wife get married?", opts: ["Before they went to university.", "After they graduated.", "When he was in the army.", "After he retired."], a: 1, why: "*They got married after they graduated.*" } },
+        { t: "check", ex: { k: "tf", q: "Tohir joined the army before he finished school.", a: false, why: "*After he finished school, he joined the army.*" } },
+        { t: "check", ex: { k: "choice", q: "When did Tohir and his wife get married?", opts: ["Before they went to university.", "After they graduated.", "When he was in the army.", "After he retired."], a: 1, why: "*They got married after they graduated.*" } },
       ],
     },
     {
@@ -125,13 +125,13 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "childhood", uz: "bolalik", ipa: "ˈtʃaɪldhʊd", pos: "noun", ex: "I had a happy childhood.", exUz: "Mening bolaligim baxtli o'tgan." },
+    { en: "army", uz: "armiya", ipa: "ˈɑːmi", pos: "noun", ex: "He joined the army at nineteen.", exUz: "U o'n to'qqiz yoshida armiyaga bordi." },
     { en: "graduate", uz: "(oliy o'quv yurtini) bitirmoq", ipa: "ˈɡrædʒueɪt", pos: "verb", ex: "She graduated from university in 2020.", exUz: "U universitetni 2020-yilda bitirgan." },
     { en: "university", uz: "universitet", ipa: "ˌjuːnɪˈvɜːsəti", pos: "noun", ex: "My brother goes to university in Samarkand.", exUz: "Akam Samarqanddagi universitetda o'qiydi." },
-    { en: "degree", uz: "diplom, ilmiy daraja", ipa: "dɪˈɡriː", pos: "noun", ex: "He has a degree in law.", exUz: "Uning huquqshunoslik bo'yicha diplomi bor." },
-    { en: "get married", uz: "turmush qurmoq, uylanmoq", ipa: "ɡet ˈmærid", pos: "phrase", ex: "They got married last year.", exUz: "Ular o'tgan yili turmush qurishdi." },
-    { en: "wedding", uz: "to'y", ipa: "ˈwedɪŋ", pos: "noun", ex: "There were 400 guests at the wedding.", exUz: "To'yda 400 ta mehmon bor edi." },
-    { en: "retire", uz: "nafaqaga chiqmoq", ipa: "rɪˈtaɪə", pos: "verb", ex: "My father retired at sixty.", exUz: "Dadam oltmish yoshida nafaqaga chiqdi." },
+    { en: "business", uz: "biznes, ish", ipa: "ˈbɪznəs", pos: "noun", ex: "She wants to start her own business.", exUz: "U o'z biznesini boshlamoqchi." },
+    { en: "story", uz: "hikoya, voqea", ipa: "ˈstɔːri", pos: "noun", ex: "My grandfather tells great stories.", exUz: "Bobom ajoyib hikoyalar aytib beradi." },
+    { en: "grandparents", uz: "bobo va buvi", ipa: "ˈɡrænpeərənts", pos: "noun", ex: "My grandparents live in a village.", exUz: "Bobom va buvim qishloqda yashaydi." },
+    { en: "course", uz: "kurs", ipa: "kɔːs", pos: "noun", ex: "I'm taking an English course.", exUz: "Men ingliz tili kursida o'qiyapman." },
     { en: "career", uz: "martaba, kasb yo'li", ipa: "kəˈrɪə", pos: "noun", ex: "She has a great career in medicine.", exUz: "Uning tibbiyotda ajoyib martabasi bor." },
     { en: "grandchildren", uz: "nevaralar", ipa: "ˈɡræntʃɪldrən", pos: "noun", ex: "My grandmother has ten grandchildren.", exUz: "Buvimning o'nta nevarasi bor." },
     { en: "join", uz: "qo'shilmoq, a'zo bo'lmoq", ipa: "dʒɔɪn", pos: "verb", ex: "I joined a football club.", exUz: "Futbol klubiga a'zo bo'ldim." },
@@ -150,7 +150,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**When I was a child, I lived in a village.** — vergul to'g'ri qo'yilgan.", a: true, why: "*when*-qism boshida → vergul." },
     { k: "listen", say: "When I get home, I'll call you.", opts: ["When I get home, I'll call you.", "When I got home, I called you.", "When I'm home, I call you."], a: 0 },
     { k: "order", uz: "Kechki ovqatdan keyin televizor ko'rdik.", words: ["We", "watched", "TV", "after", "dinner."], extra: ["of", "before"], alt: [["After", "dinner", "we", "watched", "TV."], ["After", "dinner,", "we", "watched", "TV."]] },
-    { k: "translate", uz: "Bolaligimda men qishloqda yashaganman.", a: ["When I was a child, I lived in a village.", "I lived in a village when I was a child.", "In my childhood I lived in a village.", "When I was a child I lived in a village.", "I lived in a village in my childhood.", "As a child, I lived in a village.", "As a child I lived in a village."] },
+    { k: "translate", uz: "Bolaligimda men qishloqda yashadim.", a: ["When I was a child, I lived in a village.", "I lived in a village when I was a child.", "In my childhood I lived in a village.", "When I was a child I lived in a village.", "I lived in a village in my childhood.", "As a child, I lived in a village.", "As a child I lived in a village."] },
     { k: "translate", uz: "Choy ichasizmi yoki qahva?", a: ["Would you like tea or coffee?", "Do you want tea or coffee?", "Tea or coffee?", "Do you drink tea or coffee?", "Will you have tea or coffee?"] },
     { k: "speak", say: "After I graduate, I'm going to work abroad.", uz: "Bitirganimdan keyin chet elda ishlamoqchiman." },
   ],
@@ -172,7 +172,7 @@ const lesson: Lesson = {
     "Kelajak haqida: **when / before / after + Present Simple**, asosiy gapda **will**: *When I **get** home, I**'ll call** you.*",
     "**or** — savolda tanlov (*tea or coffee?*) va inkorda: *I don't eat meat **or** fish.*",
   ],
-  homework: "Oilangizdagi katta yoshli bir odamning (bobo, buvi, ota-ona) hayoti haqida 8 ta gaplik matn yozing — Karimning hikoyasi kabi. **when, before, after** ni kamida 2 martadan ishlating. Keyin o'zingizning kelajak rejalaringiz haqida 3 ta gap qo'shing: *When I finish…, I'll…*",
+  homework: "Oilangizdagi katta yoshli bir odamning (bobo, buvi, ota-ona) hayoti haqida 8 ta gaplik matn yozing — Tohirning hikoyasi kabi. **when, before, after** ni kamida 2 martadan ishlating. Keyin o'zingizning kelajak rejalaringiz haqida 3 ta gap qo'shing: *When I finish…, I'll…*",
 };
 
 export default lesson;

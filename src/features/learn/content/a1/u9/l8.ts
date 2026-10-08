@@ -140,7 +140,7 @@ const lesson: Lesson = {
     { en: "run – ran", uz: "yugurmoq", ipa: "rʌn – ræn", pos: "verb", ex: "He ran to the bus stop.", exUz: "U bekatga yugurdi." },
     { en: "begin – began", uz: "boshlamoq, boshlanmoq", ipa: "bɪˈɡɪn – bɪˈɡæn", pos: "verb", ex: "The lesson began at nine.", exUz: "Dars soat to'qqizda boshlandi." },
     { en: "sing – sang", uz: "kuylamoq, qo'shiq aytmoq", ipa: "sɪŋ – sæŋ", pos: "verb", ex: "She sang at her sister's wedding.", exUz: "U opasining to'yida qo'shiq kuyladi." },
-    { en: "win – won", uz: "yutmoq, g'alaba qozonmoq", ipa: "wɪn – wʌn", pos: "verb", ex: "Our team won the cup.", exUz: "Jamoamiz kubokni yutdi." },
+    { en: "cut – cut", uz: "kesmoq; (qo'lni) kesib olmoq", ipa: "kʌt – kʌt", pos: "verb", ex: "She cut the cake into eight pieces.", exUz: "U tortni sakkiz bo'lakka kesdi." },
     { en: "break – broke", uz: "sindirmoq, sinmoq", ipa: "breɪk – brəʊk", pos: "verb", ex: "I broke my phone screen.", exUz: "Telefonim ekranini sindirib qo'ydim." },
     { en: "forget – forgot", uz: "unutmoq", ipa: "fəˈɡet – fəˈɡɒt", pos: "verb", ex: "I forgot my umbrella.", exUz: "Soyabonimni unutib qoldirdim." },
     { en: "wear – wore", uz: "kiymoq, kiyib yurmoq", ipa: "weə – wɔː", pos: "verb", ex: "She wore a beautiful atlas dress.", exUz: "U chiroyli atlas ko'ylak kiygan edi." },

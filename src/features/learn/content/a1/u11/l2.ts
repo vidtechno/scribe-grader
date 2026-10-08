@@ -30,7 +30,7 @@ const lesson: Lesson = {
         {
           t: "table", head: ["V1", "V2 = V3", "Ma'nosi", "Misol"], speak: [0, 1, 3],
           rows: [
-            ["have", "had", "ega bo'lmoq", "I've had this phone for a year."],
+            ["have", "had", "ega bo'lmoq; yemoq, ichmoq", "I've had a great idea!"],
             ["make", "made", "qilmoq, yasamoq", "She's made a cake."],
             ["buy", "bought", "sotib olmoq", "We've bought a new car."],
             ["hear", "heard", "eshitmoq", "Have you heard the news?"],
@@ -135,7 +135,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Where is everybody?",
           en: "Kamol comes home from work at seven. The flat is very quiet. Where is everybody?\nHe finds a note on the fridge: \"Dad has gone to the airport. He's driving Grandma to her flight. I've gone to the gym with Nilufar. Akbar has been to the shop and he's bought bread and milk. He's gone to bed — he's got a cold. We've made plov for you, it's in the kitchen! Love, Madina.\"\nKamol smiles. Then he looks for his phone. He can't find it. \"Oh no,\" he thinks. \"I've left it at work again!\"",
-          uz: "Kamol soat yettida ishdan uyga keladi. Kvartira juda jim. Hamma qayerda?\nU muzlatgichda xat topadi: \"Dadam aeroportga ketgan. U buvimni reysga olib ketyapti. Men Nilufar bilan sport zaliga ketdim. Akbar do'konga borib keldi va non bilan sut olib keldi. U yotib qoldi — shamollab qolgan. Senga palov qildik, oshxonada! Mehr bilan, Madina.\"\nKamol jilmayadi. Keyin telefonini qidiradi. Topolmaydi. \"Voy,\" deb o'ylaydi u. \"Yana ishda qoldiribman!\"",
+          uz: "Kamol soat yettida ishdan uyga keladi. Kvartira juda jim. Hamma qayerda?\nU muzlatgichda xat topadi: \"Dadam aeroportga ketgan. U buvimni reysga olib ketyapti. Men Nilufar bilan sport zaliga ketdim. Akbar do'konga borib keldi va non bilan sut olib keldi. U yotgan — shamollab qolgan. Senga palov qildik, oshxonada! Mehr bilan, Madina.\"\nKamol jilmayadi. Keyin telefonini qidiradi. Topolmaydi. \"Voy,\" deb o'ylaydi u. \"Yana ishda qoldiribman!\"",
         },
         { t: "check", ex: { k: "tf", q: "Akbar is at the shop now.", a: false, why: "*Akbar **has been** to the shop* — borib kelgan, hozir u **yotoqda** (*He's gone to bed*)." } },
         { t: "check", ex: { k: "choice", q: "Where is Kamol's phone?", opts: ["At the airport.", "At work.", "In the kitchen.", "At the gym."], a: 1, why: "*I've left it at work again!*" } },

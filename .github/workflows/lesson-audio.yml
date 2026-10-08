@@ -5,8 +5,8 @@ name: Lesson audio
 on:
   workflow_dispatch:
     inputs:
-      all_units:
-        description: "Also record units that are written but not released yet"
+      force:
+        description: "Re-record texts that already have a file (default: only new or changed texts)"
         type: boolean
         default: false
 
@@ -30,7 +30,7 @@ jobs:
       - run: pip install edge-tts
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Record
-        run: npx tsx scripts/generate-lesson-audio.ts --engine edge --force --jobs 4 ${{ inputs.all_units && '--all' || '' }}
+        run: npx tsx scripts/generate-lesson-audio.ts --engine edge --jobs 4 ${{ inputs.force && '--force' || '' }}
       - name: Push to a branch
         run: |
           git config user.name "github-actions[bot]"

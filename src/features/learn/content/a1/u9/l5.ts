@@ -97,8 +97,8 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "text", title: "My grandfather's life",
-          en: "My grandfather, Karim, was born in a small village near Kokand in 1950. He grew up with five brothers and sisters. He left school at the age of sixteen and worked in the cotton fields.\nIn 1970, he moved to Tashkent and got a job at a car factory. There he met my grandmother, Saodat. They got married in 1974 and had four children.\nLater, my grandfather went to evening classes and became an engineer. He retired in 2012. Now he lives in his village again, and he grows tomatoes and grapes in his garden.",
-          uz: "Bobom Karim 1950-yilda Qo'qon yaqinidagi kichik qishloqda tug'ilgan. U besh aka-uka va opa-singil bilan birga o'sgan. O'n olti yoshida maktabni tugatib, paxta dalalarida ishlagan.\n1970-yilda u Toshkentga ko'chib kelgan va avtomobil zavodiga ishga kirgan. U yerda buvim Saodat bilan tanishgan. Ular 1974-yilda turmush qurishgan va to'rt farzand ko'rishgan.\nKeyinroq bobom kechki kurslarda o'qib, muhandis bo'lgan. U 2012-yilda nafaqaga chiqdi. Hozir u yana qishlog'ida yashaydi va bog'ida pomidor va uzum yetishtiradi.",
+          en: "My grandfather, Karim, was born in a small village near Kokand in 1950. He grew up with five brothers and sisters. He left school at the age of sixteen and worked in the cotton fields.\nIn 1970, he moved to Tashkent and got a job at a big factory. There he met my grandmother, Saodat. They got married in 1974 and had four children.\nLater, my grandfather went to evening classes and became an engineer. He retired in 2012. Now he lives in his village again, and he grows tomatoes and grapes in his garden.",
+          uz: "Bobom Karim 1950-yilda Qo'qon yaqinidagi kichik qishloqda tug'ilgan. U besh aka-uka va opa-singil bilan birga o'sgan. O'n olti yoshida maktabni tugatib, paxta dalalarida ishlagan.\n1970-yilda u Toshkentga ko'chib kelgan va katta zavodga ishga kirgan. U yerda buvim Saodat bilan tanishgan. Ular 1974-yilda turmush qurishgan va to'rt farzand ko'rishgan.\nKeyinroq bobom kechki kurslarda o'qib, muhandis bo'lgan. U 2012-yilda nafaqaga chiqdi. Hozir u yana qishlog'ida yashaydi va bog'ida pomidor va uzum yetishtiradi.",
         },
         { t: "tip", tone: "info", md: "E'tibor bering: matnning oxirida hozirgi zamon (**lives, grows**) — chunki bu **hozirgi** holat. Biografiyada o'tmish va hozirni aralashtirish tabiiy." },
         { t: "check", ex: { k: "tf", q: "Karim Toshkentda tug'ilgan.", a: false, why: "*…was born in a small village near Kokand.* Toshkentga 1970-yilda ko'chib kelgan." } },
@@ -148,7 +148,7 @@ const lesson: Lesson = {
     { k: "fill", q: "Where did you ___ up? — In Nukus. (grow)", a: ["grow"], why: "**did** + V1: *grow up*." },
     { k: "fill", q: "My grandmother ___ in 2015. She was a teacher for forty years. (retire)", a: ["retired"], uz: "Buvim 2015-yilda nafaqaga chiqdi. U qirq yil o'qituvchi bo'lgan." },
     { k: "tf", q: "*They moved in Tashkent in 2010.* — to'g'ri gap.", a: false, why: "**move to** + joy: *They moved **to** Tashkent.*" },
-    { k: "tf", q: "Matnga ko'ra, Karim zavodda Saodat bilan tanishgan.", a: true, why: "*…got a job at a car factory. There he met my grandmother, Saodat.*" },
+    { k: "tf", q: "Matnga ko'ra, Karim zavodda Saodat bilan tanishgan.", a: true, why: "*…got a job at a big factory. There he met my grandmother, Saodat.*" },
     { k: "order", uz: "U (he) 1998-yilda Buxoroda tug'ilgan.", words: ["He", "was", "born", "in", "Bukhara", "in", "1998"], extra: ["did", "borned"], alt: [["He", "was", "born", "in", "1998", "in", "Bukhara"]] },
     { k: "order", uz: "Ikki yildan keyin ular farzand ko'rishdi.", words: ["Two", "years", "later,", "they", "had", "a", "baby"], extra: ["ago,", "have"] },
     { k: "translate", uz: "Men katta oilada o'sganman.", a: ["I grew up in a big family", "I grew up in a large family"] },

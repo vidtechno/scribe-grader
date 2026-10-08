@@ -47,7 +47,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["How often do you go to the gym?", "I go to the gym twice a week.", "She visits her parents once a month."] },
           bad: { title: "Xato", items: ["How often you go to the gym?", "I go twice in a week to the gym.", "She visits once in month her parents."] },
         },
-        { t: "tip", tone: "warn", md: "**a** = \"har bir\": *twice **a** week* — haftasiga ikki marta. ❌ *twice in a week*, ❌ *two times in week*. Aniq ifoda gap **oxiriga** qo'yiladi: *I go swimming **three times a week**.*" },
+        { t: "tip", tone: "warn", md: "**a** = \"har bir\": *twice **a** week* — haftasiga ikki marta. odatda *twice a week* deyiladi; ❌ *two times in week* (artikl tushib qolgan). Aniq ifoda gap **oxiriga** qo'yiladi: *I go swimming **three times a week**.*" },
         {
           t: "sounds", items: [
             { label: "once", say: "once", uz: "**\"wans\"** — *w* bilan boshlanadi! ❌ \"ons\" emas.", examples: ["once", "once a week"] },
@@ -165,7 +165,7 @@ const lesson: Lesson = {
   practice: [
     { k: "match", pairs: [["How often?", "Twice a week."], ["How long?", "Two hours."], ["How far?", "Ten kilometres."], ["How tall?", "1 metre 75."], ["How much?", "5,000 sums."]] },
     { k: "match", pairs: [["once a week", "haftada bir marta"], ["twice a month", "oyda ikki marta"], ["three times a year", "yiliga uch marta"], ["on foot", "piyoda"], ["away", "narida"]] },
-    { k: "listen", say: "It takes an hour.", opts: ["It takes an hour.", "It takes our car.", "It takes a hour."], a: 0, why: "**an hour** — *h* o'qilmaydi: \"ən auə\"." },
+    { k: "listen", say: "It takes an hour.", opts: ["It takes an hour.", "It takes a year.", "It takes ten hours."], a: 0, why: "**an hour** — *h* o'qilmaydi: \"ən auə\"." },
     { k: "listen", say: "How far is it?", opts: ["How far is it?", "How fast is it?", "How long is it?"], a: 0 },
     { k: "choice", q: "To'g'ri savolni tanlang:", opts: ["How often you go swimming?", "How often do you go swimming?", "How often are you go swimming?", "How often does you go swimming?"], a: 1, why: "**How often + do + you + fe'l**." },
     { k: "choice", q: "Javob: **It's about 50 kilometres away.** Savol:", opts: ["How long is it?", "How far is it?", "How often is it?", "How much is it?"], a: 1, why: "Kilometr — masofa → **How far?**" },
@@ -177,7 +177,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**I go to the gym three times a week.** — to'g'ri gap.", a: true, why: "Aniq ifoda gap oxirida: **three times a week**." },
     { k: "order", uz: "Ishga borish sizga qancha vaqt oladi?", words: ["How", "long", "does", "it", "take", "you", "to", "get", "to", "work?"], extra: ["far", "is"] },
     { k: "order", uz: "U (she) oyda ikki marta ota-onasini ko'rgani boradi.", words: ["She", "visits", "her", "parents", "twice", "a", "month"], extra: ["in", "visit"] },
-    { k: "translate", uz: "Vokzal qancha uzoqlikda?", a: ["How far is the station?", "How far is the train station?", "How far is the railway station?", "How far away is the station?", "How far away is the train station?"], why: "Masofa → **How far is…?**" },
+    { k: "translate", uz: "Vokzal qancha uzoqlikda?", a: ["How far is the station?", "How far is the train station?", "How far is the railway station?", "How far away is the station?", "How far away is the train station?", "How far is the station from here?", "How far is the train station from here?"], why: "Masofa → **How far is…?**" },
     { k: "speak", say: "How often do you go to the gym? — Three times a week.", uz: "Sport zalga qanchalik tez-tez borasiz? — Haftada uch marta." },
   ],
   quiz: [

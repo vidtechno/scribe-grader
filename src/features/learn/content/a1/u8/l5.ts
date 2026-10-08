@@ -9,7 +9,7 @@ const lesson: Lesson = {
     {
       title: "Kiyimlar va \"a pair of\"",
       blocks: [
-        { t: "p", md: "Beginner darajasida *jacket, shoe, hat* ni bildik. Endi ko'proq kiyim nomlari. Diqqat: **ikki qismli** kiyimlar (ikki oyoq!) inglizchada **doim ko'plikda** (tuflilar ham ko'plikda ishlatiladi, lekin *a shoe* — bitta tufli — ham bo'ladi):" },
+        { t: "p", md: "Beginner darajasida *jacket, shoe, hat* ni bildik. Endi ko'proq kiyim nomlari. Diqqat: **ikki qismli** kiyimlar (ikki oyoq, ikki ko'z!) inglizchada **doim ko'plikda** bo'ladi — *a trousers* deb bo'lmaydi:" },
         {
           t: "table", head: ["Birlik (a / an)", "Doim ko'plik", "O'zbekcha"],
           rows: [
@@ -24,7 +24,7 @@ const lesson: Lesson = {
         {
           t: "examples", items: [
             { en: "These trousers are too long.", uz: "Bu shim juda uzun.", note: "*This trousers is* ❌" },
-            { en: "I like your jeans. Where did you buy them?", uz: "Jinsingiz yoqdi. Uni qayerdan oldingiz?", note: "**them**, *it* emas" },
+            { en: "I like your jeans. Where did you buy them?", uz: "Jinsi shimingiz yoqdi. Uni qayerdan oldingiz?", note: "**them**, *it* emas" },
             { en: "I need a new pair of jeans.", uz: "Menga yangi jinsi shim kerak.", note: "bitta shim = **a pair of** trousers / jeans" },
             { en: "She bought two pairs of shoes.", uz: "U ikki juft tufli sotib oldi." },
           ],
@@ -146,7 +146,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "trousers", uz: "shim", ipa: "ˈtraʊ.zəz", pos: "noun (plural)", ex: "These trousers are too long.", exUz: "Bu shim juda uzun." },
-    { en: "dress", uz: "ko'ylak (ayollar)", ipa: "dres", pos: "noun", ex: "She's wearing a beautiful red dress.", exUz: "U chiroyli qizil ko'ylak kiygan." },
+    { en: "pocket", uz: "cho'ntak", ipa: "ˈpɒk.ɪt", pos: "noun", ex: "These trousers have two big pockets.", exUz: "Bu shimning ikkita katta cho'ntagi bor." },
     { en: "a pair of", uz: "bir juft …", ipa: "ə ˈpeə əv", pos: "phrase", ex: "I bought a new pair of jeans.", exUz: "Yangi jinsi shim sotib oldim." },
     { en: "size", uz: "o'lcham", ipa: "saɪz", pos: "noun", ex: "What size are you?", exUz: "O'lchamingiz qanday?" },
     { en: "try on", uz: "kiyib ko'rmoq", ipa: "ˌtraɪ ˈɒn", pos: "phrasal verb", ex: "Can I try these shoes on?", exUz: "Bu tuflilarni kiyib ko'rsam bo'ladimi?" },
@@ -171,7 +171,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Bu ko'ylak menga haddan tashqari katta.", words: ["This", "shirt", "is", "too", "big", "for", "me."], extra: ["enough", "much"], why: "Muammo → **too big**." },
     { k: "order", uz: "Shim yetarlicha uzun emas.", words: ["The", "trousers", "aren't", "long", "enough."], extra: ["isn't", "too"], why: "**trousers** — ko'plik → **aren't**; **long enough**." },
     { k: "translate", uz: "Buni kiyib ko'rsam bo'ladimi?", a: ["Can I try it on", "Could I try it on", "Can I try this on", "Could I try this on", "May I try it on", "May I try this on"], why: "**try it on** — olmosh o'rtada." },
-    { k: "translate", uz: "Sizda buning ko'k rangi bormi?", a: ["Have you got this in blue", "Do you have this in blue", "Have you got it in blue", "Do you have it in blue", "Is there a blue one", "Do you have a blue one", "Have you got a blue one"] },
+    { k: "translate", uz: "Sizda buning ko'k rangi bormi?", a: ["Have you got this in blue", "Do you have this in blue", "Have you got it in blue", "Do you have it in blue", "Is there a blue one", "Do you have a blue one", "Have you got a blue one", "Do you have this one in blue", "Have you got this one in blue"] },
     { k: "speak", say: "Excuse me, can I try these trousers on?", uz: "Kechirasiz, bu shimni kiyib ko'rsam bo'ladimi?" },
   ],
   quiz: [

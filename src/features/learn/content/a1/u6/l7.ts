@@ -162,7 +162,7 @@ const lesson: Lesson = {
     { en: "traffic lights", uz: "svetofor", ipa: "ˈtræf.ɪk laɪts", pos: "noun", ex: "Turn left at the traffic lights.", exUz: "Svetoforda chapga buriling." },
     { en: "crossroads", uz: "chorraha", ipa: "ˈkrɒs.rəʊdz", pos: "noun", ex: "Turn right at the crossroads.", exUz: "Chorrahada o'ngga buriling." },
     { en: "corner", uz: "burchak, muyulish", ipa: "ˈkɔː.nə", pos: "noun", ex: "The café is on the corner.", exUz: "Kafe burchakda." },
-    { en: "opposite", uz: "qarshisida", ipa: "ˈɒp.ə.zɪt", pos: "preposition", ex: "The bank is opposite the hotel.", exUz: "Bank mehmonxonaning qarshisida." },
+    { en: "roundabout", uz: "aylanma yo'l (halqa)", ipa: "ˈraʊnd.ə.baʊt", pos: "noun", ex: "Take the second exit at the roundabout.", exUz: "Aylanma yo'lda ikkinchi chiqishga buriling." },
     { en: "straight on", uz: "to'g'riga", ipa: "ˌstreɪt ˈɒn", pos: "adverb", ex: "Go straight on for two minutes.", exUz: "Ikki daqiqa to'g'riga yuring." },
     { en: "turn", uz: "burilmoq", ipa: "tɜːn", pos: "verb", ex: "Turn right after the bridge.", exUz: "Ko'prikdan keyin o'ngga buriling." },
     { en: "cross", uz: "kesib o'tmoq", ipa: "krɒs", pos: "verb", ex: "Cross the road at the traffic lights.", exUz: "Yo'lni svetoforda kesib o'ting." },
@@ -191,7 +191,7 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "\"Ikkinchi o'ngga buriling.\"", opts: ["Take the two right.", "Take the second right.", "Turn the second to right.", "Take second the right."], a: 1 },
     { k: "choice", q: "— Is there a bank near here? — …", opts: ["Yes, there's one opposite the park.", "Yes, it's a bank.", "Yes, there are.", "Yes, I am."], a: 0 },
-    { k: "fill", q: "Go ___ the hospital and turn left.", a: ["past"], uz: "Kasalxonaning yonidan o'tib, chapga buriling." },
+    { k: "fill", q: "Go ___ the hospital and turn left.", a: ["past", "by"], uz: "Kasalxonaning yonidan o'tib, chapga buriling." },
     { k: "fill", q: "Where's the ___ bus stop? (near)", a: ["nearest"], uz: "Eng yaqin avtobus bekati qayerda?" },
     { k: "listen", say: "Turn left at the crossroads.", opts: ["Turn left at the crossroads.", "Turn right at the crossroads.", "Turn left at the traffic lights."], a: 0 },
     { k: "tf", q: "Madinaning xabariga ko'ra, uyning darvozasi yashil.", a: true, why: "*It has a green gate.*" },

@@ -134,7 +134,7 @@ const lesson: Lesson = {
     { en: "miss", uz: "(transportdan) qolib ketmoq; sog'inmoq", ipa: "mɪs", pos: "verb", ex: "I missed the last bus.", exUz: "Oxirgi avtobusdan qolib ketdim." },
     { en: "worried", uz: "xavotirda, tashvishli", ipa: "ˈwʌr.id", pos: "adj", ex: "My mum was worried because I was late.", exUz: "Kechikkanim uchun onam xavotirda edi." },
     { en: "surprised", uz: "hayron, ajablangan", ipa: "səˈpraɪzd", pos: "adj", ex: "I was surprised to see him there.", exUz: "Uni u yerda ko'rib hayron bo'ldim." },
-    { en: "wallet", uz: "hamyon", ipa: "ˈwɒl.ɪt", pos: "noun", ex: "I left my wallet in the taxi.", exUz: "Hamyonimni taksida qoldirdim." },
+    { en: "spices", uz: "ziravorlar", ipa: "spaɪ.sɪz", pos: "noun", ex: "We bought some spices at the bazaar.", exUz: "Bozordan ziravorlar sotib oldik." },
     { en: "remember", uz: "eslamoq, esda tutmoq", ipa: "rɪˈmem.bə", pos: "verb", ex: "I don't remember his name.", exUz: "Uning ismini eslay olmayman." },
     { en: "nobody", uz: "hech kim", ipa: "ˈnəʊ.bə.di", pos: "pronoun", ex: "Nobody saw the accident.", exUz: "Hech kim baxtsiz hodisani ko'rmadi." },
   ],

@@ -61,7 +61,7 @@ const lesson: Lesson = {
             { en: "You should try green tea. It's really good.", uz: "Ko'k choyni sinab ko'ring. Juda yaxshi." },
           ],
         },
-        { t: "tip", tone: "info", md: "**should** — maslahat (\"…gani yaxshi\"). Qat'iy majburiyat uchun **must / have to** ishlatiladi — ularni 10-bo'limda o'rganamiz. Do'stga maslahat berganda **should** — eng to'g'ri tanlov." },
+        { t: "tip", tone: "info", md: "**should** — maslahat (\"…gani yaxshi\"). Qat'iy majburiyat uchun **must / have to** ishlatiladi — ularni Unit 10 da o'rganamiz. Do'stga maslahat berganda **should** — eng to'g'ri tanlov." },
         { t: "check", ex: { k: "fill", q: "I don't ___ you should eat fried food every day.", a: ["think"], uz: "Menimcha, har kuni qovurilgan ovqat yemaganingiz ma'qul." } },
       ],
     },
@@ -157,7 +157,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Siz ko'proq sabzavot yeyishingiz kerak.", words: ["You", "should", "eat", "more", "vegetables."], extra: ["to", "eats"] },
     { k: "order", uz: "Nonushtani tashlab ketmasligingiz kerak.", words: ["You", "shouldn't", "skip", "breakfast."], extra: ["don't", "to"] },
     { k: "translate", uz: "Men nima qilishim kerak? (maslahat so'rab)", a: ["What should I do", "What shall I do"] },
-    { k: "translate", uz: "U (he) ko'proq uxlashi kerak.", a: ["He should sleep more", "He should get more sleep"] },
+    { k: "translate", uz: "U (he) ko'proq uxlashi kerak.", a: ["He should sleep more", "He should get more sleep", "He should sleep a bit more", "He needs to sleep more"] },
     { k: "speak", say: "I think you should drink more water and go to bed earlier.", uz: "Menimcha, ko'proq suv ichib, ertaroq yotishingiz kerak." },
   ],
   quiz: [

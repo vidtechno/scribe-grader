@@ -179,7 +179,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**8:45** = *a quarter to eight*.", a: false, why: "8:45 — to'qqizga chorak kam: **a quarter to nine**." },
     { k: "tf", q: "Jadval haqida gapirganda Present Simple ishlatiladi: **The train leaves at six.**", a: true },
     { k: "order", uz: "Poyezd soat nechada jo'naydi?", words: ["What", "time", "does", "the", "train", "leave?"], extra: ["leaves?", "is"] },
-    { k: "order", uz: "Tushlik tanaffusimiz birdan ikkigacha.", words: ["Our", "lunch", "break", "is", "from", "one", "to", "two"], extra: ["since", "at"], alt: [["Our", "lunch", "break", "is", "from", "one", "until", "two"]] },
+    { k: "order", uz: "Tushlik tanaffusimiz birdan ikkigacha.", words: ["Our", "lunch", "break", "is", "from", "one", "to", "two"], extra: ["since", "at"] },
     { k: "translate", uz: "Do'kon yarim tungacha ochiq.", a: ["The shop is open until midnight.", "The shop is open till midnight.", "The store is open until midnight.", "The store is open till midnight.", "The shop's open until midnight.", "The shop's open till midnight."], why: "**until midnight** — yarim tungacha." },
     { k: "speak", say: "The museum is open from nine to six, but it's closed on Mondays.", uz: "Muzey to'qqizdan oltigacha ochiq, lekin dushanba kunlari yopiq." },
   ],

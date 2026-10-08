@@ -168,7 +168,7 @@ const lesson: Lesson = {
     { k: "match", pairs: [["sweet", "shirin"], ["sour", "nordon"], ["salty", "sho'r"], ["bitter", "taxir"], ["spicy", "achchiq (qalampirli)"]] },
     { k: "order", uz: "Bu olma unisidan ancha shirinroq.", words: ["This", "apple", "is", "much", "sweeter", "than", "that", "one."], extra: ["more", "very"] },
     { k: "order", uz: "Kola sharbatchalik foydali emas.", words: ["Cola", "isn't", "as", "healthy", "as", "juice."], extra: ["than", "healthier"] },
-    { k: "translate", uz: "Akam mendan baland.", a: ["My brother is taller than me", "My brother is taller than I am", "My older brother is taller than me", "My older brother is taller than I am", "My elder brother is taller than me", "My elder brother is taller than I am", "My big brother is taller than me"] },
+    { k: "translate", uz: "Akam mendan baland.", a: ["My brother is taller than me", "My brother is taller than I am", "My older brother is taller than me", "My older brother is taller than I am", "My elder brother is taller than me", "My elder brother is taller than I am", "My big brother is taller than me", "My big brother is taller than I am"] },
     { k: "translate", uz: "Bu qovun eng shirini.", a: ["This melon is the sweetest", "This melon is the sweetest one", "This is the sweetest melon", "It is the sweetest melon", "It's the sweetest melon"] },
     { k: "speak", say: "Home-made bread is much tastier than shop bread.", uz: "Uyda yopilgan non do'kon nonidan ancha mazali." },
   ],
@@ -191,7 +191,7 @@ const lesson: Lesson = {
     "Orttirma: **the best … in** (joy) / **of** (guruh): *the best plov in Tashkent, the busiest day of the week*.",
     "Ta'mlar: **sweet, sour, salty, bitter, spicy**; sifatlar: **juicy, ripe, crispy, soft, tasty**.",
   ],
-  homework: "Ikki joyni qiyoslang (ikki kafe, bozor va supermarket yoki ikki taom) — 8 ta gap yozing: kamida 2 tasida **much / a bit + -er**, 2 tasida **as … as / not as … as**, 2 tasida **the best / the most … in**. Bu bilan 8-bo'lim tugadi — 1-darsdan boshlab barcha xulosalarni bir marta ko'zdan kechiring!",
+  homework: "Ikki joyni qiyoslang (ikki kafe, bozor va supermarket yoki ikki taom) — 8 ta gap yozing: kamida 2 tasida **much / a bit + -er**, 2 tasida **as … as / not as … as**, 2 tasida **the best / the most … in**. Bu bilan 8-unit tugadi — 1-darsdan boshlab barcha xulosalarni bir marta ko'zdan kechiring!",
 };
 
 export default lesson;

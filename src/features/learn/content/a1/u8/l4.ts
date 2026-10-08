@@ -70,7 +70,7 @@ const lesson: Lesson = {
           ],
         },
         { t: "tip", tone: "warn", md: "Bu faqat **ovqat-ichimlik buyurtmasi**da ishlaydi. Do'konda yoki umumiy gapda: *I drink a lot of coffee* (*a lot of coffees* ❌), *We need some water*." },
-        { t: "check", ex: { k: "fill", q: "Hi! Two ___ and a cola, please.", a: ["coffees", "teas", "waters", "juices"], uz: "Salom! Ikki qahva va bitta kola, iltimos.", why: "Kafeda: **two coffees** = two cups of coffee." } },
+        { t: "check", ex: { k: "fill", q: "Hi! Two ___ and a cola, please.", a: ["coffees", "teas", "waters", "juices", "lemonades"], uz: "Salom! Ikki qahva va bitta kola, iltimos.", why: "Kafeda: **two coffees** = two cups of coffee." } },
       ],
     },
     {
