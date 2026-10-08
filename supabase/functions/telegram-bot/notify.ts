@@ -1,7 +1,7 @@
 // Delivers queued messages from telegram_outbox: results, referral and plan updates, reminders and broadcasts.
 import { esc, SITE_URL, sleep, tg, TelegramError, truncate } from "../_shared/telegram.ts";
 import type { Db } from "../_shared/telegram-accounts.ts";
-import { app, band, bar, cb, daysUntil, fmtDate, hint, type InlineKeyboard, page, PLAN_LABEL, quote, title, tzDate } from "./ui.ts";
+import { app, band, bar, cb, fmtDate, hint, type InlineKeyboard, page, PLAN_LABEL, quote, title, tzDate } from "./ui.ts";
 import { loadOverview, scoreStats, streakDays } from "./data.ts";
 import { resultCard } from "./results.ts";
 import { functionUrl } from "./setup.ts";
@@ -106,44 +106,8 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
         keyboard: [[cb("📊 Natijalarim", "n:u:stats"), cb("🎯 Maqsad", "n:u:goal")]],
       };
     }
-    case "daily_test_reminder": {
-      const today = tzDate();
-      if (p.date && p.date !== today) return null; // stale reminder from another day
-      if (!userId) {
-        return {
-          text: [
-            title("📝", "Har kuni 5 daqiqa — IELTS grammatikasi uchun"),
-            "\nScorify har kuni 10 ta savollik mini-test tayyorlaydi — sizning xatolaringiz asosida.",
-            hint("Hisob ochish 10 soniya oladi, birinchi testni esa bugunoq ishlashingiz mumkin."),
-          ].join("\n"),
-          keyboard: [[cb("🚀 Boshlash", "n:u:start")], [cb("🧠 Hozircha so'z testi", "n:q:n")]],
-        };
-      }
-      const { data: done } = await db.from("grammar_tests").select("id").eq("user_id", userId).eq("test_date", today)
-        .not("completed_at", "is", null).maybeSingle();
-      if (done) return null; // finished it after the reminder was queued
-      const o = await loadOverview(db, userId);
-      const streak = streakDays([...o.essays, ...o.speaking]);
-      const headlines = [
-        title("📝", "Bugungi grammatika testi hali ishlanmadi"),
-        title("⏳", "Bugungi testingiz sizni kutmoqda"),
-        title("🎯", "5 daqiqa — va bugungi mashq bajarildi"),
-      ];
-      const day = Number(today.replaceAll("-", ""));
-      const extras = [
-        streak > 0 ? `🔥 ${streak} kunlik streakingizni uzmang!` : "",
-        o.goals.exam_date && daysUntil(o.goals.exam_date) >= 0 ? `🗓 Imtihongacha <b>${daysUntil(o.goals.exam_date)}</b> kun qoldi.` : "",
-      ].filter(Boolean);
-      return {
-        text: [
-          headlines[day % headlines.length],
-          "\n10 ta savol — sizning xatolaringiz asosida tuzilgan.",
-          hint("Har kuni ozgina mashq — imtihonda katta farq."),
-          extras.length ? "\n" + quote(extras.join("\n")) : "",
-        ].filter(Boolean).join("\n"),
-        keyboard: [[app("📝 Testni boshlash", "/grammar-test")], [cb("🧠 So'z testi", "n:q:n")]],
-      };
-    }
+    case "daily_test_reminder":
+      return null; // this reminder was removed; rows queued earlier are skipped
     case "learn_reminder": {
       if (!userId || (p.date && p.date !== tzDate())) return null;
       const { data } = await db.rpc("telegram_learning_summary", { _user: userId });

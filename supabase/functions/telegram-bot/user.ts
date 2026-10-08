@@ -242,7 +242,7 @@ export async function showDailyTest(ctx: Ctx) {
       : "⏳ Bugungi test hali ishlanmadi — atigi 5 daqiqa.",
     kv("🔥 Ketma-ket kunlar", String(streak)),
     `\n${quote(done ? "Zo'r! Ertaga yangi savollar tayyor bo'ladi. Hozircha so'z testi bilan lug'atni mustahkamlang 🧠"
-      : "Har kuni ozgina mashq — imtihonda katta farq. Ishlamasangiz, 18:00 dan keyin eslatib qo'yaman ⏰")}`,
+      : "Har kuni ozgina mashq — imtihonda katta farq. Vaqt topilganda 5 daqiqa ajrating ⏰")}`,
   ].join("\n"), [
     [app(done ? "📋 Natijani ko'rish" : "📝 Testni boshlash", "/grammar-test")],
     [cb("🧠 So'z testi", "q:n")],
@@ -760,7 +760,7 @@ export async function showHelp(ctx: Ctx) {
     title("❓", "Scorify bot qanday ishlaydi?") + "\n",
     "🎓 <b>Ingliz tili darslari</b> — noldan boshlab: tushuntirish, talaffuz, mashq va testlar.",
     "✍️ <b>Writing</b> va 🎤 <b>Speaking</b> — ilovada topshirasiz, natija shu chatga keladi.",
-    "📝 <b>Kunlik test</b> — har kuni 10 ta grammatika savoli; ishlamasangiz, 18:00 dan keyin eslatib qo'yaman.",
+    "📝 <b>Kunlik test</b> — har kuni 10 ta grammatika savoli, xatolaringiz asosida.",
     "🧠 <b>So'z testi</b> — IELTS lug'atini o'yin tarzida mustahkamlang.",
     "📖 <b>Foydali maqolalar</b> — Writing va Speaking bo'yicha amaliy qo'llanmalar.",
     "👤 <b>Kabinet</b> — natijalar, maqsad, tarif, reyting va sozlamalar.\n",
