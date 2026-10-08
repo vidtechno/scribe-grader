@@ -116,15 +116,20 @@ create or replace function public.learning_praise_enqueue()
 returns trigger language plpgsql security definer set search_path=public as $$
 declare n int;
 begin
-  if new.day = public.learning_today() and coalesce(new.xp, 0) > 0 and (tg_op = 'INSERT' or coalesce(old.xp, 0) = 0) then
-    insert into public.telegram_outbox(telegram_id, user_id, kind, payload, send_after)
-    select t.telegram_id, t.user_id, 'learn_praise', jsonb_build_object('date', new.day, 'v', floor(random() * 1000)::int),
-      now() + interval '15 seconds'
-    from public.telegram_accounts t
-    where t.user_id = new.user_id and not t.is_blocked and not t.is_banned and t.notify_reminders and t.reminder_mode <> 'off';
-    get diagnostics n = row_count;
-    if n > 0 then perform public.telegram_kick(); end if;
-  end if;
+  -- A failed message must never cost the learner their progress.
+  begin
+    if new.day = public.learning_today() and coalesce(new.xp, 0) > 0 and (tg_op = 'INSERT' or coalesce(old.xp, 0) = 0) then
+      insert into public.telegram_outbox(telegram_id, user_id, kind, payload, send_after)
+      select t.telegram_id, t.user_id, 'learn_praise', jsonb_build_object('date', new.day, 'v', floor(random() * 1000)::int),
+        now() + interval '15 seconds'
+      from public.telegram_accounts t
+      where t.user_id = new.user_id and not t.is_blocked and not t.is_banned and t.notify_reminders and t.reminder_mode <> 'off';
+      get diagnostics n = row_count;
+      if n > 0 then perform public.telegram_kick(); end if;
+    end if;
+  exception when others then
+    raise warning 'learning_praise_enqueue skipped: %', sqlerrm;
+  end;
   return new;
 end; $$;
 
