@@ -53,7 +53,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["I've got a headache.", "She's got a cold.", "He has a temperature."] },
           bad: { title: "Xato", items: ["I've got headache.", "She is cold. (shamollagan ma'nosida)", "He has temperature."] },
         },
-        { t: "tip", tone: "warn", md: "**She's cold** = \"Unga sovuq\" (L1 dagi kabi). **She's got a cold** = \"U shamollagan\". Bitta **a** ma'noni butunlay o'zgartiradi!" },
+        { t: "tip", tone: "warn", md: "**She's cold** = \"Unga sovuq\" (1-darsdagi kabi). **She's got a cold** = \"U shamollagan\". Bitta **a** ma'noni butunlay o'zgartiradi!" },
         { t: "check", ex: { k: "fill", q: "I can't talk much. I've got a sore ___.", a: ["throat"], uz: "Ko'p gapira olmayman. Tomog'im og'riyapti.", why: "**a sore throat** — tomoq og'rig'i." } },
       ],
     },
@@ -98,7 +98,7 @@ const lesson: Lesson = {
     {
       title: "Maslahat berish: You should… / Why don't you…?",
       blocks: [
-        { t: "p", md: "**should** ni u8 da o'rgandingiz. Kasal odamga maslahat berishda u juda foydali. Yana bir tabiiy shakl — **Why don't you + V1…?** (\"…sangiz-chi?\"):" },
+        { t: "p", md: "**should** ni 8-unitda o'rgandingiz. Kasal odamga maslahat berishda u juda foydali. Yana bir tabiiy shakl — **Why don't you + V1…?** (\"…sangiz-chi?\"):" },
         {
           t: "table", head: ["Muammo", "Maslahat"], speak: [0, 1],
           rows: [
@@ -161,17 +161,17 @@ const lesson: Lesson = {
   practice: [
     { k: "match", pairs: [["headache", "bosh og'rig'i"], ["toothache", "tish og'rig'i"], ["stomachache", "qorin og'rig'i"], ["sore throat", "tomoq og'rig'i"], ["cough", "yo'tal"]] },
     { k: "match", pairs: [["I've got a temperature.", "Isitmam bor."], ["I've got a cold.", "Shamollaganman."], ["I'm cold.", "Menga sovuq."], ["I feel sick.", "Ko'nglim aynayapti."]] },
-    { k: "listen", say: "My stomach hurts.", opts: ["My stomach hurts.", "My back hurts.", "My stomach hurt."], a: 0 },
+    { k: "listen", say: "My stomach hurts.", opts: ["My stomach hurts.", "My back hurts.", "My head hurts."], a: 0 },
     { k: "listen", say: "You should see a doctor.", opts: ["You should see a doctor.", "You shouldn't see a doctor.", "You should be a doctor."], a: 0 },
     { k: "choice", q: "\"Shamollaganman.\"", opts: ["I'm cold.", "I've got a cold.", "I've got cold.", "I have a cool."], a: 1, why: "**a cold** — shamollash. *I'm cold* — menga sovuq." },
     { k: "choice", q: "A: *I've got a sore throat.* B: *___*", opts: ["Why don't you drink hot tea with lemon?", "Why you don't drink hot tea?", "You should to drink hot tea.", "Because you drink hot tea."], a: 0, why: "Maslahat: **Why don't you + V1…?**" },
     { k: "choice", q: "Qaysi so'zda *ch* \"k\" deb o'qiladi?", opts: ["chair", "stomach", "teacher", "lunch"], a: 1, why: "**stomach** = \"stamək\"." },
     { k: "fill", q: "My feet ___ after the long walk.", a: ["hurt", "ache"], uz: "Uzoq yurishdan keyin oyoqlarim og'riyapti.", why: "**feet** — ko'plik → **hurt** (-s siz)." },
     { k: "fill", q: "What's the ___? You look terrible.", a: ["matter", "problem"], uz: "Nima bo'ldi? Rangingiz juda yomon.", why: "**What's the matter?**" },
-    { k: "fill", q: "I'm going to the ___ to buy some medicine.", a: ["pharmacy", "chemist's", "chemist", "drugstore"], uz: "Dori olgani dorixonaga ketyapman.", why: "**pharmacy** — dorixona (Britaniyada *chemist's* ham)." },
+    { k: "fill", q: "I'm going to the ___ to buy some medicine.", a: ["pharmacy", "chemist's", "chemists", "chemist", "drugstore"], uz: "Dori olgani dorixonaga ketyapman.", why: "**pharmacy** — dorixona (Britaniyada *chemist's* ham)." },
     { k: "tf", q: "**Why don't you go to bed?** — bu maslahat, javob: *That's a good idea.*", a: true, why: "**Why don't you…?** — maslahat." },
     { k: "tf", q: "Malika shanba kuni kinoga boradi.", a: false, why: "Malika: *Can we go to the cinema **next week**?*" },
-    { k: "order", uz: "Boshim og'riyapti va isitmam bor.", words: ["I've", "got", "a", "headache", "and", "a", "temperature."], extra: ["am", "hurts"] },
+    { k: "order", uz: "Boshim og'riyapti va isitmam bor.", words: ["I've", "got", "a", "headache", "and", "a", "temperature."], extra: ["am", "hurts"], alt: [["I've", "got", "a", "temperature", "and", "a", "headache."]] },
     { k: "order", uz: "Shifokorga borishingiz kerak.", words: ["You", "should", "see", "a", "doctor."], extra: ["to", "seeing"], alt: [["You", "should", "see", "a", "doctor"]] },
     { k: "translate", uz: "Belim og'riyapti.", a: ["My back hurts", "My back is hurting", "My back aches", "My back is sore", "I've got backache", "I have backache", "I've got a backache", "I have a backache", "I have got backache", "I have got a backache"] },
     { k: "translate", uz: "Tezroq tuzalib keting!", a: ["Get well soon", "Get better soon", "I hope you feel better soon", "I hope you get better soon", "I hope you get well soon", "Feel better soon", "Hope you feel better soon"] },
