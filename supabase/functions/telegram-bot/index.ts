@@ -44,6 +44,7 @@ const MENU: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   [BTN.quiz]: user.newQuiz,
   [BTN.articles]: user.showArticles,
   [BTN.cabinet]: user.showCabinet,
+  [BTN.referral]: user.showInvite,
   [BTN.start]: (c) => user.showStart(c),
   [BTN.help]: user.showHelp,
 };
@@ -67,6 +68,7 @@ const LEGACY: Record<string, (ctx: Ctx) => Promise<unknown>> = {
 const COMMANDS: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   menu: (c) => user.showMenu(c),
   learn: user.showLearn,
+  referral: user.showInvite,
   writing: user.showWriting,
   speaking: user.showSpeaking,
   test: user.showDailyTest,
