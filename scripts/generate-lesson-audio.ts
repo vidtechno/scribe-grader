@@ -2,21 +2,20 @@
  * Pre-records every English text of the course as a small mp3 in public/audio/<key>.mp3 plus a manifest.
  * The app plays these files first, so sound works on every phone (no speech engine, no third-party service needed).
  *
- *   npx tsx scripts/generate-lesson-audio.ts                  # units in course.ts, voice: espeak-ng + mbrola (apt)
- *   npx tsx scripts/generate-lesson-audio.ts --all            # also units that are written but not released yet
+ *   npx tsx scripts/generate-lesson-audio.ts                  # every written lesson, voice: espeak-ng + mbrola (apt)
  *   npx tsx scripts/generate-lesson-audio.ts --engine edge    # neural voice (pip install edge-tts; needs internet)
  *   npx tsx scripts/generate-lesson-audio.ts --force          # re-record existing files
  *
  * Needs ffmpeg. Existing files are kept, so only new or changed texts are recorded.
  */
 import { execFile } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
 import { lessonAudioTexts } from '../src/features/learn/audio-plan';
 import { audioKey } from '../src/features/learn/audio-key';
-import { COURSE_UNITS, loadUnit } from '../src/features/learn/course';
+import { WRITTEN_UNITS, loadUnit } from '../src/features/learn/course';
 import type { Lesson } from '../src/features/learn/types';
 
 const run = promisify(execFile);
@@ -67,19 +66,10 @@ async function synthesize(text: string, mp3: string, tmp: string) {
   await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', raw, '-ac', '1', '-ar', '22050', '-codec:a', 'libmp3lame', '-b:a', '32k', mp3]);
 }
 
+/** Every written lesson, released or not, so a level's audio is ready before it opens. */
 async function allLessons(): Promise<Lesson[]> {
   const lessons: Lesson[] = [];
-  if (flag('all')) {
-    const root = join(process.cwd(), 'src/features/learn/content');
-    for (const level of readdirSync(root)) {
-      for (const unit of readdirSync(join(root, level)).filter((d) => statSync(join(root, level, d)).isDirectory())) {
-        const mod = await import(`../src/features/learn/content/${level}/${unit}/index`) as { lessons: Lesson[] };
-        lessons.push(...mod.lessons);
-      }
-    }
-  } else {
-    for (const unit of COURSE_UNITS) lessons.push(...await loadUnit(unit.id));
-  }
+  for (const unit of WRITTEN_UNITS) lessons.push(...await loadUnit(unit.id));
   return lessons;
 }
 

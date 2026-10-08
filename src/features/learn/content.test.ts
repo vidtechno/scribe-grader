@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { COURSE_UNITS } from './course';
+import { WRITTEN_UNITS } from './course';
 import type { Exercise, Lesson } from './types';
 
 // Validates every lesson of the course. Run one unit with: UNIT=u2 npx vitest run src/features/learn
 const only = process.env.UNIT;
-const units = COURSE_UNITS.filter((u) => !only || u.id === only);
+const units = WRITTEN_UNITS.filter((u) => !only || u.id === only);
 
 function exerciseProblems(ex: Exercise, where: string): string[] {
   const p: string[] = [];

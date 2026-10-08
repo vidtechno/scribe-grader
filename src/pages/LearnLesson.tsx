@@ -61,7 +61,9 @@ export default function LearnLesson() {
     return <Centered><p className="mb-4 max-w-sm text-center">Bu dars hali yopiq. Avvalgi darslarni (va bosqich testini) tugating — tizim sizni bosqichma-bosqich olib boradi.</p><Link to="/learn"><Button>Yo'l xaritasiga qaytish</Button></Link></Centered>;
   }
 
-  const { lesson, previous } = content;
+  const { lesson } = content;
+  // A learner who started at a higher level has not taken the lessons of the levels below: no review of those.
+  const previous = content.previous && map.lessonState.get(content.previous.id) !== 'open' ? content.previous : null;
   const unit = COURSE_UNITS.find((u) => u.lessons.some((l) => l.id === id))!;
   const index = ALL_LESSONS.findIndex((l) => l.id === id);
   const next = ALL_LESSONS[index + 1] ?? null;

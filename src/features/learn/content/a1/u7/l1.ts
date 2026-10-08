@@ -163,7 +163,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Opam do'konda sotuvchi bo'lib ishlaydi.", words: ["My", "sister", "works", "as", "a", "shop", "assistant"], extra: ["like", "work"] },
     { k: "order", uz: "U qayerda ishlaydi?", words: ["Where", "does", "he", "work?"], extra: ["works?", "is"] },
     { k: "translate", uz: "Men oshpazman. Restoranda ishlayman.", a: ["I'm a chef. I work in a restaurant.", "I'm a chef and I work in a restaurant.", "I'm a chef. I work at a restaurant.", "I'm a chef and I work at a restaurant.", "I'm a cook. I work in a restaurant.", "I'm a cook and I work in a restaurant.", "I'm a cook. I work at a restaurant.", "I'm a cook and I work at a restaurant.", "I am a chef. I work in a restaurant.", "I am a chef and I work in a restaurant.", "I am a chef. I work at a restaurant.", "I am a chef and I work at a restaurant.", "I am a cook. I work in a restaurant.", "I am a cook and I work in a restaurant.", "I am a cook. I work at a restaurant.", "I am a cook and I work at a restaurant."], why: "Kasb oldida **a**: *a chef*; bino → **in a restaurant**." },
-    { k: "translate", uz: "U (she) forma kiyadi.", a: ["She wears a uniform.", "She wears uniform."], why: "**she** → fe'l + **s**: *wears*." },
+    { k: "translate", uz: "U (she) forma kiyadi.", a: ["She wears a uniform.", "She is wearing a uniform."], why: "**she** → fe'l + **s**: *wears*." },
     { k: "speak", say: "I'm an engineer. I work for a car company.", uz: "Men muhandisman. Avtomobil kompaniyasida ishlayman." },
   ],
   quiz: [
