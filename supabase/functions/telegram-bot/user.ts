@@ -606,7 +606,7 @@ export async function showInvite(ctx: Ctx) {
     r.pending_withdrawal ? `\n⏳ So'rov yuborilgan: <b>${som(r.pending_withdrawal.amount)}</b> — admin tasdiqlashini kuting.` : "",
     !can && !r.pending_withdrawal ? hint(`Yechib olish uchun yana ${som(Math.max(0, r.min_withdraw - r.balance))} kerak.`) : "",
   ].filter((x) => x !== "").join("\n");
-  const share = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("Ingliz tilini noldan o'rganing — Scorify'da 7 kun bepul 🚀")}`;
+  const share = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("Ingliz tilini noldan o'rganing: har kuni bor-yo'g'i 10 daqiqa — darslar, so'zlar va talaffuz. Keling, birga boshlaymiz! 🚀")}`;
   const keyboard: InlineKeyboard = [[link("📤 Do'stlarga yuborish", share)]];
   if (can) keyboard.push([cb(`💸 Yechib olish (${som(r.balance)})`, "rf:w")]);
   keyboard.push([cb("🔄 Yangilash", "u:invite"), cb("⬅️ Kabinet", "u:cab")]);
