@@ -284,7 +284,7 @@ export async function showLearn(ctx: Ctx) {
         "✍️ mashqlar: tinglash, gap tuzish, tarjima, to'ldirish",
         "🏆 yakuniy test; har bosqich oxirida imtihon",
       ].join("\n")),
-      s.access.reason === "paid" ? hint("Kurs tarifingizga kiritilgan ✅") : hint("Free tarifda 7 kun bepul, keyin Scorify Go yoki Plus bilan davom etasiz."),
+      s.access.reason === "paid" ? hint("Kurs tarifingizga kiritilgan ✅") : hint("Free tarifda 7 kun bepul, keyin Learn yoki IELTS bilan davom etasiz."),
     ].join("\n"), [[app("🚀 Kursni boshlash", "/learn")]]);
     return;
   }
@@ -310,7 +310,7 @@ export async function showLearn(ctx: Ctx) {
     kv("🏆 Bosqich testlari", `${Math.min(s.tests_passed ?? 0, size.units)}/${size.units}`) + " · " + kv("🧠 So'zlar", String(done * 10)),
     s.next_lesson_title ? `\n▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>` : "",
     trialLeft !== null ? `\n${hint(`⏳ Bepul davr: ${trialLeft} kun qoldi`)}` : "",
-    !s.access.allowed ? `\n${quote("🔒 Bepul 7 kun tugadi. Natijalaringiz saqlangan — davom etish uchun Scorify Go yoki Plus tarifini oling.")}` : "",
+    !s.access.allowed ? `\n${quote("🔒 Bepul 7 kun tugadi. Natijalaringiz saqlangan — davom etish uchun Learn yoki IELTS tarifini oling.")}` : "",
   ].filter((x) => x !== "");
   await reply(ctx, lines.join("\n"), s.access.allowed
     ? [[app("▶️ Darsni davom ettirish", "/learn")]]
@@ -499,14 +499,15 @@ export async function showPlan(ctx: Ctx) {
     usage("🧪 Mock test", sub?.mock_test_used, sub?.mock_test_limit),
     "",
     quote([
-      "<b>Scorify Go</b> — $9 / 79 000 so'm oyiga",
-      hint("20 Writing · 15 Speaking · 3 Mock test · 🎓 ingliz tili kursi"),
+      "<b>Learn</b> — 49 000 so'm oyiga",
+      hint("Barcha ingliz tili darslari · adaptiv o'rganish · so'z va grammatika takrori · XP va streak"),
       "",
-      "<b>Scorify Plus</b> — $13 / 129 000 so'm oyiga",
-      hint("50 Writing · 40 Speaking · 8 Mock test · 🎓 ingliz tili kursi"),
+      "<b>IELTS</b> — 129 000 so'm oyiga",
+      hint("Learn'dagi hammasi + 50 Writing · 30 Speaking · AI baholash va tahlil"),
       "",
+      "🎁 Yangi hisob: <b>7 kun Learn bepul</b> + 3 Writing va 2 Speaking. IELTS tarifida bepul davr yo'q.",
       "🎉 <b>6 oyga birdan to'lasangiz −10%</b>",
-      hint("Go: 426 600 so'm · Plus: 696 600 so'm (limitlar har 30 kunda yangilanadi)"),
+      hint("Learn: 264 600 so'm · IELTS: 696 600 so'm (limitlar har 30 kunda yangilanadi)"),
     ].join("\n")),
     hint("💳 To'lov Telegram orqali. Tasdiqlangach tarif yoqiladi va shu yerga xabar keladi."),
   ].join("\n");
@@ -514,8 +515,8 @@ export async function showPlan(ctx: Ctx) {
   const buy = (name: string, period: string, price: string) => link(`💳 ${name} · ${period} — ${price}`,
     `https://t.me/${PAYMENTS_USERNAME}?text=${encodeURIComponent(`Salom! Men "${name}" tarifini ${period} uchun sotib olmoqchiman: ${price}.${id}`)}`);
   await reply(ctx, text, [
-    [buy("Scorify Go", "1 oy", "79 000 so'm"), buy("Scorify Go", "6 oy", "426 600 so'm")],
-    [buy("Scorify Plus", "1 oy", "129 000 so'm"), buy("Scorify Plus", "6 oy", "696 600 so'm")],
+    [buy("Learn", "1 oy", "49 000 so'm"), buy("Learn", "6 oy", "264 600 so'm")],
+    [buy("IELTS", "1 oy", "129 000 so'm"), buy("IELTS", "6 oy", "696 600 so'm")],
     [cb("🎁 Bepul olish — do'stlarni taklif qiling", "u:invite")],
     [cb("⬅️ Kabinet", "u:cab")],
   ]);
@@ -562,12 +563,12 @@ export async function showInvite(ctx: Ctx) {
   const botRef = await botLink(`ref_${r.code}`);
   const text = [
     title("🎁", "Do'stlarni taklif qiling — bepul tarif oling") + "\n",
-    "👥 10 ta do'st → <b>1 oy Scorify Go</b>",
-    "👥 20 ta do'st → <b>1 oy Scorify Plus</b> " + hint("(avtomatik)") + "\n",
+    "👥 10 ta do'st → <b>1 oy Learn</b>",
+    "👥 20 ta do'st → <b>1 oy IELTS</b> " + hint("(avtomatik)") + "\n",
     `${bar(r.counted, 20, 10)}  <b>${r.counted}</b>/20`,
     hint(`Jami taklif qilinganlar: ${r.total_invited}`),
-    r.go_claimed_at ? "✅ Go mukofoti faollashtirilgan" : "",
-    r.plus_granted_at ? "✅ Plus mukofoti berilgan" : "",
+    r.go_claimed_at ? "✅ Learn mukofoti faollashtirilgan" : "",
+    r.plus_granted_at ? "✅ IELTS mukofoti berilgan" : "",
     r.reward_expires_at ? hint(`Mukofot muddati: ${fmtDate(r.reward_expires_at, true)}`) : "",
     "\n🔗 <b>Sayt havolasi</b>",
     `<code>${esc(siteLink)}</code>`,
@@ -577,7 +578,7 @@ export async function showInvite(ctx: Ctx) {
   ].filter(Boolean).join("\n");
   const share = `https://t.me/share/url?url=${encodeURIComponent(botRef)}&text=${encodeURIComponent("IELTS Writing va Speaking'ni sun'iy intellekt bilan bepul baholang — Scorify 🚀")}`;
   const keyboard: InlineKeyboard = [[link("📤 Do'stlarga yuborish", share)]];
-  if (r.can_claim_go) keyboard.unshift([cb("🎉 1 oy Go'ni faollashtirish", "rf:claim")]);
+  if (r.can_claim_go) keyboard.unshift([cb("🎉 1 oy Learn'ni faollashtirish", "rf:claim")]);
   keyboard.push([cb("⬅️ Kabinet", "u:cab")]);
   await reply(ctx, text, keyboard);
 }
@@ -588,7 +589,7 @@ export async function claimGo(ctx: Ctx) {
   const { data, error } = await ctx.db.rpc("internal_claim_referral_reward", { _me: userId });
   if (error) return reply(ctx, `⚠️ ${esc(error.message)}`, [[cb("⬅️ Orqaga", "u:invite")]]);
   const exp = (data as { expires_at?: string })?.expires_at;
-  await reply(ctx, `${title("🎉", "Scorify Go faollashtirildi!")}${exp ? `\n${hint(`${fmtDate(exp, true)} gacha amal qiladi.`)}` : ""}`,
+  await reply(ctx, `${title("🎉", "Learn faollashtirildi!")}${exp ? `\n${hint(`${fmtDate(exp, true)} gacha amal qiladi.`)}` : ""}`,
     [[cb("💎 Tarifim", "u:plan")]]);
 }
 

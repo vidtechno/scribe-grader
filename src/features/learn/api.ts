@@ -158,7 +158,7 @@ export function trialDaysLeft(access: LearningAccess | undefined): number | null
 
 export function learningErrorMessage(e: unknown): string {
   const msg = e instanceof Error ? e.message : String(e);
-  if (msg.includes('learning_locked')) return "Bepul 7 kunlik muddat tugadi. Davom etish uchun Scorify Go yoki Plus tarifini oling.";
+  if (msg.includes('learning_locked')) return "Bepul 7 kunlik muddat tugadi. Davom etish uchun Learn yoki IELTS tarifini oling.";
   if (msg.includes('learning_not_started')) return "Avval darajangizni tanlang.";
   return "Saqlab bo'lmadi. Internetni tekshirib, qayta urinib ko'ring.";
 }

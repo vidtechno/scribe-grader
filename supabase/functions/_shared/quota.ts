@@ -66,12 +66,13 @@ const LABELS: Record<QuotaKind, string> = {
 };
 
 export function quotaErrorMessage(result: QuotaResult, kind: QuotaKind): string {
+  if (result.reason === "trial_expired") return "Your 7-day free trial is over. Choose the IELTS plan to keep using Writing and Speaking.";
   if (result.reason === "limit_reached") {
     return result.plan === "free"
-      ? `You have used your free ${LABELS[kind]}. Upgrade to Scorify Go or Plus to keep practising.`
+      ? `You have used your free ${LABELS[kind]}. Choose the IELTS plan to keep practising.`
       : result.plan === "go"
-        ? `You've used all ${result.limit} ${LABELS[kind]} in your Scorify Go plan. Upgrade to Scorify Plus for a higher limit.`
-        : `You've used all ${result.limit} ${LABELS[kind]} in your Scorify Plus plan. Your allowance resets on renewal.`;
+        ? `${LABELS[kind]} are part of the IELTS plan. Switch from Learn to IELTS to use them.`
+        : `You've used all ${result.limit} ${LABELS[kind]} in your IELTS plan. Your allowance resets on renewal.`;
   }
   if (result.reason === "no_subscription") return "No active plan found for this account.";
   return "Could not verify your plan allowance. Please try again.";

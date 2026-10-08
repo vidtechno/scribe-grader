@@ -16,7 +16,7 @@ const AUDIENCES: Record<string, string> = {
   linked: "Hisobi ulanganlar",
   unlinked: "Hisobi ulanmaganlar",
   free: "Free tarifdagilar",
-  paid: "Go / Plus tarifdagilar",
+  paid: "Learn / IELTS tarifdagilar",
 };
 
 const HOME: InlineKeyboard = [[cb("⬅️ Admin panel", "ad:home")]];
@@ -47,7 +47,7 @@ async function showStats(ctx: Ctx) {
     `Speaking: bugun ${s.speaking_today} · 7 kun ${s.speaking_7d}`,
     `Mock test (7 kun): ${s.mock_7d}`,
     "\n💎 <b>Faol obunalar</b>",
-    `Go: <b>${s.paid_go}</b> · Plus: <b>${s.paid_plus}</b>`,
+    `Learn: <b>${s.paid_go}</b> · IELTS: <b>${s.paid_plus}</b>`,
     "\n🧠 <b>AI xarajati</b>",
     `24 soat: $${s.ai_cost_today} · 7 kun: $${s.ai_cost_7d} · 30 kun: $${s.ai_cost_30d}`,
     "\n📬 <b>Bildirishnomalar</b>",
@@ -140,8 +140,8 @@ export async function userCard(ctx: Ctx, userId: string) {
     `🧪 Mock: ${u.mocks} ta`,
   ].join("\n");
   const keyboard: InlineKeyboard = [
-    [cb("Go +30 kun", `ad:p:go:${userId}`), cb("Plus +30 kun", `ad:p:plus:${userId}`)],
-    [cb("Go +6 oy", `ad:p:go180:${userId}`), cb("Plus +6 oy", `ad:p:plus180:${userId}`)],
+    [cb("Learn +30 kun", `ad:p:go:${userId}`), cb("IELTS +30 kun", `ad:p:plus:${userId}`)],
+    [cb("Learn +6 oy", `ad:p:go180:${userId}`), cb("IELTS +6 oy", `ad:p:plus180:${userId}`)],
     [cb("⬇️ Free'ga o'tkazish", `ad:p:free:${userId}`)],
   ];
   if (u.telegram_id) {

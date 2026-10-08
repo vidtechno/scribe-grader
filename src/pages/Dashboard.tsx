@@ -152,7 +152,7 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
-              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Upgrade from $9/month: 20 Writing and 15 Speaking evaluations plus the full English course.</p>}
+              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Learn — 49 000 so'm/month: the full English course. IELTS — 129 000 so'm/month: Learn plus 50 Writing and 30 Speaking evaluations.</p>}
             </section>
             <ReferralBanner />
           </aside>

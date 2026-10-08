@@ -66,10 +66,10 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
         <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary text-xs font-semibold px-3 py-1 mb-4"><GraduationCap className="h-4 w-4" />Yangi: ingliz tili kursi</span>
         <h1 className="text-3xl sm:text-4xl font-extrabold mb-3">Ingliz tilini <span className="gradient-text">noldan</span> o'rganing</h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Har bir dars: mavzuni sodda tushuntirish, talaffuz, 10 ta yangi so'z, mashqlar va test. Har bosqich oxirida imtihon —
+          Har bir dars: mavzuni sodda tushuntirish, talaffuz, yangi so'zlar (5–7 ta, natijangizga qarab), mashqlar va test. Eski so'zlar va xatolar esa o'z vaqtida qaytib turadi. Har bosqich oxirida imtihon —
           bilmasdan oldinga o'tib ketmaysiz.
         </p>
-        <p className="text-sm mt-3 font-medium">{paid ? 'Kurs tarifingizga kiritilgan.' : `Free tarifda ${TRIAL_DAYS} kun bepul, keyin Scorify Go yoki Plus.`}</p>
+        <p className="text-sm mt-3 font-medium">{paid ? 'Kurs tarifingizga kiritilgan.' : `Free tarifda ${TRIAL_DAYS} kun bepul, keyin Learn yoki IELTS.`}</p>
       </motion.div>
       <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Darajangizni tanlang</h2>
       <div className="grid sm:grid-cols-2 gap-3">
@@ -138,7 +138,7 @@ function CourseHome({ state }: { state: LearningState }) {
       {daysLeft !== null && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 mb-5 text-sm flex items-center gap-3">
           <Clock className="h-5 w-5 text-amber-600 shrink-0" />
-          <span className="flex-1">Bepul davr: <b>{daysLeft} kun</b> qoldi. Undan keyin kurs Scorify Go va Plus tariflarida davom etadi.</span>
+          <span className="flex-1">Bepul davr: <b>{daysLeft} kun</b> qoldi. Undan keyin kurs Learn va IELTS tariflarida davom etadi.</span>
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}

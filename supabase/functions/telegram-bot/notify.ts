@@ -32,12 +32,12 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       const { data } = await db.rpc("telegram_referral_summary", { _user: userId });
       const r = (data ?? {}) as { counted?: number; can_claim_go?: boolean };
       const n = r.counted ?? 0;
-      const next = n < 10 ? `Go mukofotigacha yana <b>${10 - n}</b> ta do'st` : n < 20 ? `Plus mukofotigacha yana <b>${20 - n}</b> ta do'st` : "Siz maksimal mukofotni oldingiz! 🏆";
+      const next = n < 10 ? `Learn mukofotigacha yana <b>${10 - n}</b> ta do'st` : n < 20 ? `IELTS mukofotigacha yana <b>${20 - n}</b> ta do'st` : "Siz maksimal mukofotni oldingiz! 🏆";
       return {
         text: p.counted
           ? [title("🎉", "Yangi do'stingiz qo'shildi!") + "\n", `${bar(n, 20, 10)}  <b>${n}</b>/20`, hint(next)].join("\n")
           : `${title("👋", "Havolangiz orqali yangi do'st keldi")}\n${hint("Bu davrda 20 talik limit to'lgan — keyingi davrda yana hisoblanadi.")}`,
-        keyboard: r.can_claim_go ? [[cb("🎉 1 oy Go'ni faollashtirish", "n:rf:claim")]] : [[cb("🎁 Taklif bo'limi", "n:u:invite")]],
+        keyboard: r.can_claim_go ? [[cb("🎉 1 oy Learn'ni faollashtirish", "n:rf:claim")]] : [[cb("🎁 Taklif bo'limi", "n:u:invite")]],
       };
     }
     case "plan_changed": {

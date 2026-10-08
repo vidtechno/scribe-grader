@@ -159,4 +159,4 @@ export function bar(used: number, total: number, width = 10): string {
   return "▰".repeat(filled) + "▱".repeat(width - filled);
 }
 
-export const PLAN_LABEL: Record<string, string> = { free: "Free", go: "Scorify Go", plus: "Scorify Plus" };
+export const PLAN_LABEL: Record<string, string> = { free: "Free", go: "Learn", plus: "IELTS" };

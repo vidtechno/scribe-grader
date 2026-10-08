@@ -26,7 +26,7 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-widest opacity-90">Learn English</p>
             <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">Ingliz tilini noldan o'rganing</h2>
-            <p className="text-sm opacity-90 mt-1">Darslar, talaffuz, mashqlar va testlar. Free tarifda 7 kun bepul, keyin Go yoki Plus.</p>
+            <p className="text-sm opacity-90 mt-1">Darslar, talaffuz, mashqlar va testlar. Free tarifda 7 kun bepul, keyin Learn yoki IELTS.</p>
           </div>
           <Link to="/learn"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">Boshlash<ArrowRight className="h-4 w-4" /></Button></Link>
         </div>
@@ -94,7 +94,7 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
             </p>
           </div>
           {locked ? (
-            <Button size="lg" onClick={onUpgrade} className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Lock className="h-4 w-4" />Go / Plus</Button>
+            <Button size="lg" onClick={onUpgrade} className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Lock className="h-4 w-4" />Learn / IELTS</Button>
           ) : (
             <Link to={continueTo} className="sm:shrink-0">
               <Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{map.nextLesson ? 'Davom etish' : 'Ochish'}</Button>

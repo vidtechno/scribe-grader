@@ -16,7 +16,7 @@ const PricingModal = lazy(() => import('@/components/PricingModal').then(m => ({
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
-  const { planName, planType } = useSubscription();
+  const { planName, planType, trialActive, trialDaysLeft } = useSubscription();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -109,9 +109,9 @@ export function Navbar() {
                 title="Manage subscription"
               >
                 <Crown className={`h-4 w-4 ${planType !== 'free' ? 'text-amber-500' : 'text-primary'}`} />
-                <span className="text-sm font-medium">{planName}</span>
+                <span className="text-sm font-medium">{planType === 'free' ? (trialActive ? `Trial · ${trialDaysLeft}d` : 'Free') : planName}</span>
                 {planType === 'free' && (
-                  <span className="hidden sm:inline text-xs text-primary">Upgrade</span>
+                  <span className="hidden sm:inline text-xs text-primary">{trialActive ? 'Plans' : 'Upgrade'}</span>
                 )}
               </button>
               <ThemeToggle />

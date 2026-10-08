@@ -85,8 +85,8 @@ type AiUsageSummary = { label:string; input_tokens:number; output_tokens:number;
 
 const PLANS: { slug: string; label: string }[] = [
   { slug: 'free', label: 'Free' },
-  { slug: 'go', label: 'Scorify Go (79k UZS)' },
-  { slug: 'plus', label: 'Scorify Plus (129k UZS)' },
+  { slug: 'go', label: 'Learn (49k UZS)' },
+  { slug: 'plus', label: 'IELTS (129k UZS)' },
 ];
 
 export default function Admin() {
@@ -261,7 +261,7 @@ export default function Admin() {
       });
       if (error) throw error;
       await refreshSub(userId);
-      toast.success(slug === 'free' ? 'Moved to Free plan' : `${slug === 'plus' ? 'Scorify Plus' : 'Scorify Go'} activated for ${days === 180 ? '6 months' : '30 days'}`);
+      toast.success(slug === 'free' ? 'Moved to Free plan' : `${slug === 'plus' ? 'IELTS' : 'Learn'} activated for ${days === 180 ? '6 months' : '30 days'}`);
     } catch (e: any) {
       toast.error(e.message || 'Failed to assign plan');
     } finally { setUpdatingUser(null); }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { PlanCards } from '@/components/PlanCards';
 import { useAuth } from '@/hooks/useAuth';
-import { Sparkles, Crown } from 'lucide-react';
+import { Crown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface Plan {
@@ -56,21 +56,9 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
             <Crown className="h-6 w-6 text-primary" /> Choose Your Plan
           </DialogTitle>
           <DialogDescription className="text-center">
-            One subscription unlocks AI-graded IELTS Writing and Speaking and the full English course. Pay for 6 months and save 10%.
+            Learn is for the English course. IELTS adds AI-graded Writing and Speaking. Pay for 6 months and save 10%.
           </DialogDescription>
         </DialogHeader>
-
-        {/* Motivational block */}
-        <div className="glass-card p-5 mb-2 border-l-4 border-l-primary">
-          <div className="flex items-start gap-3">
-            <Sparkles className="h-5 w-5 text-primary mt-0.5" />
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              IELTS success is built on consistent practice and insightful feedback.
-              Our platform empowers you to master your skills with targeted analysis,
-              turning every exercise into a step toward your goal.
-            </p>
-          </div>
-        </div>
 
         <div className="py-4"><PlanCards plans={plans} currentPlan={currentPlan} publicId={profile?.public_id} /></div>
       </DialogContent>

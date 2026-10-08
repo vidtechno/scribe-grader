@@ -19,8 +19,8 @@ export function ReferralBanner() {
       <p className="text-sm flex items-center gap-2">
         <Gift className="h-4 w-4 text-primary shrink-0" />
         {ready
-          ? 'You invited 10 friends — your free month of Scorify Go is ready to activate!'
-          : `Invite friends: ${Math.min(info.counted, 20)}/20 joined. 10 friends = 1 month Go, 20 friends = 1 month Plus.`}
+          ? 'You invited 10 friends — your free month of Learn is ready to activate!'
+          : `Invite friends: ${Math.min(info.counted, 20)}/20 joined. 10 friends = 1 month Learn, 20 friends = 1 month IELTS.`}
       </p>
       <Link to="/referral"><Button size="sm" variant={ready ? 'glow' : 'outline'}>{ready ? 'Activate now' : 'Invite friends'}</Button></Link>
     </div>

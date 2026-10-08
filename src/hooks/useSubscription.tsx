@@ -17,6 +17,7 @@ export interface Subscription {
   started_at: string;
   expires_at: string | null;
   is_active: boolean;
+  learn_trial_ends_at?: string | null;
 }
 
 // Monthly-plan model. Usage is tracked per feature on `subscriptions`.
@@ -57,6 +58,10 @@ export function useSubscription() {
   const planType: PlanSlug = normalizePlanSlug(s?.plan_type);
   const entitlement = getPlanEntitlement(planType);
   const planName = s?.plan_name || entitlement.name;
+  // Every new account has a 7-day Learn trial; it only matters while the plan is Free.
+  const trialEnds = planType === 'free' && s?.learn_trial_ends_at ? new Date(s.learn_trial_ends_at) : null;
+  const trialActive = !!trialEnds && trialEnds.getTime() > Date.now();
+  const trialDaysLeft = trialActive && trialEnds ? Math.max(1, Math.ceil((trialEnds.getTime() - Date.now()) / 86_400_000)) : null;
 
   return {
     subscription,
@@ -70,7 +75,7 @@ export function useSubscription() {
     writingUsed: s?.writing_used ?? 0,
     speakingUsed: s?.speaking_used ?? 0,
     mockUsed: s?.mock_test_used ?? 0,
-    entitlement,
+    entitlement, trialActive, trialDaysLeft,
     expiresAt,
     daysRemaining,
     isExpired,

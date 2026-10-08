@@ -28,9 +28,9 @@ Part of the same product (same Supabase project, accounts, plans and results), n
 ### Plans (USD first, UZS for local payments)
 | Plan | Price / month | Writing | Speaking | Mock tests |
 |------|---------------|---------|----------|-----------|
-| Free | $0 | 1 | 1 | 0 |
-| Scorify Go | $5 (49 000 UZS) | 20 | 15 | 3 |
-| Scorify Plus | $9 (99 000 UZS) | 50 | 40 | 8 |
+| Free (7-day Learn trial) | 0 | 3 | 2 | 0 |
+| Learn (internal slug `go`) | 49 000 UZS | 0 | 0 | 0 |
+| IELTS (internal slug `plus`) | 129 000 UZS | 50 | 30 | 3 |
 
 Defined in `src/lib/plans.ts`.
 

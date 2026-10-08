@@ -14,12 +14,12 @@ export function LearnPaywall({ access, compact = false }: { access: LearningAcce
       <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary grid place-items-center mb-4"><Lock className="h-6 w-6" /></div>
       <h2 className="text-xl font-bold mb-1">Bepul 7 kun tugadi</h2>
       <p className="text-sm text-muted-foreground mb-4">
-        Natijalaringiz va streak saqlanib qoladi. Kursni davom ettirish uchun <b>Scorify Go</b> yoki <b>Plus</b> tarifini oling —
-        kurs ikkala tarifda ham to'liq ochiq.
+        Natijalaringiz va streak saqlanib qoladi. Kursni davom ettirish uchun <b>Learn</b> yoki <b>IELTS</b> tarifini tanlang —
+        kurs ikkala tarifda ham to'liq ochiq. Natijalaringiz, XP va o'rgangan so'zlaringiz saqlanib turadi.
       </p>
       <ul className="space-y-2 mb-5 text-sm">
-        {["Noldan IELTSgacha bosqichma-bosqich kurs", "Har darsda tushuntirish, mashq, test va 10 ta yangi so'z", "Bosqich testlari, statistika va streak",
-          "Writing va Speaking AI baholash ham kiradi"].map((t) => <li key={t} className="flex gap-2"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />{t}</li>)}
+        {["Barcha ingliz tili darslari, bosqichma-bosqich", "Adaptiv o'rganish: so'z va grammatika takrori, xatolar daftari", "Bosqich testlari, XP va streak",
+          "Learn — 49 000 so'm/oy · IELTS — 129 000 so'm/oy (Writing va Speaking AI baholash bilan)"].map((t) => <li key={t} className="flex gap-2"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />{t}</li>)}
       </ul>
       <Button variant="glow" size="lg" className="w-full" onClick={() => setOpen(true)}>Tarifni tanlash</Button>
       {!compact && <Link to="/learn" className="block text-center text-sm text-muted-foreground mt-3 hover:text-primary">Yo'l xaritasiga qaytish</Link>}

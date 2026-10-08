@@ -49,7 +49,7 @@ export default function Referral() {
     const { error } = await supabase.rpc('claim_referral_reward');
     setClaiming(false);
     if (error) { toast.error(error.message); return; }
-    toast.success('Scorify Go is active for 30 days!');
+    toast.success('Learn is active for 30 days!');
     await Promise.all([load(), refresh()]);
   };
 
@@ -62,7 +62,7 @@ export default function Referral() {
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-0">
-      <SEOHead title="Invite friends" description="Invite friends to Scorify and earn free months of Scorify Go and Plus." path="/referral" noindex />
+      <SEOHead title="Invite friends" description="Invite friends to Scorify and earn free months of Learn and IELTS." path="/referral" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-6">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-6 sm:p-8">
@@ -98,17 +98,17 @@ export default function Referral() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div className={`rounded-2xl border p-5 ${counted >= GO_AT ? 'border-primary/40 bg-primary/5' : ''}`}>
               <p className="text-xs font-bold uppercase tracking-wide text-primary mb-1">{GO_AT} friends</p>
-              <h3 className="font-bold text-lg flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" />1 month Scorify Go</h3>
+              <h3 className="font-bold text-lg flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" />1 month Learn</h3>
               <p className="text-sm text-muted-foreground mt-1">Worth $5. Activate it yourself when you are ready.</p>
               {data?.go_claimed_at ? <p className="text-sm font-medium text-primary mt-3 flex items-center gap-1"><Check className="h-4 w-4" />Activated {format(new Date(data.go_claimed_at), 'd MMM yyyy')}</p>
-                : data?.plus_granted_at ? <p className="text-sm text-muted-foreground mt-3">Skipped — you earned Plus.</p>
-                : data?.can_claim_go ? <Button variant="glow" className="mt-3 gap-2 w-full" onClick={claim} disabled={claiming}>{claiming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}Activate Scorify Go</Button>
+                : data?.plus_granted_at ? <p className="text-sm text-muted-foreground mt-3">Skipped — you earned IELTS.</p>
+                : data?.can_claim_go ? <Button variant="glow" className="mt-3 gap-2 w-full" onClick={claim} disabled={claiming}>{claiming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}Activate Learn</Button>
                 : <p className="text-sm text-muted-foreground mt-3">{GO_AT - counted} more friend{GO_AT - counted === 1 ? '' : 's'} to unlock</p>}
             </div>
             <div className={`rounded-2xl border p-5 ${counted >= PLUS_AT ? 'border-primary/40 bg-primary/5' : ''}`}>
               <p className="text-xs font-bold uppercase tracking-wide text-primary mb-1">{PLUS_AT} friends</p>
-              <h3 className="font-bold text-lg flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" />1 month Scorify Plus</h3>
-              <p className="text-sm text-muted-foreground mt-1">Worth $9. Activated automatically the moment your 20th friend joins.</p>
+              <h3 className="font-bold text-lg flex items-center gap-2"><Crown className="h-5 w-5 text-amber-500" />1 month IELTS</h3>
+              <p className="text-sm text-muted-foreground mt-1">Worth 129 000 so'm. Activated automatically the moment your 20th friend joins.</p>
               {data?.plus_granted_at ? <p className="text-sm font-medium text-primary mt-3 flex items-center gap-1"><Check className="h-4 w-4" />Activated {format(new Date(data.plus_granted_at), 'd MMM yyyy')}</p>
                 : <p className="text-sm text-muted-foreground mt-3">{Math.max(0, PLUS_AT - counted)} more friend{PLUS_AT - counted === 1 ? '' : 's'} to unlock</p>}
             </div>
@@ -157,7 +157,7 @@ export default function Referral() {
               {data.past_cycles.map((c, i) => (
                 <li key={i} className="flex flex-wrap justify-between gap-2 rounded-xl border p-3">
                   <span>{format(new Date(c.started_at), 'd MMM yyyy')} – {c.ended_at ? format(new Date(c.ended_at), 'd MMM yyyy') : 'now'}</span>
-                  <span className="text-muted-foreground">{c.counted} friends · {c.plus_granted_at ? 'Plus earned' : c.go_claimed_at ? 'Go earned' : 'no reward'}</span>
+                  <span className="text-muted-foreground">{c.counted} friends · {c.plus_granted_at ? 'IELTS earned' : c.go_claimed_at ? 'Learn earned' : 'no reward'}</span>
                 </li>
               ))}
             </ul>
