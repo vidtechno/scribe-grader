@@ -8,8 +8,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { telegramAuth, type TelegramStatus } from '@/lib/telegram';
 import { TelegramIcon } from '@/components/TelegramLoginButton';
 
-const DISMISS_KEY = 'scorify:tg-promo-dismissed';
-
 export function useTelegramStatus() {
   const { user } = useAuth();
   return useQuery({
@@ -97,6 +95,19 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
     }
   };
 
+  const updateMode = async (mode: 'normal' | 'light' | 'off') => {
+    setSaving('reminder_mode');
+    try {
+      await telegramAuth({ action: 'settings', reminder_mode: mode });
+      queryClient.setQueryData<TelegramStatus>(['telegram-status', user?.id], (old) =>
+        old?.account ? { ...old, account: { ...old.account, reminder_mode: mode } } : old);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Could not save');
+    } finally {
+      setSaving(null);
+    }
+  };
+
   const disconnect = async () => {
     if (!window.confirm('Disconnect Telegram? Results will no longer be sent to the bot.')) return;
     try {
@@ -131,6 +142,19 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
               </label>
             ))}
           </div>
+          {data.account.notify_reminders && (
+            <div className="mb-4">
+              <p className="text-sm font-medium mb-1.5">Study reminders</p>
+              <div className="inline-flex rounded-lg border border-border p-0.5">
+                {([['normal', 'Normal', 'morning, afternoon, evening'], ['light', 'Light', 'evening only'], ['off', 'Off', 'no study reminders']] as const).map(([mode, label, hint]) => (
+                  <button key={mode} type="button" title={hint} disabled={saving === 'reminder_mode'}
+                    onClick={() => void updateMode(mode)}
+                    className={`px-3 py-1.5 text-sm rounded-md ${(data.account!.reminder_mode ?? 'normal') === mode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>{label}</button>
+                ))}
+              </div>
+              <p className="text-[11px] text-muted-foreground mt-1.5">If you stop studying for a while, reminders get rarer and then stop on their own.</p>
+            </div>
+          )}
           <div className="flex flex-wrap gap-2">
             <a href={data.bot_url} target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="sm" className="gap-2"><ExternalLink className="h-4 w-4" /> Open the bot</Button>
@@ -164,28 +188,29 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
   );
 }
 
-/** Small dashboard nudge shown until Telegram is connected or the user dismisses it. */
-export function TelegramPromo() {
+const NUDGE_KEY = 'scorify:tg-learn-nudge-dismissed';
+
+/** One quiet line after a finished lesson for learners who signed in without Telegram: what they get, one tap to connect. */
+export function TelegramNudge() {
   const { data } = useTelegramStatus();
   const { connect, url, busy } = useConnect();
   const [hidden, setHidden] = useState(() => {
-    try { return localStorage.getItem(DISMISS_KEY) === '1'; } catch { return false; }
+    try { return localStorage.getItem(NUDGE_KEY) === '1'; } catch { return false; }
   });
   if (hidden || !data || data.linked) return null;
   const dismiss = () => {
-    try { localStorage.setItem(DISMISS_KEY, '1'); } catch { /* storage unavailable */ }
+    try { localStorage.setItem(NUDGE_KEY, '1'); } catch { /* storage unavailable */ }
     setHidden(true);
   };
   return (
-    <div className="mb-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#229ED9]/30 bg-[#229ED9]/5 p-4">
-      <p className="text-sm flex items-center gap-2">
-        <TelegramIcon className="h-4 w-4 shrink-0" />
-        {url ? 'Press Start in the Scorify bot to finish connecting.' : 'Get your band scores instantly in Telegram — connect the Scorify bot.'}
+    <div className="mb-4 flex items-center gap-3 rounded-xl border border-border bg-secondary/30 px-3.5 py-3 text-left">
+      <TelegramIcon className="h-5 w-5 shrink-0" />
+      <p className="flex-1 text-[13px] leading-snug">
+        {url ? "Botda Start tugmasini bosing — ulanish tugaydi."
+          : <>Telegram'ni ulang: <b>dars eslatmalari</b>, natijalar va o'sishingiz — hammasi botda.</>}
       </p>
-      <div className="flex items-center gap-1">
-        <Button size="sm" variant="outline" disabled={busy} onClick={() => void connect()}>{url ? 'Open again' : 'Connect'}</Button>
-        <Button size="icon" variant="ghost" className="h-8 w-8" aria-label="Dismiss" onClick={dismiss}><X className="h-4 w-4" /></Button>
-      </div>
+      <Button size="sm" variant="outline" disabled={busy} onClick={() => void connect()}>{url ? 'Qayta ochish' : 'Ulash'}</Button>
+      <button type="button" aria-label="Yopish" onClick={dismiss} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
     </div>
   );
 }

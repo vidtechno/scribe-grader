@@ -14,6 +14,7 @@ export interface TelegramAccount {
   notify_results: boolean;
   notify_reminders: boolean;
   notify_news: boolean;
+  reminder_mode: "normal" | "light" | "off";
   is_blocked: boolean;
   is_banned: boolean;
   pending_ref: string | null;
@@ -122,6 +123,9 @@ export async function isEmptyTelegramOnlyUser(db: Db, userId: string): Promise<b
     db.from("essays").select("id", { count: "exact", head: true }).eq("user_id", userId),
     db.from("speaking_attempts").select("id", { count: "exact", head: true }).eq("user_id", userId),
     db.from("mock_tests").select("id", { count: "exact", head: true }).eq("user_id", userId),
+    // Study progress is worth keeping too: never replace an account that has started the course.
+    db.from("learning_profiles").select("user_id", { count: "exact", head: true }).eq("user_id", userId),
+    db.from("user_follows").select("follower_id", { count: "exact", head: true }).or(`follower_id.eq.${userId},followee_id.eq.${userId}`),
   ]);
   const { data: sub } = await db.from("subscriptions").select("plan_type").eq("user_id", userId).maybeSingle();
   return counts.every((c) => (c.count ?? 0) === 0) && (sub?.plan_type ?? "free") === "free";

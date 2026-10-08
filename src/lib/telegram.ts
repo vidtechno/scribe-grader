@@ -90,6 +90,6 @@ export interface TelegramStatus {
   bot_url: string;
   account: null | {
     telegram_id: number; username: string | null; first_name: string | null;
-    notify_results: boolean; notify_reminders: boolean; notify_news: boolean; linked_at: string | null;
+    notify_results: boolean; notify_reminders: boolean; notify_news: boolean; reminder_mode?: 'normal' | 'light' | 'off'; linked_at: string | null;
   };
 }

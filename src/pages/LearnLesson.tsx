@@ -17,6 +17,7 @@ import { BlockView } from '@/features/learn/components/BlockView';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { Flashcards } from '@/features/learn/components/Flashcards';
 import { Md } from '@/features/learn/components/Md';
+import { TelegramNudge } from '@/components/TelegramConnectCard';
 import { achievementInfo } from '@/features/learn/achievements';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
@@ -311,6 +312,7 @@ function Result({ lesson, score, total, seconds, next, unitLast, unitId, onSaved
         <Stat icon={Clock} label="Vaqt" value={`${Math.max(1, Math.round(seconds / 60))} daq`} />
       </div>
       {error && <p className="text-sm text-destructive mb-4">{error}</p>}
+      {saved && passed && saved.first && <TelegramNudge />}
       {saved && (!!saved.goal_bonus || !!saved.comeback_bonus || !!saved.new_achievements?.length) && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-left text-sm mb-4 space-y-1.5">
           {saved.goal_reached && <p>🎯 Kunlik maqsad bajarildi{saved.goal_bonus ? ` · +${saved.goal_bonus} XP` : ''}</p>}
