@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, FileText, GraduationCap, History, Mic, PenLine, PenTool, Sparkles,
+  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
@@ -13,6 +13,8 @@ import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { SubscriptionBadge } from '@/components/SubscriptionBadge';
 import { PricingModal } from '@/components/PricingModal';
+import { LearnHero } from '@/components/LearnHero';
+import { UsageBar } from '@/components/PracticeCard';
 import { SEOHead } from '@/components/SEOHead';
 const GoalsCard = lazy(() => import('@/components/GoalsCard').then(m => ({ default: m.GoalsCard })));
 import { ReferralBanner } from '@/components/ReferralBanner';
@@ -24,46 +26,6 @@ const fadeUp = {
   hidden: { opacity: 0, y: 14 },
   visible: (i: number) => ({ opacity: 1, y: 0, transition: { delay: i * 0.06 } }),
 };
-
-const avg = (nums: number[]) => (nums.length ? (nums.reduce((a, b) => a + b, 0) / nums.length).toFixed(1) : '–');
-
-function UsageBar({ used, limit }: { used: number; limit: number }) {
-  const pct = limit > 0 ? Math.min(100, (used / limit) * 100) : 0;
-  return (
-    <div className="h-2 w-full rounded-full bg-secondary overflow-hidden">
-      <div className={`h-full rounded-full transition-all ${pct >= 100 ? 'bg-destructive' : 'bg-primary'}`} style={{ width: `${pct}%` }} />
-    </div>
-  );
-}
-
-function PracticeCard({ icon: Icon, title, text, left, limit, used, last, average, tone, children }: {
-  icon: typeof PenTool; title: string; text: string; left: number; limit: number; used: number; last: string; average: string; tone: 'primary' | 'accent'; children: React.ReactNode;
-}) {
-  const tint = tone === 'primary' ? 'bg-primary/10 text-primary' : 'bg-accent/15 text-accent';
-  return (
-    <div className="glass-card p-5 sm:p-6 flex flex-col">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <span className={`w-12 h-12 rounded-2xl grid place-items-center ${tint}`}><Icon className="h-6 w-6" /></span>
-          <div>
-            <h2 className="text-xl font-bold leading-tight">{title}</h2>
-            <p className="text-sm text-muted-foreground">{text}</p>
-          </div>
-        </div>
-        <div className="text-right shrink-0">
-          <p className="text-2xl font-bold leading-none">{left}</p>
-          <p className="text-[11px] text-muted-foreground">left this month</p>
-        </div>
-      </div>
-      <div className="mt-4"><UsageBar used={used} limit={limit} /></div>
-      <div className="mt-4 grid grid-cols-2 gap-3 text-center">
-        <div className="rounded-xl bg-secondary/40 py-2"><p className="text-lg font-bold">{last}</p><p className="text-[11px] text-muted-foreground">Latest band</p></div>
-        <div className="rounded-xl bg-secondary/40 py-2"><p className="text-lg font-bold">{average}</p><p className="text-[11px] text-muted-foreground">Average band</p></div>
-      </div>
-      <div className="mt-5 flex flex-wrap gap-2">{children}</div>
-    </div>
-  );
-}
 
 export default function Dashboard() {
   const { user, profile, refreshProfile } = useAuth();
@@ -106,10 +68,6 @@ export default function Dashboard() {
     navigate('/speaking');
   };
 
-  const done = (list: { status: string | null; score: number | null }[]) => list.filter(x => x.status !== 'draft' && x.score !== null).map(x => x.score as number);
-  const essayScores = done(essays);
-  const speakingScores = done(speaking);
-
   const activity: Activity[] = useMemo(() => [
     ...essays.filter(x => x.status !== 'draft').map(x => ({ kind: 'essay' as const, id: x.id, title: x.topic, score: x.score, at: new Date(x.created_at) })),
     ...speaking.filter(x => x.status !== 'draft').map(x => ({ kind: 'speaking' as const, id: x.id, title: x.topic, score: x.score, at: new Date(x.created_at) })),
@@ -120,49 +78,44 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden pb-24 md:pb-0">
-      <SEOHead title="Dashboard" description="Practise IELTS Writing and Speaking and track your progress." path="/dashboard" noindex />
+      <SEOHead title="Dashboard" description="Continue your English course, practise IELTS Writing and Speaking and track your progress." path="/dashboard" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-6">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">Welcome back, <span className="gradient-text">{firstName}</span></h1>
-            <p className="text-muted-foreground text-sm sm:text-base">Pick Writing or Speaking and keep your streak going.</p>
+            <p className="text-muted-foreground text-sm sm:text-base">Keep your learning streak going: one lesson a day changes your English.</p>
           </div>
           <SubscriptionBadge planType={planType} planName={planName} size="md" />
         </motion.div>
 
-        {/* English course */}
+        {/* English course: the main thing on this page */}
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mb-6">
-          <Link to="/learn" className="group block rounded-2xl p-5 sm:p-6 text-white bg-gradient-to-br from-primary via-rose-500 to-orange-400 shadow-lg shadow-primary/20 relative overflow-hidden">
-            <span className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/10" />
-            <span className="absolute right-16 -bottom-14 w-32 h-32 rounded-full bg-white/10" />
-            <span className="relative flex items-center gap-4">
-              <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><GraduationCap className="h-7 w-7" /></span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-xs font-semibold uppercase tracking-widest opacity-90">New · Learn</span>
-                <span className="block text-lg sm:text-xl font-extrabold">Ingliz tilini noldan o'rganing</span>
-                <span className="block text-sm opacity-90">Darslar, talaffuz, mashqlar va bosqich testlari — {planType === 'free' ? '7 kun bepul' : 'tarifingizga kiritilgan'}</span>
-              </span>
-              <ArrowRight className="h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </Link>
+          <LearnHero onUpgrade={() => setShowPricing(true)} />
         </motion.div>
 
-        {/* 1. Main practice */}
-        <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={1} className="grid md:grid-cols-2 gap-4 mb-6" aria-label="Practice">
-          <PracticeCard icon={PenTool} tone="primary" title="IELTS Writing" text="Task 1 and Task 2 with band score and corrections"
-            left={Math.max(0, writingLimit - writingUsed)} limit={writingLimit} used={writingUsed}
-            last={essayScores[0]?.toString() ?? '–'} average={avg(essayScores)}>
-            <Button variant="glow" className="gap-2 flex-1 min-w-[120px]" onClick={() => openWriting(2)}><PenTool className="h-4 w-4" />Task 2 essay</Button>
-            <Button variant="outline" className="gap-2 flex-1 min-w-[120px]" onClick={() => openWriting(1)}>Task 1 report</Button>
-            <Link to="/essays" className="w-full text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"><FileText className="h-3.5 w-3.5" />Essay history<ChevronRight className="h-3 w-3" /></Link>
-          </PracticeCard>
-          <PracticeCard icon={Mic} tone="accent" title="IELTS Speaking" text="Parts 1–3 with fluency, grammar and pronunciation feedback"
-            left={Math.max(0, speakingLimit - speakingUsed)} limit={speakingLimit} used={speakingUsed}
-            last={speakingScores[0]?.toString() ?? '–'} average={avg(speakingScores)}>
-            <Button variant="glow" className="gap-2 flex-1 min-w-[120px]" onClick={openSpeaking}><Mic className="h-4 w-4" />Start speaking</Button>
-            <Link to="/speaking-history" className="w-full text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"><History className="h-3.5 w-3.5" />Speaking history<ChevronRight className="h-3 w-3" /></Link>
-          </PracticeCard>
+        {/* IELTS practice: one step down, always one tap away */}
+        <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={2} className="mb-6" aria-label="IELTS practice">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">IELTS practice</h2>
+            <Link to="/practice" className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:underline">All practice<ChevronRight className="h-3.5 w-3.5" /></Link>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { icon: PenTool, title: 'Writing', left: writingLimit - writingUsed, onClick: () => openWriting(2) },
+              { icon: Mic, title: 'Speaking', left: speakingLimit - speakingUsed, onClick: openSpeaking },
+              { icon: ClipboardList, title: 'Mock Test', left: mockLimit - mockUsed, onClick: () => navigate('/mock-test') },
+            ].map((t) => (
+              <button key={t.title} type="button" onClick={t.onClick} className="group glass-card-hover p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 text-left">
+                <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><t.icon className="h-5 w-5" /></span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold text-sm">{t.title}</span>
+                  <span className="block text-xs text-muted-foreground">{Math.max(0, t.left)} left</span>
+                </span>
+                <ArrowRight className="hidden sm:block h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+              </button>
+            ))}
+          </div>
         </motion.section>
 
         {/* 2. Goals and plan */}
@@ -204,12 +157,11 @@ export default function Dashboard() {
         </div>
 
         {/* 3. More practice */}
-        <section className="mb-6" aria-label="More practice">
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">More practice</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <section className="mb-6" aria-label="Explore">
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Explore</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
               { to: '/grammar-test', icon: BrainCircuit, title: 'Daily Grammar', text: 'A short test based on your recent mistakes' },
-              { to: '/mock-test', icon: ClipboardList, title: 'Full Mock Test', text: `Timed Writing + Speaking · ${Math.max(0, mockLimit - mockUsed)} left` },
               { to: '/drafts', icon: PenLine, title: 'Drafts', text: draftsCount ? `${draftsCount} unfinished ${draftsCount === 1 ? 'item' : 'items'}` : 'No unfinished work' },
             ].map(i => (
               <Link key={i.to} to={i.to} className="group glass-card-hover p-4 flex items-center gap-3">
@@ -251,7 +203,7 @@ export default function Dashboard() {
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground py-6 text-center">Nothing yet. Start with a Writing or Speaking practice above.</p>
+            <p className="text-sm text-muted-foreground py-6 text-center">Nothing yet. Your IELTS Writing and Speaking results will appear here.</p>
           )}
         </section>
       </main>

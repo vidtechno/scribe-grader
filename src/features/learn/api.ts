@@ -16,7 +16,14 @@ export interface LearningAccess {
   trial_ends_at?: string; expires_at?: string | null;
 }
 export interface LearningState {
-  profile: { level: string; xp: number; trial_started_at: string; next_lesson_title: string | null } | null;
+  profile: {
+    level: string; xp: number; trial_started_at: string; next_lesson_title: string | null;
+    /** Set while the learner is taking the Elementary placement test. */
+    target_level?: string | null;
+    placement_status?: 'none' | 'pending' | 'passed' | 'failed' | 'skipped';
+    placement_attempts?: number;
+    placement_best?: number | null;
+  } | null;
   access: LearningAccess;
   streak: number;
   today: string;
@@ -123,6 +130,10 @@ export function learningStats(state: LearningState | undefined) {
     todayDone: (byDay.get(state?.today ?? '')?.xp ?? 0) > 0,
     activeDays: activity.filter((a) => a.xp > 0).length,
   };
+}
+
+export function placementPending(state: LearningState | undefined): boolean {
+  return state?.profile?.placement_status === 'pending';
 }
 
 export function trialDaysLeft(access: LearningAccess | undefined): number | null {

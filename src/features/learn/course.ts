@@ -3,8 +3,8 @@
 // loaded per unit, so the roadmap stays light.
 import type { Lesson, LevelId, UnitMeta } from './types';
 
-/** Elementary is built (5 lessons) but stays closed until its lessons have had an editor's review. */
-const A1_OPEN = false;
+/** Elementary (A1) is open. Set to false to hide it again without touching the lessons. */
+const A1_OPEN = true;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },
@@ -217,6 +217,9 @@ export const UNIT_TEST = {
   attempts: 2,
   lockHours: 48,
 } as const;
+
+/** Choosing Elementary starts with a placement test on the Beginner course; failing twice means starting at Beginner. */
+export const PLACEMENT = { questions: 20, passPercent: 70, attempts: 2 } as const;
 
 export const LESSON_PASS_PERCENT = 70;
 /** Free plan users can learn for this many days after they start. */

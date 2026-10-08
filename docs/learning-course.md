@@ -10,7 +10,10 @@ Explanations are in Uzbek; examples and exercises are in English. **Beginner** (
   levels (u1–u5 Beginner, u6–u11 Elementary). The outline is in `src/features/learn/course.ts`; the lessons are in
   `src/features/learn/content/beginner/u1..u5/` and `content/a1/u6..u11/` (`l1..l8.ts`, one chunk per unit, loaded on demand).
 - The learner picks a starting level. Beginner learners continue into Elementary after passing the Beginner unit
-  tests; Elementary learners start at unit 6 and can revisit the Beginner lessons (shown as open for review, not required).
+  tests. **Choosing Elementary starts with a placement test** (`/learn/placement`): 20 questions from the five Beginner
+  units (4 each), 70% to pass, 2 attempts. Passing starts the learner at unit 6 (the Beginner lessons stay open for
+  review, not required); failing twice, or skipping the test, starts at Beginner. The level is only changed on the
+  server (`learning_submit_placement`), `learning_start('a1')` just creates a Beginner profile with a pending test.
 - From Elementary on every lesson has connected English to read or listen to (a `text` reading block or a dialogue).
 - Lesson flow (`src/pages/LearnLesson.tsx`):
   1. **Review**: the previous lesson's key points plus 3 questions from its quiz.
@@ -48,6 +51,13 @@ Explanations are in Uzbek; examples and exercises are in English. **Beginner** (
 - **Telegram**:
   - Button "🎓 Ingliz tili darslari" and the /learn command show progress and open `/learn`.
   - Learners who started the course and have not studied today get one reminder between 20:00 and 21:00 (cron `telegram-learn-reminder`).
+
+## Site structure
+
+Lessons come first: the dashboard opens with a continue card (progress, streak, XP, trial days, last 7 days) and
+the desktop navbar highlights **Learn**. Writing, Speaking, Mock tests and Daily Grammar live in the **IELTS Practice**
+section (`/practice`, a menu in the navbar, a tab in the mobile bar) and as a compact row on the dashboard.
+Mobile bottom bar: Home, Words (`/learn?tab=words`), Learn (centre), Practice, Profile.
 
 ## AI mentor in lessons
 

@@ -254,6 +254,7 @@ export async function showDailyTest(ctx: Ctx) {
 interface LearningSummary {
   started: boolean;
   level?: string;
+  placement_status?: string;
   access: { allowed: boolean; reason: string; trial_ends_at?: string };
   xp?: number; streak?: number; lessons_done?: number; tests_passed?: number; today_done?: boolean; next_lesson_title?: string | null;
 }
@@ -283,6 +284,13 @@ export async function showLearn(ctx: Ctx) {
       ].join("\n")),
       s.access.reason === "paid" ? hint("Kurs tarifingizga kiritilgan ✅") : hint("Free tarifda 7 kun bepul, keyin Scorify Go yoki Plus bilan davom etasiz."),
     ].join("\n"), [[app("🚀 Kursni boshlash", "/learn")]]);
+    return;
+  }
+  if (s.placement_status === "pending") {
+    await reply(ctx, [
+      title("🧭", "Elementary uchun daraja testi"),
+      hint("Beginner bo'yicha 20 ta savol. Kamida 70% topsangiz, to'g'ridan-to'g'ri Elementary darslariga o'tasiz; 2 ta urinish."),
+    ].join("\n"), [[app("🧭 Testni boshlash", "/learn/placement")], [app("🎓 Kursni ochish", "/learn")]]);
     return;
   }
   const trialLeft = s.access.reason === "trial" && s.access.trial_ends_at
