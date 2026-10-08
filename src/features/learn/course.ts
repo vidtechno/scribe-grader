@@ -221,6 +221,9 @@ export const UNIT_TEST = {
 /** Choosing Elementary starts with a placement test on the Beginner course; failing twice means starting at Beginner. */
 export const PLACEMENT = { questions: 20, passPercent: 70, attempts: 2 } as const;
 
+/** Final test of a level: always open at the end of the level, retake as often as needed. */
+export const LEVEL_TEST = { questions: 20, passPercent: 70 } as const;
+
 export const LESSON_PASS_PERCENT = 70;
 /** Free plan users can learn for this many days after they start. */
 export const TRIAL_DAYS = 7;

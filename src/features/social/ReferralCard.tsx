@@ -14,7 +14,7 @@ interface RefSummary {
 }
 
 const money = (n: number) => `${String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} so'm`;
-const STATE: Record<string, string> = { joined: "Qo'shildi", active: 'Dars qildi ✓', bought: 'Tarif oldi', rewarded: "+10 000 so'm ✓" };
+const STATE: Record<string, string> = { joined: "Qo'shildi", active: "Ro'yxatdan o'tdi ✓", bought: 'Tarif oldi', rewarded: "+10 000 so'm ✓" };
 
 /** Referral balance and statistics. Links, payouts and the rules are handled in the Telegram bot. */
 export function ReferralCard() {
@@ -40,7 +40,7 @@ export function ReferralCard() {
         <div>
           <h2 className="text-lg font-semibold">Referal — do'st taklif qiling, pul ishlang</h2>
           <p className="text-sm text-muted-foreground">
-            Do'stingiz botdagi havolangiz orqali kirib, kamida <b>1 ta dars</b> tugatsa — referal hisoblanadi. U <b>7 kunlik bepul davrdan keyin</b> istalgan
+            Do'stingiz botdagi havolangiz orqali kirib ro'yxatdan o'tsa (Telegram yoki Google) — shu zahoti referal hisoblanadi. U <b>7 kunlik bepul davrdan keyin</b> istalgan
             pullik tarifni olsa, balansingizga <b>{money(data.reward)}</b> qo'shiladi.
           </p>
         </div>
@@ -56,7 +56,7 @@ export function ReferralCard() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
         {[
-          ['Taklif qilingan', data.invited], ['Dars qilganlar (hisoblandi)', data.active], ['Tarif olganlar', data.buyers], ['Balans', money(data.balance)],
+          ['Taklif qilingan', data.invited], ["Ro'yxatdan o'tganlar (hisoblandi)", data.active], ['Tarif olganlar', data.buyers], ['Balans', money(data.balance)],
         ].map(([label, value]) => (
           <div key={String(label)} className="rounded-xl bg-secondary/40 p-3 text-center">
             <p className="text-lg font-bold leading-tight">{value}</p>

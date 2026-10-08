@@ -14,21 +14,32 @@ import { dailySet, quizOptions, WORDS } from "./content.ts";
 
 // ---------------------------------------------------------------- start & menu
 
+/** The two ways in: a one-tap Telegram account, or Google on the website (the referral code travels along). */
+function signupKeyboard(ctx: Ctx): InlineKeyboard {
+  const ref = ctx.account.pending_ref;
+  return [
+    [cb("✅ Ro'yxatdan o'tish", "u:register")],
+    [link("🔗 Google orqali kirish", `${SITE_URL}/auth${ref ? `?ref=${encodeURIComponent(ref)}` : ""}`)],
+  ];
+}
+
 export async function showMenu(ctx: Ctx, text?: string) {
   const name = esc(ctx.from.first_name ?? "do'stim");
-  const body = text ?? (ctx.account.user_id
-    ? `${name}, bugun nimadan boshlaymiz? 👇`
-    : [
+  if (!ctx.account.user_id) {
+    const body = text ?? [
       `Assalomu alaykum, <b>${name}</b>! 👋\n`,
-      "Men — <b>Scorify</b> yordamchisiman. IELTS Writing va Speaking javoblaringizni sun'iy intellekt bir necha " +
-        "soniyada baholaydi, men esa natijani shu yerga yetkazaman.\n",
+      "Men — <b>Scorify</b> yordamchisiman. Ingliz tilini noldan o'rganing: darslar, talaffuz, so'zlar va mashqlar.\n",
       title("✨", "Bu yerda sizni kutmoqda:"),
-      "• har bir natija — band, mezonlar va xatolar tahlili bilan",
-      "• har kuni grammatika testi va so'z mashqi",
-      "• IELTS bo'yicha foydali maqolalar\n",
-      hint(`Boshlash uchun «${BTN.start}» tugmasini bosing — 10 soniya ham ketmaydi.`),
-    ].join("\n"));
-  await send(ctx.chatId, body, mainKeyboard(ctx));
+      "• 🎓 bosqichma-bosqich ingliz tili kursi — <b>7 kun bepul</b>",
+      "• 📚 o'z lug'atingiz va takrorlash tizimi",
+      "• 🔥 streak, XP va reyting",
+      "• 🎁 do'stlarni taklif qilib pul ishlash\n",
+      hint("Davom etish uchun hisob oching 👇"),
+    ].join("\n");
+    await send(ctx.chatId, body, { inline_keyboard: signupKeyboard(ctx) });
+    return;
+  }
+  await send(ctx.chatId, text ?? `${name}, bugun nimadan boshlaymiz? 👇`, mainKeyboard(ctx));
 }
 
 export async function handleStart(ctx: Ctx, payload: string) {
@@ -42,7 +53,7 @@ export async function handleStart(ctx: Ctx, payload: string) {
       return showMenu(ctx, [
         "Assalomu alaykum! 👋 Sizni do'stingiz <b>Scorify</b>ga taklif qildi.\n",
         "Scorify — ingliz tilini noldan o'rganish va IELTS'ga tayyorlanish platformasi: darslar, talaffuz, mashqlar va testlar.\n",
-        hint(`«${BTN.start}» tugmasini bosing — ro'yxatdan o'tasiz, <b>7 kun Learn bepul</b>. Birinchi darsni tugatsangiz, do'stingiz referal hisoblaydi.`),
+        hint("Ro'yxatdan o'ting — <b>7 kun Learn bepul</b>. Ro'yxatdan o'tishingiz bilan do'stingiz referal hisoblaydi."),
       ].join("\n"));
     }
     if (ctx.account.user_id) {
@@ -74,14 +85,9 @@ export async function showStart(ctx: Ctx, prefix = "") {
   if (ctx.account.user_id) return showCabinet(ctx);
   await reply(ctx, [
     `${prefix}${title("🚀", "Scorify'ni boshlaymiz")}\n`,
-    "🆕 <b>Yangi foydalanuvchimisiz?</b>",
-    "Bir bosishda Telegram orqali hisob oching — 3 ta Writing va 2 ta Speaking baholash sovg'a.\n",
-    "🔗 <b>Saytda Google orqali hisobingiz bormi?</b>",
-    "Uni ulang — barcha natijalaringiz shu yerda bo'ladi.",
-  ].join("\n"), [
-    [cb("✅ Hisob ochish", "u:register")],
-    [cb("🔗 Google hisobimni ulash", "u:linkinfo")],
-  ]);
+    "✅ <b>Ro'yxatdan o'tish</b> — bir bosishda Telegram orqali hisob ochiladi, <b>7 kun bepul</b> o'qiysiz.\n",
+    "🔗 <b>Google orqali kirish</b> — saytda Google hisobingiz bilan kirasiz.",
+  ].join("\n"), signupKeyboard(ctx));
 }
 
 export async function register(ctx: Ctx) {
@@ -92,13 +98,13 @@ export async function register(ctx: Ctx) {
   await showMenu(ctx, created
     ? [
       title("🎉", "Xush kelibsiz! Hisobingiz tayyor."),
-      "\nSizga <b>Free</b> tarif berildi: 3 ta Writing va 2 ta Speaking baholash.\n",
-      quote("✍️ Esse va 🎤 speaking ilova ichida topshiriladi — natija tayyor bo'lishi bilan shu yerga yuboraman.\n" +
+      "\nSizga <b>7 kun Learn bepul</b> berildi — ingliz tili kursi to'liq ochiq.\n",
+      quote("🎓 Darslar, lug'at va mashqlar — hammasi shu yerdan.\n" +
         "💻 Kompyuterda saytga <b>Continue with Telegram</b> orqali kirasiz."),
     ].join("\n")
     : "✅ Hisobingiz Telegram'ga ulandi.");
-  await send(ctx.chatId, "Birinchi mashqdan boshlaymizmi? 💪", {
-    inline_keyboard: [[app("✍️ Writing", "/writing"), app("🎤 Speaking", "/speaking")], [app("📝 Kunlik test", "/grammar-test")]],
+  await send(ctx.chatId, "Birinchi darsdan boshlaymizmi? 💪", {
+    inline_keyboard: [[app("🚀 Kursni boshlash", "/learn")], [cb("🎁 Referal — do'st taklif qiling", "u:invite")]],
   });
 }
 
@@ -585,7 +591,7 @@ export async function showInvite(ctx: Ctx) {
     "<b>Qanday ishlaydi:</b>",
     quote([
       "1️⃣ Havolangizni do'stingizga yuboring.",
-      "2️⃣ U havola orqali botga kirib ro'yxatdan o'tadi va <b>kamida 1 ta dars</b> tugatadi — shunda referal hisoblanadi.",
+      "2️⃣ U havola orqali botga kirib ro'yxatdan o'tadi (Telegram yoki Google) — shu zahoti referal hisoblanadi.",
       `3️⃣ U <b>7 kunlik bepul davrdan keyin</b> istalgan pullik tarifni sotib olsa, balansingizga <b>${som(r.reward)}</b> qo'shiladi.`,
       `4️⃣ Balans <b>${som(r.min_withdraw)}</b> ga yetganda yechib olasiz.`,
     ].join("\n")),
@@ -593,7 +599,7 @@ export async function showInvite(ctx: Ctx) {
     `<code>${esc(refLink)}</code>`,
     "\n📊 <b>Statistika</b>",
     `👥 Taklif qilingan: <b>${r.invited}</b>`,
-    `✅ Dars tugatgan (hisoblangan): <b>${r.active}</b>`,
+    `✅ Ro'yxatdan o'tgan (hisoblangan): <b>${r.active}</b>`,
     `💳 Pullik tarif olgan: <b>${r.buyers}</b>`,
     `\n💰 Balans: <b>${som(r.balance)}</b> ${hint(`(${bar(Math.min(r.balance, r.min_withdraw), r.min_withdraw, 10)})`)}`,
     r.paid > 0 ? hint(`Jami to'langan: ${som(r.paid)}`) : "",
@@ -730,20 +736,22 @@ export async function showCabinet(ctx: Ctx) {
   const userId = await requireUser(ctx);
   if (!userId) return;
   const o = await loadOverview(ctx.db, userId);
+  const { data: ls } = await ctx.db.rpc("telegram_learning_summary", { _user: userId });
+  const s = (ls ?? {}) as LearningSummary;
   const plan = o.sub?.plan_type ?? "free";
-  const streak = streakDays([...o.essays, ...o.speaking]);
   const name = esc(o.profile?.full_name || ctx.from.first_name || "");
+  const streak = s.streak_info?.current ?? s.streak ?? 0;
   await reply(ctx, [
     title("👤", name) + (o.profile?.public_id ? `  ${hint(`ID #${esc(o.profile.public_id)}`)}` : "") + "\n",
     `💎 <b>${PLAN_LABEL[plan] ?? esc(plan)}</b>${o.sub?.expires_at ? ` ${hint(`· ${fmtDate(o.sub.expires_at, true)} gacha`)}` : ""}`,
-    `✍️ ${left(o.sub?.writing_used, o.sub?.writing_limit)} ta Writing · 🎤 ${left(o.sub?.speaking_used, o.sub?.speaking_limit)} ta Speaking qoldi`,
-    `🎯 Maqsad <b>${band(o.goals.target_band)}</b> · 🔥 Streak <b>${streak}</b> kun`,
+    `🔥 Streak <b>${streak}</b> kun · ⚡️ <b>${s.xp ?? 0}</b> XP · 🎓 <b>${s.lessons_done ?? 0}</b> ta dars`,
+    s.today_done ? hint("Bugungi dars bajarildi ✅") : hint("Bugun hali dars qilmadingiz — bitta dars yetadi."),
   ].join("\n"), [
-    [cb("📊 Natijalarim", "u:stats"), cb("🎯 Maqsad", "u:goal")],
-    [cb("💎 Tarif", "u:plan"), cb("🏆 Reyting", "t:w")],
-    [cb("🎁 Referal", "u:invite"), cb("💡 Kunlik mashq", "u:daily")],
-    [cb("⚙️ Sozlamalar", "u:settings"), cb("❓ Yordam", "u:help")],
-    [app("🌐 Ilovani ochish", "/dashboard")],
+    [cb("🎓 Darslar", "u:learn"), cb("📚 Lug'at", "u:dict")],
+    [app("🏆 Reyting", "/leaderboard"), cb("🎁 Referal", "u:invite")],
+    [cb("💎 Tarif", "u:plan"), cb("⚙️ Sozlamalar", "u:settings")],
+    [cb("✍️ IELTS natijalarim", "u:stats"), cb("❓ Yordam", "u:help")],
+    [app("🌐 Saytni ochish", "/learn")],
   ]);
 }
 
