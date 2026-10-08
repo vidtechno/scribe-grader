@@ -87,12 +87,12 @@ export function planPrice(value: string | null | undefined, billing: Billing) {
   };
 }
 
-/** Telegram link to @scorify_payments with the order pre-filled. */
+/** Telegram link to @scorify_support with the order pre-filled. */
 export function purchaseLink(value: string | null | undefined, billing: Billing, publicId?: string | null) {
   const p = getPlanEntitlement(value);
   const price = planPrice(value, billing);
   const period = billing === 'month' ? '1 oy' : `${HALF_YEAR_MONTHS} oy (-10%)`;
   const id = publicId ? ` Mening ID: #${publicId}.` : '';
   const text = `Salom! Men "${p.name}" tarifini ${period} uchun sotib olmoqchiman: $${price.usd} yoki ${price.uzs} so'm.${id}`;
-  return `https://t.me/scorify_payments?text=${encodeURIComponent(text)}`;
+  return `https://t.me/scorify_support?text=${encodeURIComponent(text)}`;
 }

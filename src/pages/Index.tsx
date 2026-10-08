@@ -154,7 +154,7 @@ export default function Index() {
           name: 'How do I pay for a plan?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Payments are handled manually via Telegram @scorify_payments. Your plan is activated after confirmation and lasts 30 days.',
+            text: 'Payments are handled manually via Telegram @scorify_support. Your plan is activated after confirmation and lasts 30 days.',
           },
         },
       ],
