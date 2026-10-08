@@ -191,7 +191,7 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "\"Ikkinchi o'ngga buriling.\"", opts: ["Take the two right.", "Take the second right.", "Turn the second to right.", "Take second the right."], a: 1 },
     { k: "choice", q: "— Is there a bank near here? — …", opts: ["Yes, there's one opposite the park.", "Yes, it's a bank.", "Yes, there are.", "Yes, I am."], a: 0 },
-    { k: "fill", q: "Go ___ the hospital and turn left.", a: ["past"], uz: "Kasalxonaning yonidan o'tib, chapga buriling." },
+    { k: "fill", q: "Go ___ the hospital and turn left.", a: ["past", "by"], uz: "Kasalxonaning yonidan o'tib, chapga buriling." },
     { k: "fill", q: "Where's the ___ bus stop? (near)", a: ["nearest"], uz: "Eng yaqin avtobus bekati qayerda?" },
     { k: "listen", say: "Turn left at the crossroads.", opts: ["Turn left at the crossroads.", "Turn right at the crossroads.", "Turn left at the traffic lights."], a: 0 },
     { k: "tf", q: "Madinaning xabariga ko'ra, uyning darvozasi yashil.", a: true, why: "*It has a green gate.*" },

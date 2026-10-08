@@ -75,7 +75,7 @@ const lesson: Lesson = {
           ],
         },
         { t: "tip", tone: "warn", md: "Birlik: **Whose … is this?** — *It's…*. Ko'plik: **Whose … are these?** — *They're…*. ❌ *Whose keys is this?*" },
-        { t: "check", ex: { k: "order", uz: "Bu kimning kalitlari?", words: ["Whose", "keys", "are", "these?"], extra: ["Who's", "is"] } },
+        { t: "check", ex: { k: "order", uz: "Bu kimning kalitlari?", words: ["Whose", "keys", "are", "these?"], extra: ["Who's", "is"], alt: [["Whose", "are", "these", "keys?"]] } },
       ],
     },
     {
@@ -143,9 +143,9 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "whose", uz: "kimning, kimniki", ipa: "huːz", pos: "pronoun", ex: "Whose jacket is this?", exUz: "Bu kimning kurtkasi?" },
+    { en: "key", uz: "kalit", ipa: "kiː", pos: "noun", ex: "Whose keys are these?", exUz: "Bu kimning kalitlari?" },
     { en: "wallet", uz: "hamyon", ipa: "ˈwɒl.ɪt", pos: "noun", ex: "I can't find my wallet.", exUz: "Hamyonimni topa olmayapman." },
-    { en: "umbrella", uz: "soyabon", ipa: "ʌmˈbrel.ə", pos: "noun", ex: "Take an umbrella. It's raining.", exUz: "Soyabon ol. Yomg'ir yog'yapti." },
+    { en: "lend", uz: "qarz bermoq, vaqtincha bermoq", ipa: "lend", pos: "verb", ex: "Can you lend me your charger?", exUz: "Quvvatlagichingizni bir ozga bera olasizmi?" },
     { en: "charger", uz: "quvvatlagich (zaryadlovchi)", ipa: "ˈtʃɑː.dʒə", pos: "noun", ex: "Can I use your charger?", exUz: "Quvvatlagichingizdan foydalansam bo'ladimi?" },
     { en: "earphones", uz: "quloqchinlar", ipa: "ˈɪə.fəʊnz", pos: "noun", ex: "These earphones are mine.", exUz: "Bu quloqchinlar meniki." },
     { en: "scarf", uz: "sharf, ro'mol", ipa: "skɑːf", pos: "noun", ex: "Whose scarf is this? — It's hers.", exUz: "Bu kimning sharfi? — Uniki." },

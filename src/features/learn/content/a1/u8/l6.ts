@@ -142,7 +142,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Retseptning oxirgi qadami: \"___, serve the salad with bread.\"", opts: ["Finally", "At last", "First", "Before"], a: 0, why: "Oxirgi qadam — **Finally**. *At last* = uzoq kutgandan keyin." },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["Chop the onions.", "Don't add too much salt.", "You chops the onions.", "Fry the meat for ten minutes."], a: 2, why: "Retseptda subyekt yo'q va fe'l -s olmaydi: *Chop the onions.*" },
     { k: "fill", q: "___ the onions in oil for five minutes.", a: ["fry", "cook"], uz: "Piyozni yog'da besh daqiqa qovuring." },
-    { k: "fill", q: "Don't ___ too much sugar.", a: ["add", "put"], uz: "Juda ko'p shakar qo'shmang." },
+    { k: "fill", q: "Don't ___ too much sugar.", a: ["add", "put", "use"], uz: "Juda ko'p shakar qo'shmang." },
     { k: "fill", q: "___ the milk into a glass.", a: ["pour"], uz: "Sutni stakanga quying." },
     { k: "fill", q: "Boil the potatoes ___ twenty minutes.", a: ["for"], uz: "Kartoshkani yigirma daqiqa qaynating.", why: "Davomiylik — **for + vaqt**." },
     { k: "tf", q: "Retseptda gap odatda fe'l bilan boshlanadi: *Chop the onions.*", a: true },
@@ -150,7 +150,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Avval kartoshkalarni yuving.", words: ["First,", "wash", "the", "potatoes."], extra: ["washes", "you"] },
     { k: "order", uz: "Keyin go'shtni o'n daqiqa qovuring.", words: ["Then", "fry", "the", "meat", "for", "ten", "minutes."], extra: ["during", "fried"] },
     { k: "translate", uz: "Suvni qaynating.", a: ["Boil the water", "Boil water", "Boil some water"] },
-    { k: "translate", uz: "Oxirida salatni non bilan torting.", a: ["Finally serve the salad with bread", "Finally serve the salad with some bread", "Finally serve the salad with the bread", "Finally serve the salad with fresh bread", "At the end serve the salad with bread", "Last serve the salad with bread"], why: "Oxirgi qadam — **Finally**, \"tortmoq\" — **serve**." },
+    { k: "translate", uz: "Oxirida salatni non bilan torting.", a: ["Finally serve the salad with bread", "Finally serve the salad with some bread", "Finally serve the salad with the bread", "Finally serve the salad with fresh bread", "At the end serve the salad with bread", "Lastly serve the salad with bread", "Finally serve the salad together with bread"], why: "Oxirgi qadam — **Finally**, \"tortmoq\" — **serve**." },
     { k: "speak", say: "First, chop the onions. Then fry them for five minutes.", uz: "Avval piyozni to'g'rang. Keyin uni besh daqiqa qovuring." },
   ],
   quiz: [

@@ -154,7 +154,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Qaysi gap **to'g'ri**?", opts: ["My mum is a very good cooker.", "My mum is a very good cook.", "My mum is very good cooking.", "My mum is a cook very good."], a: 1, why: "Oshpaz — **cook**; *cooker* — plita." },
     { k: "choice", q: "— Is there a garden? — …", opts: ["Yes, there are.", "Yes, it is.", "Yes, there is.", "Yes, there has."], a: 2, why: "Qisqa javob: **Yes, there is.**" },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["The bathroom is upstairs.", "Let's go upstairs.", "My room is in upstairs.", "The kitchen is downstairs."], a: 2, why: "**upstairs** oldidan predlog yo'q." },
-    { k: "fill", q: "There ___ a lot of new furniture in their house.", a: ["is", "'s"], why: "**furniture** sanalmaydi → **is**." },
+    { k: "fill", q: "There ___ a lot of new furniture in their house.", a: ["is", "'s"], uz: "Ularning uyida juda ko'p yangi mebel bor.", why: "**furniture** sanalmaydi → **is**." },
     { k: "fill", q: "We have dinner ___ the kitchen.", a: ["in"] },
     { k: "fill", q: "one shelf → two ___", a: ["shelves"], why: "**f → ves**: *shelves*." },
     { k: "tf", q: "**I'm at home** va **I'm at house** — ikkalasi ham to'g'ri.", a: false, why: "**at house** xato — **at home** deymiz." },
@@ -173,7 +173,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**furniture** so'zining ko'plik shakli — *furnitures*.", a: false, why: "**furniture** sanalmaydi; ko'plik shakli yo'q." },
     { k: "match", pairs: [["upstairs", "yuqori qavatda"], ["downstairs", "pastki qavatda"], ["block of flats", "ko'p qavatli uy"], ["hall", "dahliz"], ["cooker", "plita"]] },
     { k: "order", uz: "Oshxonada stol yo'q.", words: ["There", "isn't", "a", "table", "in", "the", "kitchen."], extra: ["aren't", "on"] },
-    { k: "translate", uz: "Vannaxona yuqori qavatda.", a: ["The bathroom is upstairs", "The bathroom's upstairs"] },
+    { k: "translate", uz: "Vannaxona yuqori qavatda.", a: ["The bathroom is upstairs", "The bathroom's upstairs", "The bathroom is on the upper floor", "The bathroom is on the first floor"] },
     { k: "choice", q: "\"Yotoqxonada nima bor?\"", opts: ["What is there in the bedroom?", "What there is in the bedroom?", "What are in bedroom there?", "What is in there bedroom?"], a: 0, why: "Savol: **What is there in the bedroom?** (*What's in the bedroom?* ham to'g'ri)." },
   ],
   summary: [
