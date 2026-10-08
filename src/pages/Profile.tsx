@@ -10,6 +10,7 @@ import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap, Gift, BookOpen } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
+import { LearningIdentity } from '@/features/social/LearningIdentity';
 import { TelegramConnectCard } from '@/components/TelegramConnectCard';
 import { displayEmail } from '@/lib/telegram';
 import { format } from 'date-fns';
@@ -130,6 +131,8 @@ export default function Profile() {
             </div>
           </div>
         </motion.div>
+
+        <LearningIdentity />
 
         <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
 

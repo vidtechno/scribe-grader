@@ -15,6 +15,7 @@ export interface LearningAccess {
   allowed: boolean; reason: 'paid' | 'trial' | 'trial_expired' | 'not_started'; plan: string;
   trial_ends_at?: string; expires_at?: string | null;
 }
+export interface StreakInfo { current: number; best: number; freezes: number; done_today: boolean; at_risk: boolean; broken: boolean }
 export interface LearningState {
   profile: {
     level: string; xp: number; trial_started_at: string; next_lesson_title: string | null;
@@ -23,9 +24,15 @@ export interface LearningState {
     placement_status?: 'none' | 'pending' | 'passed' | 'failed' | 'skipped';
     placement_attempts?: number;
     placement_best?: number | null;
+    placement_target?: string | null;
+    daily_goal_xp?: number;
   } | null;
   access: LearningAccess;
   streak: number;
+  streak_info?: StreakInfo;
+  goal?: { daily_goal_xp: number; today_xp: number };
+  achievements?: { key: string; unlocked_at: string }[];
+  levels?: { id: string; position: number; title: string; is_open: boolean }[];
   today: string;
   progress: LessonProgress[];
   tests: UnitTestState[];

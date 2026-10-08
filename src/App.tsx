@@ -25,6 +25,8 @@ const Drafts = lazy(() => import("./pages/Drafts"));
 const AdminBlogEditor = lazy(() => import("./pages/AdminBlogEditor"));
 const Referral = lazy(() => import("./pages/Referral"));
 const Profile = lazy(() => import("./pages/Profile"));
+const People = lazy(() => import("./pages/People"));
+const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const MockTestDashboard = lazy(() => import("./pages/MockTestDashboard"));
 const MockTestExam = lazy(() => import("./pages/MockTestExam"));
 const MockTestThankYou = lazy(() => import("./pages/MockTestThankYou"));
@@ -111,6 +113,8 @@ function AppRoutes() {
         <Route path="/drafts" element={<ProtectedRoute><Drafts /></ProtectedRoute>} />
         <Route path="/referral" element={<ProtectedRoute><Referral /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/people" element={<ProtectedRoute><People /></ProtectedRoute>} />
+        <Route path="/u/:publicId" element={<ProtectedRoute><PublicProfile /></ProtectedRoute>} />
         <Route path="/mock-test" element={<ProtectedRoute><MockTestDashboard /></ProtectedRoute>} />
         <Route path="/mock-test/exam/:id" element={<ProtectedRoute><MockTestExam /></ProtectedRoute>} />
         <Route path="/mock-test/thank-you/:id" element={<ProtectedRoute><MockTestThankYou /></ProtectedRoute>} />
