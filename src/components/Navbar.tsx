@@ -1,12 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen, GraduationCap } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen, GraduationCap, ChevronDown, ClipboardList, Target } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 import { useSubscription } from '@/hooks/useSubscription';
+
+/** Pages that belong to the IELTS Practice section. */
+const PRACTICE_PATHS = /^\/(practice|writing|exam|speaking|speaking-history|speaking-result|essays|result|drafts|mock-test|grammar-test|vocabulary)(\/|$)/;
 
 const PricingModal = lazy(() => import('@/components/PricingModal').then(m => ({ default: m.PricingModal })));
 
@@ -14,6 +18,7 @@ export function Navbar() {
   const { user, profile, signOut } = useAuth();
   const { planName, planType } = useSubscription();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
 
@@ -49,35 +54,37 @@ export function Navbar() {
                 </Link>
               )}
               <Link to="/dashboard" className="hidden md:block">
-                <Button variant="ghost" size="sm" className="gap-2">
+                <Button variant="ghost" size="sm" className={`gap-2 ${pathname === '/dashboard' ? 'bg-secondary text-foreground' : ''}`}>
                   <LayoutDashboard className="h-4 w-4" />
                   <span className="hidden sm:inline">Dashboard</span>
                 </Button>
               </Link>
-              <Link to="/learn" className="hidden md:block">
-                <Button variant="ghost" size="sm" className="gap-2">
+              {/* The English course is the main section of the site. */}
+              <Link to="/learn" className="hidden md:block" aria-current={pathname.startsWith('/learn') ? 'page' : undefined}>
+                <Button size="sm" className={`gap-2 font-semibold ${pathname.startsWith('/learn') ? '' : 'bg-primary/10 text-primary hover:bg-primary/20'}`}>
                   <GraduationCap className="h-4 w-4" />
-                  <span className="hidden sm:inline">Learn</span>
+                  <span>Learn</span>
                 </Button>
               </Link>
-              <Link to="/writing" className="hidden md:block">
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <PenTool className="h-4 w-4" />
-                  <span className="hidden sm:inline">Writing</span>
-                </Button>
-              </Link>
-              <Link to="/speaking" className="hidden md:block">
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <Mic className="h-4 w-4" />
-                  <span className="hidden sm:inline">Speaking</span>
-                </Button>
-              </Link>
-              <Link to="/grammar-test" className="hidden lg:block">
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <BrainCircuit className="h-4 w-4" />
-                  <span>Daily Grammar</span>
-                </Button>
-              </Link>
+              <div className="hidden md:block">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className={`gap-1.5 ${PRACTICE_PATHS.test(pathname) ? 'bg-secondary text-foreground' : ''}`}>
+                      <Target className="h-4 w-4" />
+                      <span>IELTS Practice</span>
+                      <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem asChild><Link to="/writing" className="gap-2 cursor-pointer"><PenTool className="h-4 w-4" />Writing</Link></DropdownMenuItem>
+                    <DropdownMenuItem asChild><Link to="/speaking" className="gap-2 cursor-pointer"><Mic className="h-4 w-4" />Speaking</Link></DropdownMenuItem>
+                    <DropdownMenuItem asChild><Link to="/mock-test" className="gap-2 cursor-pointer"><ClipboardList className="h-4 w-4" />Full Mock Test</Link></DropdownMenuItem>
+                    <DropdownMenuItem asChild><Link to="/grammar-test" className="gap-2 cursor-pointer"><BrainCircuit className="h-4 w-4" />Daily Grammar</Link></DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild><Link to="/practice" className="gap-2 cursor-pointer text-primary">All practice</Link></DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <a href="/blog" className="hidden xl:block">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <BookOpen className="h-4 w-4" />

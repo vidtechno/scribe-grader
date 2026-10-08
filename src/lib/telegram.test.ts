@@ -10,7 +10,7 @@ describe('Mini App destinations', () => {
     expect(miniAppPath(`/result/${id}`)).toBe(`/result/${id}`);
     expect(miniAppPath(`/speaking-result/${id}`)).toBe(`/speaking-result/${id}`);
     expect(miniAppPath(`/mock-test/result/${id}`)).toBe(`/mock-test/result/${id}`);
-    for (const path of ['/learn', '/learn/lesson/u1-l1', '/learn/test/u3', '/learn/placement']) expect(miniAppPath(path)).toBe(path);
+    for (const path of ['/learn', '/learn/lesson/u1-l1', '/learn/test/u3', '/learn/placement', '/practice']) expect(miniAppPath(path)).toBe(path);
   });
 
   it('falls back to the dashboard for unknown or external destinations', () => {

@@ -36,6 +36,7 @@ const Learn = lazy(() => import("./pages/Learn"));
 const LearnLesson = lazy(() => import("./pages/LearnLesson"));
 const LearnUnitTest = lazy(() => import("./pages/LearnUnitTest"));
 const LearnPlacement = lazy(() => import("./pages/LearnPlacement"));
+const Practice = lazy(() => import("./pages/Practice"));
 import { safeReturnTo } from "./lib/returnTo";
 import { isTelegramWebApp, miniAppPath } from "./lib/telegram";
 
@@ -94,6 +95,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/vocabulary" element={<Navigate to="/dashboard" replace />} />
         <Route path="/grammar-test" element={<ProtectedRoute><GrammarTest /></ProtectedRoute>} />
+        <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
         <Route path="/learn" element={<ProtectedRoute><Learn /></ProtectedRoute>} />
         <Route path="/learn/lesson/:id" element={<ProtectedRoute><LearnLesson /></ProtectedRoute>} />
         <Route path="/learn/test/:unitId" element={<ProtectedRoute><LearnUnitTest /></ProtectedRoute>} />

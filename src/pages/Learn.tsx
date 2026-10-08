@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   BookA, Check, CheckCircle2, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, X, Zap,
@@ -96,7 +96,9 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
 
 function CourseHome({ state }: { state: LearningState }) {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<'map' | 'words'>('map');
+  const [params, setParams] = useSearchParams();
+  const tab: 'map' | 'words' = params.get('tab') === 'words' ? 'words' : 'map';
+  const setTab = (next: 'map' | 'words') => setParams(next === 'words' ? { tab: 'words' } : {}, { replace: true });
   const [levelTab, setLevelTab] = useState<LevelId | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
   const map = useMemo(() => courseMap(state), [state]);
