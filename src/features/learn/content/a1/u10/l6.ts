@@ -140,7 +140,7 @@ const lesson: Lesson = {
     { en: "visa", uz: "viza", ipa: "ˈviː.zə", pos: "noun", ex: "Do I have to get a visa for the UK?", exUz: "Buyuk Britaniyaga viza olishim kerakmi?" },
     { en: "fill in", uz: "to'ldirmoq (anketa, blanka)", ipa: "ˌfɪl ˈɪn", pos: "phrasal verb", ex: "Please fill in this form.", exUz: "Iltimos, bu anketani to'ldiring." },
     { en: "form", uz: "shakl, anketa, blanka", ipa: "fɔːm", pos: "noun", ex: "I had to fill in a long form.", exUz: "Uzun anketani to'ldirishimga to'g'ri keldi." },
-    { en: "nurse", uz: "hamshira", ipa: "nɜːs", pos: "noun", ex: "The nurse has to wear a white uniform.", exUz: "Hamshira oq forma kiyishi kerak." },
+    { en: "waiting room", uz: "kutish xonasi", ipa: "ˈweɪ.tɪŋ ruːm", pos: "noun", ex: "You have to wait in the waiting room.", exUz: "Kutish xonasida kutishingiz kerak." },
     { en: "queue", uz: "navbat; navbatda turmoq", ipa: "kjuː", pos: "noun, verb", ex: "We had to queue for an hour.", exUz: "Bir soat navbatda turishimizga to'g'ri keldi." },
     { en: "on time", uz: "o'z vaqtida", ipa: "ɒn ˈtaɪm", pos: "phrase", ex: "You have to arrive on time.", exUz: "O'z vaqtida kelishingiz kerak." },
     { en: "prescription", uz: "retsept", ipa: "prɪˈskrɪp.ʃən", pos: "noun", ex: "You need a prescription for this medicine.", exUz: "Bu dori uchun retsept kerak." },

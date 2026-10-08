@@ -162,7 +162,7 @@ const lesson: Lesson = {
     { en: "traffic lights", uz: "svetofor", ipa: "ˈtræf.ɪk laɪts", pos: "noun", ex: "Turn left at the traffic lights.", exUz: "Svetoforda chapga buriling." },
     { en: "crossroads", uz: "chorraha", ipa: "ˈkrɒs.rəʊdz", pos: "noun", ex: "Turn right at the crossroads.", exUz: "Chorrahada o'ngga buriling." },
     { en: "corner", uz: "burchak, muyulish", ipa: "ˈkɔː.nə", pos: "noun", ex: "The café is on the corner.", exUz: "Kafe burchakda." },
-    { en: "opposite", uz: "qarshisida", ipa: "ˈɒp.ə.zɪt", pos: "preposition", ex: "The bank is opposite the hotel.", exUz: "Bank mehmonxonaning qarshisida." },
+    { en: "roundabout", uz: "aylanma yo'l (halqa)", ipa: "ˈraʊnd.ə.baʊt", pos: "noun", ex: "Take the second exit at the roundabout.", exUz: "Aylanma yo'lda ikkinchi chiqishga buriling." },
     { en: "straight on", uz: "to'g'riga", ipa: "ˌstreɪt ˈɒn", pos: "adverb", ex: "Go straight on for two minutes.", exUz: "Ikki daqiqa to'g'riga yuring." },
     { en: "turn", uz: "burilmoq", ipa: "tɜːn", pos: "verb", ex: "Turn right after the bridge.", exUz: "Ko'prikdan keyin o'ngga buriling." },
     { en: "cross", uz: "kesib o'tmoq", ipa: "krɒs", pos: "verb", ex: "Cross the road at the traffic lights.", exUz: "Yo'lni svetoforda kesib o'ting." },

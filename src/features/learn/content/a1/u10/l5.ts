@@ -156,7 +156,7 @@ const lesson: Lesson = {
     { en: "have a temperature", uz: "isitmasi bo'lmoq", ipa: "hæv ə ˈtem.prə.tʃə", pos: "phrase", ex: "My son has got a temperature.", exUz: "O'g'limning isitmasi bor." },
     { en: "hurt", uz: "og'rimoq; shikastlamoq", ipa: "hɜːt", pos: "verb", ex: "My back hurts.", exUz: "Belim og'riyapti." },
     { en: "medicine", uz: "dori", ipa: "ˈmed.sən", pos: "noun", ex: "Take this medicine twice a day.", exUz: "Bu dorini kuniga ikki marta iching." },
-    { en: "pharmacy", uz: "dorixona", ipa: "ˈfɑː.mə.si", pos: "noun", ex: "Is there a pharmacy near here?", exUz: "Bu yerga yaqin dorixona bormi?" },
+    { en: "plaster", uz: "plastir", ipa: "ˈplɑː.stə", pos: "noun", ex: "I need a plaster for my finger.", exUz: "Barmog'imga plastir kerak." },
   ],
   practice: [
     { k: "match", pairs: [["headache", "bosh og'rig'i"], ["toothache", "tish og'rig'i"], ["stomachache", "qorin og'rig'i"], ["sore throat", "tomoq og'rig'i"], ["cough", "yo'tal"]] },

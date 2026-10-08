@@ -168,7 +168,7 @@ const lesson: Lesson = {
   words: [
     { en: "ever", uz: "hech, qachondir (savolda)", ipa: "ˈevə", pos: "adverb", ex: "Have you ever been to Khiva?", exUz: "Siz hech Xivada bo'lganmisiz?" },
     { en: "many times", uz: "ko'p marta", ipa: "ˈmeni taɪmz", pos: "phrase", ex: "He has eaten here many times.", exUz: "U bu yerda ko'p marta ovqatlangan." },
-    { en: "camel", uz: "tuya", ipa: "ˈkæml", pos: "noun", ex: "I've never ridden a camel.", exUz: "Men hech qachon tuya minmaganman." },
+    { en: "desert", uz: "sahro", ipa: "ˈdez.ət", pos: "noun", ex: "I have never been to a desert.", exUz: "Men hech qachon sahroda bo'lmaganman." },
     { en: "ocean", uz: "okean", ipa: "ˈəʊʃn", pos: "noun", ex: "She has never seen the ocean.", exUz: "U hech qachon okeanni ko'rmagan." },
     { en: "try", uz: "tatib ko'rmoq, sinab ko'rmoq", ipa: "traɪ", pos: "verb", ex: "Have you ever tried Korean food?", exUz: "Koreys taomini tatib ko'rganmisiz?" },
     { en: "ride – rode – ridden", uz: "minmoq (ot, tuya, velosiped)", ipa: "raɪd – rəʊd – ˈrɪdn", pos: "verb", ex: "I've never ridden a camel.", exUz: "Men hech qachon tuya minmaganman." },

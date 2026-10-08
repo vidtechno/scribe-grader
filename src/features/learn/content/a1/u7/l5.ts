@@ -158,7 +158,7 @@ const lesson: Lesson = {
   words: [
     { en: "tonight", uz: "bugun kechqurun", ipa: "təˈnaɪt", pos: "adverb", ex: "What are you doing tonight?", exUz: "Bugun kechqurun nima qilyapsiz?" },
     { en: "this evening", uz: "bugun kechqurun (shu oqshom)", ipa: "ðɪs ˈiːv.nɪŋ", pos: "phrase", ex: "We're meeting this evening.", exUz: "Bugun kechqurun uchrashamiz." },
-    { en: "busy", uz: "band", ipa: "ˈbɪz.i", pos: "adj", ex: "I'm busy on Saturday.", exUz: "Shanba kuni bandman." },
+    { en: "available", uz: "bo'sh, vaqti bor", ipa: "əˈveɪ.lə.bəl", pos: "adj", ex: "Are you available on Friday?", exUz: "Juma kuni bo'shmisiz?" },
     { en: "day off", uz: "dam olish kuni (ishdan ozod kun)", ipa: "ˌdeɪ ˈɒf", pos: "noun", ex: "Tomorrow is my day off.", exUz: "Ertaga dam olish kunim." },
     { en: "meeting", uz: "majlis, uchrashuv (ishda)", ipa: "ˈmiː.tɪŋ", pos: "noun", ex: "We're having a meeting on Monday.", exUz: "Dushanba kuni majlis o'tkazamiz." },
     { en: "dentist", uz: "tish shifokori", ipa: "ˈden.tɪst", pos: "noun", ex: "I'm seeing the dentist tomorrow.", exUz: "Ertaga tish shifokoriga boraman." },

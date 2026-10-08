@@ -138,14 +138,14 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "happen", uz: "sodir bo'lmoq, bo'lmoq", ipa: "ˈhæp.ən", pos: "verb", ex: "What happened at school today?", exUz: "Bugun maktabda nima bo'ldi?" },
-    { en: "party", uz: "bazm, ziyofat; mehmondorchilik", ipa: "ˈpɑː.ti", pos: "noun", ex: "Who was at the party last night?", exUz: "Kecha kechqurun bazmda kimlar bor edi?" },
+    { en: "picnic", uz: "piknik", ipa: "ˈpɪk.nɪk", pos: "noun", ex: "We had a picnic by the river.", exUz: "Daryo bo'yida piknik qildik." },
     { en: "musician", uz: "sozanda, musiqachi", ipa: "mjuˈzɪʃ.ən", pos: "noun", ex: "The musicians played until midnight.", exUz: "Sozandalar yarim tungacha chalishdi." },
     { en: "everybody", uz: "hamma, barcha", ipa: "ˈev.ri.bɒd.i", pos: "pronoun", ex: "Everybody danced and sang at the party.", exUz: "Hamma bazmda raqsga tushdi va qo'shiq aytdi." },
-    { en: "get up", uz: "turmoq (o'rnidan, uyqudan)", ipa: "ˌɡet ˈʌp", pos: "phrasal verb", ex: "What time did you get up on Sunday?", exUz: "Yakshanba kuni soat nechada turding?" },
+    { en: "stay up", uz: "kech yotmaslik", ipa: "steɪ ʌp", pos: "phrase", ex: "We stayed up late and talked.", exUz: "Kech yotmay gaplashib o'tirdik." },
     { en: "relatives", uz: "qarindoshlar", ipa: "ˈrel.ə.tɪvz", pos: "noun", ex: "I met a lot of relatives at the wedding.", exUz: "To'yda ko'p qarindoshlarni ko'rdim." },
     { en: "boring", uz: "zerikarli", ipa: "ˈbɔː.rɪŋ", pos: "adj", ex: "The film was long and boring.", exUz: "Film uzun va zerikarli edi." },
     { en: "fantastic", uz: "ajoyib, zo'r", ipa: "fænˈtæs.tɪk", pos: "adj", ex: "It was a fantastic weekend!", exUz: "Bu ajoyib dam olish kunlari bo'ldi!" },
-    { en: "tired", uz: "charchagan", ipa: "ˈtaɪ.əd", pos: "adj", ex: "I was tired after the long journey.", exUz: "Uzoq yo'ldan keyin charchagan edim." },
+    { en: "sleepy", uz: "uyqusiragan", ipa: "ˈsliː.pi", pos: "adj", ex: "I was very sleepy after the trip.", exUz: "Safardan keyin juda uyqum kelgan edi." },
     { en: "have fun", uz: "xursandchilik qilmoq, maza qilmoq", ipa: "ˌhæv ˈfʌn", pos: "phrase", ex: "We had fun at the party.", exUz: "Bazmda maza qildik." },
   ],
   practice: [

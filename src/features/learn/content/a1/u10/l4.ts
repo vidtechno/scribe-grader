@@ -133,7 +133,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "pack", uz: "(sumka/chamadonga) narsalarni joylamoq", ipa: "pæk", pos: "verb", ex: "I'm going to pack my suitcase tonight.", exUz: "Bugun kechqurun chamadonimni yig'aman." },
-    { en: "hat", uz: "shlyapa, bosh kiyim", ipa: "hæt", pos: "noun", ex: "Take a hat. Khiva is going to be hot.", exUz: "Shlyapa oling. Xivada issiq bo'ladi." },
+    { en: "sunglasses", uz: "quyosh ko'zoynagi", ipa: "ˈsʌnˌɡlɑː.sɪz", pos: "noun", ex: "I forgot my sunglasses at the hotel.", exUz: "Quyosh ko'zoynagimni mehmonxonada unutibman." },
     { en: "postcard", uz: "ochiq xat (otkritka)", ipa: "ˈpəʊst.kɑːd", pos: "noun", ex: "I'm going to send you a postcard from Bukhara.", exUz: "Buxorodan senga ochiq xat yuboraman." },
     { en: "cloud", uz: "bulut", ipa: "klaʊd", pos: "noun", ex: "Look at that dark cloud. It's going to rain.", exUz: "Anavi qora bulutga qara. Yomg'ir yog'adi." },
     { en: "tour guide", uz: "gid, ekskursovod", ipa: "ˈtʊə ɡaɪd", pos: "noun", ex: "Our tour guide speaks English very well.", exUz: "Gidimiz inglizchani juda yaxshi gapiradi." },
