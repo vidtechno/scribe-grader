@@ -25,3 +25,27 @@ Leaderboard: weekly/all-time XP, global or people I follow.
 ## Trust model
 Scores are client-reported. Mitigations: daily XP cap, low XP for repeats,
 profile columns locked (only full_name, age, city, phone are user-updatable).
+
+## Progression
+- The path starts at the level the learner chose; units open one after another through their tests.
+- **Test-out:** a reached unit's test is `optional` while lessons are unfinished. Passing it marks the
+  whole unit as done (client-side in `courseMap`, the test row is the source of truth) and opens the next unit.
+  Same rules as any unit test: 80% to pass, 2 attempts, then a 48-hour pause.
+- **Placement:** `learning_start(level)` for a non-first level asks for a placement test over all units of the
+  levels below (20 questions, 70%, 2 attempts, `placement_target`). Failing twice starts at the first level.
+- Adding a level: a row in `learning_levels`, its units in `src/features/learn/course.ts`, `is_open = true`.
+
+## Retention loop
+Daily goal (10–200 XP, default 30) → XP and streak (freezes, comeback bonus) → achievements →
+weekly/all-time leaderboard (global or people I follow) → followers/following → Telegram reminders and praise.
+
+## Telegram messages (character, caps, opt-out)
+- Cron (Tashkent): morning 09:30, afternoon 14:30, evening 20:30 → `telegram_enqueue_learn_slot(slot)`.
+- Ladder by days away: 0–2 daily slots (normal: all three, light: evening only), 3–6 evening "come back"
+  (+25 XP hint after 4+ days), 7–13 weekly, then one last message and silence.
+- Max 3 study reminders a day (1 in light mode); `reminder_mode` normal | light | off plus `notify_reminders`.
+- Praise (`learn_praise`) is queued by a trigger on the first XP of the day; a failure there never blocks progress.
+- Copy lives in `supabase/functions/telegram-bot/learn-copy.ts` (variant chosen per user and day).
+- The IELTS daily grammar-test reminder goes only to non-learners (or learners who did a test this week).
+- Google users see one quiet line after their first finished lesson (and the Telegram card in the profile);
+  Telegram sign-ins are connected automatically.
