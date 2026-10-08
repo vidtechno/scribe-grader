@@ -47,3 +47,16 @@ export function unitTestQuestions(lessons: Lesson[], total = 20, random = Math.r
   });
   return shuffle([...fromLessons, ...wordQs], random).slice(0, total);
 }
+
+/** Placement test for Elementary: the same number of questions from every Beginner unit, shuffled. */
+export function placementQuestions(units: Lesson[][], total = 20, random = Math.random): Exercise[] {
+  const perUnit = Math.floor(total / units.length);
+  const pool = (lessons: Lesson[]) => shuffle(lessons.flatMap((l) => l.quiz.filter((e) => e.k !== 'speak' && e.k !== 'match')), random);
+  const picked = units.flatMap((lessons) => pool(lessons).slice(0, perUnit));
+  // Rounding left a few places: fill them from the units' remaining questions.
+  if (picked.length < total) {
+    const rest = shuffle(units.flatMap((lessons) => pool(lessons)).filter((q) => !picked.includes(q)), random);
+    picked.push(...rest.slice(0, total - picked.length));
+  }
+  return shuffle(picked, random).slice(0, total);
+}

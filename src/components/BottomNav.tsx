@@ -8,7 +8,7 @@ export function BottomNav() {
   const navigate = useNavigate();
 
   if (!user || location.pathname === '/exam' || location.pathname.startsWith('/mock-test/exam/')
-    || location.pathname.startsWith('/learn/lesson/') || location.pathname.startsWith('/learn/test/')) return null;
+    || location.pathname.startsWith('/learn/lesson/') || location.pathname.startsWith('/learn/test/') || location.pathname === '/learn/placement') return null;
   const active = (path: string) => location.pathname === path;
 
   return <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-area-bottom" aria-label="Main navigation">

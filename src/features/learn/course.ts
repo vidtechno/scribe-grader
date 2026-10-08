@@ -218,6 +218,9 @@ export const UNIT_TEST = {
   lockHours: 48,
 } as const;
 
+/** Choosing Elementary starts with a placement test on the Beginner course; failing twice means starting at Beginner. */
+export const PLACEMENT = { questions: 20, passPercent: 70, attempts: 2 } as const;
+
 export const LESSON_PASS_PERCENT = 70;
 /** Free plan users can learn for this many days after they start. */
 export const TRIAL_DAYS = 7;
