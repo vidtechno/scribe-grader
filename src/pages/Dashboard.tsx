@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles,
+  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Users,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
@@ -91,6 +91,10 @@ export default function Dashboard() {
         {/* English course: the main thing on this page */}
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mb-6">
           <LearnHero onUpgrade={() => setShowPricing(true)} />
+          <div className="mt-3 flex flex-wrap gap-2 text-sm">
+            <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Award className="h-4 w-4" />Reyting</Link>
+            <Link to="/people" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Users className="h-4 w-4" />Do'stlar</Link>
+          </div>
         </motion.div>
 
         {/* IELTS practice: one step down, always one tap away */}
