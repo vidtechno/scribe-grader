@@ -121,7 +121,7 @@ const lesson: Lesson = {
         { t: "check", ex: { k: "choice", q: "What time must people be back at the camp?", opts: ["before 7 p.m.", "before 9 p.m.", "after 9 p.m.", "at midnight"], a: 1, why: "*You must be back at the camp **before 9 p.m.***" } },
         {
           t: "dialog", lines: [
-            { who: "Guide", en: "OK, everyone, we're going into the mosque now. You must take off your shoes.", uz: "Xo'sh, hammaga, hozir masjidga kiramiz. Oyoq kiyimlaringizni yechishingiz kerak." },
+            { who: "Guide", en: "OK, everyone, we're going into the mosque now. You must take off your shoes.", uz: "Xo'sh, do'stlar, hozir masjidga kiramiz. Poyabzalingizni yechishingiz kerak." },
             { who: "Tourist", en: "Can I take photos inside?", uz: "Ichkarida suratga olsam bo'ladimi?" },
             { who: "Guide", en: "Yes, you can, but you mustn't use the flash. And you mustn't be loud.", uz: "Ha, bo'ladi, lekin chaqnoqdan foydalanish mumkin emas. Shovqin qilish ham mumkin emas." },
             { who: "Tourist", en: "Do I have to cover my head?", uz: "Boshimni yopishim kerakmi?" },
@@ -137,9 +137,9 @@ const lesson: Lesson = {
     { en: "fasten", uz: "taqmoq, mahkamlamoq", ipa: "ˈfɑː.sən", pos: "verb", ex: "Please fasten your seat belt.", exUz: "Iltimos, xavfsizlik kamaringizni taqing." },
     { en: "seat belt", uz: "xavfsizlik kamari", ipa: "ˈsiːt belt", pos: "noun", ex: "You must wear a seat belt in a taxi too.", exUz: "Taksida ham xavfsizlik kamarini taqish shart." },
     { en: "switch off", uz: "o'chirmoq (telefon, chiroq)", ipa: "ˌswɪtʃ ˈɒf", pos: "phrasal verb", ex: "Please switch off your phones.", exUz: "Iltimos, telefonlaringizni o'chiring." },
-    { en: "park", uz: "(mashinani) to'xtatib qo'ymoq", ipa: "pɑːk", pos: "verb", ex: "You mustn't park in front of the gate.", exUz: "Darvoza oldida mashina qo'yish mumkin emas." },
+    { en: "rule", uz: "qoida", ipa: "ruːl", pos: "noun", ex: "Please read the rules before you swim.", exUz: "Suzishdan oldin qoidalarni o'qing." },
     { en: "rubbish", uz: "axlat, chiqindi", ipa: "ˈrʌb.ɪʃ", pos: "noun (uncountable)", ex: "Don't leave your rubbish in the park.", exUz: "Axlatingizni bog'da qoldirmang." },
-    { en: "fine", uz: "jarima", ipa: "faɪn", pos: "noun", ex: "He had to pay a fine for parking there.", exUz: "U o'sha yerga mashina qo'ygani uchun jarima to'lashga majbur bo'ldi." },
+    { en: "grass", uz: "o'tloq, maysa", ipa: "ɡrɑːs", pos: "noun (uncountable)", ex: "Please don't walk on the grass.", exUz: "Iltimos, maysa ustida yurmang." },
     { en: "be allowed to", uz: "ruxsat berilgan bo'lmoq", ipa: "bi əˈlaʊd tə", pos: "phrase", ex: "You aren't allowed to take photos here.", exUz: "Bu yerda suratga olishga ruxsat yo'q." },
     { en: "danger", uz: "xavf", ipa: "ˈdeɪn.dʒə", pos: "noun", ex: "Danger! Keep out!", exUz: "Xavfli! Kirmang!" },
   ],

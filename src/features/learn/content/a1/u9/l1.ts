@@ -51,7 +51,7 @@ const lesson: Lesson = {
     {
       title: "last + vaqt: the ham, on ham yo'q",
       blocks: [
-        { t: "p", md: "**last** = \"o'tgan\". U bilan **artikl ham, predlog ham** ishlatilmaydi. Bu Uzbek o'quvchilarning eng ko'p uchraydigan xatosi: \"o'tgan haftada\" deganimiz uchun ❌ *in last week* deyishadi." },
+        { t: "p", md: "**last** = \"o'tgan\". U bilan **artikl ham, predlog ham** ishlatilmaydi. Bu o'zbek o'quvchilarning eng ko'p uchraydigan xatosi: \"o'tgan haftada\" deganimiz uchun ❌ *in last week* deyishadi." },
         {
           t: "table", head: ["last + …", "O'zbekcha"],
           rows: [
@@ -149,7 +149,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Bekzod", en: "Did you see the new film at Magic City?", uz: "Magic City'dagi yangi filmni ko'rdingmi?" },
             { who: "Nodira", en: "Yes, I saw it the day before yesterday.", uz: "Ha, kechadan oldingi kuni ko'rdim." },
-            { who: "Bekzod", en: "Really? I went there last Saturday, but there were no tickets.", uz: "Rostdanmi? Men o'tgan shanba borgandim, lekin chipta yo'q edi." },
+            { who: "Bekzod", en: "Really? I went there last Saturday, but the cinema was full.", uz: "Rostdanmi? Men o'tgan shanba borgandim, lekin kinoteatr odamga to'la edi." },
             { who: "Nodira", en: "I bought my ticket online a week ago.", uz: "Men chiptamni bir hafta oldin internetdan oldim." },
             { who: "Bekzod", en: "Good idea. When did you last go to the cinema before that?", uz: "Yaxshi fikr. Undan oldin oxirgi marta qachon kinoga borgansan?" },
             { who: "Nodira", en: "Oh, a long time ago. Maybe last summer!", uz: "Oh, ancha oldin. Balki o'tgan yozdadir!" },
@@ -168,7 +168,7 @@ const lesson: Lesson = {
     { en: "last summer", uz: "o'tgan yoz", ipa: "ˌlɑːst ˈsʌm.ə", pos: "phrase", ex: "Last summer we went to the mountains.", exUz: "O'tgan yozda tog'ga bordik." },
     { en: "a long time ago", uz: "ancha oldin, uzoq vaqt oldin", ipa: "ə ˌlɒŋ ˈtaɪm əˌɡəʊ", pos: "phrase", ex: "My grandparents bought this house a long time ago.", exUz: "Bobom va buvim bu uyni ancha oldin sotib olishgan." },
     { en: "a few minutes ago", uz: "bir necha daqiqa oldin", ipa: "ə ˌfjuː ˈmɪn.ɪts əˌɡəʊ", pos: "phrase", ex: "The bus arrived a few minutes ago.", exUz: "Avtobus bir necha daqiqa oldin keldi." },
-    { en: "later", uz: "keyinroq, …dan keyin", ipa: "ˈleɪ.tə", pos: "adv", ex: "We arrived on Monday, and two days later it snowed.", exUz: "Dushanba kuni yetib keldik, ikki kundan keyin qor yog'di." },
+    { en: "last weekend", uz: "o'tgan dam olish kunlari", ipa: "ˌlɑːst ˌwiːkˈend", pos: "phrase", ex: "We visited my grandparents last weekend.", exUz: "O'tgan dam olish kunlari bobo-buvimnikiga bordik." },
     { en: "when I was a child", uz: "bolaligimda", ipa: "wen aɪ wəz ə ˈtʃaɪld", pos: "phrase", ex: "When I was a child, I lived in Namangan.", exUz: "Bolaligimda Namanganda yashardim." },
     { en: "cousin", uz: "amakivachcha, xolavachcha, ammavachcha, tog'avachcha (qarindoshingizning farzandi)", ipa: "ˈkʌz.ən", pos: "noun", ex: "My cousin came from Andijan three days ago.", exUz: "Xolavachcham uch kun oldin Andijondan keldi." },
   ],

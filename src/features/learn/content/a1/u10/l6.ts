@@ -138,7 +138,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "visa", uz: "viza", ipa: "ˈviː.zə", pos: "noun", ex: "Do I have to get a visa for the UK?", exUz: "Buyuk Britaniyaga viza olishim kerakmi?" },
-    { en: "fill in", uz: "to'ldirmoq (shakl, anketa)", ipa: "ˌfɪl ˈɪn", pos: "phrasal verb", ex: "Please fill in this form.", exUz: "Iltimos, bu anketani to'ldiring." },
+    { en: "fill in", uz: "to'ldirmoq (anketa, blanka)", ipa: "ˌfɪl ˈɪn", pos: "phrasal verb", ex: "Please fill in this form.", exUz: "Iltimos, bu anketani to'ldiring." },
     { en: "form", uz: "shakl, anketa, blanka", ipa: "fɔːm", pos: "noun", ex: "I had to fill in a long form.", exUz: "Uzun anketani to'ldirishimga to'g'ri keldi." },
     { en: "nurse", uz: "hamshira", ipa: "nɜːs", pos: "noun", ex: "The nurse has to wear a white uniform.", exUz: "Hamshira oq forma kiyishi kerak." },
     { en: "queue", uz: "navbat; navbatda turmoq", ipa: "kjuː", pos: "noun, verb", ex: "We had to queue for an hour.", exUz: "Bir soat navbatda turishimizga to'g'ri keldi." },
@@ -158,7 +158,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["Does he have to work today?", "Do you have to wear a uniform?", "Does she has to pay?", "Did you have to wait?"], a: 2, why: "**Does** dan keyin **have**: *Does she **have** to pay?*" },
     { k: "fill", q: "You ___ to show your passport at the airport.", a: ["have", "need"], uz: "Aeroportda pasportingizni ko'rsatishingiz kerak.", why: "**you** → **have to**." },
     { k: "fill", q: "He ___ have to get a visa. It's not necessary for his country.", a: ["doesn't", "does not"], uz: "U viza olishi shart emas. Uning davlati uchun kerak emas.", why: "**he** → **doesn't have to** (shart emas)." },
-    { k: "fill", q: "Please ___ in this form and sign here.", a: ["fill"], uz: "Iltimos, bu anketani to'ldiring va shu yerga imzo qo'ying.", why: "**fill in** a form — shaklni to'ldirmoq." },
+    { k: "fill", q: "Please ___ in this form and sign here.", a: ["fill"], uz: "Iltimos, bu anketani to'ldiring va shu yerga imzo qo'ying.", why: "**fill in** a form — anketani to'ldirmoq." },
     { k: "tf", q: "**You don't have to smoke here** = \"Bu yerda chekish mumkin emas\".", a: false, why: "**don't have to** — shart emas. Taqiq uchun: *You **mustn't / can't** smoke here.*" },
     { k: "tf", q: "Nigora har kuni kechasi ishlashi kerak.", a: false, why: "*Sometimes she has to work at night.* — faqat **ba'zan**." },
     { k: "order", uz: "Viza olishim kerakmi?", words: ["Do", "I", "have", "to", "get", "a", "visa?"], extra: ["Am", "has"] },
