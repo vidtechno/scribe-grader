@@ -18,6 +18,8 @@ import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
+import { loadSession, recordReview, useReviewQueue } from '@/features/learn/engine/api';
+import { sessionEvents, type SessionItem } from '@/features/learn/engine/engine';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { shuffle } from '@/features/learn/check';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
@@ -237,7 +239,9 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
   const refresh = useRefreshLearning();
   const [groups, setGroups] = useState<{ lessonId: string; title: string; words: Word[] }[] | null>(null);
   const [query, setQuery] = useState('');
-  const [drill, setDrill] = useState<Exercise[] | null>(null);
+  const [drill, setDrill] = useState<DrillItem[] | null>(null);
+  const [preparing, setPreparing] = useState(false);
+  const { data: queue } = useReviewQueue();
   const done = useMemo(() => new Set(state.progress.filter((p) => p.completed_at).map((p) => p.lesson_id)), [state.progress]);
 
   useEffect(() => {
@@ -254,16 +258,26 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
   const q = query.trim().toLowerCase();
   const filtered = groups.map((g) => ({ ...g, words: g.words.filter((w) => !q || w.en.toLowerCase().includes(q) || w.uz.toLowerCase().includes(q)) })).filter((g) => g.words.length);
 
-  const startDrill = () => {
-    const picked = shuffle(all).slice(0, 10);
-    setDrill(picked.map((w, i) => {
-      const others = shuffle(all.filter((x) => x.en !== w.en)).slice(0, 3);
-      if (i % 3 === 0) return { k: 'translate', uz: w.uz, a: [w.en], why: `**${w.en}** — ${w.uz}` } as Exercise;
-      const opts = shuffle([w.en, ...others.map((o) => o.en)]);
-      return i % 3 === 1 ? { k: 'listen', say: w.en, opts, a: opts.indexOf(w.en) } as Exercise
-        : { k: 'choice', q: `"**${w.uz}**" inglizcha qanday?`, opts, a: opts.indexOf(w.en) } as Exercise;
-    }));
+  // Smart review: what the engine says is due (words, mistakes, grammar). With nothing due, a free practice round.
+  const startDrill = async () => {
+    setPreparing(true);
+    try {
+      const pool = all.map((w) => ({ en: w.en, uz: w.uz }));
+      const due = queue && (queue.words.length || queue.mistakes.length || queue.grammar.length)
+        ? await loadSession(queue, { max: 10, extraPool: pool, allowSpeak: true }) : [];
+      if (due.length) { setDrill(due.map((item) => ({ ex: item.ex, item }))); return; }
+      const picked = shuffle(all).slice(0, 10);
+      setDrill(picked.map((w, i) => {
+        const others = shuffle(all.filter((x) => x.en !== w.en)).slice(0, 3);
+        if (i % 3 === 0) return { ex: { k: 'translate', uz: w.uz, a: [w.en], why: `**${w.en}** — ${w.uz}` } as Exercise };
+        const opts = shuffle([w.en, ...others.map((o) => o.en)]);
+        return { ex: i % 3 === 1 ? { k: 'listen', say: w.en, opts, a: opts.indexOf(w.en) } as Exercise
+          : { k: 'choice', q: `"**${w.uz}**" inglizcha qanday?`, opts, a: opts.indexOf(w.en) } as Exercise };
+      }));
+    } finally { setPreparing(false); }
   };
+  const stats = queue?.stats;
+  const dueCount = (stats?.due ?? 0) + (stats?.mistakes ?? 0);
 
   return (
     <div>
@@ -272,9 +286,19 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="So'z qidirish…" className="pl-9" />
         </div>
-        <Button variant="glow" className="gap-2" disabled={locked || all.length < 4} onClick={startDrill}><Sparkles className="h-4 w-4" />So'zlarni takrorlash</Button>
+        <Button variant="glow" className="gap-2" disabled={locked || preparing || all.length < 4} onClick={() => void startDrill()}>
+          {preparing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          {dueCount > 0 ? `Takrorlash (${Math.min(dueCount, 10)})` : "So'zlarni takrorlash"}
+        </Button>
       </div>
-      <p className="text-sm text-muted-foreground mb-4">{all.length} ta so'z. Har kuni 5 daqiqa takrorlash — so'zlar uzoq xotirada qolishining eng ishonchli yo'li.</p>
+      {stats && (
+        <div className="grid grid-cols-3 gap-2 mb-4 text-center">
+          <div className="glass-card py-2.5"><p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{stats.mastered}</p><p className="text-[11px] text-muted-foreground">mustahkam</p></div>
+          <div className="glass-card py-2.5"><p className="text-lg font-bold text-primary">{stats.learning + stats.new}</p><p className="text-[11px] text-muted-foreground">o'rganilmoqda</p></div>
+          <div className="glass-card py-2.5"><p className="text-lg font-bold">{dueCount}</p><p className="text-[11px] text-muted-foreground">takrorni kutmoqda</p></div>
+        </div>
+      )}
+      <p className="text-sm text-muted-foreground mb-4">{all.length} ta so'z. Qiyin so'zlar tez-tez, yaxshi bilganlaringiz kamroq qaytadi — vaqti kelganda tizim o'zi eslatadi.</p>
       <div className="space-y-5">
         {filtered.map((g) => (
           <div key={g.lessonId}>
@@ -298,7 +322,11 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
   );
 }
 
-function WordDrill({ items, onClose, onFinished }: { items: Exercise[]; onClose: () => void; onFinished: () => void }) {
+interface DrillItem { ex: Exercise; item?: SessionItem }
+
+function WordDrill({ items: drillItems, onClose, onFinished }: { items: DrillItem[]; onClose: () => void; onFinished: () => void }) {
+  const items = useMemo(() => drillItems.map((d) => d.ex), [drillItems]);
+  const results = useMemo<{ item: SessionItem; correct: boolean }[]>(() => [], []);
   const [i, setI] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [startedAt] = useState(Date.now());
@@ -307,7 +335,8 @@ function WordDrill({ items, onClose, onFinished }: { items: Exercise[]; onClose:
   const finish = async (score: number) => {
     setFinished(true);
     try {
-      await callLearning('learning_log_practice', { _correct: score, _answered: items.length, _seconds: Math.round((Date.now() - startedAt) / 1000) });
+      if (results.length) await recordReview(sessionEvents(results), true);
+      else await callLearning('learning_log_practice', { _correct: score, _answered: items.length, _seconds: Math.round((Date.now() - startedAt) / 1000) });
       onFinished();
     } catch (e) { toast.error(learningErrorMessage(e)); }
   };
@@ -329,6 +358,8 @@ function WordDrill({ items, onClose, onFinished }: { items: Exercise[]; onClose:
           <ExerciseView key={i} ex={items[i]} mode="practice" onDone={(c) => {
             const s = correct + (c ? 1 : 0);
             setCorrect(s);
+            const it = drillItems[i].item;
+            if (it) results.push({ item: it, correct: c });
             if (i + 1 >= items.length) void finish(s); else setI(i + 1);
           }} />
         )}

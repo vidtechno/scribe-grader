@@ -16,17 +16,21 @@ import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { BlockView } from '@/features/learn/components/BlockView';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { Flashcards } from '@/features/learn/components/Flashcards';
+import { lessonEvents, sessionEvents, splitNewWords, type Outcome, type ReviewEvent, type SessionItem } from '@/features/learn/engine/engine';
+import { loadSession, recordReview, useReviewQueue } from '@/features/learn/engine/api';
+import type { Word } from '@/features/learn/types';
 import { Md } from '@/features/learn/components/Md';
 import { TelegramNudge } from '@/components/TelegramConnectCard';
 import { achievementInfo } from '@/features/learn/achievements';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 
-type Phase = 'intro' | 'review' | 'slides' | 'words' | 'practice' | 'quiz' | 'result';
+type Phase = 'intro' | 'review' | 'warmup' | 'slides' | 'words' | 'practice' | 'quiz' | 'result';
 const PHASES: { id: Phase; label: string; weight: number }[] = [
-  { id: 'review', label: 'Takrorlash', weight: 8 },
+  { id: 'review', label: 'Takrorlash', weight: 4 },
+  { id: 'warmup', label: 'Eslab qolish', weight: 6 },
   { id: 'slides', label: 'Mavzu', weight: 37 },
-  { id: 'words', label: "So'zlar", weight: 12 },
+  { id: 'words', label: "So'zlar", weight: 10 },
   { id: 'practice', label: 'Mashq', weight: 28 },
   { id: 'quiz', label: 'Test', weight: 15 },
 ];
@@ -46,20 +50,34 @@ export default function LearnLesson() {
   const [phase, setPhase] = useState<Phase>('intro');
   const [result, setResult] = useState<{ score: number; total: number; seconds: number } | null>(null);
   const started = useRef(Date.now());
+  const queueQuery = useReviewQueue();
+  const queue = queueQuery.data ?? null;
+  const [warmup, setWarmup] = useState<SessionItem[] | null>(null);
+  // Outcomes of this run, sent to the learning engine when the lesson ends.
+  const track = useRef<{ outcomes: Map<string, Outcome>; review: { key: string; correct: boolean; lesson: string }[] }>({ outcomes: new Map(), review: [] });
 
   useEffect(() => {
-    setContent(null); setPhase('intro'); setResult(null); setLoadError('');
+    setContent(null); setPhase('intro'); setResult(null); setLoadError(''); setWarmup(null);
+    track.current = { outcomes: new Map(), review: [] };
     loadLesson(id).then(setContent).catch(() => setLoadError("Bu dars topilmadi yoki hali tayyor emas."));
   }, [id]);
 
   const map = useMemo(() => courseMap(state), [state]);
+  const split = useMemo(() => (content ? splitNewWords(content.lesson.words, queue) : null), [content, queue]);
+  // The warm-up is built once per lesson from what is due (words, mistakes, grammar); nothing due means no warm-up.
+  useEffect(() => {
+    if (!content || queueQuery.isLoading || warmup) return;
+    if (!queue) { setWarmup([]); return; }
+    const pool = content.lesson.words.map((w) => ({ en: w.en, uz: w.uz }));
+    loadSession(queue, { extraPool: pool, allowSpeak: false }).then(setWarmup).catch(() => setWarmup([]));
+  }, [content, queue, queueQuery.isLoading, warmup]);
   const meta = ALL_LESSONS.find((l) => l.id === id);
   // The lesson's audio loads into memory once and is freed when the next lesson opens, so every tap plays at once.
   const audioTexts = useMemo(() => (content ? lessonAudioTexts(content.lesson, content.previous) : null), [content]);
   useLessonAudio(audioTexts, id);
 
   if (loadError || !meta) return <Centered><p className="mb-4">{loadError || 'Dars topilmadi.'}</p><Link to="/learn"><Button>Darslarga qaytish</Button></Link></Centered>;
-  if (stateLoading || !content) return <Centered><Loader2 className="h-8 w-8 animate-spin text-primary" /></Centered>;
+  if (stateLoading || !content || !split || (queueQuery.isLoading && !queue) || !warmup) return <Centered><Loader2 className="h-8 w-8 animate-spin text-primary" /></Centered>;
   if (!state?.profile) return <Navigate to="/learn" replace />;
   if (!state.access.allowed) return <Centered><LearnPaywall access={state.access} /></Centered>;
   if (map.lessonState.get(id) === 'locked') {
@@ -80,19 +98,25 @@ export default function LearnLesson() {
       <SEOHead title={`${lesson.title} — ${levelOf(unit.level).title}`} description={lesson.goal} path={`/learn/lesson/${id}`} noindex />
       <TopBar phase={phase} onExit={exit} lesson={lesson} />
       <main className="max-w-2xl mx-auto px-4 pt-20 pb-28">
-        {phase === 'intro' && <Intro lesson={lesson} unitTitle={`${unit.n}-bosqich · ${unit.titleUz}`} hasReview={!!previous}
-          onStart={() => { started.current = Date.now(); setPhase(previous ? 'review' : 'slides'); }} />}
-        {phase === 'review' && previous && <Review previous={previous} onDone={() => setPhase('slides')} />}
+        {phase === 'intro' && <Intro lesson={lesson} unitTitle={`${unit.n}-bosqich · ${unit.titleUz}`} hasReview={!!previous} newWords={split.fresh.length} warmup={warmup.length}
+          onStart={() => { started.current = Date.now(); setPhase(previous ? 'review' : warmup.length ? 'warmup' : 'slides'); }} />}
+        {phase === 'review' && previous && <Review previous={previous} questions={warmup.length ? 0 : 3} onDone={() => setPhase(warmup.length ? 'warmup' : 'slides')} />}
+        {phase === 'warmup' && <Warmup items={warmup} onResults={(results) => {
+          track.current.review = results.filter((r) => r.item.ref.type === 'm').map((r) => ({ key: (r.item.ref as { key: string }).key, correct: r.correct, lesson: (r.item.ref as { lesson: string }).lesson }));
+          void recordReview(sessionEvents(results.filter((r) => r.item.ref.type !== 'm')), false).catch(() => {});
+          void recordReview(sessionEvents(results.filter((r) => r.item.ref.type === 'm')), false).catch(() => {});
+        }} onDone={() => setPhase('slides')} />}
         {phase === 'slides' && <Slides lesson={lesson} onDone={() => setPhase('words')} />}
-        {phase === 'words' && <Flashcards words={lesson.words} onFinish={() => setPhase('practice')} />}
-        {phase === 'practice' && <Practice lesson={lesson} onDone={() => setPhase('quiz')} />}
-        {phase === 'quiz' && <Quiz key={`quiz-${started.current}`} lesson={lesson} onDone={(score) => {
+        {phase === 'words' && <Flashcards words={split.fresh} extra={split.extra} onFinish={() => setPhase('practice')} />}
+        {phase === 'practice' && <Practice lesson={lesson} fresh={split.fresh} onOutcome={(o) => track.current.outcomes.set(o.own ? `p${o.index}` : `d${track.current.outcomes.size}`, o)} onDone={() => setPhase('quiz')} />}
+        {phase === 'quiz' && <Quiz key={`quiz-${started.current}`} lesson={lesson} onOutcome={(o) => track.current.outcomes.set(`q${o.index}`, o)} onDone={(score) => {
           setResult({ score, total: lesson.quiz.length, seconds: Math.round((Date.now() - started.current) / 1000) });
           setPhase('result');
         }} />}
         {phase === 'result' && result && (
-          <Result key={started.current} lesson={lesson} score={result.score} total={result.total} seconds={result.seconds} next={next}
+          <Result key={started.current} lesson={lesson} fresh={split.fresh} score={result.score} total={result.total} seconds={result.seconds} next={next}
             unitLast={unit.lessons[unit.lessons.length - 1].id === id} unitId={unit.id}
+            events={() => lessonEvents({ lesson, fresh: split.fresh, outcomes: [...track.current.outcomes.values()], known: new Set((queue?.known ?? []).map(([w]) => w)), review: track.current.review })}
             onSaved={refresh} onRetry={() => { started.current = Date.now(); setPhase('practice'); }} />
         )}
       </main>
@@ -129,11 +153,12 @@ function TopBar({ phase, onExit, lesson }: { phase: Phase; onExit: () => void; l
   );
 }
 
-function Intro({ lesson, unitTitle, hasReview, onStart }: { lesson: Lesson; unitTitle: string; hasReview: boolean; onStart: () => void }) {
+function Intro({ lesson, unitTitle, hasReview, newWords, warmup, onStart }: { lesson: Lesson; unitTitle: string; hasReview: boolean; newWords: number; warmup: number; onStart: () => void }) {
   const items = [
     hasReview && { icon: RotateCcw, text: "Oldingi darsni qisqa takrorlash" },
     { icon: BookOpenCheck, text: `Mavzu: ${lesson.slides.length} qism, misollar va tekshiruvlar bilan` },
-    { icon: Sparkles, text: `${lesson.words.length} ta yangi so'z — talaffuzi bilan` },
+    warmup > 0 && { icon: RotateCcw, text: `Eslab qolish: ${warmup} ta qisqa savol — oldingi so'z va xatolardan` },
+    { icon: Sparkles, text: `${newWords} ta yangi so'z — talaffuzi bilan; qolganlari qisqacha ko'rsatiladi` },
     { icon: Target, text: `${lesson.practice.length + 5}+ mashq — xatolar qayta beriladi` },
     { icon: Trophy, text: `Yakuniy test: ${lesson.quiz.length} savol, o'tish uchun ${LESSON_PASS_PERCENT}%` },
   ].filter(Boolean) as { icon: typeof Star; text: string }[];
@@ -157,8 +182,8 @@ function Intro({ lesson, unitTitle, hasReview, onStart }: { lesson: Lesson; unit
   );
 }
 
-function Review({ previous, onDone }: { previous: Lesson; onDone: () => void }) {
-  const questions = useMemo(() => reviewQuestions(previous), [previous]);
+function Review({ previous, questions: count, onDone }: { previous: Lesson; questions: number; onDone: () => void }) {
+  const questions = useMemo(() => (count > 0 ? reviewQuestions(previous, count) : []), [previous, count]);
   const [step, setStep] = useState(-1);
   if (step < 0) {
     return (
@@ -178,6 +203,22 @@ function Review({ previous, onDone }: { previous: Lesson; onDone: () => void }) 
     <div>
       <p className="text-xs text-muted-foreground mb-3">Takrorlash · {step + 1} / {questions.length}</p>
       <ExerciseView key={step} ex={questions[step]} mode="practice" onDone={() => (step + 1 >= questions.length ? onDone() : setStep(step + 1))} />
+    </div>
+  );
+}
+
+function Warmup({ items, onResults, onDone }: { items: SessionItem[]; onResults: (r: { item: SessionItem; correct: boolean }[]) => void; onDone: () => void }) {
+  const [i, setI] = useState(0);
+  const results = useRef<{ item: SessionItem; correct: boolean }[]>([]);
+  return (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">Eslab qolish</p>
+      <p className="text-xs text-muted-foreground mb-3">{i + 1} / {items.length} · oldingi darslardan</p>
+      <div className="h-1.5 rounded-full bg-secondary mb-5 overflow-hidden"><div className="h-full bg-primary transition-all" style={{ width: `${(i / items.length) * 100}%` }} /></div>
+      <ExerciseView key={items[i].id} ex={items[i].ex} mode="practice" onDone={(c) => {
+        results.current.push({ item: items[i], correct: c });
+        if (i + 1 >= items.length) { onResults(results.current); onDone(); } else setI(i + 1);
+      }} />
     </div>
   );
 }
@@ -214,8 +255,9 @@ function Slides({ lesson, onDone }: { lesson: Lesson; onDone: () => void }) {
   );
 }
 
-function Practice({ lesson, onDone }: { lesson: Lesson; onDone: () => void }) {
-  const initial = useMemo(() => [...wordDrills(lesson.words), ...lesson.practice], [lesson]);
+function Practice({ lesson, fresh, onOutcome, onDone }: { lesson: Lesson; fresh: Word[]; onOutcome: (o: Outcome) => void; onDone: () => void }) {
+  const drills = useMemo(() => wordDrills(fresh), [fresh]);
+  const initial = useMemo(() => [...drills, ...lesson.practice], [drills, lesson]);
   const [queue, setQueue] = useState<{ ex: Exercise; key: string; tries: number }[]>(() => initial.map((ex, i) => ({ ex, key: `p${i}`, tries: 0 })));
   const [pos, setPos] = useState(0);
   const [solved, setSolved] = useState(0);
@@ -223,6 +265,10 @@ function Practice({ lesson, onDone }: { lesson: Lesson; onDone: () => void }) {
   useEffect(() => { if (!item) onDone(); }, [item, onDone]);
   if (!item) return null;
   const answer = (correct: boolean) => {
+    if (item.tries === 0) {
+      const at = Number(item.key.slice(1));
+      onOutcome({ ex: item.ex, section: 'p', index: at - drills.length, correct, own: at >= drills.length });
+    }
     if (correct) setSolved((s) => s + 1);
     else if (item.tries < 2) setQueue((q) => [...q, { ...item, key: `${item.key}r`, tries: item.tries + 1 }]);
     else setSolved((s) => s + 1);
@@ -241,7 +287,7 @@ function Practice({ lesson, onDone }: { lesson: Lesson; onDone: () => void }) {
   );
 }
 
-function Quiz({ lesson, onDone }: { lesson: Lesson; onDone: (score: number) => void }) {
+function Quiz({ lesson, onOutcome, onDone }: { lesson: Lesson; onOutcome: (o: Outcome) => void; onDone: (score: number) => void }) {
   const [i, setI] = useState(-1);
   const [score, setScore] = useState(0);
   if (i < 0) {
@@ -261,15 +307,16 @@ function Quiz({ lesson, onDone }: { lesson: Lesson; onDone: (score: number) => v
       <ExerciseView key={i} ex={ex} mode="quiz" onDone={(c) => {
         const s = score + (c ? 1 : 0);
         setScore(s);
+        onOutcome({ ex, section: 'q', index: i, correct: c, own: true });
         if (i + 1 >= lesson.quiz.length) onDone(s); else setI(i + 1);
       }} />
     </div>
   );
 }
 
-function Result({ lesson, score, total, seconds, next, unitLast, unitId, onSaved, onRetry }: {
-  lesson: Lesson; score: number; total: number; seconds: number; next: { id: string; title: string; titleUz: string; unitId: string } | null;
-  unitLast: boolean; unitId: string; onSaved: () => void; onRetry: () => void;
+function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, events, onSaved, onRetry }: {
+  lesson: Lesson; fresh: Word[]; score: number; total: number; seconds: number; next: { id: string; title: string; titleUz: string; unitId: string } | null;
+  unitLast: boolean; unitId: string; events: () => ReviewEvent[]; onSaved: () => void; onRetry: () => void;
 }) {
   const navigate = useNavigate();
   const [saved, setSaved] = useState<Saved | null>(null);
@@ -285,7 +332,7 @@ function Result({ lesson, score, total, seconds, next, unitLast, unitId, onSaved
       _lesson: lesson.id, _score: score, _total: total, _seconds: seconds,
       _next_id: next && next.unitId === unitId ? next.id : null,
       _next_title: next && next.unitId === unitId ? `${next.titleUz}` : null,
-    }).then((r) => { setSaved(r); onSaved(); }).catch((e) => setError(learningErrorMessage(e)));
+    }).then((r) => { setSaved(r); onSaved(); void recordReview(events()).catch(() => {}); }).catch((e) => setError(learningErrorMessage(e)));
   }, [lesson.id, score, total, seconds, next, unitId, onSaved]);
 
   const stars = saved?.stars ?? (pct >= 90 ? 3 : pct >= 80 ? 2 : pct >= 70 ? 1 : 0);
@@ -326,10 +373,10 @@ function Result({ lesson, score, total, seconds, next, unitLast, unitId, onSaved
         <ul className="space-y-2">{lesson.summary.map((s, i) => <li key={i} className="text-sm flex gap-2 leading-relaxed"><span className="text-primary">•</span><Md text={s} /></li>)}</ul>
       </div>
       <div className="glass-card p-5 text-left mb-4">
-        <p className="font-semibold mb-1">🧠 Yodlang: 10 ta so'z</p>
-        <p className="text-xs text-muted-foreground mb-3">Ertaga bu so'zlarni yana bir bor takrorlang — shunda uzoq xotiraga o'tadi.</p>
+        <p className="font-semibold mb-1">🧠 Yodlang: {fresh.length} ta yangi so'z</p>
+        <p className="text-xs text-muted-foreground mb-3">Ularni o'zim sizga to'g'ri vaqtda qayta ko'rsataman — shunda uzoq xotiraga o'tadi.</p>
         <div className="grid sm:grid-cols-2 gap-2">
-          {lesson.words.map((w) => (
+          {fresh.map((w) => (
             <div key={w.en} className="flex items-center gap-2 rounded-lg bg-secondary/40 px-2.5 py-1.5 text-sm">
               <SpeakButton text={w.en} /><span className="font-semibold">{w.en}</span><span className="text-muted-foreground truncate">— {w.uz}</span>
             </div>

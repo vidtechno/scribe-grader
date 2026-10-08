@@ -5,13 +5,31 @@ import type { Word } from '../types';
 import { speak } from '../speech';
 import { SpeakButton } from './SpeakButton';
 
-/** The lesson's 10 words, one card at a time: hear it, say it, then reveal the meaning. */
-export function Flashcards({ words, onFinish }: { words: Word[]; onFinish: () => void }) {
+/** The words taught as new in this lesson, one card at a time (hear it, say it, reveal the meaning); the rest of the lesson's words are only shown. */
+export function Flashcards({ words, extra = [], onFinish }: { words: Word[]; extra?: Word[]; onFinish: () => void }) {
   const [i, setI] = useState(0);
+  const [showExtra, setShowExtra] = useState(false);
   const [shown, setShown] = useState(false);
   const w = words[i];
   useEffect(() => { setShown(false); void speak(w.en); }, [w]);
   const last = i === words.length - 1;
+  if (showExtra) {
+    return (
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">Qo'shimcha so'zlar</p>
+        <p className="text-sm text-muted-foreground mb-4">Bu so'zlarni hozir yodlash shart emas — ular mashqlarda uchraydi va keyingi darslarda sizga qayta ko'rsatiladi.</p>
+        <div className="grid sm:grid-cols-2 gap-2 mb-6">
+          {extra.map((w) => (
+            <div key={w.en} className="glass-card px-3 py-2.5 flex items-center gap-3">
+              <SpeakButton text={w.en} />
+              <div className="min-w-0 flex-1"><p className="font-semibold">{w.en}</p><p className="text-sm text-muted-foreground truncate">{w.uz}</p></div>
+            </div>
+          ))}
+        </div>
+        <Button variant="glow" size="lg" className="w-full" onClick={onFinish}>Mashqqa o'tish</Button>
+      </div>
+    );
+  }
   return (
     <div>
       <p className="text-sm text-muted-foreground mb-3 text-center">Yangi so'z {i + 1} / {words.length} — eshiting, ovoz chiqarib ayting, keyin ma'nosini oching</p>
@@ -37,8 +55,8 @@ export function Flashcards({ words, onFinish }: { words: Word[]; onFinish: () =>
       <div className="flex items-center justify-between mt-4 gap-2 sm:gap-3">
         <Button variant="ghost" disabled={i === 0} onClick={() => setI(i - 1)} className="gap-1 shrink-0 px-2 sm:px-4"><ChevronLeft className="h-4 w-4" />Oldingi</Button>
         <div className="flex gap-1 flex-1 min-w-0 justify-center">{words.map((_, k) => <span key={k} className={`h-1.5 flex-1 max-w-4 rounded-full ${k <= i ? 'bg-primary' : 'bg-border'}`} />)}</div>
-        <Button variant={last ? 'glow' : 'default'} onClick={() => (last ? onFinish() : setI(i + 1))} className="gap-1 shrink-0 px-3 sm:px-4">
-          {last ? "Mashqqa o'tish" : 'Keyingi'}<ChevronRight className="h-4 w-4" />
+        <Button variant={last ? 'glow' : 'default'} onClick={() => (last ? (extra.length ? setShowExtra(true) : onFinish()) : setI(i + 1))} className="gap-1 shrink-0 px-3 sm:px-4">
+          {last ? (extra.length ? "Qo'shimcha so'zlar" : "Mashqqa o'tish") : 'Keyingi'}<ChevronRight className="h-4 w-4" />
         </Button>
       </div>
     </div>

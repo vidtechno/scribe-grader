@@ -15,7 +15,8 @@ export interface LearningAccess {
   allowed: boolean; reason: 'paid' | 'trial' | 'trial_expired' | 'not_started'; plan: string;
   trial_ends_at?: string; expires_at?: string | null;
 }
-export interface StreakInfo { current: number; best: number; freezes: number; done_today: boolean; at_risk: boolean; broken: boolean }
+/** `days_left`: days until three missed days in a row reset the streak (1 = study today). XP and mastery never reset. */
+export interface StreakInfo { current: number; best: number; freezes?: number; done_today: boolean; at_risk: boolean; broken: boolean; days_left: number }
 export interface LearningState {
   profile: {
     level: string; xp: number; trial_started_at: string; next_lesson_title: string | null;
@@ -60,7 +61,7 @@ export function useLearningState() {
 
 export function useRefreshLearning() {
   const qc = useQueryClient();
-  return () => qc.invalidateQueries({ queryKey: ['learning-state'] });
+  return () => Promise.all([qc.invalidateQueries({ queryKey: ['learning-state'] }), qc.invalidateQueries({ queryKey: ['learning-review'] })]);
 }
 
 /** `open` = a lesson of a level below the learner's starting level: free to revisit, not required. */

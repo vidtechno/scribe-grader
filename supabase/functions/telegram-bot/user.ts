@@ -258,7 +258,7 @@ interface LearningSummary {
   access: { allowed: boolean; reason: string; trial_ends_at?: string };
   xp?: number; streak?: number; lessons_done?: number; tests_passed?: number; today_done?: boolean; next_lesson_title?: string | null;
   today_xp?: number; daily_goal?: number; week_xp?: number;
-  streak_info?: { current: number; best: number; freezes: number; at_risk: boolean; broken: boolean };
+  streak_info?: { current: number; best: number; at_risk: boolean; broken: boolean };
 }
 // Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, then the released part of Elementary).
 const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
@@ -305,7 +305,7 @@ export async function showLearn(ctx: Ctx) {
     "",
     `${bar(done, size.lessons, 10)}  <b>${done}</b>/${size.lessons} dars`,
     kv("🔥 Streak", `${s.streak_info?.current ?? s.streak ?? 0} kun`) + " · " + kv("⚡ XP", String(s.xp ?? 0)),
-    hint(`🎯 Bugun: ${s.today_xp ?? 0}/${s.daily_goal ?? 30} XP${s.streak_info ? ` · rekord ${s.streak_info.best} kun${s.streak_info.freezes ? ` · 🛡 ${s.streak_info.freezes}` : ""}` : ""}`),
+    hint(`🎯 Bugun: ${s.today_xp ?? 0}/${s.daily_goal ?? 30} XP${s.streak_info ? ` · rekord ${s.streak_info.best} kun` : ""}`),
     s.streak_info?.at_risk && !s.today_done ? hint("⚠️ Streak xavfda — bugun bitta dars qiling.") : "",
     kv("🏆 Bosqich testlari", `${Math.min(s.tests_passed ?? 0, size.units)}/${size.units}`) + " · " + kv("🧠 So'zlar", String(done * 10)),
     s.next_lesson_title ? `\n▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>` : "",
