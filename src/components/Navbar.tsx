@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen, GraduationCap, ChevronDown, ClipboardList, Target } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, Gift, BookOpen, GraduationCap, ChevronDown, ClipboardList, Target, Trophy } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 import { useSubscription } from '@/hooks/useSubscription';
@@ -66,6 +66,12 @@ export function Navbar() {
                   <span>Learn</span>
                 </Button>
               </Link>
+              <Link to="/leaderboard" className="hidden md:block" aria-current={pathname === '/leaderboard' ? 'page' : undefined}>
+                <Button variant="ghost" size="sm" className={`gap-2 font-semibold ${pathname === '/leaderboard' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400' : 'text-amber-600 dark:text-amber-400 hover:bg-amber-500/10'}`}>
+                  <Trophy className="h-4 w-4" />
+                  <span>Reyting</span>
+                </Button>
+              </Link>
               <div className="hidden md:block">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -109,9 +115,12 @@ export function Navbar() {
                 )}
               </button>
               <ThemeToggle />
-              <Link to="/profile" className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <User className="h-4 w-4" />
-                <span className="max-w-[140px] truncate">{profile?.full_name || user.email}</span>
+              <Link to="/profile" aria-label="Profile" title="Profile" aria-current={pathname === '/profile' ? 'page' : undefined}
+                className={`group flex items-center gap-2 rounded-full border pl-1 pr-1 sm:pr-3 py-1 transition-all hover:border-primary/60 hover:shadow-md hover:shadow-primary/10 ${pathname === '/profile' ? 'border-primary bg-primary/10' : 'border-border bg-card/60'}`}>
+                <span className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-brand-red-soft grid place-items-center text-xs font-bold text-primary-foreground">
+                  {(profile?.full_name || user.email || 'U').split(' ').map((s) => s[0]).join('').slice(0, 2).toUpperCase()}
+                </span>
+                <span className="hidden sm:block max-w-[110px] truncate text-sm font-medium group-hover:text-primary">{(profile?.full_name || 'Profile').split(' ')[0]}</span>
               </Link>
               <Button variant="ghost" size="icon" aria-label="Sign out" title="Sign out" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />

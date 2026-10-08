@@ -26,13 +26,13 @@ export default function PublicProfile() {
       <SEOHead title="O'quvchi profili" description="O'quvchining o'rganish yo'li." path={`/u/${publicId ?? ''}`} noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
-        <Link to="/people" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4"><ArrowLeft className="h-4 w-4" />Odamlar</Link>
+        <Link to="/profile#people" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4"><ArrowLeft className="h-4 w-4" />Profil</Link>
 
         {isLoading ? <div className="h-48 rounded-2xl bg-secondary/50 animate-pulse" />
           : isError || !p ? (
             <div className="text-center py-16 text-muted-foreground">
               <p className="text-lg font-medium mb-3">Profil topilmadi</p>
-              <Link to="/people"><Button variant="outline">Odamlarga qaytish</Button></Link>
+              <Link to="/profile#people"><Button variant="outline">Profilga qaytish</Button></Link>
             </div>
           ) : (
             <div className="space-y-5">

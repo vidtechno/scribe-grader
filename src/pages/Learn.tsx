@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   BookA, Check, CheckCircle2, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, X, Zap,
@@ -119,6 +119,9 @@ function CourseHome({ state }: { state: LearningState }) {
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).title} · {levelOf(startLevel).cefr}dan boshlagan</p>
           <h1 className="text-2xl sm:text-3xl font-extrabold">Ingliz tili kursi</h1>
         </div>
+        <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3.5 py-2 hover:bg-amber-500/20 transition-colors sm:order-last">
+          <Trophy className="h-4 w-4" />Reyting
+        </Link>
         {continueTo && !locked && (
           <Button variant="glow" size="lg" className="gap-3 w-full sm:w-auto sm:max-w-md min-w-0 h-auto py-2.5 px-4 justify-start" onClick={() => navigate(continueTo)}>
             <Play className="h-5 w-5 fill-current shrink-0" />

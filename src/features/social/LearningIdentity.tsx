@@ -85,7 +85,7 @@ export function LearningIdentity() {
       <div className="flex gap-4 text-sm mb-5">
         <span><b>{followers.data?.length ?? 0}</b> <span className="text-muted-foreground">obunachi</span></span>
         <span><b>{following.data?.length ?? 0}</b> <span className="text-muted-foreground">obuna</span></span>
-        <Link to="/people" className="ml-auto inline-flex items-center gap-1 text-primary font-semibold"><Users className="h-4 w-4" />Odamlar</Link>
+        <a href="#people" className="ml-auto inline-flex items-center gap-1 text-primary font-semibold"><Users className="h-4 w-4" />Do'stlar</a>
         <Link to="/leaderboard" className="inline-flex items-center gap-1 text-primary font-semibold"><Trophy className="h-4 w-4" />Reyting</Link>
       </div>
 
