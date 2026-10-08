@@ -14,10 +14,10 @@ export const BASE_TITLE = 'Scorify.uz';
 export const BASE_URL = 'https://www.scorify.uz';
 
 export function SEOHead({ title, description, path = '', noindex, jsonLd }: SEOHeadProps) {
-  const fullTitle = title ? `${title} | ${BASE_TITLE}` : `${BASE_TITLE} — AI IELTS Writing & Speaking Practice`;
+  const fullTitle = title ? `${title} | ${BASE_TITLE}` : `${BASE_TITLE} — Ingliz tilini noldan o'rganing | IELTS Writing & Speaking`;
   const desc =
     description ||
-    'Practice IELTS Writing and Speaking with instant AI band scores, examiner-style feedback, mock tests and a personal AI Mentor.';
+    "Ingliz tilini noldan o'rganing: darslar, talaffuz, lug'at va testlar. IELTS Writing va Speaking baholash, mock testlar va AI mentor ham bor.";
   const url = `${BASE_URL}${path}`;
 
   return (

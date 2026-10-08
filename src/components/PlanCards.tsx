@@ -15,8 +15,8 @@ export interface PlanRow {
 }
 
 const TAGLINE: Record<string, string> = {
-  go: 'Learn English, step by step',
-  plus: 'Learn English and prepare for IELTS',
+  go: "Ingliz tilini bosqichma-bosqich o'rganing",
+  plus: "Ingliz tili va IELTS ga tayyorlanish",
 };
 
 /** Learn and IELTS side by side, with a 1 month / 6 months (-10%) switch. Used on the landing page and in the pricing dialog. */
@@ -27,13 +27,13 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
       <div className="max-w-4xl mx-auto mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm flex items-start gap-3">
         <GraduationCap className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
         <p>
-          <strong>Every new account gets {LEARN_TRIAL_DAYS} days of Learn for free</strong> — all lessons and the adaptive engine —
-          plus 3 Writing and 2 Speaking evaluations. After that, choose Learn or IELTS.
+          <strong>Har bir yangi hisobga {LEARN_TRIAL_DAYS} kun Learn bepul</strong> — barcha darslar va moslashuvchan tizim —
+          shuningdek 3 ta Writing va 2 ta Speaking baholash. Keyin Learn yoki IELTS ni tanlaysiz.
         </p>
       </div>
       <div className="flex justify-center mb-6">
-        <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border" role="tablist" aria-label="Billing period">
-          {([['month', '1 month'], ['half-year', '6 months']] as const).map(([id, label]) => (
+        <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border" role="tablist" aria-label="To'lov davri">
+          {([['month', '1 oy'], ['half-year', '6 oy']] as const).map(([id, label]) => (
             <button key={id} type="button" role="tab" aria-selected={billing === id} onClick={() => setBilling(id)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${billing === id ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
               {label}
@@ -65,18 +65,18 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
               <div className="mb-4">
                 <div className="flex items-baseline gap-1.5">
                   <span className="text-4xl font-bold text-primary">{price.uzs}</span>
-                  <span className="text-sm text-muted-foreground">so'm {billing === 'month' ? '/ month' : '/ 6 months'}</span>
+                  <span className="text-sm text-muted-foreground">so'm {billing === 'month' ? '/ oy' : '/ 6 oy'}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-0.5">≈ ${price.usd}{billing === 'half-year' ? ` · ${price.perMonthUzs} so'm / month` : ''}</p>
-                {billing === 'half-year' && <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">You save {price.saveUzs} so'm</p>}
+                <p className="text-xs text-muted-foreground mt-0.5">≈ ${price.usd}{billing === 'half-year' ? ` · ${price.perMonthUzs} so'm / oy` : ''}</p>
+                {billing === 'half-year' && <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">Tejaysiz: {price.saveUzs} so'm</p>}
               </div>
               <p className={`text-xs font-semibold rounded-lg px-3 py-2 mb-4 ${ielts ? 'bg-secondary text-muted-foreground' : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'}`}>
-                {ielts ? 'No free trial — you can try Learn free first' : `${LEARN_TRIAL_DAYS}-day free trial for new accounts`}
+                {ielts ? "Sinov yo'q — avval Learn ni bepul sinab ko'ring" : `Yangi hisoblar uchun ${LEARN_TRIAL_DAYS} kun bepul`}
               </p>
               {ielts && (
                 <div className="grid grid-cols-2 gap-2 mb-4">
-                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><PenLine className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.writing}</p><p className="text-[11px] text-muted-foreground mt-1">Writing / month</p></div>
-                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><Mic className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.speaking}</p><p className="text-[11px] text-muted-foreground mt-1">Speaking / month</p></div>
+                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><PenLine className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.writing}</p><p className="text-[11px] text-muted-foreground mt-1">Writing / oy</p></div>
+                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><Mic className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.speaking}</p><p className="text-[11px] text-muted-foreground mt-1">Speaking / oy</p></div>
                 </div>
               )}
               <ul className="space-y-2 mb-6 flex-1">
@@ -85,15 +85,15 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
               <Button variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto" disabled={isCurrent && billing === 'month'}
                 onClick={() => window.open(purchaseLink(plan.slug, billing, publicId), '_blank')}>
                 <ExternalLink className="h-4 w-4" />
-                {isCurrent && billing === 'month' ? 'Current plan' : `Choose ${e.name}${billing === 'half-year' ? ' · 6 months' : ''}`}
+                {isCurrent && billing === 'month' ? 'Joriy tarif' : `${e.name} ni tanlash${billing === 'half-year' ? ' · 6 oy' : ''}`}
               </Button>
             </motion.div>
           );
         })}
       </div>
       <p className="text-xs text-muted-foreground text-center mt-6">
-        Payments are handled via Telegram <span className="text-primary font-semibold">@scorify_support</span>. Your plan activates after confirmation
-        and lasts {billing === 'month' ? '30 days' : '6 months; the monthly IELTS allowances renew every 30 days'}.
+        To'lov Telegram orqali: <span className="text-primary font-semibold">@scorify_support</span>. Tasdiqlangach tarif yoqiladi va
+        {billing === 'month' ? ' 30 kun amal qiladi' : ' 6 oy amal qiladi; IELTS oylik limitlari har 30 kunda yangilanadi'}.
       </p>
     </div>
   );
