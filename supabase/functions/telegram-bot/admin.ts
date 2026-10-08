@@ -311,6 +311,17 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
       }
       if (a === "push") return createAnnouncement(ctx, b === "1");
       return announcements(ctx);
+    case "wd": {
+      const id = Number(b);
+      if (!Number.isSafeInteger(id) || (a !== "ok" && a !== "no")) return;
+      const { data, error } = await ctx.db.rpc("internal_ref_resolve_withdrawal", { _id: id, _paid: a === "ok" });
+      if (error) return reply(ctx, "ℹ️ Bu so'rov allaqachon ko'rib chiqilgan yoki topilmadi.");
+      const r = data as { amount: number };
+      const sum = `${String(r.amount).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
+      return reply(ctx, a === "ok"
+        ? `✅ So'rov #${id} — <b>${sum}</b> to'landi deb belgilandi. Foydalanuvchiga xabar yuborildi.`
+        : `❌ So'rov #${id} rad etildi. <b>${sum}</b> foydalanuvchi balansiga qaytarildi.`);
+    }
     case "bot":
       if (a === "setup") {
         const r = await setupBot(ctx.db);

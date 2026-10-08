@@ -4,11 +4,10 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { levelOf } from '@/features/learn/course';
 import { socialErrorMessage, useFollow, type SocialCard } from './api';
+import { UserAvatar } from './avatars';
 
-export function Avatar({ name, size = 'md' }: { name: string; size?: 'md' | 'lg' }) {
-  const initials = name.split(/\s+/).map((s) => s[0]).join('').slice(0, 2).toUpperCase() || 'O';
-  const dim = size === 'lg' ? 'h-20 w-20 text-2xl rounded-2xl' : 'h-10 w-10 text-sm rounded-xl';
-  return <span className={`${dim} shrink-0 grid place-items-center font-bold text-primary-foreground bg-gradient-to-br from-primary to-brand-red-soft`}>{initials}</span>;
+export function Avatar({ name, avatar, size = 'md' }: { name: string; avatar?: string | null; size?: 'md' | 'lg' }) {
+  return <UserAvatar avatar={avatar} name={name} size={size === 'lg' ? 'lg' : 'md'} />;
 }
 
 export function FollowButton({ publicId, following, size = 'sm' }: { publicId: string; following: boolean; size?: 'sm' | 'default' }) {
@@ -30,10 +29,11 @@ export function levelLabel(level: string | null | undefined): string {
 export function PersonRow({ card }: { card: SocialCard }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/60 p-3">
-      <Link to={`/u/${card.public_id}`} className="flex flex-1 min-w-0 items-center gap-3">
-        <Avatar name={card.name} />
+      <Link to={`/u/${card.username ?? card.public_id}`} className="flex flex-1 min-w-0 items-center gap-3">
+        <Avatar name={card.name} avatar={card.avatar} />
         <span className="min-w-0">
-          <span className="block truncate font-semibold text-sm">{card.name}</span>
+          <span className="block truncate font-semibold text-sm">{card.username ? `@${card.username}` : card.name}</span>
+          {card.username && <span className="block truncate text-xs text-muted-foreground">{card.name}</span>}
           <span className="flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
             <span>{levelLabel(card.level)}</span>
             {card.xp != null && <span className="inline-flex items-center gap-0.5"><Zap className="h-3 w-3" />{card.xp}</span>}

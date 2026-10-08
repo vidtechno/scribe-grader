@@ -34,6 +34,7 @@ export const BTN = {
   quiz: "🧠 So'z testi",
   articles: "📖 Foydali maqolalar",
   cabinet: "👤 Kabinet",
+  referral: "🎁 Referal",
   start: "🚀 Boshlash",
   help: "❓ Yordam",
   admin: "👑 Admin panel",
@@ -59,9 +60,10 @@ export function mainKeyboard(ctx: Ctx) {
   const rows: { text: string }[][] = ctx.account.user_id
     ? [
       [{ text: BTN.learn }],
-      [{ text: BTN.writing }, { text: BTN.speaking }],
       [{ text: BTN.dailyTest }, { text: BTN.quiz }],
-      [{ text: BTN.articles }, { text: BTN.cabinet }],
+      [{ text: BTN.referral }, { text: BTN.cabinet }],
+      [{ text: BTN.articles }],
+      [{ text: BTN.writing }, { text: BTN.speaking }],
     ]
     : [
       [{ text: BTN.learn }],

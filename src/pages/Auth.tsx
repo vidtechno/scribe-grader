@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Loader2, ShieldCheck, Sparkles, Mic, PenLine, Gift } from 'lucide-react';
+import { Loader2, ShieldCheck, Sparkles, Mic, PenLine } from 'lucide-react';
 import { toast } from 'sonner';
 import { authErrorMessage } from '@/lib/auth-errors';
 import { supabase } from '@/integrations/supabase/client';
 import { safeReturnTo } from '@/lib/returnTo';
-import { getStoredReferral } from '@/lib/referral';
 import { isTelegramWebApp } from '@/lib/telegram';
 import { TelegramLoginButton } from '@/components/TelegramLoginButton';
 
@@ -15,7 +14,6 @@ export default function Auth() {
   const next = safeReturnTo(new URLSearchParams(window.location.search).get('next'));
   if (next !== '/dashboard') sessionStorage.setItem('scorify:returnTo', next);
   else sessionStorage.removeItem('scorify:returnTo');
-  const invited = !!getStoredReferral();
   // Google sign-in is blocked inside Telegram's in-app browser: the Mini App signs in with Telegram instead.
   if (isTelegramWebApp()) return <Navigate to={`/tg?next=${encodeURIComponent(next)}`} replace />;
 
@@ -41,12 +39,6 @@ export default function Auth() {
         </div>
 
         <div className="glass-card p-8">
-          {invited && (
-            <div className="mb-5 flex items-start gap-2 rounded-xl border border-primary/25 bg-primary/5 p-3 text-sm">
-              <Gift className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-              <span>You were invited by a friend. Sign in and your invitation is counted automatically.</span>
-            </div>
-          )}
           <TelegramLoginButton disabled={loading} />
           <div className="my-3" />
           <Button type="button" variant="outline" className="w-full h-12 gap-3 text-base font-semibold" disabled={loading} onClick={() => void signInWithGoogle()}>

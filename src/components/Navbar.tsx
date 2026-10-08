@@ -97,10 +97,10 @@ export function Navbar() {
                   <span>Blog</span>
                 </Button>
               </a>
-              <Link to="/referral" className="hidden xl:block">
+              <Link to="/profile#referral" className="hidden xl:block">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <Gift className="h-4 w-4" />
-                  <span>Invite</span>
+                  <span>Referal</span>
                 </Button>
               </Link>
               <button

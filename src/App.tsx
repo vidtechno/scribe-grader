@@ -23,7 +23,6 @@ const SpeakingResult = lazy(() => import("./pages/SpeakingResult"));
 const SpeakingHistory = lazy(() => import("./pages/SpeakingHistory"));
 const Drafts = lazy(() => import("./pages/Drafts"));
 const AdminBlogEditor = lazy(() => import("./pages/AdminBlogEditor"));
-const Referral = lazy(() => import("./pages/Referral"));
 const Profile = lazy(() => import("./pages/Profile"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const MockTestDashboard = lazy(() => import("./pages/MockTestDashboard"));
@@ -110,7 +109,7 @@ function AppRoutes() {
         <Route path="/speaking-result/:id" element={<ProtectedRoute><SpeakingResult /></ProtectedRoute>} />
         <Route path="/speaking-history" element={<ProtectedRoute><SpeakingHistory /></ProtectedRoute>} />
         <Route path="/drafts" element={<ProtectedRoute><Drafts /></ProtectedRoute>} />
-        <Route path="/referral" element={<ProtectedRoute><Referral /></ProtectedRoute>} />
+        <Route path="/referral" element={<Navigate to="/profile#referral" replace />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/people" element={<Navigate to="/profile#people" replace />} />
         <Route path="/u/:publicId" element={<ProtectedRoute><PublicProfile /></ProtectedRoute>} />

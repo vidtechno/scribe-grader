@@ -12,6 +12,8 @@ import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, 
 import { useSubscription } from '@/hooks/useSubscription';
 import { LearningIdentity } from '@/features/social/LearningIdentity';
 import { PeopleSection } from '@/features/social/PeopleSection';
+import { ReferralCard } from '@/features/social/ReferralCard';
+import { ProfileHeader, type PeopleTab } from '@/features/social/ProfileHeader';
 import { TelegramConnectCard } from '@/components/TelegramConnectCard';
 import { displayEmail } from '@/lib/telegram';
 import { format } from 'date-fns';
@@ -20,9 +22,10 @@ import { motion } from 'framer-motion';
 
 export default function Profile() {
   const { user, profile, signOut, refreshProfile } = useAuth();
-  const { planName, planType, entitlement, expiresAt, daysRemaining, isExpired, writingUsed, writingLimit, speakingUsed, speakingLimit, mockUsed, mockLimit } = useSubscription();
+  const { planName, planType, trialActive, trialDaysLeft, entitlement, expiresAt, daysRemaining, isExpired, writingUsed, writingLimit, speakingUsed, speakingLimit, mockUsed, mockLimit } = useSubscription();
   const navigate = useNavigate();
   const { hash } = useLocation();
+  const [peopleTab, setPeopleTab] = useState<PeopleTab>('discover');
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -39,8 +42,8 @@ export default function Profile() {
 
   // /profile#people scrolls to the friends section once the page has rendered.
   useEffect(() => {
-    if (hash !== '#people') return;
-    const t = setTimeout(() => document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+    if (hash !== '#people' && hash !== '#referral') return;
+    const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
     return () => clearTimeout(t);
   }, [hash]);
 
@@ -100,58 +103,25 @@ export default function Profile() {
       <Navbar />
 
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-6 sm:p-8 mb-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft flex items-center justify-center text-2xl font-bold text-primary-foreground">
-              {initials}
-            </div>
-            <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold truncate">{profile?.full_name || 'Student'}</h1>
-              <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
-                <Mail className="h-4 w-4 flex-shrink-0" /> <span className="truncate">{displayEmail(profile?.email) ?? 'Signed in with Telegram'}</span>
-              </p>
-              {(profile as any)?.public_id && (
-                <p className="text-xs text-muted-foreground mt-1 flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">
-                    ID #{(profile as any).public_id}
-                  </span>
-                </p>
-              )}
-              {profile?.created_at && (
-                <p className="text-xs text-muted-foreground flex items-center gap-2 mt-1">
-                  <Calendar className="h-3.5 w-3.5" /> Member since {format(new Date(profile.created_at), 'MMMM d, yyyy')}
-                </p>
-              )}
-            </div>
-            <div className="flex flex-col items-end gap-2">
-              <div className="glass-card px-4 py-2 flex items-center gap-2">
-                <Crown className="h-5 w-5 text-primary" />
-                <span className="text-lg font-bold">{planName}</span>
-              </div>
-              {planType !== 'free' && <p className="text-xs text-muted-foreground">${entitlement.priceUsd}/month · {entitlement.priceUzs} so'm</p>}
-              {expiresAt && (
-                <p className={`text-xs ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>
-                  {isExpired ? 'Expired' : `${daysRemaining} days left`} · {format(expiresAt, 'MMM d, yyyy')}
-                </p>
-              )}
-              <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>
-                <Crown className="h-4 w-4" /> {planType === 'free' ? 'Upgrade Plan' : 'Change Plan'}
-              </Button>
-            </div>
-          </div>
-        </motion.div>
-
+        <ProfileHeader onOpenPeople={(t) => { setPeopleTab(t); document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
+        <PeopleSection tab={peopleTab} onTab={setPeopleTab} />
         <LearningIdentity />
-        <PeopleSection />
+        <ReferralCard />
 
         <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
 
         {/* Plan usage + history */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
           className="glass-card p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Crown className="h-5 w-5 text-primary" /> Plan Usage
-          </h2>
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <Crown className="h-5 w-5 text-primary" /> {planType === 'free' ? (trialActive ? `Free trial · ${trialDaysLeft} days left` : 'Free plan') : planName}
+            </h2>
+            <div className="flex items-center gap-3">
+              {expiresAt && <span className={`text-xs ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>{isExpired ? 'Expired' : `${daysRemaining} days left`} · {format(expiresAt, 'MMM d, yyyy')}</span>}
+              <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>{planType === 'free' ? 'Choose a plan' : 'Change plan'}</Button>
+            </div>
+          </div>
           <div className="grid sm:grid-cols-3 gap-3 mb-6">
             {[
               { label: 'Writing', used: writingUsed, limit: writingLimit },
@@ -283,9 +253,9 @@ export default function Profile() {
             <Trophy className="h-5 w-5 text-primary" />
             <span className="font-medium text-sm">Leaderboard</span>
           </Link>
-          <Link to="/referral" className="glass-card-hover p-4 flex items-center gap-3">
+          <Link to="/profile#referral" className="glass-card-hover p-4 flex items-center gap-3">
             <Gift className="h-5 w-5 text-primary" />
-            <span className="font-medium text-sm">Invite friends, earn free months</span>
+            <span className="font-medium text-sm">Referal: do'st taklif qiling, pul ishlang</span>
           </Link>
           <a href="/blog" className="glass-card-hover p-4 flex items-center gap-3">
             <BookOpen className="h-5 w-5 text-primary" />

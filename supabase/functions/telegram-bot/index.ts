@@ -44,6 +44,7 @@ const MENU: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   [BTN.quiz]: user.newQuiz,
   [BTN.articles]: user.showArticles,
   [BTN.cabinet]: user.showCabinet,
+  [BTN.referral]: user.showInvite,
   [BTN.start]: (c) => user.showStart(c),
   [BTN.help]: user.showHelp,
 };
@@ -67,6 +68,7 @@ const LEGACY: Record<string, (ctx: Ctx) => Promise<unknown>> = {
 const COMMANDS: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   menu: (c) => user.showMenu(c),
   learn: user.showLearn,
+  referral: user.showInvite,
   writing: user.showWriting,
   speaking: user.showSpeaking,
   test: user.showDailyTest,
@@ -119,6 +121,7 @@ async function onMessage(msg: Message) {
   }
 
   if (ctx.account.state) {
+    if (text && await user.referralInput(ctx, text)) return;
     if (ctx.isAdmin && await adminInput(ctx, msg)) return;
     if (ctx.account.state.awaiting === "exam_date" && text) return user.examDateInput(ctx, text);
   }
@@ -175,7 +178,8 @@ async function onCallback(q: CallbackQuery) {
         await user.showTop(ctx, ["d", "w", "m"].includes(parts[1]) ? parts[1] : "w");
         break;
       case "rf":
-        if (parts[1] === "claim") await user.claimGo(ctx);
+        if (parts[1] === "w") await user.withdrawStart(ctx);
+        else if (parts[1] === "wy") await user.withdrawConfirm(ctx);
         break;
       case "q":
         if (parts[1] === "n") await user.newQuiz(ctx);

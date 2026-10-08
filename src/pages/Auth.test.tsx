@@ -41,12 +41,6 @@ describe('Google and Telegram authentication', () => {
     await waitFor(() => expect(mocks.error).toHaveBeenCalledWith('provider is not enabled'));
   });
 
-  it('tells invited visitors that their referral is remembered', () => {
-    localStorage.setItem('scorify:ref', 'ABCD1234');
-    mount();
-    expect(screen.getByText(/invited by a friend/)).toBeInTheDocument();
-  });
-
   it('starts a Telegram sign-in request and links to the bot', async () => {
     mocks.invoke.mockResolvedValue({ data: { code: 'abcdefgh1234', secret: 's', url: 'https://t.me/scorify_bot?start=login_abcdefgh1234', expires_in: 600 }, error: null });
     mount();

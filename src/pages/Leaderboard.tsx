@@ -84,10 +84,10 @@ export default function Leaderboard() {
               <motion.div key={r.public_id} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: Math.min(i, 12) * 0.025 }}
                 className={`flex items-center gap-3 p-3 rounded-xl border ${r.is_me ? 'border-primary/40 bg-primary/5' : r.rank <= 3 ? 'border-yellow-400/30 bg-yellow-400/5' : 'border-border/50 bg-secondary/30'}`}>
                 <div className="w-7 grid place-items-center"><RankBadge rank={r.rank} /></div>
-                <Link to={`/u/${r.public_id}`} className="flex flex-1 min-w-0 items-center gap-3">
-                  <Avatar name={r.name} />
+                <Link to={`/u/${r.username ?? r.public_id}`} className="flex flex-1 min-w-0 items-center gap-3">
+                  <Avatar name={r.name} avatar={r.avatar} />
                   <span className="min-w-0">
-                    <span className="block truncate font-semibold text-sm">{r.name}{r.is_me && ' (siz)'}</span>
+                    <span className="block truncate font-semibold text-sm">{r.username ? `@${r.username}` : r.name}{r.is_me && ' (siz)'}</span>
                     <span className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span>{levelLabel(r.level)}</span>
                       {r.streak > 0 && <span className="inline-flex items-center gap-0.5 text-orange-500"><Flame className="h-3 w-3" />{r.streak}</span>}
