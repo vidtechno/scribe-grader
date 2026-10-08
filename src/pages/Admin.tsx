@@ -1,384 +1,55 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { BookOpen, FileText, LayoutDashboard, Megaphone, Settings, Shield, Users, Wallet } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { SEOHead } from '@/components/SEOHead';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AdminAnalytics } from '@/components/AdminAnalytics';
 import { BlogManager } from '@/components/admin/BlogManager';
-import { motion } from 'framer-motion';
-import { 
-  Users, CreditCard, Plus, Minus, Search, Shield, Loader2,
-  BarChart3, Calendar, Crown, Zap, FileText, TrendingUp,
-  DollarSign, Eye, ChevronRight, Megaphone, Trash2, ToggleLeft, ToggleRight, Settings, Bot, Coins, Gift
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { format, subDays, isAfter, startOfDay, formatDistanceToNow } from 'date-fns';
+import { OverviewTab } from '@/components/admin/OverviewTab';
+import { UsersTab } from '@/components/admin/UsersTab';
+import { LearningTab } from '@/components/admin/LearningTab';
+import { MoneyTab } from '@/components/admin/MoneyTab';
+import { AnnouncementsTab } from '@/components/admin/AnnouncementsTab';
+import { SettingsTab } from '@/components/admin/SettingsTab';
 
-interface Profile {
-  id: string;
-  user_id: string;
-  email: string;
-  full_name: string | null;
-  credits: number;
-  age: number | null;
-  city: string | null;
-  phone: string | null;
-  created_at: string;
-  is_premium?: boolean;
-  total_credits_purchased?: number;
-  public_id?: string | null;
-}
+const TABS = [
+  { id: 'overview', label: 'Umumiy', icon: LayoutDashboard },
+  { id: 'users', label: 'Foydalanuvchilar', icon: Users },
+  { id: 'learning', label: "Ta'lim", icon: BookOpen },
+  { id: 'money', label: 'Pul va referal', icon: Wallet },
+  { id: 'news', label: "E'lonlar", icon: Megaphone },
+  { id: 'blog', label: 'Blog', icon: FileText },
+  { id: 'settings', label: 'Sozlamalar', icon: Settings },
+] as const;
+type TabId = typeof TABS[number]['id'];
 
-interface Subscription {
-  id: string;
-  user_id: string;
-  plan_type: string;
-  plan_name: string | null;
-  writing_limit: number;
-  writing_used: number;
-  speaking_limit: number;
-  speaking_used: number;
-  mock_test_limit: number;
-  mock_test_used: number;
-  started_at: string;
-  expires_at: string | null;
-  is_active: boolean;
-}
-
-interface UserOverview {
-  user_id: string;
-  joined_at: string;
-  last_sign_in_at: string | null;
-  email_confirmed_at: string | null;
-  essays_count: number;
-  speaking_count: number;
-  mock_count: number;
-  last_activity_at: string | null;
-}
-
-type SortKey = 'newest' | 'oldest' | 'last_seen' | 'most_active' | 'name';
-type PlanFilter = 'all' | 'free' | 'paid' | 'expired';
-type SeenFilter = 'all' | '24h' | '7d' | 'inactive_7d' | 'never';
-
-const ago = (iso: string | null | undefined) => iso ? formatDistanceToNow(new Date(iso), { addSuffix: true }) : 'Never';
-const csvCell = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-
-interface Announcement {
-  id: string;
-  type: string;
-  title: string;
-  content: string;
-  status: string;
-  created_at: string;
-  view_count?: number;
-}
-type AiUsageSummary = { label:string; input_tokens:number; output_tokens:number; audio_seconds:number; cost_usd:number; requests:number };
-
-const PLANS: { slug: string; label: string }[] = [
-  { slug: 'free', label: 'Free' },
-  { slug: 'go', label: 'Learn (49k UZS)' },
-  { slug: 'plus', label: 'IELTS (129k UZS)' },
-];
-
+/** Admin panel: one clear section per job. Everything is read live from admin-only database functions. */
 export default function Admin() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState<Profile[]>([]);
-  const [subscriptions, setSubscriptions] = useState<Record<string, Subscription>>({});
-  const [searchQuery, setSearchQuery] = useState('');
-  const [updatingUser, setUpdatingUser] = useState<string | null>(null);
-  const [overview, setOverview] = useState<Record<string, UserOverview>>({});
-  const [sortBy, setSortBy] = useState<SortKey>('newest');
-  const [planFilter, setPlanFilter] = useState<PlanFilter>('all');
-  const [seenFilter, setSeenFilter] = useState<SeenFilter>('all');
-  const [essayCounts, setEssayCounts] = useState<Record<string, number>>({});
-  const [viewEssaysUser, setViewEssaysUser] = useState<{ userId: string; name: string } | null>(null);
-  const [userEssays, setUserEssays] = useState<any[]>([]);
-  const [loadingEssays, setLoadingEssays] = useState(false);
+  const [params, setParams] = useSearchParams();
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const tab: TabId = TABS.some(t => t.id === params.get('tab')) ? (params.get('tab') as TabId) : 'overview';
 
-  // Announcements state
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [newAnnouncement, setNewAnnouncement] = useState({ type: 'alert', title: '', content: '' });
-  const [creatingAnnouncement, setCreatingAnnouncement] = useState(false);
+  useEffect(() => {
+    if (!user) return;
+    void supabase.from('user_roles').select('role').eq('user_id', user.id).eq('role', 'admin').maybeSingle()
+      .then(({ data }) => setIsAdmin(!!data));
+  }, [user]);
 
-  // Settings state
-  const [aiChatEnabled, setAiChatEnabled] = useState(false);
-  const [togglingAiChat, setTogglingAiChat] = useState(false);
-  const [aiUsage, setAiUsage] = useState<AiUsageSummary[]>([]);
-
-  useEffect(() => { checkAdminStatus(); }, [user]);
-
-  const checkAdminStatus = async () => {
-    if (!user) { setLoading(false); return; }
-    try {
-      const { data, error } = await supabase
-        .from('user_roles').select('role').eq('user_id', user.id).eq('role', 'admin').single();
-      if (error || !data) { setIsAdmin(false); setLoading(false); return; }
-      setIsAdmin(true);
-      fetchData();
-    } catch { setIsAdmin(false); setLoading(false); }
-  };
-
-  const fetchData = async () => {
-    try {
-      const [usersRes, subsRes, essaysRes, settingsRes, aiUsageRes, overviewRes] = await Promise.all([
-        supabase.from('profiles').select('*').order('created_at', { ascending: false }),
-        supabase.from('subscriptions').select('*'),
-        supabase.from('essays').select('user_id'),
-        supabase.from('app_settings').select('key, value').eq('key', 'ai_chat_enabled').single(),
-        supabase.rpc('admin_ai_usage_summary'),
-        supabase.rpc('admin_user_overview'),
-      ]);
-
-      if (!overviewRes.error && Array.isArray(overviewRes.data)) {
-        const map: Record<string, UserOverview> = {};
-        (overviewRes.data as UserOverview[]).forEach(o => { map[o.user_id] = o; });
-        setOverview(map);
-      }
-
-      setUsers(usersRes.data || []);
-
-      const subsMap: Record<string, Subscription> = {};
-      (subsRes.data || []).forEach((s: any) => { subsMap[s.user_id] = s as Subscription; });
-      setSubscriptions(subsMap);
-
-      const counts: Record<string, number> = {};
-      (essaysRes.data || []).forEach((e: any) => { counts[e.user_id] = (counts[e.user_id] || 0) + 1; });
-      setEssayCounts(counts);
-
-      if (settingsRes.data) {
-        setAiChatEnabled(settingsRes.data.value === 'true');
-      }
-      if (!aiUsageRes.error && Array.isArray(aiUsageRes.data)) setAiUsage(aiUsageRes.data as AiUsageSummary[]);
-
-      fetchAnnouncements();
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast.error('Failed to load data');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchAnnouncements = async () => {
-    const { data: anns } = await supabase
-      .from('announcements')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (!anns) { setAnnouncements([]); return; }
-
-    // Get view counts
-    const { data: views } = await supabase
-      .from('announcement_views')
-      .select('announcement_id');
-
-    const viewCounts: Record<string, number> = {};
-    (views || []).forEach((v: any) => {
-      viewCounts[v.announcement_id] = (viewCounts[v.announcement_id] || 0) + 1;
-    });
-
-    setAnnouncements((anns as any[]).map(a => ({ ...a, view_count: viewCounts[a.id] || 0 })));
-  };
-
-  const createAnnouncement = async () => {
-    if (!newAnnouncement.title.trim() || !newAnnouncement.content.trim()) {
-      toast.error('Please fill in title and content');
-      return;
-    }
-    setCreatingAnnouncement(true);
-    try {
-      const { error } = await supabase.from('announcements').insert({
-        type: newAnnouncement.type,
-        title: newAnnouncement.title.trim(),
-        content: newAnnouncement.content.trim(),
-        status: 'active',
-      });
-      if (error) throw error;
-      toast.success('Announcement created');
-      setNewAnnouncement({ type: 'alert', title: '', content: '' });
-      fetchAnnouncements();
-    } catch {
-      toast.error('Failed to create announcement');
-    } finally {
-      setCreatingAnnouncement(false);
-    }
-  };
-
-  const toggleAnnouncementStatus = async (id: string, currentStatus: string) => {
-    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
-    await supabase.from('announcements').update({ status: newStatus }).eq('id', id);
-    setAnnouncements(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a));
-    toast.success(`Announcement ${newStatus}`);
-  };
-
-  const deleteAnnouncement = async (id: string) => {
-    await supabase.from('announcements').delete().eq('id', id);
-    setAnnouncements(prev => prev.filter(a => a.id !== id));
-    toast.success('Announcement deleted');
-  };
-
-  const fetchUserEssays = async (userId: string, name: string) => {
-    setViewEssaysUser({ userId, name });
-    setLoadingEssays(true);
-    try {
-      const { data } = await supabase
-        .from('essays')
-        .select('id, task_type, topic, score, word_count, created_at')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(20);
-      setUserEssays(data || []);
-    } catch { setUserEssays([]); }
-    finally { setLoadingEssays(false); }
-  };
-
-  const refreshSub = async (userId: string) => {
-    const { data: subRow } = await supabase.from('subscriptions').select('*').eq('user_id', userId).maybeSingle();
-    if (subRow) setSubscriptions(prev => ({ ...prev, [userId]: subRow as unknown as Subscription }));
-  };
-
-  /** `value` is a plan slug, optionally with a duration in days: "go", "plus:180". */
-  const assignPlan = async (userId: string, value: string) => {
-    const [slug, daysText] = value.split(':');
-    const days = Number(daysText) || 30;
-    setUpdatingUser(userId);
-    try {
-      const { error } = await (supabase.rpc as any)('admin_set_subscription', {
-        _user_id: userId, _plan_slug: slug,
-        ...(slug !== 'free' ? { _starts_at: new Date().toISOString(), _expires_at: new Date(Date.now() + days * 86_400_000).toISOString() } : {}),
-      });
-      if (error) throw error;
-      await refreshSub(userId);
-      toast.success(slug === 'free' ? 'Moved to Free plan' : `${slug === 'plus' ? 'IELTS' : 'Learn'} activated for ${days === 180 ? '6 months' : '30 days'}`);
-    } catch (e: any) {
-      toast.error(e.message || 'Failed to assign plan');
-    } finally { setUpdatingUser(null); }
-  };
-
-  const extendPlan = async (userId: string, days: number) => {
-    setUpdatingUser(userId);
-    try {
-      const { error } = await (supabase.rpc as any)('admin_extend_subscription', { _user_id: userId, _days: days });
-      if (error) throw error;
-      await refreshSub(userId);
-      toast.success(`Subscription renewed for ${days} days with fresh quotas`);
-    } catch (e: any) {
-      toast.error(e.message || 'Failed to extend subscription');
-    } finally { setUpdatingUser(null); }
-  };
-
-  const toggleAiChat = async () => {
-    setTogglingAiChat(true);
-    const newValue = !aiChatEnabled;
-    try {
-      await supabase.from('app_settings').update({ value: String(newValue) }).eq('key', 'ai_chat_enabled');
-      setAiChatEnabled(newValue);
-      toast.success(`AI Chat ${newValue ? 'yoqildi' : "o'chirildi"} barcha foydalanuvchilar uchun`);
-    } catch {
-      toast.error('Failed to update setting');
-    } finally {
-      setTogglingAiChat(false);
-    }
-  };
-
-  const searchedUsers = users.filter(u =>
-    u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.phone?.includes(searchQuery) ||
-    (u.public_id || '').includes(searchQuery.trim())
-  );
-
-  const lastSeenOf = (id: string) => {
-    const o = overview[id];
-    const t = Math.max(o?.last_sign_in_at ? +new Date(o.last_sign_in_at) : 0, o?.last_activity_at ? +new Date(o.last_activity_at) : 0);
-    return t || null;
-  };
-  const activityOf = (id: string) => {
-    const o = overview[id];
-    return o ? Number(o.essays_count) + Number(o.speaking_count) + Number(o.mock_count) : 0;
-  };
-
-  const filteredUsers = searchedUsers
-    .filter(u => {
-      const sub = subscriptions[u.user_id];
-      const paid = sub?.plan_type === 'go' || sub?.plan_type === 'plus';
-      const expired = !!sub?.expires_at && new Date(sub.expires_at) < new Date();
-      if (planFilter === 'free' && paid) return false;
-      if (planFilter === 'paid' && !paid) return false;
-      if (planFilter === 'expired' && !expired) return false;
-      const seen = lastSeenOf(u.user_id);
-      const age = seen ? Date.now() - seen : Infinity;
-      if (seenFilter === '24h' && age > 864e5) return false;
-      if (seenFilter === '7d' && age > 7 * 864e5) return false;
-      if (seenFilter === 'inactive_7d' && age <= 7 * 864e5) return false;
-      if (seenFilter === 'never' && !!overview[u.user_id]?.last_sign_in_at) return false;
-      return true;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'oldest': return +new Date(a.created_at) - +new Date(b.created_at);
-        case 'last_seen': return (lastSeenOf(b.user_id) ?? 0) - (lastSeenOf(a.user_id) ?? 0);
-        case 'most_active': return activityOf(b.user_id) - activityOf(a.user_id);
-        case 'name': return (a.full_name || a.email).localeCompare(b.full_name || b.email);
-        default: return +new Date(b.created_at) - +new Date(a.created_at);
-      }
-    });
-
-  const exportCsv = () => {
-    const header = ['Email', 'Name', 'Public ID', 'Phone', 'City', 'Plan', 'Plan expires', 'Joined', 'Last sign-in', 'Last activity', 'Essays', 'Speaking', 'Mock tests'];
-    const rows = filteredUsers.map(u => {
-      const o = overview[u.user_id]; const sub = subscriptions[u.user_id];
-      return [u.email, u.full_name, u.public_id, u.phone, u.city, sub?.plan_type || 'free', sub?.expires_at, u.created_at,
-        o?.last_sign_in_at, o?.last_activity_at, o?.essays_count ?? 0, o?.speaking_count ?? 0, o?.mock_count ?? 0].map(csvCell).join(',');
-    });
-    const blob = new Blob([[header.map(csvCell).join(','), ...rows].join('\n')], { type: 'text/csv;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `scorify-users-${format(new Date(), 'yyyy-MM-dd')}.csv`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
-
-  const totalEssays = Object.values(essayCounts).reduce((a, b) => a + b, 0);
-  const proUsers = Object.values(subscriptions).filter(x => x.plan_type === 'go' || x.plan_type === 'plus').length;
-
-  const now = new Date();
-  const todayStart = startOfDay(now);
-  const weekAgo = subDays(now, 7);
-  const monthAgo = subDays(now, 30);
-
-  const newUsersToday = users.filter(u => isAfter(new Date(u.created_at), todayStart)).length;
-  const newUsersWeek = users.filter(u => isAfter(new Date(u.created_at), weekAgo)).length;
-  const newUsersMonth = users.filter(u => isAfter(new Date(u.created_at), monthAgo)).length;
-
-  const active24h = users.filter(u => { const t = lastSeenOf(u.user_id); return !!t && Date.now() - t < 864e5; }).length;
-  const active7d = users.filter(u => { const t = lastSeenOf(u.user_id); return !!t && Date.now() - t < 7 * 864e5; }).length;
-  const unconfirmed = Object.values(overview).filter(o => !o.email_confirmed_at).length;
-
-  if (authLoading || loading) return <LoadingScreen />;
+  if (authLoading || (user && isAdmin === null)) return <LoadingScreen />;
   if (!user) { navigate('/auth'); return null; }
-
   if (!isAdmin) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center glass-card p-8">
           <Shield className="h-16 w-16 text-destructive mx-auto mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Access Denied</h1>
-          <p className="text-muted-foreground mb-4">You don't have admin privileges.</p>
-          <Button onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
+          <h1 className="text-2xl font-bold mb-2">Kirish taqiqlangan</h1>
+          <p className="text-muted-foreground mb-4">Sizda admin huquqi yo'q.</p>
+          <Button onClick={() => navigate('/dashboard')}>Bosh sahifaga</Button>
         </div>
       </div>
     );
@@ -386,442 +57,31 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Admin Panel" path="/admin" noindex />
+      <SEOHead title="Admin panel" path="/admin" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Shield className="h-6 w-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">Admin Panel</h1>
-            <p className="text-muted-foreground">Users, activity, plans, announcements & analytics</p>
-          </div>
-        </motion.div>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center"><Shield className="h-5 w-5 text-primary" /></div>
+          <div><h1 className="text-2xl font-bold">Admin panel</h1><p className="text-sm text-muted-foreground">Foydalanuvchilar, o'qish, to'lovlar va e'lonlar</p></div>
+        </div>
 
-        {/* Overview Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {[
-            { icon: Users, value: users.length, label: 'Total Users', color: 'text-primary' },
-            { icon: Coins, value: proUsers, label: 'Paid Subscribers', color: 'text-primary' },
-            { icon: FileText, value: totalEssays, label: 'Total Essays', color: 'text-primary' },
-            { icon: BarChart3, value: Object.keys(subscriptions).length, label: 'Subscriptions', color: 'text-primary' },
-          ].map((stat, i) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }} className="glass-card p-4 sm:p-5">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <stat.icon className={`h-6 w-6 sm:h-8 sm:w-8 ${stat.color}`} />
-                <div>
-                  <p className="text-xl sm:text-2xl font-bold">{stat.value}</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              </div>
-            </motion.div>
+        <nav className="flex gap-1 overflow-x-auto pb-2 mb-6 border-b border-border" aria-label="Bo'limlar">
+          {TABS.map(t => (
+            <button key={t.id} type="button" onClick={() => setParams(t.id === 'overview' ? {} : { tab: t.id }, { replace: true })}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-t-lg text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${tab === t.id ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
+              <t.icon className="h-4 w-4" />{t.label}
+            </button>
           ))}
-        </div>
+        </nav>
 
-        <section className="glass-card p-5 sm:p-6 mb-6">
-          <div className="flex items-start gap-3 mb-5"><div className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center"><Bot className="w-5 h-5"/></div><div><h2 className="font-bold text-lg">AI usage and estimated cost</h2><p className="text-sm text-muted-foreground">Actual tokens returned by OpenAI. Whisper is billed by recorded audio duration, so it appears as audio minutes.</p></div></div>
-          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">{aiUsage.length?aiUsage.map(period=><div className="rounded-2xl border bg-background p-4" key={period.label}><p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{period.label}</p><p className="text-2xl font-bold text-primary mt-2">${Number(period.cost_usd).toFixed(4)}</p><div className="text-xs text-muted-foreground space-y-1 mt-3"><p>{Number(period.input_tokens).toLocaleString()} input tokens</p><p>{Number(period.output_tokens).toLocaleString()} output tokens</p><p>{(Number(period.audio_seconds)/60).toFixed(1)} audio minutes</p><p>{Number(period.requests).toLocaleString()} paid API calls</p></div></div>):<div className="sm:col-span-2 xl:col-span-4 rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">No tracked AI usage yet. New calls will appear after the database migration and Edge Function deployment.</div>}</div>
-          <p className="text-xs text-muted-foreground mt-4">Cost estimates use the configured model rates saved by the backend: GPT-4o mini token pricing and Whisper audio pricing. OpenAI billing remains the final source of truth.</p>
-        </section>
-
-        {/* User Growth */}
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="glass-card p-5">
-            <h3 className="font-semibold mb-3 flex items-center gap-2">
-              <Users className="h-4 w-4 text-primary" /> User Growth
-            </h3>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Today</span>
-                <span className="font-medium text-primary">+{newUsersToday}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Last 7 Days</span>
-                <span className="font-medium text-primary">+{newUsersWeek}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Last 30 Days</span>
-                <span className="font-medium text-primary">+{newUsersMonth}</span>
-              </div>
-              <div className="flex justify-between text-sm border-t border-border/50 pt-2">
-                <span className="text-muted-foreground">Active in last 24h</span>
-                <span className="font-medium text-primary">{active24h}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Active in last 7 days</span>
-                <span className="font-medium text-primary">{active7d}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Unconfirmed emails</span>
-                <span className="font-medium">{unconfirmed}</span>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-            className="glass-card p-5">
-            <h3 className="font-semibold mb-3 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-primary" /> Revenue Overview
-            </h3>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Active Pro Subscribers</span>
-                <span className="font-medium text-primary">{proUsers}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Total Essays</span>
-                <span className="font-medium">{totalEssays}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Total Users</span>
-                <span className="font-medium text-primary">{users.length}</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Tabs */}
-        <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="w-full sm:w-auto">
-            <TabsTrigger value="users" className="gap-1"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
-            <TabsTrigger value="announcements" className="gap-1"><Megaphone className="h-3.5 w-3.5" /> Announcements</TabsTrigger>
-            <TabsTrigger value="blog" className="gap-1"><FileText className="h-3.5 w-3.5" /> Blog</TabsTrigger>
-            <TabsTrigger value="analytics" className="gap-1"><BarChart3 className="h-3.5 w-3.5" /> Analytics</TabsTrigger>
-            <TabsTrigger value="settings" className="gap-1"><Settings className="h-3.5 w-3.5" /> Settings</TabsTrigger>
-          </TabsList>
-
-          {/* Users Tab */}
-          <TabsContent value="users">
-            {/* Search */}
-            <div className="glass-card p-6 mb-6">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search users by ID, email, name, city, or phone..." value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 input-glass" />
-              </div>
-              <div className="flex flex-wrap items-center gap-2 mt-4">
-                <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortKey)}>
-                  <SelectTrigger className="w-44 h-9 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="newest">Newest first</SelectItem>
-                    <SelectItem value="oldest">Oldest first</SelectItem>
-                    <SelectItem value="last_seen">Last seen</SelectItem>
-                    <SelectItem value="most_active">Most active</SelectItem>
-                    <SelectItem value="name">Name A–Z</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select value={planFilter} onValueChange={(v) => setPlanFilter(v as PlanFilter)}>
-                  <SelectTrigger className="w-36 h-9 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All plans</SelectItem>
-                    <SelectItem value="free">Free only</SelectItem>
-                    <SelectItem value="paid">Paid only</SelectItem>
-                    <SelectItem value="expired">Expired</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select value={seenFilter} onValueChange={(v) => setSeenFilter(v as SeenFilter)}>
-                  <SelectTrigger className="w-44 h-9 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Any activity</SelectItem>
-                    <SelectItem value="24h">Seen in last 24h</SelectItem>
-                    <SelectItem value="7d">Seen in last 7 days</SelectItem>
-                    <SelectItem value="inactive_7d">Inactive 7+ days</SelectItem>
-                    <SelectItem value="never">Never signed in</SelectItem>
-                  </SelectContent>
-                </Select>
-                <span className="text-xs text-muted-foreground ml-auto">{filteredUsers.length} of {users.length} users</span>
-                <Button variant="outline" size="sm" className="h-9 text-xs" onClick={exportCsv}>Export CSV</Button>
-              </div>
-            </div>
-
-            {/* Users Table */}
-            <div className="glass-card overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left p-4 text-sm font-medium text-muted-foreground">User</th>
-                      <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden md:table-cell">Details</th>
-                      <th className="text-left p-4 text-sm font-medium text-muted-foreground">Plan</th>
-                      <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden sm:table-cell">Joined / Last seen</th>
-                      <th className="text-center p-4 text-sm font-medium text-muted-foreground hidden xl:table-cell">Activity</th>
-                      <th className="text-left p-4 text-sm font-medium text-muted-foreground hidden lg:table-cell">Subscription</th>
-                      <th className="text-right p-4 text-sm font-medium text-muted-foreground">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredUsers.map((profile) => {
-                      const sub = subscriptions[profile.user_id];
-                      const pt = sub?.plan_type || 'free';
-                      const expiresAt = sub?.expires_at;
-                      const daysLeft = expiresAt ? Math.max(0, Math.ceil((new Date(expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24))) : null;
-                      const isExpired = expiresAt ? new Date(expiresAt) < new Date() : false;
-                      const subProgress = sub && sub.writing_limit > 0 ? (sub.writing_used / sub.writing_limit) * 100 : 0;
-
-                      return (
-                        <tr key={profile.id} className="border-b border-border/50 hover:bg-secondary/30 transition-colors">
-                          <td className="p-4">
-                            <div>
-                              <span className="font-medium block">{profile.full_name || 'No name'}</span>
-                              <span className="text-xs text-muted-foreground">{profile.email}</span>
-                              {profile.public_id && (
-                                <span className="inline-block mt-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
-                                  ID #{profile.public_id}
-                                </span>
-                              )}
-                            </div>
-                          </td>
-                          <td className="p-4 hidden md:table-cell">
-                            <div className="text-xs text-muted-foreground space-y-0.5">
-                              {profile.age && <span className="block">Age: {profile.age}</span>}
-                              {profile.city && <span className="block">City: {profile.city}</span>}
-                              {profile.phone && <span className="block">Phone: {profile.phone}</span>}
-                              {!profile.age && !profile.city && !profile.phone && <span>—</span>}
-                            </div>
-                          </td>
-                          <td className="p-4">
-                            <Select value={sub?.plan_type || 'free'} onValueChange={(val) => assignPlan(profile.user_id, val)}
-                              disabled={updatingUser === profile.user_id}>
-                              <SelectTrigger className="w-40 h-8 text-xs">
-                                <SelectValue placeholder="Assign plan…" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {PLANS.map(p => (
-                                  <SelectItem key={p.slug} value={p.slug}>{p.slug === 'free' ? p.label : `${p.label} · 1 month`}</SelectItem>
-                                ))}
-                                {PLANS.filter(p => p.slug !== 'free').map(p => (
-                                  <SelectItem key={`${p.slug}:180`} value={`${p.slug}:180`}>{p.label} · 6 months (-10%)</SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </td>
-                          <td className="p-4 hidden sm:table-cell">
-                            <div className="text-xs space-y-0.5 whitespace-nowrap">
-                              <span className="block" title={format(new Date(profile.created_at), 'PPpp')}>Joined {format(new Date(profile.created_at), 'dd MMM yyyy')}</span>
-                              <span className="block text-muted-foreground" title={overview[profile.user_id]?.last_sign_in_at ? format(new Date(overview[profile.user_id].last_sign_in_at!), 'PPpp') : undefined}>
-                                Seen {ago(overview[profile.user_id]?.last_sign_in_at)}
-                              </span>
-                              {overview[profile.user_id] && !overview[profile.user_id].email_confirmed_at && (
-                                <span className="inline-block text-[10px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive">Email unconfirmed</span>
-                              )}
-                            </div>
-                          </td>
-                          <td className="p-4 text-center hidden xl:table-cell">
-                            <span className="text-xs text-muted-foreground whitespace-nowrap">
-                              {overview[profile.user_id]
-                                ? `E ${overview[profile.user_id].essays_count} · S ${overview[profile.user_id].speaking_count} · M ${overview[profile.user_id].mock_count}`
-                                : essayCounts[profile.user_id] || 0}
-                            </span>
-                            <span className="block text-[10px] text-muted-foreground">last: {ago(overview[profile.user_id]?.last_activity_at)}</span>
-                          </td>
-                          <td className="p-4 hidden lg:table-cell">
-                            {sub ? (
-                              <div className="space-y-1 min-w-[140px]">
-                                <Progress value={subProgress} className="h-1.5" />
-                                <div className="flex justify-between text-xs text-muted-foreground">
-                                  <span>W {sub.writing_used}/{sub.writing_limit} · S {sub.speaking_used}/{sub.speaking_limit} · M {sub.mock_test_used}/{sub.mock_test_limit}</span>
-                                  {daysLeft !== null && (
-                                    <span className={isExpired ? 'text-destructive' : ''}>
-                                      {isExpired ? 'Expired' : `${daysLeft}d left`}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            ) : (
-                              <span className="text-xs text-muted-foreground">—</span>
-                            )}
-                          </td>
-                          <td className="p-4">
-                            <div className="flex items-center justify-end gap-1 flex-wrap">
-                              <Button variant="ghost" size="icon" className="h-8 w-8"
-                                onClick={() => fetchUserEssays(profile.user_id, profile.full_name || profile.email)}
-                                title="View essays">
-                                <Eye className="h-3.5 w-3.5" />
-                              </Button>
-                              <Button variant="outline" size="sm" className="h-8 text-xs"
-                                onClick={() => extendPlan(profile.user_id, 30)}
-                                disabled={updatingUser === profile.user_id}>
-                                {updatingUser === profile.user_id ? <Loader2 className="h-3 w-3 animate-spin" /> : 'Renew 30d'}
-                              </Button>
-                              <Button variant="outline" size="sm" className="h-8 text-xs"
-                                onClick={() => extendPlan(profile.user_id, 180)}
-                                disabled={updatingUser === profile.user_id}>
-                                Renew 6 mo
-                              </Button>
-                              <Button variant="ghost" size="sm" className="h-8 text-xs"
-                                onClick={() => assignPlan(profile.user_id, 'free')}
-                                disabled={updatingUser === profile.user_id || pt === 'free'}>
-                                Reset to Free
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              {filteredUsers.length === 0 && (
-                <div className="text-center py-12 text-muted-foreground">No users found</div>
-              )}
-            </div>
-          </TabsContent>
-
-          {/* Announcements Tab */}
-          <TabsContent value="announcements">
-            <div className="glass-card p-6 mb-6">
-              <h3 className="font-semibold mb-4 flex items-center gap-2">
-                <Plus className="h-4 w-4 text-primary" /> Create Announcement
-              </h3>
-              <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="text-sm text-muted-foreground mb-1 block">Type</label>
-                  <Select value={newAnnouncement.type} onValueChange={(v) => setNewAnnouncement(prev => ({ ...prev, type: v }))}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="alert">Alert (Top Banner)</SelectItem>
-                      <SelectItem value="modal">Modal (Popup)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label className="text-sm text-muted-foreground mb-1 block">Title</label>
-                  <Input value={newAnnouncement.title} onChange={e => setNewAnnouncement(prev => ({ ...prev, title: e.target.value }))}
-                    placeholder="Announcement title..." />
-                </div>
-              </div>
-              <div className="mb-4">
-                <label className="text-sm text-muted-foreground mb-1 block">Content</label>
-                <Textarea value={newAnnouncement.content} onChange={e => setNewAnnouncement(prev => ({ ...prev, content: e.target.value }))}
-                  placeholder="Announcement content..." rows={3} />
-              </div>
-              <Button onClick={createAnnouncement} disabled={creatingAnnouncement} className="gap-2">
-                {creatingAnnouncement ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-                Create
-              </Button>
-            </div>
-
-            <div className="space-y-3">
-              {announcements.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground glass-card">
-                  <Megaphone className="h-12 w-12 mx-auto mb-3 opacity-30" />
-                  <p>No announcements yet</p>
-                </div>
-              ) : announcements.map(ann => (
-                <div key={ann.id} className="glass-card p-4 flex items-start gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${ann.type === 'alert' ? 'bg-primary/10 text-primary' : 'bg-accent/10 text-accent-foreground'}`}>
-                        {ann.type === 'alert' ? 'Alert' : 'Modal'}
-                      </span>
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${ann.status === 'active' ? 'bg-green-500/10 text-green-600' : 'bg-secondary text-muted-foreground'}`}>
-                        {ann.status}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        Seen by {ann.view_count || 0} users
-                      </span>
-                    </div>
-                    <p className="font-medium text-sm">{ann.title}</p>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{ann.content}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{format(new Date(ann.created_at), 'MMM d, yyyy HH:mm')}</p>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" className="h-8 w-8"
-                      onClick={() => toggleAnnouncementStatus(ann.id, ann.status)}
-                      title={ann.status === 'active' ? 'Deactivate' : 'Activate'}>
-                      {ann.status === 'active' ? <ToggleRight className="h-4 w-4 text-green-600" /> : <ToggleLeft className="h-4 w-4 text-muted-foreground" />}
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive"
-                      onClick={() => deleteAnnouncement(ann.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </TabsContent>
-
-          {/* Settings Tab */}
-          <TabsContent value="blog"><BlogManager /></TabsContent>
-
-          <TabsContent value="analytics"><AdminAnalytics /></TabsContent>
-
-          <TabsContent value="settings">
-            <div className="glass-card p-6">
-              <h3 className="font-semibold mb-6 flex items-center gap-2">
-                <Settings className="h-4 w-4 text-primary" /> Global Settings
-              </h3>
-              <div className="space-y-6">
-                <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-                  <div className="flex items-center gap-3">
-                    <Bot className="h-5 w-5 text-primary" />
-                    <div>
-                      <p className="font-medium text-sm">AI Mentor Chat</p>
-                      <p className="text-xs text-muted-foreground">Barcha foydalanuvchilar uchun AI chat funksiyasini yoqish/o'chirish</p>
-                    </div>
-                  </div>
-                  <Button
-                    variant={aiChatEnabled ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={toggleAiChat}
-                    disabled={togglingAiChat}
-                    className="gap-2"
-                  >
-                    {togglingAiChat ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : aiChatEnabled ? (
-                      <ToggleRight className="h-4 w-4" />
-                    ) : (
-                      <ToggleLeft className="h-4 w-4" />
-                    )}
-                    {aiChatEnabled ? 'Yoqilgan' : "O'chirilgan"}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
+        {tab === 'overview' && <OverviewTab />}
+        {tab === 'users' && <UsersTab />}
+        {tab === 'learning' && <LearningTab />}
+        {tab === 'money' && <MoneyTab />}
+        {tab === 'news' && <AnnouncementsTab />}
+        {tab === 'blog' && <BlogManager />}
+        {tab === 'settings' && <SettingsTab />}
       </main>
-
-      {/* View User Essays Dialog */}
-      <Dialog open={!!viewEssaysUser} onOpenChange={() => setViewEssaysUser(null)}>
-        <DialogContent className="glass-card border-border max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Essays by {viewEssaysUser?.name}</DialogTitle>
-          </DialogHeader>
-          {loadingEssays ? (
-            <div className="py-8 text-center text-muted-foreground">Loading...</div>
-          ) : userEssays.length === 0 ? (
-            <div className="py-8 text-center text-muted-foreground">No essays found</div>
-          ) : (
-            <div className="space-y-2">
-              {userEssays.map((essay: any) => (
-                <Link key={essay.id} to={`/result/${essay.id}`}
-                  className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
-                      <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy')}</span>
-                      <span className="text-xs text-muted-foreground">{essay.word_count}w</span>
-                    </div>
-                    <p className="text-sm truncate text-muted-foreground">{essay.topic?.substring(0, 60)}...</p>
-                  </div>
-                  {essay.score !== null && (
-                    <span className={`text-lg font-bold ml-3 ${essay.score >= 7 ? 'text-primary' : essay.score >= 5 ? 'text-yellow-500' : 'text-destructive'}`}>
-                      {essay.score}
-                    </span>
-                  )}
-                  <ChevronRight className="h-4 w-4 text-muted-foreground ml-2 group-hover:text-primary transition-colors" />
-                </Link>
-              ))}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

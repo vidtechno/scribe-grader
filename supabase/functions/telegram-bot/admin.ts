@@ -22,36 +22,48 @@ const AUDIENCES: Record<string, string> = {
 const HOME: InlineKeyboard = [[cb("⬅️ Admin panel", "ad:home")]];
 
 export async function showAdmin(ctx: Ctx) {
-  await reply(ctx, "👑 <b>Admin panel</b>\n\nBot va saytni boshqarish. Bo'limni tanlang:", [
-    [cb("📈 Statistika", "ad:stats"), cb("📣 Xabar yuborish", "ad:bc")],
-    [cb("🔍 Foydalanuvchi", "ad:us"), cb("🆕 Yangi a'zolar", "ad:new")],
-    [cb("📢 Sayt e'lonlari", "ad:an"), cb("🤖 Bot holati", "ad:bot")],
+  const { data } = await ctx.db.rpc("telegram_admin_stats");
+  const s = (data ?? {}) as Record<string, number>;
+  const alerts = [
+    s.ref_pending ? `💸 To'lash kerak: <b>${s.ref_pending}</b> ta so'rov (${money(s.ref_pending_sum)})` : "",
+    s.expiring_7d ? `⏳ 7 kunda tugaydigan obuna: <b>${s.expiring_7d}</b>` : "",
+    s.outbox_failed_24h ? `⚠️ Xabar yuborishda xato (24 soat): <b>${s.outbox_failed_24h}</b>` : "",
+  ].filter(Boolean);
+  await reply(ctx, ["👑 <b>Admin panel</b>", alerts.length ? `\n${alerts.join("\n")}` : "\n✅ Hammasi joyida — kutayotgan ish yo'q.", "\nBo'limni tanlang:"].join("\n"), [
+    [cb("📊 Bugungi holat", "ad:stats")],
+    [cb("👥 Foydalanuvchilar", "ad:ul"), cb(s.ref_pending ? `💸 To'lovlar (${s.ref_pending})` : "💸 To'lovlar", "ad:pay")],
+    [cb("📣 Xabar yuborish", "ad:bc"), cb("📢 Sayt e'lonlari", "ad:an")],
+    [cb("🤖 Bot holati", "ad:bot")],
     [app("🖥 Saytdagi admin panel", "/admin")],
   ]);
 }
+
+const LEVELS: Record<string, string> = { beginner: "Beginner", a1: "Elementary", a2: "Pre-Intermediate", b1: "Intermediate", b2: "Upper-Int.", c1: "Advanced" };
+const money = (n: number) => `${String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
 
 async function showStats(ctx: Ctx) {
   const { data, error } = await ctx.db.rpc("telegram_admin_stats");
   if (error) throw error;
   const s = data as Record<string, number>;
   await reply(ctx, [
-    "📈 <b>Statistika</b>\n",
+    "📊 <b>Bugungi holat</b>\n",
     "👥 <b>Foydalanuvchilar</b>",
-    `Jami: <b>${s.users_total}</b> · Bugun: +${s.users_today} · 7 kun: +${s.users_7d} · 30 kun: +${s.users_30d}`,
-    `7 kunda faol (kirgan): ${s.active_7d}`,
+    `Jami: <b>${s.users_total}</b> · bugun +${s.users_today} · 7 kunda +${s.users_7d} · 30 kunda +${s.users_30d}`,
+    `7 kunda faol: <b>${s.active_7d}</b>`,
+    "\n🎓 <b>O'qish</b>",
+    `Bugun o'qiganlar: <b>${s.learners_today}</b> · tugatilgan darslar: <b>${s.lessons_today}</b>`,
+    `7 kunda tugatilgan darslar: ${s.lessons_7d}`,
+    "\n💎 <b>Tariflar</b>",
+    `Learn: <b>${s.paid_go}</b> · IELTS: <b>${s.paid_plus}</b> · bepul haftada: ${s.trial}`,
+    `7 kunda tugaydi: ${s.expiring_7d}`,
+    "\n🎁 <b>Referal</b>",
+    `Taklif qilinganlar: ${s.ref_invited} · kutilayotgan to'lov: ${s.ref_pending ? `<b>${s.ref_pending}</b> (${money(s.ref_pending_sum)})` : "yo'q"}`,
     "\n🤖 <b>Bot</b>",
-    `Jami: <b>${s.tg_total}</b> · Bugun: +${s.tg_today} · Hisobi ulangan: ${s.tg_linked}`,
-    `Botni bloklagan: ${s.tg_blocked} · Ban: ${s.tg_banned}`,
-    "\n📝 <b>Faollik</b>",
-    `Writing: bugun ${s.essays_today} · 7 kun ${s.essays_7d}`,
-    `Speaking: bugun ${s.speaking_today} · 7 kun ${s.speaking_7d}`,
-    `Mock test (7 kun): ${s.mock_7d}`,
-    "\n💎 <b>Faol obunalar</b>",
-    `Learn: <b>${s.paid_go}</b> · IELTS: <b>${s.paid_plus}</b>`,
-    "\n🧠 <b>AI xarajati</b>",
-    `24 soat: $${s.ai_cost_today} · 7 kun: $${s.ai_cost_7d} · 30 kun: $${s.ai_cost_30d}`,
-    "\n📬 <b>Bildirishnomalar</b>",
-    `24 soatda yuborilgan: ${s.outbox_sent_24h} · Navbatda: ${s.outbox_pending} · Xato: ${s.outbox_failed_24h}`,
+    `Foydalanuvchilar: ${s.tg_total} (bugun +${s.tg_today}) · hisobi ulangan: ${s.tg_linked}`,
+    `Botni bloklagan: ${s.tg_blocked} · ban: ${s.tg_banned}`,
+    `Bildirishnomalar (24 soat): yuborildi ${s.outbox_sent_24h} · navbatda ${s.outbox_pending} · xato ${s.outbox_failed_24h}`,
+    "\n✍️ <b>IELTS (7 kun)</b>",
+    `Writing: ${s.essays_7d} · Speaking: ${s.speaking_7d}`,
   ].join("\n"), [[cb("🔄 Yangilash", "ad:stats")], ...HOME]);
 }
 
@@ -99,6 +111,58 @@ async function startBroadcast(ctx: Ctx) {
   background(drain(ctx.db));
 }
 
+// ---------------------------------------------------------------- users menu & payouts
+
+const LISTS: Record<string, string> = {
+  paid: "💎 Pullik obunachilar",
+  expiring: "⏳ 7 kunda tugaydi",
+  trial_end: "🎁 Bepul hafta tugayapti (2 kun)",
+  trial: "🆓 Bepul haftada",
+  inactive: "😴 7 kundan beri o'qimayapti",
+};
+
+async function usersMenu(ctx: Ctx) {
+  await reply(ctx, "👥 <b>Foydalanuvchilar</b>\n\nQidiring yoki ro'yxatni tanlang:", [
+    [cb("🔍 Qidirish", "ad:us"), cb("🆕 Yangilar", "ad:new")],
+    [cb(LISTS.paid, "ad:ul:paid"), cb(LISTS.expiring, "ad:ul:expiring")],
+    [cb(LISTS.trial_end, "ad:ul:trial_end"), cb(LISTS.trial, "ad:ul:trial")],
+    [cb(LISTS.inactive, "ad:ul:inactive")],
+    ...HOME,
+  ]);
+}
+
+async function userList(ctx: Ctx, kind: string) {
+  if (!LISTS[kind]) return usersMenu(ctx);
+  const { data, error } = await ctx.db.rpc("telegram_admin_list", { _kind: kind, _limit: 15 });
+  if (error) throw error;
+  const rows = (data ?? []) as { user_id: string; name: string; plan_type: string | null; expires_at: string | null; trial_ends_at: string | null; level: string | null; xp: number | null }[];
+  const tail = (r: (typeof rows)[number]) => kind === "paid" || kind === "expiring" ? `${PLAN_LABEL[r.plan_type ?? ""] ?? ""} · ${r.expires_at ? fmtDate(r.expires_at) : "—"}`
+    : kind === "trial_end" || kind === "trial" ? `${r.trial_ends_at ? fmtDate(r.trial_ends_at) : "—"} gacha` : `${r.xp ?? 0} XP`;
+  await reply(ctx, `${LISTS[kind]}\n${rows.length ? "" : "\nHozircha hech kim yo'q."}`, [
+    ...rows.map((r) => [cb(truncate(`${r.name} · ${tail(r)}`, 60), `ad:u:${r.user_id}`)]),
+    [cb("⬅️ Foydalanuvchilar", "ad:ul")],
+    ...HOME,
+  ]);
+}
+
+async function payouts(ctx: Ctx) {
+  const { data } = await ctx.db.from("referral_withdrawals").select("id,amount,card_number,card_holder,created_at,user_id")
+    .eq("status", "pending").order("created_at", { ascending: true }).limit(10);
+  const rows = data ?? [];
+  if (!rows.length) return reply(ctx, "💸 <b>To'lovlar</b>\n\nKutilayotgan yechib olish so'rovi yo'q ✅", HOME);
+  await reply(ctx, `💸 <b>To'lovlar</b>\n\nKutilayotgan so'rovlar: <b>${rows.length}</b>. Pastda har biri alohida yuboriladi.`, HOME);
+  for (const w of rows) {
+    const { data: p } = await ctx.db.from("profiles").select("full_name,public_id").eq("user_id", w.user_id).maybeSingle();
+    await send(ctx.chatId, [
+      `👤 ${esc(p?.full_name ?? "Ismsiz")}${p?.public_id ? ` · #${esc(p.public_id)}` : ""}`,
+      `💰 <b>${money(w.amount)}</b>`,
+      `💳 <code>${String(w.card_number).replace(/(\d{4})(?=\d)/g, "$1 ")}</code>`,
+      `🧾 ${esc(w.card_holder)}`,
+      `<i>So'rov #${w.id} · ${fmtDate(w.created_at)}</i>`,
+    ].join("\n"), { inline_keyboard: [[cb("✅ To'landi", `ad:wd:ok:${w.id}`), cb("❌ Rad etish", `ad:wd:no:${w.id}`)]] });
+  }
+}
+
 // ---------------------------------------------------------------- users
 
 async function askUserSearch(ctx: Ctx) {
@@ -127,28 +191,32 @@ export async function userCard(ctx: Ctx, userId: string) {
   const u = data as Record<string, any> | null;
   if (!u) return reply(ctx, "Foydalanuvchi topilmadi.", HOME);
   const login = u.provider === "telegram" ? "Telegram" : u.provider === "google" ? "Google" : esc(u.provider);
+  const trialLeft = u.trial_ends_at ? Math.ceil((new Date(u.trial_ends_at).getTime() - Date.now()) / 86_400_000) : 0;
+  const planLine = u.plan !== "free"
+    ? `💎 <b>${PLAN_LABEL[u.plan] ?? esc(u.plan_name ?? u.plan)}</b>${u.expires_at ? ` · ${fmtDate(u.expires_at, true)} gacha` : ""}`
+    : trialLeft > 0 ? `🆓 Bepul haftada — <b>${trialLeft} kun</b> qoldi` : "🆓 Free (sinov tugagan)";
   const text = [
-    `👤 <b>${esc(u.full_name || "Ismsiz")}</b>${u.is_admin ? " 👑" : ""}`,
+    `👤 <b>${esc(u.full_name || "Ismsiz")}</b>${u.is_admin ? " 👑" : ""}${u.username ? ` · @${esc(u.username)}` : ""}`,
     `${isTelegramEmail(u.email) ? "📧 —" : `📧 ${esc(u.email)}`} · ID #${esc(u.public_id ?? "—")}`,
-    `🔐 Kirish: ${login} · Ro'yxatdan: ${fmtDate(u.created_at, true)}`,
-    `🕐 Oxirgi kirish: ${u.last_sign_in_at ? fmtDate(u.last_sign_in_at, true) : "—"}`,
-    u.telegram_id ? `🤖 Telegram: ${u.telegram_username ? `@${esc(u.telegram_username)}` : u.telegram_id}${u.telegram_banned ? " · 🚫 ban" : ""}${u.telegram_blocked ? " · botni bloklagan" : ""}` : "🤖 Telegram: ulanmagan",
-    `\n💎 Tarif: <b>${PLAN_LABEL[u.plan] ?? esc(u.plan_name ?? u.plan)}</b>${u.expires_at ? ` · ${fmtDate(u.expires_at, true)} gacha` : ""}`,
-    `Limitlar: ✍️ ${u.writing_used}/${u.writing_limit} · 🎤 ${u.speaking_used}/${u.speaking_limit} · 🧪 ${u.mock_used}/${u.mock_limit}`,
-    `\n📝 Writing: ${u.essays} ta (o'rtacha ${band(u.avg_writing === null ? null : Number(u.avg_writing))})`,
-    `🎤 Speaking: ${u.speaking} ta (o'rtacha ${band(u.avg_speaking === null ? null : Number(u.avg_speaking))})`,
-    `🧪 Mock: ${u.mocks} ta`,
-  ].join("\n");
+    `🔐 ${login} · ro'yxatdan: ${fmtDate(u.created_at, true)} · oxirgi kirish: ${u.last_sign_in_at ? fmtDate(u.last_sign_in_at, true) : "—"}`,
+    `\n${planLine}`,
+    u.level
+      ? `\n🎓 <b>${LEVELS[u.level] ?? esc(u.level)}</b> · ⚡️ ${u.xp ?? 0} XP · 🔥 ${u.streak ?? 0} kun · ${u.lessons_done} ta dars${u.last_learn_day ? ` · oxirgi o'qish ${fmtDate(u.last_learn_day)}` : ""}`
+      : "\n🎓 Kursni hali boshlamagan",
+    u.essays || u.speaking || u.mocks ? `✍️ IELTS: Writing ${u.essays} (o'rtacha ${band(u.avg_writing === null ? null : Number(u.avg_writing))}) · Speaking ${u.speaking} (${band(u.avg_speaking === null ? null : Number(u.avg_speaking))}) · Mock ${u.mocks}` : "",
+    u.invited || u.ref_balance ? `🎁 Referal: ${u.invited} taklif · balans ${money(u.ref_balance)}` : "",
+    u.telegram_id ? `🤖 ${u.telegram_username ? `@${esc(u.telegram_username)}` : u.telegram_id}${u.telegram_banned ? " · 🚫 ban" : ""}${u.telegram_blocked ? " · botni bloklagan" : ""}` : "🤖 Telegram ulanmagan",
+  ].filter((x) => x !== "").join("\n");
   const keyboard: InlineKeyboard = [
-    [cb("Learn +30 kun", `ad:p:go:${userId}`), cb("IELTS +30 kun", `ad:p:plus:${userId}`)],
-    [cb("Learn +6 oy", `ad:p:go180:${userId}`), cb("IELTS +6 oy", `ad:p:plus180:${userId}`)],
+    [cb("Learn +30 kun", `ad:p:go:${userId}`), cb("Learn +6 oy", `ad:p:go180:${userId}`)],
+    [cb("IELTS +30 kun", `ad:p:plus:${userId}`), cb("IELTS +6 oy", `ad:p:plus180:${userId}`)],
     [cb("⬇️ Free'ga o'tkazish", `ad:p:free:${userId}`)],
   ];
   if (u.telegram_id) {
     keyboard.push([cb("✉️ Xabar yozish", `ad:dm:${u.telegram_id}`),
       u.telegram_banned ? cb("✅ Bandan chiqarish", `ad:unban:${u.telegram_id}`) : cb("🚫 Botda ban", `ad:ban:${u.telegram_id}`)]);
   }
-  keyboard.push([cb("🔄 Yangilash", `ad:u:${userId}`)], ...HOME);
+  keyboard.push([cb("🔄 Yangilash", `ad:u:${userId}`), cb("👥 Ro'yxat", "ad:ul")], ...HOME);
   await reply(ctx, text, keyboard);
 }
 
@@ -285,6 +353,8 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
       if (a === "no") { await setState(ctx, null); return reply(ctx, "❌ Bekor qilindi.", HOME); }
       await setState(ctx, null);
       return chooseAudience(ctx);
+    case "ul": return a ? userList(ctx, a) : usersMenu(ctx);
+    case "pay": return payouts(ctx);
     case "us": return askUserSearch(ctx);
     case "u": return userCard(ctx, a);
     case "new": return recentUsers(ctx);
