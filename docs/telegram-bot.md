@@ -12,7 +12,7 @@ The bot is part of the website, not a separate product. It uses the same Supabas
 | Statistics | averages, best, last, trend, streak, this week vs plan, exam countdown | same tables as the dashboard |
 | Results history | last 10 results with filters and a detailed card for each | `/essays`, `/speaking-history`, `/mock-test` |
 | Goals | target band, weekly Writing/Speaking plan, exam date | writes `user_goals`, the same data as the dashboard Goals card |
-| Plan | plan, expiry, usage bars, prices, buy via @scorify_payments with the user ID pre-filled | `subscriptions`; plan changes are announced in the bot |
+| Plan | plan, expiry, usage bars, prices, buy via @scorify_support with the user ID pre-filled | `subscriptions`; plan changes are announced in the bot |
 | Leaderboard | today / week / month, same formula as `/leaderboard` | `essays` |
 | Referrals | links (site and bot), progress to 10/20, activate the Go reward, share button; new friend notifications | `referral_*` tables and functions |
 | Daily practice | word of the day, Speaking question, Task 2 prompt, grammar tip (same for everyone each day) | buttons open `/speaking`, `/writing`, `/grammar-test` |

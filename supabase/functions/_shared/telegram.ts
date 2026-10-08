@@ -1,7 +1,7 @@
 // Telegram Bot API helpers shared by the telegram-bot and telegram-auth functions.
 
 export const SITE_URL = (Deno.env.get("SITE_URL") ?? "https://www.scorify.uz").replace(/\/+$/, "");
-export const PAYMENTS_USERNAME = "scorify_payments";
+export const PAYMENTS_USERNAME = "scorify_support";
 /** Telegram accounts that always see the admin panel. Site admins who link Telegram get it too. */
 export const DEFAULT_ADMIN_IDS = [6117815120];
 

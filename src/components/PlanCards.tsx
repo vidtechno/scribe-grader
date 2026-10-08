@@ -92,7 +92,7 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
         })}
       </div>
       <p className="text-xs text-muted-foreground text-center mt-6">
-        Payments are handled via Telegram <span className="text-primary font-semibold">@scorify_payments</span>. Your plan activates after confirmation
+        Payments are handled via Telegram <span className="text-primary font-semibold">@scorify_support</span>. Your plan activates after confirmation
         and lasts {billing === 'month' ? '30 days' : '6 months; the monthly IELTS allowances renew every 30 days'}.
       </p>
     </div>
