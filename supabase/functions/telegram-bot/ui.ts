@@ -30,6 +30,7 @@ export const BTN = {
   learn: "🎓 Ingliz tili darslari",
   writing: "✍️ Writing",
   speaking: "🎤 Speaking",
+  dictionary: "📚 Lug'at",
   dailyTest: "📝 Kunlik test",
   quiz: "🧠 So'z testi",
   articles: "📖 Foydali maqolalar",
@@ -49,6 +50,8 @@ export const LEGACY_BTN = {
   plan: "💎 Tarifim",
   top: "🏆 Reyting",
   invite: "🎁 Do'stlarni taklif qilish",
+  dailyTest: "📝 Kunlik test",
+  quiz: "🧠 So'z testi",
   daily: "💡 Kunlik mashq",
   open: "🚀 Ilovani ochish",
   settings: "⚙️ Sozlamalar",
@@ -60,14 +63,13 @@ export function mainKeyboard(ctx: Ctx) {
   const rows: { text: string }[][] = ctx.account.user_id
     ? [
       [{ text: BTN.learn }],
-      [{ text: BTN.dailyTest }, { text: BTN.quiz }],
-      [{ text: BTN.referral }, { text: BTN.cabinet }],
-      [{ text: BTN.articles }],
+      [{ text: BTN.dictionary }, { text: BTN.referral }],
+      [{ text: BTN.cabinet }, { text: BTN.articles }],
       [{ text: BTN.writing }, { text: BTN.speaking }],
     ]
     : [
       [{ text: BTN.learn }],
-      [{ text: BTN.start }, { text: BTN.quiz }],
+      [{ text: BTN.start }, { text: BTN.dictionary }],
       [{ text: BTN.articles }, { text: BTN.help }],
     ];
   if (ctx.isAdmin) rows.push([{ text: BTN.admin }]);

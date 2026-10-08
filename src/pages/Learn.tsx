@@ -116,7 +116,7 @@ function CourseHome({ state }: { state: LearningState }) {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
+      <div className="flex flex-wrap items-end justify-between gap-3 mb-3">
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).title} · {levelOf(startLevel).cefr}dan boshlagan</p>
           <h1 className="text-2xl sm:text-3xl font-extrabold">Ingliz tili kursi</h1>
@@ -136,7 +136,7 @@ function CourseHome({ state }: { state: LearningState }) {
       </div>
 
       {daysLeft !== null && (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 mb-5 text-sm flex items-center gap-3">
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 mb-3 text-sm flex items-center gap-2">
           <Clock className="h-5 w-5 text-amber-600 shrink-0" />
           <span className="flex-1">Bepul davr: <b>{daysLeft} kun</b> qoldi. Undan keyin kurs Learn va IELTS tariflarida davom etadi.</span>
         </div>
@@ -144,30 +144,14 @@ function CourseHome({ state }: { state: LearningState }) {
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4" aria-label="Statistika">
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4" aria-label="Statistika">
         <StatCard icon={Flame} tone="text-orange-500" label="Streak" value={`${state.streak} kun`} hint={stats.todayDone ? 'Bugungi reja bajarildi ✓' : 'Bugun hali dars qilinmadi'} />
         <StatCard icon={Zap} tone="text-amber-500" label="Jami XP" value={String(state.profile?.xp ?? 0)} hint={`${stats.activeDays} faol kun`} />
         <StatCard icon={Trophy} tone="text-primary" label="Darslar" value={`${map.doneCount} / ${map.total}`} hint={`${map.unitsPassed} / ${map.unitsTotal} bosqich testi`} />
         <StatCard icon={BookA} tone="text-emerald-500" label="So'zlar" value={String(map.doneCount * 10)} hint={stats.accuracy !== null ? `Aniqlik ${stats.accuracy}% · ${stats.minutes} daq` : 'Birinchi darsdan boshlang'} />
       </section>
-      <section className="glass-card p-4 mb-6" aria-label="Haftalik faollik">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-sm font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-primary" />Shu hafta</p>
-          <p className="text-xs text-muted-foreground">Kuniga kamida 1 dars — eng yaxshi natija beradigan odat</p>
-        </div>
-        <div className="flex items-end gap-2 h-24">
-          {stats.week.map((d) => (
-            <div key={d.day} className="flex-1 flex flex-col items-center gap-1.5">
-              <div className="w-full flex-1 flex items-end">
-                <div className={`w-full rounded-md ${d.xp ? 'bg-gradient-to-t from-primary to-brand-red-soft' : 'bg-secondary'}`} style={{ height: `${d.xp ? Math.max(12, (d.xp / maxXp) * 100) : 8}%` }} title={`${d.xp} XP`} />
-              </div>
-              <span className={`text-[11px] ${d.day === state.today ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{d.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      <div className="flex gap-2 mb-6 p-1 rounded-xl bg-secondary/60 w-fit">
+      <div className="flex gap-2 mb-4 p-1 rounded-xl bg-secondary/60 w-fit">
         {([['map', "Yo'l xaritasi"], ['words', "Lug'atim"]] as const).map(([id, label]) => (
           <button key={id} type="button" onClick={() => setTab(id)}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${tab === id ? 'bg-card shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>{label}</button>
@@ -187,6 +171,22 @@ function CourseHome({ state }: { state: LearningState }) {
             </div>
           )}
           <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast("Bu qism hali yopiq — avvalgi darslar va bosqich testini tugating."))} />
+          <section className="glass-card p-4 mt-6" aria-label="Haftalik faollik">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-sm font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-primary" />Shu hafta</p>
+          <p className="text-xs text-muted-foreground">Kuniga kamida 1 dars — eng yaxshi natija beradigan odat</p>
+        </div>
+        <div className="flex items-end gap-2 h-24">
+          {stats.week.map((d) => (
+            <div key={d.day} className="flex-1 flex flex-col items-center gap-1.5">
+              <div className="w-full flex-1 flex items-end">
+                <div className={`w-full rounded-md ${d.xp ? 'bg-gradient-to-t from-primary to-brand-red-soft' : 'bg-secondary'}`} style={{ height: `${d.xp ? Math.max(12, (d.xp / maxXp) * 100) : 8}%` }} title={`${d.xp} XP`} />
+              </div>
+              <span className={`text-[11px] ${d.day === state.today ? 'font-bold text-primary' : 'text-muted-foreground'}`}>{d.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
         </>
       ) : (
         <WordBook state={state} locked={locked} />
@@ -227,9 +227,9 @@ function PlacementGate({ attemptsLeft }: { attemptsLeft: number }) {
 
 function StatCard({ icon: Icon, tone, label, value, hint }: { icon: typeof Flame; tone: string; label: string; value: string; hint: string }) {
   return (
-    <div className="glass-card p-4">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1"><Icon className={`h-4 w-4 ${tone}`} />{label}</div>
-      <p className="text-2xl font-extrabold">{value}</p>
+    <div className="glass-card px-3.5 py-2.5">
+      <div className="flex items-center gap-2 text-xs text-muted-foreground"><Icon className={`h-4 w-4 ${tone}`} />{label}</div>
+      <p className="text-xl font-extrabold">{value}</p>
       <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{hint}</p>
     </div>
   );

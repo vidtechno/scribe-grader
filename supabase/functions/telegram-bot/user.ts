@@ -269,6 +269,16 @@ const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number
   a1: { name: "Elementary (A1)", lessons: 48, units: 6 },
 };
 
+export async function showDictionary(ctx: Ctx) {
+  const userId = await requireUser(ctx);
+  if (!userId) return;
+  await reply(ctx, [
+    title("📚", "Lug'atim"),
+    hint("Darslarda o'rgangan barcha so'zlaringiz — talaffuzi va tarjimasi bilan.") + "\n",
+    quote("🔎 so'z qidirish\n🔊 talaffuzni tinglash\n🧠 vaqti kelgan so'zlarni takrorlash"),
+  ].join("\n"), [[app("📚 Lug'atni ochish", "/learn?tab=words")]]);
+}
+
 export async function showLearn(ctx: Ctx) {
   const userId = await requireUser(ctx);
   if (!userId) return;
