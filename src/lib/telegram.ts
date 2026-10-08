@@ -8,7 +8,8 @@ export function displayEmail(email?: string | null): string | null {
 
 const UUID = '[0-9a-fA-F-]{36}';
 const MINI_APP_PATHS = [
-  /^\/(dashboard|practice|writing|exam|speaking|essays|speaking-history|drafts|mock-test|grammar-test|leaderboard|referral|profile|admin|learn)$/,
+  /^\/(dashboard|practice|writing|exam|speaking|essays|speaking-history|drafts|mock-test|grammar-test|leaderboard|referral|profile|admin|learn|people)$/,
+  /^\/u\/[A-Za-z0-9_-]+$/,
   /^\/learn\/lesson\/u\d{1,2}-l\d{1,2}$/,
   /^\/learn\/test\/u\d{1,2}$/,
   /^\/learn\/placement$/,
@@ -89,6 +90,6 @@ export interface TelegramStatus {
   bot_url: string;
   account: null | {
     telegram_id: number; username: string | null; first_name: string | null;
-    notify_results: boolean; notify_reminders: boolean; notify_news: boolean; linked_at: string | null;
+    notify_results: boolean; notify_reminders: boolean; notify_news: boolean; reminder_mode?: 'normal' | 'light' | 'off'; linked_at: string | null;
   };
 }

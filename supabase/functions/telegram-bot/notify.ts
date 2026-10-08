@@ -5,6 +5,7 @@ import { app, band, bar, cb, daysUntil, fmtDate, hint, type InlineKeyboard, page
 import { loadOverview, scoreStats, streakDays } from "./data.ts";
 import { resultCard } from "./results.ts";
 import { functionUrl } from "./setup.ts";
+import { type LearnSummary, type Phase, type Slot, praiseText, reminderText } from "./learn-copy.ts";
 
 interface OutboxItem {
   id: number; telegram_id: number; user_id: string | null; kind: string;
@@ -73,6 +74,24 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       const since = new Date(Date.now() - 7 * 86_400_000).toISOString();
       const w = scoreStats(o.essays.filter((e) => e.created_at >= since));
       const s = scoreStats(o.speaking.filter((e) => e.created_at >= since));
+      const { data: ls } = await db.rpc("telegram_learning_summary", { _user: userId });
+      const { data: lw } = await db.rpc("telegram_learning_week", { _user: userId });
+      const learn = ls as LearnSummary | null;
+      const week = (lw ?? {}) as { xp?: number; rank?: number | null; learners?: number; active_days?: number; lessons?: number };
+      const learnBlock = learn?.started && (week.xp ?? 0) > 0
+        ? "\n" + quote([
+          `🎓 Darslar: <b>${week.lessons ?? 0}</b> ta · <b>${week.xp}</b> XP · ${week.active_days ?? 0}/7 kun faol`,
+          week.rank ? `🏆 Reyting: <b>${week.rank}</b>-o'rin (${week.learners} o'quvchi ichida)` : "",
+        ].filter(Boolean).join("\n"))
+        : "";
+      // A learner who did no IELTS practice this week gets a study digest, not a page of zeros.
+      const studyOnly = !!learnBlock && w.count + s.count === 0;
+      if (studyOnly) {
+        return {
+          text: [title("📬", "Haftalik hisobot"), learnBlock, hint("Yangi haftada ham shu ruhda davom eting! 💪")].join("\n"),
+          keyboard: [[app("▶️ Darsni davom ettirish", "/learn")], [app("🏆 Reyting", "/leaderboard")]],
+        };
+      }
       return {
         text: [
           title("📬", "Haftalik hisobot"),
@@ -81,8 +100,9 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
           `🎤 Speaking: <b>${s.count}</b> ta${s.count ? ` · o'rtacha <b>${band(s.avg)}</b> · eng yaxshi <b>${band(s.best)}</b>` : ""}`,
           quote(`🎯 Reja: Writing ${w.count}/${o.goals.weekly_essays} · Speaking ${s.count}/${o.goals.weekly_speaking}\n` +
             `🔥 Streak: ${streakDays([...o.essays, ...o.speaking])} kun`),
+          learnBlock,
           hint("Yangi haftada ham shu ruhda davom eting! 💪"),
-        ].join("\n"),
+        ].filter(Boolean).join("\n"),
         keyboard: [[cb("📊 Natijalarim", "n:u:stats"), cb("🎯 Maqsad", "n:u:goal")]],
       };
     }
@@ -127,23 +147,26 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
     case "learn_reminder": {
       if (!userId || (p.date && p.date !== tzDate())) return null;
       const { data } = await db.rpc("telegram_learning_summary", { _user: userId });
-      const s = (data ?? {}) as { started?: boolean; today_done?: boolean; streak?: number; lessons_done?: number;
-        next_lesson_title?: string | null; access?: { allowed?: boolean } };
+      const s = (data ?? {}) as LearnSummary;
       if (!s.started || s.today_done || !s.access?.allowed) return null; // studied after the reminder was queued
-      const streak = s.streak ?? 0;
-      const headlines = [
-        title("📚", "Bugun hali dars qilmadingiz"),
-        title("⏰", "Ingliz tili darsingiz kutyapti"),
-        title("🔥", "15 daqiqa — va bugungi dars tayyor"),
-      ];
+      const slot = (["morning", "afternoon", "evening"].includes(String(p.slot)) ? p.slot : "evening") as Slot;
+      const phase = (["daily", "comeback", "weekly", "last"].includes(String(p.phase)) ? p.phase : "daily") as Phase;
       return {
-        text: [
-          headlines[Number(tzDate().replaceAll("-", "")) % headlines.length],
-          streak > 0 ? `\n${streak} kunlik streakingiz bor — bugun uzilib qolmasin! 💪` : "\nHar kuni ozgina — eng tez natija beradigan yo'l.",
-          s.next_lesson_title ? quote(`▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>`) : "",
-          hint(`Tugatilgan darslar: ${s.lessons_done ?? 0} ta. Nima bo'ldi, bugun vaqt topa olmayapsizmi? 🙂`),
-        ].filter(Boolean).join("\n"),
-        keyboard: [[app("▶️ Darsni boshlash", "/learn")]],
+        text: reminderText(slot, phase, s, Number(p.v ?? 0)),
+        keyboard: phase === "last"
+          ? [[app("▶️ Darslarga qaytish", "/learn")], [cb("🔕 Eslatmalarni o'chirish", "s:rm:off")]]
+          : [[app("▶️ Darsni boshlash", "/learn")]],
+      };
+    }
+    case "learn_praise": {
+      if (!userId || (p.date && p.date !== tzDate())) return null;
+      const { data } = await db.rpc("telegram_learning_summary", { _user: userId });
+      const s = (data ?? {}) as LearnSummary;
+      if (!s.started) return null;
+      const reached = (s.today_xp ?? 0) >= (s.daily_goal ?? 30);
+      return {
+        text: praiseText(s, Number(p.v ?? 0)),
+        keyboard: reached ? [[app("🏆 Reyting", "/leaderboard")]] : [[app("▶️ Yana bitta dars", "/learn")]],
       };
     }
     case "blog_post": {

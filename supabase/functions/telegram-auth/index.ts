@@ -82,7 +82,7 @@ Deno.serve(async (req) => {
     const user = await getRequestUser(req, db);
     if (!user) return json(req, { error: "Unauthorized" }, 401);
     const { data: linked } = await db.from("telegram_accounts")
-      .select("telegram_id,username,first_name,notify_results,notify_reminders,notify_news,linked_at")
+      .select("telegram_id,username,first_name,notify_results,notify_reminders,notify_news,reminder_mode,linked_at")
       .eq("user_id", user.id).maybeSingle();
 
     switch (body.action) {
@@ -115,7 +115,8 @@ Deno.serve(async (req) => {
 
       case "settings": {
         if (!linked) return json(req, { error: "Telegram is not connected" }, 400);
-        const patch: Record<string, boolean> = {};
+        const patch: Record<string, boolean | string> = {};
+        if (body.reminder_mode === "normal" || body.reminder_mode === "light" || body.reminder_mode === "off") patch.reminder_mode = body.reminder_mode;
         for (const key of ["notify_results", "notify_reminders", "notify_news"] as const) {
           if (typeof body[key] === "boolean") patch[key] = body[key] as boolean;
         }

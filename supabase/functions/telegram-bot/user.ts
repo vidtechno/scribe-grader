@@ -257,6 +257,8 @@ interface LearningSummary {
   placement_status?: string;
   access: { allowed: boolean; reason: string; trial_ends_at?: string };
   xp?: number; streak?: number; lessons_done?: number; tests_passed?: number; today_done?: boolean; next_lesson_title?: string | null;
+  today_xp?: number; daily_goal?: number; week_xp?: number;
+  streak_info?: { current: number; best: number; freezes: number; at_risk: boolean; broken: boolean };
 }
 // Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, then the released part of Elementary).
 const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
@@ -302,7 +304,9 @@ export async function showLearn(ctx: Ctx) {
     s.today_done ? hint("Bugungi dars bajarildi — barakalla! 🎉") : hint("Bugun hali dars qilinmadi — 15 daqiqa ajrating."),
     "",
     `${bar(done, size.lessons, 10)}  <b>${done}</b>/${size.lessons} dars`,
-    kv("🔥 Streak", `${s.streak ?? 0} kun`) + " · " + kv("⚡ XP", String(s.xp ?? 0)),
+    kv("🔥 Streak", `${s.streak_info?.current ?? s.streak ?? 0} kun`) + " · " + kv("⚡ XP", String(s.xp ?? 0)),
+    hint(`🎯 Bugun: ${s.today_xp ?? 0}/${s.daily_goal ?? 30} XP${s.streak_info ? ` · rekord ${s.streak_info.best} kun${s.streak_info.freezes ? ` · 🛡 ${s.streak_info.freezes}` : ""}` : ""}`),
+    s.streak_info?.at_risk && !s.today_done ? hint("⚠️ Streak xavfda — bugun bitta dars qiling.") : "",
     kv("🏆 Bosqich testlari", `${Math.min(s.tests_passed ?? 0, size.units)}/${size.units}`) + " · " + kv("🧠 So'zlar", String(done * 10)),
     s.next_lesson_title ? `\n▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>` : "",
     trialLeft !== null ? `\n${hint(`⏳ Bepul davr: ${trialLeft} kun qoldi`)}` : "",
@@ -704,18 +708,31 @@ export async function showSettings(ctx: Ctx) {
     tgOnly ? hint("🔐 Kirish: Telegram orqali") : hint(`📧 ${esc(profile?.email ?? "")}`),
     "\n<b>Bildirishnomalar</b> " + hint("(bosib yoqing / o'chiring)"),
     `${onOff(a.notify_results)} Natijalar — Writing, Speaking, Mock`,
-    `${onOff(a.notify_reminders)} Eslatmalar — kunlik test, tarif muddati, haftalik hisobot`,
+    `${onOff(a.notify_reminders)} Eslatmalar — dars eslatmalari, tarif muddati, haftalik hisobot`,
+    `⏰ Eslatma rejimi: <b>${MODE_LABEL[a.reminder_mode ?? "normal"]}</b> ${hint("(kuniga 3 tagacha / faqat kechqurun / o'chirilgan)")}`,
     `${onOff(a.notify_news)} Yangiliklar — yangi maqolalar va e'lonlar`,
   ].join("\n"), [
     [cb(`${onOff(a.notify_results)} Natijalar`, "s:t:results"), cb(`${onOff(a.notify_reminders)} Eslatmalar`, "s:t:reminders")],
-    [cb(`${onOff(a.notify_news)} Yangiliklar`, "s:t:news")],
+    [cb(`${onOff(a.notify_news)} Yangiliklar`, "s:t:news"), cb("⏰ Eslatma rejimi", "s:rm")],
     ...(tgOnly ? [] : [[cb("🔓 Telegram'ni hisobdan uzish", "s:unlink")]]),
     [cb("⬅️ Kabinet", "u:cab")],
   ]);
 }
 
+const MODE_LABEL = { normal: "Oddiy", light: "Yengil", off: "O'chiq" } as const;
+const NEXT_MODE = { normal: "light", light: "off", off: "normal" } as const;
+
 export async function settingsAction(ctx: Ctx, parts: string[]) {
   const [, action, value] = parts;
+  if (action === "rm") {
+    const current = ctx.account.reminder_mode ?? "normal";
+    const next = value === "normal" || value === "light" || value === "off" ? value : NEXT_MODE[current];
+    await ctx.db.from("telegram_accounts").update({ reminder_mode: next }).eq("telegram_id", ctx.account.telegram_id);
+    ctx.account.reminder_mode = next;
+    if (value === "off") await reply(ctx, "🔕 Dars eslatmalari o'chirildi. Qaytmoqchi bo'lsangiz — ⚙️ Sozlamalar → Eslatma rejimi.");
+    else return showSettings(ctx);
+    return;
+  }
   if (action === "t" && ["results", "reminders", "news"].includes(value)) {
     const key = `notify_${value}` as "notify_results" | "notify_reminders" | "notify_news";
     const next = !ctx.account[key];

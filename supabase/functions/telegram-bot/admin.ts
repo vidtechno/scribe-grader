@@ -331,7 +331,7 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
         const [jobs, tests, lessons] = await Promise.all([
           ctx.db.rpc("telegram_daily_jobs"),
           ctx.db.rpc("telegram_enqueue_daily_test_reminders", { _window_minutes: 0 }),
-          ctx.db.rpc("telegram_enqueue_learn_reminders", { _window_minutes: 0 }),
+          ctx.db.rpc("telegram_enqueue_learn_slot", { _slot: "evening", _window_minutes: 0 }),
         ]);
         if (jobs.error) throw jobs.error;
         if (tests.error) throw tests.error;
@@ -339,7 +339,7 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
         background(drain(ctx.db));
         const r = (jobs.data ?? {}) as Record<string, number>;
         return reply(ctx, `⏰ Navbatga qo'yildi:\n• Kunlik test eslatmasi: ${tests.data ?? 0}\n• Dars eslatmasi: ${lessons.data ?? 0}\n• Tarif tugashi: ${r.plan_expiring ?? 0}\n• Haftalik hisobot: ${r.weekly_report ?? 0}\n\n` +
-          "<i>Avtomatik: kunlik test 18:00–20:00, dars eslatmasi 20:00–21:00, navbatma-navbat.</i>",
+          "<i>Avtomatik: kunlik test 18:00–20:00, dars eslatmalari 09:30 / 14:30 / 20:30 (navbatma-navbat).</i>",
           [[cb("⬅️ Bot holati", "ad:bot")]]);
       }
       return botStatus(ctx);
