@@ -10,6 +10,7 @@ import * as user from "./user.ts";
 import { adminCallback, adminInput, showAdmin } from "./admin.ts";
 import { drain } from "./notify.ts";
 import { setupBot } from "./setup.ts";
+import { allow, dismiss } from "./guard.ts";
 
 declare const EdgeRuntime: { waitUntil(p: Promise<unknown>): void } | undefined;
 
@@ -211,6 +212,17 @@ async function onCallback(q: CallbackQuery) {
 }
 
 async function onUpdate(update: Update) {
+  // Flood protection first: nothing below runs for a sender who is pressing too fast or is blocked.
+  const msg = update.message, cq = update.callback_query;
+  const from = msg?.from ?? cq?.from;
+  const chat = msg?.chat ?? cq?.message?.chat;
+  if (from && chat?.type === "private") {
+    const v = await allow(db, from, chat.id, !!cq);
+    if (!v.pass) {
+      if (cq) await dismiss(cq.id, v.toast);
+      return;
+    }
+  }
   if (update.message) return onMessage(update.message);
   if (update.callback_query) return onCallback(update.callback_query);
   if (update.my_chat_member && update.my_chat_member.chat.type === "private") {
