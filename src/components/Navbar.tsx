@@ -122,12 +122,13 @@ export function Navbar() {
             </div>
           ) : (
             <div className="flex items-center gap-2">
+              <a href="/#course" className="hidden md:block"><Button variant="ghost" size="sm">Kurs</Button></a>
+              <a href="/#pricing" className="hidden md:block"><Button variant="ghost" size="sm">Narxlar</Button></a>
+              <a href="/#ielts" className="hidden lg:block"><Button variant="ghost" size="sm">IELTS</Button></a>
               <a href="/blog" className="hidden sm:block"><Button variant="ghost" size="sm" className="gap-2"><BookOpen className="h-4 w-4" />Blog</Button></a>
-              <a href="/ielts-writing-task-2-questions" className="hidden lg:block"><Button variant="ghost" size="sm">Task 2 questions</Button></a>
-              <a href="/ielts-speaking-part-2" className="hidden lg:block"><Button variant="ghost" size="sm">Speaking cue cards</Button></a>
               <ThemeToggle />
               <Link to="/auth">
-                <Button variant="glow">Sign In</Button>
+                <Button variant="glow">Kirish</Button>
               </Link>
             </div>
           )}
