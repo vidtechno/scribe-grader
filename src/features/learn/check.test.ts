@@ -64,7 +64,16 @@ describe('course map', () => {
     const m = courseMap(base);
     expect(m.lessonState.get('u1-l1')).toBe('current');
     expect(m.lessonState.get('u1-l2')).toBe('locked');
-    expect(m.unitTest.get('u1')).toBe('locked');
+    expect(m.unitTest.get('u1')).toBe('optional');
+    expect(m.unitTest.get('u2')).toBe('locked');
+  });
+
+  it('lets a learner test out of a unit: passing marks its lessons done and opens the next unit', () => {
+    const m = courseMap({ ...base, tests: [{ unit_id: 'u1', attempts: 0, best_score: 18, best_total: 20, passed_at: 'x', locked_until: null, last_attempt_at: null }] });
+    expect(m.lessonState.get('u1-l1')).toBe('done');
+    expect(m.lessonState.get('u2-l1')).toBe('current');
+    expect(m.unitTest.get('u2')).toBe('optional');
+    expect(m.doneCount).toBeGreaterThanOrEqual(8);
   });
 
   it('opens the unit test after all lessons and the next unit only after passing it', () => {

@@ -109,7 +109,7 @@ export default function LearnUnitTest() {
         {testState === 'passed' ? (
           <p className="mb-6">Bu bosqich testini allaqachon topshirgansiz ✅ ({row?.best_score}/{row?.best_total}).</p>
         ) : testState === 'locked' ? (
-          <p className="mb-6">Test bosqichning barcha {unit.lessons.length} ta darsini tugatgandan keyin ochiladi.</p>
+          <p className="mb-6">Bu bosqich hali ochilmagan. Avvalgi bosqich testidan o'tgach u ochiladi.</p>
         ) : testState === 'cooldown' && row?.locked_until ? (
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 mb-6">
             <p className="font-semibold mb-1">Test vaqtincha yopiq</p>
@@ -126,6 +126,11 @@ export default function LearnUnitTest() {
               <li>🔁 <b>{UNIT_TEST.attempts} ta urinish</b>; ikkalasida ham o'tilmasa, test {UNIT_TEST.lockHours} soatga yopiladi — bu vaqt takrorlash uchun</li>
               <li>🔓 Testdan o'tsangiz keyingi bosqich ochiladi</li>
             </ul>
+            {testState === 'optional' && (
+              <p className="rounded-xl border border-violet-500/30 bg-violet-500/10 p-3 text-sm mb-4">
+                ⚡ Bu mavzularni allaqachon bilsangiz, <b>darslarni o'tkazib yuborib</b> to'g'ridan-to'g'ri shu testdan o'tishingiz mumkin. O'tsangiz, bosqichning barcha darslari tugagan hisoblanadi va keyingisi ochiladi.
+              </p>
+            )}
             <p className="text-sm mb-4">Qolgan urinishlar: <b>{attemptsLeft}</b></p>
             <Button size="lg" variant="glow" className="w-full" onClick={() => setQuestions(unitTestQuestions(lessons, UNIT_TEST.questions))}>Testni boshlash</Button>
           </>

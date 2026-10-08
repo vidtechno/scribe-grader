@@ -73,7 +73,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                     <TestNode x={p.x} y={p.y} state={testState} onClick={() => (testState === 'locked' ? onLocked() : navigate(`/learn/test/${unit.id}`))} />
                     <NodeLabel x={p.x} y={p.y} left={labelLeft} kicker="Bosqich testi" dim={testState === 'locked'} current={testState === 'open'}
                       title={testState === 'cooldown' && t?.locked_until ? `${new Date(t.locked_until).toLocaleString('uz-UZ', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })} da ochiladi`
-                        : testState === 'passed' ? "O'tildi ✓" : testState === 'open' ? 'Topshirishga tayyor' : 'Avval darslarni tugating'} />
+                        : testState === 'passed' ? "O'tildi ✓" : testState === 'open' ? 'Topshirishga tayyor' : testState === 'optional' ? "Bilasizmi? Testdan o'ting" : 'Avval darslarni tugating'} />
                   </Fragment>
                 );
               })}
@@ -135,11 +135,12 @@ function LessonNode({ x, y, state, stars, number, onClick }: { x: number; y: num
   );
 }
 
-function TestNode({ x, y, state, onClick }: { x: number; y: number; state: 'locked' | 'open' | 'passed' | 'cooldown'; onClick: () => void }) {
+function TestNode({ x, y, state, onClick }: { x: number; y: number; state: 'locked' | 'optional' | 'open' | 'passed' | 'cooldown'; onClick: () => void }) {
   const style = state === 'passed' ? 'from-amber-300 to-yellow-500 text-white hover:shadow-amber-400/50'
     : state === 'open' ? 'from-violet-500 to-fuchsia-500 text-white hover:shadow-fuchsia-500/50'
+      : state === 'optional' ? 'from-violet-500/25 to-fuchsia-500/25 text-violet-600 dark:text-violet-300 ring-2 ring-violet-400/40'
       : state === 'cooldown' ? 'from-slate-400 to-slate-500 text-white' : 'from-secondary to-secondary text-muted-foreground';
-  const Icon = state === 'passed' ? Crown : state === 'cooldown' ? Hourglass : state === 'open' ? ShieldCheck : Lock;
+  const Icon = state === 'passed' ? Crown : state === 'cooldown' ? Hourglass : state === 'open' || state === 'optional' ? ShieldCheck : Lock;
   return (
     <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
       {state === 'open' && <span aria-hidden className="absolute -inset-2 rounded-[30px] rotate-45 border-4 border-fuchsia-400/30 animate-ping" />}
