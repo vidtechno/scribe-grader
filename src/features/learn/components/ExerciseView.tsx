@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import type { Exercise } from '../types';
 import { checkOrder, checkTyped, judgeSpeech, shuffle, speechQualityHint, type SpeechJudgement, type SpeechQuality } from '../check';
 import { canRecord, startRecording, transcribeClip, type Recording } from '../recognition';
-import { listenOnce, speak, speechRecognitionSupported } from '../speech';
+import { listenOnce, speak, speakable, speechRecognitionSupported } from '../speech';
 import { Md } from './Md';
 import { SpeakButton } from './SpeakButton';
 
@@ -151,7 +151,7 @@ function Fill({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fill' }>; 
         <span>{before}</span>
         <span className="inline-block min-w-[110px] border-b-2 border-dashed border-primary px-2 text-primary">{value || '…'}</span>
         <span>{after}</span>
-        <SpeakButton text={ex.q.replace('___', '…')} />
+        {speakable(ex.q) && <SpeakButton text={ex.q.replace('___', '…')} />}
       </div>
       {ex.uz && <p className="text-sm text-muted-foreground mb-4">🇺🇿 {ex.uz}</p>}
       <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="Javobni yozing…" />

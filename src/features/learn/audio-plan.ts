@@ -1,4 +1,5 @@
-import { cleanText } from './speech';
+import { cleanText, speakable } from './speech';
+import { generatedFillText } from './engine/engine';
 import type { Block, Exercise, Lesson } from './types';
 
 // Which English texts of a lesson can be played, so they can be loaded when the lesson opens.
@@ -6,13 +7,16 @@ import type { Block, Exercise, Lesson } from './types';
 
 /** Only plain English lines get a play button (not pronunciation spellings in quotes or Uzbek notes). */
 export function isEnglish(text: string): boolean {
-  const plain = text.replace(/[*`]/g, '');
+  const plain = cleanText(text);
   return /^[A-Za-z0-9 ,.'?!;:()\u2013\u2014-]+$/.test(plain)
     && !/\b[og]'/i.test(plain)
     && !/\b(va|yoki|emas|bilan|uchun|kabi|deb)\b/i.test(plain);
 }
 
-const english = (t: string | undefined): string[] => (t && /^[A-Za-z]/.test(t.trim()) ? [cleanText(t)] : []);
+const english = (t: string | undefined): string[] => {
+  const c = t ? cleanText(t) : '';
+  return c && speakable(c) && /^[A-Za-z0-9£$…(—]/.test(c) ? [c] : [];
+};
 
 export function exerciseAudioTexts(ex: Exercise): string[] {
   switch (ex.k) {
@@ -48,6 +52,8 @@ export function lessonAudioTexts(lesson: Lesson, previous?: Lesson | null): stri
   const later = [
     ...lesson.slides.flatMap((s) => s.blocks.flatMap(blockAudioTexts)),
     ...lesson.words.flatMap((w) => english(w.ex)),
+    // Review rounds turn a word's example sentence into a fill-in with a pause where the word was.
+    ...lesson.words.flatMap((w) => english(generatedFillText(w))),
   ];
   return [...first, ...later];
 }

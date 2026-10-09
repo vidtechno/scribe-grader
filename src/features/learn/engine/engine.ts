@@ -28,7 +28,7 @@ export type ReviewEvent =
 export const DEFAULT_NEW_WORDS = 6;
 const wordKey = (en: string) => en.toLowerCase().trim();
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const formRe = (word: string) => new RegExp(`\\b${escapeRe(word)}(?:s|es|ed|ing)?\\b`, 'i');
+export const formRe = (word: string) => new RegExp(`\\b${escapeRe(word)}(?:s|es|ed|ing)?\\b`, 'i');
 
 // ---------------------------------------------------------------- which words are new
 
@@ -46,6 +46,13 @@ export function splitNewWords(words: Word[], queue: ReviewQueue | null | undefin
 }
 
 // ---------------------------------------------------------------- exercises made from words
+
+/** What the player says for the fill-in a review round makes from a word's example sentence. */
+export function generatedFillText(w: Word): string | undefined {
+  const sentence = w.ex?.trim();
+  const re = formRe(w.en);
+  return sentence && re.test(sentence) ? sentence.replace(re, '___').replace('___', '…') : undefined;
+}
 
 interface Pair { en: string; uz: string }
 
