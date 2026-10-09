@@ -36,7 +36,7 @@ export const drills: Drill[] = [
       { k: 'listen', say: 'The sun is hot today.', opts: ['The sun is hot today.', 'A sun is hot today.', 'The sun is hot tonight.', 'The sea is hot today.'], a: 0, why: "Yagona narsa — **the sun**." },
       { k: 'order', uz: 'Men ishga avtobusda boraman.', words: ['I', 'go', 'to', 'work', 'by', 'bus'], extra: ['the', 'a'], why: "**by bus** — artiklsiz." },
       { k: 'fix', wrong: 'My brother is doctor.', a: ['My brother is a doctor.'], hint: 'Artikl yetishmayapti', why: "Kasb oldida **a** tushib qolgan." },
-      { k: 'fix', wrong: 'I like the music.', a: ['I like music.'], hint: 'Umuman gapiryapsiz', why: "Umuman — **artiklsiz**: *I like music.*" },
+      { k: 'fix', wrong: 'The life is hard.', a: ['Life is hard.'], hint: 'Umuman hayot haqida gap ketyapti', why: "Umumiy tushuncha — **artiklsiz**: *Life is hard.*" },
       { k: 'translate', uz: 'Men hozir uyda emasman, ishdaman.', a: ["I'm not at home, I'm at work", "I'm at work", 'I am at work', "I'm at work now", "I'm not at home. I'm at work"], why: "**at work** — artiklsiz." },
       { k: 'dictation', say: 'I saw a film. The film was good.' },
     ],
