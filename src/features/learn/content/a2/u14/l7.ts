@@ -132,7 +132,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "traffic", uz: "tirband (transport oqimi)", ipa: "ˈtræfɪk", pos: "noun", ex: "There is a lot of traffic in the morning.", exUz: "Ertalab transport oqimi juda ko'p." },
+    { en: "traffic", uz: "tirbandlik (transport oqimi)", ipa: "ˈtræfɪk", pos: "noun", ex: "There is a lot of traffic in the morning.", exUz: "Ertalab transport oqimi juda ko'p." },
     { en: "climate", uz: "iqlim", ipa: "ˈklaɪmət", pos: "noun", ex: "The climate here is dry and hot.", exUz: "Bu yerda iqlim quruq va issiq." },
     { en: "public transport", uz: "jamoat transporti", ipa: "ˌpʌblɪk ˈtrænspɔːt", pos: "noun", ex: "Public transport is cheap in my city.", exUz: "Mening shahrimda jamoat transporti arzon." },
     { en: "neighbourhood", uz: "mahalla, atrof", ipa: "ˈneɪbəhʊd", pos: "noun", ex: "I love my neighbourhood.", exUz: "Men o'z mahallamni yaxshi ko'raman." },
@@ -144,7 +144,7 @@ const lesson: Lesson = {
     { en: "lively", uz: "jonli, quvnoq", ipa: "ˈlaɪvli", pos: "adj", ex: "The old market is lively on Sundays.", exUz: "Eski bozor yakshanba kunlari jonli." },
   ],
   practice: [
-    { k: "match", pairs: [["traffic", "tirband, transport oqimi"], ["climate", "iqlim"], ["suburb", "shahar chekkasi"], ["sights", "diqqatga sazovor joylar"], ["nightlife", "tungi hayot"]] },
+    { k: "match", pairs: [["traffic", "tirbandlik, transport oqimi"], ["climate", "iqlim"], ["suburb", "shahar chekkasi"], ["sights", "diqqatga sazovor joylar"], ["nightlife", "tungi hayot"]] },
     { k: "match", pairs: [["while", "esa (qarama-qarshilik)"], ["however", "biroq"], ["both ... and", "ham ... ham"], ["on the other hand", "boshqa tomondan"]] },
     { k: "listen", say: "Tashkent is bigger than Samarkand, while Samarkand is quieter.", opts: ["Tashkent is bigger than Samarkand, while Samarkand is quieter.", "Tashkent is bigger than Samarkand, and Samarkand is bigger.", "Samarkand is bigger than Tashkent, while Tashkent is quieter."], a: 0 },
     { k: "listen", say: "However, the traffic is worse in the capital.", opts: ["However, the traffic is worse in the capital.", "However, the traffic is better in the capital.", "Because the traffic is worse in the capital."], a: 0 },

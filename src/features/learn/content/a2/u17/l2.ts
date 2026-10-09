@@ -98,7 +98,7 @@ const lesson: Lesson = {
             { en: "I'm good at talking to people.", uz: "Odamlar bilan gaplashishda kuchliman." },
           ],
         },
-        { t: "tip", tone: "info", md: "**good at** dan keyin fe'l bo'lsa — **-ing**: *good at **cooking***, hech qachon *good at cook* emas. Tashkilotga: *good **with** children* (bolalar bilan yaxshi muomala qiladi), *good **at** maths*." },
+        { t: "tip", tone: "info", md: "**good at** dan keyin fe'l bo'lsa — **-ing**: *good at **cooking***, hech qachon *good at cook* emas. Shuningdek: *good **with** children* (bolalar bilan yaxshi muomala qiladi), *good **at** maths*." },
         { t: "check", ex: { k: "choice", q: "I'm good ___ with customers.", opts: ["at work", "at working", "in working", "at to work"], a: 1, why: "**good at** + -ing." } },
       ],
     },

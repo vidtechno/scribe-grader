@@ -103,7 +103,7 @@ const lesson: Lesson = {
             { who: "Aziz", en: "Did you like it?", uz: "Yoqdimi?" },
             { who: "Kamol", en: "Very much! We visited the Registan and ate delicious plov.", uz: "Juda! Registonni ko'rdik va mazali palov yedik." },
             { who: "Aziz", en: "I haven't been there yet. I want to go in May.", uz: "Men hali u yerda bo'lmaganman. Mayda bormoqchiman." },
-            { who: "Kamol", en: "Have you bought tickets yet?", uz: "Chiptalarni hali olmadingmi?" },
+            { who: "Kamol", en: "Have you bought tickets yet?", uz: "Chiptalarni oldingmi hali?" },
             { who: "Aziz", en: "Not yet, but I've just checked the train times.", uz: "Hali yo'q, lekin hozirgina poyezd vaqtlarini ko'rdim." },
           ],
         },

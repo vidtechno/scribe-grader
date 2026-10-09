@@ -36,7 +36,7 @@ const lesson: Lesson = {
             ['7:55', 'five to eight', 'sakkizga besh daqiqa bor'],
           ],
         },
-        { t: 'tip', tone: 'warn', md: "Diqqat: **half past seven** = **7:30** (yetti yarim), 6:30 emas! Rus tilidagi \"полвосьмого\" bilan adashtirmang. **quarter to eight** = 7:45 — \"to\" dan keyin **keyingi** soat aytiladi." },
+        { t: 'tip', tone: 'warn', md: "Diqqat: **half past seven** = **7:30** (yetti yarim), 8:30 emas! **quarter to eight** = 7:45 — \"to\" dan keyin **keyingi** soat aytiladi." },
         { t: 'tip', tone: 'good', md: "Oson yo'l ham bor: raqamlarni ketma-ket ayting: 7:15 = *seven fifteen*, 7:30 = *seven thirty*, 7:45 = *seven forty-five*. Bu ham to'liq to'g'ri — ayniqsa jadval va poyezd vaqtlarida." },
         { t: 'check', ex: { k: 'choice', q: "**8:30** qanday aytiladi?", opts: ['half past seven', 'half to eight', 'half past eight', 'eight half'], a: 2, why: "8:30 — sakkizdan yarim o'tdi: **half past eight** (yoki *eight thirty*)." } },
         { t: 'check', ex: { k: 'choice', q: "**quarter to ten** — bu soat necha?", opts: ['10:15', '9:15', '9:45', '10:45'], a: 2, why: "\"to\" — keyingi soatga qoldi: o'nga chorak bor = **9:45**." } },

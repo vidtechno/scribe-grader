@@ -57,7 +57,7 @@ const lesson: Lesson = {
           t: "table", head: ["Maqsad", "Qolip", "Misol"], speak: [2],
           rows: [
             ["Narsa so'rash", "Could I have…?", "Could I have an extra towel, please?"],
-            ["Narsa bor-yo'qligini so'rash", "Is there a… / Are there any…?", "Is there a Wi-Fi in the room?"],
+            ["Narsa bor-yo'qligini so'rash", "Is there a… / Are there any…?", "Is there Wi-Fi in the room?"],
             ["Yordam so'rash", "Could you … for me?", "Could you call a taxi for me?"],
             ["Muammo aytish", "There's no… / The … doesn't work.", "There's no hot water. The TV doesn't work."],
           ],

@@ -98,7 +98,7 @@ const lesson: Lesson = {
         { t: "p", md: "Orttirma daraja ko'pincha **tajriba** haqida gapirganda **Present Perfect** bilan birga keladi: *It's the best ... I've ever ...*" },
         {
           t: "examples", items: [
-            { en: "This is the best plov I've ever eaten.", uz: "Bu men hech yegan eng mazali palov." },
+            { en: "This is the best plov I've ever eaten.", uz: "Bu men yeb ko'rgan eng mazali palov." },
             { en: "It's the most interesting book I've ever read.", uz: "Bu men o'qigan eng qiziqarli kitob." },
             { en: "That was the worst trip I've ever had.", uz: "Bu men boshdan kechirgan eng yomon sayohat edi." },
           ],

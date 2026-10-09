@@ -74,7 +74,7 @@ const lesson: Lesson = {
         {
           t: "table", head: ["Ibora", "Ma'nosi", "Misol"], speak: [2],
           rows: [
-            ["like + **-ing**", "umuman yoqtirish (odat, did)", "I like swimming. (Suzishni yaxshi ko'raman.)"],
+            ["like + **-ing**", "umuman yoqtirish (odat, umumiy)", "I like swimming. (Suzishni yaxshi ko'raman.)"],
             ["would like + **to + V1**", "hozir yoki yaqinda xohlash (muloyim)", "I'd like to swim today. (Bugun suzgim kelyapti.)"],
           ],
         },

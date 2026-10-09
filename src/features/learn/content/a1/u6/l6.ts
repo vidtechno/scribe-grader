@@ -173,7 +173,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**furniture** so'zining ko'plik shakli — *furnitures*.", a: false, why: "**furniture** sanalmaydi; ko'plik shakli yo'q." },
     { k: "match", pairs: [["upstairs", "yuqori qavatda"], ["downstairs", "pastki qavatda"], ["block of flats", "ko'p qavatli uy"], ["hall", "dahliz"], ["cooker", "plita"]] },
     { k: "order", uz: "Oshxonada stol yo'q.", words: ["There", "isn't", "a", "table", "in", "the", "kitchen."], extra: ["aren't", "on"] },
-    { k: "translate", uz: "Vannaxona yuqori qavatda.", a: ["The bathroom is upstairs", "The bathroom's upstairs", "The bathroom is on the upper floor", "The bathroom is on the first floor"] },
+    { k: "translate", uz: "Vannaxona yuqori qavatda.", a: ["The bathroom is upstairs", "The bathroom's upstairs", "The bathroom is on the upper floor"] },
     { k: "choice", q: "\"Yotoqxonada nima bor?\"", opts: ["What is there in the bedroom?", "What there is in the bedroom?", "What are in bedroom there?", "What is in there bedroom?"], a: 0, why: "Savol: **What is there in the bedroom?** (*What's in the bedroom?* ham to'g'ri)." },
   ],
   summary: [

@@ -145,7 +145,7 @@ const lesson: Lesson = {
   words: [
     { en: "purse", uz: "hamyon", ipa: "pɜːs", pos: "noun", ex: "Whose purse is this?", exUz: "Bu kimning hamyoni?" },
     { en: "wallet", uz: "hamyon", ipa: "ˈwɒl.ɪt", pos: "noun", ex: "I can't find my wallet.", exUz: "Hamyonimni topa olmayapman." },
-    { en: "lend", uz: "qarz bermoq, vaqtincha bermoq", ipa: "lend", pos: "verb", ex: "Can you lend me your charger?", exUz: "Quvvatlagichingizni bir ozga bera olasizmi?" },
+    { en: "lend", uz: "qarz bermoq, vaqtincha bermoq", ipa: "lend", pos: "verb", ex: "Can you lend me your charger?", exUz: "Quvvatlagichingizni vaqtincha bera olasizmi?" },
     { en: "charger", uz: "quvvatlagich (zaryadlovchi)", ipa: "ˈtʃɑː.dʒə", pos: "noun", ex: "Can I use your charger?", exUz: "Quvvatlagichingizdan foydalansam bo'ladimi?" },
     { en: "earphones", uz: "quloqchinlar", ipa: "ˈɪə.fəʊnz", pos: "noun", ex: "These earphones are mine.", exUz: "Bu quloqchinlar meniki." },
     { en: "scarf", uz: "sharf, ro'mol", ipa: "skɑːf", pos: "noun", ex: "Whose scarf is this? — It's hers.", exUz: "Bu kimning sharfi? — Uniki." },

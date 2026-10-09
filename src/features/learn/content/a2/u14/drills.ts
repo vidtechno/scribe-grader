@@ -49,7 +49,7 @@ export const drills: Drill[] = [
     exercises: [
       { k: 'choice', q: '*My brother is as tall ___ me.*', opts: ['as', 'than', 'like', 'then'], a: 0, why: '**as tall as** — ikkinchi so\'z ham **as**.' },
       { k: 'match', pairs: [['as tall as', '…chalik baland'], ['not as big as', '…chalik katta emas'], ['the same as', '…dek bir xil'], ['different from', '…dan farq qiladi'], ['similar to', "…ga o'xshash"]] },
-      { k: 'fill', q: 'Her dress is similar ___ mine.', a: ['to'], uz: "Uning ko'ylagi meniknaga o'xshash.", why: '**similar to** (*with* emas).' },
+      { k: 'fill', q: 'Her dress is similar ___ mine.', a: ['to'], uz: "Uning ko'ylagi menikiga o'xshash.", why: '**similar to** (*with* emas).' },
       { k: 'fill', q: "Tea isn't as expensive ___ coffee.", a: ['as'], uz: 'Choy qahvachalik qimmat emas.', why: '**not as … as** — oxirida ham **as**.' },
       { k: 'choice', q: '*Ali is 20. Sardor is 20. Ali is ___ Sardor.*', opts: ['as old as', 'older than', 'as older as', 'not as old as'], a: 0, why: 'Yoshi teng → **as old as**; sifat o\'zgarmaydi.' },
       { k: 'tf', q: '*My phone is different with yours.* — to\'g\'ri gap.', a: false, why: 'To\'g\'risi: **different from** (*with* emas).' },
