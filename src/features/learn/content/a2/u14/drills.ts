@@ -34,7 +34,6 @@ export const drills: Drill[] = [
       { k: 'choice', q: '*Samarkand is one of the oldest ___ in Uzbekistan.*', opts: ['city', 'cities', 'citys', 'the cities'], a: 1, why: '**one of the** + orttirma + **ko\'plik ot**: *cities*.' },
       { k: 'tf', q: '*She is the most tall girl in the class.* — to\'g\'ri gap.', a: false, why: 'Qisqa sifatga **most** qo\'shilmaydi: *the tallest*.' },
       { k: 'choice', q: '*Baikal is the deepest lake ___ the world.*', opts: ['in', 'of', 'at', 'from'], a: 0, why: 'Joy / guruh bilan **in**: *in the world*.' },
-      { k: 'fill', q: 'It was the worst day ___ the year.', a: ['of'], uz: 'Bu yilning eng yomon kuni edi.', why: 'Vaqt bilan **of**: *of the year*.' },
       { k: 'listen', say: 'This is the most delicious plov.', opts: ['This is the most delicious plov.', 'This is the more delicious plov.', 'This is the most delicious soup.', 'This is a most delicious plov.'], a: 0, why: '**the most delicious** — uzun sifat.' },
       { k: 'order', uz: "Bu men o'qigan eng qiziqarli kitob.", words: ['This', 'is', 'the', 'most', 'interesting', 'book', 'I', 'have', 'ever', 'read'], extra: ['more', 'a'], why: '**the most interesting** + **ever** — tajriba haqida.' },
       { k: 'fix', wrong: 'Ali is best student in our school.', a: ['Ali is the best student in our school.'], hint: 'Artikl yetishmayapti', why: 'Orttirma darajadan oldin **the** shart.' },
