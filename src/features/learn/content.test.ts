@@ -43,6 +43,13 @@ function exerciseProblems(ex: Exercise, where: string): string[] {
     case 'speak':
       if (!nonEmpty(ex.say)) p.push(`${where}: speak needs say`);
       break;
+    case 'dictation':
+      if (!nonEmpty(ex.say)) p.push(`${where}: dictation needs say`);
+      break;
+    case 'fix':
+      if (!nonEmpty(ex.wrong) || !ex.a.length || !ex.a.every(nonEmpty)) p.push(`${where}: fix needs wrong and answers`);
+      else if (ex.a.some((x) => x.trim().toLowerCase() === ex.wrong.trim().toLowerCase())) p.push(`${where}: fix answer equals the wrong sentence`);
+      break;
     default:
       p.push(`${where}: unknown exercise kind`);
   }
@@ -93,4 +100,21 @@ describe('Course content', () => {
       expect(lessons.flatMap((l) => lessonProblems(l, unit.level))).toEqual([]);
     });
   }
+});
+
+describe('unit extras', () => {
+  it('every written unit has can-do items, repair exercises, a cultural note and a project', async () => {
+    const { UNIT_EXTRAS } = await import('./unit-extras');
+    const problems: string[] = [];
+    for (const u of WRITTEN_UNITS) {
+      const x = UNIT_EXTRAS[u.id];
+      if (!x) { problems.push(`${u.id}: missing extras`); continue; }
+      if (x.canDo.length < 3) problems.push(`${u.id}: needs 3+ can-do items`);
+      if (x.traps.length < 2) problems.push(`${u.id}: needs 2+ traps`);
+      if (x.culture.trim().length < 40) problems.push(`${u.id}: culture note too short`);
+      if (x.project.criteria.length < 3) problems.push(`${u.id}: project needs 3+ criteria`);
+      x.traps.forEach((t, i) => problems.push(...exerciseProblems(t.fix, `${u.id} trap ${i + 1}`)));
+    }
+    expect(problems).toEqual([]);
+  });
 });

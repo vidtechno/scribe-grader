@@ -131,7 +131,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Qaysi gap **to'g'ri**?", opts: ["Please turn on it.", "Please turn it on.", "Please on turn it.", "Please it turn on."], a: 1, why: "Olmosh **o'rtada**: *turn it on*." },
     { k: "choice", q: "**I'm ___ my keys. I can't find them.**", opts: ["looking for", "looking at", "looking up", "looking after"], a: 0, why: "Qidirmoq = **look for**." },
     { k: "fill", q: "It's cold outside. Put ___ your coat.", a: ["on"] },
-    { k: "fill", q: "Take ___ your shoes before you come in.", a: ["off"] },
+    { k: "fill", q: "It is cold. Put ___ your jacket.", a: ["on"] },
     { k: "fill", q: "Don't ___ up! You can do it.", a: ["give"] },
     { k: "fill", q: "I'll ___ down here and wait for you.", a: ["sit"] },
     { k: "listen", say: "Please turn the light off.", opts: ["Please turn the light off.", "Please turn the light on.", "Please turn the light up."], a: 0 },

@@ -148,7 +148,7 @@ const lesson: Lesson = {
     { k: "fill", q: "She has been a teacher ___ 2015.", a: ["since"] },
     { k: "fill", q: "My grandfather moved here thirty years ago. = He has lived here ___ thirty years.", a: ["for"] },
     { k: "listen", say: "How long has he lived here?", opts: ["How long has he lived here?", "How long did he live here?", "How long does he live here?"], a: 0 },
-    { k: "order", uz: "Biz o'n yildan beri qo'shnimiz.", words: ["We", "have", "been", "neighbours", "for", "ten", "years."], extra: ["since", "are"] },
+    { k: "order", uz: "Biz besh yildan beri do'stmiz.", words: ["We", "have", "been", "friends", "for", "five", "years."], extra: ["since", "are"] },
     { k: "translate", uz: "U 2020-yildan beri Toshkentda yashaydi.", a: ["He has lived in Tashkent since 2020.", "He's lived in Tashkent since 2020.", "She has lived in Tashkent since 2020.", "She's lived in Tashkent since 2020."] },
     { k: "tf", q: "**She worked here for five years.** = U hali ham shu yerda ishlaydi.", a: false, why: "Past Simple + for = tugagan." },
   ],

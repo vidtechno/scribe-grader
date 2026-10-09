@@ -60,6 +60,10 @@ export type Exercise =
   | { k: 'match'; pairs: [string, string][] }
   /** True / false statement. */
   | { k: 'tf'; q: Md; a: boolean; why?: Md }
+  /** Listen (audio only) and type what was said. `a` defaults to `say`. */
+  | { k: 'dictation'; say: string; a?: string[]; uz?: string; why?: Md }
+  /** A sentence with a mistake: the learner rewrites it correctly. `a` lists every accepted correction. */
+  | { k: 'fix'; wrong: string; a: string[]; hint?: string; why?: Md }
   /** Listen and repeat aloud (speech recognition when the browser supports it). */
   | { k: 'speak'; say: string; uz?: string };
 

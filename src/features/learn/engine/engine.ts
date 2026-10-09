@@ -95,6 +95,7 @@ export function wordExercise(w: QueueWord, pool: Pair[], random = Math.random, a
   }
   // recall: type it, build the sentence, or say it
   if (sentence && w.ex_uz && allowSpeak && random() < 0.25) return { k: 'speak', say: sentence, uz: w.ex_uz };
+  if (sentence && inSentence && random() < 0.25) return { k: 'dictation', say: sentence, uz: w.ex_uz ?? undefined, why };
   const tokens = sentence?.replace(/[.!?]+$/, '').split(/\s+/).filter(Boolean) ?? [];
   if (sentence && w.ex_uz && inSentence && tokens.length >= 3 && tokens.length <= 9 && random() < 0.5) {
     return { k: 'order', uz: w.ex_uz, words: tokens, why };
@@ -105,7 +106,7 @@ export function wordExercise(w: QueueWord, pool: Pair[], random = Math.random, a
 /** Lesson-level topics ("grammar") are practised with the lesson's own non-vocabulary exercises. */
 export function isGrammarExercise(ex: Exercise): boolean {
   switch (ex.k) {
-    case 'fill': case 'order': case 'translate': return true;
+    case 'fill': case 'order': case 'translate': case 'fix': return true;
     case 'choice': case 'tf': return !('say' in ex && ex.say);
     default: return false;
   }
@@ -185,6 +186,8 @@ function exerciseText(ex: Exercise): string {
     case 'match': return ex.pairs.map((p) => p[0]).join(' ');
     case 'tf': return ex.q;
     case 'speak': return ex.say;
+    case 'dictation': return ex.say;
+    case 'fix': return [ex.wrong, ...ex.a].join(' ');
   }
 }
 

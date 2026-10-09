@@ -154,7 +154,7 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "**Your sister is a doctor, ___?**", opts: ["isn't she", "doesn't she", "is she", "aren't you"], a: 0 },
     { k: "choice", q: "**They didn't come, ___?**", opts: ["didn't they", "did they", "do they", "weren't they"], a: 1 },
-    { k: "choice", q: "**Aziz plays football, ___?**", opts: ["isn't he", "doesn't he", "didn't he", "does he"], a: 1 },
+    { k: "choice", q: "**Dilnoza lives in Bukhara, ___?**", opts: ["isn't she", "doesn't she", "didn't she", "does she"], a: 1 },
     { k: "choice", q: "**Open the window, ___?**", opts: ["will you", "do you", "are you", "shall we"], a: 0 },
     { k: "choice", q: "**You can't swim, can you?** (Siz aslida yaxshi suzasiz.) Javob:", opts: ["Yes, I can.", "No, I can.", "Yes, I can't.", "No, I can't."], a: 0 },
     { k: "fill", q: "You've seen this film, ___ you?", a: ["haven't"] },

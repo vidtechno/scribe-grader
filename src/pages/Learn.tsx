@@ -16,6 +16,7 @@ import {
 } from '@/features/learn/api';
 import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
+import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { loadSession, recordReview, useReviewQueue } from '@/features/learn/engine/api';
@@ -242,6 +243,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
   const [query, setQuery] = useState('');
   const [drill, setDrill] = useState<DrillItem[] | null>(null);
   const [preparing, setPreparing] = useState(false);
+  const [speed, setSpeed] = useState(false);
   const { data: queue } = useReviewQueue();
   const done = useMemo(() => new Set(state.progress.filter((p) => p.completed_at).map((p) => p.lesson_id)), [state.progress]);
 
@@ -291,6 +293,9 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
           {preparing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
           {dueCount > 0 ? `Takrorlash (${Math.min(dueCount, 10)})` : "So'zlarni takrorlash"}
         </Button>
+        <Button variant="outline" className="gap-2" disabled={locked || all.length < 8} onClick={() => setSpeed(true)}>
+          <Zap className="h-4 w-4 text-amber-500" />Tezkor raund
+        </Button>
       </div>
       {stats && (
         <div className="grid grid-cols-3 gap-2 mb-4 text-center">
@@ -318,6 +323,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
           </div>
         ))}
       </div>
+      {speed && <SpeedRound words={all} onClose={() => setSpeed(false)} onFinished={() => void refresh()} />}
       {drill && <WordDrill items={drill} onClose={() => setDrill(null)} onFinished={refresh} />}
     </div>
   );
