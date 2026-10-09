@@ -5,6 +5,7 @@ import { ExerciseView } from './ExerciseView';
 import { Md } from './Md';
 import { SpeakButton } from './SpeakButton';
 import { isEnglish } from '../audio-plan';
+import { speakable } from '../speech';
 
 /** Renders one theory block. `onCheck` reports the result of an inline quick check. */
 export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct: boolean) => void }) {
@@ -51,7 +52,7 @@ export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct
                   {r.map((c, j) => (
                     <td key={j} className="px-3 py-2 align-top">
                       <span className="inline-flex items-center gap-2">
-                        {block.speak?.includes(j) && c && <SpeakButton text={c} />}
+                        {block.speak?.includes(j) && c && speakable(c) && <SpeakButton text={c} />}
                         <Md text={c} />
                       </span>
                     </td>

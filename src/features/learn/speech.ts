@@ -14,8 +14,16 @@ const MAX_CHUNK = 180;
 
 /** Lesson text may carry markdown marks or emoji; the speech engines should only get the words. */
 export function cleanText(text: string): string {
-  return text.replace(/[*`_]/g, '').replace(/[☀-➿\u{1f300}-\u{1faff}]/gu, '').replace(/\s+/g, ' ').trim();
+  return text.replace(/[*`_]/g, '').replace(/[☀-➿\u{1f300}-\u{1faff}]/gu, '')
+    // Hints in brackets ("(agar … bo'lmasa)", "(kechqurun kelganda) Good evening!") are for the reader, not for the voice.
+    // A single bracketed word at the start is English ("(a) quarter past eight") and stays.
+    .replace(/\s*\([^)]*\)\s*$/, '')
+    .replace(/^\([^)\s]+(?:\s[^)]*)\)\s*/, '')
+    .replace(/\s+/g, ' ').trim();
 }
+
+/** False for texts that are only numbers and symbols ("—", "36 = …"): nothing worth reading aloud. */
+export const speakable = (text: string): boolean => /[A-Za-z]/.test(cleanText(text));
 
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
