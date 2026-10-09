@@ -254,7 +254,7 @@ export default function Index() {
               </div>
             ))}
           </div>
-          <p className="text-center text-sm text-muted-foreground">Keyingi darajalar (Intermediate va undan yuqori) tez orada qo'shiladi.</p>
+          <p className="text-center text-sm text-muted-foreground">Keyingi darajalar (Intermediate va undan yuqori) tez orada qo'shiladi. <a className="text-primary underline underline-offset-2" href="/ingliz-tili-darslari">Barcha darslar ro'yxati</a></p>
         </div>
       </section>
 
@@ -379,9 +379,10 @@ export default function Index() {
             <p className="text-muted-foreground">Ingliz tilini noldan o'rganish. IELTS Writing va Speaking baholash ham bor.</p>
           </div>
           <div className="space-y-2"><p className="font-semibold">Kurs</p>
-            <Link className="block text-muted-foreground hover:text-primary" to="/auth">Beginner</Link>
-            <Link className="block text-muted-foreground hover:text-primary" to="/auth">Elementary (A1)</Link>
-            <Link className="block text-muted-foreground hover:text-primary" to="/auth">Pre-Intermediate (A2)</Link>
+            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/beginner">Beginner</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/elementary">Elementary (A1)</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari">Barcha darslar</a>
             <a className="block text-muted-foreground hover:text-primary" href="#pricing">Narxlar</a></div>
           <div className="space-y-2"><p className="font-semibold">IELTS</p>
             <a className="block text-muted-foreground hover:text-primary" href="/ielts-writing-task-2">Writing Task 2</a>

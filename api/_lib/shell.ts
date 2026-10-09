@@ -22,7 +22,22 @@ const NAV = [
   ['/blog', 'Blog'],
 ];
 
+const NAV_UZ = [
+  ['/ingliz-tili-darslari', 'Darslar'],
+  ['/ielts-writing-task-2-questions', 'IELTS Writing'],
+  ['/ielts-speaking-part-2', 'IELTS Speaking'],
+  ['/blog', 'Blog'],
+];
+
+const FOOTER_UZ = `<div class="cols">
+<div><h4>Scorify.uz</h4><p>Ingliz tilini noldan o'rganish: o'zbekcha tushuntirishli darslar, talaffuz, mashqlar va testlar. IELTS Writing va Speaking baholash ham bor.</p><a class="btn" href="/auth" style="display:inline-flex">Boshlash</a></div>
+<div><h4>Kurs</h4><a href="/ingliz-tili-darslari">Barcha darslar</a><a href="/ingliz-tili-darslari/beginner">Beginner (noldan)</a><a href="/ingliz-tili-darslari/elementary">Elementary (A1)</a><a href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a></div>
+<div><h4>IELTS</h4><a href="/ielts-writing-task-2-questions">Writing Task 2</a><a href="/ielts-speaking-part-2">Speaking Part 2</a><a href="/ielts-vocabulary">Vocabulary</a><a href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
+<div><h4>Resurslar</h4><a href="/blog">Blog va qo'llanmalar</a><a href="/blog/rss.xml">RSS</a></div>
+</div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS tegishli egalarining ro'yxatdan o'tgan savdo belgisi; Scorify.uz u bilan bog'liq emas.</p>`;
+
 export function page(o: PageOptions): string {
+  const uz = o.lang === 'uz';
   const url = `${SITE}${o.path}`;
   const og = o.ogImage || `${SITE}/og-image.png`;
   const robots = o.robots || 'index, follow, max-image-preview:large, max-snippet:-1';
@@ -34,7 +49,7 @@ export function page(o: PageOptions): string {
 <link rel="canonical" href="${esc(url)}">
 ${(o.alternates || []).map(a => `<link rel="alternate" hreflang="${esc(a.lang)}" href="${esc(SITE + a.path)}">`).join('\n')}
 <link rel="alternate" type="application/rss+xml" title="Scorify IELTS Blog" href="/blog/rss.xml">
-<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/logo-48.png" type="image/png" sizes="48x48"><link rel="apple-touch-icon" href="/logo-180.png">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" href="/logo-48.png?v=3" type="image/png" sizes="48x48"><link rel="icon" href="/logo-192.png?v=3" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/logo-180.png?v=3">
 <meta property="og:site_name" content="Scorify.uz"><meta property="og:type" content="${esc(o.ogType || 'website')}">
 <meta property="og:title" content="${esc(o.title)}"><meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${esc(url)}"><meta property="og:image" content="${esc(og)}">
@@ -46,14 +61,14 @@ ${o.head || ''}
 <script defer data-website-id="dfid_2f7mA21xdCYfavtY5a4n6" data-domain="scorify.uz" src="https://datafa.st/js/script.js"></script>
 </head><body>
 <header class="site"><div class="wrap"><a class="brand" href="/"><img src="/logo-128.webp" alt="" width="32" height="32">Scorify.uz</a>
-<nav class="links" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}<a class="btn" href="/auth">Practise free</a></nav></div></header>
+<nav class="links" aria-label="Main">${(uz ? NAV_UZ : NAV).map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}<a class="btn" href="/auth">${uz ? 'Boshlash' : 'Practise free'}</a></nav></div></header>
 ${o.body}
-<footer class="site"><div class="wrap"><div class="cols">
+<footer class="site"><div class="wrap">${uz ? FOOTER_UZ : `<div class="cols">
 <div><h4>Scorify.uz</h4><p>AI-graded IELTS Writing and Speaking practice with band scores and examiner-style feedback.</p><a class="btn" href="/auth" style="display:inline-flex">Start practising</a></div>
 <div><h4>Writing</h4><a href="/ielts-writing-task-2-questions">Task 2 questions &amp; essays</a><a href="/ielts-writing-task-1-samples">Task 1 samples</a><a href="/ielts-writing-task-2">Task 2 guide</a><a href="/ielts-writing-task-1">Task 1 guide</a></div>
 <div><h4>Speaking</h4><a href="/ielts-speaking-part-1">Part 1 topics</a><a href="/ielts-speaking-part-2">Part 2 cue cards</a><a href="/ielts-speaking-part-3">Part 3 discussions</a><a href="/ielts-speaking-practice">Speaking practice</a></div>
 <div><h4>Resources</h4><a href="/blog">Blog &amp; guides</a><a href="/ielts-vocabulary">Vocabulary by topic</a><a href="/ielts-band-score-calculator">Band score calculator</a><a href="/blog/rss.xml">RSS feed</a></div>
-</div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS is a registered trademark of its owners; Scorify.uz is not affiliated with IELTS.</p></div>
+</div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS is a registered trademark of its owners; Scorify.uz is not affiliated with IELTS.</p>`}</div>
 </footer>
 </body></html>`;
 }
