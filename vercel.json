@@ -92,6 +92,18 @@
       "destination": "/api/seo?kind=calc"
     },
     {
+      "source": "/ingliz-tili-darslari",
+      "destination": "/api/seo?kind=course"
+    },
+    {
+      "source": "/ingliz-tili-darslari/:level",
+      "destination": "/api/seo?kind=level&level=:level"
+    },
+    {
+      "source": "/ingliz-tili-darslari/:level/:slug",
+      "destination": "/api/seo?kind=lesson&level=:level&slug=:slug"
+    },
+    {
       "source": "/ielts-writing-task-1",
       "destination": "/ielts-writing-task-1.html"
     },
