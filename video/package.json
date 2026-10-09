@@ -1,0 +1,7 @@
+{
+  "name": "scorify-lesson-videos",
+  "private": true,
+  "type": "module",
+  "description": "Renders short animated lesson videos: node render.mjs <video id>. Needs ffmpeg and a Chromium (PLAYWRIGHT_BROWSERS_PATH or CHROME_PATH).",
+  "dependencies": { "playwright-core": "^1.49.0" }
+}
