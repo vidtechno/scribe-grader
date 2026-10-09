@@ -122,7 +122,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "probably", uz: "ehtimol, ko'pincha", ipa: "ˈprɒb.ə.bli", pos: "adv", ex: "It will probably rain tomorrow.", exUz: "Ertaga, ehtimol, yomg'ir yog'adi." },
+    { en: "probably", uz: "ehtimol, katta ehtimol bilan", ipa: "ˈprɒb.ə.bli", pos: "adv", ex: "It will probably rain tomorrow.", exUz: "Ertaga, ehtimol, yomg'ir yog'adi." },
     { en: "definitely", uz: "shubhasiz, albatta", ipa: "ˈdef.ɪ.nət.li", pos: "adv", ex: "I'll definitely come to your party.", exUz: "Ziyofatingizga albatta kelaman." },
     { en: "obviously", uz: "ravshanki, shubhasiz", ipa: "ˈɒb.vi.əs.li", pos: "adv", ex: "Obviously, she is very tired.", exUz: "Ravshanki, u juda charchagan." },
     { en: "exactly", uz: "aynan, aniq", ipa: "ɪɡˈzækt.li", pos: "adv", ex: "That's exactly what I think.", exUz: "Men ham aynan shunday o'ylayman." },
