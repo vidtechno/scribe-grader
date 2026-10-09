@@ -162,7 +162,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Do'stingizni tanishtiring: \"Bu do'stim Sherzod.\"", opts: ["He is my friend Sherzod.", "This is my friend, Sherzod.", "It my friend Sherzod.", "This my friend is Sherzod."], a: 1, why: "**This is my friend, Sherzod.**" },
     { k: "choice", q: "— What do you do? — …", opts: ["I'm reading a book.", "I'm fine, thanks.", "I'm a dentist.", "I'm from Samarkand."], a: 2, why: "Savol kasb haqida: **I'm a dentist.**" },
     { k: "listen", say: "Where are you from exactly?", opts: ["Where are you from exactly?", "Where do you live exactly?", "Where are you going?"], a: 0 },
-    { k: "fill", q: "Nice to meet you. — Nice to meet you ___.", a: ["too", "also"], why: "Javob: **Nice to meet you too.**" },
+    { k: "fill", q: "Nice to meet you. — Nice to meet you ___.", a: ["too"], why: "Javob: **Nice to meet you too.**" },
     { k: "fill", q: "Malika and Sevara, ___ are my parents.", a: ["these"], uz: "Malika va Sevara, bular mening ota-onam.", why: "Ko'plik — **These are…**" },
     { k: "tf", q: "Ismi Bobur bo'lgan yangi tanishga **Mr Bobur** deb murojaat qilish to'g'ri.", a: false, why: "**Mr / Mrs / Ms** familiya bilan: *Mr Karimov*." },
     { k: "match", pairs: [["actually", "aslida"], ["by the way", "aytgancha"], ["introduce", "tanishtirmoq"], ["first name", "ism"]] },

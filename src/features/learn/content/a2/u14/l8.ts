@@ -27,7 +27,7 @@ const lesson: Lesson = {
           bad: { title: "Xato", items: ["Aziz is more taller then Kamol.", "She is best student of the class.", "It is one of the oldest city in Asia."] },
         },
         { t: "check", ex: { k: "choice", q: "\"Bu men ko'rgan eng yaxshi film.\"", opts: ["This is the best film I've ever seen.", "This is the better film I've ever seen.", "This is best film I've ever seen.", "This is the most good film I've ever seen."], a: 0, why: "**the best** + *I've ever seen*." } },
-        { t: "check", ex: { k: "fill", q: "Metro is ___ than the bus. (fast)", a: ["faster"], why: "*fast* → **faster** (+ **than**)." } },
+        { t: "check", ex: { k: "fill", q: "The metro is ___ than the bus. (fast)", a: ["faster"], why: "*fast* → **faster** (+ **than**)." } },
       ],
     },
     {

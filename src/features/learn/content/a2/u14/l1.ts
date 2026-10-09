@@ -160,7 +160,7 @@ const lesson: Lesson = {
     { k: "fill", q: "Samarkand is ___ than my village. (old)", a: ["older"], why: "*old* → **older**." },
     { k: "fill", q: "Tea is ___ than coffee for me. (healthy)", a: ["healthier"], why: "*healthy* → y tushib **-ier**: *healthier*. (*more healthy* ham uchraydi, lekin *healthier* yaxshiroq.)" },
     { k: "fill", q: "My new flat is ___ than my old one. (big)", a: ["bigger"], why: "*big* → **bigger** (g ikkilanadi)." },
-    { k: "fill", q: "Metro is ___ than buses in Tashkent. (comfortable)", a: ["more comfortable"], why: "Uzun sifat → **more comfortable**." },
+    { k: "fill", q: "The metro is ___ than buses in Tashkent. (comfortable)", a: ["more comfortable"], why: "Uzun sifat → **more comfortable**." },
     { k: "choice", q: "Her English is ___ than mine.", opts: ["gooder", "more good", "better", "more better"], a: 2, why: "*good* → **better**." },
     { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["He is more taller than his father.", "He is taller than his father.", "He is taller then his father.", "He is tall than his father."], a: 1, why: "**-er + than**: *taller than*." },
     { k: "tf", q: "**more interesting** — to'g'ri qiyosiy shakl.", a: true, why: "*interesting* — uzun sifat → **more interesting**." },

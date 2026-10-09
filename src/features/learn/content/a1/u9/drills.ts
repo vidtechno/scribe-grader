@@ -50,7 +50,7 @@ export const drills: Drill[] = [
       { k: 'choice', q: '*There ___ a big park near my house.*', opts: ['was', 'were', 'is'], a: 0, why: 'Bitta narsa, o\'tgan zamon → **was**.' },
       { k: 'choice', q: '*There ___ many people at the concert.*', opts: ['was', 'were', 'are'], a: 1, why: '**many people** ko\'plik, o\'tgan zamon → **were**.' },
       { k: 'choice', q: '*I ___ swim when I was five.*', opts: ['could', 'can', 'did'], a: 0, why: 'O\'tmishdagi qobiliyat → **could**.' },
-      { k: 'match', pairs: [["There wasn't any milk.", "Sut yo'q edi."], ['There were two shops.', 'Ikkita dokon bor edi.'], ["I couldn't sleep.", 'Uxlay olmadim.'], ['Was there a bank?', 'Bank bor edimi?']] },
+      { k: 'match', pairs: [["There wasn't any milk.", "Sut yo'q edi."], ['There were two shops.', "Ikkita do'kon bor edi."], ["I couldn't sleep.", 'Uxlay olmadim.'], ['Was there a bank?', 'Bank bor edimi?']] },
       { k: 'fill', q: '___ there a bank in your street?', a: ['Was'], uz: "Ko'changizda bank bor edimi?", why: 'Bitta narsa, savol → **Was there…?**' },
       { k: 'fill', q: "I ___ sleep last night. It was too noisy.", a: ["couldn't", 'could not'], uz: "Kecha uxlay olmadim. Juda shovqinli edi.", why: "Qila olmadim → **couldn't** + fe'l." },
       { k: 'tf', q: '*In our village had a school.* — to\'g\'ri gap.', a: false, why: 'Inglizchada **There was a school…** deyiladi.' },

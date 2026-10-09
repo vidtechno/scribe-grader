@@ -9,7 +9,7 @@ const lesson: Lesson = {
     {
       title: "Takror: Past Simple va -ed qoidalari",
       blocks: [
-        { t: "p", md: "**Past Simple** — o'tmishda boshlanib **tugagan** ish-harakat uchun ishlatiladi: *I visited my aunt yesterday.* Hamma shaxslar (I, you, he, she, we, they) uchun fe'l **bir xil**: *he worked, they worked*. Uzbekchada \"-di\" qo'shimchasiga o'xshaydi: *ishladi, bordi*." },
+        { t: "p", md: "**Past Simple** — o'tmishda boshlanib **tugagan** ish-harakat uchun ishlatiladi: *I visited my aunt yesterday.* Hamma shaxslar (I, you, he, she, we, they) uchun fe'l **bir xil**: *he worked, they worked*. O'zbekchada \"-di\" qo'shimchasiga o'xshaydi: *ishladi, bordi*." },
         {
           t: "table", head: ["Qoida", "Fe'l", "Past Simple"], speak: [2],
           rows: [
