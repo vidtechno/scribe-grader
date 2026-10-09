@@ -28,9 +28,9 @@ const option = (name: string, fallback: string) => { const i = args.indexOf(`--$
 
 const engine = option('engine', 'espeak');
 const OUT = join(process.cwd(), 'public', 'audio');
-const VOICES: Record<string, string> = { espeak: 'espeak-ng mb-us1 (female), 140 wpm', edge: 'edge en-US-AriaNeural', elevenlabs: 'ElevenLabs Rachel (female) + espeak-ng for the rest' };
+const VOICES: Record<string, string> = { espeak: 'espeak-ng mb-us1 (female), 140 wpm', edge: 'edge en-US-AriaNeural', elevenlabs: 'ElevenLabs Sarah (female) + espeak-ng for the rest' };
 const PREMIUM_LIST = join(process.cwd(), 'scripts', 'audio-premium.json');
-const ELEVEN_VOICE = option('voice', '21m00Tcm4TlvDq8ikWAM'); // Rachel: calm, clear American female
+const ELEVEN_VOICE = option('voice', 'EXAVITQu4vr4xnSDxMaL'); // Sarah: calm, clear American female (premade, works on the free plan)
 const ELEVEN_MODEL = option('model', 'eleven_flash_v2_5'); // half a credit per character
 const CREDITS_PER_CHAR = ELEVEN_MODEL.includes('flash') || ELEVEN_MODEL.includes('turbo') ? 0.5 : 1;
 
