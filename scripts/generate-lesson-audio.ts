@@ -16,9 +16,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
-import { lessonAudioTexts } from '../src/features/learn/audio-plan';
+import { exerciseAudioTexts, lessonAudioTexts } from '../src/features/learn/audio-plan';
 import { audioKey } from '../src/features/learn/audio-key';
-import { WRITTEN_UNITS, loadUnit } from '../src/features/learn/course';
+import { WRITTEN_UNITS, loadDrills, loadUnit } from '../src/features/learn/course';
 import type { Lesson } from '../src/features/learn/types';
 
 const run = promisify(execFile);
@@ -117,6 +117,12 @@ async function main() {
       texts.set(key, t);
     }
     lessonKeys.push(own);
+  }
+  // Practice games after lessons have their own listening and reading texts.
+  for (const unit of WRITTEN_UNITS) {
+    for (const drill of await loadDrills(unit.id)) {
+      for (const t of drill.exercises.flatMap(exerciseAudioTexts)) texts.set(audioKey(t), t);
+    }
   }
   let todo = [...texts].filter(([key]) => flag('force') || !existsSync(join(OUT, `${key}.mp3`)));
   const premium = new Set<string>(existsSync(PREMIUM_LIST) ? (JSON.parse(readFileSync(PREMIUM_LIST, 'utf8')) as string[]) : []);

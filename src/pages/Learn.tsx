@@ -112,7 +112,8 @@ function CourseHome({ state }: { state: LearningState }) {
   const level = levelTab ?? (map.activeLevel as LevelId);
   const startLevel = state.profile?.level ?? 'beginner';
   const shownLevels = LEVELS.filter((l) => l.available && LEVEL_ORDER.indexOf(l.id) >= LEVEL_ORDER.indexOf(startLevel as LevelId) || l.id === level);
-  const continueTo = map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : null;
+  const drillTitle = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.titleUz : null;
+  const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : null;
   if (placementPending(state)) return <PlacementGate target={(state.profile?.placement_target ?? 'a1') as LevelId} attemptsLeft={Math.max(0, PLACEMENT.attempts - (state.profile?.placement_attempts ?? 0))} />;
 
   return (
@@ -129,8 +130,8 @@ function CourseHome({ state }: { state: LearningState }) {
           <Button variant="glow" size="lg" className="gap-3 w-full sm:w-auto sm:max-w-md min-w-0 h-auto py-2.5 px-4 justify-start" onClick={() => navigate(continueTo)}>
             <Play className="h-5 w-5 fill-current shrink-0" />
             <span className="flex flex-col items-start text-left leading-tight min-w-0 whitespace-normal">
-              <span className="text-[11px] font-medium opacity-90">{map.nextLesson ? 'Davom etish' : 'Bosqich testi'}</span>
-              <span className="font-semibold">{map.nextLesson ? map.nextLesson.titleUz : 'Topshirishga tayyor'}</span>
+              <span className="text-[11px] font-medium opacity-90">{map.nextDrill ? 'Mashq' : map.nextLesson ? 'Davom etish' : 'Bosqich testi'}</span>
+              <span className="font-semibold">{map.nextDrill ? drillTitle : map.nextLesson ? map.nextLesson.titleUz : 'Topshirishga tayyor'}</span>
             </span>
           </Button>
         )}

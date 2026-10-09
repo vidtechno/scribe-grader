@@ -1,7 +1,7 @@
 // Outline of the course. Units are numbered through all levels (Beginner u1–u5, then Elementary from u6), so a learner
 // who finishes one level simply continues with the next. The lesson content lives in content/<level>/u*/ and is
 // loaded per unit, so the roadmap stays light.
-import type { Lesson, LevelId, UnitMeta } from './types';
+import type { Drill, Lesson, LevelId, UnitMeta } from './types';
 
 /** Elementary (A1) is open. Set to false to hide it again without touching the lessons. */
 const A1_OPEN = true;
@@ -328,7 +328,7 @@ export const LESSON_MENTOR_ENABLED = false;
 
 export const ALL_LESSONS = COURSE_UNITS.flatMap((u) => u.lessons.map((l) => ({ ...l, unitId: u.id, level: u.level })));
 
-const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[] }>> = {
+const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[]; drills?: Drill[] }>> = {
   u1: () => import('./content/beginner/u1'),
   u2: () => import('./content/beginner/u2'),
   u3: () => import('./content/beginner/u3'),
@@ -368,4 +368,32 @@ export async function loadLesson(lessonId: string): Promise<{ lesson: Lesson; pr
     previous = prevLessons.find((l) => l.id === prevMeta.id) ?? null;
   }
   return { lesson, previous };
+}
+
+/**
+ * Practice games after hard lessons: lesson id → how many ("-d1", "-d2"…). They are required: the next lesson opens
+ * when the lesson and all of its drills are done. Only the Beginner course has them so far.
+ */
+export const DRILL_COUNTS: Record<string, number> = {
+  'u2-l2': 2, 'u2-l3': 1, 'u2-l4': 2, 'u2-l5': 2,
+  'u3-l2': 1, 'u3-l3': 2, 'u3-l4': 1, 'u3-l5': 2, 'u3-l7': 1,
+  'u4-l2': 1, 'u4-l4': 1, 'u4-l5': 1, 'u4-l8': 1,
+  'u5-l3': 1, 'u5-l4': 2, 'u5-l5': 1, 'u5-l6': 1, 'u5-l7': 1, 'u5-l8': 1,
+};
+
+export const drillIds = (lessonId: string): string[] => Array.from({ length: DRILL_COUNTS[lessonId] ?? 0 }, (_, i) => `${lessonId}-d${i + 1}`);
+
+export const lessonOfDrill = (drillId: string): string => drillId.replace(/-d\d+$/, '');
+
+export async function loadDrills(unitId: string): Promise<Drill[]> {
+  const load = unitLoaders[unitId];
+  return load ? ((await load()).drills ?? []) : [];
+}
+
+export async function loadDrill(drillId: string): Promise<Drill> {
+  const lessonId = lessonOfDrill(drillId);
+  const meta = ALL_LESSONS.find((l) => l.id === lessonId);
+  const drill = meta ? (await loadDrills(meta.unitId)).find((d) => d.id === drillId) : undefined;
+  if (!drill) throw new Error(`Unknown drill ${drillId}`);
+  return drill;
 }

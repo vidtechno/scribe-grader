@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
-import { ALL_LESSONS, COURSE_UNITS, LESSON_MENTOR_ENABLED, LESSON_PASS_PERCENT, levelOf, loadLesson } from '@/features/learn/course';
+import { ALL_LESSONS, COURSE_UNITS, LESSON_MENTOR_ENABLED, LESSON_PASS_PERCENT, drillIds, levelOf, loadLesson } from '@/features/learn/course';
 import type { Exercise, Lesson } from '@/features/learn/types';
 import { callLearning, courseMap, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { reviewQuestions, wordDrills } from '@/features/learn/practice';
@@ -389,7 +389,9 @@ function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, 
 
       <div className="space-y-2.5">
         {passed ? (
-          unitLast ? (
+          drillIds(lesson.id).length ? (
+            <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate(`/learn/drill/${drillIds(lesson.id)[0]}`)}><Zap className="h-4 w-4" />Mashqqa o'tish ({drillIds(lesson.id).length} ta)</Button>
+          ) : unitLast ? (
             <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/test/${unitId}`)}>Bosqich testiga o'tish</Button>
           ) : next ? (
             <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/lesson/${next.id}`)}>Keyingi dars: {next.titleUz}</Button>

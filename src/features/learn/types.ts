@@ -88,6 +88,21 @@ export interface Lesson {
   homework?: Md;
 }
 
+/**
+ * A practice game that follows a hard lesson. It has no theory: only exercises. Finishing it is required to move on
+ * (learning_complete_drill in the database). Its id is "<lesson id>-d<n>", e.g. "u2-l2-d1".
+ */
+export interface Drill {
+  id: string;
+  /** Short English name, e.g. "Am, is or are?". */
+  title: string;
+  titleUz: string;
+  /** What this game trains, one Uzbek sentence. */
+  goal: Md;
+  /** 10–12 exercises, easy first. No `speak`. */
+  exercises: Exercise[];
+}
+
 export interface LessonMeta {
   id: string;
   title: string;

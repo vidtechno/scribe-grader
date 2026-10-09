@@ -1,13 +1,13 @@
 import { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Check, Compass, Crown, Hourglass, Lock, Play, ShieldCheck, Star, Trophy } from 'lucide-react';
+import { Check, Compass, Zap, Crown, Hourglass, Lock, Play, ShieldCheck, Star, Trophy } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { LEVEL_TEST } from '../course';
+import { LEVEL_TEST, drillIds } from '../course';
 import { LEVELS, PARTIAL_LEVELS, levelOf, unitNo, unitsOf } from '../course';
 import type { LevelId } from '../types';
-import type { LearningState, NodeState } from '../api';
+import type { DrillState, LearningState, NodeState } from '../api';
 import { courseMap } from '../api';
 import { UNIT_EXTRAS } from '../unit-extras';
 import { UnitGuide } from './UnitGuide';
@@ -23,7 +23,7 @@ const LABEL_GAP = 46;
 export function Roadmap({ state, level, onLocked }: { state: LearningState; level: LevelId; onLocked: () => void }) {
   const navigate = useNavigate();
   const map = courseMap(state);
-  const stars = new Map(state.progress.map((p) => [p.lesson_id, p.stars]));
+  const stars = new Map([...state.progress.map((p) => [p.lesson_id, p.stars] as const), ...(state.drills ?? []).map((d) => [d.drill_id, d.stars] as const)]);
   const tests = new Map(state.tests.map((t) => [t.unit_id, t]));
   const { user } = useAuth();
   const { data: levelTest } = useQuery({
@@ -46,7 +46,14 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
         const testState = map.unitTest.get(unit.id)!;
         const unitLocked = unit.lessons.every((l) => map.lessonState.get(l.id) === 'locked');
         const review = unit.lessons.every((l) => map.lessonState.get(l.id) === 'open' || map.lessonState.get(l.id) === 'done') && testState !== 'passed';
-        const nodes = [...unit.lessons.map((l) => ({ kind: 'lesson' as const, id: l.id, title: l.titleUz })), { kind: 'test' as const, id: unit.id, title: 'Bosqich testi' }];
+        const nodes = [
+          ...unit.lessons.flatMap((l) => [
+            { kind: 'lesson' as const, id: l.id, title: l.titleUz },
+            ...drillIds(l.id).map((d, n) => ({ kind: 'drill' as const, id: d, title: `Mashq ${n + 1}: ${l.titleUz}` })),
+          ]),
+          { kind: 'test' as const, id: unit.id, title: 'Bosqich testi' },
+        ];
+        const lessonNumbers = new Map(unit.lessons.map((l, n) => [l.id, n + 1]));
         const points = nodes.map((_, i) => ({ x: WIDTH / 2 + OFFSETS[i % OFFSETS.length], y: 44 + i * ROW }));
         const height = 44 + (nodes.length - 1) * ROW + 70;
         const path = points.map((p, i) => {
@@ -81,13 +88,23 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
               {nodes.map((n, i) => {
                 const p = points[i];
                 const labelLeft = OFFSETS[i % OFFSETS.length] > 0;
+                if (n.kind === 'drill') {
+                  const ds = (map.drillState.get(n.id) ?? 'locked') as DrillState;
+                  const star = stars.get(n.id) ?? 0;
+                  return (
+                    <Fragment key={n.id}>
+                      <DrillNode x={p.x} y={p.y} state={ds} stars={star} onClick={() => (ds === 'locked' ? onLocked() : navigate(`/learn/drill/${n.id}`))} />
+                      <NodeLabel x={p.x} y={p.y} left={labelLeft} kicker="Mashq" title={n.title.replace(/^Mashq \d+: /, '')} dim={ds === 'locked'} current={ds === 'current'} />
+                    </Fragment>
+                  );
+                }
                 if (n.kind === 'lesson') {
                   const st = map.lessonState.get(n.id) as NodeState;
                   return (
                     <Fragment key={n.id}>
-                      <LessonNode x={p.x} y={p.y} state={st} stars={stars.get(n.id) ?? 0} number={i + 1}
+                      <LessonNode x={p.x} y={p.y} state={st} stars={stars.get(n.id) ?? 0} number={lessonNumbers.get(n.id) ?? i + 1}
                         onClick={() => (st === 'locked' ? onLocked() : navigate(`/learn/lesson/${n.id}`))} />
-                      <NodeLabel x={p.x} y={p.y} left={labelLeft} kicker={`${i + 1}-dars`} title={n.title} dim={st === 'locked'} current={st === 'current'} />
+                      <NodeLabel x={p.x} y={p.y} left={labelLeft} kicker={`${lessonNumbers.get(n.id) ?? i + 1}-dars`} title={n.title} dim={st === 'locked'} current={st === 'current'} />
                     </Fragment>
                   );
                 }
@@ -168,6 +185,28 @@ function LessonNode({ x, y, state, stars, number, onClick }: { x: number; y: num
       {state === 'done' && (
         <div className="absolute left-1/2 -translate-x-1/2 -bottom-3 flex gap-0.5 rounded-full bg-card border border-border px-1.5 py-0.5 shadow-sm">
           {[1, 2, 3].map((n) => <Star key={n} className={`h-3 w-3 ${n <= stars ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** A smaller node for a required practice game; amber with a bolt, like the lesson nodes but lighter. */
+function DrillNode({ x, y, state, stars, onClick }: { x: number; y: number; state: DrillState; stars: number; onClick: () => void }) {
+  const style = state === 'done' ? 'bg-gradient-to-b from-amber-200 to-amber-400 text-white shadow-[0_5px_0_0_rgb(180,120,20)]'
+    : state === 'current' ? 'bg-gradient-to-b from-orange-400 to-rose-500 text-white shadow-[0_5px_0_0_rgb(190,60,40)]'
+      : state === 'open' ? 'bg-card border-2 border-orange-400/60 text-orange-500 shadow-[0_5px_0_0_hsl(var(--border))]'
+        : 'bg-secondary text-muted-foreground shadow-[0_5px_0_0_hsl(var(--border))]';
+  return (
+    <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
+      {state === 'current' && <span aria-hidden className="absolute -inset-2 rounded-full border-4 border-orange-400/30 animate-ping" />}
+      <button type="button" onClick={onClick} aria-label="Mashq"
+        className={`relative w-[52px] h-[52px] rounded-full grid place-items-center transition-all duration-200 hover:scale-[1.07] active:scale-95 active:translate-y-[3px] motion-reduce:transition-none ${NODE_FOCUS} ${style}`}>
+        {state === 'locked' ? <Lock className="h-5 w-5" /> : state === 'done' ? <Check className="h-6 w-6" strokeWidth={3} /> : <Zap className="h-6 w-6 fill-current" />}
+      </button>
+      {state === 'done' && stars > 0 && (
+        <div className="absolute left-1/2 -translate-x-1/2 -bottom-2.5 flex gap-0.5 rounded-full bg-card border border-border px-1 py-0.5 shadow-sm">
+          {[1, 2, 3].map((n) => <Star key={n} className={`h-2.5 w-2.5 ${n <= stars ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
         </div>
       )}
     </div>

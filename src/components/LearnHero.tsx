@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Clock, Compass, Flame, GraduationCap, Lock, Play, Target, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { courseMap, learningStats, placementPending, trialDaysLeft, useLearningState } from '@/features/learn/api';
-import { levelOf } from '@/features/learn/course';
+import { ALL_LESSONS, levelOf } from '@/features/learn/course';
 
 /** The dashboard's main card: where the learner is in the English course and the one button that continues it. */
 export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
@@ -67,9 +67,10 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
       : info?.at_risk ? `Streak ${info.current} kun — ${info.days_left <= 1 ? 'bugun oxirgi kun, bir dars qiling' : 'bir dars qilsangiz, davom etadi'}`
       : `Bugungi maqsad: ${goal} XP (~${Math.max(5, Math.round(goal / 3))} daqiqa)`;
   const pct = map.total ? Math.round((map.doneCount / map.total) * 100) : 0;
-  const continueTo = map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
-  const heading = locked ? "Bepul davr tugadi" : map.nextLesson ? map.nextLesson.titleUz : map.pendingTest ? 'Bosqich testi tayyor' : "Hozircha mavjud darslar tugadi";
-  const kicker = locked ? 'Natijalaringiz saqlangan' : map.nextLesson ? (stats.todayDone ? 'Yana bitta dars?' : 'Keyingi dars') : 'Bosqich testi';
+  const drillTitle = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.titleUz : null;
+  const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
+  const heading = locked ? "Bepul davr tugadi" : map.nextDrill ? `Mashq: ${drillTitle}` : map.nextLesson ? map.nextLesson.titleUz : map.pendingTest ? 'Bosqich testi tayyor' : "Hozircha mavjud darslar tugadi";
+  const kicker = locked ? 'Natijalaringiz saqlangan' : map.nextDrill ? 'Keyingi dars ochilishi uchun mashq' : map.nextLesson ? (stats.todayDone ? 'Yana bitta dars?' : 'Keyingi dars') : 'Bosqich testi';
 
   return (
     <div className={shell}>
