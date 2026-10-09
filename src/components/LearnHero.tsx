@@ -41,9 +41,9 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
         <div className="relative flex flex-col sm:flex-row sm:items-center gap-4">
           <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><Compass className="h-7 w-7" /></span>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest opacity-90">Elementary · A1</p>
+            <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{levelOf(state.profile.placement_target).title} · {levelOf(state.profile.placement_target).cefr}</p>
             <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">Daraja testi sizni kutmoqda</h2>
-            <p className="text-sm opacity-90 mt-1">Beginner bo'yicha 20 ta savol. 70% topsangiz, to'g'ridan-to'g'ri Elementary'dan boshlaysiz.</p>
+            <p className="text-sm opacity-90 mt-1">Oldingi darajalardan 20 ta savol. 70% topsangiz, to'g'ridan-to'g'ri {levelOf(state.profile.placement_target).title}'dan boshlaysiz.</p>
           </div>
           <Link to="/learn/placement"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">Testni boshlash<ArrowRight className="h-4 w-4" /></Button></Link>
         </div>

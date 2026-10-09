@@ -54,7 +54,7 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
       await callLearning('learning_start', { _level: level });
       await refresh();
       if (level === 'beginner') toast.success("Kurs boshlandi! Birinchi dars sizni kutmoqda.");
-      else navigate('/learn/placement'); // Elementary starts with a placement test
+      else navigate('/learn/placement'); // every level above Beginner starts with a placement test
     } catch (e) {
       toast.error(learningErrorMessage(e));
     } finally { setBusy(null); }
@@ -91,7 +91,7 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
           </motion.button>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi. Elementary'ni tanlasangiz, avval Beginner bo'yicha 20 ta savoldan iborat daraja testidan o'tasiz (70% kerak, 2 ta urinish). O'tmasangiz, Beginner'dan boshlaysiz.</p>
+      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi. Elementary yoki Pre-Intermediate'ni tanlasangiz, avval oldingi darajalar bo'yicha 20 ta savoldan iborat daraja testidan o'tasiz (70% kerak, 2 ta urinish). O'tmasangiz, Beginner'dan boshlaysiz.</p>
     </div>
   );
 }
@@ -112,7 +112,7 @@ function CourseHome({ state }: { state: LearningState }) {
   const startLevel = state.profile?.level ?? 'beginner';
   const shownLevels = LEVELS.filter((l) => l.available && LEVEL_ORDER.indexOf(l.id) >= LEVEL_ORDER.indexOf(startLevel as LevelId) || l.id === level);
   const continueTo = map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : null;
-  if (placementPending(state)) return <PlacementGate attemptsLeft={Math.max(0, PLACEMENT.attempts - (state.profile?.placement_attempts ?? 0))} />;
+  if (placementPending(state)) return <PlacementGate target={(state.profile?.placement_target ?? 'a1') as LevelId} attemptsLeft={Math.max(0, PLACEMENT.attempts - (state.profile?.placement_attempts ?? 0))} />;
 
   return (
     <div>
@@ -195,8 +195,9 @@ function CourseHome({ state }: { state: LearningState }) {
   );
 }
 
-/** Shown while the Elementary placement test is waiting: take it, or start from Beginner. */
-function PlacementGate({ attemptsLeft }: { attemptsLeft: number }) {
+/** Shown while a placement test is waiting: take it, or start from Beginner. */
+function PlacementGate({ target, attemptsLeft }: { target: LevelId; attemptsLeft: number }) {
+  const lv = levelOf(target);
   const navigate = useNavigate();
   const refresh = useRefreshLearning();
   const [busy, setBusy] = useState(false);
@@ -213,10 +214,10 @@ function PlacementGate({ attemptsLeft }: { attemptsLeft: number }) {
   return (
     <div className="max-w-xl mx-auto text-center py-6">
       <span className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft grid place-items-center"><Compass className="h-8 w-8 text-primary-foreground" /></span>
-      <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">Elementary · A1</p>
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">{lv.title} · {lv.cefr}</p>
       <h1 className="text-2xl sm:text-3xl font-extrabold mb-3">Avval daraja testi</h1>
       <p className="text-muted-foreground mb-5">
-        Beginner kursidan {PLACEMENT.questions} ta savol. Kamida {PLACEMENT.passPercent}% to'g'ri javob bersangiz, to'g'ridan-to'g'ri Elementary darslariga o'tasiz.
+        Oldingi darajalardan {PLACEMENT.questions} ta savol. Kamida {PLACEMENT.passPercent}% to'g'ri javob bersangiz, to'g'ridan-to'g'ri {lv.title} darslariga o'tasiz.
         {' '}{attemptsLeft} ta urinish qoldi; o'tolmasangiz, Beginner'dan boshlaysiz.
       </p>
       <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate('/learn/placement')}><Play className="h-4 w-4 fill-current" />Testni boshlash</Button>
