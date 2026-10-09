@@ -264,15 +264,17 @@ interface LearningSummary {
   started: boolean;
   level?: string;
   placement_status?: string;
+  placement_target?: string | null;
   access: { allowed: boolean; reason: string; trial_ends_at?: string };
   xp?: number; streak?: number; lessons_done?: number; tests_passed?: number; today_done?: boolean; next_lesson_title?: string | null;
   today_xp?: number; daily_goal?: number; week_xp?: number;
   streak_info?: { current: number; best: number; at_risk: boolean; broken: boolean };
 }
-// Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, then the released part of Elementary).
+// Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, Elementary 6, Pre-Intermediate 6).
 const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
-  beginner: { name: "Beginner", lessons: 88, units: 11 },
-  a1: { name: "Elementary (A1)", lessons: 48, units: 6 },
+  beginner: { name: "Beginner", lessons: 136, units: 17 },
+  a1: { name: "Elementary (A1)", lessons: 96, units: 12 },
+  a2: { name: "Pre-Intermediate (A2)", lessons: 48, units: 6 },
 };
 
 export async function showDictionary(ctx: Ctx) {
@@ -309,8 +311,8 @@ export async function showLearn(ctx: Ctx) {
   }
   if (s.placement_status === "pending") {
     await reply(ctx, [
-      title("🧭", "Elementary uchun daraja testi"),
-      hint("Beginner bo'yicha 20 ta savol. Kamida 70% topsangiz, to'g'ridan-to'g'ri Elementary darslariga o'tasiz; 2 ta urinish."),
+      title("🧭", `${s.placement_target === "a2" ? "Pre-Intermediate" : "Elementary"} uchun daraja testi`),
+      hint(`Oldingi darajalardan 20 ta savol. Kamida 70% topsangiz, to'g'ridan-to'g'ri ${s.placement_target === "a2" ? "Pre-Intermediate" : "Elementary"} darslariga o'tasiz; 2 ta urinish.`),
     ].join("\n"), [[app("🧭 Testni boshlash", "/learn/placement")], [app("🎓 Kursni ochish", "/learn")]]);
     return;
   }

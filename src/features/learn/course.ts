@@ -5,11 +5,13 @@ import type { Lesson, LevelId, UnitMeta } from './types';
 
 /** Elementary (A1) is open. Set to false to hide it again without touching the lessons. */
 const A1_OPEN = true;
+/** Pre-Intermediate (A2) is open. Set to false to hide it again without touching the lessons. */
+const A2_OPEN = true;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },
   { id: 'a1', title: 'Elementary', cefr: 'A1', text: "Oddiy gaplarni tushunaman, o'zim haqimda biroz gapira olaman.", available: A1_OPEN },
-  { id: 'a2', title: 'Pre-Intermediate', cefr: 'A2', text: "Kundalik mavzularda gaplasha olaman, lekin xatolarim ko'p.", available: false },
+  { id: 'a2', title: 'Pre-Intermediate', cefr: 'A2', text: "Kundalik mavzularda gaplasha olaman, lekin xatolarim ko'p.", available: A2_OPEN },
   { id: 'b1', title: 'Intermediate', cefr: 'B1', text: "Ko'p narsani tushunaman, fikrimni ayta olaman.", available: false },
   { id: 'b2', title: 'Upper-Intermediate', cefr: 'B2', text: "Erkin gaplashaman, murakkab matnlarni o'qiyman.", available: false },
   { id: 'c1', title: 'Advanced', cefr: 'C1', text: "Deyarli erkin, akademik ingliz tilini mukammallashtirmoqchiman.", available: false },
@@ -188,14 +190,108 @@ export const A1_UNITS: UnitMeta[] = [
   },
 ];
 
+/** Pre-Intermediate (A2). */
+export const A2_UNITS: UnitMeta[] = [
+  {
+    id: "u12", n: 12, level: 'a2', title: "Stories from the past", titleUz: "O'tmish hikoyalari",
+    description: "Past Simple takrori, Past Continuous, used to, when / while va hikoya aytish.",
+    tone: "from-emerald-500 to-teal-400",
+    lessons: [
+      { id: "u12-l1", title: "Past Simple: regular and irregular", titleUz: "Past Simple takrori: to'g'ri va noto'g'ri fe'llar" },
+      { id: "u12-l2", title: "Past Simple: questions and negatives", titleUz: "Past Simple: savol va inkor, ago va vaqt iboralari" },
+      { id: "u12-l3", title: "Past Continuous", titleUz: "Past Continuous: was / were + -ing" },
+      { id: "u12-l4", title: "Past Simple or Past Continuous?", titleUz: "Past Simple yoki Past Continuous? when va while" },
+      { id: "u12-l5", title: "Used to", titleUz: "Used to: avval shunday edi" },
+      { id: "u12-l6", title: "Because, so, but, although", titleUz: "Because, so, but, although: sabab va qarama-qarshilik" },
+      { id: "u12-l7", title: "Telling a story", titleUz: "Hikoya aytish: first, then, after that, finally" },
+      { id: "u12-l8", title: "Unit review: the past", titleUz: "Bosqich takrori: o'tgan zamon" },
+    ],
+  },
+  {
+    id: "u13", n: 13, level: 'a2', title: "Plans and the future", titleUz: "Rejalar va kelajak",
+    description: "Going to, will, Present Continuous rejalar uchun, may / might va birinchi shart gap.",
+    tone: "from-sky-500 to-cyan-400",
+    lessons: [
+      { id: "u13-l1", title: "Going to", titleUz: "Going to: rejalar va aniq belgilar" },
+      { id: "u13-l2", title: "Will and won't", titleUz: "Will / won't: qaror, va'da, taxmin" },
+      { id: "u13-l3", title: "Will or going to?", titleUz: "Will yoki going to? Shall bilan taklif" },
+      { id: "u13-l4", title: "Present Continuous for plans", titleUz: "Present Continuous: kelishilgan rejalar" },
+      { id: "u13-l5", title: "May and might", titleUz: "May / might: ehtimol" },
+      { id: "u13-l6", title: "First conditional", titleUz: "Birinchi shart gap: if + Present, will" },
+      { id: "u13-l7", title: "Making plans", titleUz: "Reja tuzish: taklif, qabul va rad etish" },
+      { id: "u13-l8", title: "Unit review: the future", titleUz: "Bosqich takrori: kelajak" },
+    ],
+  },
+  {
+    id: "u14", n: 14, level: 'a2', title: "Comparing things", titleUz: "Taqqoslash",
+    description: "Qiyosiy va orttirma daraja, as ... as, too / enough, ravishlar va tasvirlash.",
+    tone: "from-fuchsia-500 to-pink-400",
+    lessons: [
+      { id: "u14-l1", title: "Comparatives", titleUz: "Qiyosiy daraja: -er va more" },
+      { id: "u14-l2", title: "Superlatives", titleUz: "Orttirma daraja: the -est, the most" },
+      { id: "u14-l3", title: "As ... as", titleUz: "as ... as va the same as" },
+      { id: "u14-l4", title: "Too and enough", titleUz: "Too va enough, too much / too many" },
+      { id: "u14-l5", title: "Adverbs of manner", titleUz: "Ravish: quickly, well, hard" },
+      { id: "u14-l6", title: "Describing people", titleUz: "Odamlarni tasvirlash: tashqi ko'rinish va xarakter" },
+      { id: "u14-l7", title: "Comparing places", titleUz: "Shaharlarni solishtirish: o'qish va yozish" },
+      { id: "u14-l8", title: "Unit review: comparing", titleUz: "Bosqich takrori: taqqoslash" },
+    ],
+  },
+  {
+    id: "u15", n: 15, level: 'a2', title: "Rules, advice and requests", titleUz: "Qoidalar, maslahat va iltimoslar",
+    description: "Must, have to, should, can / could, muloyim iltimoslar, yo'l ko'rsatish va shifokorda.",
+    tone: "from-amber-500 to-yellow-400",
+    lessons: [
+      { id: "u15-l1", title: "Must and have to", titleUz: "Must, have to, mustn't, don't have to" },
+      { id: "u15-l2", title: "Should and shouldn't", titleUz: "Should / shouldn't: maslahat berish" },
+      { id: "u15-l3", title: "Can, could, be able to", titleUz: "Can, could, be able to: qobiliyat va ruxsat" },
+      { id: "u15-l4", title: "Polite requests and offers", titleUz: "Muloyim iltimos va taklif: Could you…? Would you like…?" },
+      { id: "u15-l5", title: "Giving directions", titleUz: "Yo'l ko'rsatish va tushuntirish" },
+      { id: "u15-l6", title: "At the doctor's", titleUz: "Shifokorda: kasallik va maslahat" },
+      { id: "u15-l7", title: "Rules and signs", titleUz: "Qoidalar va belgilar: need to / needn't" },
+      { id: "u15-l8", title: "Unit review: modal verbs", titleUz: "Bosqich takrori: modal fe'llar" },
+    ],
+  },
+  {
+    id: "u16", n: 16, level: 'a2', title: "Experiences and the world around us", titleUz: "Tajriba va atrofimizdagi dunyo",
+    description: "Present Perfect va Past Simple, for / since, who / which / that, majhul nisbat, frazali fe'llar va xat yozish.",
+    tone: "from-violet-500 to-purple-400",
+    lessons: [
+      { id: "u16-l1", title: "Present Perfect or Past Simple?", titleUz: "Present Perfect yoki Past Simple?" },
+      { id: "u16-l2", title: "For and since", titleUz: "For va since: how long?" },
+      { id: "u16-l3", title: "Relative clauses", titleUz: "Who, which, that, where: ta'riflash" },
+      { id: "u16-l4", title: "The passive", titleUz: "Majhul nisbat: is made, was built" },
+      { id: "u16-l5", title: "Phrasal verbs", titleUz: "Frazali fe'llar: get up, look for, turn on" },
+      { id: "u16-l6", title: "Question tags", titleUz: "Tasdiq savollari: isn't it? don't you?" },
+      { id: "u16-l7", title: "Writing an email", titleUz: "Elektron xat yozish: do'stga va rasmiy" },
+      { id: "u16-l8", title: "Unit review: experiences", titleUz: "Bosqich takrori: tajriba va dunyo" },
+    ],
+  },
+  {
+    id: "u17", n: 17, level: 'a2', title: "Work, money and everyday life", titleUz: "Ish, pul va kundalik hayot",
+    description: "Fe'l qoliplari, kasblar, pul va xaridlar, texnologiya, sayohat, restoran va A2 yakuniy takrori.",
+    tone: "from-rose-600 to-red-400",
+    lessons: [
+      { id: "u17-l1", title: "Like doing or want to do?", titleUz: "Fe'l qolipi: like doing, want to do" },
+      { id: "u17-l2", title: "Jobs and interviews", titleUz: "Kasblar va ish suhbati" },
+      { id: "u17-l3", title: "Money and shopping", titleUz: "Pul va xaridlar: narx, chegirma, qaytarish" },
+      { id: "u17-l4", title: "Technology", titleUz: "Texnologiya va internet" },
+      { id: "u17-l5", title: "Travel and hotels", titleUz: "Sayohat va mehmonxona" },
+      { id: "u17-l6", title: "Restaurants and food", titleUz: "Restoran va ovqat buyurtma qilish" },
+      { id: "u17-l7", title: "Writing: CV and short messages", titleUz: "Rezyume va qisqa xat yozish" },
+      { id: "u17-l8", title: "A2 final review", titleUz: "A2 yakuniy takrori: hamma zamonlar va modal fe'llar" },
+    ],
+  },
+];
+
 /** Levels that are only partly released: shown under their units. */
 export const PARTIAL_LEVELS: Partial<Record<LevelId, string>> = {};
 
 /** Every unit of every level, in course order. */
-export const COURSE_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...(A1_OPEN ? A1_UNITS : [])];
+export const COURSE_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...(A1_OPEN ? A1_UNITS : []), ...(A2_OPEN ? A2_UNITS : [])];
 
 /** Every unit that is written, released or not (the content tests and the audio generator use this). */
-export const WRITTEN_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...A1_UNITS];
+export const WRITTEN_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...A1_UNITS, ...A2_UNITS];
 
 export function unitsOf(level: LevelId): UnitMeta[] {
   return COURSE_UNITS.filter((u) => u.level === level);
@@ -244,6 +340,12 @@ const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[] }>> = {
   u9: () => import('./content/a1/u9'),
   u10: () => import('./content/a1/u10'),
   u11: () => import('./content/a1/u11'),
+  u12: () => import('./content/a2/u12'),
+  u13: () => import('./content/a2/u13'),
+  u14: () => import('./content/a2/u14'),
+  u15: () => import('./content/a2/u15'),
+  u16: () => import('./content/a2/u16'),
+  u17: () => import('./content/a2/u17'),
 };
 
 export async function loadUnit(unitId: string): Promise<Lesson[]> {

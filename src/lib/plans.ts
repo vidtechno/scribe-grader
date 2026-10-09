@@ -26,7 +26,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     slug: 'go', name: 'Learn', priceUsd: '4', priceUzs: '49 000',
     personal: { writing: 0, speaking: 0, mockTests: 0 },
     features: [
-      "Barcha ingliz tili darslari: Beginner va Elementary, yangi darajalar qo'shilgach ular ham",
+      "Barcha ingliz tili darslari: Beginner, Elementary va Pre-Intermediate, yangi darajalar qo'shilgach ular ham",
       "Natijangizga moslashadigan o'qish",
       "Aqlli lug'at takrorlash (spaced repetition)",
       "Grammatika takrori va xatolar daftari",
