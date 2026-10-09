@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Check, CheckCircle2, Lightbulb, Loader2, Mic, RotateCcw, Square, X, XCircle } from 'lucide-react';
+import { Check, CheckCircle2, Flag, Lightbulb, Loader2, Mic, RotateCcw, Square, X, XCircle } from 'lucide-react';
+import { toast } from 'sonner';
+import { callLearning } from '../api';
 import { Button } from '@/components/ui/button';
 import type { Exercise } from '../types';
 import { checkOrder, checkTyped, judgeSpeech, shuffle, speechQualityHint, type SpeechJudgement, type SpeechQuality } from '../check';
@@ -26,6 +28,8 @@ const TITLES: Record<Exercise['k'], string> = {
   match: 'Juftliklarni toping',
   tf: "To'g'ri yoki noto'g'ri?",
   speak: 'Tinglang va ovoz chiqarib takrorlang',
+  dictation: 'Eshiting va yozing',
+  fix: 'Xatoni toping va to\'g\'rilang',
 };
 
 export function ExerciseView({ ex, mode, onDone }: { ex: Exercise; mode: ExerciseMode; onDone: (correct: boolean) => void }) {
@@ -48,7 +52,7 @@ export function ExerciseView({ ex, mode, onDone }: { ex: Exercise; mode: Exercis
       </p>
       <Body ex={ex} answered={answered} mode={mode} finish={finish} />
       {feedback && mode !== 'test' && (
-        <FeedbackPanel feedback={feedback} why={why} inline={mode === 'inline'} onContinue={() => onDone(feedback.correct)} />
+        <FeedbackPanel feedback={feedback} why={why} ex={ex} inline={mode === 'inline'} onContinue={() => onDone(feedback.correct)} />
       )}
     </div>
   );
@@ -64,6 +68,8 @@ function Body({ ex, answered, mode, finish }: { ex: Exercise; answered: boolean;
     case 'order': return <Order ex={ex} answered={answered} finish={finish} />;
     case 'match': return <Match ex={ex} answered={answered} finish={finish} />;
     case 'speak': return <Speak ex={ex} answered={answered} finish={finish} />;
+    case 'dictation': return <Dictation ex={ex} answered={answered} finish={finish} />;
+    case 'fix': return <Fix ex={ex} answered={answered} finish={finish} />;
   }
 }
 
@@ -192,6 +198,52 @@ function Translate({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'trans
         )}
         <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
       </div>
+    </div>
+  );
+}
+
+function Dictation({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'dictation' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const [value, setValue] = useState('');
+  const [reveal, setReveal] = useState(false);
+  useEffect(() => { void speak(ex.say); }, [ex.say]);
+  const submit = () => {
+    const r = checkTyped(value, ex.a ?? [ex.say]);
+    finish({ correct: r.correct, expected: r.expected, note: r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
+  };
+  return (
+    <div>
+      <div className="flex flex-col items-center gap-2 py-3">
+        <SpeakButton text={ex.say} size="lg" slow />
+        {reveal
+          ? <p className="text-sm rounded-lg bg-secondary px-3 py-1.5">«{ex.say}»</p>
+          : <button type="button" onClick={() => setReveal(true)} className="text-xs text-muted-foreground underline underline-offset-2 hover:text-primary">Ovoz eshitilmayaptimi? Matnni ko'rsatish</button>}
+      </div>
+      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="Eshitganingizni yozing…" />
+      {ex.uz && answered && <p className="text-sm text-muted-foreground mt-2">🇺🇿 {ex.uz}</p>}
+      <div className="flex justify-end mt-3"><Button disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button></div>
+    </div>
+  );
+}
+
+function Fix({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fix' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  // The wrong sentence is already in the box: the learner edits it instead of typing everything again.
+  const [value, setValue] = useState(ex.wrong);
+  const [showHint, setShowHint] = useState(false);
+  const submit = () => {
+    const r = checkTyped(value, ex.a);
+    const untouched = checkTyped(value, [ex.wrong]).correct;
+    finish({ correct: r.correct && !untouched, expected: r.expected, note: untouched ? "Gap o'zgarmagan: xatoni topib to'g'rilashingiz kerak edi." : r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
+  };
+  return (
+    <div>
+      <p className="text-xs text-muted-foreground mb-1.5">Bu gapda bitta xato bor:</p>
+      <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-lg font-medium mb-3 line-through decoration-destructive/40">{ex.wrong}</p>
+      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="To'g'ri gapni yozing…" autoFocus={false} />
+      <div className="flex items-center gap-2 mt-3">
+        {ex.hint && !answered && <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setShowHint(true)}><Lightbulb className="h-4 w-4" />Yordam</Button>}
+        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
+      </div>
+      {showHint && ex.hint && <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5">💡 {ex.hint}</p>}
     </div>
   );
 }
@@ -387,7 +439,26 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
   );
 }
 
-function FeedbackPanel({ feedback, why, inline, onContinue }: { feedback: Feedback; why?: string; inline: boolean; onContinue: () => void }) {
+/** Lets a learner tell us the question or its answer looks wrong. Admins see the reports in the Ta'lim tab. */
+function ReportButton({ ex }: { ex: Exercise }) {
+  const [state, setState] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const send = async () => {
+    setState('sending');
+    try {
+      await callLearning('learning_report_content', { _page: window.location.pathname, _exercise: ex, _note: null });
+      setState('sent');
+      toast.success("Rahmat! Xabaringiz adminga yuborildi.");
+    } catch { setState('idle'); toast.error("Yuborib bo'lmadi. Keyinroq urinib ko'ring."); }
+  };
+  if (state === 'sent') return <p className="mt-2 text-xs text-muted-foreground">Xabar yuborildi. Rahmat!</p>;
+  return (
+    <button type="button" onClick={() => void send()} disabled={state === 'sending'} className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive underline-offset-2 hover:underline">
+      <Flag className="h-3 w-3" />Xato topdim
+    </button>
+  );
+}
+
+function FeedbackPanel({ feedback, why, ex, inline, onContinue }: { feedback: Feedback; why?: string; ex: Exercise; inline: boolean; onContinue: () => void }) {
   const ref = useRef<HTMLButtonElement>(null);
   useEffect(() => { ref.current?.focus(); }, []);
   const good = feedback.correct;
@@ -404,6 +475,7 @@ function FeedbackPanel({ feedback, why, inline, onContinue }: { feedback: Feedba
           {!good && feedback.expected && <p className="mt-0.5">To'g'ri javob: <span className="font-semibold">{feedback.expected}</span></p>}
           {feedback.note && <p className="mt-0.5">{feedback.note}</p>}
           {why && <p className="mt-1.5 text-muted-foreground"><Md text={why} /></p>}
+          {!inline && <ReportButton ex={ex} />}
         </div>
       </div>
       {!inline && <Button ref={ref} className="w-full mt-3" variant={good ? 'glow' : 'default'} onClick={onContinue}>Davom etish</Button>}

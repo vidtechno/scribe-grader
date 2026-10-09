@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Check, Loader2, X } from 'lucide-react';
 import { adminRpc, LEVEL_LABEL } from './adminApi';
 
 interface Stats {
@@ -15,6 +15,36 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
 }
 const Empty = () => <p className="text-sm text-muted-foreground">Hozircha ma'lumot yo'q.</p>;
 
+interface Report { id: string; lesson_id: string | null; page: string | null; exercise: Record<string, unknown> | null; note: string | null; status: string; created_at: string; email: string | null }
+
+/** Mistakes learners reported with "Xato topdim". */
+function ReportsCard() {
+  const qc = useQueryClient();
+  const { data } = useQuery({ queryKey: ['admin', 'content-reports'], queryFn: () => adminRpc<{ open: number; rows: Report[] }>('admin_content_reports', { _status: 'open' }) });
+  const resolve = async (id: string, status: 'fixed' | 'dismissed') => {
+    await adminRpc('admin_content_report_resolve', { _id: id, _status: status });
+    await qc.invalidateQueries({ queryKey: ['admin', 'content-reports'] });
+  };
+  return (
+    <Card title={`Darslardagi xatolar haqida xabarlar${data ? ` (${data.open})` : ''}`} subtitle="Foydalanuvchilar «Xato topdim» tugmasini bosgan mashqlar. To'g'rilagach yoping">
+      {data?.rows.length ? <div className="space-y-2.5 max-h-96 overflow-y-auto">{data.rows.map(r => (
+        <div key={r.id} className="rounded-xl border border-border p-3 text-sm">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="font-mono text-xs bg-secondary rounded px-1.5 py-0.5">{r.lesson_id ?? r.page ?? '—'}</span>
+            <span className="text-xs text-muted-foreground truncate">{r.email ?? ''} · {new Date(r.created_at).toLocaleDateString('uz-UZ')}</span>
+            <span className="ml-auto flex gap-1">
+              <button type="button" title="To'g'rilandi" onClick={() => void resolve(r.id, 'fixed')} className="h-7 w-7 grid place-items-center rounded-md hover:bg-emerald-500/15 text-emerald-600"><Check className="h-4 w-4" /></button>
+              <button type="button" title="Xato emas" onClick={() => void resolve(r.id, 'dismissed')} className="h-7 w-7 grid place-items-center rounded-md hover:bg-secondary text-muted-foreground"><X className="h-4 w-4" /></button>
+            </span>
+          </div>
+          {r.note && <p className="mb-1">{r.note}</p>}
+          <pre className="text-[11px] leading-snug whitespace-pre-wrap break-words text-muted-foreground max-h-28 overflow-y-auto">{JSON.stringify(r.exercise)}</pre>
+        </div>
+      ))}</div> : <Empty />}
+    </Card>
+  );
+}
+
 export function LearningTab() {
   const { data, isLoading, error } = useQuery({ queryKey: ['admin', 'learning'], queryFn: () => adminRpc<Stats>('admin_learning_stats') });
   if (isLoading) return <div className="grid place-items-center py-24"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>;
@@ -22,6 +52,7 @@ export function LearningTab() {
   const maxLevel = Math.max(1, ...data.levels.map(l => l.n));
   return (
     <div className="grid lg:grid-cols-2 gap-5">
+      <div className="lg:col-span-2"><ReportsCard /></div>
       <Card title="Daraja bo'yicha o'quvchilar" subtitle="Kurs boshlagan foydalanuvchilar hozir qaysi darajada">
         {data.levels.length ? <div className="space-y-2.5">{data.levels.map(l => (
           <div key={l.level}><div className="flex justify-between text-sm mb-1"><span>{LEVEL_LABEL[l.level] ?? l.level}</span><span className="font-semibold">{l.n}</span></div>

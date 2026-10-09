@@ -46,5 +46,7 @@ function QuestionText({ q }: { q: Exercise }) {
     case 'order': return <>{q.uz} → <b>{q.words.join(' ')}</b></>;
     case 'match': return <>Juftliklar: {q.pairs.map((p) => `${p[0]} = ${p[1]}`).join(', ')}</>;
     case 'speak': return <>{q.say}</>;
+    case 'dictation': return <>Yozish: <b>{q.a?.[0] ?? q.say}</b></>;
+    case 'fix': return <>{q.wrong} → <b>{q.a[0]}</b></>;
   }
 }

@@ -1,7 +1,7 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Check, Crown, Hourglass, Lock, Play, ShieldCheck, Star, Trophy } from 'lucide-react';
+import { Check, Compass, Crown, Hourglass, Lock, Play, ShieldCheck, Star, Trophy } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { LEVEL_TEST } from '../course';
@@ -9,6 +9,8 @@ import { LEVELS, PARTIAL_LEVELS, levelOf, unitNo, unitsOf } from '../course';
 import type { LevelId } from '../types';
 import type { LearningState, NodeState } from '../api';
 import { courseMap } from '../api';
+import { UNIT_EXTRAS } from '../unit-extras';
+import { UnitGuide } from './UnitGuide';
 
 // Nodes follow a gentle S-curve; the path between them is drawn as an SVG line.
 const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
@@ -34,6 +36,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
       return data;
     },
   });
+  const [guideUnit, setGuideUnit] = useState<string | null>(null);
   const nextLevel = LEVELS[LEVELS.findIndex((l) => l.id === level) + 1];
 
   return (
@@ -64,6 +67,11 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                 <span className="text-xs font-semibold">{doneInUnit}/{unit.lessons.length}</span>
                 {testState === 'passed' && <span className="text-xs font-bold bg-white/20 rounded-full px-2 py-0.5 flex items-center gap-1"><ShieldCheck className="h-3.5 w-3.5" />O'tildi</span>}
               </div>
+              {UNIT_EXTRAS[unit.id] && !unitLocked && (
+                <button type="button" onClick={() => setGuideUnit(unit.id)} className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/20 hover:bg-white/30 px-3 py-1.5 text-xs font-bold transition-colors">
+                  <Compass className="h-3.5 w-3.5" />Qo'llanma: xatolar, madaniyat, mini-loyiha
+                </button>
+              )}
             </div>
 
             <div className="relative mx-auto" style={{ width: WIDTH, height }}>
@@ -131,6 +139,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
           ))}
         </div>
       </section>
+      {guideUnit && <UnitGuide unit={unitsOf(level).find((u) => u.id === guideUnit)!} onClose={() => setGuideUnit(null)} />}
     </div>
   );
 }

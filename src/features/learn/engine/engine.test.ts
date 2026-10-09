@@ -49,7 +49,7 @@ describe('wordExercise', () => {
   it('asks for recall with typing or a sentence for strong words', () => {
     const kinds = new Set<string>();
     for (let i = 0; i < 30; i++) kinds.add(wordExercise(row(5), pool, Math.random)!.k);
-    expect([...kinds].every((k) => ['translate', 'order'].includes(k))).toBe(true);
+    expect([...kinds].every((k) => ['translate', 'order', 'dictation'].includes(k))).toBe(true);
     expect(wordExercise(row(5), pool, seq([0.1]), true)!.k).toBe('speak');
   });
   it('falls back safely without enough distractors', () => {

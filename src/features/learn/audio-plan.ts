@@ -17,6 +17,7 @@ const english = (t: string | undefined): string[] => (t && /^[A-Za-z]/.test(t.tr
 export function exerciseAudioTexts(ex: Exercise): string[] {
   switch (ex.k) {
     case 'listen':
+    case 'dictation':
     case 'speak': return english(ex.say);
     case 'choice': return english(ex.say);
     case 'match': return ex.pairs.flatMap(([en]) => english(en));
