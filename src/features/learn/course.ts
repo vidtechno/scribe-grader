@@ -372,13 +372,27 @@ export async function loadLesson(lessonId: string): Promise<{ lesson: Lesson; pr
 
 /**
  * Practice games after hard lessons: lesson id → how many ("-d1", "-d2"…). They are required: the next lesson opens
- * when the lesson and all of its drills are done. Only the Beginner course has them so far.
+ * when the lesson and all of its drills are done.
  */
 export const DRILL_COUNTS: Record<string, number> = {
   'u2-l2': 2, 'u2-l3': 1, 'u2-l4': 2, 'u2-l5': 2,
   'u3-l2': 1, 'u3-l3': 2, 'u3-l4': 1, 'u3-l5': 2, 'u3-l7': 1,
   'u4-l2': 1, 'u4-l4': 1, 'u4-l5': 1, 'u4-l8': 1,
   'u5-l3': 1, 'u5-l4': 2, 'u5-l5': 1, 'u5-l6': 1, 'u5-l7': 1, 'u5-l8': 1,
+  // Elementary
+  'u6-l4': 1, 'u6-l8': 2,
+  'u7-l2': 1, 'u7-l5': 1, 'u7-l6': 1, 'u7-l8': 1,
+  'u8-l2': 2, 'u8-l7': 1, 'u8-l8': 1,
+  'u9-l2': 1, 'u9-l3': 1, 'u9-l4': 1, 'u9-l8': 2,
+  'u10-l3': 1, 'u10-l4': 1, 'u10-l6': 1, 'u10-l7': 1,
+  'u11-l1': 2, 'u11-l2': 1, 'u11-l3': 2, 'u11-l5': 1,
+  // Pre-Intermediate
+  'u12-l2': 1, 'u12-l3': 1, 'u12-l4': 2, 'u12-l5': 1, 'u12-l6': 1,
+  'u13-l3': 1, 'u13-l4': 1, 'u13-l5': 1, 'u13-l6': 2,
+  'u14-l1': 1, 'u14-l2': 1, 'u14-l3': 1, 'u14-l4': 1, 'u14-l5': 1,
+  'u15-l1': 1, 'u15-l2': 1, 'u15-l3': 1, 'u15-l4': 1,
+  'u16-l1': 2, 'u16-l2': 1, 'u16-l3': 2, 'u16-l4': 2, 'u16-l6': 1,
+  'u17-l1': 1,
 };
 
 export const drillIds = (lessonId: string): string[] => Array.from({ length: DRILL_COUNTS[lessonId] ?? 0 }, (_, i) => `${lessonId}-d${i + 1}`);
