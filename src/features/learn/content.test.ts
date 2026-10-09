@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { WRITTEN_UNITS } from './course';
+import { DRILL_COUNTS, WRITTEN_UNITS, drillIds, loadDrills } from './course';
 import type { Exercise, Lesson } from './types';
 
 // Validates every lesson of the course. Run one unit with: UNIT=u2 npx vitest run src/features/learn
@@ -116,5 +116,32 @@ describe('unit extras', () => {
       x.traps.forEach((t, i) => problems.push(...exerciseProblems(t.fix, `${u.id} trap ${i + 1}`)));
     }
     expect(problems).toEqual([]);
+  });
+});
+
+describe('drills', () => {
+  it('every drill is complete and every announced drill exists', async () => {
+    const p: string[] = [];
+    const ids = new Set<string>();
+    for (const u of units) {
+      for (const d of await loadDrills(u.id)) {
+        ids.add(d.id);
+        const where = d.id;
+        if (!/^u\d+-l\d+-d[1-3]$/.test(d.id)) p.push(`${where}: bad id`);
+        if (!d.title.trim() || !d.titleUz.trim() || !d.goal.trim()) p.push(`${where}: needs title, titleUz and goal`);
+        if (d.exercises.length < 10 || d.exercises.length > 12) p.push(`${where}: needs 10–12 exercises (has ${d.exercises.length})`);
+        if (new Set(d.exercises.map((e) => e.k)).size < 4) p.push(`${where}: needs at least 4 different kinds`);
+        if (d.exercises.some((e) => e.k === 'speak')) p.push(`${where}: no speak in drills`);
+        d.exercises.forEach((e, i) => p.push(...exerciseProblems(e, `${where} #${i + 1}`)));
+        const lessonId = d.id.replace(/-d\d+$/, '');
+        if (!DRILL_COUNTS[lessonId]) p.push(`${where}: lesson ${lessonId} is not in DRILL_COUNTS`);
+      }
+    }
+    for (const u of units) {
+      for (const l of u.lessons) {
+        for (const id of drillIds(l.id)) if (!ids.has(id)) p.push(`${id}: announced in DRILL_COUNTS but not written`);
+      }
+    }
+    expect(p).toEqual([]);
   });
 });
