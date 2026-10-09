@@ -28,16 +28,19 @@ function distance(a: string, b: string): number {
 
 export type TypedResult = { correct: boolean; typo: boolean; expected: string };
 
+/** Contractions are the same answer as their long form: "I'm happy" = "I am happy", "don't" = "do not". */
+const expand = (value: string): string => normalize(value).split(' ').map((w) => CONTRACTIONS[w] ?? w).join(' ');
+
 /** Compares a typed answer with every accepted answer. */
 export function checkTyped(input: string, accepted: string[]): TypedResult {
-  const given = normalize(input);
+  const given = expand(input);
   const expected = accepted[0] ?? '';
-  if (!given) return { correct: false, typo: false, expected };
+  if (!normalize(input)) return { correct: false, typo: false, expected };
   for (const answer of accepted) {
-    if (normalize(answer) === given) return { correct: true, typo: false, expected: answer };
+    if (expand(answer) === given) return { correct: true, typo: false, expected: answer };
   }
   for (const answer of accepted) {
-    const target = normalize(answer);
+    const target = expand(answer);
     if (target.length >= 6 && distance(given, target) === 1) return { correct: true, typo: true, expected: answer };
   }
   return { correct: false, typo: false, expected };
