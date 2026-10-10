@@ -11,7 +11,7 @@ export interface CertificateData {
   percent?: number | null;
   /** When the level test was passed. */
   date: Date;
-  /** Short certificate number, e.g. "SC-BEG-7F3A". */
+  /** Number issued by the server (learning_issue_certificate), e.g. "SC-BEG-K7M2Q9XA". */
   number: string;
 }
 
@@ -20,9 +20,6 @@ export const CERT_CEFR: Record<string, string> = { beginner: 'A0–A1', a1: 'A1'
 export const CERT_W = 1400;
 export const CERT_H = 990;
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-
-export const certificateNumber = (levelId: string, userId: string, date: Date) =>
-  `SC-${levelId.toUpperCase().slice(0, 3)}-${date.toISOString().slice(2, 10).replace(/-/g, '')}-${userId.replace(/-/g, '').slice(0, 4).toUpperCase()}`;
 
 export const formatCertDate = (d: Date) => `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`;
 

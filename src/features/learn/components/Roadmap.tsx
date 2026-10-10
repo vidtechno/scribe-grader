@@ -146,7 +146,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
           <span className="flex-1 min-w-0"><span className="block font-bold">{levelOf(level).title} sertifikati</span><span className="block text-xs text-muted-foreground">Yuklab olish va do'stlarga ulashish</span></span>
         </button>
       )}
-      {certificate && levelTest && <CertificateDialog levelId={level} score={levelTest.best_score} total={levelTest.best_total} passedAt={levelTest.passed_at} onClose={() => setCertificate(false)} />}
+      {certificate && levelTest && <CertificateDialog levelId={level} onClose={() => setCertificate(false)} />}
 
       {PARTIAL_LEVELS[level] && (
         <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4 text-sm text-center text-muted-foreground">

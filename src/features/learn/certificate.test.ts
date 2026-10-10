@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CERT_CEFR, certificateNumber, certificateSvg, formatCertDate } from './certificate';
+import { CERT_CEFR, certificateSvg, formatCertDate } from './certificate';
 
 describe('certificate', () => {
   const date = new Date('2026-10-12T10:00:00Z');
@@ -14,8 +14,8 @@ describe('certificate', () => {
   it('leaves the result line out when there is no score', () => {
     expect(certificateSvg({ name: 'Ali Valiyev', levelTitle: 'Elementary', cefr: 'A1', date, number: 'SC-X' })).not.toContain('Yakuniy test natijasi');
   });
-  it('builds a short number and a dd.mm.yyyy date', () => {
-    expect(certificateNumber('beginner', '7f3a1c2e-0000-0000-0000-000000000000', date)).toBe('SC-BEG-261012-7F3A');
+  it('prints the server-issued number and formats the date as dd.mm.yyyy', () => {
+    expect(certificateSvg({ name: 'Ali Valiyev', levelTitle: 'Beginner', cefr: 'A0–A1', date, number: 'SC-BEG-K7M2Q9XA' })).toContain('SC-BEG-K7M2Q9XA');
     expect(formatCertDate(new Date(2026, 9, 12))).toBe('12.10.2026');
   });
 });
