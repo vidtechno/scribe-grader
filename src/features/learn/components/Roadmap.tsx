@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Check, Compass, Zap, Crown, Hourglass, Lock, Play, ShieldCheck, Star, Trophy } from 'lucide-react';
+import { Award, Check, Compass, Zap, Crown, Hourglass, Lock, Play, ShieldCheck, Star, Trophy } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { LEVEL_TEST, drillIds } from '../course';
@@ -11,6 +11,7 @@ import type { DrillState, LearningState, NodeState } from '../api';
 import { courseMap } from '../api';
 import { UNIT_EXTRAS } from '../unit-extras';
 import { UnitGuide } from './UnitGuide';
+import { CertificateDialog } from './CertificateDialog';
 
 // Nodes follow a gentle S-curve; the path between them is drawn as an SVG line.
 const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
@@ -37,6 +38,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
     },
   });
   const [guideUnit, setGuideUnit] = useState<string | null>(null);
+  const [certificate, setCertificate] = useState(false);
   const nextLevel = LEVELS[LEVELS.findIndex((l) => l.id === level) + 1];
 
   return (
@@ -136,6 +138,15 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
         </span>
         {levelTest?.passed_at ? <Check className="h-5 w-5 text-emerald-500 shrink-0" /> : <Play className="h-5 w-5 text-primary shrink-0" />}
       </button>
+
+      {levelTest?.passed_at && (
+        <button type="button" onClick={() => setCertificate(true)}
+          className="w-full rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 flex items-center gap-3 text-left hover:bg-emerald-500/15 transition-colors">
+          <span className="w-10 h-10 rounded-xl bg-emerald-500 text-white grid place-items-center shrink-0"><Award className="h-5 w-5" /></span>
+          <span className="flex-1 min-w-0"><span className="block font-bold">{levelOf(level).title} sertifikati</span><span className="block text-xs text-muted-foreground">Yuklab olish va do'stlarga ulashish</span></span>
+        </button>
+      )}
+      {certificate && levelTest && <CertificateDialog levelId={level} score={levelTest.best_score} total={levelTest.best_total} passedAt={levelTest.passed_at} onClose={() => setCertificate(false)} />}
 
       {PARTIAL_LEVELS[level] && (
         <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4 text-sm text-center text-muted-foreground">

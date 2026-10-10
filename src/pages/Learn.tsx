@@ -17,6 +17,8 @@ import {
 import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
 import { SpeedRound } from '@/features/learn/components/SpeedRound';
+import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
+import { GoalStreak } from '@/features/learn/components/GoalStreak';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { loadSession, recordReview, useReviewQueue } from '@/features/learn/engine/api';
@@ -144,6 +146,8 @@ function CourseHome({ state }: { state: LearningState }) {
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
+      {!locked && <GoalStreak state={state} />}
+      <SkipIntroBanner state={state} />
 
       {/* Stats */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4" aria-label="Statistika">
