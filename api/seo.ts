@@ -8,6 +8,7 @@ import { TASK1 } from './_lib/data-task1.js';
 import { VOCAB } from './_lib/data-vocab.js';
 import { listPosts } from './_lib/posts.js';
 import { courseHub, levelBySlug, levelPage, lessonPage } from './_lib/course-pages.js';
+import { englishLanding, guideBySlug, guideHub, guidePage, topicBySlug, wordsHub, wordsPage } from './_lib/learn-pages.js';
 import { renderChart } from './_lib/charts.js';
 import type { CueCard, Part1Topic, Task1Page, Task2Question, Vocab, VocabPage } from './_lib/types.js';
 
@@ -240,6 +241,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse 
         const x = l?.units.flatMap(u => u.lessons).find(y => y.slug === slug);
         return l && x ? send(res, 200, lessonPage(l, x)) : missing();
       }
+      case 'guide': { if (!slug) return send(res, 200, guideHub()); const g = guideBySlug(slug); return g ? send(res, 200, guidePage(g)) : missing(); }
+      case 'words': { if (!slug) return send(res, 200, wordsHub()); const t = topicBySlug(slug); return t ? send(res, 200, wordsPage(t)) : missing(); }
+      case 'en-learn': return send(res, 200, englishLanding());
       default: return missing();
     }
   } catch (e) {

@@ -1,5 +1,7 @@
 import { SITE, breadcrumbLd, ctaBox, esc, page } from './shell.js';
 import { COURSE, type SeoLesson, type SeoLevel } from './data-course.js';
+import { GUIDES } from './data-learn-guides.js';
+import { WORD_TOPICS } from './data-learn-words.js';
 
 // Public, server-rendered pages for the English course: hub, one page per level and one per lesson. They describe
 // what each lesson teaches (goal, words, key points) and lead to the real, interactive lesson behind the sign-up.
@@ -69,12 +71,14 @@ export function courseHub(): string {
 <li><b>Aqlli takrorlash:</b> o'rganilgan so'zlar unutilmasdan oldin eslatib turiladi.</li>
 <li><b>Testlar:</b> har bosqich va har daraja oxirida.</li></ul></section>
 <section class="section"><h2>Ko'p beriladigan savollar</h2>${faqHtml}</section>
+<section class="section"><h2>Bepul qo'llanmalar va lug'at</h2><div class="grid"><a class="card" href="/ingliz-tili-qoidalari"><div class="body"><h3>Ingliz tili qoidalari</h3><p>${GUIDES.length} ta grammatika mavzusi o'zbek tilida, misollar va tipik xatolar bilan.</p></div></a><a class="card" href="/inglizcha-sozlar"><div class="body"><h3>Inglizcha so'zlar</h3><p>${WORD_TOPICS.length} ta mavzu: sonlar, ranglar, oila, kasblar, ovqat va boshqalar. Talaffuz va tarjima bilan.</p></div></a><a class="card" href="/learn-english-from-uzbek"><div class="body"><h3>Learn English from Uzbek</h3><p>English-language overview of the course.</p></div></a></div></section>
 ${ctaBox("Birinchi darsni hoziroq boshlang", "Ro'yxatdan o'ting va Beginner kursining birinchi darsiga o'ting: alifbo va tovushlar.", '/auth', 'Boshlash')}
 </div></main>`;
   return page({
     title: "Ingliz tilini noldan o'rganish: darslar, mashqlar | Scorify.uz",
     description: `Ingliz tilini noldan o'rganing: Beginner, Elementary va Pre-Intermediate, jami ${total} ta dars. O'zbekcha tushuntirish, talaffuz audiosi, mashqlar va testlar.`,
     path: COURSE_BASE, lang: 'uz', body,
+    alternates: [{ lang: 'uz', path: COURSE_BASE }, { lang: 'en', path: '/learn-english-from-uzbek' }, { lang: 'x-default', path: COURSE_BASE }],
     jsonLd: [breadcrumbLd([{ name: 'Bosh sahifa', path: '/' }, { name: 'Ingliz tili darslari', path: COURSE_BASE }]), faqLd,
       { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Ingliz tili kurslari', itemListElement: COURSE.map((l, i) => ({ '@type': 'ListItem', position: i + 1, name: `${l.title} (${l.cefr})`, url: SITE + levelPath(l) })) }],
   });
@@ -96,7 +100,9 @@ ${ctaBox(`${l.title} kursini boshlang`, "Ro'yxatdan o'ting va birinchi darsni ho
     title: `${info.metaTitle} | Scorify.uz`, description: info.metaDesc, path: levelPath(l), lang: 'uz', body,
     jsonLd: [breadcrumbLd([{ name: 'Bosh sahifa', path: '/' }, { name: 'Ingliz tili darslari', path: COURSE_BASE }, { name: l.title, path: levelPath(l) }]), faqLd,
       { '@context': 'https://schema.org', '@type': 'Course', name: `${l.title} ingliz tili kursi`, description: info.metaDesc, inLanguage: 'uz', educationalLevel: l.cefr,
-        provider: { '@type': 'Organization', name: 'Scorify.uz', url: SITE }, numberOfCredits: lessonCount(l),
+        provider: { '@type': 'Organization', name: 'Scorify.uz', url: SITE }, numberOfCredits: lessonCount(l), isAccessibleForFree: false,
+        offers: { '@type': 'Offer', category: 'Subscription', priceCurrency: 'UZS', price: '49000', availability: 'https://schema.org/InStock', url: SITE + '/auth' },
+        hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: 'PT15M', inLanguage: 'uz' },
         hasPart: l.units.flatMap(u => u.lessons.map(x => ({ '@type': 'LearningResource', name: x.titleUz, url: SITE + lessonPath(l, x) }))) }],
   });
 }
@@ -113,6 +119,7 @@ export function lessonPage(l: SeoLevel, x: SeoLesson): string {
 <section class="section"><h2>Asosiy xulosalar</h2><ul>${x.summary.map(s => `<li>${esc(s)}</li>`).join('')}</ul></section>
 ${ctaBox("Darsni mashqlar va audio bilan o'tang", "To'liq dars: tushuntirish, har bir so'zning talaffuzi, mashqlar va yakuniy savollar.", '/auth', 'Darsni boshlash')}
 <section class="section"><h2>${u.n}-bosqich: ${esc(u.titleUz)}</h2><ol>${u.lessons.map(y => `<li>${y.id === x.id ? `<b>${esc(y.titleUz)}</b>` : `<a href="${lessonPath(l, y)}">${esc(y.titleUz)}</a>`}</li>`).join('')}</ol></section>
+${(() => { const g = GUIDES.find(z => z.lesson[0] === l.slug && z.lesson[1] === x.slug); return g ? `<section class="section"><h2>Qoida va qo'shimcha o'qish</h2><p><a href="/ingliz-tili-qoidalari/${g.slug}">${esc(g.h1)}</a>: qoidaning to'liq izohi, misollar va o'zbek tilidagi tipik xatolar.</p></section>` : ''; })()}
 <nav class="pager">${prev ? `<a class="btn ghost" href="${lessonPath(l, prev)}">← ${esc(prev.titleUz)}</a>` : ''}${next ? `<a class="btn ghost" href="${lessonPath(l, next)}">${esc(next.titleUz)} →</a>` : ''}</nav>
 </div></main>`;
   const desc = trim(`${x.goal}`, 155);

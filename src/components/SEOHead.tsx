@@ -6,6 +6,8 @@ interface SEOHeadProps {
   path?: string;
   /** Set for private / app-only routes that should stay out of search results. */
   noindex?: boolean;
+  /** Use this exact <title> instead of "<title> | Scorify.uz". */
+  exactTitle?: boolean;
   /** Optional JSON-LD structured data for this route. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -13,8 +15,8 @@ interface SEOHeadProps {
 export const BASE_TITLE = 'Scorify.uz';
 export const BASE_URL = 'https://www.scorify.uz';
 
-export function SEOHead({ title, description, path = '', noindex, jsonLd }: SEOHeadProps) {
-  const fullTitle = title ? `${title} | ${BASE_TITLE}` : `${BASE_TITLE} — Ingliz tilini noldan o'rganing | IELTS Writing & Speaking`;
+export function SEOHead({ title, description, path = '', noindex, exactTitle, jsonLd }: SEOHeadProps) {
+  const fullTitle = title ? (exactTitle ? title : `${title} | ${BASE_TITLE}`) : `${BASE_TITLE} — Ingliz tilini noldan o'rganing | IELTS Writing & Speaking`;
   const desc =
     description ||
     "Ingliz tilini noldan o'rganing: darslar, talaffuz, lug'at va testlar. IELTS Writing va Speaking baholash, mock testlar va AI mentor ham bor.";
@@ -30,7 +32,7 @@ export function SEOHead({ title, description, path = '', noindex, jsonLd }: SEOH
       />
       <link rel="canonical" href={url} />
       <meta property="og:site_name" content={BASE_TITLE} />
-      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale" content="uz_UZ" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={desc} />

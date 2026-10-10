@@ -92,6 +92,26 @@
       "destination": "/api/seo?kind=calc"
     },
     {
+      "source": "/ingliz-tili-qoidalari",
+      "destination": "/api/seo?kind=guide"
+    },
+    {
+      "source": "/ingliz-tili-qoidalari/:slug",
+      "destination": "/api/seo?kind=guide&slug=:slug"
+    },
+    {
+      "source": "/inglizcha-sozlar",
+      "destination": "/api/seo?kind=words"
+    },
+    {
+      "source": "/inglizcha-sozlar/:slug",
+      "destination": "/api/seo?kind=words&slug=:slug"
+    },
+    {
+      "source": "/learn-english-from-uzbek",
+      "destination": "/api/seo?kind=en-learn"
+    },
+    {
       "source": "/ingliz-tili-darslari",
       "destination": "/api/seo?kind=course"
     },

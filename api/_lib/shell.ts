@@ -15,6 +15,7 @@ export type PageOptions = {
 };
 
 const NAV = [
+  ['/ingliz-tili-darslari', 'English course'],
   ['/ielts-writing-task-2-questions', 'Writing'],
   ['/ielts-speaking-part-2', 'Speaking'],
   ['/ielts-vocabulary', 'Vocabulary'],
@@ -24,6 +25,8 @@ const NAV = [
 
 const NAV_UZ = [
   ['/ingliz-tili-darslari', 'Darslar'],
+  ['/ingliz-tili-qoidalari', 'Qoidalar'],
+  ['/inglizcha-sozlar', "So'zlar"],
   ['/ielts-writing-task-2-questions', 'IELTS Writing'],
   ['/ielts-speaking-part-2', 'IELTS Speaking'],
   ['/blog', 'Blog'],
@@ -31,7 +34,7 @@ const NAV_UZ = [
 
 const FOOTER_UZ = `<div class="cols">
 <div><h4>Scorify.uz</h4><p>Ingliz tilini noldan o'rganish: o'zbekcha tushuntirishli darslar, talaffuz, mashqlar va testlar. IELTS Writing va Speaking baholash ham bor.</p><a class="btn" href="/auth" style="display:inline-flex">Boshlash</a></div>
-<div><h4>Kurs</h4><a href="/ingliz-tili-darslari">Barcha darslar</a><a href="/ingliz-tili-darslari/beginner">Beginner (noldan)</a><a href="/ingliz-tili-darslari/elementary">Elementary (A1)</a><a href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a></div>
+<div><h4>Kurs</h4><a href="/ingliz-tili-darslari">Barcha darslar</a><a href="/ingliz-tili-darslari/beginner">Beginner (noldan)</a><a href="/ingliz-tili-darslari/elementary">Elementary (A1)</a><a href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a><a href="/ingliz-tili-qoidalari">Ingliz tili qoidalari</a><a href="/inglizcha-sozlar">Inglizcha so'zlar</a><a href="/learn-english-from-uzbek">Learn English (EN)</a></div>
 <div><h4>IELTS</h4><a href="/ielts-writing-task-2-questions">Writing Task 2</a><a href="/ielts-speaking-part-2">Speaking Part 2</a><a href="/ielts-vocabulary">Vocabulary</a><a href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
 <div><h4>Resurslar</h4><a href="/blog">Blog va qo'llanmalar</a><a href="/blog/rss.xml">RSS</a></div>
 </div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS tegishli egalarining ro'yxatdan o'tgan savdo belgisi; Scorify.uz u bilan bog'liq emas.</p>`;

@@ -106,8 +106,9 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEOHead
-        title="Ingliz tilini noldan o'rganing — darslar, talaffuz, mashqlar"
-        description="Ingliz tilini noldan o'rganing: har kuni 10 daqiqalik darslar, talaffuz, lug'at va testlar. 7 kun bepul. IELTS Writing va Speaking baholash ham bor."
+        title="Scorify.uz — Ingliz tili darslari: noldan o'rganing, 7 kun bepul"
+        exactTitle
+        description="Scorify.uz: ingliz tilini noldan o'rganing. Bepul ingliz tili darslari: o'zbekcha tushuntirish, talaffuz audiosi, lug'at, mashqlar va testlar. 7 kun bepul. IELTS Writing va Speaking baholash ham bor."
         path="/"
         jsonLd={landingJsonLd}
       />
