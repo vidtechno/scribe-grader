@@ -94,7 +94,7 @@ export default function LearnLevelTest() {
             {outcome.passed && outcome.advanced && nextLevel ? `${nextLevel.title} darslariga o'tish` : "Kursga qaytish"}
           </Button>
         </div>
-        {certificate && <CertificateDialog levelId={level} score={score} total={questions.length} onClose={() => setCertificate(false)} />}
+        {certificate && <CertificateDialog levelId={level} onClose={() => setCertificate(false)} />}
       </div>,
     );
   }
