@@ -19,8 +19,8 @@ const INFO: Record<string, LevelInfo> = {
     lead: "Alifbo, tovushlar va birinchi gaplardan boshlanadi. Har bir dars o'zbekcha tushuntirish, talaffuz audiosi va mashqlar bilan.",
     who: "Ingliz tilini umuman bilmaydiganlar va hamma narsani noldan, qadamma-qadam boshlamoqchi bo'lganlar uchun.",
     after: ["O'zingiz haqingizda va oilangiz haqida gapira olasiz", "Kunlik tartibingizni va oddiy savollarni inglizcha aytasiz", "O'tgan va kelasi zamonda oddiy gaplar tuzasiz"],
-    metaTitle: "Ingliz tilini noldan o'rganish: Beginner kursi (40 dars)",
-    metaDesc: "Ingliz tilini noldan o'rganing: alifbo, tovushlar, to be, Present Simple va boshqa 40 ta dars. O'zbekcha tushuntirish, talaffuz audiosi va mashqlar.",
+    metaTitle: "Ingliz tilini noldan o'rganish: Beginner kursi (57 dars)",
+    metaDesc: "Ingliz tilini noldan o'rganing: alifbo, tovushlar, to be, Present Simple va boshqa 57 ta dars. O'zbekcha tushuntirish, talaffuz audiosi va mashqlar.",
   },
   elementary: {
     h1: "Elementary (A1) ingliz tili kursi",

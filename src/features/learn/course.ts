@@ -20,8 +20,9 @@ export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; a
 
 export const BEGINNER_UNITS: UnitMeta[] = [
   {
-    id: 'u1', n: 1, title: 'Letters & Sounds', titleUz: 'Harflar va tovushlar',
+    id: 'u1', n: 1, title: 'Letters & Sounds', titleUz: 'Alifbo va tovushlar: o\'qish va talaffuz',
     description: "Alifbo, ingliz tovushlari, salomlashish, sonlar va birinchi so'zlar.",
+    learns: ["26 ta harf va ularning nomi", "Qisqa va cho'ziq unlilar, sh / ch / th kabi harf birikmalari", "Salomlashish, xayrlashish va o'zingizni tanishtirish", "0–20 sonlar, ismingizni harflab aytish", "Vaziyat: yangi odam bilan tanishuv"],
     level: 'beginner', tone: 'from-rose-500 to-orange-400',
     lessons: [
       { id: 'u1-l1', title: 'The alphabet: A–M', titleUz: 'Alifbo: A–M' },
@@ -32,11 +33,14 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u1-l6', title: 'Numbers 0–20', titleUz: 'Sonlar 0–20' },
       { id: 'u1-l7', title: 'How do you spell it?', titleUz: 'Harflab aytish va sinf iboralari' },
       { id: 'u1-l8', title: 'Colours & things', titleUz: 'Ranglar va narsalar' },
+      { id: 'u1-l9', title: 'Meeting someone: name, spelling, numbers', titleUz: 'Yangi tanish: ism, harflash, raqam', mini: true, kind: 'situation' },
+      { id: 'u1-l10', title: 'Letters & sounds: final review', titleUz: 'Alifbo va tovushlar: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
   {
-    id: 'u2', n: 2, title: 'To be: Who am I?', titleUz: 'To be: men kimman?',
+    id: 'u2', n: 2, title: 'To be: Who am I?', titleUz: 'Men kimman? Olmoshlar va to be (am / is / are)',
     description: "Olmoshlar, am / is / are, inkor va savol, a / an, ko'plik, this / that, egalik.",
+    learns: ["Kishilik olmoshlari: I, you, he, she, we, they", "To be: am / is / are — darak, inkor va savol", "a / an, ko'plik, this / that / these / those", "Egalik: my, your, his… va 's", "Vaziyat: tanishuv, anketa to'ldirish, davlat va kasb"],
     level: 'beginner', tone: 'from-violet-500 to-fuchsia-500',
     lessons: [
       { id: 'u2-l1', title: 'Personal pronouns', titleUz: 'Kishilik olmoshlari' },
@@ -47,11 +51,15 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u2-l6', title: 'this / that / these / those', titleUz: 'this / that / these / those' },
       { id: 'u2-l7', title: "my, your, his… and 's", titleUz: "Egalik: my, your, his… va 's" },
       { id: 'u2-l8', title: 'Countries, nationalities & jobs', titleUz: 'Davlatlar, millatlar va kasblar' },
+      { id: 'u2-l9', title: 'Introducing myself and my family', titleUz: 'O\'zim va oilam haqida tanishtirish', mini: true, kind: 'situation' },
+      { id: 'u2-l10', title: 'At the language school: a registration form', titleUz: 'Til maktabida: ro\'yxatdan o\'tish anketasi', mini: true, kind: 'situation' },
+      { id: 'u2-l11', title: 'To be: final review', titleUz: 'To be: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
   {
-    id: 'u3', n: 3, title: 'Everyday Life', titleUz: 'Kundalik hayot',
+    id: 'u3', n: 3, title: 'Everyday Life', titleUz: 'Kundalik hayot: Present Simple',
     description: "Katta sonlar, Present Simple, vaqt, kun tartibi, in / on / at, always / never.",
+    learns: ["Present Simple: doimiy ish va odatlar (I work, she works)", "Inkor va savol: don't / doesn't, Do / Does", "Soat, kun tartibi, in / on / at", "always, usually, often, never — qanchalik tez-tez", "Vaziyat: kafe, universitet va ish kuni"],
     level: 'beginner', tone: 'from-sky-500 to-cyan-400',
     lessons: [
       { id: 'u3-l1', title: 'Numbers 20–100, age & prices', titleUz: 'Sonlar 20–100, yosh va narx' },
@@ -65,11 +73,13 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u3-l6', title: 'Time & daily routine', titleUz: 'Vaqt va kun tartibi' },
       { id: 'u3-l7', title: 'Days, months: in / on / at', titleUz: 'Kunlar, oylar: in / on / at' },
       { id: 'u3-l8', title: 'always, usually, never…', titleUz: "Qanchalik tez-tez: always, usually, never…" },
+      { id: 'u3-l12', title: 'Everyday life: final review', titleUz: 'Kundalik hayot: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
   {
-    id: 'u4', n: 4, title: 'The World Around Me', titleUz: 'Atrofimizdagi dunyo',
+    id: 'u4', n: 4, title: 'Describing and Asking', titleUz: 'Tasvirlash va so\'rash: there is, can, have got',
     description: "Wh-savollar, there is / are, joy predloglari, much / many, can, buyruq, have got, Present Continuous.",
+    learns: ["Wh-savollar: what, where, who, when, why, how", "There is / there are, some / any, joy predloglari (in, on, under…)", "Sanaladigan va sanalmaydigan otlar: much / many", "can / can't: qobiliyat va iltimos; buyruq gaplar", "have got va oila; Present Continuous: hozir nima qilyapman", "Vaziyat: uy, shahar, do'kon, oila"],
     level: 'beginner', tone: 'from-emerald-500 to-teal-400',
     lessons: [
       { id: 'u4-l1', title: 'Wh- questions', titleUz: "Wh-savollar: what, where, who…" },
@@ -80,11 +90,16 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u4-l6', title: 'Imperatives & object pronouns', titleUz: 'Buyruq gaplar va me, him, her…' },
       { id: 'u4-l7', title: 'have got & family', titleUz: 'have got va oila' },
       { id: 'u4-l8', title: 'Present Continuous', titleUz: 'Present Continuous: hozir nima qilyapman' },
+      { id: 'u4-l9', title: 'My room and my town', titleUz: 'Xonam va shahrim: there is / there are', mini: true, kind: 'situation' },
+      { id: 'u4-l10', title: 'At the shop: much, many, can I…?', titleUz: 'Do\'konda: much, many, can', mini: true, kind: 'situation' },
+      { id: 'u4-l11', title: 'On the phone: what are you doing?', titleUz: 'Telefonda: nima qilyapsiz?', mini: true, kind: 'situation' },
+      { id: 'u4-l12', title: 'Describing and asking: final review', titleUz: 'Tasvirlash va so\'rash: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
   {
-    id: 'u5', n: 5, title: 'Past & Future', titleUz: "O'tgan va kelasi zamon",
+    id: 'u5', n: 5, title: 'Past & Future', titleUz: "Kecha, ertaga, hozir: o'tgan va kelasi zamon",
     description: "Ikki hozirgi zamon farqi, was / were, Past Simple, noto'g'ri fe'llar, going to, will, qiyoslash.",
+    learns: ["Present Simple va Continuous farqi", "O'tgan zamon: was / were, Past Simple (-ed va noto'g'ri fe'llar), didn't, Did…?", "Kelasi zamon: be going to (reja) va will (qaror, va'da)", "Qiyoslash: bigger, the biggest, more interesting", "Vaziyat: kecha nima qildingiz, ertangi reja, tanlov qilish"],
     level: 'beginner', tone: 'from-amber-500 to-yellow-400',
     lessons: [
       { id: 'u5-l1', title: 'Present Simple vs Continuous', titleUz: 'Present Simple yoki Continuous?' },
@@ -95,6 +110,10 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u5-l6', title: 'Future: be going to', titleUz: 'Kelasi zamon: be going to' },
       { id: 'u5-l7', title: 'Future: will', titleUz: 'Kelasi zamon: will' },
       { id: 'u5-l8', title: 'Comparatives & superlatives', titleUz: "Qiyoslash: bigger, the biggest" },
+      { id: 'u5-l9', title: 'Yesterday: telling what happened', titleUz: 'Kecha nima bo\'ldi: Past Simple hayotda', mini: true, kind: 'situation' },
+      { id: 'u5-l10', title: 'Plans for the weekend', titleUz: 'Dam olish kuni rejalari: going to, will', mini: true, kind: 'situation' },
+      { id: 'u5-l11', title: 'Choosing in a shop: comparing', titleUz: 'Do\'konda tanlash: qiyoslash', mini: true, kind: 'situation' },
+      { id: 'u5-l12', title: 'Past and future: final review', titleUz: 'O\'tgan va kelasi zamon: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
 ];

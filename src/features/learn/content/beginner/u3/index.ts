@@ -10,6 +10,7 @@ import l8 from './l8';
 import l9 from './l9';
 import l10 from './l10';
 import l11 from './l11';
+import l12 from './l12';
 
-export const lessons: Lesson[] = [l1, l2, l3, l4, l5, l9, l10, l11, l6, l7, l8];
+export const lessons: Lesson[] = [l1, l2, l3, l4, l5, l9, l10, l11, l6, l7, l8, l12];
 export { drills } from './drills';
