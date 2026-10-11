@@ -76,7 +76,12 @@ export interface Lesson {
   goal: Md;
   /** Theory, explained step by step with examples and quick checks. */
   slides: Slide[];
-  /** Exactly 10 words to learn by heart. */
+  /**
+   * A short focused lesson (5–10 minutes): one situation or one skill, 3–5 new words, fewer exercises. Used for
+   * life-situation and consolidation lessons that sit between the big grammar lessons.
+   */
+  mini?: true;
+  /** Exactly 10 words to learn by heart (3–5 in a `mini` lesson). */
   words: Word[];
   /** Guided practice: mistakes come back until they are fixed. */
   practice: Exercise[];
@@ -107,6 +112,10 @@ export interface LessonMeta {
   id: string;
   title: string;
   titleUz: string;
+  /** Short situation / consolidation lesson. Counts as done for learners who already went past it. */
+  mini?: true;
+  /** What kind of step it is, shown in the topic list. */
+  kind?: 'grammar' | 'situation' | 'review';
 }
 
 export interface UnitMeta {

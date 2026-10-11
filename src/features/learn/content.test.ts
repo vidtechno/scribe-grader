@@ -59,7 +59,7 @@ function exerciseProblems(ex: Exercise, where: string): string[] {
 function lessonProblems(lesson: Lesson, level: string): string[] {
   const p: string[] = [];
   const id = lesson.id;
-  if (lesson.slides.length < 4 || lesson.slides.length > 9) p.push(`${id}: needs 4–9 slides (has ${lesson.slides.length})`);
+  if (lesson.slides.length < (lesson.mini ? 3 : 4) || lesson.slides.length > 9) p.push(`${id}: needs ${lesson.mini ? 3 : 4}–9 slides (has ${lesson.slides.length})`);
   let checks = 0;
   lesson.slides.forEach((s, i) => {
     if (!s.title.trim() || !s.blocks.length) p.push(`${id}: slide ${i + 1} is empty`);
@@ -73,12 +73,13 @@ function lessonProblems(lesson: Lesson, level: string): string[] {
   const blocks = lesson.slides.flatMap((s) => s.blocks);
   if (level !== 'beginner' && !blocks.some((b) => b.t === 'text' || b.t === 'dialog')) p.push(`${id}: needs a reading text or a dialogue`);
   if (checks < 2) p.push(`${id}: needs at least 2 quick checks inside slides (has ${checks})`);
-  if (lesson.words.length !== 10) p.push(`${id}: needs exactly 10 words (has ${lesson.words.length})`);
+  const mini = !!lesson.mini;
+  if (mini ? lesson.words.length < 3 || lesson.words.length > 5 : lesson.words.length !== 10) p.push(`${id}: needs ${mini ? '3–5' : 'exactly 10'} words (has ${lesson.words.length})`);
   if (new Set(lesson.words.map((w) => w.en.toLowerCase())).size !== lesson.words.length) p.push(`${id}: duplicate words`);
   lesson.words.forEach((w) => { if (!w.en.trim() || !w.uz.trim()) p.push(`${id}: word without translation`); });
-  if (lesson.practice.length < 10 || lesson.practice.length > 18) p.push(`${id}: practice needs 10–18 items (has ${lesson.practice.length})`);
-  if (new Set(lesson.practice.map((e) => e.k)).size < 5) p.push(`${id}: practice needs at least 5 different exercise kinds`);
-  if (lesson.quiz.length < 8 || lesson.quiz.length > 12) p.push(`${id}: quiz needs 8–12 items (has ${lesson.quiz.length})`);
+  if (lesson.practice.length < (mini ? 8 : 10) || lesson.practice.length > 18) p.push(`${id}: practice needs ${mini ? 8 : 10}–18 items (has ${lesson.practice.length})`);
+  if (new Set(lesson.practice.map((e) => e.k)).size < (mini ? 4 : 5)) p.push(`${id}: practice needs at least ${mini ? 4 : 5} different exercise kinds`);
+  if (lesson.quiz.length < (mini ? 6 : 8) || lesson.quiz.length > 12) p.push(`${id}: quiz needs ${mini ? 6 : 8}–12 items (has ${lesson.quiz.length})`);
   if (lesson.quiz.some((e) => e.k === 'speak')) p.push(`${id}: no speak items in the quiz`);
   lesson.practice.forEach((e, i) => p.push(...exerciseProblems(e, `${id} practice ${i + 1}`)));
   lesson.quiz.forEach((e, i) => p.push(...exerciseProblems(e, `${id} quiz ${i + 1}`)));
@@ -96,6 +97,7 @@ describe('Course content', () => {
       lessons.forEach((l, i) => {
         expect(l.title).toBe(unit.lessons[i].title);
         expect(l.titleUz).toBe(unit.lessons[i].titleUz);
+        expect(!!l.mini).toBe(!!unit.lessons[i].mini);
       });
       expect(lessons.flatMap((l) => lessonProblems(l, unit.level))).toEqual([]);
     });

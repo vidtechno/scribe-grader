@@ -3,10 +3,10 @@
 // loaded per unit, so the roadmap stays light.
 import type { Drill, Lesson, LevelId, UnitMeta } from './types';
 
-/** Elementary (A1) is open. Set to false to hide it again without touching the lessons. */
-const A1_OPEN = true;
-/** Pre-Intermediate (A2) is open. Set to false to hide it again without touching the lessons. */
-const A2_OPEN = true;
+/** Elementary (A1) is hidden while Beginner is being rebuilt. Set to true to open it again; the lessons stay in place. */
+const A1_OPEN = false;
+/** Pre-Intermediate (A2) is hidden too. Set to true to open it again. */
+const A2_OPEN = false;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },
@@ -59,6 +59,9 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u3-l3', title: 'Present Simple: he / she / it', titleUz: 'Present Simple: he / she / it' },
       { id: 'u3-l4', title: "don't / doesn't", titleUz: "Inkor: don't / doesn't" },
       { id: 'u3-l5', title: 'Do / Does questions', titleUz: 'Savollar: Do / Does' },
+      { id: 'u3-l9', title: 'At the café: Present Simple in real life', titleUz: 'Kafeda: Present Simple hayotda', mini: true, kind: 'situation' },
+      { id: 'u3-l10', title: 'University and work: my week', titleUz: 'Universitet va ish: mening haftam', mini: true, kind: 'situation' },
+      { id: 'u3-l11', title: 'Present Simple: final review', titleUz: 'Present Simple: yakuniy takror', mini: true, kind: 'review' },
       { id: 'u3-l6', title: 'Time & daily routine', titleUz: 'Vaqt va kun tartibi' },
       { id: 'u3-l7', title: 'Days, months: in / on / at', titleUz: 'Kunlar, oylar: in / on / at' },
       { id: 'u3-l8', title: 'always, usually, never…', titleUz: "Qanchalik tez-tez: always, usually, never…" },
