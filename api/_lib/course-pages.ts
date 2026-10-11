@@ -1,5 +1,5 @@
 import { SITE, breadcrumbLd, ctaBox, esc, page } from './shell.js';
-import { COURSE, type SeoLesson, type SeoLevel } from './data-course.js';
+import { COURSE as ALL_COURSE, type SeoLesson, type SeoLevel } from './data-course.js';
 import { GUIDES } from './data-learn-guides.js';
 import { WORD_TOPICS } from './data-learn-words.js';
 
@@ -7,6 +7,10 @@ import { WORD_TOPICS } from './data-learn-words.js';
 // what each lesson teaches (goal, words, key points) and lead to the real, interactive lesson behind the sign-up.
 
 export const COURSE_BASE = '/ingliz-tili-darslari';
+
+// Only Beginner is open on the site for now; Elementary and Pre-Intermediate pages come back when those levels open.
+const OPEN_LEVELS = new Set(['beginner']);
+const COURSE = ALL_COURSE.filter(l => OPEN_LEVELS.has(l.slug));
 
 type LevelInfo = { h1: string; lead: string; who: string; after: string[]; metaTitle: string; metaDesc: string };
 const INFO: Record<string, LevelInfo> = {
@@ -39,7 +43,7 @@ const INFO: Record<string, LevelInfo> = {
 const FAQ = [
   { q: "Ingliz tilini noldan o'rganish mumkinmi?", a: "Ha. Beginner kursi alifbo va tovushlardan boshlanadi, barcha tushuntirishlar o'zbek tilida, misollar esa inglizcha va audio bilan beriladi." },
   { q: "Darslar qanday tuzilgan?", a: "Har bir darsda qisqa nazariya, 10 ta yangi so'z (talaffuzi bilan), mashqlar va yakuniy savollar bor. Har bosqich oxirida test, har daraja oxirida yakuniy test o'tkaziladi." },
-  { q: "Beginner'dan Pre-Intermediate'gacha qancha vaqt ketadi?", a: "Kuniga 30–60 daqiqa mashq qilsangiz, taxminan 3–5 oy. Bu taxminiy hisob: natija shaxsiy sur'atga va takrorlashga bog'liq." },
+  { q: "Beginner kursini tugatish qancha vaqt oladi?", a: "Kuniga 30–60 daqiqa mashq qilsangiz, taxminan 1–2 oy. Bu taxminiy hisob: natija shaxsiy sur'atga va takrorlashga bog'liq." },
   { q: "Telefonda ishlaydimi?", a: "Ha, hech narsa o'rnatish shart emas: darslar telefon va kompyuter brauzerida ochiladi." },
   { q: "Kurs bepulmi?", a: "Ro'yxatdan o'tganingizda sinov muddati beriladi, davom etish uchun Learn tarifi kerak bo'ladi." },
   { q: "IELTS ham bormi?", a: "Ha. Scorify.uz IELTS Writing va Speaking javoblarini sun'iy intellekt bilan baholaydi, shuningdek mock testlar va blog maqolalari bor." },

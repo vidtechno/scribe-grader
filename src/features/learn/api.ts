@@ -81,6 +81,13 @@ export type TestState = 'locked' | 'optional' | 'open' | 'passed' | 'cooldown';
 export function courseMap(state: LearningState | undefined) {
   const done = new Set((state?.progress ?? []).filter((p) => p.completed_at).map((p) => p.lesson_id));
   const passed = new Set((state?.tests ?? []).filter((t) => t.passed_at).map((t) => t.unit_id));
+  // A short situation / review lesson added to a unit later counts as done for anyone who already went past it, so
+  // nobody loses finished work. (Only the map is affected; the saved progress is not touched.)
+  for (const unit of COURSE_UNITS) {
+    unit.lessons.forEach((l, i) => {
+      if (l.mini && !done.has(l.id) && unit.lessons.slice(i + 1).some((n) => !n.mini && done.has(n.id))) done.add(l.id);
+    });
+  }
   const effectiveDone = new Set(done);
   const drillsDone = new Set((state?.drills ?? []).filter((d) => d.completed_at).map((d) => d.drill_id));
   const lessonState = new Map<string, NodeState>();
@@ -140,6 +147,8 @@ export function courseMap(state: LearningState | undefined) {
   return {
     lessonState, drillState, nextDrill, unitTest, nextLesson, pendingTest, done: effectiveDone, passed, activeLevel,
     doneCount: pathLessons.filter((l) => effectiveDone.has(l.id)).length,
+    /** New words learned so far: 10 per full lesson, 4 per short one. */
+    wordCount: pathLessons.filter((l) => effectiveDone.has(l.id)).reduce((n, l) => n + (l.mini ? 4 : 10), 0),
     total: pathLessons.length,
     unitsPassed: path.filter((u) => passed.has(u.id)).length,
     unitsTotal: path.length,

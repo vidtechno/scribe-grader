@@ -18,6 +18,7 @@ import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
 import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
+import { ContinueCard } from '@/features/learn/components/ContinueCard';
 import { GoalStreak } from '@/features/learn/components/GoalStreak';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
@@ -94,7 +95,7 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
           </motion.button>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi. Elementary yoki Pre-Intermediate'ni tanlasangiz, avval oldingi darajalar bo'yicha 20 ta savoldan iborat daraja testidan o'tasiz (70% kerak, 2 ta urinish). O'tmasangiz, Beginner'dan boshlaysiz.</p>
+      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi.</p>
     </div>
   );
 }
@@ -114,8 +115,6 @@ function CourseHome({ state }: { state: LearningState }) {
   const level = levelTab ?? (map.activeLevel as LevelId);
   const startLevel = state.profile?.level ?? 'beginner';
   const shownLevels = LEVELS.filter((l) => l.available && LEVEL_ORDER.indexOf(l.id) >= LEVEL_ORDER.indexOf(startLevel as LevelId) || l.id === level);
-  const drillTitle = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.titleUz : null;
-  const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : null;
   if (placementPending(state)) return <PlacementGate target={(state.profile?.placement_target ?? 'a1') as LevelId} attemptsLeft={Math.max(0, PLACEMENT.attempts - (state.profile?.placement_attempts ?? 0))} />;
 
   return (
@@ -128,15 +127,6 @@ function CourseHome({ state }: { state: LearningState }) {
         <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3.5 py-2 hover:bg-amber-500/20 transition-colors sm:order-last">
           <Trophy className="h-4 w-4" />Reyting
         </Link>
-        {continueTo && !locked && (
-          <Button variant="glow" size="lg" className="gap-3 w-full sm:w-auto sm:max-w-md min-w-0 h-auto py-2.5 px-4 justify-start" onClick={() => navigate(continueTo)}>
-            <Play className="h-5 w-5 fill-current shrink-0" />
-            <span className="flex flex-col items-start text-left leading-tight min-w-0 whitespace-normal">
-              <span className="text-[11px] font-medium opacity-90">{map.nextDrill ? 'Mashq' : map.nextLesson ? 'Davom etish' : 'Bosqich testi'}</span>
-              <span className="font-semibold">{map.nextDrill ? drillTitle : map.nextLesson ? map.nextLesson.titleUz : 'Topshirishga tayyor'}</span>
-            </span>
-          </Button>
-        )}
       </div>
 
       {daysLeft !== null && (
@@ -146,6 +136,7 @@ function CourseHome({ state }: { state: LearningState }) {
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
+      {!locked && <ContinueCard state={state} />}
       {!locked && <GoalStreak state={state} />}
       <SkipIntroBanner state={state} />
 
@@ -154,11 +145,11 @@ function CourseHome({ state }: { state: LearningState }) {
         <StatCard icon={Flame} tone="text-orange-500" label="Streak" value={`${state.streak} kun`} hint={stats.todayDone ? 'Bugungi reja bajarildi ✓' : 'Bugun hali dars qilinmadi'} />
         <StatCard icon={Zap} tone="text-amber-500" label="Jami XP" value={String(state.profile?.xp ?? 0)} hint={`${stats.activeDays} faol kun`} />
         <StatCard icon={Trophy} tone="text-primary" label="Darslar" value={`${map.doneCount} / ${map.total}`} hint={`${map.unitsPassed} / ${map.unitsTotal} bosqich testi`} />
-        <StatCard icon={BookA} tone="text-emerald-500" label="So'zlar" value={String(map.doneCount * 10)} hint={stats.accuracy !== null ? `Aniqlik ${stats.accuracy}% · ${stats.minutes} daq` : 'Birinchi darsdan boshlang'} />
+        <StatCard icon={BookA} tone="text-emerald-500" label="So'zlar" value={String(map.wordCount)} hint={stats.accuracy !== null ? `Aniqlik ${stats.accuracy}% · ${stats.minutes} daq` : 'Birinchi darsdan boshlang'} />
       </section>
 
       <div className="flex gap-2 mb-4 p-1 rounded-xl bg-secondary/60 w-fit">
-        {([['map', "Yo'l xaritasi"], ['words', "Lug'atim"]] as const).map(([id, label]) => (
+        {([['map', 'Mavzular'], ['words', "Lug'atim"]] as const).map(([id, label]) => (
           <button key={id} type="button" onClick={() => setTab(id)}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${tab === id ? 'bg-card shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>{label}</button>
         ))}

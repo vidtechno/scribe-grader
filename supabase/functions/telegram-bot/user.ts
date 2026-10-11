@@ -272,7 +272,7 @@ interface LearningSummary {
 }
 // Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, Elementary 6, Pre-Intermediate 6).
 const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
-  beginner: { name: "Beginner", lessons: 136, units: 17 },
+  beginner: { name: "Beginner", lessons: 43, units: 5 },
   a1: { name: "Elementary (A1)", lessons: 96, units: 12 },
   a2: { name: "Pre-Intermediate (A2)", lessons: 48, units: 6 },
 };
