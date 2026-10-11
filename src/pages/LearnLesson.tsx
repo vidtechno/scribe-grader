@@ -106,7 +106,7 @@ export default function LearnLesson() {
           void recordReview(sessionEvents(results.filter((r) => r.item.ref.type !== 'm')), false).catch(() => {});
           void recordReview(sessionEvents(results.filter((r) => r.item.ref.type === 'm')), false).catch(() => {});
         }} onDone={() => setPhase('slides')} />}
-        {phase === 'slides' && <Slides lesson={lesson} onDone={() => setPhase('words')} />}
+        {phase === 'slides' && <Slides lesson={lesson} onDone={() => setPhase(split.fresh.length ? 'words' : 'practice')} />}
         {phase === 'words' && <Flashcards words={split.fresh} extra={split.extra} onFinish={() => setPhase('practice')} />}
         {phase === 'practice' && <Practice lesson={lesson} fresh={split.fresh} onOutcome={(o) => track.current.outcomes.set(o.own ? `p${o.index}` : `d${track.current.outcomes.size}`, o)} onDone={() => setPhase('quiz')} />}
         {phase === 'quiz' && <Quiz key={`quiz-${started.current}`} lesson={lesson} onOutcome={(o) => track.current.outcomes.set(`q${o.index}`, o)} onDone={(score) => {
@@ -158,7 +158,7 @@ function Intro({ lesson, unitTitle, hasReview, newWords, warmup, onStart }: { le
     hasReview && { icon: RotateCcw, text: "Oldingi darsni qisqa takrorlash" },
     { icon: BookOpenCheck, text: `Mavzu: ${lesson.slides.length} qism, misollar va tekshiruvlar bilan` },
     warmup > 0 && { icon: RotateCcw, text: `Eslab qolish: ${warmup} ta qisqa savol — oldingi so'z va xatolardan` },
-    { icon: Sparkles, text: `${newWords} ta yangi so'z — talaffuzi bilan; qolganlari qisqacha ko'rsatiladi` },
+    newWords > 0 ? { icon: Sparkles, text: `${newWords} ta yangi so'z — talaffuzi bilan; qolganlari qisqacha ko'rsatiladi` } : { icon: Sparkles, text: "Bu darsning so'zlarini avval o'rgangansiz — ular mashqlarda takrorlanadi" },
     { icon: Target, text: `${lesson.practice.length + 5}+ mashq — xatolar qayta beriladi` },
     { icon: Trophy, text: `Yakuniy test: ${lesson.quiz.length} savol, o'tish uchun ${LESSON_PASS_PERCENT}%` },
   ].filter(Boolean) as { icon: typeof Star; text: string }[];
@@ -372,7 +372,7 @@ function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, 
         <p className="font-semibold mb-2.5">📌 Bugun o'rgandingiz</p>
         <ul className="space-y-2">{lesson.summary.map((s, i) => <li key={i} className="text-sm flex gap-2 leading-relaxed"><span className="text-primary">•</span><Md text={s} /></li>)}</ul>
       </div>
-      <div className="glass-card p-5 text-left mb-4">
+      {fresh.length > 0 && <div className="glass-card p-5 text-left mb-4">
         <p className="font-semibold mb-1">🧠 Yodlang: {fresh.length} ta yangi so'z</p>
         <p className="text-xs text-muted-foreground mb-3">Ularni o'zim sizga to'g'ri vaqtda qayta ko'rsataman — shunda uzoq xotiraga o'tadi.</p>
         <div className="grid sm:grid-cols-2 gap-2">
@@ -382,7 +382,7 @@ function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, 
             </div>
           ))}
         </div>
-      </div>
+      </div>}
       {lesson.homework && (
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-left text-sm mb-6"><p className="font-semibold mb-1">🏠 Mustaqil mashq</p><Md text={lesson.homework} /></div>
       )}
