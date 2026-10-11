@@ -85,7 +85,9 @@ export function courseMap(state: LearningState | undefined) {
   // nobody loses finished work. (Only the map is affected; the saved progress is not touched.)
   for (const unit of COURSE_UNITS) {
     unit.lessons.forEach((l, i) => {
-      if (l.mini && !done.has(l.id) && unit.lessons.slice(i + 1).some((n) => !n.mini && done.has(n.id))) done.add(l.id);
+      if (!l.mini || done.has(l.id)) return;
+      const full = unit.lessons.filter((n) => !n.mini);
+      if (unit.lessons.slice(i + 1).some((n) => !n.mini && done.has(n.id)) || full.every((n) => done.has(n.id))) done.add(l.id);
     });
   }
   const effectiveDone = new Set(done);

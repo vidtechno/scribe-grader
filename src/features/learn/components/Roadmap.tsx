@@ -61,7 +61,14 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
             </button>
             {isOpen && (
               <div className="px-3 pb-3 sm:px-4 sm:pb-4">
-                <p className="text-sm text-muted-foreground px-1 mb-2">{unit.description}</p>
+                {unit.learns?.length ? (
+                  <div className="px-1 mb-3">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">Bu mavzuda o'rganasiz</p>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      {unit.learns.map((x) => <li key={x} className="flex gap-2"><Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />{x}</li>)}
+                    </ul>
+                  </div>
+                ) : <p className="text-sm text-muted-foreground px-1 mb-2">{unit.description}</p>}
                 <ul className="divide-y divide-border/60 rounded-xl border border-border/60 overflow-hidden">
                   {unit.lessons.map((l) => {
                     const st = map.lessonState.get(l.id) as NodeState;

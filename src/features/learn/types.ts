@@ -127,6 +127,8 @@ export interface UnitMeta {
   /** Tailwind gradient classes for the unit banner. */
   tone: string;
   lessons: LessonMeta[];
+  /** What this topic teaches, in plain Uzbek: grammar points and situations (shown on the topic card). */
+  learns?: string[];
   /** The level this unit belongs to. */
   level: LevelId;
 }
