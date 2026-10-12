@@ -47,7 +47,8 @@ describe('courseMap with short lessons', () => {
   });
 
   it('a learner in the middle of Unit 3 meets the new lessons and games in order', () => {
-    const m = courseMap({ ...done('u3-l1', 'u3-l2', 'u3-l3'), tests: [{ unit_id: 'u1', passed_at: '2026-10-01' }, { unit_id: 'u2', passed_at: '2026-10-01' }] } as unknown as LearningState);
+    const dr = ['u3-l2-d1', 'u3-l3-d1', 'u3-l3-d2'].map((d) => ({ drill_id: d, best_score: 10, total: 10, stars: 3, attempts: 1, completed_at: '2026-10-01' }));
+    const m = courseMap({ ...done('u3-l1', 'u3-l2', 'u3-l3'), drills: dr, tests: [{ unit_id: 'u1', passed_at: '2026-10-01' }, { unit_id: 'u2', passed_at: '2026-10-01' }] } as unknown as LearningState);
     expect(m.nextLesson?.id).toBe('u3-l13');
   });
 });
