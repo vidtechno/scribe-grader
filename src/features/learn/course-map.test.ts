@@ -8,9 +8,9 @@ const base = { profile: { level: 'beginner', xp: 0, trial_started_at: '', next_l
 const done = (...ids: string[]) => ({ ...base, progress: ids.map((id) => ({ lesson_id: id, best_score: 10, total: 10, stars: 3, attempts: 1, completed_at: '2026-10-01' })) }) as LearningState;
 
 describe('courseMap with short lessons', () => {
-  it('only Beginner is on the course path while the other levels are hidden', () => {
+  it('Beginner and Elementary are on the course path; Pre-Intermediate stays hidden', () => {
     expect(courseMap(base).total).toBeGreaterThan(0);
-    expect(courseMap(base).unitsTotal).toBe(5);
+    expect(courseMap(base).unitsTotal).toBe(11);
   });
 
   it('short lessons stay locked until the lessons before them are done', () => {
@@ -22,6 +22,12 @@ describe('courseMap with short lessons', () => {
   it('a learner who already went past them keeps them as done', () => {
     const m = courseMap(done('u3-l6'));
     for (const id of ['u3-l9', 'u3-l10', 'u3-l11']) expect(m.done.has(id)).toBe(true);
+  });
+
+  it('Elementary short lessons follow the same rule', () => {
+    const m = courseMap(done('u6-l1', 'u6-l8'));
+    expect(m.done.has('u6-l9')).toBe(false);
+    expect(courseMap(done('u6-l1', 'u6-l2', 'u6-l3', 'u6-l4', 'u6-l5', 'u6-l6', 'u6-l7', 'u6-l8')).done.has('u6-l11')).toBe(true);
   });
 
   it('does not mark short lessons done when the next full lesson is not done', () => {
