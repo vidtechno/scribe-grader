@@ -64,7 +64,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'free', uz: "bo'sh, band emas", ipa: 'friː', pos: 'adjective', ex: 'Are you free now?', exUz: "Hozir bandmisiz? (bo'shmisiz?)" },
+    { en: 'free', uz: "bo'sh, band emas", ipa: 'friː', pos: 'adjective', ex: 'Are you free now?', exUz: "Hozir bo'shmisiz?" },
     { en: 'bored', uz: "zerikkan", ipa: 'bɔːd', pos: 'adjective', ex: "No, I'm not bored.", exUz: "Yo'q, zerikkanim yo'q." },
     { en: 'outside', uz: 'tashqarida', ipa: 'ˌaʊtˈsaɪd', pos: 'adverb', ex: 'The children are playing outside.', exUz: 'Bolalar tashqarida o\'ynayapti.' },
     { en: 'inside', uz: 'ichkarida', ipa: 'ˌɪnˈsaɪd', pos: 'adverb', ex: 'Is he sitting inside?', exUz: "U ichkarida o'tiribdimi?" },
@@ -84,7 +84,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: 'Do you working now?', a: ['Are you working now?'], hint: 'Continuous savolini nima tuzadi?', why: "**Are you working?** — do kerak emas." },
     { k: 'fix', wrong: 'Is they sitting inside?', a: ['Are they sitting inside?'], hint: 'they bilan qaysi shakl?', why: "**they → Are**." },
     { k: 'order', uz: 'Nega kulyapsan?', words: ['Why', 'are', 'you', 'laughing'], extra: ['do'], why: "**Why + are + you + -ing?**" },
-    { k: 'translate', uz: 'Siz hozir bandmisiz?', a: ['Are you busy now?', 'Are you busy now', 'Are you busy?', 'Are you free now?', 'Are you free now', 'Are you free?'] },
+    { k: 'translate', uz: "Siz hozir bo'shmisiz?", a: ['Are you free now?', 'Are you free now', 'Are you free?'] },
     { k: 'translate', uz: "Ular tashqarida o'ynayaptimi?", a: ['Are they playing outside?', 'Are they playing outside'] },
     { k: 'speak', say: "Are you working? Yes, I am.", uz: "Savol va javobni ayting" },
   ],

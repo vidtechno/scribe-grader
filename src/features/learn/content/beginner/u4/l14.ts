@@ -65,7 +65,7 @@ const lesson: Lesson = {
     { k: 'choice', q: 'Ruxsat so‘rang: ___ open the window?', opts: ['Can I', 'Do I can', 'I can', 'Can I to'], a: 0, why: "**Can I + fe'l**." },
     { k: 'choice', q: '— Can I borrow your book?  — ___', opts: ['Yes, of course. Here you are.', 'Yes, I borrow.', 'I can borrow.', 'Borrow you.'], a: 0 },
     { k: 'choice', q: '— Can I sit here?  — ___', opts: ["Sorry, you can't. It's Ali's seat.", "Sorry, I can't sit.", 'Yes, I do.', 'Sit I.'], a: 0, why: "Ruxsat savoliga **you** bilan javob." },
-    { k: 'fill', q: 'Can I ___ a glass of water, please?', a: ['have'], uz: 'Bir stakan suv bersangiz.', why: "Iltimos: *Can I **have**…?*" },
+    { k: 'fill', q: 'Can I ___ a glass of water, please?', a: ['have', 'get'], uz: 'Bir stakan suv bersangiz.', why: "Iltimos: *Can I **have**…?*" },
     { k: 'fill', q: 'Can I ___ your phone? Mine is dead.', a: ['use', 'borrow'], uz: 'Telefoningizdan foydalansam bo‘ladimi?' },
     { k: 'order', uz: 'Derazani ochsam bo‘ladimi?', words: ['Can', 'I', 'open', 'the', 'window'], extra: ['to', 'opens'] },
     { k: 'order', uz: 'Shu yerga o‘tirsam bo‘ladimi?', words: ['Can', 'I', 'sit', 'here'], extra: ['do', 'to'] },

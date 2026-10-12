@@ -68,7 +68,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'dish', uz: "idish; taom", ipa: 'dɪʃ', pos: 'noun', ex: 'The dishes are clean.', exUz: 'Idishlar toza.' },
+    { en: 'toy', uz: "o'yinchoq", ipa: 'tɔɪ', pos: 'noun', ex: 'The toys are new.', exUz: "O'yinchoqlar yangi." },
     { en: 'class', uz: 'sinf; dars', ipa: 'klɑːs', pos: 'noun', ex: 'We are in class.', exUz: 'Biz darsdamiz.' },
     { en: 'story', uz: 'hikoya', ipa: 'ˈstɔː.ri', pos: 'noun', ex: 'It is a good story.', exUz: 'Bu yaxshi hikoya.' },
     { en: 'party', uz: 'ziyofat, bazm', ipa: 'ˈpɑː.ti', pos: 'noun', ex: 'The party is at home.', exUz: 'Ziyofat uyda.' },
@@ -85,7 +85,7 @@ const lesson: Lesson = {
     { k: 'listen', say: 'two classes', opts: ['two class', 'two classes', 'two glasses', 'two clashes'], a: 1 },
     { k: 'tf', q: "*shelfs* — to'g'ri ko'plik.", a: false, why: "**shelf → shelves**." },
     { k: 'tf', q: "*photos* — to'g'ri ko'plik.", a: true, why: "*photo* — **-o** bilan tugaydi, lekin **-s** oladi." },
-    { k: 'fix', wrong: 'I have two partys.', a: ['I have two parties.'], why: "**party → parties**." },
+    { k: 'fix', wrong: 'The partys are at home.', a: ['The parties are at home.'], why: "**party → parties**." },
     { k: 'fix', wrong: 'The dishs are clean.', a: ['The dishes are clean.'], why: "**dish → dishes**." },
     { k: 'match', pairs: [['dish', 'dishes'], ['class', 'classes'], ['story', 'stories'], ['shelf', 'shelves'], ['day', 'days']] },
     { k: 'choice', q: "**parties** oxiri qanday o'qiladi?", say: 'parties', opts: ['/s/', '/z/', '/ɪz/'], a: 1, why: "Unli tovushdan keyin → **/z/**." },

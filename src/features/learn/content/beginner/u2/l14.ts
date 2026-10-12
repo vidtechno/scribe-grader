@@ -74,7 +74,7 @@ const lesson: Lesson = {
     { k: 'tf', q: "*ten sheep* — to'g'ri.", a: true, why: "*sheep* ko'plikda o'zgarmaydi." },
     { k: 'fix', wrong: 'My foots are tired.', a: ['My feet are tired.'], why: "**foot → feet**." },
     { k: 'fix', wrong: 'The childs are happy.', a: ['The children are happy.'], why: "**child → children**." },
-    { k: 'match', pairs: [['man', 'men'], ['mouse', 'mice'], ['tooth', 'teeth'], ['person', 'people'], ['sheep', 'sheep']] },
+    { k: 'match', pairs: [['man', 'men'], ['mouse', 'mice'], ['tooth', 'teeth'], ['person', 'people'], ['child', 'children']] },
     { k: 'order', uz: 'Bolalar xursand.', words: ['The', 'children', 'are', 'happy'], extra: ['is', 'childs'], why: "Ko'plik → **are**." },
     { k: 'translate', uz: 'uchta ayol', a: ['three women', '3 women'], why: "**woman → women**." },
     { k: 'translate', uz: 'Odamlar band.', a: ['The people are busy', 'People are busy'], why: "**people** + **are**." },
@@ -84,9 +84,9 @@ const lesson: Lesson = {
     { k: 'choice', q: 'one mouse → two ___', opts: ['mouses', 'mice', 'mouse', 'mices'], a: 1 },
     { k: 'choice', q: 'one person → five ___', opts: ['persons', 'peoples', 'people', 'person'], a: 2 },
     { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ['The men is tired.', 'The men are tired.', 'The mans are tired.', 'The mens are tired.'], a: 1 },
-    { k: 'fill', q: 'one tooth → thirty-two ___', a: ['teeth'] },
+    { k: 'fill', q: 'one tooth → ten ___', a: ['teeth'] },
     { k: 'fill', q: 'one policeman → two ___', a: ['policemen'], why: "**-man → -men**." },
-    { k: 'fix', wrong: 'I have two childs.', a: ['I have two children.'], why: "**child → children**." },
+    { k: 'fix', wrong: 'Two childs are here.', a: ['Two children are here.'], why: "**child → children**." },
     { k: 'translate', uz: 'ikkita qo\'y', a: ['two sheep', '2 sheep'] },
     { k: 'tf', q: "*three geese* — to'g'ri ko'plik.", a: true },
   ],
@@ -96,7 +96,7 @@ const lesson: Lesson = {
     "O'zgarmaydiganlar: **sheep, fish, deer** (*ten sheep*).",
     "**childs, peoples, mans, foots** — mavjud emas. Ko'plikdagi gapda **are**: *The children are happy.*",
   ],
-  homework: "Bu 12 ta so'zdan kartochkalar yasang (birlik bir tomonda, ko'plik boshqa tomonda) va har kuni 2 daqiqa takrorlang.",
+  homework: "Bu darsdagi noto'g'ri ko'pliklardan kartochkalar yasang (birlik bir tomonda, ko'plik boshqa tomonda) va har kuni 2 daqiqa takrorlang.",
 };
 
 export default lesson;

@@ -2,7 +2,7 @@ import { it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-const submitted = vi.hoisted(() => ({ calls: [] as { fn: string; args: Record<string, unknown> }[], pattern: (_n: number) => true, n: 0 }));
+const submitted = vi.hoisted(() => ({ calls: [] as { fn: string; args: Record<string, unknown> }[], pattern: ((_n: number) => true) as (n: number) => boolean, n: 0 }));
 const state = {
   profile: { level: 'beginner', xp: 0, trial_started_at: '', next_lesson_title: null },
   access: { allowed: true, reason: 'paid', plan: 'learn' }, streak: 0, today: '2026-10-11', progress: [], tests: [], activity: [], drills: [],

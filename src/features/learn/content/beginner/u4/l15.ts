@@ -50,7 +50,7 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Mum', en: 'Where are the children? Are they in the garden?', uz: "Bolalar qayerda? Ular bog'dami?" },
           { who: 'Dad', en: "No, they aren't playing in the garden. They are watching TV.", uz: "Yo'q, ular bog'da o'ynamayapti. Televizor ko'rishyapti." },
-          { who: 'Mum', en: "And the dog? It isn't barking.", uz: "Itchi? U akillamayapti." },
+          { who: 'Mum', en: "And the dog? It isn't barking.", uz: "Itimiz-chi? U akillamayapti." },
           { who: 'Dad', en: "It's sleeping next to Anna. She isn't listening to music now.", uz: "U Annaning yonida uxlayapti. Anna hozir musiqa tinglamayapti." },
         ] },
         { t: 'check', ex: { k: 'order', uz: "Ular bog'da o'ynamayapti.", words: ['They', "aren't", 'playing', 'in', 'the', 'garden'], extra: ["don't", 'play'], alt: [['They', 'are', 'not', 'playing', 'in', 'the', 'garden']], why: "**aren't + playing**." } },
