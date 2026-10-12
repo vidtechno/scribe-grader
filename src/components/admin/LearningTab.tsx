@@ -1,5 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Check, Loader2, X } from 'lucide-react';
+import { useState } from 'react';
+import { Award, Check, Loader2, Search, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { adminRpc, LEVEL_LABEL } from './adminApi';
 
 interface Stats {
@@ -45,6 +48,48 @@ function ReportsCard() {
   );
 }
 
+interface CertRow {
+  number: string; level_id: string; full_name: string; percent: number | null; passed_at: string | null; issued_at: string; renamed_at: string | null;
+  user_id: string; email: string; profile_name: string | null; public_id: string | null;
+  all_certificates: { number: string; level_id: string; full_name: string; percent: number | null; passed_at: string | null }[];
+}
+const day = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString('uz-UZ') : '—');
+
+/** Finds a certificate by its number and shows who owns it and every certificate of that account. */
+function CertificateCheck() {
+  const [q, setQ] = useState('');
+  const [rows, setRows] = useState<CertRow[] | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const search = async () => {
+    setBusy(true); setError('');
+    try { setRows(await adminRpc<CertRow[]>('admin_certificate_lookup', { _q: q })); }
+    catch (e) { setError((e as Error).message); } finally { setBusy(false); }
+  };
+  return (
+    <Card title="Sertifikatni tekshirish" subtitle="Sertifikatdagi raqamni kiriting (masalan SC-BEG-K7M2Q9XA). Raqamning bir qismi ham yetadi">
+      <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); void search(); }}>
+        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="SC-BEG-…" className="font-mono" />
+        <Button type="submit" disabled={busy || q.trim().length < 3} className="gap-1.5">{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}Qidirish</Button>
+      </form>
+      {error && <p className="text-sm text-destructive mt-2">{error}</p>}
+      {rows && !rows.length && <p className="text-sm mt-3 rounded-lg bg-destructive/10 text-destructive px-3 py-2">Bunday raqamli sertifikat topilmadi. U soxta bo'lishi mumkin.</p>}
+      {rows?.map((r) => (
+        <div key={r.number} className="mt-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3.5 text-sm">
+          <p className="font-bold flex items-center gap-2"><Award className="h-4 w-4 text-emerald-600" /><span className="font-mono">{r.number}</span> · {LEVEL_LABEL[r.level_id] ?? r.level_id}{r.percent != null ? ` · ${r.percent}%` : ''}</p>
+          <p className="mt-1">Sertifikatdagi ism: <b>{r.full_name}</b>{r.renamed_at ? <span className="text-amber-600"> (ism keyin o'zgartirilgan: {day(r.renamed_at)})</span> : null}</p>
+          <p>Akkaunt: <b>{r.email}</b>{r.public_id ? ` · ID ${r.public_id}` : ''}{r.profile_name && r.profile_name !== r.full_name ? ` · profil: ${r.profile_name}` : ''}</p>
+          <p className="text-muted-foreground">Test o'tilgan: {day(r.passed_at)} · berilgan: {day(r.issued_at)}</p>
+          <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Shu akkauntning barcha sertifikatlari</p>
+          <ul className="mt-1 space-y-0.5">{r.all_certificates.map((c) => (
+            <li key={c.number}><span className="font-mono text-xs">{c.number}</span> · {LEVEL_LABEL[c.level_id] ?? c.level_id}{c.percent != null ? ` · ${c.percent}%` : ''} · {day(c.passed_at)}</li>
+          ))}</ul>
+        </div>
+      ))}
+    </Card>
+  );
+}
+
 export function LearningTab() {
   const { data, isLoading, error } = useQuery({ queryKey: ['admin', 'learning'], queryFn: () => adminRpc<Stats>('admin_learning_stats') });
   if (isLoading) return <div className="grid place-items-center py-24"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>;
@@ -52,6 +97,7 @@ export function LearningTab() {
   const maxLevel = Math.max(1, ...data.levels.map(l => l.n));
   return (
     <div className="grid lg:grid-cols-2 gap-5">
+      <div className="lg:col-span-2"><CertificateCheck /></div>
       <div className="lg:col-span-2"><ReportsCard /></div>
       <Card title="Daraja bo'yicha o'quvchilar" subtitle="Kurs boshlagan foydalanuvchilar hozir qaysi darajada">
         {data.levels.length ? <div className="space-y-2.5">{data.levels.map(l => (

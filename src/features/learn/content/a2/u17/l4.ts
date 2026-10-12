@@ -180,7 +180,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Hello, who's ___?", opts: ["calling", "calls", "call", "called"], a: 0, why: "**Who's calling?** — telefonda kimligini so'rash." },
     { k: "fill", q: "First, ___ on the laptop. Then press the button. (turn / switch)", a: ["turn", "switch"], why: "Buyruq shakli: **turn on** yoki **switch on**." },
     { k: "fill", q: "Have you tried ___ it off and on again? (turn)", a: ["turning"], why: "**try + -ing** — sinab ko'rmoq." },
-    { k: "fill", q: "Sorry, I didn't hear you. Can you ___ that, please?", a: ["repeat", "say"], hint: "takrorlamoq", why: "*Can you repeat that?* / *Can you say that again?*" },
+    { k: "fill", q: "Sorry, I didn't hear you. Can you ___ that, please?", a: ["repeat"], hint: "takrorlamoq", why: "*Can you repeat that?*" },
     { k: "tf", q: "**ASAP** = as soon as possible.", a: true },
     { k: "tf", q: "**Don't to press this button.** — to'g'ri gap.", a: false, why: "**Don't + V1**: *Don't press this button.*" },
     { k: "order", uz: "Avval parolingizni kiriting.", words: ["First", "enter", "your", "password."], extra: ["you", "to"] },

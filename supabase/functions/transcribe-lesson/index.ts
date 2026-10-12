@@ -45,22 +45,32 @@ serve(async (req) => {
     const { error: logError } = await admin.from("api_logs").insert({ user_id: user.id, model_used: "transcribe-lesson", cost: 0 });
     if (logError) throw logError;
 
-    const form = new FormData();
-    form.append("file", audio, audio.name || "speech.webm");
-    form.append("model", "whisper-1");
-    form.append("language", "en");
-    form.append("temperature", "0");
-    form.append("response_format", "verbose_json");
-    // A neutral hint about the kind of audio. The target phrase is deliberately NOT sent: it would pull the
-    // transcript towards what the learner was supposed to say instead of what they said.
-    form.append("prompt", "A language learner says a short English word or sentence.");
-
-    const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
-      method: "POST", signal: AbortSignal.timeout(30_000), headers: { Authorization: `Bearer ${openaiKey}` }, body: form,
-    });
-    if (!response.ok) {
-      console.error("Transcription provider error:", response.status, await response.text());
-      return json(req, { error: "Transcription failed" }, response.status === 429 ? 429 : 502);
+    // whisper-1 gives audio-quality numbers (verbose_json); gpt-4o-mini-transcribe is the fallback when a project
+    // has no access to whisper-1 (it only returns the text).
+    const models = ["whisper-1", "gpt-4o-mini-transcribe"] as const;
+    let response: Response | null = null;
+    let usedModel: (typeof models)[number] = models[0];
+    let lastError = "";
+    for (const model of models) {
+      const form = new FormData();
+      form.append("file", audio, audio.name || "speech.webm");
+      form.append("model", model);
+      form.append("language", "en");
+      form.append("temperature", "0");
+      if (model === "whisper-1") form.append("response_format", "verbose_json");
+      // A neutral hint about the kind of audio. The target phrase is deliberately NOT sent: it would pull the
+      // transcript towards what the learner was supposed to say instead of what they said.
+      form.append("prompt", "A language learner says a short English word or sentence.");
+      const attempt = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+        method: "POST", signal: AbortSignal.timeout(30_000), headers: { Authorization: `Bearer ${openaiKey}` }, body: form,
+      });
+      if (attempt.ok) { response = attempt; usedModel = model; break; }
+      lastError = `${model} ${attempt.status}: ${(await attempt.text()).slice(0, 300)}`;
+      console.error("Transcription provider error:", lastError);
+      if (attempt.status === 429 && lastError.includes("insufficient_quota")) break;
+    }
+    if (!response) {
+      return json(req, { error: "Transcription failed", detail: lastError }, lastError.includes(" 429") ? 429 : 502);
     }
 
     const result = await response.json() as { text?: unknown; duration?: unknown; segments?: unknown };
@@ -71,7 +81,7 @@ serve(async (req) => {
       .map((s: unknown) => (typeof s === "object" && s !== null && key in s ? Number((s as Record<string, unknown>)[key]) : NaN))
       .filter(Number.isFinite);
     const avg = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
-    await logAudioUsage(admin, user.id, "lesson-speaking", "whisper-1", duration);
+    await logAudioUsage(admin, user.id, "lesson-speaking", usedModel, duration);
     return json(req, {
       transcript,
       quality: { duration, avgLogprob: avg(nums("avg_logprob")), noSpeechProbability: avg(nums("no_speech_prob")) },

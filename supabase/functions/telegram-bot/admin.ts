@@ -1,7 +1,7 @@
 // Admin panel inside the bot (Telegram ID 6117815120 and linked site admins).
 import { esc, tg, truncate } from "../_shared/telegram.ts";
 import { isTelegramEmail } from "../_shared/telegram-accounts.ts";
-import { app, band, cb, type Ctx, fmtDate, type InlineKeyboard, PLAN_LABEL, reply, send, setState } from "./ui.ts";
+import { app, band, bar, cb, type Ctx, fmtDate, type InlineKeyboard, PLAN_LABEL, reply, send, setState } from "./ui.ts";
 import { setupBot } from "./setup.ts";
 import { drain } from "./notify.ts";
 
@@ -17,6 +17,7 @@ const AUDIENCES: Record<string, string> = {
   unlinked: "Hisobi ulanmaganlar",
   free: "Free tarifdagilar",
   paid: "Learn / IELTS tarifdagilar",
+  notstarted: "Darslarni hali boshlamaganlar",
 };
 
 const HOME: InlineKeyboard = [[cb("⬅️ Admin panel", "ad:home")]];
@@ -41,30 +42,77 @@ export async function showAdmin(ctx: Ctx) {
 const LEVELS: Record<string, string> = { beginner: "Beginner", a1: "Elementary", a2: "Pre-Intermediate", b1: "Intermediate", b2: "Upper-Int.", c1: "Advanced" };
 const money = (n: number) => `${String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
 
-async function showStats(ctx: Ctx) {
-  const { data, error } = await ctx.db.rpc("telegram_admin_stats");
-  if (error) throw error;
-  const s = data as Record<string, number>;
-  await reply(ctx, [
-    "📊 <b>Bugungi holat</b>\n",
-    "👥 <b>Foydalanuvchilar</b>",
-    `Jami: <b>${s.users_total}</b> · bugun +${s.users_today} · 7 kunda +${s.users_7d} · 30 kunda +${s.users_30d}`,
-    `7 kunda faol: <b>${s.active_7d}</b>`,
-    "\n🎓 <b>O'qish</b>",
-    `Bugun o'qiganlar: <b>${s.learners_today}</b> · tugatilgan darslar: <b>${s.lessons_today}</b>`,
-    `7 kunda tugatilgan darslar: ${s.lessons_7d}`,
-    "\n💎 <b>Tariflar</b>",
-    `Learn: <b>${s.paid_go}</b> · IELTS: <b>${s.paid_plus}</b> · bepul haftada: ${s.trial}`,
-    `7 kunda tugaydi: ${s.expiring_7d}`,
-    "\n🎁 <b>Referal</b>",
-    `Taklif qilinganlar: ${s.ref_invited} · kutilayotgan to'lov: ${s.ref_pending ? `<b>${s.ref_pending}</b> (${money(s.ref_pending_sum)})` : "yo'q"}`,
-    "\n🤖 <b>Bot</b>",
-    `Foydalanuvchilar: ${s.tg_total} (bugun +${s.tg_today}) · hisobi ulangan: ${s.tg_linked}`,
-    `Botni bloklagan: ${s.tg_blocked} · ban: ${s.tg_banned}`,
-    `Bildirishnomalar (24 soat): yuborildi ${s.outbox_sent_24h} · navbatda ${s.outbox_pending} · xato ${s.outbox_failed_24h}`,
-    "\n✍️ <b>IELTS (7 kun)</b>",
-    `Writing: ${s.essays_7d} · Speaking: ${s.speaking_7d}`,
-  ].join("\n"), [[cb("🔄 Yangilash", "ad:stats")], ...HOME]);
+const pct = (a: number, b: number) => (b > 0 ? `${Math.round((a / b) * 100)}%` : "—");
+const num = (n: unknown) => Number(n ?? 0);
+
+/** Bot statistics, one screen per topic: people, learning, funnel, and the older overview of plans, referrals and IELTS. */
+async function showStats(ctx: Ctx, section = "u") {
+  const { data: f, error: fe } = await ctx.db.rpc("telegram_admin_funnel");
+  if (fe) throw fe;
+  const { data: o, error: oe } = await ctx.db.rpc("telegram_admin_stats");
+  if (oe) throw oe;
+  const b = (f ?? {}) as Record<string, number>;
+  const s = (o ?? {}) as Record<string, number>;
+  const nav: InlineKeyboard = [
+    [cb(section === "u" ? "• 👥 Odamlar" : "👥 Odamlar", "ad:stats:u"), cb(section === "l" ? "• 🎓 O'qish" : "🎓 O'qish", "ad:stats:l")],
+    [cb(section === "f" ? "• 🔁 Voronka" : "🔁 Voronka", "ad:stats:f"), cb(section === "o" ? "• 💎 Boshqa" : "💎 Boshqa", "ad:stats:o")],
+    [cb("🔄 Yangilash", `ad:stats:${section}`)],
+    ...HOME,
+  ];
+  let text: string;
+  if (section === "l") {
+    text = [
+      "🎓 <b>O'qish</b> (botga kirganlar orasida)\n",
+      `Darslarni boshlaganlar: <b>${num(b.started)}</b>`,
+      `Hali boshlamaganlar: <b>${num(b.not_started)}</b>`,
+      "",
+      `Bugun dars qilganlar (XP olgan): <b>${num(b.xp_today)}</b>`,
+      `Bugun kamida 1 dars yoki mashqni tugatganlar: <b>${num(b.finished_today)}</b>`,
+      "",
+      `Butun saytda bugun o'qiganlar: ${num(s.learners_today)} · tugatilgan darslar: ${num(s.lessons_today)}`,
+      `7 kunda tugatilgan darslar: ${num(s.lessons_7d)}`,
+    ].join("\n");
+  } else if (section === "f") {
+    text = [
+      "🔁 <b>Voronka</b> (botdan boshlab)\n",
+      `1. Botga kirganlar: <b>${num(b.total)}</b>`,
+      `2. Hisobini ulaganlar: <b>${num(b.linked)}</b> — ${pct(num(b.linked), num(b.total))}`,
+      `3. Darsni boshlaganlar: <b>${num(b.started)}</b> — ${pct(num(b.started), num(b.linked))}`,
+      `4. Bugun o'qiganlar: <b>${num(b.xp_today)}</b> — ${pct(num(b.xp_today), num(b.started))}`,
+      "",
+      `${bar(num(b.linked), num(b.total))} ulanish`,
+      `${bar(num(b.started), num(b.linked))} boshlash`,
+      `${bar(num(b.xp_today), num(b.started))} bugungi faollik`,
+      "",
+      `Hali boshlamaganlar: <b>${num(b.not_started)}</b> (shundan hisobi ulanmagan: ${num(b.total) - num(b.linked)})`,
+    ].join("\n");
+    nav.unshift([cb(`✉️ Boshlamaganlarga xabar yozish (${num(b.not_started)})`, "ad:bc:a:notstarted")]);
+  } else if (section === "o") {
+    text = [
+      "💎 <b>Tariflar</b>",
+      `Learn: <b>${num(s.paid_go)}</b> · IELTS: <b>${num(s.paid_plus)}</b> · bepul haftada: ${num(s.trial)}`,
+      `7 kunda tugaydi: ${num(s.expiring_7d)}`,
+      "\n🎁 <b>Referal</b>",
+      `Taklif qilinganlar: ${num(s.ref_invited)}`,
+      `Kutilayotgan to'lov: ${s.ref_pending ? `<b>${s.ref_pending}</b> (${money(s.ref_pending_sum)})` : "yo'q"}`,
+      "\n🤖 <b>Xabarlar (24 soat)</b>",
+      `Yuborildi: ${num(s.outbox_sent_24h)} · navbatda: ${num(s.outbox_pending)} · xato: ${num(s.outbox_failed_24h)}`,
+      "\n✍️ <b>IELTS (7 kun)</b>",
+      `Writing: ${num(s.essays_7d)} · Speaking: ${num(s.speaking_7d)}`,
+    ].join("\n");
+  } else {
+    text = [
+      "👥 <b>Botga kirganlar</b>\n",
+      `Bugun qo'shilgan: <b>${num(b.today)}</b>`,
+      `Oxirgi 7 kunda: <b>${num(b.d7)}</b>`,
+      `Oxirgi 30 kunda: <b>${num(b.d30)}</b>`,
+      `Jami: <b>${num(b.total)}</b>`,
+      "",
+      `Hisobi ulangan: ${num(b.linked)} · ulanmagan: ${num(b.total) - num(b.linked)}`,
+      `Botni bloklaganlar: ${num(b.blocked)} · ban: ${num(s.tg_banned)}`,
+    ].join("\n");
+  }
+  await reply(ctx, text, nav);
 }
 
 // ---------------------------------------------------------------- broadcasts
@@ -346,7 +394,7 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
   const [, action, a, b] = parts;
   switch (action) {
     case "home": await setState(ctx, null); return showAdmin(ctx);
-    case "stats": return showStats(ctx);
+    case "stats": return showStats(ctx, a || "u");
     case "bc":
       if (a === "a") return askBroadcastMessage(ctx, b);
       if (a === "go") return startBroadcast(ctx);

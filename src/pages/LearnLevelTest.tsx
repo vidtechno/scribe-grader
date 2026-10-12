@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Loader2, PartyPopper, RotateCcw, Trophy } from 'lucide-react';
+import { ArrowLeft, Award, Loader2, PartyPopper, RotateCcw, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
@@ -9,14 +9,21 @@ import { ALL_LESSONS, LEVELS, LEVEL_TEST, levelOf, loadUnit, unitsOf } from '@/f
 import type { Exercise, Lesson, LevelId } from '@/features/learn/types';
 import { callLearning, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { placementQuestions } from '@/features/learn/practice';
+import { CertificateDialog } from '@/features/learn/components/CertificateDialog';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { MistakeReview, TestShell } from '@/features/learn/components/TestShell';
+import { BeginnerExam } from './LearnBeginnerExam';
 
 interface Outcome { passed: boolean; advanced: boolean; next_level: string | null; next_soon: boolean; xp: number }
 
 /** Final test of a level: always open, 20 questions from all of its units, 70% to pass and move on. Retake as often as needed. */
 export default function LearnLevelTest() {
+  const { level } = useParams();
+  return level === 'beginner' ? <BeginnerExam /> : <GenericLevelTest />;
+}
+
+function GenericLevelTest() {
   const navigate = useNavigate();
   const { level: param } = useParams();
   const level = LEVELS.find((l) => l.id === param && l.available)?.id as LevelId | undefined;
@@ -28,6 +35,7 @@ export default function LearnLevelTest() {
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [error, setError] = useState('');
+  const [certificate, setCertificate] = useState(false);
   const audioTexts = useMemo(() => (questions ? questions.flatMap(exerciseAudioTexts) : null), [questions]);
   useLessonAudio(audioTexts, `level-${level}-${questions ? 'q' : ''}`);
   const path = `/learn/level-test/${level}`;
@@ -82,6 +90,9 @@ export default function LearnLevelTest() {
         )}
         <MistakeReview questions={questions} answers={answers} />
         <div className="space-y-2.5 mt-6">
+          {outcome.passed && (
+            <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => setCertificate(true)}><Award className="h-4 w-4" />Sertifikatni olish</Button>
+          )}
           {!outcome.passed && (
             <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => { setOutcome(null); setQuestions(null); setAnswers([]); setI(0); }}><RotateCcw className="h-4 w-4" />Qayta urinish</Button>
           )}
@@ -89,6 +100,7 @@ export default function LearnLevelTest() {
             {outcome.passed && outcome.advanced && nextLevel ? `${nextLevel.title} darslariga o'tish` : "Kursga qaytish"}
           </Button>
         </div>
+        {certificate && <CertificateDialog levelId={level} onClose={() => setCertificate(false)} />}
       </div>,
     );
   }

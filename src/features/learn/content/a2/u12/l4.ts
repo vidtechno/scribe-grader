@@ -89,7 +89,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "A surprise in the market",
           en: "Last Saturday Aziz was walking through the bazaar in Samarkand when he heard someone shout his name. He turned around and saw his old teacher, Mr Karimov. While they were talking, it started to rain, so they ran into a small teahouse. They sat down and ordered tea. While they were waiting for the tea, Mr Karimov showed Aziz some photos on his phone. Suddenly Aziz saw a picture of himself at school! He was laughing so loudly that everybody looked at him. It was a lovely afternoon.",
-          uz: "O'tgan shanba kuni Aziz Samarqanddagi bozor bo'ylab yurib ketayotgan edi, birdan kimdir uning ismini baqirganini eshitdi. U orqasiga o'girilib, eski ustozi janob Karimovni ko'rdi. Ular gaplashib turganda yomg'ir yog'a boshladi, shuning uchun kichik choyxonaga yugurib kirishdi. O'tirib, choy buyurtma qilishdi. Choyni kutayotganlarida janob Karimov Azizga telefonidan bir nechta suratni ko'rsatdi. Birdan Aziz maktabdagi o'z suratini ko'rdi! U shunchalik baland kulayotgan ediki, hamma unga qaradi. Ajoyib tush o'tdi.",
+          uz: "O'tgan shanba kuni Aziz Samarqanddagi bozor bo'ylab yurib ketayotgan edi, birdan kimdir uning ismini baqirganini eshitdi. U orqasiga o'girilib, eski ustozi janob Karimovni ko'rdi. Ular gaplashib turganda yomg'ir yog'a boshladi, shuning uchun kichik choyxonaga yugurib kirishdi. O'tirib, choy buyurtma qilishdi. Choyni kutayotganlarida janob Karimov Azizga telefonidan bir nechta suratni ko'rsatdi. Birdan Aziz maktabdagi o'z suratini ko'rdi! U shunchalik baland kulayotgan ediki, hamma unga qaradi. Ajoyib kun o'tdi.",
         },
         { t: "tip", tone: "info", md: "Matnda har bir **uzun ish** (*was walking, were talking, were waiting*) ga **qisqa voqea** (*heard, started, showed, saw*) to'g'ri keladi. Topib ko'ring!" },
         { t: "check", ex: { k: "tf", q: "Aziz and Mr Karimov were sitting in the teahouse when it started to rain.", a: false, why: "Yomg'ir yog'a boshlaganda ular **gaplashib turishgan edi** (*While they were talking*), keyin choyxonaga yugurib kirishdi." } },
@@ -103,7 +103,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Nilufar", en: "Why are you limping, Kamol? What happened?", uz: "Nega oqsayapsan, Kamol? Nima bo'ldi?" },
             { who: "Kamol", en: "I fell off my bike. I was riding to work when a dog ran across the road.", uz: "Velosipeddan yiqildim. Ishga ketayotgan edim, it yo'lni kesib o'tib qoldi." },
-            { who: "Nilufar", en: "Oh no! Were you going fast?", uz: "Voy-voy! Tez ketayotgan eding-mi?" },
+            { who: "Nilufar", en: "Oh no! Were you going fast?", uz: "Voy-voy! Tez ketayotgan edingmi?" },
             { who: "Kamol", en: "Not really, but I wasn't looking at the road. I was checking my phone!", uz: "Unchalik emas, lekin yo'lga qaramayotgan edim. Telefonimni tekshirayotgan edim!" },
             { who: "Nilufar", en: "That was silly. Did anybody help you?", uz: "Bu ahmoqlik bo'libdi. Kimdir yordam berdimi?" },
             { who: "Kamol", en: "Yes. While I was lying there, a kind woman stopped and called an ambulance.", uz: "Ha. Men yerda yotganimda, mehribon bir ayol to'xtab, tez yordam chaqirdi." },
@@ -139,7 +139,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**When I was seeing the accident, I called the police.** — to'g'ri gap.", a: false, why: "**see** — qisqa voqea: *When I **saw** the accident, I called the police.*" },
     { k: "tf", q: "**While Aziz was cooking, Laylo was setting the table.** — ikkala ish bir vaqtda.", a: true },
     { k: "order", uz: "Telefon jiringlaganda men dush qabul qilayotgan edim.", words: ["I", "was", "taking", "a", "shower", "when", "the", "phone", "rang."], extra: ["took", "were"], alt: [["When", "the", "phone", "rang,", "I", "was", "taking", "a", "shower."]] },
-    { k: "translate", uz: "Men uyga ketayotganimda, Lailoni ko'rdim.", a: ["While I was walking home, I saw Laylo.", "While I was going home, I saw Laylo.", "I was walking home when I saw Laylo.", "I was going home when I saw Laylo.", "When I was walking home, I saw Laylo.", "When I was going home, I saw Laylo."] },
+    { k: "translate", uz: "Men uyga ketayotganimda, Layloni ko'rdim.", a: ["While I was walking home, I saw Laylo.", "While I was going home, I saw Laylo.", "I was walking home when I saw Laylo.", "I was going home when I saw Laylo.", "When I was walking home, I saw Laylo.", "When I was going home, I saw Laylo."] },
     { k: "speak", say: "I was walking to work when I met my old teacher.", uz: "Ishga ketayotib, eski ustozimni uchratdim." },
   ],
   quiz: [
@@ -151,7 +151,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I ___ my keys while I was running for the bus. (lose)", a: ["lost"], why: "Qisqa voqea → **lost**." },
     { k: "listen", say: "They were talking when the teacher came in.", opts: ["They were talking when the teacher came in.", "They talked when the teacher was coming in.", "They were talking when the teacher is coming in."], a: 0 },
     { k: "tf", q: "**When I arrived, they were having dinner.** — ular men kelganimda allaqachon ovqatlanayotgan edi.", a: true },
-    { k: "order", uz: "U yurib ketayotganda qo'ng'iroq qildi.", words: ["He", "called", "while", "I", "was", "walking."], extra: ["were", "walked"], alt: [["While", "I", "was", "walking,", "he", "called."]] },
+    { k: "order", uz: "Men yurib ketayotganimda u qo'ng'iroq qildi.", words: ["He", "called", "while", "I", "was", "walking."], extra: ["were", "walked"], alt: [["While", "I", "was", "walking,", "he", "called."]] },
     { k: "translate", uz: "Ular choy ichib o'tirganda, yomg'ir yog'a boshladi.", a: ["It started to rain while they were drinking tea.", "While they were drinking tea, it started to rain.", "It started raining while they were drinking tea.", "When they were drinking tea, it started to rain.", "It started to rain when they were drinking tea."] },
   ],
   summary: [

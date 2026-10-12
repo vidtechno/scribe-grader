@@ -96,7 +96,7 @@ const lesson: Lesson = {
           t: "table", head: ["Turi", "Misol", "Qoida"], speak: [1],
           rows: [
             ["Sanaladigan", "an apple, two eggs, three samsas", "a / an, -s, many, a few"],
-            ["Sanalmaydigan", "some rice, a little sugar, much water", "-s yo'q, much, a little"],
+            ["Sanalmaydigan", "some rice, a little sugar, not much water", "-s yo'q, much, a little"],
             ["Taklif", "Would you like some tea?", "taklifda **some**"],
             ["Inkor / savol", "There isn't any bread. Is there any soup?", "**any**"],
           ],

@@ -14,7 +14,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "When I was a child, I lived in Andijan.", uz: "Bolaligimda Andijonda yashadim." },
             { en: "I lived in Andijan when I was a child.", uz: "Andijonda bolaligimda yashadim. (xuddi shu ma'no)" },
-            { en: "When it rains, we stay at home.", uz: "Yomg'ir yoqqanda uyda qolamiz." },
+            { en: "When it rains, we stay at home.", uz: "Yomg'ir yog'ganda uyda qolamiz." },
             { en: "My phone rang when I was in the shower.", uz: "Dush qabul qilayotganimda telefonim jiringladi." },
           ],
         },

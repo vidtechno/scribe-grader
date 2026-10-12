@@ -76,7 +76,14 @@ export interface Lesson {
   goal: Md;
   /** Theory, explained step by step with examples and quick checks. */
   slides: Slide[];
-  /** Exactly 10 words to learn by heart. */
+  /**
+   * A short focused lesson (5–10 minutes): one situation or one skill, 3–5 new words, fewer exercises. Used for
+   * life-situation and consolidation lessons that sit between the big grammar lessons.
+   */
+  mini?: true;
+  /** Same as the `kind` of its LessonMeta in course.ts (grammar, situation, review or skill). */
+  kind?: 'grammar' | 'situation' | 'review' | 'skill';
+  /** Exactly 10 words to learn by heart (3–7 in a `mini` lesson). */
   words: Word[];
   /** Guided practice: mistakes come back until they are fixed. */
   practice: Exercise[];
@@ -88,10 +95,34 @@ export interface Lesson {
   homework?: Md;
 }
 
+/**
+ * A practice game that follows a hard lesson. It has no theory: only exercises. Finishing it is required to move on
+ * (learning_complete_drill in the database). Its id is "<lesson id>-d<n>", e.g. "u2-l2-d1".
+ */
+/** What a practice drill is, shown on its card: a game (reinforces) or a topic mastery check. */
+export type GameKind =
+  | 'word-match' | 'sentence-builder' | 'grammar-detective' | 'listening' | 'memory-review' | 'conversation'
+  | 'speed-round' | 'fill-gap' | 'odd-one-out' | 'mini-boss' | 'mastery';
+
+export interface Drill {
+  id: string;
+  /** Short English name, e.g. "Am, is or are?". */
+  title: string;
+  titleUz: string;
+  /** What this game trains, one Uzbek sentence. */
+  goal: Md;
+  /** 10–12 exercises, easy first. No `speak`. */
+  exercises: Exercise[];
+}
+
 export interface LessonMeta {
   id: string;
   title: string;
   titleUz: string;
+  /** Short situation / consolidation lesson. Counts as done for learners who already went past it. */
+  mini?: true;
+  /** What kind of step it is, shown in the topic list. */
+  kind?: 'grammar' | 'situation' | 'review' | 'skill';
 }
 
 export interface UnitMeta {
@@ -103,6 +134,8 @@ export interface UnitMeta {
   /** Tailwind gradient classes for the unit banner. */
   tone: string;
   lessons: LessonMeta[];
+  /** What this topic teaches, in plain Uzbek: grammar points and situations (shown on the topic card). */
+  learns?: string[];
   /** The level this unit belongs to. */
   level: LevelId;
 }

@@ -14,7 +14,7 @@ interface OutboxItem {
 
 type Delivery =
   | { text: string; keyboard?: InlineKeyboard; preview?: string }
-  | { copy: { from_chat_id: number; message_id: number } };
+  | { copy: { from_chat_id: number; message_id: number }; keyboard?: InlineKeyboard };
 
 const money = (n: number) => `${String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
 
@@ -160,11 +160,15 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       };
     }
     case "broadcast": {
+      // Messages to people who have not started learning carry a start button and an easy way to stop reminders.
+      const nudge: InlineKeyboard | undefined = p.audience === "notstarted"
+        ? [[app("▶️ Darsni boshlash", "/learn")], [cb("🔕 Eslatmalarni o'chirish", "s:rm:off")]]
+        : undefined;
       if (p.kind === "copy" && typeof p.from_chat_id === "number" && typeof p.message_id === "number") {
-        return { copy: { from_chat_id: p.from_chat_id, message_id: p.message_id } };
+        return { copy: { from_chat_id: p.from_chat_id, message_id: p.message_id }, keyboard: nudge };
       }
       if (p.kind === "text" && typeof p.text === "string") {
-        return { text: p.text, keyboard: [[app("🌐 Scorify'ni ochish", "/dashboard")]] };
+        return { text: p.text, keyboard: nudge ?? [[app("🌐 Scorify'ni ochish", "/dashboard")]] };
       }
       return null;
     }
@@ -184,7 +188,7 @@ async function deliver(db: Db, item: OutboxItem): Promise<boolean> {
       return false;
     }
     if ("copy" in d) {
-      await tg("copyMessage", { chat_id: item.telegram_id, ...d.copy });
+      await tg("copyMessage", { chat_id: item.telegram_id, ...d.copy, ...(d.keyboard ? { reply_markup: { inline_keyboard: d.keyboard } } : {}) });
     } else {
       await tg("sendMessage", {
         chat_id: item.telegram_id, text: d.text, parse_mode: "HTML",

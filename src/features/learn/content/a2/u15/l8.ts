@@ -180,7 +180,7 @@ const lesson: Lesson = {
     { k: "choice", q: "\"Doktor: What's the matter?\" Qaysi javob mos?", opts: ["I've got a sore throat.", "I am sore throat.", "I have sore throat.", "Throat me hurts."], a: 0, why: "**I've got a sore throat.**" },
     { k: "choice", q: "Mehmonga choy taklif qilasiz:", opts: ["Would you like some tea?", "Do you like some tea?", "You want tea?", "Shall you tea?"], a: 0, why: "**Would you like some tea?**" },
     { k: "choice", q: "\"Out of order\" belgisi:", opts: ["Ishlamaydi.", "Navbat bilan.", "Kirish.", "Tez yuring."], a: 0, why: "**Out of order** = buzilgan." },
-    { k: "fill", q: "The bank is ___ the pharmacy. They are side by side. (yonida)", a: ["next to"], why: "**next to** = yonida." },
+    { k: "fill", q: "The bank is ___ the pharmacy. They are side by side. (yonida)", a: ["next to", "beside"], why: "**next to** = yonida." },
     { k: "fill", q: "If I ___ you, I'd see a doctor.", a: ["were"], why: "**If I were you…**" },
     { k: "tf", q: "**You mustn't pay** = To'lashingiz shart emas.", a: false, why: "mustn't = taqiq; shart emas = *don't have to*." },
     { k: "listen", say: "You should drink plenty of water.", opts: ["You should drink plenty of water.", "You shouldn't drink plenty of water.", "You should drink plenty of wine."], a: 0 },

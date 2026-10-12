@@ -7,6 +7,8 @@ import { TASK2 } from './_lib/data-task2.js';
 import { TASK1 } from './_lib/data-task1.js';
 import { VOCAB } from './_lib/data-vocab.js';
 import { listPosts } from './_lib/posts.js';
+import { courseHub, levelBySlug, levelPage, lessonPage } from './_lib/course-pages.js';
+import { englishLanding, guideBySlug, guideHub, guidePage, topicBySlug, wordsHub, wordsPage } from './_lib/learn-pages.js';
 import { renderChart } from './_lib/charts.js';
 import type { CueCard, Part1Topic, Task1Page, Task2Question, Vocab, VocabPage } from './_lib/types.js';
 
@@ -232,6 +234,16 @@ export default async function handler(req: IncomingMessage, res: ServerResponse 
       case 'wt1': { if (!slug) return send(res, 200, task1Hub()); const t = TASK1.find(x => x.slug === slug); return t ? send(res, 200, await task1Page(t)) : missing(); }
       case 'vocab': { if (!slug) return send(res, 200, vocabHub()); const v = VOCAB.find(x => x.slug === slug); return v ? send(res, 200, await vocabPage(v)) : missing(); }
       case 'calc': return send(res, 200, await calculator());
+      case 'course': return send(res, 200, courseHub());
+      case 'level': { const l = levelBySlug(url.searchParams.get('level')); if (!l) return missing(); return send(res, 200, levelPage(l)); }
+      case 'lesson': {
+        const l = levelBySlug(url.searchParams.get('level'));
+        const x = l?.units.flatMap(u => u.lessons).find(y => y.slug === slug);
+        return l && x ? send(res, 200, lessonPage(l, x)) : missing();
+      }
+      case 'guide': { if (!slug) return send(res, 200, guideHub()); const g = guideBySlug(slug); return g ? send(res, 200, guidePage(g)) : missing(); }
+      case 'words': { if (!slug) return send(res, 200, wordsHub()); const t = topicBySlug(slug); return t ? send(res, 200, wordsPage(t)) : missing(); }
+      case 'en-learn': return send(res, 200, englishLanding());
       default: return missing();
     }
   } catch (e) {

@@ -61,7 +61,7 @@ const lesson: Lesson = {
             ["the same **as**", "Your bag is the same as mine.", "Sening sumkang meniknidek (bir xil)."],
             ["the same + ot + as", "We are the same age as our cousins.", "Biz amakivachchalarimiz bilan tengdoshmiz."],
             ["different **from**", "My opinion is different from yours.", "Mening fikrim seniknidan farq qiladi."],
-            ["similar **to**", "Her dress is similar to mine.", "Uning ko'ylagi meniknaga o'xshash."],
+            ["similar **to**", "Her dress is similar to mine.", "Uning ko'ylagi menikiga o'xshash."],
           ],
         },
         {

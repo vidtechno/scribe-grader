@@ -13,6 +13,13 @@ describe('answer checking', () => {
     expect(checkTyped('I am a student!', ["I'm a student", 'I am a student']).correct).toBe(true);
   });
 
+  it('treats contractions and their long forms as the same answer', () => {
+    expect(checkTyped('She is an old woman', ["She's an old woman"]).correct).toBe(true);
+    expect(checkTyped("They don't drink tea", ['They do not drink tea']).correct).toBe(true);
+    expect(checkTyped('I will not tell anyone', ["I won't tell anyone"]).correct).toBe(true);
+    expect(checkTyped('We are glad', ["She's happy"]).correct).toBe(false);
+  });
+
   it('accepts one typo only in longer answers and reports it', () => {
     expect(checkTyped('umbrela', ['umbrella'])).toMatchObject({ correct: true, typo: true });
     expect(checkTyped('cot', ['cat']).correct).toBe(false);

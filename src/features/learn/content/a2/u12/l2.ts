@@ -156,7 +156,7 @@ const lesson: Lesson = {
     { en: "recently", uz: "yaqinda, ko'p o'tmay", ipa: "ˈriːsntli", pos: "adverb", ex: "I moved to a new flat recently.", exUz: "Yaqinda yangi kvartiraga ko'chdim." },
     { en: "last night", uz: "kecha kechqurun", ipa: "lɑːst naɪt", pos: "phrase", ex: "I slept badly last night.", exUz: "Kecha yomon uxladim." },
     { en: "the day before yesterday", uz: "avvalgi kuni (kechadan oldingi kun)", ipa: "ðə deɪ bɪˈfɔː ˈjestədeɪ", pos: "phrase", ex: "We met the day before yesterday.", exUz: "Biz avvalgi kuni uchrashdik." },
-    { en: "a long time ago", uz: "anchadan beri, ancha oldin", ipa: "ə lɒŋ taɪm əˈɡəʊ", pos: "phrase", ex: "That happened a long time ago.", exUz: "Bu ancha oldin bo'lgan." },
+    { en: "a long time ago", uz: "ancha oldin", ipa: "ə lɒŋ taɪm əˈɡəʊ", pos: "phrase", ex: "That happened a long time ago.", exUz: "Bu ancha oldin bo'lgan." },
     { en: "during", uz: "davomida", ipa: "ˈdjʊərɪŋ", pos: "preposition", ex: "I fell asleep during the film.", exUz: "Film paytida uxlab qoldim." },
     { en: "all day", uz: "kun bo'yi", ipa: "ɔːl deɪ", pos: "phrase", ex: "It rained all day yesterday.", exUz: "Kecha kun bo'yi yomg'ir yog'di." },
     { en: "remember", uz: "eslamoq, yodda tutmoq", ipa: "rɪˈmembə", pos: "verb", ex: "I don't remember his name.", exUz: "Uning ismini eslay olmayapman." },

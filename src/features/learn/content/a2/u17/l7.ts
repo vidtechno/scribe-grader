@@ -145,7 +145,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**I look forward to hear from you.** — to'g'ri.", a: false, why: "To'g'risi: *I look forward to **hearing** from you.*" },
     { k: "order", uz: "Sizni tug'ilgan kunimga taklif qilmoqchiman.", words: ["Would", "you", "like", "to", "come", "to", "my", "birthday", "party?"], extra: ["coming", "will"] },
     { k: "translate", uz: "Taklifingiz uchun rahmat! Bajonidil kelaman.", a: ["Thank you for the invitation! I'd love to come.", "Thanks for the invitation! I'd love to come.", "Thank you for the invitation! I would love to come.", "Thanks for the invitation! I would love to come.", "Thanks for inviting me! I'd love to come.", "Thank you for inviting me! I'd love to come."] },
-    { k: "translate", uz: "Iltimos, payshanbagacha javob bering.", a: ["Please reply by Thursday.", "Please reply me by Thursday.", "Please answer by Thursday.", "Please reply to me by Thursday."] },
+    { k: "translate", uz: "Iltimos, payshanbagacha javob bering.", a: ["Please reply by Thursday.", "Please answer by Thursday.", "Please reply to me by Thursday."] },
     { k: "speak", say: "I am writing to apply for the position of receptionist. I look forward to hearing from you.", uz: "Resepshnist lavozimiga murojaat qilish uchun yozyapman. Sizdan javob kutaman." },
   ],
   quiz: [

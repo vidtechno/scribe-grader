@@ -7,5 +7,9 @@ import l5 from './l5';
 import l6 from './l6';
 import l7 from './l7';
 import l8 from './l8';
+import l9 from './l9';
+import l10 from './l10';
+import l11 from './l11';
 
-export const lessons: Lesson[] = [l1, l2, l3, l4, l5, l6, l7, l8];
+export const lessons: Lesson[] = [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11];
+export { drills } from './drills';

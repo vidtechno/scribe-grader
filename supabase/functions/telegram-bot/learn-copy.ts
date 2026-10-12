@@ -16,32 +16,33 @@ export const pick = <T>(items: T[], v: number): T => items[Math.abs(Math.trunc(v
 const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ""));
 
 const MORNING = [
-  "☀️ Xayrli tong! Ingliz tili 10 daqiqa kutyapti — choy yonida boshlaymizmi?",
-  "🌤 Salom! Bugungi dars hali yo'q. Birinchi qadam eng oson — bir bosish yetadi.",
-  "☕️ Tong, choy, bitta dars. Yaxshi uchlik, shunday emasmi?",
-  "🌱 Yangi kun — yangi 10 ta so'z. Ularni siz olmasangiz, kim oladi?",
-  "🐦 Erta turgan ingliz so'zini yutadi (maqol shunday emas, lekin bo'lishi kerak edi).",
+  "☀️😄 Xayrli tong! Ingliz tili 10 daqiqa kutyapti — choy yonida boshlaymizmi?",
+  "🌤😊 Salom! Bugungi dars hali yo'q. Birinchi qadam eng oson — bir bosish yetadi 😁",
+  "☕️😃 Tong, choy, bitta dars. Yaxshi uchlik, shunday emasmi? 🤭",
+  "🌱😆 Yangi kun — yangi 10 ta so'z. Ularni siz olmasangiz, kim oladi?",
+  "🐦😄 Erta turgan ingliz so'zini yutadi (maqol shunday emas, lekin bo'lishi kerak edi) 😂",
 ];
+// Tone by time of day: morning cheerful, noon a little hurt, evening angry (a learner who has not studied yet today).
 const AFTERNOON = [
-  "🕑 Tushlikdan keyin miyaga ozgina ingliz tili — hazmga ham foydasi bor 😄",
-  "📚 Kun yarmi o'tdi, dars esa hali boshlanmadi. 10 daqiqa topamizmi?",
-  "⚡️ Qisqa tanaffus? Bitta dars — uzog'i bilan 10 daqiqa.",
-  "🧠 So'zlar o'z-o'zidan yodlanmaydi, afsuski. Lekin dars bilan — yodlanadi!",
-  "🍎 Telefonda lenta o'rniga bitta dars? Miyangiz rahmat aytadi.",
+  "😔 Tushdan keyin ham dars yo'q. Ertalab reja tuzgan edingiz-ku... 10 daqiqa topa olmayapsizmi?",
+  "🥺 Kun yarmi o'tdi, ingliz tili esa hali sizni kutyapti. Shunchalik band emassiz-ku?",
+  "😞 «Keyin qilaman» deganlar odatda kechqurun ham shuni deydi. Hozir bitta dars qilsangiz-chi.",
+  "😒 Telefonda lenta aylantirishga vaqt bor, darsga esa yo'q. Hozir 10 daqiqa — va ko'nglim joyiga tushadi.",
+  "😕 Bugun natija hali nol. Shu holat davom etsa, ertaga ham nol bo'ladi.",
 ];
 const EVENING_STREAK = [
-  "🔥 {streak} kunlik streak xavfda! Hozir bitta dars — va u saqlanadi. Aks holda... qiyin bo'ladi 😤",
-  "⏰ Kun tugashiga oz qoldi. Streakingiz ({streak} kun) sizdan ko'zini uzmayapti 👀",
-  "😬 Streak {streak} kun... Uni bugun yo'qotmaymiz, to'g'rimi? Bitta dars yetadi.",
-  "🚨 Oxirgi ogohlantirish! (Yolg'on, lekin streak rostan ham uzilishi mumkin.)",
-  "🕙 {streak} kunlik mehnat bir daqiqada yo'qolmasin. Bitta dars — va tinch uxlaysiz.",
+  "😡 {streak} kunlik streak o'chib ketyapti! Hozir bitta dars qiling, bo'lmasa hammasi behuda ketadi!",
+  "🤬 Kun tugayapti, {streak} kunlik mehnat esa xavfda! Bitta dars, hoziroq!",
+  "😤 {streak} kun ketma-ket o'rgandingiz, endi bugun bo'sh qoldirmoqchimisiz? Yo'q! Bitta dars qiling!",
+  "👿 Streak {streak} kun... Uni bugun yo'qotsangiz, o'zingizni kechirmaysiz. Hoziroq darsga!",
+  "💢 {streak} kunlik yutuq bir dars uchun yo'qolmasin! Telefonni oling va boshlang!",
 ];
 const EVENING_PLAIN = [
-  "🌙 Kun tugayapti, dars esa hali yo'q. Telefon qo'lingizda — bitta dars yetadi!",
-  "😏 Ertaga ham «bugun vaqtim bo'lmadi» deymizmi? Keling, hozir 10 daqiqa.",
-  "📖 Yotishdan oldin bitta dars — uyqudan ham foydali (deyarli) 😴",
-  "💪 Bugunni bo'sh qoldirmaylik. Bitta dars — va kun hisobga o'tadi!",
-  "🎯 Bugungi maqsad hali bajarilmadi. Hali kech emas — o'ylamasdan boshlang!",
+  "😡 Bugun ingliz tiliga bir daqiqa ham bermadingiz. Ertaga ham shu bo'lsa, o'rganishingiz to'xtagan hisoblanadi. Hozir bitta dars!",
+  "🤬 Kun tugadi, dars esa yo'q! Hamma o'rganmoqda, siz esa eslatmalarni o'qiyapsiz xolos. Bitta dars qiling!",
+  "😤 Bugungi sahifa bo'm-bo'sh. 10 daqiqa topmasangiz, bu kun hisobga o'tmaydi. Hozir boshlang!",
+  "👿 Yana «vaqtim bo'lmadi» deysizmi? Yo'q! Telefon qo'lingizda — bitta dars bilan boshlang.",
+  "💢 Oxirgi marta aytaman: bugun bitta dars. Hoziroq. Keyin uxlaysiz.",
 ];
 const COMEBACK = [
   "👋 {idle} kundan beri ko'rinmayapsiz. Hammasi joyidami? Ingliz tili sizni sog'indi 🥺",

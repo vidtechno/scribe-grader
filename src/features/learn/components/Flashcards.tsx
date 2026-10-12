@@ -11,7 +11,8 @@ export function Flashcards({ words, extra = [], onFinish }: { words: Word[]; ext
   const [showExtra, setShowExtra] = useState(false);
   const [shown, setShown] = useState(false);
   const w = words[i];
-  useEffect(() => { setShown(false); void speak(w.en); }, [w]);
+  useEffect(() => { setShown(false); if (w) void speak(w.en); else onFinish(); }, [w]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (!w) return null;
   const last = i === words.length - 1;
   if (showExtra) {
     return (

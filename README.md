@@ -45,7 +45,10 @@ Server-rendered pages from Vercel serverless functions (`api/*.ts`), cached at t
 
 - `api/blog.ts`: blog hub, posts and RSS (posts live in the `blog_posts` table).
 - `api/seo.ts`: programmatic hubs and topic pages: Writing Task 2 questions, Task 1 samples (SVG charts from `api/_lib/charts.ts`), Speaking Part 1/2/3, vocabulary by topic and the band score calculator.
-- `api/sitemap.ts`: sitemap of ~166 URLs including blog posts.
+- `api/_lib/course-pages.ts`: public course pages in Uzbek (`/ingliz-tili-darslari`, levels, 136 lessons) generated from `data-course.ts` (`npx tsx scripts/build-course-seo.ts`).
+- `api/_lib/learn-pages.ts`: learning SEO that feeds the course: Uzbek grammar guides `/ingliz-tili-qoidalari` (`data-learn-guides.ts`, 15 guides), topic word lists `/inglizcha-sozlar` (`data-learn-words.ts`, 11 topics with IPA) and the English landing `/learn-english-from-uzbek` (hreflang pair with the Uzbek course hub). Checked by `src/test/learn-seo.test.ts`.
+- `api/sitemap.ts`: sitemap of ~335 URLs (course, guides, word lists, IELTS pages, blog posts).
+- Home page title and JSON-LD are brand-first ("Scorify.uz — Ingliz tili darslari...", WebSite name `Scorify` with alternate names) to win branded searches.
 - Data lives in `api/_lib/data-*.ts`; integrity is checked by `src/test/seo-data.test.ts` and `faq.test.ts`.
 - JSON-LD (Article/BlogPosting, FAQPage, BreadcrumbList), hreflang, Open Graph images, noindex headers for app pages (see `vercel.json`).
 

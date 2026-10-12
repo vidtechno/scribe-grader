@@ -86,14 +86,27 @@ const keyOf = (text: string) => text.toLowerCase();
 let manifestPromise: Promise<Set<string>> | null = null;
 let manifestSet: Set<string> | null = null;
 function loadManifest(): Promise<Set<string>> {
-  manifestPromise ??= fetch('/audio/manifest.json')
-    .then((r) => (r.ok ? r.json() : { keys: [] }))
-    .then((m: { keys?: string[] }) => new Set(m.keys ?? []))
-    .catch(() => new Set<string>())
-    .then((set) => { manifestSet = set; return set; });
+  manifestPromise ??= fetchManifest();
   return manifestPromise;
 }
-const hosted = (text: string) => manifestSet?.has(audioKey(text)) ?? false;
+/** A slow or failed manifest must not turn every phrase into the device voice: retry, and keep trying on later taps. */
+async function fetchManifest(): Promise<Set<string>> {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const r = await fetch('/audio/manifest.json');
+      if (r.ok) {
+        const m = (await r.json()) as { keys?: string[] };
+        manifestSet = new Set(m.keys ?? []);
+        return manifestSet;
+      }
+    } catch { /* offline for a moment: try again */ }
+    await sleep(500 * (attempt + 1));
+  }
+  manifestPromise = null;
+  return new Set<string>();
+}
+/** Unknown manifest = try our own file anyway; it falls back to the other sources if the file is missing. */
+const hosted = (text: string) => (manifestSet ? manifestSet.has(audioKey(text)) : true);
 
 function disposeClip(c: Clip) {
   try { c.audio.pause(); c.audio.removeAttribute('src'); c.audio.load(); } catch { /* already gone */ }
@@ -156,8 +169,11 @@ function getClips(text: string): Promise<Clip[] | null> {
     let list: Clip[] | null = null;
     await loadManifest();
     if (hosted(text)) {
-      const clip = makeClip(`/audio/${audioKey(text)}.mp3`);
-      list = (await clip.whenReady) ? [clip] : (disposeClip(clip), null);
+      // One more try before giving up on our own recording: a slow network is not a missing file.
+      for (let attempt = 0; attempt < 2 && !list; attempt++) {
+        const clip = makeClip(`/audio/${audioKey(text)}.mp3`);
+        list = (await clip.whenReady) ? [clip] : (disposeClip(clip), null);
+      }
     }
     if (!list && SINGLE_WORD.test(text)) {
       const url = await dictionaryUrl(text);

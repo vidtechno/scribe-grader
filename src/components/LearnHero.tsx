@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Clock, Compass, Flame, GraduationCap, Lock, Play, Target, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { courseMap, learningStats, placementPending, trialDaysLeft, useLearningState } from '@/features/learn/api';
-import { levelOf } from '@/features/learn/course';
+import { ALL_LESSONS, COURSE_UNITS, levelOf, unitNo } from '@/features/learn/course';
 
 /** The dashboard's main card: where the learner is in the English course and the one button that continues it. */
 export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
@@ -67,9 +67,13 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
       : info?.at_risk ? `Streak ${info.current} kun — ${info.days_left <= 1 ? 'bugun oxirgi kun, bir dars qiling' : 'bir dars qilsangiz, davom etadi'}`
       : `Bugungi maqsad: ${goal} XP (~${Math.max(5, Math.round(goal / 3))} daqiqa)`;
   const pct = map.total ? Math.round((map.doneCount / map.total) * 100) : 0;
-  const continueTo = map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
-  const heading = locked ? "Bepul davr tugadi" : map.nextLesson ? map.nextLesson.titleUz : map.pendingTest ? 'Bosqich testi tayyor' : "Hozircha mavjud darslar tugadi";
-  const kicker = locked ? 'Natijalaringiz saqlangan' : map.nextLesson ? (stats.todayDone ? 'Yana bitta dars?' : 'Keyingi dars') : 'Bosqich testi';
+  const drillTitle = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.titleUz : null;
+  const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
+  const heading = locked ? "Bepul davr tugadi" : map.nextDrill ? `Mashq: ${drillTitle}` : map.nextLesson ? map.nextLesson.titleUz : map.pendingTest ? 'Bosqich testi tayyor' : "Hozircha mavjud darslar tugadi";
+  const topic = COURSE_UNITS.find((u) => u.id === (map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.unitId : map.nextLesson?.unitId ?? map.pendingTest?.id));
+  const last = [...state.progress].filter((p) => p.completed_at).sort((a, b) => (b.completed_at! > a.completed_at! ? 1 : -1))
+    .map((p) => ALL_LESSONS.find((l) => l.id === p.lesson_id)).find(Boolean);
+  const kicker = locked ? 'Natijalaringiz saqlangan' : map.nextDrill ? 'Keyingi dars ochilishi uchun mashq' : map.nextLesson ? (stats.todayDone ? 'Yana bitta dars?' : 'Keyingi dars') : 'Bosqich testi';
 
   return (
     <div className={shell}>
@@ -85,6 +89,7 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{kicker}</p>
             <h2 className="text-xl sm:text-2xl font-extrabold leading-tight mt-0.5">{heading}</h2>
+            {!locked && topic && <p className="text-xs opacity-90 mt-1">{unitNo(topic)}-mavzu: {topic.titleUz}{last ? ` · oxirgi tugatilgan: ${last.titleUz}` : ''}</p>}
             <div className="mt-3 flex items-center gap-3">
               <div className="h-2.5 flex-1 rounded-full bg-white/25 overflow-hidden"><div className="h-full rounded-full bg-white transition-all" style={{ width: `${pct}%` }} /></div>
               <span className="text-xs font-semibold whitespace-nowrap">{map.doneCount}/{map.total} dars</span>

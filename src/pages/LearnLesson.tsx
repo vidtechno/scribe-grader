@@ -7,10 +7,11 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
-import { ALL_LESSONS, COURSE_UNITS, LESSON_MENTOR_ENABLED, LESSON_PASS_PERCENT, levelOf, loadLesson } from '@/features/learn/course';
+import { ALL_LESSONS, COURSE_UNITS, LESSON_CHECK_QUESTIONS, LESSON_COMPLETE_PERCENT, LESSON_MENTOR_ENABLED, drillIds, levelOf, loadLesson } from '@/features/learn/course';
 import type { Exercise, Lesson } from '@/features/learn/types';
 import { callLearning, courseMap, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { reviewQuestions, wordDrills } from '@/features/learn/practice';
+import { shuffle } from '@/features/learn/check';
 import { lessonAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { BlockView } from '@/features/learn/components/BlockView';
@@ -106,11 +107,13 @@ export default function LearnLesson() {
           void recordReview(sessionEvents(results.filter((r) => r.item.ref.type !== 'm')), false).catch(() => {});
           void recordReview(sessionEvents(results.filter((r) => r.item.ref.type === 'm')), false).catch(() => {});
         }} onDone={() => setPhase('slides')} />}
-        {phase === 'slides' && <Slides lesson={lesson} onDone={() => setPhase('words')} />}
+        {phase === 'slides' && <Slides lesson={lesson} onDone={() => setPhase(split.fresh.length ? 'words' : 'practice')} />}
         {phase === 'words' && <Flashcards words={split.fresh} extra={split.extra} onFinish={() => setPhase('practice')} />}
         {phase === 'practice' && <Practice lesson={lesson} fresh={split.fresh} onOutcome={(o) => track.current.outcomes.set(o.own ? `p${o.index}` : `d${track.current.outcomes.size}`, o)} onDone={() => setPhase('quiz')} />}
-        {phase === 'quiz' && <Quiz key={`quiz-${started.current}`} lesson={lesson} onOutcome={(o) => track.current.outcomes.set(`q${o.index}`, o)} onDone={(score) => {
-          setResult({ score, total: lesson.quiz.length, seconds: Math.round((Date.now() - started.current) / 1000) });
+        {phase === 'quiz' && <Quiz key={`quiz-${started.current}`} lesson={lesson} onOutcome={(o) => track.current.outcomes.set(`q${o.index}`, o)} onDone={() => {
+          // The lesson score is the first-try accuracy over the guided practice and the quick check together.
+          const own = [...track.current.outcomes.values()].filter((o) => o.own);
+          setResult({ score: own.filter((o) => o.correct).length, total: Math.max(1, own.length), seconds: Math.round((Date.now() - started.current) / 1000) });
           setPhase('result');
         }} />}
         {phase === 'result' && result && (
@@ -158,9 +161,9 @@ function Intro({ lesson, unitTitle, hasReview, newWords, warmup, onStart }: { le
     hasReview && { icon: RotateCcw, text: "Oldingi darsni qisqa takrorlash" },
     { icon: BookOpenCheck, text: `Mavzu: ${lesson.slides.length} qism, misollar va tekshiruvlar bilan` },
     warmup > 0 && { icon: RotateCcw, text: `Eslab qolish: ${warmup} ta qisqa savol — oldingi so'z va xatolardan` },
-    { icon: Sparkles, text: `${newWords} ta yangi so'z — talaffuzi bilan; qolganlari qisqacha ko'rsatiladi` },
-    { icon: Target, text: `${lesson.practice.length + 5}+ mashq — xatolar qayta beriladi` },
-    { icon: Trophy, text: `Yakuniy test: ${lesson.quiz.length} savol, o'tish uchun ${LESSON_PASS_PERCENT}%` },
+    newWords > 0 ? { icon: Sparkles, text: `${newWords} ta yangi so'z — talaffuzi bilan; qolganlari qisqacha ko'rsatiladi` } : { icon: Sparkles, text: "Bu darsning so'zlarini avval o'rgangansiz — ular mashqlarda takrorlanadi" },
+    { icon: Target, text: `${lesson.practice.length}+ mashq — xatolar qayta beriladi` },
+    { icon: Trophy, text: `Oxirida ${LESSON_CHECK_QUESTIONS} ta tezkor tekshiruv savoli. Mavzu testi esa mavzu tugagach bo'ladi` },
   ].filter(Boolean) as { icon: typeof Star; text: string }[];
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
@@ -176,7 +179,7 @@ function Intro({ lesson, unitTitle, hasReview, newWords, warmup, onStart }: { le
           <li key={i} className="flex items-center gap-3 text-sm"><span className="w-8 h-8 rounded-lg bg-primary/10 text-primary grid place-items-center"><it.icon className="h-4 w-4" /></span>{it.text}</li>
         ))}
       </ul>
-      <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" />Taxminan 15–25 daqiqa. Shoshilmang — har bir misolni tinglab, ovoz chiqarib takrorlang.</p>
+      <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" />{lesson.mini ? 'Taxminan 5–12 daqiqa.' : 'Taxminan 15–25 daqiqa.'} Shoshilmang — har bir misolni tinglab, ovoz chiqarib takrorlang.</p>
       <Button size="lg" variant="glow" className="w-full text-base" onClick={onStart}>Darsni boshlash</Button>
     </motion.div>
   );
@@ -287,28 +290,41 @@ function Practice({ lesson, fresh, onOutcome, onDone }: { lesson: Lesson; fresh:
   );
 }
 
+/** A few quick questions at the end of a lesson: a check, not a final exam (mastery tests come after the topic). */
+function pickCheck(quiz: Exercise[], count: number): { ex: Exercise; index: number }[] {
+  const pool = quiz.map((ex, index) => ({ ex, index })).filter((q) => q.ex.k !== 'match' && q.ex.k !== 'speak');
+  const picked: { ex: Exercise; index: number }[] = [];
+  for (const q of shuffle(pool)) {
+    if (picked.length >= count) break;
+    if (picked.some((p) => p.ex.k === q.ex.k) && picked.length < pool.length - 1 && pool.some((o) => !picked.some((p) => p.ex.k === o.ex.k) && o !== q)) continue;
+    picked.push(q);
+  }
+  return picked.length ? picked : pool.slice(0, count);
+}
+
 function Quiz({ lesson, onOutcome, onDone }: { lesson: Lesson; onOutcome: (o: Outcome) => void; onDone: (score: number) => void }) {
   const [i, setI] = useState(-1);
   const [score, setScore] = useState(0);
+  const questions = useMemo(() => pickCheck(lesson.quiz, LESSON_CHECK_QUESTIONS), [lesson]);
   if (i < 0) {
     return (
       <div className="text-center py-6">
         <Trophy className="h-12 w-12 text-amber-500 mx-auto mb-3" />
-        <h2 className="text-2xl font-bold mb-2">Yakuniy test</h2>
-        <p className="text-muted-foreground mb-6 max-w-sm mx-auto">{lesson.quiz.length} ta savol. Darsni tugatish uchun kamida {LESSON_PASS_PERCENT}% to'g'ri javob kerak. Bu safar xatolar qayta berilmaydi — diqqat bilan!</p>
-        <Button size="lg" variant="glow" onClick={() => setI(0)}>Testni boshlash</Button>
+        <h2 className="text-2xl font-bold mb-2">Tezkor tekshiruv</h2>
+        <p className="text-muted-foreground mb-6 max-w-sm mx-auto">{questions.length} ta qisqa savol — darsda o'rganganingizni tekshiramiz. Bu katta test emas: mavzu testi mavzu tugagach bo'ladi. Xatolaringiz keyin takrorlashda qaytadi.</p>
+        <Button size="lg" variant="glow" onClick={() => setI(0)}>Boshlash</Button>
       </div>
     );
   }
-  const ex = lesson.quiz[i];
+  const q = questions[i];
   return (
     <div>
-      <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground"><span>Test · {i + 1} / {lesson.quiz.length}</span><span>✓ {score}</span></div>
-      <ExerciseView key={i} ex={ex} mode="quiz" onDone={(c) => {
+      <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground"><span>Tekshiruv · {i + 1} / {questions.length}</span><span>✓ {score}</span></div>
+      <ExerciseView key={i} ex={q.ex} mode="quiz" onDone={(c) => {
         const s = score + (c ? 1 : 0);
         setScore(s);
-        onOutcome({ ex, section: 'q', index: i, correct: c, own: true });
-        if (i + 1 >= lesson.quiz.length) onDone(s); else setI(i + 1);
+        onOutcome({ ex: q.ex, section: 'q', index: q.index, correct: c, own: true });
+        if (i + 1 >= questions.length) onDone(s); else setI(i + 1);
       }} />
     </div>
   );
@@ -323,7 +339,7 @@ function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, 
   const [error, setError] = useState('');
   const sent = useRef(false);
   const pct = Math.round((score / total) * 100);
-  const passed = pct >= LESSON_PASS_PERCENT;
+  const passed = pct >= LESSON_COMPLETE_PERCENT;
 
   useEffect(() => {
     if (sent.current) return;
@@ -351,7 +367,7 @@ function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, 
       </div>
       <h2 className="text-2xl font-extrabold mb-1">{passed ? 'Dars tugatildi!' : 'Yana bir urinish kerak'}</h2>
       <p className="text-muted-foreground mb-5">
-        {passed ? `Test natijasi: ${score} / ${total} (${pct}%)` : `Natija ${score} / ${total} (${pct}%). O'tish uchun ${LESSON_PASS_PERCENT}% kerak — mashqni yana bir bor ishlab, testni qayta topshiring.`}
+        {passed ? `Dars natijasi: ${score} / ${total} (${pct}%) — birinchi urinishdagi to'g'ri javoblar` : `Natija ${score} / ${total} (${pct}%). Darsni hisoblash uchun kamida ${LESSON_COMPLETE_PERCENT}% kerak — mashqni yana bir bor ishlab chiqing.`}
       </p>
       <div className="grid grid-cols-3 gap-2.5 mb-6">
         <Stat icon={Zap} label="XP" value={saved ? `+${saved.xp}` : '…'} />
@@ -372,7 +388,7 @@ function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, 
         <p className="font-semibold mb-2.5">📌 Bugun o'rgandingiz</p>
         <ul className="space-y-2">{lesson.summary.map((s, i) => <li key={i} className="text-sm flex gap-2 leading-relaxed"><span className="text-primary">•</span><Md text={s} /></li>)}</ul>
       </div>
-      <div className="glass-card p-5 text-left mb-4">
+      {fresh.length > 0 && <div className="glass-card p-5 text-left mb-4">
         <p className="font-semibold mb-1">🧠 Yodlang: {fresh.length} ta yangi so'z</p>
         <p className="text-xs text-muted-foreground mb-3">Ularni o'zim sizga to'g'ri vaqtda qayta ko'rsataman — shunda uzoq xotiraga o'tadi.</p>
         <div className="grid sm:grid-cols-2 gap-2">
@@ -382,20 +398,22 @@ function Result({ lesson, fresh, score, total, seconds, next, unitLast, unitId, 
             </div>
           ))}
         </div>
-      </div>
+      </div>}
       {lesson.homework && (
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-left text-sm mb-6"><p className="font-semibold mb-1">🏠 Mustaqil mashq</p><Md text={lesson.homework} /></div>
       )}
 
       <div className="space-y-2.5">
         {passed ? (
-          unitLast ? (
+          drillIds(lesson.id).length ? (
+            <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate(`/learn/drill/${drillIds(lesson.id)[0]}`)}><Zap className="h-4 w-4" />Mashqqa o'tish ({drillIds(lesson.id).length} ta)</Button>
+          ) : unitLast ? (
             <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/test/${unitId}`)}>Bosqich testiga o'tish</Button>
           ) : next ? (
             <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/lesson/${next.id}`)}>Keyingi dars: {next.titleUz}</Button>
           ) : null
         ) : (
-          <Button size="lg" variant="glow" className="w-full gap-2" onClick={onRetry}><RotateCcw className="h-4 w-4" />Mashq va testni qayta ishlash</Button>
+          <Button size="lg" variant="glow" className="w-full gap-2" onClick={onRetry}><RotateCcw className="h-4 w-4" />Mashqni qayta ishlash</Button>
         )}
         <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Yo'l xaritasiga</Button>
       </div>
