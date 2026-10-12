@@ -366,5 +366,10 @@
         }
       ]
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "claude/*": false
+    }
+  }
 }
