@@ -3,8 +3,8 @@
 // loaded per unit, so the roadmap stays light.
 import type { Drill, Lesson, LevelId, UnitMeta } from './types';
 
-/** Elementary (A1) is hidden while Beginner is being rebuilt. Set to true to open it again; the lessons stay in place. */
-const A1_OPEN = false;
+/** Elementary (A1) is open. Set to false to hide it again without touching the lessons. */
+const A1_OPEN = true;
 /** Pre-Intermediate (A2) is hidden too. Set to true to open it again. */
 const A2_OPEN = false;
 
@@ -121,8 +121,9 @@ export const BEGINNER_UNITS: UnitMeta[] = [
 // Elementary (A1): 6 units × 8 lessons, written in content/a1.
 export const A1_UNITS: UnitMeta[] = [
   {
-    id: "u6", n: 6, level: 'a1', title: "People & Places", titleUz: "Odamlar va joylar",
+    id: "u6", n: 6, level: 'a1', title: "People & Places", titleUz: "Odamlar va joylar: tasvirlash, egalik, yo'l so'rash",
     description: "Tanishuv, odamlarni tasvirlash, mine / yours, tartib sonlar va sanalar, uy, shahar va yo'l so'rash, a / the.",
+    learns: ["Tanishuv va qisqa suhbat, odamlarni tashqi ko'rinishi va xarakteri bo'yicha tasvirlash", "Egalik olmoshlari: mine, yours… va Whose?", "Tartib sonlar va sanalar", "Uy, xonalar, shahar va yo'l so'rash/ko'rsatish", "Artikllar: a / an / the", "Vaziyat: yangi qo'shni, shaharda yo'l so'rash"],
     tone: "from-indigo-500 to-blue-400",
     lessons: [
       { id: "u6-l1", title: "Nice to meet you!", titleUz: "Tanishuv va qisqa suhbat" },
@@ -133,11 +134,15 @@ export const A1_UNITS: UnitMeta[] = [
       { id: "u6-l6", title: "My home", titleUz: "Mening uyim: xonalar va jihozlar" },
       { id: "u6-l7", title: "In town: asking the way", titleUz: "Shaharda: yo'l so'rash va ko'rsatish" },
       { id: "u6-l8", title: "a / an / the / no article", titleUz: "Artikllar: a / an / the yoki artiklsiz" },
+      { id: "u6-l9", title: "Meeting a new neighbour", titleUz: "Yangi qo'shni bilan tanishuv", mini: true, kind: 'situation' },
+      { id: "u6-l10", title: "Lost in the city: asking the way", titleUz: "Shaharda adashdim: yo'l so'rash", mini: true, kind: 'situation' },
+      { id: "u6-l11", title: "People and places: final review", titleUz: "Odamlar va joylar: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u7", n: 7, level: 'a1', title: "Work & Free Time", titleUz: "Ish va bo'sh vaqt",
+    id: "u7", n: 7, level: 'a1', title: "Work & Free Time", titleUz: "Ish va bo'sh vaqt: yoqtirish, rejalar, takliflar",
     description: "Kasblar, like / love / hate + -ing, ravishlar, play / go / do, rejalar, would like, takliflar, soat va jadval.",
+    learns: ["Kasblar va ish joylari; like / love / hate + -ing", "Ravishlar (quickly, well, hard); play / go / do bilan sport va hobbi", "Rejalar: Present Continuous; would like va takliflar", "Soat va jadval; How often / How long savollari", "Vaziyat: do'stlar bilan uchrashuv, taklif va rad etish"],
     tone: "from-pink-500 to-rose-400",
     lessons: [
       { id: "u7-l1", title: "Jobs & workplaces", titleUz: "Kasblar va ish joylari" },
@@ -148,11 +153,15 @@ export const A1_UNITS: UnitMeta[] = [
       { id: "u7-l6", title: "would like & invitations", titleUz: "would like, taklif qilish va javob berish" },
       { id: "u7-l7", title: "Time & timetables", titleUz: "Soat, jadval: from… to, until, before, after" },
       { id: "u7-l8", title: "Questions: How often? How long?…", titleUz: "Savollar: How often, How long, How far…" },
+      { id: "u7-l9", title: "At a party: hobbies and free time", titleUz: "Ziyofatda: hobbi va bo'sh vaqt", mini: true, kind: 'situation' },
+      { id: "u7-l10", title: "Making plans with a friend", titleUz: "Do'st bilan reja tuzish", mini: true, kind: 'situation' },
+      { id: "u7-l11", title: "Work and free time: final review", titleUz: "Ish va bo'sh vaqt: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u8", n: 8, level: 'a1', title: "Food & Shopping", titleUz: "Ovqat va xarid",
+    id: "u8", n: 8, level: 'a1', title: "Food & Shopping", titleUz: "Ovqat va xarid: miqdor, narx, buyurtma",
     description: "Ovqat, idishlar (a cup of…), a few / a little, narx va pul, kafeda buyurtma, kiyim do'koni, retsept, should, qiyoslash.",
+    learns: ["Ovqat va o'lchovlar: a cup of, a bottle of…", "Miqdor: a lot of, a few, a little, no; narx va How much?", "Kafe va kiyim do'konida muloyim muloqot", "Retsept: first, then, finally; should / shouldn't", "Qiyoslash: better, the best, as… as", "Vaziyat: bozor, restoran, kechki ovqat rejasi"],
     tone: "from-orange-500 to-amber-400",
     lessons: [
       { id: "u8-l1", title: "Food & containers: a cup of…", titleUz: "Ovqat va o'lchovlar: a cup of, a bottle of…" },
@@ -163,11 +172,15 @@ export const A1_UNITS: UnitMeta[] = [
       { id: "u8-l6", title: "Recipes: first, then, finally", titleUz: "Retsept: first, then, after that, finally" },
       { id: "u8-l7", title: "Healthy habits: should / shouldn't", titleUz: "Sog'lom odatlar: should / shouldn't" },
       { id: "u8-l8", title: "Comparing: better, the best, as… as", titleUz: "Qiyoslash: better, the best, as… as" },
+      { id: "u8-l9", title: "At the market: quantities and prices", titleUz: "Bozorda: miqdor va narx", mini: true, kind: 'situation' },
+      { id: "u8-l10", title: "Planning a dinner: shopping list and recipe", titleUz: "Kechki ovqat rejasi: ro'yxat va retsept", mini: true, kind: 'situation' },
+      { id: "u8-l11", title: "Food and shopping: final review", titleUz: "Ovqat va xarid: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u9", n: 9, level: 'a1', title: "Stories from the Past", titleUz: "O'tmishdan hikoyalar",
+    id: "u9", n: 9, level: 'a1', title: "Stories from the Past", titleUz: "O'tmishdan hikoyalar: Past Simple chuqurroq",
     description: "Past Simple chuqurroq: ago / last, yangi noto'g'ri fe'llar, Wh-savollar, there was, could, tarjimai hol, hikoya qilish.",
+    learns: ["Vaqt so'zlari: yesterday, last, ago", "Noto'g'ri fe'llar (3 va 4-qism)", "O'tgan zamonda Wh-savollar; there was / were, could", "Hayot yo'li va hikoya qilish: and, but, so, because", "Ta'til va transport", "Vaziyat: dam olish kunim, o'tgan yozgi sayohat"],
     tone: "from-teal-500 to-emerald-400",
     lessons: [
       { id: "u9-l1", title: "Yesterday, last week, two days ago", titleUz: "O'tgan zamon vaqt so'zlari: ago, last, yesterday" },
@@ -178,11 +191,15 @@ export const A1_UNITS: UnitMeta[] = [
       { id: "u9-l6", title: "Telling a story: and, but, so, because", titleUz: "Hikoya qilish: and, but, so, because" },
       { id: "u9-l7", title: "Holidays & transport", titleUz: "Ta'til va transport: by bus, on foot" },
       { id: "u9-l8", title: "Irregular verbs 4", titleUz: "Noto'g'ri fe'llar 4 va o'tgan zamon takrori" },
+      { id: "u9-l9", title: "My weekend: telling a friend", titleUz: "Dam olish kunim: do'stga hikoya", mini: true, kind: 'situation' },
+      { id: "u9-l10", title: "A trip last summer", titleUz: "O'tgan yozgi sayohat", mini: true, kind: 'situation' },
+      { id: "u9-l11", title: "Stories from the past: final review", titleUz: "O'tmishdan hikoyalar: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u10", n: 10, level: 'a1', title: "Travel & Health", titleUz: "Sayohat va sog'liq",
+    id: "u10", n: 10, level: 'a1', title: "Travel & Health", titleUz: "Sayohat va sog'liq: will, going to, have to, must",
     description: "Ob-havo, aeroport va vokzal, mehmonxona, Could I…?, will yoki going to, kasallik va maslahat, have to, must.",
+    learns: ["Ob-havo, vokzal, aeroport va mehmonxonada: Can / Could I…?", "will yoki going to", "Sog'liq: What's the matter? Maslahat berish", "Majburiyat: have to / don't have to; qoidalar: must / mustn't", "Xabar va xat yozish", "Vaziyat: mehmonxonani band qilish, dorixona va shifokor"],
     tone: "from-cyan-500 to-sky-400",
     lessons: [
       { id: "u10-l1", title: "What's the weather like?", titleUz: "Ob-havo va fasllar" },
@@ -193,11 +210,15 @@ export const A1_UNITS: UnitMeta[] = [
       { id: "u10-l6", title: "have to / don't have to", titleUz: "Majburiyat: have to / don't have to" },
       { id: "u10-l7", title: "must / mustn't: rules & signs", titleUz: "Qoidalar: must / mustn't" },
       { id: "u10-l8", title: "Writing a message or email", titleUz: "Xabar va xat yozish" },
+      { id: "u10-l9", title: "Booking a hotel room", titleUz: "Mehmonxona xonasini band qilish", mini: true, kind: 'situation' },
+      { id: "u10-l10", title: "At the pharmacy and the doctor", titleUz: "Dorixona va shifokorda", mini: true, kind: 'situation' },
+      { id: "u10-l11", title: "Travel and health: final review", titleUz: "Sayohat va sog'liq: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u11", n: 11, level: 'a1', title: "Experiences", titleUz: "Tajribalar va yakun",
+    id: "u11", n: 11, level: 'a1', title: "Experiences", titleUz: "Tajribalar va yakun: Present Perfect va barcha zamonlar",
     description: "Present Perfect bilan tanishuv, ever / never, been / gone, fe'l + to / -ing, harakat predloglari, phrasal verbs, A1 yakuniy takrori.",
+    learns: ["Present Perfect: Have you ever…? been / gone", "Present Perfect yoki Past Simple?", "Harakat predloglari, fe'l + to / -ing, gaplarni bog'lash", "Kundalik phrasal verbs", "Elementary yakuniy takrori: barcha zamonlar", "Vaziyat: suhbatda tajriba almashish"],
     tone: "from-purple-500 to-violet-400",
     lessons: [
       { id: "u11-l1", title: "Have you ever…?", titleUz: "Present Perfect: Have you ever…?" },
@@ -208,6 +229,9 @@ export const A1_UNITS: UnitMeta[] = [
       { id: "u11-l6", title: "when, before, after, or", titleUz: "Gaplarni bog'lash: when, before, after, or" },
       { id: "u11-l7", title: "Everyday phrasal verbs", titleUz: "Kundalik phrasal verbs: get up, put on…" },
       { id: "u11-l8", title: "A1 review: all the tenses", titleUz: "A1 yakuniy takrori: barcha zamonlar" },
+      { id: "u11-l9", title: "Sharing experiences: have you ever…?", titleUz: "Tajriba almashish: Have you ever…?", mini: true, kind: 'situation' },
+      { id: "u11-l10", title: "Mixed conversations: real-life situations", titleUz: "Aralash suhbatlar: hayotiy vaziyatlar", mini: true, kind: 'situation' },
+      { id: "u11-l11", title: "Elementary: final review", titleUz: "Elementary: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
 ];

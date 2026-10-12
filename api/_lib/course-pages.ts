@@ -8,8 +8,8 @@ import { WORD_TOPICS } from './data-learn-words.js';
 
 export const COURSE_BASE = '/ingliz-tili-darslari';
 
-// Only Beginner is open on the site for now; Elementary and Pre-Intermediate pages come back when those levels open.
-const OPEN_LEVELS = new Set(['beginner']);
+// Beginner and Elementary are open; Pre-Intermediate pages come back when that level opens.
+const OPEN_LEVELS = new Set(['beginner', 'elementary']);
 const COURSE = ALL_COURSE.filter(l => OPEN_LEVELS.has(l.slug));
 
 type LevelInfo = { h1: string; lead: string; who: string; after: string[]; metaTitle: string; metaDesc: string };

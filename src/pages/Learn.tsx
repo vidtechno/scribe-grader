@@ -95,7 +95,7 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
           </motion.button>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi.</p>
+      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi. Elementary'ni tanlasangiz, avval oldingi darajadan 20 ta savollik daraja testidan o'tasiz (70% kerak, 2 ta urinish); o'tmasangiz, Beginner'dan boshlaysiz.</p>
     </div>
   );
 }

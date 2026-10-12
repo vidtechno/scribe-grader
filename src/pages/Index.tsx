@@ -8,7 +8,7 @@ import { SEOHead } from '@/components/SEOHead';
 import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
-import { BEGINNER_UNITS } from '@/features/learn/course';
+import { BEGINNER_UNITS, A1_UNITS } from '@/features/learn/course';
 import { motion } from 'framer-motion';
 import {
   BookOpen, Check, CheckCircle, ChevronRight, Flame, Gift, GraduationCap, Headphones, Mic, PenLine, Repeat, Send, Sparkles, Trophy, Volume2, Zap,
@@ -39,7 +39,7 @@ function StickyCta() {
 }
 
 const FAQ: { q: string; a: string }[] = [
-  { q: "Ingliz tilini umuman bilmasam ham boshlay olamanmi?", a: "Ha. Kurs alifbo va tovushlardan boshlanadi (Beginner), keyingi darajalar bosqichma-bosqich qo'shiladi. Darslar o'zbek tilida tushuntiriladi." },
+  { q: "Ingliz tilini umuman bilmasam ham boshlay olamanmi?", a: "Ha. Kurs alifbo va tovushlardan boshlanadi (Beginner), keyin Elementary (A1) davom etadi, keyingi darajalar bosqichma-bosqich qo'shiladi. Darslar o'zbek tilida tushuntiriladi." },
   { q: "Bir kunda qancha vaqt kerak?", a: "Bitta dars taxminan 10 daqiqa. Kunlik maqsadni o'zingiz belgilaysiz, streak esa har kuni o'qisangiz o'sib boradi." },
   { q: "7 kunlik bepul davrda nima bor?", a: "Har bir yangi hisobga 7 kun Learn to'liq ochiq: barcha darslar, talaffuz, lug'at va takrorlash tizimi. Karta kerak emas." },
   { q: "Narxi qancha va qanday to'layman?", a: "Learn — oyiga 49 000 so'm, IELTS — oyiga 129 000 so'm. 6 oyga birdan to'lasangiz 10% chegirma. To'lov Telegram orqali @scorify_support ga yoziladi, tasdiqlangach tarif yoqiladi." },
@@ -61,6 +61,8 @@ export default function Index() {
   const counts = useMemo(() => ({
     beginnerUnits: BEGINNER_UNITS.length,
     beginnerLessons: BEGINNER_UNITS.reduce((n, u) => n + u.lessons.length, 0),
+    a1Units: A1_UNITS.length,
+    a1Lessons: A1_UNITS.reduce((n, u) => n + u.lessons.length, 0),
   }), []);
 
   const steps = [
@@ -81,6 +83,7 @@ export default function Index() {
 
   const levels = [
     { title: 'Beginner', tag: 'Noldan', units: counts.beginnerUnits, lessons: counts.beginnerLessons, text: "Alifbo, tovushlar, salomlashish, sonlar va birinchi so'zlar.", tone: 'from-rose-500 to-orange-400' },
+    { title: 'Elementary', tag: 'A1', units: counts.a1Units, lessons: counts.a1Lessons, text: "O'zingiz haqingizda gapirish, kundalik suhbat va asosiy zamonlar.", tone: 'from-indigo-500 to-blue-400' },
   ];
 
   const landingJsonLd = [
@@ -88,7 +91,7 @@ export default function Index() {
       '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Scorify.uz', url: 'https://www.scorify.uz/',
       applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'uz',
       description: "Ingliz tilini noldan o'rganish: darslar, talaffuz, lug'at, mashqlar va testlar. IELTS Writing va Speaking baholash ham bor.",
-      featureList: ["Ingliz tili kursi (Beginner)", "Talaffuz audio va gapirish mashqlari", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing va Speaking baholash'],
+      featureList: ["Ingliz tili kursi (Beginner va Elementary)", "Talaffuz audio va gapirish mashqlari", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing va Speaking baholash'],
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS', description: "7 kun bepul, keyin Learn 49 000 so'm/oy" },
     },
     {
@@ -174,7 +177,7 @@ export default function Index() {
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-rose-500 to-orange-400 grid place-items-center"><BookOpen className="h-4 w-4 text-white" /></div>
-                    <div><p className="text-sm font-semibold">Dars 4 · Sanaladigan otlar</p><p className="text-[11px] text-muted-foreground">Beginner</p></div>
+                    <div><p className="text-sm font-semibold">Dars 4 · Sanaladigan otlar</p><p className="text-[11px] text-muted-foreground">Elementary · A1</p></div>
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-orange-500/10 text-orange-600 flex items-center gap-1"><Flame className="h-3 w-3" />5 kun</span>
                 </div>
@@ -239,7 +242,7 @@ export default function Index() {
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">Alifbodan <span className="gradient-text">birinchi suhbatgacha</span></motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Kurs bosqichma-bosqich: har daraja oxirida yakuniy test. O'tsangiz, keyingi darajaga o'tasiz. Boshlanishda xato tanlagan bo'lsangiz ham, testdan o'tib oldinga siljish mumkin.</motion.p>
           </motion.div>
-          <div className="grid gap-6 max-w-xl mx-auto mb-8">
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-8">
             {levels.map(l => (
               <div key={l.title} className={`rounded-3xl p-6 text-white bg-gradient-to-br ${l.tone} shadow-lg`}>
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{l.tag}</p>
@@ -249,7 +252,7 @@ export default function Index() {
               </div>
             ))}
           </div>
-          <p className="text-center text-sm text-muted-foreground">Keyingi darajalar (Elementary va undan yuqori) tez orada qo'shiladi. <a className="text-primary underline underline-offset-2" href="/ingliz-tili-darslari">Barcha darslar ro'yxati</a></p>
+          <p className="text-center text-sm text-muted-foreground">Keyingi darajalar (Pre-Intermediate va undan yuqori) tez orada qo'shiladi. <a className="text-primary underline underline-offset-2" href="/ingliz-tili-darslari">Barcha darslar ro'yxati</a></p>
         </div>
       </section>
 
@@ -375,6 +378,7 @@ export default function Index() {
           </div>
           <div className="space-y-2"><p className="font-semibold">Kurs</p>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/beginner">Beginner</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/elementary">Elementary (A1)</a>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari">Barcha darslar</a>
             <a className="block text-muted-foreground hover:text-primary" href="#pricing">Narxlar</a></div>
           <div className="space-y-2"><p className="font-semibold">IELTS</p>
