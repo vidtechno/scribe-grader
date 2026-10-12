@@ -93,10 +93,10 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["I live here since 2020.", "I've lived here since 2020.", "I living here since 2020.", "I did live here since 2020."], a: 1, why: "**since** + vaqt nuqtasi → Present Perfect." },
     { k: "choice", q: "We ___ to Samarkand next week. (rejamiz bor)", opts: ["are going", "went", "were going", "have gone"], a: 0, why: "Reja → **are going to / are going**." },
-    { k: "choice", q: "\"Must\" va \"should\" farqi: **You ___ wear a seat belt.** (qonun)", opts: ["must", "might", "can", "used to"], a: 0, why: "Qonun, majburiyat → **must**." },
+    { k: "choice", q: "**You ___ wear a seat belt in a car.** (bu qonun)", opts: ["must", "might", "can", "used to"], a: 0, why: "Qonun, majburiyat → **must**." },
     { k: "choice", q: "The house ___ in 1990.", opts: ["built", "was built", "is built", "builds"], a: 1, why: "Passive, o'tgan zamon: **was built**." },
     { k: "fill", q: "This is the book ___ I told you about. (which / that)", a: ["which", "that"], why: "Narsa uchun **which / that**." },
-    { k: "fill", q: "Sorry, I'm late. I ___ in a traffic jam. (stuck)", a: ["was"], hint: "was stuck", why: "Passive o'tgan zamon: **was stuck**." },
+    { k: "fill", q: "This bridge ___ built in 1995. (passive)", a: ["was"], why: "Passive, o'tgan zamon: **was** + V3." },
     { k: "tf", q: "**Could I have a refund, please?** — muloyim iltimos.", a: true, why: "**Could I…, please?**" },
     { k: "order", uz: "Agar yomg'ir yog'sa, uyda qolamiz.", words: ["If", "it", "rains,", "we'll", "stay", "at", "home."], extra: ["will", "rain"], alt: [["If", "it", "rains,", "we", "will", "stay", "at", "home."]] },
     { k: "listen", say: "I've never been to Bukhara.", opts: ["I've never been to Bukhara.", "I never went to Bukhara.", "I've never gone to Bukhara."], a: 0 },
