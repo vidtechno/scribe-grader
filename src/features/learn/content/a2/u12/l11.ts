@@ -92,7 +92,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Which sentence is correct?", opts: ["I didn't saw him.", "I didn't see him.", "I not saw him.", "I didn't seen him."], a: 1, why: "*didn't* + V1." },
     { k: "fill", q: "My grandfather ___ to walk to school every day. (use)", a: ["used"], why: "**used to** + V1." },
     { k: "fill", q: "I was late ___ I missed the bus.", a: ["because"], why: "Sabab → **because**." },
-    { k: "tf", q: "**She was cooking while he watched TV yesterday evening.** — yaxshiroq: *…while he was watching TV*.", a: true, why: "Ikki parallel ish: ikkalasi ham Past Continuous bo'lishi tabiiyroq." },
+    { k: "tf", q: "**I didn't went to school yesterday.** — to'g'ri gap.", a: false, why: "*didn't* dan keyin V1: *I didn't **go** to school.*" },
     { k: "order", uz: "Nihoyat, avtobus keldi.", words: ["At", "last,", "the", "bus", "came."], extra: ["comes", "was"] },
     { k: "translate", uz: "Ular choy ichib o'tirganda, telefon jiringladi.", a: ["The phone rang while they were drinking tea.", "While they were drinking tea, the phone rang.", "The phone rang when they were drinking tea.", "When they were drinking tea, the phone rang."] },
   ],
