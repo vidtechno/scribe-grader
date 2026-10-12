@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { ALL_LESSONS, COURSE_UNITS, drillIds } from './course';
+import { ALL_LESSONS, COURSE_UNITS, NEW_DRILL_IDS, drillIds } from './course';
 
 export interface LessonProgress {
   lesson_id: string; best_score: number; total: number; stars: number; attempts: number; completed_at: string | null;
@@ -81,17 +81,20 @@ export type TestState = 'locked' | 'optional' | 'open' | 'passed' | 'cooldown';
 export function courseMap(state: LearningState | undefined) {
   const done = new Set((state?.progress ?? []).filter((p) => p.completed_at).map((p) => p.lesson_id));
   const passed = new Set((state?.tests ?? []).filter((t) => t.passed_at).map((t) => t.unit_id));
-  // A short situation / review lesson added to a unit later counts as done for anyone who already went past it, so
-  // nobody loses finished work. (Only the map is affected; the saved progress is not touched.)
+  // Lessons and games added later count as done for anyone who already went past them, so nobody loses finished
+  // work. (Only the map is affected; the saved progress is not touched.)
+  const drillsDone = new Set((state?.drills ?? []).filter((d) => d.completed_at).map((d) => d.drill_id));
   for (const unit of COURSE_UNITS) {
+    const realDone = new Set(unit.lessons.filter((l) => done.has(l.id)).map((l) => l.id));
+    const full = unit.lessons.filter((n) => !n.mini);
+    const unitFinished = full.every((n) => realDone.has(n.id));
     unit.lessons.forEach((l, i) => {
-      if (!l.mini || done.has(l.id)) return;
-      const full = unit.lessons.filter((n) => !n.mini);
-      if (unit.lessons.slice(i + 1).some((n) => !n.mini && done.has(n.id)) || full.every((n) => done.has(n.id))) done.add(l.id);
+      const went = unit.lessons.slice(i + 1).some((n) => !n.mini && realDone.has(n.id)) || unitFinished;
+      if (l.mini && !done.has(l.id) && went) { done.add(l.id); for (const d of drillIds(l.id)) drillsDone.add(d); }
+      if (went) for (const d of drillIds(l.id)) if (NEW_DRILL_IDS.has(d)) drillsDone.add(d);
     });
   }
   const effectiveDone = new Set(done);
-  const drillsDone = new Set((state?.drills ?? []).filter((d) => d.completed_at).map((d) => d.drill_id));
   const lessonState = new Map<string, NodeState>();
   const drillState = new Map<string, DrillState>();
   let nextDrill: { id: string; lessonId: string } | null = null;

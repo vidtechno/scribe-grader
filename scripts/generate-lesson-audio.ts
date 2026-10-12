@@ -19,6 +19,7 @@ import { promisify } from 'node:util';
 import { exerciseAudioTexts, lessonAudioTexts } from '../src/features/learn/audio-plan';
 import { audioKey } from '../src/features/learn/audio-key';
 import { WRITTEN_UNITS, loadDrills, loadUnit } from '../src/features/learn/course';
+import { BEGINNER_EXAM, BEGINNER_SPEAKING } from '../src/features/learn/content/beginner/exam';
 import type { Lesson } from '../src/features/learn/types';
 
 const run = promisify(execFile);
@@ -118,6 +119,9 @@ async function main() {
     }
     lessonKeys.push(own);
   }
+  // The Beginner final exam (questions are drawn at random, so every item needs its recording).
+  for (const item of BEGINNER_EXAM) for (const t of exerciseAudioTexts(item.ex)) texts.set(audioKey(t), t);
+  for (const ex of BEGINNER_SPEAKING) for (const t of exerciseAudioTexts(ex)) texts.set(audioKey(t), t);
   // Practice games after lessons have their own listening and reading texts.
   for (const unit of WRITTEN_UNITS) {
     for (const drill of await loadDrills(unit.id)) {

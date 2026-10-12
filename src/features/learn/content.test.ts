@@ -74,7 +74,7 @@ function lessonProblems(lesson: Lesson, level: string): string[] {
   if (level !== 'beginner' && !blocks.some((b) => b.t === 'text' || b.t === 'dialog')) p.push(`${id}: needs a reading text or a dialogue`);
   if (checks < 2) p.push(`${id}: needs at least 2 quick checks inside slides (has ${checks})`);
   const mini = !!lesson.mini;
-  if (mini ? lesson.words.length < 3 || lesson.words.length > 5 : lesson.words.length !== 10) p.push(`${id}: needs ${mini ? '3–5' : 'exactly 10'} words (has ${lesson.words.length})`);
+  if (mini ? lesson.words.length < 3 || lesson.words.length > 7 : lesson.words.length !== 10) p.push(`${id}: needs ${mini ? '3–7' : 'exactly 10'} words (has ${lesson.words.length})`);
   if (new Set(lesson.words.map((w) => w.en.toLowerCase())).size !== lesson.words.length) p.push(`${id}: duplicate words`);
   lesson.words.forEach((w) => { if (!w.en.trim() || !w.uz.trim()) p.push(`${id}: word without translation`); });
   if (lesson.practice.length < (mini ? 8 : 10) || lesson.practice.length > 18) p.push(`${id}: practice needs ${mini ? 8 : 10}–18 items (has ${lesson.practice.length})`);

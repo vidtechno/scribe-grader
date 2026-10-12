@@ -81,7 +81,9 @@ export interface Lesson {
    * life-situation and consolidation lessons that sit between the big grammar lessons.
    */
   mini?: true;
-  /** Exactly 10 words to learn by heart (3–5 in a `mini` lesson). */
+  /** Same as the `kind` of its LessonMeta in course.ts (grammar, situation, review or skill). */
+  kind?: 'grammar' | 'situation' | 'review' | 'skill';
+  /** Exactly 10 words to learn by heart (3–7 in a `mini` lesson). */
   words: Word[];
   /** Guided practice: mistakes come back until they are fixed. */
   practice: Exercise[];
@@ -97,6 +99,11 @@ export interface Lesson {
  * A practice game that follows a hard lesson. It has no theory: only exercises. Finishing it is required to move on
  * (learning_complete_drill in the database). Its id is "<lesson id>-d<n>", e.g. "u2-l2-d1".
  */
+/** What a practice drill is, shown on its card: a game (reinforces) or a topic mastery check. */
+export type GameKind =
+  | 'word-match' | 'sentence-builder' | 'grammar-detective' | 'listening' | 'memory-review' | 'conversation'
+  | 'speed-round' | 'fill-gap' | 'odd-one-out' | 'mini-boss' | 'mastery';
+
 export interface Drill {
   id: string;
   /** Short English name, e.g. "Am, is or are?". */
@@ -115,7 +122,7 @@ export interface LessonMeta {
   /** Short situation / consolidation lesson. Counts as done for learners who already went past it. */
   mini?: true;
   /** What kind of step it is, shown in the topic list. */
-  kind?: 'grammar' | 'situation' | 'review';
+  kind?: 'grammar' | 'situation' | 'review' | 'skill';
 }
 
 export interface UnitMeta {

@@ -10,6 +10,7 @@ import type { LevelId } from '../types';
 import type { DrillState, LearningState, NodeState } from '../api';
 import { courseMap } from '../api';
 import { UNIT_EXTRAS } from '../unit-extras';
+import { DRILL_GAME, GAMES } from '../games';
 import { UnitGuide } from './UnitGuide';
 import { CertificateDialog } from './CertificateDialog';
 
@@ -78,7 +79,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                         <Row state={st} number={lessonNumbers.get(l.id)!} title={l.titleUz} kind={l.kind} stars={star} onClick={() => (st === 'locked' ? onLocked() : navigate(`/learn/lesson/${l.id}`))} />
                         {drillIds(l.id).map((d, n) => {
                           const ds = (map.drillState.get(d) ?? 'locked') as DrillState;
-                          return <Row key={d} drill state={ds} title={`Mashq ${n + 1}`} stars={stars.get(d) ?? 0} onClick={() => (ds === 'locked' ? onLocked() : navigate(`/learn/drill/${d}`))} />;
+                          return <Row key={d} drill state={ds} title={drillTitle(d)} sub={drillSub(d)} stars={stars.get(d) ?? 0} onClick={() => (ds === 'locked' ? onLocked() : navigate(`/learn/drill/${d}`))} />;
                         })}
                       </li>
                     );
@@ -157,11 +158,11 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
   );
 }
 
-const KIND_LABEL = { situation: 'Vaziyat', review: 'Takror' } as const;
+const KIND_LABEL = { situation: 'Hayotiy vaziyat', review: 'Takror', skill: "Ko'nikma: o'qish / tinglash / gapirish" } as const;
 
 /** One lesson or practice game in a topic: a calm list row with its state, no map. */
-function Row({ state, number, title, kind, stars, drill, onClick }: {
-  state: NodeState | DrillState; number?: number; title: string; kind?: 'grammar' | 'situation' | 'review'; stars: number; drill?: boolean; onClick: () => void;
+function Row({ state, number, title, kind, stars, drill, sub, onClick }: {
+  state: NodeState | DrillState; number?: number; title: string; kind?: 'grammar' | 'situation' | 'review' | 'skill'; stars: number; drill?: boolean; sub?: string; onClick: () => void;
 }) {
   const current = state === 'current';
   return (
@@ -172,10 +173,13 @@ function Row({ state, number, title, kind, stars, drill, onClick }: {
       </span>
       <span className="min-w-0 flex-1">
         <span className={`block text-sm leading-snug ${current ? 'font-bold' : 'font-semibold'}`}>{title}</span>
-        {(drill || (kind && kind !== 'grammar')) && <span className="block text-[11px] text-muted-foreground">{drill ? 'Majburiy mashq' : `${KIND_LABEL[kind as 'situation' | 'review']} · 5–10 daqiqa`}</span>}
+        {(drill || (kind && kind !== 'grammar')) && <span className="block text-[11px] text-muted-foreground">{drill ? (sub ?? 'Mashq') : `${KIND_LABEL[kind as 'situation' | 'review' | 'skill']} · 5–10 daqiqa`}</span>}
       </span>
       {state === 'done' && stars > 0 && <span className="flex gap-0.5 shrink-0">{[1, 2, 3].map((n) => <Star key={n} className={`h-3 w-3 ${n <= stars ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}</span>}
       {current && <span className="shrink-0 rounded-full bg-primary text-primary-foreground text-[10px] font-bold px-2.5 py-0.5">BOSHLASH</span>}
     </button>
   );
 }
+
+const drillSub = (id: string) => { const g = DRILL_GAME[id]; return g ? `O'yin · ${GAMES[g].label}` : "O'yin va mashq"; };
+const drillTitle = (id: string) => { const g = DRILL_GAME[id]; return g ? GAMES[g].label : "Mashq o'yini"; };
