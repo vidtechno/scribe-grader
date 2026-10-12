@@ -5,8 +5,8 @@ import type { Drill, Lesson, LevelId, UnitMeta } from './types';
 
 /** Elementary (A1) is open. Set to false to hide it again without touching the lessons. */
 const A1_OPEN = true;
-/** Pre-Intermediate (A2) is hidden too. Set to true to open it again. */
-const A2_OPEN = false;
+/** Pre-Intermediate (A2) is open. Set to false to hide it again without touching the lessons. */
+const A2_OPEN = true;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },
@@ -256,8 +256,9 @@ export const A1_UNITS: UnitMeta[] = [
 /** Pre-Intermediate (A2). */
 export const A2_UNITS: UnitMeta[] = [
   {
-    id: "u12", n: 12, level: 'a2', title: "Stories from the past", titleUz: "O'tmish hikoyalari",
+    id: "u12", n: 12, level: 'a2', title: "Stories from the past", titleUz: "O'tmish hikoyalari: Past Simple, Past Continuous, used to",
     description: "Past Simple takrori, Past Continuous, used to, when / while va hikoya aytish.",
+    learns: ["Past Simple takrori: to'g'ri va noto'g'ri fe'llar, savol va inkor, ago va vaqt iboralari", "Past Continuous: was / were + -ing; Past Simple yoki Past Continuous? when va while", "Used to: avval shunday edi", "because, so, but, although bilan sabab va qarama-qarshilik; hikoya aytish", "Vaziyat: do'stga voqeani aytib berish, yo'qolgan narsa haqida xabar berish"],
     tone: "from-emerald-500 to-teal-400",
     lessons: [
       { id: "u12-l1", title: "Past Simple: regular and irregular", titleUz: "Past Simple takrori: to'g'ri va noto'g'ri fe'llar" },
@@ -268,11 +269,15 @@ export const A2_UNITS: UnitMeta[] = [
       { id: "u12-l6", title: "Because, so, but, although", titleUz: "Because, so, but, although: sabab va qarama-qarshilik" },
       { id: "u12-l7", title: "Telling a story", titleUz: "Hikoya aytish: first, then, after that, finally" },
       { id: "u12-l8", title: "Unit review: the past", titleUz: "Bosqich takrori: o'tgan zamon" },
+      { id: "u12-l9", title: "What happened? Telling a story to a friend", titleUz: "Nima bo'ldi? Do'stga hikoya aytib berish", mini: true, kind: 'situation' },
+      { id: "u12-l10", title: "Lost property: reporting a lost bag", titleUz: "Yo'qolgan narsa: sumka yo'qolganini xabar qilish", mini: true, kind: 'situation' },
+      { id: "u12-l11", title: "Stories from the past: final review", titleUz: "O'tmish hikoyalari: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u13", n: 13, level: 'a2', title: "Plans and the future", titleUz: "Rejalar va kelajak",
+    id: "u13", n: 13, level: 'a2', title: "Plans and the future", titleUz: "Rejalar va kelajak: going to, will, may / might, shart gap",
     description: "Going to, will, Present Continuous rejalar uchun, may / might va birinchi shart gap.",
+    learns: ["going to (reja va aniq belgi), will / won't (qaror, va'da, taxmin), will yoki going to?", "Present Continuous kelishilgan rejalar uchun; may / might: ehtimol", "Birinchi shart gap: if + Present, will", "Reja tuzish: taklif qilish, qabul qilish va rad etish", "Vaziyat: dam olish kuni rejasi, sayohatni rejalashtirish"],
     tone: "from-sky-500 to-cyan-400",
     lessons: [
       { id: "u13-l1", title: "Going to", titleUz: "Going to: rejalar va aniq belgilar" },
@@ -283,11 +288,15 @@ export const A2_UNITS: UnitMeta[] = [
       { id: "u13-l6", title: "First conditional", titleUz: "Birinchi shart gap: if + Present, will" },
       { id: "u13-l7", title: "Making plans", titleUz: "Reja tuzish: taklif, qabul va rad etish" },
       { id: "u13-l8", title: "Unit review: the future", titleUz: "Bosqich takrori: kelajak" },
+      { id: "u13-l9", title: "Making weekend plans with friends", titleUz: "Do'stlar bilan dam olish rejalarini tuzish", mini: true, kind: 'situation' },
+      { id: "u13-l10", title: "Planning a trip: what might happen?", titleUz: "Sayohatni rejalashtirish: nima bo'lishi mumkin?", mini: true, kind: 'situation' },
+      { id: "u13-l11", title: "Plans and the future: final review", titleUz: "Rejalar va kelajak: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u14", n: 14, level: 'a2', title: "Comparing things", titleUz: "Taqqoslash",
+    id: "u14", n: 14, level: 'a2', title: "Comparing things", titleUz: "Taqqoslash: qiyosiy va orttirma daraja, as … as, too / enough",
     description: "Qiyosiy va orttirma daraja, as ... as, too / enough, ravishlar va tasvirlash.",
+    learns: ["Qiyosiy daraja (-er, more) va orttirma daraja (the -est, the most)", "as … as, the same as; too va enough", "Ravishlar: quickly, well, hard", "Odamlar va shaharlarni tasvirlash va solishtirish", "Vaziyat: telefon tanlash, ijara uyini solishtirish"],
     tone: "from-fuchsia-500 to-pink-400",
     lessons: [
       { id: "u14-l1", title: "Comparatives", titleUz: "Qiyosiy daraja: -er va more" },
@@ -298,11 +307,15 @@ export const A2_UNITS: UnitMeta[] = [
       { id: "u14-l6", title: "Describing people", titleUz: "Odamlarni tasvirlash: tashqi ko'rinish va xarakter" },
       { id: "u14-l7", title: "Comparing places", titleUz: "Shaharlarni solishtirish: o'qish va yozish" },
       { id: "u14-l8", title: "Unit review: comparing", titleUz: "Bosqich takrori: taqqoslash" },
+      { id: "u14-l9", title: "Choosing a phone: comparing products", titleUz: "Telefon tanlash: mahsulotlarni solishtirish", mini: true, kind: 'situation' },
+      { id: "u14-l10", title: "Two flats to rent: which is better?", titleUz: "Ikki ijara uyi: qaysi biri yaxshi?", mini: true, kind: 'situation' },
+      { id: "u14-l11", title: "Comparing things: final review", titleUz: "Taqqoslash: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u15", n: 15, level: 'a2', title: "Rules, advice and requests", titleUz: "Qoidalar, maslahat va iltimoslar",
+    id: "u15", n: 15, level: 'a2', title: "Rules, advice and requests", titleUz: "Qoidalar, maslahat va iltimoslar: must, should, can / could",
     description: "Must, have to, should, can / could, muloyim iltimoslar, yo'l ko'rsatish va shifokorda.",
+    learns: ["must, have to, mustn't, don't have to; need to / needn't", "should / shouldn't: maslahat berish", "can, could, be able to; muloyim iltimos va takliflar", "Yo'l ko'rsatish, shifokorda, qoidalar va belgilar", "Vaziyat: do'stga maslahat, universitet qoidalari"],
     tone: "from-amber-500 to-yellow-400",
     lessons: [
       { id: "u15-l1", title: "Must and have to", titleUz: "Must, have to, mustn't, don't have to" },
@@ -313,11 +326,15 @@ export const A2_UNITS: UnitMeta[] = [
       { id: "u15-l6", title: "At the doctor's", titleUz: "Shifokorda: kasallik va maslahat" },
       { id: "u15-l7", title: "Rules and signs", titleUz: "Qoidalar va belgilar: need to / needn't" },
       { id: "u15-l8", title: "Unit review: modal verbs", titleUz: "Bosqich takrori: modal fe'llar" },
+      { id: "u15-l9", title: "A friend has a problem: giving advice", titleUz: "Do'stning muammosi: maslahat berish", mini: true, kind: 'situation' },
+      { id: "u15-l10", title: "Rules at university and at work", titleUz: "Universitet va ishdagi qoidalar", mini: true, kind: 'situation' },
+      { id: "u15-l11", title: "Rules, advice and requests: final review", titleUz: "Qoidalar, maslahat va iltimoslar: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u16", n: 16, level: 'a2', title: "Experiences and the world around us", titleUz: "Tajriba va atrofimizdagi dunyo",
+    id: "u16", n: 16, level: 'a2', title: "Experiences and the world around us", titleUz: "Tajriba va dunyo: Present Perfect, who / which, majhul nisbat",
     description: "Present Perfect va Past Simple, for / since, who / which / that, majhul nisbat, frazali fe'llar va xat yozish.",
+    learns: ["Present Perfect yoki Past Simple?; for va since", "who, which, that, where bilan ta'riflash", "Majhul nisbat (is made, was built)", "Frazali fe'llar, tasdiq savollari (isn't it?)", "Elektron xat yozish; vaziyat: sayohat tajribasi, narsani tushuntirish"],
     tone: "from-violet-500 to-purple-400",
     lessons: [
       { id: "u16-l1", title: "Present Perfect or Past Simple?", titleUz: "Present Perfect yoki Past Simple?" },
@@ -328,11 +345,15 @@ export const A2_UNITS: UnitMeta[] = [
       { id: "u16-l6", title: "Question tags", titleUz: "Tasdiq savollari: isn't it? don't you?" },
       { id: "u16-l7", title: "Writing an email", titleUz: "Elektron xat yozish: do'stga va rasmiy" },
       { id: "u16-l8", title: "Unit review: experiences", titleUz: "Bosqich takrori: tajriba va dunyo" },
+      { id: "u16-l9", title: "Travel experiences: have you ever…?", titleUz: "Sayohat tajribasi: Have you ever…?", mini: true, kind: 'situation' },
+      { id: "u16-l10", title: "Explaining what something is", titleUz: "Narsa nima ekanini tushuntirish", mini: true, kind: 'situation' },
+      { id: "u16-l11", title: "Experiences and the world: final review", titleUz: "Tajriba va dunyo: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
   {
-    id: "u17", n: 17, level: 'a2', title: "Work, money and everyday life", titleUz: "Ish, pul va kundalik hayot",
+    id: "u17", n: 17, level: 'a2', title: "Work, money and everyday life", titleUz: "Ish, pul va kundalik hayot: suhbatlar va yozish",
     description: "Fe'l qoliplari, kasblar, pul va xaridlar, texnologiya, sayohat, restoran va A2 yakuniy takrori.",
+    learns: ["Fe'l qoliplari: like doing, want to do", "Kasblar, ish suhbati, pul va xaridlar, texnologiya", "Sayohat, mehmonxona, restoran", "Rezyume va qisqa xat yozish", "Vaziyat: narsani qaytarish, restoranga qo'ng'iroq; A2 yakuniy takrori"],
     tone: "from-rose-600 to-red-400",
     lessons: [
       { id: "u17-l1", title: "Like doing or want to do?", titleUz: "Fe'l qolipi: like doing, want to do" },
@@ -343,6 +364,9 @@ export const A2_UNITS: UnitMeta[] = [
       { id: "u17-l6", title: "Restaurants and food", titleUz: "Restoran va ovqat buyurtma qilish" },
       { id: "u17-l7", title: "Writing: CV and short messages", titleUz: "Rezyume va qisqa xat yozish" },
       { id: "u17-l8", title: "A2 final review", titleUz: "A2 yakuniy takrori: hamma zamonlar va modal fe'llar" },
+      { id: "u17-l9", title: "Returning an item to a shop", titleUz: "Do'konga narsani qaytarish", mini: true, kind: 'situation' },
+      { id: "u17-l10", title: "Booking a table by phone", titleUz: "Telefonda stol band qilish", mini: true, kind: 'situation' },
+      { id: "u17-l11", title: "Pre-Intermediate: final review", titleUz: "Pre-Intermediate: yakuniy takror", mini: true, kind: 'review' },
     ],
   },
 ];

@@ -272,9 +272,9 @@ interface LearningSummary {
 }
 // Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, Elementary 6, Pre-Intermediate 6).
 const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
-  beginner: { name: "Beginner", lessons: 140, units: 11 },
-  a1: { name: "Elementary (A1)", lessons: 66, units: 6 },
-  a2: { name: "Pre-Intermediate (A2)", lessons: 48, units: 6 },
+  beginner: { name: "Beginner", lessons: 206, units: 17 },
+  a1: { name: "Elementary (A1)", lessons: 132, units: 12 },
+  a2: { name: "Pre-Intermediate (A2)", lessons: 66, units: 6 },
 };
 
 export async function showDictionary(ctx: Ctx) {
