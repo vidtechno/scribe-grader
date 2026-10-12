@@ -30,7 +30,7 @@ const lesson: Lesson = {
       title: 'Hayotda: yangi qo\'shni',
       blocks: [
         { t: 'dialog', lines: [
-          { who: 'Mia', en: 'Hi! Who are you?', uz: 'Salom! Siz kimsiz?' },
+          { who: 'Mia', en: "Hello! I'm Mia. What's your name?", uz: 'Salom! Men Miyaman. Ismingiz nima?' },
           { who: 'Tom', en: "I'm Tom, your new neighbour. Is there a shop near here?", uz: "Men Tom, yangi qo'shnangizman. Yaqin atrofda do'kon bormi?" },
           { who: 'Mia', en: "Yes, there is. It's opposite the bank. Have you got a car?", uz: "Ha, bor. U bankning qarshisida. Mashinangiz bormi?" },
           { who: 'Tom', en: "No, I haven't. But I can ride a bike. How many shops are there on this street?", uz: "Yo'q. Lekin velosiped haydashni bilaman. Bu ko'chada nechta do'kon bor?" },
@@ -71,7 +71,7 @@ const lesson: Lesson = {
     { k: 'choice', q: '___ is your birthday? — In May.', opts: ['When', 'Who', 'Where', 'How many'], a: 0 },
     { k: 'fill', q: 'There ___ a lamp on the shelf.', a: ['is'] },
     { k: 'choice', q: 'How ___ apples have you got?', opts: ['much', 'many', 'any', 'a'], a: 1 },
-    { k: 'order', uz: 'Iltimos, o\'tiring.', words: ['Please', 'sit', 'down'], extra: ['sits'] },
+    { k: 'order', uz: 'Iltimos, o\'tiring.', words: ['Please', 'sit', 'down'], extra: ['sits'], alt: [['sit', 'down', 'please']] },
     { k: 'translate', uz: "U hozir uxlayapti.", a: ["He's sleeping now.", 'He is sleeping now.', "She's sleeping now.", 'She is sleeping now.', "He's sleeping.", "She's sleeping."] },
     { k: 'fix', wrong: 'Is there any chairs here?', a: ['Are there any chairs here?'], why: "Ko'plik: **Are there**." },
     { k: 'match', pairs: [['in front of', 'oldida'], ['behind', 'orqasida'], ['between', 'orasida'], ['opposite', 'qarshisida']] },

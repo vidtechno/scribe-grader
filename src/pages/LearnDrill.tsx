@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Loader2, RotateCcw, Star, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
@@ -11,6 +11,7 @@ import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { MistakeReview, TestShell } from '@/features/learn/components/TestShell';
+import { DRILL_GAME, DRILL_REVIEW_OF, GAMES } from '@/features/learn/games';
 
 interface Saved { passed: boolean; stars: number; xp: number; first: boolean }
 
@@ -30,6 +31,9 @@ export default function LearnDrill() {
   const startedAt = useRef(Date.now());
   const sending = useRef(false);
   const lessonId = lessonOfDrill(id);
+  const game = DRILL_GAME[id];
+  const gameLabel = game ? GAMES[game].label : 'Mashq';
+  const reviewOf = (DRILL_REVIEW_OF[id] ?? []).map((l) => ALL_LESSONS.find((x) => x.id === l)).filter(Boolean) as typeof ALL_LESSONS;
   const lesson = ALL_LESSONS.find((l) => l.id === lessonId);
   const audioTexts = useMemo(() => (drill ? drill.exercises.flatMap(exerciseAudioTexts) : null), [drill]);
   useLessonAudio(audioTexts, `${id}-${round}`);
@@ -64,15 +68,22 @@ export default function LearnDrill() {
     const ids = drillIds(lessonId);
     const nextDrillId = ids[ids.indexOf(id) + 1];
     return (
-      <TestShell title="Mashq">
+      <TestShell title={gameLabel}>
         <div className="text-center py-8">
           <Zap className={`h-14 w-14 mx-auto mb-3 ${passed ? 'text-amber-500' : 'text-muted-foreground'}`} />
-          <h1 className="text-2xl font-extrabold mb-1">{passed ? 'Mashq tugadi!' : "Yana bir urinib ko'ring"}</h1>
+          <h1 className="text-2xl font-extrabold mb-1">{passed ? (game === 'mastery' ? 'Mavzu o\'zlashtirildi!' : game === 'mini-boss' ? 'Mini-boss yengildi!' : 'Tugadi!') : "Yana bir urinib ko'ring"}</h1>
           <p className="text-muted-foreground mb-3">{score} / {total} · {pct}%{saved?.first && saved.xp ? ` · +${saved.xp} XP` : ''}</p>
           <div className="flex justify-center gap-1 mb-5">
             {[1, 2, 3].map((n) => <Star key={n} className={`h-7 w-7 ${n <= (saved?.stars ?? (pct >= 90 ? 3 : pct >= 80 ? 2 : passed ? 1 : 0)) ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
           </div>
-          {!passed && <p className="text-sm text-muted-foreground mb-5">Keyingi darsga o'tish uchun kamida {LESSON_PASS_PERCENT}% kerak. Xatolaringizni ko'rib chiqib, qayta urinib ko'ring.</p>}
+          {!passed && <p className="text-sm text-muted-foreground mb-5">Davom etish uchun kamida {LESSON_PASS_PERCENT}% kerak. Xatolaringizni ko'rib chiqing — butun mavzuni qaytadan o'qish shart emas.</p>}
+          {reviewOf.length > 0 && pct < 80 && (
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-left text-sm mb-5">
+              <p className="font-semibold mb-1.5">Qaysi darslarni takrorlash foydali</p>
+              <ul className="space-y-1">{reviewOf.map((l) => <li key={l.id}><Link className="text-primary underline underline-offset-2" to={`/learn/lesson/${l.id}`}>{l.titleUz}</Link></li>)}</ul>
+              <p className="text-xs text-muted-foreground mt-2">Xatolaringiz qaysi mavzudan ekanini quyidagi ro'yxatdan ko'ring, so'ng shu darsni qayta ochib, mashqni takrorlang.</p>
+            </div>
+          )}
           {error && <p className="text-sm text-destructive mb-3">{error}</p>}
           <div className="text-left mb-6"><MistakeReview questions={drill.exercises} answers={answers} /></div>
           <div className="space-y-2.5">
@@ -91,10 +102,10 @@ export default function LearnDrill() {
   }
 
   return (
-    <TestShell title="Mashq">
-      <SEOHead title={`Mashq: ${drill.titleUz}`} path={`/learn/drill/${id}`} noindex />
+    <TestShell title={gameLabel}>
+      <SEOHead title={`${gameLabel}: ${drill.titleUz}`} path={`/learn/drill/${id}`} noindex />
       <div className="mb-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary flex items-center gap-1.5"><Zap className="h-3.5 w-3.5" />Mashq · {lesson.titleUz}</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary flex items-center gap-1.5"><Zap className="h-3.5 w-3.5" />{game ? `${game === 'mastery' || game === 'mini-boss' ? '' : "O'yin · "}${gameLabel}` : 'Mashq'} · {lesson.titleUz}</p>
         <h1 className="text-xl font-extrabold">{drill.titleUz}</h1>
         <p className="text-sm text-muted-foreground">{drill.goal}</p>
         <div className="h-2 rounded-full bg-secondary overflow-hidden mt-3"><div className="h-full bg-primary transition-all" style={{ width: `${(i / total) * 100}%` }} /></div>
