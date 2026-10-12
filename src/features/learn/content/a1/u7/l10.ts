@@ -74,7 +74,7 @@ const lesson: Lesson = {
     { k: 'order', uz: 'Shanba kuni bo\'shmisan?', words: ['Are', 'you', 'free', 'on', 'Saturday'], extra: ['Do', 'is'] },
     { k: 'translate', uz: "Kechirasiz, kela olmayman.", a: ["Sorry, I can't come.", "I'm afraid I can't come.", "Sorry, I can't."], why: "Muloyim rad: *Sorry, I can't.*" },
     { k: 'tf', q: "*Would you like to come?* — bu taklif.", a: true },
-    { k: 'fix', wrong: 'I meet my friend tonight at six (plan).', a: ["I'm meeting my friend tonight at six.", 'I am meeting my friend tonight at six.'], why: "Aniq reja — **I'm meeting**." },
+    { k: 'fix', wrong: 'I meet my friend tonight at six.', a: ["I'm meeting my friend tonight at six.", 'I am meeting my friend tonight at six.'], why: "Aniq reja — **I'm meeting**." },
     { k: 'match', pairs: [['ticket', 'chipta'], ['cinema', 'kinoteatr'], ['plan', 'reja'], ['maybe', 'ehtimol']] },
     { k: 'choice', q: '"Would you like to have dinner with us?" — ...', opts: ["I'd love to, thanks!", 'Yes, I like.', 'I am dinner.', 'No, I would not like.'], a: 0 },
   ],

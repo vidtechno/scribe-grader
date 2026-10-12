@@ -42,7 +42,7 @@ const lesson: Lesson = {
     {
       title: "Ehtiyot bo'ling: tez-tez uchraydigan xatolar",
       blocks: [
-        { t: 'compare', good: { title: "To'g'ri", items: ['I went to the park.', "I didn't go out.", 'Did you see your friends?', 'I was at home on Sunday.'] }, bad: { title: "Noto'g'ri", items: ['I goed to the park.', "I didn't went out.", 'Did you saw your friends?', 'I am at home on Sunday (o\'tgan).'] } },
+        { t: 'compare', good: { title: "To'g'ri", items: ['I went to the park.', "I didn't go out.", 'Did you see your friends?', 'I was at home on Sunday.'] }, bad: { title: "Noto'g'ri", items: ['I goed to the park.', "I didn't went out.", 'Did you saw your friends?', 'I am at home last Sunday.'] } },
         { t: 'p', md: "Eslatma: **did / didn't** dan keyin fe'l **oddiy shaklda** (go, see). V2 (went, saw) faqat ijobiy gapda. Va **on** Saturday, **in** the evening, **at** the weekend emas — *last weekend* oldida predlog yo'q." },
         { t: 'check', ex: { k: 'choice', q: "\"Dam olish kuni hech qayerga bormadim.\"", opts: ["I didn't went anywhere.", "I didn't go anywhere.", "I not go anywhere.", "I don't went anywhere."], a: 1, why: "**didn't + V1**: didn't **go**." } },
       ],

@@ -16,7 +16,7 @@ const lesson: Lesson = {
           { who: 'Madina', en: 'Where did you go last summer?', uz: "O'tgan yozda qayerga bording?" },
           { who: 'Sardor', en: 'We went to Samarkand by train. It was a wonderful trip!', uz: "Samarqandga poyezdda bordik. Ajoyib sayohat bo'ldi!" },
           { who: 'Madina', en: 'What was the hotel like?', uz: 'Mehmonxona qanday edi?' },
-          { who: 'Sardor', en: 'It was nice, and there was a beach pool... no, sorry, there was a big garden and a pool.', uz: "Yaxshi edi, katta bog' va hovuz bor edi." },
+          { who: 'Sardor', en: 'It was nice, and there was a big garden and a pool.', uz: "Yaxshi edi, katta bog' va hovuz bor edi." },
           { who: 'Madina', en: 'Did you see the Registan?', uz: "Registonni ko'rdingizmi?" },
           { who: 'Sardor', en: "Yes, but it was crowded, so we couldn't take many photos. We could see the beautiful view from the top, though.", uz: "Ha, lekin odam ko'p edi, shuning uchun ko'p rasm ola olmadik. Lekin tepadan chiroyli manzarani ko'ra oldik." },
           { who: 'Madina', en: 'I want to go too! How did you come back?', uz: "Men ham bormoqchiman! Qanday qaytdingiz?" },
