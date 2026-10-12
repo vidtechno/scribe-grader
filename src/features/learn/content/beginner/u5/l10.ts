@@ -18,7 +18,7 @@ const lesson: Lesson = {
           { who: 'Ali', en: 'Nice! Will the weather be good?', uz: "Zo'r! Ob-havo yaxshi bo'larmikan?" },
           { who: 'Zara', en: "I think it will be sunny. Do you want to come?", uz: "Menimcha, quyoshli bo'ladi. Sen ham borasanmi?" },
           { who: 'Ali', en: "Hmm… OK, I'll come with you! I'll bring some bread.", uz: "Hmm… xo'p, men ham boraman! Non olib kelaman." },
-          { who: 'Zara', en: "Great! I promise you'll like it.", uz: "Zo'r! Va'da beraman, sizga yoqadi." },
+          { who: 'Zara', en: "Great! I promise you'll like it.", uz: "Zo'r! Va'da beraman, senga yoqadi." },
         ] },
         { t: 'check', ex: { k: 'choice', q: 'Ali decides now: "OK, I ___ come with you!"', opts: ["'m going to", "'ll", 'am', 'did'], a: 1, why: "Gap paytida qabul qilingan qaror — **will** ('ll)." } },
       ],

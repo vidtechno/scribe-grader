@@ -4,7 +4,7 @@ import type { Lesson } from '../../../types';
 const lesson: Lesson = {
   id: 'u4-l13',
   title: 'Object pronouns: me, you, him, her…',
-  titleUz: "Qaratqich olmoshlar: me, him, her, us, them",
+  titleUz: "Olmoshning to'ldiruvchi shakli: me, him, her, us, them",
   mini: true,
   goal: "Fe'ldan va predlogdan keyin **me, you, him, her, it, us, them** ni to'g'ri ishlatasiz: *She knows him. Come with me. Send it to them.* Odamlar va narsalarni qayta aytmasdan olmosh bilan almashtirasiz.",
   slides: [

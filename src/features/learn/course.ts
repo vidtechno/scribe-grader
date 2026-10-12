@@ -85,7 +85,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u4', n: 4, title: 'Describing and Asking', titleUz: 'Tasvirlash va so\'rash: there is, can, have got',
     description: "Wh-savollar, there is / are, joy predloglari, much / many, can, buyruq, have got, Present Continuous.",
-    learns: ["Wh-savollar, there is / there are, some / any, joy predloglari", "Sanaladigan va sanalmaydigan otlar: much / many; have got va oila", "can / can't, Can I…? iltimoslari, buyruq gaplar, qaratqich olmoshlar (me, him, her)", "Present Continuous: darak, -ing imlosi, inkor, savollar va qisqa javoblar", "Vaziyat: xona va shahar, do'kon, telefon; tinglash va gapirish; mavzu testi va mini-boss"],
+    learns: ["Wh-savollar, there is / there are, some / any, joy predloglari", "Sanaladigan va sanalmaydigan otlar: much / many; have got va oila", "can / can't, Can I…? iltimoslari, buyruq gaplar, to'ldiruvchi olmoshlar (me, him, her)", "Present Continuous: darak, -ing imlosi, inkor, savollar va qisqa javoblar", "Vaziyat: xona va shahar, do'kon, telefon; tinglash va gapirish; mavzu testi va mini-boss"],
     level: 'beginner', tone: 'from-emerald-500 to-teal-400',
     lessons: [
       { id: 'u4-l1', title: 'Wh- questions', titleUz: "Wh-savollar: what, where, who…" },
@@ -97,7 +97,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u4-l5', title: "can / can't", titleUz: "can / can't: qobiliyat va iltimos" },
       { id: 'u4-l14', title: 'Can I…? Requests and permission', titleUz: "Can I…? Iltimos va ruxsat so'rash", mini: true, kind: 'grammar' },
       { id: 'u4-l6', title: 'Imperatives & object pronouns', titleUz: 'Buyruq gaplar va me, him, her…' },
-      { id: 'u4-l13', title: 'Object pronouns: me, you, him, her…', titleUz: "Qaratqich olmoshlar: me, him, her, us, them", mini: true, kind: 'grammar' },
+      { id: 'u4-l13', title: 'Object pronouns: me, you, him, her…', titleUz: "Olmoshning to'ldiruvchi shakli: me, him, her, us, them", mini: true, kind: 'grammar' },
       { id: 'u4-l7', title: 'have got & family', titleUz: 'have got va oila' },
       { id: 'u4-l8', title: 'Present Continuous', titleUz: 'Present Continuous: hozir nima qilyapman' },
       { id: 'u4-l17', title: '-ing: spelling', titleUz: "-ing qo'shish imlosi: run → running", mini: true, kind: 'grammar' },

@@ -57,7 +57,7 @@ const lesson: Lesson = {
   practice: [
     { k: 'choice', q: 'Yesterday I ___ to the cinema.', opts: ['go', 'went', 'goed', 'was go'], a: 1, why: "go – **went**." },
     { k: 'fill', q: 'We ___ at home last night. (be)', a: ['were'], uz: 'Kecha kechqurun biz uyda edik.', why: "**we** → **were**." },
-    { k: 'order', uz: 'Kecha nima qilding?', words: ['What', 'did', 'you', 'do', 'yesterday'], extra: ['do', 'was'] },
+    { k: 'order', uz: 'Kecha nima qilding?', words: ['What', 'did', 'you', 'do', 'yesterday'], extra: ['does', 'was'] },
     { k: 'translate', uz: "Men kecha ishga bormadim.", a: ["I didn't go to work yesterday.", "I did not go to work yesterday."], why: "**didn't** + oddiy fe'l: *go*." },
     { k: 'match', pairs: [['party', 'ziyofat'], ['cinema', 'kinoteatr'], ['funny', 'kulgili'], ['boring', 'zerikarli'], ['yesterday', 'kecha']] },
     { k: 'tf', q: "*Did you saw Sam?* — gap to'g'ri.", a: false, why: "To'g'risi: *Did you **see** Sam?*" },
@@ -74,7 +74,7 @@ const lesson: Lesson = {
     { k: 'translate', uz: "Sen filmni ko'rdingmi?", a: ['Did you see the film?', 'Did you watch the film?'] },
     { k: 'tf', q: "*Yes, I did.* — *Did you go home late?* savoliga mos javob.", a: true },
     { k: 'fix', wrong: "She didn't went home.", a: ["She didn't go home.", 'She did not go home.'], why: "**didn't** dan keyin — **go**." },
-    { k: 'match', pairs: [['went', 'bordi'], ['saw', "ko'rdi"], ['ate', 'yedi'], ['had', 'bor edi; ega bo\'ldi']] },
+    { k: 'match', pairs: [['went', 'bordi'], ['saw', "ko'rdi"], ['ate', 'yedi'], ['met', 'uchratdi']] },
     { k: 'choice', q: 'What did you do yesterday? — ...', opts: ['I visited my uncle.', 'I visit my uncle.', 'I am visited.', 'I was visit.'], a: 0 },
   ],
   summary: [

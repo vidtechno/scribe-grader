@@ -72,7 +72,7 @@ const lesson: Lesson = {
     { k: 'match', pairs: [['Where', 'qayerda / qayerga'], ['When', 'qachon'], ['Why', 'nega'], ['Who', 'kim'], ['How', 'qanday']] },
     { k: 'fix', wrong: 'Where did he went last Sunday?', a: ['Where did he go last Sunday?'], hint: 'did dan keyin V1', why: "**did** + **go**." },
     { k: 'listen', say: 'Why did you stay at home?', opts: ['Why did you stay at home?', 'Where did you stay at home?', 'Why do you stay at home?', 'When did you stay at home?'], a: 0 },
-    { k: 'translate', uz: 'Ha, men ko\'rdim.', a: ['Yes, I did.', 'Yes I did.'], why: "Qisqa javob: *Yes, I did.*" },
+    { k: 'translate', uz: 'Qisqa javob bering: "Did you see the film?" — "Ha, ko\'rdim."', a: ['Yes, I did.', 'Yes I did.'], why: "Qisqa javob: *Yes, I did.*" },
     { k: 'speak', say: 'What did you do yesterday?', uz: 'Kecha nima qildingiz?' },
     { k: 'speak', say: 'Yes, I did. I called her early.', uz: 'Ha. Men unga erta qo\'ng\'iroq qildim.' },
   ],

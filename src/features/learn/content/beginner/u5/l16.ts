@@ -11,7 +11,7 @@ const lesson: Lesson = {
     {
       title: "Matnni qanday o'qiymiz? 3 ta maslahat",
       blocks: [
-        { t: 'p', md: "Bu kursdagi **birinchi o'qish darsi**. Matnni so'zma-so'z tarjima qilmang. Quyidagi 3 qadam o'qishni ancha osonlashtiradi." },
+        { t: 'p', md: "Bu bo'limdagi **o'qish darsi**. Matnni so'zma-so'z tarjima qilmang. Quyidagi 3 qadam o'qishni ancha osonlashtiradi." },
         { t: 'tip', tone: 'good', md: "**1. Avval savolga qarang.** Nimani qidirayotganingizni bilsangiz (kim? qayerda? nima qildi?), matnda kerakli joyni tezroq topasiz." },
         { t: 'tip', tone: 'good', md: "**2. Vaqt so'zlariga e'tibor bering.** *last Saturday, yesterday, in the evening* — bular voqea qachon bo'lganini ko'rsatadi. Fe'llarga qarang: **-ed** yoki **went, saw, had** kabi shakllar o'tgan zamonni bildiradi." },
         { t: 'tip', tone: 'good', md: "**3. Noma'lum so'zda to'xtamang.** Gapning qolgan qismidan ma'noni taxmin qiling: *The market was **noisy**, and many people talked.* — *noisy* = shovqinli ekani sezilib turibdi." },
@@ -39,7 +39,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'text', title: "Malika's Friday", en: "Last Friday I didn't go to school. I was ill, so I stayed in bed. My mother called the doctor, and he came in the afternoon. He said, \"Drink water and rest.\" I read a book and listened to music. In the evening my friend called me, and we talked a little. On Saturday I was OK.", uz: "O'tgan juma kuni maktabga bormadim. Kasal edim, shuning uchun yotoqda qoldim. Onam shifokorni chaqirdi va u tushdan keyin keldi. U: \"Suv iching va dam oling\", dedi. Kitob o'qidim va musiqa tingladim. Kechqurun do'stim qo'ng'iroq qildi va biroz gaplashdik. Shanba kuni men yaxshi edim." },
         { t: 'compare', good: { title: "To'g'ri", items: ["I didn't go to school.", 'My mother called the doctor.', 'I was ill.'] }, bad: { title: "Noto'g'ri", items: ["I didn't went to school.", 'My mother call the doctor.', 'I am ill last Friday.'] } },
-        { t: 'p', md: "Eslatma: **didn't** dan keyin fe'l **oddiy shaklda** (*go*, *went* emas). Gapda o'tgan zamon belgisi bir marta bo'ladi." },
+        { t: 'p', md: "Eslatma: **didn't** dan keyin fe'l **oddiy shaklda** (*go*, *went* emas)." },
         { t: 'check', ex: { k: 'fix', wrong: "I didn't went to school.", a: ["I didn't go to school.", 'I did not go to school.'], why: "**didn't** + V1: *didn't go*." } },
       ],
     },

@@ -11,14 +11,14 @@ const lesson: Lesson = {
     {
       title: '4 ta imlo qoidasi',
       blocks: [
-        { t: 'p', md: "Present Continuous da fe'lning oxiriga **-ing** qo'shiladi: *I'm **work**ing.* Ko'p fe'llarda hech narsa o'zgarmaydi, lekin to'rtta holatda imlo o'zgaradi." },
+        { t: 'p', md: "8-darsda **-ing** ni o'rgandingiz. Endi imloni xatosiz yozishni mashq qilamiz. Har bir fe'lga ketma-ket savol bering: **1)** *-ie* bilan tugaydimi? **2)** *-e* bilan tugaydimi? **3)** qisqa unli + bitta undoshmi? **4)** Aks holda faqat **+ing**." },
         {
           t: 'table', head: ['Qoida', 'Misollar'], speak: [1],
           rows: [
-            ["1. Odatda: shunchaki + ing", 'work → working, eat → eating, wash → washing'],
+            ['1. -ie bilan tugasa: ie → y', 'lie → lying'],
             ['2. -e bilan tugasa: e tushadi', 'make → making, write → writing, dance → dancing'],
             ['3. Qisqa unli + 1 undosh: undosh ikkilanadi', 'run → running, sit → sitting, chat → chatting'],
-            ['4. -ie bilan tugasa: ie → y', 'lie → lying'],
+            ["4. Boshqalar: shunchaki + ing", 'work → working, eat → eating, wash → washing'],
           ],
         },
         {
@@ -54,10 +54,10 @@ const lesson: Lesson = {
         {
           t: 'table', head: ['Gap', 'Qoida'], speak: [0],
           rows: [
-            ["We're chatting online.", '3: chat → chatting'],
-            ["He's painting a picture.", '1: paint → painting'],
+            ["We're chatting with Anna.", '3: chat → chatting'],
+            ["He's painting a picture.", '4: paint → painting'],
             ["They're dancing now.", '2: dance → dancing'],
-            ["The cat's lying on my bed.", '4: lie → lying'],
+            ["The cat's lying on my bed.", '1: lie → lying'],
           ],
         },
         { t: 'check', ex: { k: 'fix', wrong: "My sister is writeing a message.", a: ["My sister is writing a message."], hint: '-e bilan tugaydigan fe\'l.', why: "*write* → e tushadi: **writing**." } },
@@ -94,7 +94,7 @@ const lesson: Lesson = {
     { k: 'choice', q: '*stop* + ing =', opts: ['stoping', 'stopping', 'stopeing', 'stoppping'], a: 1 },
     { k: 'choice', q: '*write* + ing =', opts: ['writing', 'writeing', 'writting', 'writng'], a: 0 },
     { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ["He's sitting here.", "He's siting here.", "He's sitteing here.", "He's sit here."], a: 0 },
-    { k: 'listen', say: "They're chatting online.", opts: ["They're chatting online.", "They're cooking online.", 'They chat online.', "They're sitting online."], a: 0 },
+    { k: 'listen', say: "They're chatting in the park.", opts: ["They're chatting in the park.", "They're cooking in the park.", 'They chat in the park.', "They're sitting in the park."], a: 0 },
     { k: 'fill', q: 'paint → ___', a: ['painting'] },
     { k: 'fill', q: 'swim → ___', a: ['swimming'] },
     { k: 'fix', wrong: 'My dad is lieing on the sofa.', a: ['My dad is lying on the sofa.', "My dad's lying on the sofa."], why: "**lie → lying**." },

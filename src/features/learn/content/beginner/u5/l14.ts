@@ -46,7 +46,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ['worked = "workt"', 'played = "pleyd"', 'wanted = "want-id"'] },
           bad: { title: "Noto'g'ri", items: ['worked = "work-id"', 'played = "play-id"', 'wanted = "wantt"'] } },
         { t: 'check', ex: { k: 'choice', q: '**cleaned** da -ed qanday o\'qiladi?', say: 'cleaned', opts: ['/t/', '/d/', '/ɪd/'], a: 1, why: "*clean* **n** (jarangli) bilan tugaydi → **/d/**: \"klinD\"." } },
-        { t: 'check', ex: { k: 'listen', say: 'She waited for me.', opts: ['She waited for me.', 'She walked for me.', 'She wanted for me.', 'She watched for me.'], a: 0, why: "\"weyt-id\" — ikki bo'g'in, **waited**." } },
+        { t: 'check', ex: { k: 'listen', say: 'She waited for me.', opts: ['She waited for me.', 'She worked for me.', 'She asked for me.', 'She called for me.'], a: 0, why: "\"weyt-id\" — ikki bo'g'in, **waited**." } },
       ],
     },
   ],

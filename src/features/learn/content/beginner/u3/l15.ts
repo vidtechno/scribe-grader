@@ -9,7 +9,7 @@ const lesson: Lesson = {
   goal: "Kun tartibi haqidagi suhbatni tinglab **vaqt va tafsilotlarni** tushunasiz, so'ng o'zingizning kuningiz haqida **qisqa abzats** yozasiz: *I usually get up at half past six. I go to work by bus.*",
   slides: [
     {
-      title: 'Tinglang: Emily ning kuni',
+      title: 'Tinglang: Emilining kuni',
       blocks: [
         { t: 'p', md: "Avval dialogni **tinglang** (har bir qatordagi tugmani bosing), keyin o'qing. Vaqtlarga va ravishlarga (*usually, always*) e'tibor bering." },
         { t: 'dialog', lines: [
@@ -17,13 +17,13 @@ const lesson: Lesson = {
           { who: 'Emily', en: 'I usually get up at half past six. I have a shower, and I have breakfast at seven.', uz: 'Odatda olti yarimda turaman. Dush qabul qilaman va yettida nonushta qilaman.' },
           { who: 'Karim', en: 'When do you leave home?', uz: 'Uydan qachon chiqasan?' },
           { who: 'Emily', en: 'At quarter past eight. I go to work by bus.', uz: 'Sakkizdan chorak o\'tganda. Ishga avtobusda boraman.' },
-          { who: 'Karim', en: 'And your husband? Does he get up early?', uz: 'Erching-chi? U erta turadimi?' },
+          { who: 'Karim', en: 'And your husband? Does he get up early?', uz: 'Eringchi? U erta turadimi?' },
           { who: 'Emily', en: "No, he doesn't. He gets up at eight, but he always has breakfast at work.", uz: "Yo'q. U sakkizda turadi, lekin nonushtani doim ishda qiladi." },
           { who: 'Karim', en: 'When do you get home?', uz: 'Uyga qachon qaytasan?' },
           { who: 'Emily', en: 'At six. After dinner I relax, and I go to bed at eleven.', uz: "Oltida. Kechki ovqatdan keyin dam olaman va o'n birda uxlashga yotaman." },
         ] },
         { t: 'check', ex: { k: 'choice', q: 'Emily soat nechada turadi?', opts: ['At six', 'At half past six', 'At seven', 'At eight'], a: 1, why: "*I usually get up at **half past six**.*" } },
-        { t: 'check', ex: { k: 'tf', q: "Emily ning eri (husband) har kuni uyda nonushta qiladi.", a: false, why: "*He always has breakfast **at work**.*" } },
+        { t: 'check', ex: { k: 'tf', q: "Emilining eri (husband) har kuni uyda nonushta qiladi.", a: false, why: "*He always has breakfast **at work**.*" } },
       ],
     },
     {

@@ -52,6 +52,8 @@ const lesson: Lesson = {
     { en: 'holiday', uz: "ta'til, dam olish", ipa: 'ˈhɒl.ə.deɪ', pos: 'noun', ex: 'I have a holiday in July.', exUz: "Iyulda ta'tilim bor." },
     { en: 'ticket', uz: 'chipta', ipa: 'ˈtɪk.ɪt', pos: 'noun', ex: 'A ticket is twenty dollars.', exUz: "Chipta yigirma dollar." },
     { en: 'lazy', uz: 'dangasa', ipa: 'ˈleɪ.zi', pos: 'adj', ex: 'He is lazy at the weekend.', exUz: 'U dam olish kunlari dangasa.' },
+    { en: 'late', uz: 'kech, kechikkan', ipa: 'leɪt', pos: 'adj', ex: 'He is never late.', exUz: 'U hech qachon kechikmaydi.' },
+    { en: 'expensive', uz: 'qimmat', ipa: 'ɪkˈspen.sɪv', pos: 'adj', ex: 'This ticket is expensive.', exUz: 'Bu chipta qimmat.' },
     { en: 'salary', uz: 'maosh', ipa: 'ˈsæl.ər.i', pos: 'noun', ex: 'My salary is good.', exUz: 'Maoshim yaxshi.' },
   ],
   practice: [

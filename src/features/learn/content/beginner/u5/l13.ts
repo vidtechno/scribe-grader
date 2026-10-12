@@ -56,8 +56,8 @@ const lesson: Lesson = {
     { en: 'travel', uz: 'sayohat qilmoq', ipa: 'ˈtræv.əl', pos: 'verb', ex: 'They travelled by train.', exUz: 'Ular poyezdda sayohat qilishdi.' },
   ],
   practice: [
-    { k: 'choice', q: 'Yesterday I ___ my room.', opts: ['cleaned', 'cleanned', 'cleaed', 'cleanied'], a: 0, why: "**clean** — oxirida ikki undosh (**ea-n**), ikkilanmaydi: *cleaned*." },
-    { k: 'fill', q: 'She ___ the bus at the corner. (stop)', a: ['stopped'], uz: "U burchakda avtobusni to'xtatdi.", why: "undosh-unli-undosh → *stopped*." },
+    { k: 'choice', q: 'Yesterday I ___ my room.', opts: ['cleaned', 'cleanned', 'cleaed', 'cleanied'], a: 0, why: "**clean** — **n** dan oldin ikkita unli (**ea**), shuning uchun ikkilanmaydi: *cleaned*." },
+    { k: 'fill', q: 'She ___ at the shop. (stop)', a: ['stopped'], uz: "U do'konda to'xtadi.", why: "undosh-unli-undosh → *stopped*." },
     { k: 'fill', q: 'My brother ___ football yesterday. (play)', a: ['played'], uz: "Akam kecha futbol o'ynadi.", why: "**y** dan oldin unli → *played*." },
     { k: 'match', pairs: [['like', 'liked'], ['study', 'studied'], ['stop', 'stopped'], ['play', 'played'], ['arrive', 'arrived']] },
     { k: 'fix', wrong: 'We studyed at the library.', a: ['We studied at the library.'], hint: '-ed imlosi', why: "undosh + **y** → **ied**: *studied*." },
@@ -76,7 +76,7 @@ const lesson: Lesson = {
     { k: 'match', pairs: [['try', 'tried'], ['plan', 'planned'], ['hurry', 'hurried'], ['drop', 'dropped'], ['visit', 'visited']] },
     { k: 'tf', q: "*He playied chess.* — gap to'g'ri.", a: false, why: "To'g'risi: *played* (y o'zgarmaydi)." },
     { k: 'order', uz: 'Ular kecha sayohatni rejalashtirishdi.', words: ['They', 'planned', 'the', 'trip', 'yesterday'], extra: ['planed', 'plan'] },
-    { k: 'translate', uz: "Men javobni urinib ko'rdim.", a: ['I tried the answer.', 'I tried the answer', 'I tried an answer.'], why: "*try* → **tried**." },
+    { k: 'translate', uz: "Men sho'rvani tatib ko'rdim.", a: ['I tried the soup.', 'I tried the soup', 'I tried soup.'], why: "*try* → **tried**." },
     { k: 'choice', q: '**like** ning o\'tgan zamoni:', opts: ['liked', 'likeed', 'liking', 'liken'], a: 0, why: "**-e** bilan tugasa → faqat **-d**." },
   ],
   summary: [
@@ -86,7 +86,7 @@ const lesson: Lesson = {
     "Qisqa undosh-unli-undosh fe'l ikkilanadi: *stop → stopped, plan → planned*.",
     "**travel** → *travelled* (Britaniya) yoki *traveled* (Amerika).",
   ],
-  homework: "Kunlik 5 ta fe'lni o'tgan zamonda yozing: *I walked, I studied, I stopped...* Yozgandan keyin qoidani tekshiring.",
+  homework: "Har kuni 5 ta fe'lni o'tgan zamonda yozing: *I walked, I studied, I stopped...* Yozgandan keyin qoidani tekshiring.",
 };
 
 export default lesson;
