@@ -19,7 +19,7 @@ export const drillsNew: Drill[] = [
       { k: 'choice', q: 'Qaysi so\'zda **th** bor?', say: 'think', opts: ['ship', 'chair', 'think', 'duck'], a: 2, why: '*think* — **th**.' },
       { k: 'dictation', say: 'fish', uz: 'baliq', why: '*fish* — **sh** bilan tugaydi.' },
       { k: 'listen', say: 'chicken', opts: ['kitchen', 'chicken', 'children', 'check'], a: 1, why: '*chicken* — **ch** va **ck**.' },
-      { k: 'dictation', say: 'I think this is a good book.', why: '*think* va *this* — ikkala **th**; *book* — **oo**.' },
+      { k: 'dictation', say: 'three sheep', uz: 'uchta qo\'y', why: '*three* — **th**; *sheep* — **ee**.' },
     ],
   },
   {
@@ -34,7 +34,7 @@ export const drillsNew: Drill[] = [
       { k: 'match', pairs: [['eleven', '11'], ['twelve', '12'], ['thirteen', '13'], ['fifteen', '15'], ['twenty', '20']] },
       { k: 'choice', q: '*twelve* — qaysi son?', opts: ['2', '12', '20', '10'], a: 1, why: '*twelve* = **12**.' },
       { k: 'listen', say: 'eighteen', opts: ['8', '18', '80', '16'], a: 1, why: '*eighteen* = **18**.' },
-      { k: 'fill', q: '5 + 5 = ___', a: ['ten'], uz: "Besh qo'shuv besh — o'n.", why: '5 + 5 = **ten**.' },
+      { k: 'fill', q: '5 + 5 = ___', a: ['ten'], uz: "Besh qo'shsak besh — o'n.", why: '5 + 5 = **ten**.' },
       { k: 'tf', q: '*thirteen* = 30.', a: false, why: '*thirteen* = **13**; 30 — *thirty*.' },
       { k: 'translate', uz: 'o\'n besh', a: ['fifteen', '15'], why: '15 = **fifteen**.' },
       { k: 'choice', q: '*Room ___, please.* (11)', opts: ['one', 'eleven', 'twelve', 'ten'], a: 1, why: '11 = **eleven**.' },
@@ -69,7 +69,7 @@ export const drillsNew: Drill[] = [
     exercises: [
       { k: 'choice', q: 'Qaysi harf **unli**?', opts: ['B', 'D', 'E', 'M'], a: 2, why: 'Unlilar: **a, e, i, o, u**.' },
       { k: 'listen', say: 'G', opts: ['G', 'J', 'E', 'I'], a: 0, why: 'Bu **G** harfi.' },
-      { k: 'choice', q: 'Qaysi so\'zda **uzun** "ay" bor? (*kite* yoki *sit*)', opts: ['kite', 'sit', 'hat', 'bed'], a: 0, why: '*kite* — uzun "ay"; *sit* — qisqa "i".' },
+      { k: 'choice', q: 'Qaysi so\'zda **uzun** "ay" bor?', opts: ['kite', 'sit', 'hat', 'bed'], a: 0, why: '*kite* — uzun "ay"; *sit* — qisqa "i".' },
       { k: 'match', pairs: [['sh', 'ship'], ['ch', 'chicken'], ['th', 'think'], ['ph', 'photo']] },
       { k: 'choice', q: 'Ertalab salomlashish:', opts: ['Good night.', 'Good morning.', 'Goodbye.', 'Sorry.'], a: 1, why: 'Ertalab — **Good morning**.' },
       { k: 'choice', q: '*How are you?* — eng yaxshi javob:', opts: ["I'm fine, thanks.", 'My name is Ali.', 'Goodbye.', "I'm twelve years old."], a: 0, why: '*How are you?* → **I\'m fine, thanks.**' },

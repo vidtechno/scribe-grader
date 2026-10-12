@@ -22,7 +22,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u1', n: 1, title: 'Letters & Sounds', titleUz: 'Alifbo va tovushlar: o\'qish va talaffuz',
     description: "Alifbo, ingliz tovushlari, salomlashish, sonlar va birinchi so'zlar.",
-    learns: ["26 ta harf va ularning nomi", "Qisqa va cho'ziq unlilar, sh / ch / th kabi harf birikmalari", "Salomlashish, xayrlashish va o'zingizni tanishtirish", "0–20 sonlar, ismingizni harflab aytish", "Vaziyat: yangi odam bilan tanishuv"],
+    learns: ["26 ta harf va ularning nomi", "Qisqa va cho'ziq unlilar, sh / ch / th kabi harf birikmalari", "Salomlashish, xayrlashish va o'zingizni tanishtirish", "0–20 sonlar, ismingizni harflab aytish, sinf iboralari", "Vaziyat: yangi odam bilan tanishuv; o'yinlar va mini-boss"],
     level: 'beginner', tone: 'from-rose-500 to-orange-400',
     lessons: [
       { id: 'u1-l1', title: 'The alphabet: A–M', titleUz: 'Alifbo: A–M' },
@@ -40,7 +40,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u2', n: 2, title: 'To be: Who am I?', titleUz: 'Men kimman? Olmoshlar va to be (am / is / are)',
     description: "Olmoshlar, am / is / are, inkor va savol, a / an, ko'plik, this / that, egalik.",
-    learns: ["Kishilik olmoshlari: I, you, he, she, we, they", "To be: am / is / are — darak, inkor va savol", "a / an, ko'plik, this / that / these / those", "Egalik: my, your, his… va 's", "Vaziyat: tanishuv, anketa to'ldirish, davlat va kasb"],
+    learns: ["Kishilik olmoshlari va to be: am / is / are — darak, inkor, savol, qisqa javoblar", "a / an (harf emas, tovush hal qiladi) va istisnolar", "Ko'plik: -s, -es, -ies imlosi va noto'g'ri ko'plik (child → children)", "this / that / these / those; egalik: my, your, his… va 's", "Vaziyat: oila haqida, anketa to'ldirish; mavzu testi va mini-boss"],
     level: 'beginner', tone: 'from-violet-500 to-fuchsia-500',
     lessons: [
       { id: 'u2-l1', title: 'Personal pronouns', titleUz: 'Kishilik olmoshlari' },
@@ -62,7 +62,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u3', n: 3, title: 'Everyday Life', titleUz: 'Kundalik hayot: Present Simple',
     description: "Katta sonlar, Present Simple, vaqt, kun tartibi, in / on / at, always / never.",
-    learns: ["Present Simple: doimiy ish va odatlar (I work, she works)", "Inkor va savol: don't / doesn't, Do / Does", "Soat, kun tartibi, in / on / at", "always, usually, often, never — qanchalik tez-tez", "Vaziyat: kafe, universitet va ish kuni"],
+    learns: ["Present Simple: doimiy ish va odatlar (I work, she works), -s / -es imlosi", "Inkor va savol: don't / doesn't, Do / Does, Wh-savollar, qisqa javoblar", "Soat, kun tartibi, in / on / at; always, usually, never", "Vaziyat: kafe, universitet va ish kuni; kun tartibi (tinglash va yozish)", "Mavzu testi (Present Simple) va mini-boss"],
     level: 'beginner', tone: 'from-sky-500 to-cyan-400',
     lessons: [
       { id: 'u3-l1', title: 'Numbers 20–100, age & prices', titleUz: 'Sonlar 20–100, yosh va narx' },
@@ -85,7 +85,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u4', n: 4, title: 'Describing and Asking', titleUz: 'Tasvirlash va so\'rash: there is, can, have got',
     description: "Wh-savollar, there is / are, joy predloglari, much / many, can, buyruq, have got, Present Continuous.",
-    learns: ["Wh-savollar: what, where, who, when, why, how", "There is / there are, some / any, joy predloglari (in, on, under…)", "Sanaladigan va sanalmaydigan otlar: much / many", "can / can't: qobiliyat va iltimos; buyruq gaplar", "have got va oila; Present Continuous: hozir nima qilyapman", "Vaziyat: uy, shahar, do'kon, oila"],
+    learns: ["Wh-savollar, there is / there are, some / any, joy predloglari", "Sanaladigan va sanalmaydigan otlar: much / many; have got va oila", "can / can't, Can I…? iltimoslari, buyruq gaplar, qaratqich olmoshlar (me, him, her)", "Present Continuous: darak, -ing imlosi, inkor, savollar va qisqa javoblar", "Vaziyat: xona va shahar, do'kon, telefon; tinglash va gapirish; mavzu testi va mini-boss"],
     level: 'beginner', tone: 'from-emerald-500 to-teal-400',
     lessons: [
       { id: 'u4-l1', title: 'Wh- questions', titleUz: "Wh-savollar: what, where, who…" },
@@ -111,7 +111,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u5', n: 5, title: 'Past & Future', titleUz: "Kecha, ertaga, hozir: o'tgan va kelasi zamon",
     description: "Ikki hozirgi zamon farqi, was / were, Past Simple, noto'g'ri fe'llar, going to, will, qiyoslash.",
-    learns: ["Present Simple va Continuous farqi", "O'tgan zamon: was / were, Past Simple (-ed va noto'g'ri fe'llar), didn't, Did…?", "Kelasi zamon: be going to (reja) va will (qaror, va'da)", "Qiyoslash: bigger, the biggest, more interesting", "Vaziyat: kecha nima qildingiz, ertangi reja, tanlov qilish"],
+    learns: ["Present Simple va Continuous farqi; was / were", "Past Simple: -ed (imlo va talaffuz), noto'g'ri fe'llar, didn't, Did…?, qisqa javoblar, Wh-savollar", "Kelasi zamon: be going to va will; qiyoslash: bigger, the biggest", "O'qish va tinglash/gapirish amaliyoti; vaziyat: kecha, dam olish kuni rejalari, do'konda tanlash", "Mavzu testi (Past Simple), mini-boss va Beginner yakuniy imtihoni"],
     level: 'beginner', tone: 'from-amber-500 to-yellow-400',
     lessons: [
       { id: 'u5-l1', title: 'Present Simple vs Continuous', titleUz: 'Present Simple yoki Continuous?' },
