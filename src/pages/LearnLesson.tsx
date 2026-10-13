@@ -297,13 +297,13 @@ function Practice({ lesson, fresh, onOutcome, onDone }: { lesson: Lesson; fresh:
         {retry && <span className="text-amber-600 dark:text-amber-400 font-semibold">↻ Xatoni tuzatamiz</span>}
       </div>
       <div className="h-1.5 rounded-full bg-secondary mb-5 overflow-hidden"><div className="h-full bg-primary transition-all" style={{ width: `${(solved / initial.length) * 100}%` }} /></div>
-      <ReviewNav shown={shown} current={pos} onShow={(n) => setView(n >= pos ? null : n)} />
       {/* Answered exercises stay mounted (hidden) so the learner can look at them again, but not change them. */}
       {queue.slice(0, pos + 1).map((it, n) => (
         <div key={it.key} hidden={n !== shown} className={n < pos ? 'pointer-events-none select-none' : ''} aria-hidden={n !== shown}>
           <ExerciseView ex={it.ex} mode="practice" onDone={n === pos ? answer : () => {}} />
         </div>
       ))}
+      <ReviewNav shown={shown} current={pos} onShow={(n) => setView(n >= pos ? null : n)} />
     </div>
   );
 }
@@ -339,7 +339,6 @@ function Quiz({ lesson, onOutcome, onDone }: { lesson: Lesson; onOutcome: (o: Ou
   return (
     <div>
       <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground"><span>Tekshiruv · {shown + 1} / {questions.length}</span><span>✓ {score}</span></div>
-      <ReviewNav shown={shown} current={i} onShow={(n) => setView(n >= i ? null : n)} />
       {questions.slice(0, i + 1).map((q, n) => (
         <div key={n} hidden={n !== shown} className={n < i ? 'pointer-events-none select-none' : ''} aria-hidden={n !== shown}>
           <ExerciseView ex={q.ex} mode="quiz" onDone={n !== i ? () => {} : (c) => {
@@ -350,6 +349,7 @@ function Quiz({ lesson, onOutcome, onDone }: { lesson: Lesson; onOutcome: (o: Ou
           }} />
         </div>
       ))}
+      <ReviewNav shown={shown} current={i} onShow={(n) => setView(n >= i ? null : n)} />
     </div>
   );
 }
