@@ -229,7 +229,9 @@ function Warmup({ items, onResults, onDone }: { items: SessionItem[]; onResults:
 function Slides({ lesson, onDone }: { lesson: Lesson; onDone: () => void }) {
   const [i, setI] = useState(0);
   const [answered, setAnswered] = useState<Record<string, true>>({});
+  const [seen, setSeen] = useState(0);
   const slide = lesson.slides[i];
+  const goTo = (n: number) => { setI(n); setSeen((m) => Math.max(m, n)); };
   const checks = slide.blocks.map((b, j) => (b.t === 'check' ? `${i}-${j}` : null)).filter(Boolean) as string[];
   const ready = checks.every((k) => answered[k]);
   const last = i === lesson.slides.length - 1;
@@ -237,19 +239,24 @@ function Slides({ lesson, onDone }: { lesson: Lesson; onDone: () => void }) {
   return (
     <div>
       <div className="flex gap-1 mb-4">{lesson.slides.map((_, k) => <span key={k} className={`h-1 flex-1 rounded-full ${k <= i ? 'bg-primary' : 'bg-border'}`} />)}</div>
-      <motion.div key={i} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }}>
-        <h2 className="text-2xl font-bold mb-4">{slide.title}</h2>
-        <div className="space-y-4">
-          {slide.blocks.map((b, j) => (
-            <BlockView key={`${i}-${j}`} block={b} onCheck={() => setAnswered((a) => ({ ...a, [`${i}-${j}`]: true }))} />
-          ))}
+      {/* Visited slides stay mounted (hidden): going back shows the answers given, and they cannot be changed. */}
+      {lesson.slides.slice(0, seen + 1).map((sl, n) => (
+        <div key={n} hidden={n !== i}>
+          <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }}>
+            <h2 className="text-2xl font-bold mb-4">{sl.title}</h2>
+            <div className="space-y-4">
+              {sl.blocks.map((b, j) => (
+                <BlockView key={`${n}-${j}`} block={b} onCheck={() => setAnswered((a) => ({ ...a, [`${n}-${j}`]: true }))} />
+              ))}
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
+      ))}
       <div className="fixed bottom-0 inset-x-0 bg-background/95 backdrop-blur border-t border-border">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
-          <Button variant="ghost" disabled={i === 0} onClick={() => setI(i - 1)} className="gap-1"><ChevronLeft className="h-4 w-4" />Orqaga</Button>
+          <Button variant="ghost" disabled={i === 0} onClick={() => goTo(i - 1)} className="gap-1"><ChevronLeft className="h-4 w-4" />Orqaga</Button>
           <span className="text-xs text-muted-foreground flex-1 text-center">{ready ? `${i + 1} / ${lesson.slides.length}` : 'Avval savolga javob bering'}</span>
-          <Button variant={last ? 'glow' : 'default'} disabled={!ready} onClick={() => (last ? onDone() : setI(i + 1))} className="gap-1">
+          <Button variant={last ? 'glow' : 'default'} disabled={!ready} onClick={() => (last ? onDone() : goTo(i + 1))} className="gap-1">
             {last ? "So'zlarga o'tish" : 'Keyingi'}<ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -264,6 +271,7 @@ function Practice({ lesson, fresh, onOutcome, onDone }: { lesson: Lesson; fresh:
   const [queue, setQueue] = useState<{ ex: Exercise; key: string; tries: number }[]>(() => initial.map((ex, i) => ({ ex, key: `p${i}`, tries: 0 })));
   const [pos, setPos] = useState(0);
   const [solved, setSolved] = useState(0);
+  const [view, setView] = useState<number | null>(null);
   const item = queue[pos];
   useEffect(() => { if (!item) onDone(); }, [item, onDone]);
   if (!item) return null;
@@ -275,9 +283,11 @@ function Practice({ lesson, fresh, onOutcome, onDone }: { lesson: Lesson; fresh:
     if (correct) setSolved((s) => s + 1);
     else if (item.tries < 2) setQueue((q) => [...q, { ...item, key: `${item.key}r`, tries: item.tries + 1 }]);
     else setSolved((s) => s + 1);
+    setView(null);
     setPos((p) => p + 1);
   };
   const retry = item.tries > 0;
+  const shown = view ?? pos;
   return (
     <div>
       <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground">
@@ -285,7 +295,26 @@ function Practice({ lesson, fresh, onOutcome, onDone }: { lesson: Lesson; fresh:
         {retry && <span className="text-amber-600 dark:text-amber-400 font-semibold">↻ Xatoni tuzatamiz</span>}
       </div>
       <div className="h-1.5 rounded-full bg-secondary mb-5 overflow-hidden"><div className="h-full bg-primary transition-all" style={{ width: `${(solved / initial.length) * 100}%` }} /></div>
-      <ExerciseView key={item.key} ex={item.ex} mode="practice" onDone={answer} />
+      <ReviewNav shown={shown} current={pos} onShow={(n) => setView(n >= pos ? null : n)} />
+      {/* Answered exercises stay mounted (hidden) so the learner can look at them again, but not change them. */}
+      {queue.slice(0, pos + 1).map((it, n) => (
+        <div key={it.key} hidden={n !== shown} className={n < pos ? 'pointer-events-none select-none' : ''} aria-hidden={n !== shown}>
+          <ExerciseView ex={it.ex} mode="practice" onDone={n === pos ? answer : () => {}} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** "Previous / next question" while a lesson is running: earlier answers can be read again, never changed. */
+function ReviewNav({ shown, current, onShow }: { shown: number; current: number; onShow: (n: number) => void }) {
+  if (current === 0) return null;
+  const reviewing = shown < current;
+  return (
+    <div className="flex items-center justify-between mb-4 -mt-2">
+      <Button type="button" variant="ghost" size="sm" disabled={shown === 0} onClick={() => onShow(shown - 1)} className="gap-1 text-muted-foreground"><ChevronLeft className="h-4 w-4" />Oldingi savol</Button>
+      {reviewing && <span className="text-xs text-amber-600 dark:text-amber-400">Ko'rib chiqish: javobni o'zgartirib bo'lmaydi</span>}
+      {reviewing && <Button type="button" variant="ghost" size="sm" onClick={() => onShow(shown + 1)} className="gap-1 text-primary">{shown + 1 === current ? 'Hozirgi savol' : 'Keyingi'}<ChevronRight className="h-4 w-4" /></Button>}
     </div>
   );
 }
@@ -305,6 +334,7 @@ function pickCheck(quiz: Exercise[], count: number): { ex: Exercise; index: numb
 function Quiz({ lesson, onOutcome, onDone }: { lesson: Lesson; onOutcome: (o: Outcome) => void; onDone: (score: number) => void }) {
   const [i, setI] = useState(-1);
   const [score, setScore] = useState(0);
+  const [view, setView] = useState<number | null>(null);
   const questions = useMemo(() => pickCheck(lesson.quiz, LESSON_CHECK_QUESTIONS), [lesson]);
   if (i < 0) {
     return (
@@ -316,16 +346,21 @@ function Quiz({ lesson, onOutcome, onDone }: { lesson: Lesson; onOutcome: (o: Ou
       </div>
     );
   }
-  const q = questions[i];
+  const shown = view ?? i;
   return (
     <div>
-      <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground"><span>Tekshiruv · {i + 1} / {questions.length}</span><span>✓ {score}</span></div>
-      <ExerciseView key={i} ex={q.ex} mode="quiz" onDone={(c) => {
-        const s = score + (c ? 1 : 0);
-        setScore(s);
-        onOutcome({ ex: q.ex, section: 'q', index: q.index, correct: c, own: true });
-        if (i + 1 >= questions.length) onDone(s); else setI(i + 1);
-      }} />
+      <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground"><span>Tekshiruv · {shown + 1} / {questions.length}</span><span>✓ {score}</span></div>
+      <ReviewNav shown={shown} current={i} onShow={(n) => setView(n >= i ? null : n)} />
+      {questions.slice(0, i + 1).map((q, n) => (
+        <div key={n} hidden={n !== shown} className={n < i ? 'pointer-events-none select-none' : ''} aria-hidden={n !== shown}>
+          <ExerciseView ex={q.ex} mode="quiz" onDone={n !== i ? () => {} : (c) => {
+            const s = score + (c ? 1 : 0);
+            setScore(s);
+            onOutcome({ ex: q.ex, section: 'q', index: q.index, correct: c, own: true });
+            if (i + 1 >= questions.length) onDone(s); else { setView(null); setI(i + 1); }
+          }} />
+        </div>
+      ))}
     </div>
   );
 }

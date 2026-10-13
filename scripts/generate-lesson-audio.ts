@@ -5,6 +5,8 @@
  *   npx tsx scripts/generate-lesson-audio.ts                  # every written lesson, voice: espeak-ng + mbrola (apt)
  *   npx tsx scripts/generate-lesson-audio.ts --engine edge    # neural voice (pip install edge-tts; needs internet)
  *   npx tsx scripts/generate-lesson-audio.ts --force          # re-record existing files
+ *   KOKORO_DIR=/path/to/kokoro-int8-en-v0_19 npx tsx scripts/generate-lesson-audio.ts --engine kokoro [--only keys.json]
+ *       # free neural voice (Kokoro, British male "george"); see scripts/kokoro-tts.py. --only: re-record just those keys.
  *   ELEVENLABS_API_KEY=... npx tsx scripts/generate-lesson-audio.ts --engine elevenlabs --budget 9500
  *       # premium voice, lesson by lesson from the start of the course, until the credit budget is spent.
  *       # Finished keys are listed in scripts/audio-premium.json so the next run continues where this one stopped.
@@ -30,7 +32,7 @@ const option = (name: string, fallback: string) => { const i = args.indexOf(`--$
 
 const engine = option('engine', 'espeak');
 const OUT = join(process.cwd(), 'public', 'audio');
-const VOICES: Record<string, string> = { espeak: 'espeak-ng mb-us1 (female), 140 wpm', edge: 'edge en-US-AriaNeural', elevenlabs: 'ElevenLabs Rachel (female) + espeak-ng for the rest' };
+const VOICES: Record<string, string> = { kokoro: 'Kokoro bm_george (British male) + earlier neural voices', espeak: 'espeak-ng mb-us1 (female), 140 wpm', edge: 'edge en-US-AriaNeural', elevenlabs: 'ElevenLabs Rachel (female) + espeak-ng for the rest' };
 const PREMIUM_LIST = join(process.cwd(), 'scripts', 'audio-premium.json');
 const ELEVEN_VOICE = option('voice', '21m00Tcm4TlvDq8ikWAM'); // Rachel: calm, clear American female
 const ELEVEN_MODEL = option('model', 'eleven_flash_v2_5'); // half a credit per character
@@ -51,6 +53,11 @@ function speechText(text: string): string {
     .replace(/…/g, '...')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+/** Kokoro reads "..." as a pause, which suits the gap of a fill-in sentence. */
+function kokoroText(text: string): string {
+  return speechText(text).replace(/\s*\.\.\.\s*/g, ' ... ');
 }
 
 async function withRetries<T>(task: () => Promise<T>, tries = 4): Promise<T> {
@@ -100,7 +107,7 @@ async function allLessons(): Promise<Lesson[]> {
 async function main() {
   // Fail at once (not after thousands of recordings) when a needed tool is missing.
   if (engine === 'elevenlabs' && !process.env.ELEVENLABS_API_KEY) throw new Error('Set ELEVENLABS_API_KEY');
-  const tools: [string, string][] = engine === 'elevenlabs' ? [] : [['ffmpeg', '-version'], engine === 'edge' ? ['edge-tts', '--help'] : ['espeak-ng', '--version']];
+  const tools: [string, string][] = engine === 'elevenlabs' ? [] : engine === 'kokoro' ? [['ffmpeg', '-version']] : [['ffmpeg', '-version'], engine === 'edge' ? ['edge-tts', '--help'] : ['espeak-ng', '--version']];
   for (const [tool, flagToProbe] of tools) {
     try { await run(tool, [flagToProbe]); } catch { throw new Error(`${tool} is not installed (or not on PATH)`); }
   }
@@ -151,12 +158,34 @@ async function main() {
     console.log(`budget ${budget} credits: ${todo.length} texts (~${Math.round(spent)} credits) up to and including lesson ${lastLesson || '(none)'}`);
     if (flag('dry')) return;
   }
+  if (engine === 'kokoro') {
+    if (!process.env.KOKORO_DIR) throw new Error('Set KOKORO_DIR to the kokoro-int8-en-v0_19 folder');
+    if (option('only', '')) {
+      const only = new Set<string>(JSON.parse(readFileSync(option('only', ''), 'utf8')) as string[]);
+      todo = [...texts].filter(([key]) => only.has(key));
+    }
+  }
   console.log(`${texts.size} texts, ${todo.length} to record (${VOICES[engine] ?? engine})`);
+
+  if (engine === 'kokoro') {
+    // One python process per shard: the model is loaded once and every text is recorded in it.
+    const shards = Number(option('jobs', '3'));
+    const jobs = todo.map(([key, text]) => ({ out: join(OUT, `${key}.mp3`), text: kokoroText(text) }));
+    const procs = Array.from({ length: shards }, (_, i) => {
+      const file = join(tmpdir(), `kokoro-jobs-${process.pid}-${i}.json`);
+      writeFileSync(file, JSON.stringify(jobs.filter((_, n) => n % shards === i)));
+      return run(process.env.PYTHON ?? 'python3', [join(process.cwd(), 'scripts', 'kokoro-tts.py'), file], { env: process.env, maxBuffer: 1 << 28 })
+        .then((r) => r.stderr, (e: { stderr?: string }) => e.stderr ?? String(e));
+    });
+    const errors = (await Promise.all(procs)).join('').trim();
+    if (errors) console.error(errors.split('\n').slice(-20).join('\n'));
+  }
 
   let done = 0;
   const failed: string[] = [];
   const queue = [...todo];
   const worker = async (id: number) => {
+    if (engine === 'kokoro') return;
     for (let item = queue.shift(); item; item = queue.shift()) {
       const [key, text] = item;
       try {
