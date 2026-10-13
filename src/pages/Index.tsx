@@ -389,6 +389,7 @@ export default function Index() {
             <a className="block text-muted-foreground hover:text-primary" href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
           <div className="space-y-2"><p className="font-semibold">Aloqa</p>
             <a className="block text-muted-foreground hover:text-primary" href="/blog">Blog</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/support">Yordam</a>
             <a className="block text-muted-foreground hover:text-primary" href="https://t.me/scorify_support" rel="noopener noreferrer">Telegram: @scorify_support</a>
             <a className="block text-muted-foreground hover:text-primary" href="#faq">Savol-javob</a></div>
         </div>

@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Trophy, Users,
-} from 'lucide-react';
+  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Trophy, Users, LifeBuoy } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useActivityData } from '@/hooks/useDashboardData';
@@ -163,6 +162,7 @@ export default function Dashboard() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
               { to: '/grammar-test', icon: BrainCircuit, title: 'Daily Grammar', text: 'A short test based on your recent mistakes' },
+              { to: '/support', icon: LifeBuoy, title: 'Yordam', text: "Telegramda yozing: to'lov, xato, savol" },
               { to: '/drafts', icon: PenLine, title: 'Drafts', text: draftsCount ? `${draftsCount} unfinished ${draftsCount === 1 ? 'item' : 'items'}` : 'No unfinished work' },
             ].map(i => (
               <Link key={i.to} to={i.to} className="group glass-card-hover p-4 flex items-center gap-3">

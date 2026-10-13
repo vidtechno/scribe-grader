@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
-import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap, Gift, BookOpen } from 'lucide-react';
+import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap, Gift, BookOpen, LifeBuoy } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { LearningIdentity } from '@/features/social/LearningIdentity';
 import { PeopleSection } from '@/features/social/PeopleSection';
@@ -108,6 +108,7 @@ export default function Profile() {
         <LearningIdentity />
         <ReferralCard />
 
+        <Link to="/support" className="glass-card-hover p-4 mb-4 flex items-center gap-3"><span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><LifeBuoy className="h-5 w-5" /></span><span className="min-w-0 flex-1"><span className="block font-semibold text-sm">Yordam kerakmi?</span><span className="block text-xs text-muted-foreground">To'lov, darsdagi xato yoki savol: Telegramda yozing</span></span></Link>
         <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
 
         {/* Plan usage + history */}
