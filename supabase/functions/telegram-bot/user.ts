@@ -270,10 +270,10 @@ interface LearningSummary {
   today_xp?: number; daily_goal?: number; week_xp?: number;
   streak_info?: { current: number; best: number; at_risk: boolean; broken: boolean };
 }
-// Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units, Elementary 6, Pre-Intermediate 6).
+// Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units and 88 lessons including 14 real-life scenes, Elementary 6 and 90, Pre-Intermediate 6 and 66).
 const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
-  beginner: { name: "Beginner", lessons: 206, units: 17 },
-  a1: { name: "Elementary (A1)", lessons: 132, units: 12 },
+  beginner: { name: "Beginner", lessons: 244, units: 17 },
+  a1: { name: "Elementary (A1)", lessons: 156, units: 12 },
   a2: { name: "Pre-Intermediate (A2)", lessons: 66, units: 6 },
 };
 

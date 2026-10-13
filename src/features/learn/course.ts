@@ -22,7 +22,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u1', n: 1, title: 'Letters & Sounds', titleUz: 'Alifbo va tovushlar: o\'qish va talaffuz',
     description: "Alifbo, ingliz tovushlari, salomlashish, sonlar va birinchi so'zlar.",
-    learns: ["26 ta harf va ularning nomi", "Qisqa va cho'ziq unlilar, sh / ch / th kabi harf birikmalari", "Salomlashish, xayrlashish va o'zingizni tanishtirish", "0–20 sonlar, ismingizni harflab aytish, sinf iboralari", "Vaziyat: yangi odam bilan tanishuv; o'yinlar va mini-boss"],
+    learns: ["26 ta harf va ularning nomi", "Qisqa va cho'ziq unlilar, sh / ch / th kabi harf birikmalari", "Salomlashish, xayrlashish va o'zingizni tanishtirish", "0–20 sonlar, ismingizni harflab aytish, sinf iboralari", "Vaziyat: yangi odam bilan tanishuv; o'yinlar va mini-boss", "Real hayot (ovozli suhbat): yangi odam bilan tanishish, ro'yxatdan o'tish stolida"],
     level: 'beginner', tone: 'from-rose-500 to-orange-400',
     lessons: [
       { id: 'u1-l1', title: 'The alphabet: A–M', titleUz: 'Alifbo: A–M' },
@@ -30,17 +30,19 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u1-l3', title: 'Vowel sounds: short & long', titleUz: 'Unli tovushlar: qisqa va cho\'ziq' },
       { id: 'u1-l4', title: 'Letter teams: sh, ch, th…', titleUz: 'Harf birikmalari: sh, ch, th…' },
       { id: 'u1-l5', title: 'Hello! Greetings', titleUz: 'Salomlashish va xayrlashish' },
+      { id: 'u1-l11', title: "Real life: meeting someone new", titleUz: "Real hayot: yangi odam bilan tanishish", mini: true, kind: 'scene' },
       { id: 'u1-l6', title: 'Numbers 0–20', titleUz: 'Sonlar 0–20' },
       { id: 'u1-l7', title: 'How do you spell it?', titleUz: 'Harflab aytish va sinf iboralari' },
       { id: 'u1-l8', title: 'Colours & things', titleUz: 'Ranglar va narsalar' },
       { id: 'u1-l9', title: 'Meeting someone: name, spelling, numbers', titleUz: 'Yangi tanish: ism, harflash, raqam', mini: true, kind: 'situation' },
+      { id: 'u1-l12', title: "Real life: at the registration desk", titleUz: "Real hayot: ro'yxatdan o'tish stolida", mini: true, kind: 'scene' },
       { id: 'u1-l10', title: 'Letters & sounds: final review', titleUz: 'Alifbo va tovushlar: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
   {
     id: 'u2', n: 2, title: 'To be: Who am I?', titleUz: 'Men kimman? Olmoshlar va to be (am / is / are)',
     description: "Olmoshlar, am / is / are, inkor va savol, a / an, ko'plik, this / that, egalik.",
-    learns: ["Kishilik olmoshlari va to be: am / is / are — darak, inkor, savol, qisqa javoblar", "a / an (harf emas, tovush hal qiladi) va istisnolar", "Ko'plik: -s, -es, -ies imlosi va noto'g'ri ko'plik (child → children)", "this / that / these / those; egalik: my, your, his… va 's", "Vaziyat: oila haqida, anketa to'ldirish; mavzu testi va mini-boss"],
+    learns: ["Kishilik olmoshlari va to be: am / is / are — darak, inkor, savol, qisqa javoblar", "a / an (harf emas, tovush hal qiladi) va istisnolar", "Ko'plik: -s, -es, -ies imlosi va noto'g'ri ko'plik (child → children)", "this / that / these / those; egalik: my, your, his… va 's", "Vaziyat: oila haqida, anketa to'ldirish; mavzu testi va mini-boss", "Real hayot (ovozli suhbat): qayerdansiz va kasbingiz, oilaviy surat haqida gaplashish"],
     level: 'beginner', tone: 'from-violet-500 to-fuchsia-500',
     lessons: [
       { id: 'u2-l1', title: 'Personal pronouns', titleUz: 'Kishilik olmoshlari' },
@@ -54,7 +56,9 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u2-l6', title: 'this / that / these / those', titleUz: 'this / that / these / those' },
       { id: 'u2-l7', title: "my, your, his… and 's", titleUz: "Egalik: my, your, his… va 's" },
       { id: 'u2-l8', title: 'Countries, nationalities & jobs', titleUz: 'Davlatlar, millatlar va kasblar' },
+      { id: 'u2-l15', title: "Real life: where are you from?", titleUz: "Real hayot: qayerdansiz? kasbingiz nima?", mini: true, kind: 'scene' },
       { id: 'u2-l9', title: 'Introducing myself and my family', titleUz: 'O\'zim va oilam haqida tanishtirish', mini: true, kind: 'situation' },
+      { id: 'u2-l16', title: "Real life: my family photo", titleUz: "Real hayot: oilaviy surat", mini: true, kind: 'scene' },
       { id: 'u2-l10', title: 'At the language school: a registration form', titleUz: 'Til maktabida: ro\'yxatdan o\'tish anketasi', mini: true, kind: 'situation' },
       { id: 'u2-l11', title: 'To be: final review', titleUz: 'To be: yakuniy takror', mini: true, kind: 'review' },
     ],
@@ -62,7 +66,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u3', n: 3, title: 'Everyday Life', titleUz: 'Kundalik hayot: Present Simple',
     description: "Katta sonlar, Present Simple, vaqt, kun tartibi, in / on / at, always / never.",
-    learns: ["Present Simple: doimiy ish va odatlar (I work, she works), -s / -es imlosi", "Inkor va savol: don't / doesn't, Do / Does, Wh-savollar, qisqa javoblar", "Soat, kun tartibi, in / on / at; always, usually, never", "Vaziyat: kafe, universitet va ish kuni; kun tartibi (tinglash va yozish)", "Mavzu testi (Present Simple) va mini-boss"],
+    learns: ["Present Simple: doimiy ish va odatlar (I work, she works), -s / -es imlosi", "Inkor va savol: don't / doesn't, Do / Does, Wh-savollar, qisqa javoblar", "Soat, kun tartibi, in / on / at; always, usually, never", "Vaziyat: kafe, universitet va ish kuni; kun tartibi (tinglash va yozish)", "Mavzu testi (Present Simple) va mini-boss", "Real hayot (ovozli suhbat): kafe, avtobus bekati, uchrashuv vaqti, do'st bilan kun tartibi"],
     level: 'beginner', tone: 'from-sky-500 to-cyan-400',
     lessons: [
       { id: 'u3-l1', title: 'Numbers 20–100, age & prices', titleUz: 'Sonlar 20–100, yosh va narx' },
@@ -73,19 +77,23 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u3-l5', title: 'Do / Does questions', titleUz: 'Savollar: Do / Does' },
       { id: 'u3-l14', title: 'Wh- questions with do / does', titleUz: "Wh-savollar: What do you…? Where does she…?", mini: true, kind: 'grammar' },
       { id: 'u3-l9', title: 'At the café: Present Simple in real life', titleUz: 'Kafeda: Present Simple hayotda', mini: true, kind: 'situation' },
+      { id: 'u3-l16', title: "Real life: ordering at a café", titleUz: "Real hayot: kafeda buyurtma berish", mini: true, kind: 'scene' },
       { id: 'u3-l10', title: 'University and work: my week', titleUz: 'Universitet va ish: mening haftam', mini: true, kind: 'situation' },
       { id: 'u3-l11', title: 'Present Simple: final review', titleUz: 'Present Simple: yakuniy takror', mini: true, kind: 'review' },
       { id: 'u3-l6', title: 'Time & daily routine', titleUz: 'Vaqt va kun tartibi' },
+      { id: 'u3-l17', title: "Real life: at the bus station", titleUz: "Real hayot: avtobus bekatida", mini: true, kind: 'scene' },
       { id: 'u3-l7', title: 'Days, months: in / on / at', titleUz: 'Kunlar, oylar: in / on / at' },
+      { id: 'u3-l18', title: "Real life: arranging to meet", titleUz: "Real hayot: uchrashuv vaqtini kelishish", mini: true, kind: 'scene' },
       { id: 'u3-l8', title: 'always, usually, never…', titleUz: "Qanchalik tez-tez: always, usually, never…" },
       { id: 'u3-l15', title: 'My daily routine: listening and writing', titleUz: "Mening kunim: tinglash va yozish", mini: true, kind: 'skill' },
+      { id: 'u3-l19', title: "Real life: my day, a chat with a friend", titleUz: "Real hayot: do'st bilan kun tartibi", mini: true, kind: 'scene' },
       { id: 'u3-l12', title: 'Everyday life: final review', titleUz: 'Kundalik hayot: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
   {
     id: 'u4', n: 4, title: 'Describing and Asking', titleUz: 'Tasvirlash va so\'rash: there is, can, have got',
     description: "Wh-savollar, there is / are, joy predloglari, much / many, can, buyruq, have got, Present Continuous.",
-    learns: ["Wh-savollar, there is / there are, some / any, joy predloglari", "Sanaladigan va sanalmaydigan otlar: much / many; have got va oila", "can / can't, Can I…? iltimoslari, buyruq gaplar, to'ldiruvchi olmoshlar (me, him, her)", "Present Continuous: darak, -ing imlosi, inkor, savollar va qisqa javoblar", "Vaziyat: xona va shahar, do'kon, telefon; tinglash va gapirish; mavzu testi va mini-boss"],
+    learns: ["Wh-savollar, there is / there are, some / any, joy predloglari", "Sanaladigan va sanalmaydigan otlar: much / many; have got va oila", "can / can't, Can I…? iltimoslari, buyruq gaplar, to'ldiruvchi olmoshlar (me, him, her)", "Present Continuous: darak, -ing imlosi, inkor, savollar va qisqa javoblar", "Vaziyat: xona va shahar, do'kon, telefon; tinglash va gapirish; mavzu testi va mini-boss", "Real hayot (ovozli suhbat): yo'l so'rash, do'konda narx, mehmonxonada ro'yxatdan o'tish"],
     level: 'beginner', tone: 'from-emerald-500 to-teal-400',
     lessons: [
       { id: 'u4-l1', title: 'Wh- questions', titleUz: "Wh-savollar: what, where, who…" },
@@ -96,9 +104,12 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u4-l10', title: 'At the shop: much, many, can I…?', titleUz: 'Do\'konda: much, many, can', mini: true, kind: 'situation' },
       { id: 'u4-l5', title: "can / can't", titleUz: "can / can't: qobiliyat va iltimos" },
       { id: 'u4-l14', title: 'Can I…? Requests and permission', titleUz: "Can I…? Iltimos va ruxsat so'rash", mini: true, kind: 'grammar' },
+      { id: 'u4-l20', title: "Real life: how much is it?", titleUz: "Real hayot: do'konda narx so'rash", mini: true, kind: 'scene' },
       { id: 'u4-l6', title: 'Imperatives & object pronouns', titleUz: 'Buyruq gaplar va me, him, her…' },
       { id: 'u4-l13', title: 'Object pronouns: me, you, him, her…', titleUz: "Olmoshning to'ldiruvchi shakli: me, him, her, us, them", mini: true, kind: 'grammar' },
+      { id: 'u4-l19', title: "Real life: asking the way", titleUz: "Real hayot: yo'l so'rash", mini: true, kind: 'scene' },
       { id: 'u4-l7', title: 'have got & family', titleUz: 'have got va oila' },
+      { id: 'u4-l21', title: "Real life: checking in at a hotel", titleUz: "Real hayot: mehmonxonada ro'yxatdan o'tish", mini: true, kind: 'scene' },
       { id: 'u4-l8', title: 'Present Continuous', titleUz: 'Present Continuous: hozir nima qilyapman' },
       { id: 'u4-l17', title: '-ing: spelling', titleUz: "-ing qo'shish imlosi: run → running", mini: true, kind: 'grammar' },
       { id: 'u4-l15', title: 'Present Continuous: negatives', titleUz: "Present Continuous: inkor gaplar", mini: true, kind: 'grammar' },
@@ -111,7 +122,7 @@ export const BEGINNER_UNITS: UnitMeta[] = [
   {
     id: 'u5', n: 5, title: 'Past & Future', titleUz: "Kecha, ertaga, hozir: o'tgan va kelasi zamon",
     description: "Ikki hozirgi zamon farqi, was / were, Past Simple, noto'g'ri fe'llar, going to, will, qiyoslash.",
-    learns: ["Present Simple va Continuous farqi; was / were", "Past Simple: -ed (imlo va talaffuz), noto'g'ri fe'llar, didn't, Did…?, qisqa javoblar, Wh-savollar", "Kelasi zamon: be going to va will; qiyoslash: bigger, the biggest", "O'qish va tinglash/gapirish amaliyoti; vaziyat: kecha, dam olish kuni rejalari, do'konda tanlash", "Mavzu testi (Past Simple), mini-boss va Beginner yakuniy imtihoni"],
+    learns: ["Present Simple va Continuous farqi; was / were", "Past Simple: -ed (imlo va talaffuz), noto'g'ri fe'llar, didn't, Did…?, qisqa javoblar, Wh-savollar", "Kelasi zamon: be going to va will; qiyoslash: bigger, the biggest", "O'qish va tinglash/gapirish amaliyoti; vaziyat: kecha, dam olish kuni rejalari, do'konda tanlash", "Mavzu testi (Past Simple), mini-boss va Beginner yakuniy imtihoni", "Real hayot (ovozli suhbat): o'tgan dam olish kuni, rejalar va yakuniy missiya"],
     level: 'beginner', tone: 'from-amber-500 to-yellow-400',
     lessons: [
       { id: 'u5-l1', title: 'Present Simple vs Continuous', titleUz: 'Present Simple yoki Continuous?' },
@@ -123,13 +134,16 @@ export const BEGINNER_UNITS: UnitMeta[] = [
       { id: 'u5-l5', title: "Irregular verbs 2: didn't, Did…?", titleUz: "Noto'g'ri fe'llar 2, didn't va Did…?" },
       { id: 'u5-l15', title: 'Past Simple: short answers and Wh- questions', titleUz: "Past Simple: qisqa javoblar va Wh-savollar", mini: true, kind: 'grammar' },
       { id: 'u5-l9', title: 'Yesterday: telling what happened', titleUz: 'Kecha nima bo\'ldi: Past Simple hayotda', mini: true, kind: 'situation' },
+      { id: 'u5-l18', title: "Real life: how was your weekend?", titleUz: "Real hayot: dam olish kuni qanday o'tdi?", mini: true, kind: 'scene' },
       { id: 'u5-l16', title: 'Reading: a day last week', titleUz: "O'qish: o'tgan haftadagi bir kun", mini: true, kind: 'skill' },
       { id: 'u5-l6', title: 'Future: be going to', titleUz: 'Kelasi zamon: be going to' },
       { id: 'u5-l7', title: 'Future: will', titleUz: 'Kelasi zamon: will' },
       { id: 'u5-l8', title: 'Comparatives & superlatives', titleUz: "Qiyoslash: bigger, the biggest" },
       { id: 'u5-l10', title: 'Plans for the weekend', titleUz: 'Dam olish kuni rejalari: going to, will', mini: true, kind: 'situation' },
+      { id: 'u5-l19', title: "Real life: plans for the weekend", titleUz: "Real hayot: dam olish kuni rejalari", mini: true, kind: 'scene' },
       { id: 'u5-l11', title: 'Choosing in a shop: comparing', titleUz: 'Do\'konda tanlash: qiyoslash', mini: true, kind: 'situation' },
       { id: 'u5-l17', title: 'Listening and speaking: my last weekend', titleUz: "Tinglash va gapirish: o'tgan dam olish kunim", mini: true, kind: 'skill' },
+      { id: 'u5-l20', title: "Real life: a day in a new city", titleUz: "Real hayot: yakuniy missiya — yangi shaharda bir kun", mini: true, kind: 'scene' },
       { id: 'u5-l12', title: 'Past and future: final review', titleUz: 'O\'tgan va kelasi zamon: yakuniy takror', mini: true, kind: 'review' },
     ],
   },
@@ -477,9 +491,11 @@ export async function loadLesson(lessonId: string): Promise<{ lesson: Lesson; pr
   const lessons = await loadUnit(meta.unitId);
   const lesson = lessons.find((l) => l.id === lessonId);
   if (!lesson) throw new Error(`Lesson ${lessonId} is not written yet`);
+  // The review at the start of a lesson looks back at the last ordinary lesson (a real-life scene has no quiz to review).
   let previous: Lesson | null = null;
-  if (index > 0) {
-    const prevMeta = ALL_LESSONS[index - 1];
+  for (let k = index - 1; k >= 0 && !previous; k--) {
+    const prevMeta = ALL_LESSONS[k];
+    if (prevMeta.kind === 'scene') continue;
     const prevLessons = prevMeta.unitId === meta.unitId ? lessons : await loadUnit(prevMeta.unitId);
     previous = prevLessons.find((l) => l.id === prevMeta.id) ?? null;
   }

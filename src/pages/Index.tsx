@@ -13,7 +13,7 @@ import { BEGINNER_UNITS, A1_UNITS, A2_UNITS } from '@/features/learn/course';
 import { motion } from 'framer-motion';
 import {
   BookOpen, Check, CheckCircle, ChevronRight, Flame, Gift, GraduationCap, Headphones, Mic, PenLine, Repeat, Send, Sparkles, Trophy, Volume2, Zap,
-  ClipboardCheck, Clock, Target, Languages,
+  ClipboardCheck, Clock, Target, Languages, MessagesSquare,
 } from 'lucide-react';
 
 const fadeUp = {
@@ -82,7 +82,7 @@ export default function Index() {
     { icon: Trophy, title: 'Reyting va do\'stlar', text: "Do'stlaringizni kuzating, reytingda raqobatlashing, profilingizni bezang." },
     { icon: Target, title: 'Daraja testi', text: "Kirishda 12 ta savol sizga mos darajani aniqlaydi. Adashib osonini tanlasangiz, tezkor test bilan yuqoriga o'tasiz." },
     { icon: Zap, title: "Mashq o'yinlari", text: "Qiyin mavzulardan keyin qisqa o'yinlar: so'z juftlari, gap tuzish, tinglash, tezlik va mavzu testi." },
-    { icon: ClipboardCheck, title: 'Imtihon va sertifikat', text: "Beginner va Elementary oxirida 5 ta ko'nikma (grammatika, lug'at, o'qish, tinglash, yozish) bo'yicha imtihon va sertifikat." },
+    { icon: MessagesSquare, title: 'Real hayotiy suhbatlar', text: "Kafe, yo'l so'rash, mehmonxona va boshqa vaziyatlarda ovozli suhbat: xato qilsangiz, sababini o'zbekcha tushuntiramiz." },
     { icon: Send, title: 'Telegram eslatmalar', text: "Bot sizga o'qishni eslatadi va natijangizni yuboradi. Xohlasangiz, o'chirib qo'yasiz." },
   ];
 
@@ -97,7 +97,7 @@ export default function Index() {
       '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Scorify.uz', url: 'https://www.scorify.uz/',
       applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'uz',
       description: "Ingliz tilini noldan o'rganish: darslar, talaffuz, lug'at, mashqlar va testlar. IELTS Writing va Speaking baholash ham bor.",
-      featureList: ["Ingliz tili kursi (Beginner, Elementary va Pre-Intermediate)", "Daraja testi va tezkor yuqoriga o'tish testi", "Talaffuz audio va gapirish mashqlari", "Mashq o'yinlari, bosqich testlari va sertifikat", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing va Speaking baholash'],
+      featureList: ["Ingliz tili kursi (Beginner, Elementary va Pre-Intermediate)", "Real hayotiy ovozli suhbatlar (kafe, yo'l so'rash, mehmonxona)", "Daraja testi va tezkor yuqoriga o'tish testi", "Talaffuz audio va gapirish mashqlari", "Mashq o'yinlari, bosqich testlari va sertifikat", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing va Speaking baholash'],
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS', description: "7 kun bepul, keyin Learn 49 000 so'm/oy" },
     },
     {

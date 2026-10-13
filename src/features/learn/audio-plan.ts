@@ -1,5 +1,6 @@
 import { cleanText, speakable } from './speech';
 import { generatedFillText } from './engine/engine';
+import { sceneAudioTexts } from './scene/scene';
 import type { Block, Exercise, Lesson } from './types';
 
 // Which English texts of a lesson can be played, so they can be loaded when the lesson opens.
@@ -44,6 +45,8 @@ function blockAudioTexts(b: Block): string[] {
 }
 
 export function lessonAudioTexts(lesson: Lesson, previous?: Lesson | null): string[] {
+  // A real-life scene plays its own lines in the partner's voice and the learner's voice.
+  if (lesson.scene) return sceneAudioTexts(lesson.scene);
   const first = [
     ...lesson.words.flatMap((w) => english(w.en)),
     ...[...lesson.practice, ...lesson.quiz].flatMap(exerciseAudioTexts),

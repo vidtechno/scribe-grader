@@ -2,7 +2,7 @@
 Batch text-to-speech with the free Kokoro model (Apache-2.0) through sherpa-onnx. Called by generate-lesson-audio.ts.
 
   pip install sherpa-onnx numpy soundfile
-  python scripts/kokoro-tts.py jobs.json            # jobs.json: [{"out": "public/audio/<key>.mp3", "text": "..."}]
+  python scripts/kokoro-tts.py jobs.json            # jobs.json: [{"out": "public/audio/<key>.mp3", "text": "...", "sid": 9}]  (sid optional)
 
 Model folder (kokoro-int8-en-v0_19: model.int8.onnx, voices.bin, tokens.txt, espeak-ng-data): set KOKORO_DIR.
 The folder ships inside the npm package `n8n-nodes-ttsbro` (kokoro-int8-en-v0_19/) if huggingface.co is not reachable.
@@ -23,7 +23,7 @@ jobs = json.load(open(sys.argv[1]))
 failed = 0
 for n, job in enumerate(jobs, 1):
     try:
-        g = tts.generate(job["text"], sid=sid, speed=speed)
+        g = tts.generate(job["text"], sid=int(job.get("sid", sid)), speed=speed)
         pcm = np.array(g.samples, dtype=np.float32)
         if pcm.size == 0:
             raise RuntimeError("empty audio")

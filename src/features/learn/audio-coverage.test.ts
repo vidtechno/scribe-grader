@@ -5,6 +5,7 @@ import { isEnglish } from './audio-plan';
 import { audioKey } from './audio-key';
 import { cleanText, speakable } from './speech';
 import { generatedFillText } from './engine/engine';
+import { sceneAudioTexts } from './scene/scene';
 import type { Exercise } from './types';
 import { BEGINNER_EXAM, BEGINNER_SPEAKING } from './content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from './content/a1/exam';
@@ -33,6 +34,8 @@ describe('audio coverage', () => {
     for (const unit of WRITTEN_UNITS) {
       for (const lesson of await loadUnit(unit.id)) {
         const at = lesson.id;
+        // real-life scenes: every line in the voice it is played in (Emma or George)
+        if (lesson.scene) sceneAudioTexts(lesson.scene).forEach((t) => check(at, t));
         for (const w of lesson.words) { check(at, w.en); check(at, w.ex); check(at, generatedFillText(w)); }
         lesson.practice.forEach((e) => exercise(at, e));
         lesson.quiz.forEach((e) => exercise(at, e));

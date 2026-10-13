@@ -32,7 +32,9 @@ export function reviewQuestions(previous: Lesson, count = 3, random = Math.rando
 }
 
 /** Unit test: questions from every lesson's quiz plus word questions, shuffled. */
-export function unitTestQuestions(lessons: Lesson[], total = 20, random = Math.random): Exercise[] {
+export function unitTestQuestions(all: Lesson[], total = 20, random = Math.random): Exercise[] {
+  // Real-life scenes have no quiz or words of their own: they do not take a share of the questions.
+  const lessons = all.filter((l) => !l.scene);
   const perLesson = Math.max(1, Math.floor((total - 4) / lessons.length));
   const fromLessons = lessons.flatMap((l) => shuffle(l.quiz.filter((e) => e.k !== 'speak' && e.k !== 'match'), random).slice(0, perLesson));
   const words = lessons.flatMap((l) => l.words);

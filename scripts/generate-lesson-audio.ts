@@ -20,6 +20,7 @@ import { join } from 'node:path';
 import { promisify } from 'node:util';
 import { exerciseAudioTexts, lessonAudioTexts } from '../src/features/learn/audio-plan';
 import { audioKey } from '../src/features/learn/audio-key';
+import { voiceOf, unmarked } from '../src/features/learn/scene/scene';
 import { WRITTEN_UNITS, loadDrills, loadUnit } from '../src/features/learn/course';
 import { BEGINNER_EXAM, BEGINNER_SPEAKING } from '../src/features/learn/content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from '../src/features/learn/content/a1/exam';
@@ -45,6 +46,7 @@ const LETTERS: Record<string, string> = {
 
 /** What the voice reads: letters by their names, arrows and dashes as pauses. */
 function speechText(text: string): string {
+  text = unmarked(text);
   if (/^[A-Z]$/.test(text)) return LETTERS[text];
   return text
     .replace(/\s*→\s*/g, ', ')
@@ -170,7 +172,8 @@ async function main() {
   if (engine === 'kokoro') {
     // One python process per shard: the model is loaded once and every text is recorded in it.
     const shards = Number(option('jobs', '3'));
-    const jobs = todo.map(([key, text]) => ({ out: join(OUT, `${key}.mp3`), text: kokoroText(text) }));
+    // Scene lines carry a voice marker: Emma is Kokoro speaker 7, George (the default) speaker 9.
+    const jobs = todo.map(([key, text]) => ({ out: join(OUT, `${key}.mp3`), text: kokoroText(text), sid: voiceOf(text) === 'emma' ? 7 : 9 }));
     const procs = Array.from({ length: shards }, (_, i) => {
       const file = join(tmpdir(), `kokoro-jobs-${process.pid}-${i}.json`);
       writeFileSync(file, JSON.stringify(jobs.filter((_, n) => n % shards === i)));

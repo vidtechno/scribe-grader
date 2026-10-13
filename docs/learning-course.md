@@ -9,7 +9,7 @@ Per-lesson outlines: [beginner-curriculum.md](beginner-curriculum.md), [elementa
 
 | Level | Units | Lessons (full + short) | Practice games |
 |---|---|---|---|
-| Beginner | 5 | 74 (40 + 34) | 44 |
+| Beginner | 5 | 88 (40 + 34 short + 14 real-life scenes) | 44 |
 | Elementary A1 | 6 | 90 (48 + 42) | 62 |
 | Pre-Intermediate A2 | 6 | 66 (48 + 18) | 29 |
 
@@ -25,6 +25,27 @@ Per-lesson outlines: [beginner-curriculum.md](beginner-curriculum.md), [elementa
 - **Roadmap** (`/learn`, `components/Roadmap.tsx`): a timeline of units with status labels, lessons, games, the unit
   test and "what you will learn". `learningPlan()` (`plan.ts`) gives the next steps shown on the dashboard, the course
   page and the continue card.
+
+## Real-life scenes (Beginner)
+
+Fourteen interactive conversations sit between the ordinary lessons, right after the topics they practise (the order is
+in `course.ts`: lessons with `kind: 'scene'`, ids `u1-l11`, `u1-l12`, `u2-l15`, `u2-l16`, `u3-l16`…`u3-l19`,
+`u4-l19`…`u4-l21`, `u5-l18`…`u5-l20`; the last one is a final mission that revises the whole course). They are mini
+lessons: unlocked in order, counted as done for learners who were already past them, and completed through the same
+`learning_complete_lesson` (progress, XP with the usual anti-farming rule, streak). No database change was needed.
+
+- **Content model** (`types.ts`, `Scene`): a partner (name, role, emoji, voice `emma` or `george`), the situation in Uzbek and a list of steps:
+  `say` (partner line with Uzbek translation), `note` (a short new phrase or rule, in Uzbek), and four kinds of answers:
+  `pick` (choose what to say; every wrong option has its own Uzbek reason), `type` (write the reply), `build` (word tiles),
+  `fill` (complete the sentence). Every answer lists all accepted variants and the expected mistakes with Uzbek explanations;
+  a step can carry a `drill`, one short ordinary exercise shown after a first-try miss. A scene lesson has no slides, words, practice or quiz.
+- **Player** (`scene/SceneRunner.tsx`): chat with typing dots and an animated place picture (`SceneArt.tsx`; motion respects reduced-motion),
+  translation toggle, help hints, the answer after two misses, retry, resume from where the learner left (kept in localStorage), result through the shared `LessonResult`.
+  The score is the first-try accuracy over the answers; a lesson completes at 50%. Missed answers are turned into ordinary exercises (`stepExercise`) so they enter the mistake notebook and review rounds.
+- **Judging** (`scene/scene.ts`): `judgeReply` accepts any listed variant, explains listed mistakes first, tolerates a one-letter typo inside a word but never a dropped or added word ending (that is the grammar being taught).
+- **Voices**: partner lines are spoken in the partner's voice and the learner's model reply in the other one. Scene lines are marked with `¤emma¤` / `¤george¤` in front of the text (the file name is the hash of the marked text), recorded by the generator with Kokoro speakers 7 (Emma) and 9 (George).
+  No AI is used while playing: all dialogues are written in advance.
+- **Writing a scene**: copy `content/beginner/u1/l11.ts`, add the lesson to its unit in `course.ts` and `content/.../index.ts`, check the vocabulary with `npx tsx scripts/scene-vocab-audit.ts <id>` (lists words the learner has not met yet; explain any new phrase in a `note`), run `npx vitest run src/features/learn/scene` (validates every scene and plays each one through), then record the new lines with `scripts/generate-lesson-audio.ts --engine kokoro --only keys.json`.
 
 ## Choosing and changing level
 
