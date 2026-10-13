@@ -68,6 +68,7 @@ const lesson: Lesson = {
         ],
         why: "**half past nine** = 9:30.",
       },
+      { k: 'say', en: 'Bus number five, OK? Do you understand?', uz: 'Demak, beshinchi avtobus. Tushundingizmi?' },
       {
         k: 'fill', ask: "Aytib bering: «Beshinchi avtobus aeroportga boradi.»", q: 'Bus number five ___ to the airport.', a: ['goes'],
         mistakes: [{ a: ['go'], why: "**bus number five** = it. Darak gapda **it / he / she** bilan fe'lga **-s / -es**: **goes**. (Savolda esa **does** + go.)" }],

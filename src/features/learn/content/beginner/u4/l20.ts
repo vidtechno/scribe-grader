@@ -86,6 +86,7 @@ const lesson: Lesson = {
         ],
         why: "3 + 2 = **five dollars**.",
       },
+      { k: 'say', en: 'Yes, five dollars, please.', uz: 'Ha, besh dollar, iltimos.' },
       {
         k: 'build', ask: "Pulni berib ayting: «Marhamat.»", words: ['Here', 'you', 'are'], extra: ['is', 'am'],
         why: "**Here you are.** — «Marhamat.»",

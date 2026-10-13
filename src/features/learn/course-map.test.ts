@@ -33,6 +33,17 @@ describe('courseMap with short lessons', () => {
     expect(courseMap(done('u6-l1', 'u6-l2', 'u6-l3', 'u6-l4', 'u6-l5', 'u6-l6', 'u6-l7', 'u6-l8')).done.has('u6-l11')).toBe(true);
   });
 
+  it('real-life scenes come in the middle of the path, never block the lessons around them and never count twice', () => {
+    // a new learner meets the scene right after the greetings lesson ...
+    expect(courseMap(done('u1-l1', 'u1-l2', 'u1-l3', 'u1-l4', 'u1-l5')).nextLesson?.id).toBe('u1-l11');
+    // ... and the next lesson waits for it, like for any other lesson
+    expect(courseMap(done('u1-l1', 'u1-l2', 'u1-l3', 'u1-l4', 'u1-l5')).lessonState.get('u1-l6')).toBe('locked');
+    // a learner who was already beyond it keeps everything done and is not sent back
+    const past = courseMap(done('u1-l1', 'u1-l2', 'u1-l3', 'u1-l4', 'u1-l5', 'u1-l6', 'u1-l7'));
+    expect(past.done.has('u1-l11')).toBe(true);
+    expect(past.nextLesson?.id).toBe('u1-l8');
+  });
+
   it('does not mark short lessons done when the next full lesson is not done', () => {
     const m = courseMap(done('u3-l5'));
     expect(m.done.has('u3-l9')).toBe(false);

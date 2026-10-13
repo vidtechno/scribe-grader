@@ -42,6 +42,15 @@ describe('scene helpers', () => {
     expect(judgeReply(step, 'He from Uzbekistan').why).toBe('umumiy');
   });
 
+  it('does not mistake a dropped or added word ending for a typo', () => {
+    const step = { k: 'type' as const, ask: 'x', a: ['The bus leaves at nine.'], why: 'w' };
+    expect(judgeReply(step, 'The bus leaves at nine').correct).toBe(true);
+    expect(judgeReply(step, 'The bus leave at nine').correct).toBe(false);
+    expect(judgeReply(step, 'The bus leavs at nine').correct).toBe(true); // a real typo inside the word
+    const listed = { ...step, mistakes: [{ a: ['The bus leave at nine'], why: 'oxirgi s' }] };
+    expect(judgeReply(listed, 'The bus leave at nine.').why).toBe('oxirgi s');
+  });
+
   it('judges built sentences with alternatives and fills typed as the missing word or the whole sentence', () => {
     const build = { k: 'build' as const, ask: 'x', words: ["I'm", 'fine'], extra: ['am'], alt: [['I', 'am', 'fine']], why: 'w' };
     expect(judgeReply(build, "I'm fine").correct).toBe(true);

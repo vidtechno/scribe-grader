@@ -60,6 +60,21 @@ function mistakeFor(value: string, mistakes: SceneMistake[] | undefined): string
   return mistakes?.find((m) => m.a.some((w) => strip(w) === given))?.why;
 }
 
+/**
+ * A one-letter slip counts as a typo only when it is inside a word: a missing or extra letter at the END of a word
+ * ("leave" for "leaves", "walk" for "walks") is the grammar being taught here, not a typing error.
+ */
+function harmlessTypo(given: string, expected: string): boolean {
+  const a = normalize(given).split(' ');
+  const b = normalize(expected).split(' ');
+  if (a.length !== b.length) return false;
+  const diff = a.map((w, i) => [w, b[i]] as const).filter(([x, y]) => x !== y);
+  if (diff.length !== 1) return false;
+  const [x, y] = diff[0];
+  const [short, long] = x.length <= y.length ? [x, y] : [y, x];
+  return !(long.length === short.length + 1 && long.startsWith(short)); // not an ending added or dropped
+}
+
 /** Judges a written or built reply. Any accepted variant is right; known mistakes get their own explanation. */
 export function judgeReply(step: Extract<TaskStep, { k: 'type' | 'build' | 'fill' }>, value: string): Verdict {
   if (step.k === 'build') {
@@ -67,11 +82,15 @@ export function judgeReply(step: Extract<TaskStep, { k: 'type' | 'build' | 'fill
     if (checkOrder(words, step.words, step.alt)) return { correct: true };
     return { correct: false, why: mistakeFor(value, step.mistakes) ?? step.why };
   }
-  const accepted = step.k === 'fill' ? step.a.map((a) => step.q.replace('___', a)) : step.a;
+  const full = (v: string) => (step.k === 'fill' ? step.q.replace('___', v) : v);
+  // An expected mistake is never taken for a typo, even when it is one letter away from the right answer.
+  const known = mistakeFor(value, step.mistakes) ?? (step.k === 'fill' ? mistakeFor(full(value), step.mistakes) : undefined);
+  if (known) return { correct: false, why: known };
+  const accepted = step.k === 'fill' ? step.a.map(full) : step.a;
   // A fill answer may be typed as the missing part or as the whole sentence.
   const r = step.k === 'fill' ? checkTyped(value, [...step.a, ...accepted]) : checkTyped(value, accepted);
-  if (r.correct) return { correct: true, typo: r.typo };
-  return { correct: false, why: mistakeFor(value, step.mistakes) ?? (step.k === 'fill' ? mistakeFor(step.q.replace('___', value), step.mistakes) : undefined) ?? step.why };
+  if (r.correct && (!r.typo || harmlessTypo(value, r.expected))) return { correct: true, typo: r.typo };
+  return { correct: false, why: step.why };
 }
 
 /** The same step as an ordinary exercise, so a missed answer joins the learner's mistake notebook and review rounds. */

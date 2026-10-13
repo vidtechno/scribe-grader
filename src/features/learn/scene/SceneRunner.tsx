@@ -181,7 +181,7 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
       </main>
 
       {(task || waitingNote) && (
-        <div className="fixed bottom-0 inset-x-0 z-30 border-t border-border bg-background/95 backdrop-blur safe-area-bottom">
+        <div className="fixed bottom-0 inset-x-0 z-30 border-t border-border bg-background shadow-[0_-10px_28px_-14px_rgba(0,0,0,0.3)] safe-area-bottom">
           <div className="max-w-2xl mx-auto px-4 py-4 max-h-[60vh] overflow-y-auto">
             {waitingNote && <Button size="lg" className="w-full gap-2" onClick={() => setCursor(cursor + 1)}>Tushunarli <ChevronRight className="h-4 w-4" /></Button>}
             {task && <TaskPanel key={`${run}-${cursor}`} step={task} voiceFor={me} onDone={(first, line) => taskDone(task, cursor, first, line)} />}
@@ -278,7 +278,7 @@ function Intro({ lesson, scene, unitTitle, total, resumeAt, onStart }: {
 
 function WhyCard({ why, answer, voice, typo }: { why?: string; answer?: string; voice: 'emma' | 'george'; typo?: boolean }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-xl border border-amber-500/40 bg-amber-500/10 p-3.5 text-sm" role="status">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3.5 text-sm" role="status">
       <p className="font-semibold mb-1 flex items-center gap-1.5 text-amber-700 dark:text-amber-300"><Lightbulb className="h-4 w-4" />{typo ? "Imloga e'tibor bering" : "Keling, birga ko'ramiz"}</p>
       {why && <div className="leading-relaxed"><Md text={why} /></div>}
       {answer && <p className="mt-2 flex items-center gap-2 flex-wrap">To'g'ri javob: <b>«{answer}»</b><SpeakButton text={voiceText(voice, answer)} /></p>}
@@ -317,6 +317,7 @@ function TaskPanel({ step, voiceFor, onDone }: { step: TaskStep; voiceFor: 'emma
       {ok !== null && <Sparkles />}
       <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-1.5 flex items-center gap-1.5"><MessageCircle className="h-3.5 w-3.5" />Sizning navbatingiz</p>
       <div className="text-[15px] font-medium mb-3 leading-snug"><Md text={step.ask} /></div>
+      {ok === null && fails > 0 && <div className="mb-3 -mt-1"><WhyCard why={why} answer={fails >= 2 ? reveal : undefined} voice={voiceFor} key={fails} /></div>}
       {ok !== null ? (
         <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 px-4 py-3 font-semibold flex items-center gap-2"><Check className="h-5 w-5" />{firstTry ? 'Ajoyib!' : "Endi to'g'ri!"} {ok}</motion.p>
       ) : step.k === 'pick' ? (
@@ -326,7 +327,6 @@ function TaskPanel({ step, voiceFor, onDone }: { step: TaskStep; voiceFor: 'emma
       ) : (
         <TypeInput step={step} onCheck={(v, line) => (v.correct ? succeed(line, v.typo) : fail(v.why))} />
       )}
-      {ok === null && fails > 0 && <WhyCard why={why} answer={fails >= 2 ? reveal : undefined} voice={voiceFor} />}
       {ok === null && fails >= 2 && step.k !== 'pick' && (
         <button type="button" className="mt-3 text-xs text-muted-foreground underline underline-offset-2" onClick={() => succeed(reveal)}>Javobni ko'rsat va davom et</button>
       )}
