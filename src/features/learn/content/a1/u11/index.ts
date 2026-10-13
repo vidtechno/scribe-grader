@@ -1,4 +1,4 @@
-import type { Lesson } from '../../../types';
+import type { Drill, Lesson } from '../../../types';
 import l1 from './l1';
 import l2 from './l2';
 import l3 from './l3';
@@ -10,6 +10,12 @@ import l8 from './l8';
 import l9 from './l9';
 import l10 from './l10';
 import l11 from './l11';
+import l12 from './l12';
+import l13 from './l13';
+import l14 from './l14';
+import l15 from './l15';
+import { drills as drillsBase } from './drills';
+import { drillsNew } from './drills-new';
 
-export const lessons: Lesson[] = [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11];
-export { drills } from './drills';
+export const lessons: Lesson[] = [l1, l2, l12, l3, l13, l9, l4, l5, l6, l7, l10, l14, l8, l15, l11];
+export const drills: Drill[] = [...drillsBase, ...drillsNew];
