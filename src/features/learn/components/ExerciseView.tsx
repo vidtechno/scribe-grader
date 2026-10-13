@@ -139,7 +139,7 @@ function TextAnswer({ value, onChange, onSubmit, disabled, placeholder, autoFocu
 
 function Fill({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fill' }>; answered: boolean; finish: (fb: Feedback) => void }) {
   const [value, setValue] = useState('');
-  const [showHint, setShowHint] = useState(false);
+  const [helps, setHelps] = useState(0);
   const [before, after] = ex.q.split('___');
   const submit = () => {
     const r = checkTyped(value, ex.a);
@@ -155,15 +155,35 @@ function Fill({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fill' }>; 
       </div>
       {ex.uz && <p className="text-sm text-muted-foreground mb-4">🇺🇿 {ex.uz}</p>}
       <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="Javobni yozing…" />
-      <div className="flex items-center gap-2 mt-3">
-        {ex.hint && !answered && (
-          <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setShowHint(true)}><Lightbulb className="h-4 w-4" />Yordam</Button>
+      {helps > 0 && !answered && (
+        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 break-words whitespace-pre-line">💡 {fillHint(ex.a[0], ex.hint, helps)}</p>
+      )}
+      <div className="flex flex-wrap items-center gap-2 mt-3">
+        {!answered && helps < 2 && (
+          <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}>
+            <Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}
+          </Button>
         )}
+        {!answered && helps >= 2 && <ShowAnswer onClick={() => finish({ correct: false, expected: ex.a[0] })} />}
         <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
       </div>
-      {showHint && ex.hint && <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5">💡 {ex.hint}</p>}
     </div>
   );
+}
+
+/** Step 1: the teacher's hint (or the size of the answer), step 2: the first letters. Never the answer itself. */
+function fillHint(answer: string, hint: string | undefined, step: number): string {
+  const words = answer.split(/\s+/).filter(Boolean);
+  if (step === 1) return hint ?? `Javob ${words.length === 1 ? `${answer.length} harfdan iborat` : `${words.length} ta so'zdan iborat`}, "${answer[0]}" bilan boshlanadi.`;
+  return `${hint ? `${hint}\n` : ''}${words.map((w) => w[0] + '_'.repeat(Math.max(w.length - 1, 1))).join(' ')}`;
+}
+
+/** Showing the answer is always possible so nobody is stuck, but it takes an extra tap and counts as a mistake. */
+function ShowAnswer({ onClick }: { onClick: () => void }) {
+  const [sure, setSure] = useState(false);
+  return sure
+    ? <Button type="button" variant="outline" size="sm" onClick={onClick}>Ha, javobni ko'rsat (xato hisoblanadi)</Button>
+    : <Button type="button" variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setSure(true)}>Javobni bilmayman</Button>;
 }
 
 /** Partial help for a translation: never the full answer. Step 1 sizes it up, 2 shows first letters, 3 opens the first half. */
@@ -190,12 +210,13 @@ function Translate({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'trans
       {helps > 0 && !answered && (
         <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 font-mono break-words">💡 {translateHint(ex.a[0], helps)}</p>
       )}
-      <div className="flex items-center gap-2 mt-3">
+      <div className="flex flex-wrap items-center gap-2 mt-3">
         {!answered && helps < 3 && (
           <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}>
             <Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}
           </Button>
         )}
+        {!answered && helps >= 3 && <ShowAnswer onClick={() => finish({ correct: false, expected: ex.a[0] })} />}
         <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
       </div>
     </div>
@@ -283,13 +304,16 @@ function Order({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'order' }>
 function Match({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'match' }>; answered: boolean; finish: (fb: Feedback) => void }) {
   const left = useMemo(() => shuffle(ex.pairs.map((p, i) => ({ text: p[0], i }))), [ex]);
   const right = useMemo(() => shuffle(ex.pairs.map((p, i) => ({ text: p[1], i }))), [ex]);
-  const [selected, setSelected] = useState<number | null>(null);
+  // The learner may start from either column: the first tap picks, the tap in the other column checks the pair.
+  const [selected, setSelected] = useState<{ side: 'l' | 'r'; i: number } | null>(null);
   const [matched, setMatched] = useState<Set<number>>(new Set());
-  const [wrong, setWrong] = useState<number | null>(null);
+  const [wrong, setWrong] = useState<{ side: 'l' | 'r'; i: number } | null>(null);
   const mistakes = useRef(0);
-  const choose = (i: number) => {
-    if (answered || selected === null || matched.has(i)) return;
-    if (i === selected) {
+  const tap = (side: 'l' | 'r', i: number, text: string) => {
+    if (answered || matched.has(i)) return;
+    if (side === 'l' && /^[a-z]/i.test(text)) void speak(text);
+    if (!selected || selected.side === side) { setSelected({ side, i }); return; }
+    if (selected.i === i) {
       const next = new Set(matched).add(i);
       setMatched(next);
       setSelected(null);
@@ -298,29 +322,27 @@ function Match({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'match' }>
       }
     } else {
       mistakes.current++;
-      setWrong(i);
+      setWrong({ side, i });
+      setSelected(null);
       setTimeout(() => setWrong(null), 500);
     }
   };
   const cell = 'min-h-[52px] w-full rounded-xl border-2 px-3 py-2.5 font-medium text-left transition-all';
+  const column = (side: 'l' | 'r', items: { text: string; i: number }[]) => (
+    <div className="space-y-2.5">
+      {items.map((it) => (
+        <button key={it.i} type="button" disabled={matched.has(it.i) || answered} onClick={() => tap(side, it.i, it.text)}
+          className={`${cell} ${matched.has(it.i) ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 opacity-60'
+            : wrong?.side === side && wrong.i === it.i ? 'border-destructive bg-destructive/10 animate-shake'
+              : selected?.side === side && selected.i === it.i ? 'border-primary bg-primary/10' : 'border-border bg-card hover:border-primary/50'}`}>{it.text}</button>
+      ))}
+    </div>
+  );
   return (
     <div className="grid grid-cols-2 gap-2.5">
-      <div className="space-y-2.5">
-        {left.map((l) => (
-          <button key={l.i} type="button" disabled={matched.has(l.i) || answered}
-            onClick={() => { setSelected(l.i); if (/^[a-z]/i.test(l.text)) void speak(l.text); }}
-            className={`${cell} ${matched.has(l.i) ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 opacity-60'
-              : selected === l.i ? 'border-primary bg-primary/10' : 'border-border bg-card hover:border-primary/50'}`}>{l.text}</button>
-        ))}
-      </div>
-      <div className="space-y-2.5">
-        {right.map((r) => (
-          <button key={r.i} type="button" disabled={matched.has(r.i) || answered} onClick={() => choose(r.i)}
-            className={`${cell} ${matched.has(r.i) ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 opacity-60'
-              : wrong === r.i ? 'border-destructive bg-destructive/10 animate-shake' : 'border-border bg-card hover:border-primary/50'}`}>{r.text}</button>
-        ))}
-      </div>
-      {selected === null && matched.size === 0 && <p className="col-span-2 text-xs text-muted-foreground text-center">Avval chapdan, keyin o'ngdan mosini bosing</p>}
+      {column('l', left)}
+      {column('r', right)}
+      {selected === null && matched.size === 0 && <p className="col-span-2 text-xs text-muted-foreground text-center">Istalgan tomondan boshlang: bittasini bosing, keyin mosini toping</p>}
     </div>
   );
 }

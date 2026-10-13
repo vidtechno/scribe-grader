@@ -1,9 +1,9 @@
 // Pronunciation without paid APIs. Sources, best first:
 //  1. recordings of our own, pre-made for every text of the course and served as static files (/audio/<key>.mp3,
 //     see scripts/generate-lesson-audio.ts): they play on every phone, whatever its speech engine or network;
-//  2. for texts without a recording: human recordings of single words from the free Dictionary API, and a free
-//     online voice for sentences;
-//  3. the device's own speech engine (when it has an English voice).
+//  2. only for a text that has no recording (none in the course; a test enforces it): human recordings of single
+//     words from the free Dictionary API, and a free online voice for sentences.
+// The device's own (robotic) speech engine is never used.
 // The clips of the open lesson are loaded into memory when it opens, so a tap plays at once; opening another lesson
 // (or leaving the course) releases them. Nothing here touches our database.
 
@@ -27,47 +27,7 @@ export const speakable = (text: string): boolean => /[A-Za-z]/.test(cleanText(te
 
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
-// ---------------------------------------------------------------- device voice
-
-function englishVoice(): SpeechSynthesisVoice | null {
-  if (typeof speechSynthesis === 'undefined') return null;
-  const voices = speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().replace('_', '-').startsWith('en'));
-  const preferred = ['Google US English', 'Samantha', 'Google UK English Female', 'Daniel', 'Microsoft Aria', 'Microsoft Jenny'];
-  for (const name of preferred) {
-    const v = voices.find((x) => x.name.includes(name));
-    if (v) return v;
-  }
-  return voices.find((v) => v.lang === 'en-US') ?? voices.find((v) => v.lang === 'en-GB') ?? voices[0] ?? null;
-}
-
-if (typeof speechSynthesis !== 'undefined') {
-  // Some browsers load voices asynchronously.
-  speechSynthesis.getVoices();
-  speechSynthesis.addEventListener?.('voiceschanged', () => speechSynthesis.getVoices());
-}
-
-export const canSpeak = () => typeof speechSynthesis !== 'undefined' || typeof Audio !== 'undefined';
-
-/** Resolves true once the device started speaking; false when it did not (no engine, error, or nothing within 2 s). */
-function synth(text: string, slow: boolean): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (typeof speechSynthesis === 'undefined') return resolve(false);
-    try {
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      const voice = englishVoice();
-      if (voice) u.voice = voice;
-      u.lang = voice?.lang ?? 'en-US';
-      u.rate = slow ? 0.6 : 0.9;
-      let started = false;
-      u.onstart = () => { started = true; };
-      u.onend = () => resolve(started);
-      u.onerror = () => resolve(started);
-      setTimeout(() => { if (!started) resolve(false); }, 2000);
-      speechSynthesis.speak(u);
-    } catch { resolve(false); }
-  });
-}
+export const canSpeak = () => typeof Audio !== 'undefined';
 
 // ---------------------------------------------------------------- prepared clips (in memory, per lesson)
 
@@ -215,14 +175,12 @@ export function releaseAudio() {
   resolved.forEach((list) => list.forEach(disposeClip));
   resolved.clear();
   entries.clear();
-  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
 }
 
 /** Stops whatever is playing. */
 export function stopSpeaking() {
   playToken++;
   playing?.pause();
-  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
 }
 
 async function playClips(list: Clip[], slow: boolean, token: number): Promise<boolean> {
@@ -259,31 +217,14 @@ export async function speak(text: string, opts: { slow?: boolean } = {}): Promis
   const slow = !!opts.slow;
 
   let clips = resolved.get(keyOf(clean)) ?? null;
-  if (clips?.[0]?.ready) {
-    if (await playClips(clips, slow, token)) return true;
-    return synth(clean, slow);
-  }
-
-  // Not ready yet. Our own recording is a small same-site file: wait for it. Otherwise a device voice answers at
-  // once, and without one the online clip is waited for.
-  await Promise.race([loadManifest(), sleep(1500)]);
-  const device = englishVoice() !== null;
-  const pending = getClips(clean);
-  if (hosted(clean)) {
-    clips = await Promise.race([pending, sleep(6000).then(() => null)]);
-    if (token !== playToken) return true;
-    if (clips?.length && (await playClips(clips, slow, token))) return true;
-    return synth(clean, slow);
-  }
-  if (device) {
-    if (await synth(clean, slow)) return true;
-    clips = await Promise.race([pending, sleep(2500).then(() => null)]);
-  } else {
-    clips = await Promise.race([pending, sleep(5000).then(() => null)]);
-  }
+  if (clips?.[0]?.ready && (await playClips(clips, slow, token))) return true;
   if (token !== playToken) return true;
-  if (clips?.length && (await playClips(clips, slow, token))) return true;
-  return device ? false : synth(clean, slow);
+
+  // Not ready yet. Our own recording is a small same-site file: wait for it (the manifest first).
+  await Promise.race([loadManifest(), sleep(1500)]);
+  clips = await Promise.race([getClips(clean), sleep(hosted(clean) ? 6000 : 5000).then(() => null)]);
+  if (token !== playToken) return true;
+  return !!clips?.length && (await playClips(clips, slow, token));
 }
 
 /** Warms the clips of a few texts (the lesson page prepares the whole lesson; this is for small lists). */
