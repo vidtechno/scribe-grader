@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Award, BookOpen, Check, ChevronDown, Compass, Gamepad2, Headphones, Lock, MessageCircle, Play, RefreshCw, Rocket, Trophy } from 'lucide-react';
+import { Award, BookOpen, Check, ChevronDown, Compass, Drama, Gamepad2, Headphones, Lock, MessageCircle, Play, RefreshCw, Rocket, Trophy } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { LEVEL_TEST, LEVELS, PARTIAL_LEVELS, drillIds, levelOf, unitNo, unitsOf } from '../course';
@@ -21,6 +21,7 @@ const KIND: Record<string, { icon: typeof BookOpen; label: string }> = {
   situation: { icon: MessageCircle, label: 'Hayotiy vaziyat' },
   skill: { icon: Headphones, label: "Ko'nikma: tinglash, gapirish, o'qish, yozish" },
   review: { icon: RefreshCw, label: 'Takror' },
+  scene: { icon: Drama, label: 'Real hayot: suhbat, ovozli' },
 };
 
 /**
@@ -192,10 +193,11 @@ const stateStyle = (state: NodeState | DrillState) => state === 'done' ? 'bg-eme
 function LessonRow({ lesson, number, state, stars, onOpen }: { lesson: LessonMeta; number: number; state: NodeState; stars: number; onOpen: () => void }) {
   const kind = KIND[lesson.kind ?? 'grammar'];
   const Icon = kind.icon;
+  const scene = lesson.kind === 'scene';
   return (
-    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 px-3 py-3 text-left transition-colors hover:bg-secondary/50 ${state === 'current' ? 'bg-primary/5' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
+    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 px-3 py-3 text-left transition-colors hover:bg-secondary/50 ${scene ? 'border-l-4 border-l-fuchsia-500 bg-gradient-to-r from-fuchsia-500/10 via-amber-500/5 to-transparent' : ''} ${state === 'current' ? 'bg-primary/5' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
       <span className={`w-7 h-7 shrink-0 rounded-full grid place-items-center text-xs font-bold ${stateStyle(state)}`}>
-        {state === 'done' ? <Check className="h-4 w-4" strokeWidth={3} /> : state === 'locked' ? <Lock className="h-3.5 w-3.5" /> : state === 'current' ? <Play className="h-3.5 w-3.5 fill-current" /> : number}
+        {state === 'done' ? <Check className="h-4 w-4" strokeWidth={3} /> : state === 'locked' ? <Lock className="h-3.5 w-3.5" /> : state === 'current' ? <Play className="h-3.5 w-3.5 fill-current" /> : scene ? <Icon className="h-3.5 w-3.5" /> : number}
       </span>
       <span className="min-w-0 flex-1">
         <span className={`block text-sm leading-snug ${state === 'current' ? 'font-bold' : 'font-semibold'}`}>{lesson.titleUz}</span>

@@ -1,66 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { DRILL_COUNTS, WRITTEN_UNITS, drillIds, loadDrills } from './course';
 import type { Exercise, Lesson } from './types';
-import { checkFix } from './check';
+import { exerciseProblems, sceneProblems } from './content-validate';
 
 // Validates every lesson of the course. Run one unit with: UNIT=u2 npx vitest run src/features/learn
 const only = process.env.UNIT;
 const units = WRITTEN_UNITS.filter((u) => !only || u.id === only);
 
-function exerciseProblems(ex: Exercise, where: string): string[] {
-  const p: string[] = [];
-  const nonEmpty = (s: unknown) => typeof s === 'string' && s.trim().length > 0;
-  switch (ex.k) {
-    case 'choice':
-    case 'listen': {
-      if (ex.k === 'choice' && !nonEmpty(ex.q)) p.push(`${where}: empty question`);
-      if (ex.k === 'listen' && !nonEmpty(ex.say)) p.push(`${where}: listen without say`);
-      if (ex.opts.length < 2 || ex.opts.length > 5) p.push(`${where}: needs 2–5 options`);
-      if (new Set(ex.opts.map((o) => o.trim().toLowerCase())).size !== ex.opts.length) p.push(`${where}: duplicate options`);
-      if (!Number.isInteger(ex.a) || ex.a < 0 || ex.a >= ex.opts.length) p.push(`${where}: answer index out of range`);
-      break;
-    }
-    case 'fill':
-      if ((ex.q.match(/___/g) ?? []).length !== 1) p.push(`${where}: fill needs exactly one ___`);
-      if (!ex.a.length || !ex.a.every(nonEmpty)) p.push(`${where}: fill needs answers`);
-      break;
-    case 'order':
-      if (ex.words.length < 2 || !ex.words.every(nonEmpty)) p.push(`${where}: order needs 2+ words`);
-      if (!nonEmpty(ex.uz)) p.push(`${where}: order needs uz`);
-      break;
-    case 'translate':
-      if (!nonEmpty(ex.uz) || !ex.a.length || !ex.a.every(nonEmpty)) p.push(`${where}: translate needs uz and answers`);
-      break;
-    case 'match': {
-      if (ex.pairs.length < 3 || ex.pairs.length > 6) p.push(`${where}: match needs 3–6 pairs`);
-      const left = new Set(ex.pairs.map(([a]) => a.toLowerCase()));
-      const right = new Set(ex.pairs.map(([, b]) => b.toLowerCase()));
-      if (left.size !== ex.pairs.length || right.size !== ex.pairs.length) p.push(`${where}: match has duplicates`);
-      break;
-    }
-    case 'tf':
-      if (!nonEmpty(ex.q) || typeof ex.a !== 'boolean') p.push(`${where}: tf needs q and boolean a`);
-      break;
-    case 'speak':
-      if (!nonEmpty(ex.say)) p.push(`${where}: speak needs say`);
-      break;
-    case 'dictation':
-      if (!nonEmpty(ex.say)) p.push(`${where}: dictation needs say`);
-      break;
-    case 'fix':
-      if (!nonEmpty(ex.wrong) || !ex.a.length || !ex.a.every(nonEmpty)) p.push(`${where}: fix needs wrong and answers`);
-      else if (ex.a.some((x) => x.trim().toLowerCase() === ex.wrong.trim().toLowerCase())) p.push(`${where}: fix answer equals the wrong sentence`);
-      // Handing the wrong sentence back is wrong; every accepted answer is right (checked the way the app checks it).
-      else if (checkFix(ex.wrong, ex.wrong, ex.a).correct) p.push(`${where}: the wrong sentence is accepted: ${ex.wrong}`);
-      else if (ex.a.some((x) => !checkFix(x, ex.wrong, ex.a).correct)) p.push(`${where}: an accepted answer is rejected (too close to the wrong sentence?): ${ex.a.join(' | ')}`);
-      break;
-    default:
-      p.push(`${where}: unknown exercise kind`);
-  }
-  return p;
-}
-
 function lessonProblems(lesson: Lesson, level: string): string[] {
+  if (lesson.scene) return sceneProblems(lesson);
   const p: string[] = [];
   const id = lesson.id;
   if (lesson.slides.length < (lesson.mini ? 3 : 4) || lesson.slides.length > 9) p.push(`${id}: needs ${lesson.mini ? 3 : 4}–9 slides (has ${lesson.slides.length})`);

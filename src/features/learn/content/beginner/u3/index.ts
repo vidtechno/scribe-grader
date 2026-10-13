@@ -14,8 +14,12 @@ import l12 from './l12';
 import l13 from './l13';
 import l14 from './l14';
 import l15 from './l15';
+import l16 from './l16';
+import l17 from './l17';
+import l18 from './l18';
+import l19 from './l19';
 import { drills as drillsBase } from './drills';
 import { drillsNew } from './drills-new';
 
-export const lessons: Lesson[] = [l1, l2, l3, l13, l4, l5, l14, l9, l10, l11, l6, l7, l8, l15, l12];
+export const lessons: Lesson[] = [l1, l2, l3, l13, l4, l5, l14, l9, l16, l10, l11, l6, l17, l7, l18, l8, l15, l19, l12];
 export const drills: Drill[] = [...drillsBase, ...drillsNew];

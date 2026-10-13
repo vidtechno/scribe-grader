@@ -81,8 +81,14 @@ export interface Lesson {
    * life-situation and consolidation lessons that sit between the big grammar lessons.
    */
   mini?: true;
-  /** Same as the `kind` of its LessonMeta in course.ts (grammar, situation, review or skill). */
-  kind?: 'grammar' | 'situation' | 'review' | 'skill';
+  /** Same as the `kind` of its LessonMeta in course.ts (grammar, situation, review, skill or scene). */
+  kind?: 'grammar' | 'situation' | 'review' | 'skill' | 'scene';
+  /**
+   * A real-life scene: an interactive conversation (see `Scene`). Such a lesson has no slides, words, practice or quiz
+   * (empty arrays); it is played by SceneRunner and completes through the same lesson progress, XP and streak as any
+   * other lesson.
+   */
+  scene?: Scene;
   /** Exactly 10 words to learn by heart (3–7 in a `mini` lesson). */
   words: Word[];
   /** Guided practice: mistakes come back until they are fixed. */
@@ -122,7 +128,7 @@ export interface LessonMeta {
   /** Short situation / consolidation lesson. Counts as done for learners who already went past it. */
   mini?: true;
   /** What kind of step it is, shown in the topic list. */
-  kind?: 'grammar' | 'situation' | 'review' | 'skill';
+  kind?: 'grammar' | 'situation' | 'review' | 'skill' | 'scene';
 }
 
 export interface UnitMeta {
@@ -141,3 +147,48 @@ export interface UnitMeta {
 }
 
 export type LevelId = 'beginner' | 'a1' | 'a2' | 'b1' | 'b2' | 'c1' | 'ielts';
+
+// ---------------------------------------------------------------------------------------------- real-life scenes
+
+/** The two recorded voices: Emma (British female) and George (British male). */
+export type SceneVoice = 'emma' | 'george';
+
+/** Drives the animated picture of the scene (colours and floating props). */
+export type ScenePlace =
+  | 'meet' | 'desk' | 'school' | 'family' | 'cafe' | 'time' | 'bus' | 'day' | 'street' | 'shop' | 'hotel' | 'weekend' | 'plans' | 'mission';
+
+export interface SceneCharacter {
+  name: string;
+  /** Who they are, in Uzbek: "Barista", "Yangi tanish". */
+  role: string;
+  /** The partner's voice; the learner's own model lines are played in the other voice. */
+  voice: SceneVoice;
+  emoji: string;
+}
+
+/** A wrong answer the author expects, with the reason in Uzbek. `a` lists the wrong forms (compared without punctuation or case). */
+export interface SceneMistake { a: string[]; why: Md }
+
+export type SceneStep =
+  /** The partner speaks (bubble + voice). */
+  | { k: 'say'; en: string; uz: string }
+  /** A short new phrase or rule, explained in Uzbek right where it is needed. */
+  | { k: 'note'; title?: string; md: Md }
+  /** The learner picks what to say. Every option marked `ok` is accepted; every wrong option explains itself. */
+  | { k: 'pick'; ask: Md; opts: { en: string; ok?: true; why?: Md }[]; why?: Md; drill?: Exercise }
+  /** The learner writes the reply. `a` lists every accepted reply (first = model reply). */
+  | { k: 'type'; ask: Md; a: string[]; mistakes?: SceneMistake[]; why?: Md; hint?: string; drill?: Exercise }
+  /** The learner builds the reply from word tiles. */
+  | { k: 'build'; ask: Md; words: string[]; extra?: string[]; alt?: string[][]; mistakes?: SceneMistake[]; why?: Md; drill?: Exercise }
+  /** The learner completes the reply: `q` has exactly one "___". */
+  | { k: 'fill'; ask: Md; q: string; a: string[]; mistakes?: SceneMistake[]; why?: Md; hint?: string; drill?: Exercise };
+
+export interface Scene {
+  place: ScenePlace;
+  partner: SceneCharacter;
+  /** The situation, in Uzbek: where you are and what you must do. */
+  intro: Md;
+  steps: SceneStep[];
+  /** A closing line in Uzbek, shown on the last screen before the result. */
+  outro: Md;
+}

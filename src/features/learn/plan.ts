@@ -14,7 +14,7 @@ export interface PlanStep {
   open: boolean;
 }
 
-const LESSON_LABEL: Record<string, string> = { situation: 'Hayotiy vaziyat', review: 'Takror', skill: "Ko'nikma" };
+const LESSON_LABEL: Record<string, string> = { situation: 'Hayotiy vaziyat', scene: 'Real hayot: suhbat', review: 'Takror', skill: "Ko'nikma" };
 
 /**
  * What the learner does next: the next few steps of the course in the order the course map opens them (lessons, their

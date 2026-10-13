@@ -8,7 +8,7 @@ import { DRILL_GAME, DRILL_REVIEW_OF, GAMES } from '../src/features/learn/games'
 import { BEGINNER_EXAM } from '../src/features/learn/content/beginner/exam';
 import { ELEMENTARY_EXAM } from '../src/features/learn/content/a1/exam';
 
-const KIND: Record<string, string> = { grammar: 'Dars', situation: 'Hayotiy vaziyat', review: 'Takror', skill: "Ko'nikma" };
+const KIND: Record<string, string> = { grammar: 'Dars', situation: 'Hayotiy vaziyat', review: 'Takror', skill: "Ko'nikma", scene: 'Real hayot (ovozli suhbat)' };
 const strip = (s: string) => s.replace(/\*\*|\*|`/g, '').replace(/\n/g, ' ');
 const targets = [
   { name: 'Beginner', file: 'docs/beginner-curriculum.md', units: BEGINNER_UNITS, exam: BEGINNER_EXAM },
