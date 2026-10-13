@@ -6,7 +6,7 @@ The bot is part of the website, not a separate product. It uses the same Supabas
 
 | Feature | In the bot | Connected to the website |
 |---|---|---|
-| Main keyboard | Top row for everyone: 🎓 Ingliz tili darslari. Linked: ✍️ Writing · 🎤 Speaking · 📝 Kunlik test · 🧠 So'z testi · 📖 Foydali maqolalar · 👤 Kabinet. Not linked: 🚀 Boshlash · 🧠 So'z testi · 📖 Foydali maqolalar · ❓ Yordam. Everything else (results, goal, plan, leaderboard, referrals, daily practice, settings) lives in 👤 Kabinet. Buttons of older keyboards still work and bring the new keyboard | – |
+| Main keyboard | Top row for everyone: 🎓 Ingliz tili darslari. Linked: 📚 Lug'at · 🎁 Referal · 👤 Kabinet · 📖 Foydali maqolalar (Writing, Speaking and the tests are inside the cabinet). Not linked: 🚀 Boshlash · 🧠 So'z testi · 📖 Foydali maqolalar · ❓ Yordam. Everything else (results, goal, plan, leaderboard, referrals, daily practice, settings) lives in 👤 Kabinet. Buttons of older keyboards still work and bring the new keyboard | – |
 | Sign up / sign in | "🚀 Boshlash" → "✅ Hisob ochish" creates a Scorify account in one tap | "Continue with Telegram" on `/auth`, automatic sign-in in the Mini App |
 | Results | Writing, Speaking and Mock Test scores arrive automatically (criteria, strengths, tips, top corrections, change vs previous attempt, gap to target) | Database triggers on `essays`, `speaking_attempts`, `mock_tests`; "Open full analysis" opens `/result/:id` etc. in the Mini App |
 | Statistics | averages, best, last, trend, streak, this week vs plan, exam countdown | same tables as the dashboard |
@@ -14,7 +14,7 @@ The bot is part of the website, not a separate product. It uses the same Supabas
 | Goals | target band, weekly Writing/Speaking plan, exam date | writes `user_goals`, the same data as the dashboard Goals card |
 | Plan | plan, expiry, usage bars, prices, buy via @scorify_support with the user ID pre-filled | `subscriptions`; plan changes are announced in the bot |
 | Leaderboard | today / week / month, same formula as `/leaderboard` | `essays` |
-| Referrals | links (site and bot), progress to 10/20, activate the Go reward, share button; new friend notifications | `referral_*` tables and functions |
+| Referrals | link (site and bot), how it works, balance, withdrawal request (from 100 000 so'm, approved by an admin); notifications when a friend signs up and when a friend buys a plan (+10 000 so'm) | `referral_invites`, `referral_wallet`, `referral_withdrawals`, `internal_ref_info` |
 | Daily practice | word of the day, Speaking question, Task 2 prompt, grammar tip (same for everyone each day) | buttons open `/speaking`, `/writing`, `/grammar-test` |
 | Vocabulary quiz | multiple choice in both directions, personal score | – |
 | Writing / Speaking / Daily test | cards with remaining evaluations, last score, a tip and buttons that open the page in the Mini App (answers are never accepted in chat) | `/writing`, `/speaking`, `/grammar-test`, `grammar_tests` |
