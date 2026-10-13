@@ -92,8 +92,8 @@ export function Navbar() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <Link to="/support" className="hidden lg:block" aria-current={pathname === '/support' ? 'page' : undefined}>
-                <Button variant="ghost" size="sm" className="gap-2"><LifeBuoy className="h-4 w-4" /><span>Yordam</span></Button>
+              <Link to="/support" aria-label="Yordam" aria-current={pathname === '/support' ? 'page' : undefined}>
+                <Button variant="ghost" size="sm" className="gap-2 px-2.5 lg:px-3"><LifeBuoy className="h-4 w-4 text-primary" /><span className="hidden lg:inline">Yordam</span></Button>
               </Link>
               <a href="/blog" className="hidden xl:block">
                 <Button variant="ghost" size="sm" className="gap-2">
@@ -130,7 +130,7 @@ export function Navbar() {
               <a href="/#pricing" className="hidden md:block"><Button variant="ghost" size="sm">Narxlar</Button></a>
               <a href="/#ielts" className="hidden lg:block"><Button variant="ghost" size="sm">IELTS</Button></a>
               <a href="/blog" className="hidden sm:block"><Button variant="ghost" size="sm" className="gap-2"><BookOpen className="h-4 w-4" />Blog</Button></a>
-              <Link to="/support" className="hidden lg:block"><Button variant="ghost" size="sm" className="gap-2"><LifeBuoy className="h-4 w-4" />Yordam</Button></Link>
+              <Link to="/support" aria-label="Yordam"><Button variant="ghost" size="sm" className="gap-2 px-2.5 lg:px-3"><LifeBuoy className="h-4 w-4 text-primary" /><span className="hidden lg:inline">Yordam</span></Button></Link>
               <ThemeToggle />
               <Link to="/auth">
                 <Button variant="glow">Kirish</Button>

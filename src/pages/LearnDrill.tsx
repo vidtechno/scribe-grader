@@ -8,6 +8,7 @@ import type { Drill } from '@/features/learn/types';
 import { callLearning, courseMap, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
+import { ReviewNav } from '@/features/learn/components/ReviewNav';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { MistakeReview, TestShell } from '@/features/learn/components/TestShell';
@@ -25,6 +26,7 @@ export default function LearnDrill() {
   const [failed, setFailed] = useState(false);
   const [round, setRound] = useState(0);
   const [i, setI] = useState(0);
+  const [view, setView] = useState<number | null>(null);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [saved, setSaved] = useState<Saved | null>(null);
   const [error, setError] = useState('');
@@ -59,7 +61,7 @@ export default function LearnDrill() {
   if (!state.access.allowed) return <TestShell><div className="py-10"><LearnPaywall access={state.access} /></div></TestShell>;
   if (map.drillState.get(id) === 'locked' || map.drillState.get(id) === undefined) return <Navigate to="/learn" replace />;
 
-  const retry = () => { setAnswers([]); setI(0); setSaved(null); setError(''); setRound((r) => r + 1); startedAt.current = Date.now(); };
+  const retry = () => { setAnswers([]); setI(0); setView(null); setSaved(null); setError(''); setRound((r) => r + 1); startedAt.current = Date.now(); };
 
   if (done) {
     const score = answers.filter(Boolean).length;
@@ -110,7 +112,13 @@ export default function LearnDrill() {
         <p className="text-sm text-muted-foreground">{drill.goal}</p>
         <div className="h-2 rounded-full bg-secondary overflow-hidden mt-3"><div className="h-full bg-primary transition-all" style={{ width: `${(i / total) * 100}%` }} /></div>
       </div>
-      <ExerciseView key={`${round}-${i}`} ex={drill.exercises[i]} mode="practice" onDone={(ok) => { setAnswers((a) => [...a, ok]); setI((n) => n + 1); }} />
+      <ReviewNav shown={view ?? i} current={i} onShow={(n) => setView(n >= i ? null : n)} />
+      {/* Answered exercises stay mounted (hidden): the learner can look at them again, but not change them. */}
+      {drill.exercises.slice(0, i + 1).map((ex, n) => (
+        <div key={`${round}-${n}`} hidden={n !== (view ?? i)} className={n < i ? 'pointer-events-none select-none' : ''} aria-hidden={n !== (view ?? i)}>
+          <ExerciseView ex={ex} mode="practice" onDone={n !== i ? () => {} : (ok) => { setAnswers((a) => [...a, ok]); setView(null); setI((k) => k + 1); }} />
+        </div>
+      ))}
     </TestShell>
   );
 }

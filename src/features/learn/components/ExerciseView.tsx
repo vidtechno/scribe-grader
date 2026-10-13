@@ -246,10 +246,20 @@ function Dictation({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'dicta
   );
 }
 
+/** Help for a sentence with a mistake: where the mistake is, then the first letters of the fix. Never the answer itself. */
+function fixHint(wrong: string, answer: string, hint: string | undefined, step: number): string {
+  const w = wrong.split(/\s+/);
+  const a = answer.split(/\s+/);
+  let at = w.findIndex((x, i) => x.toLowerCase() !== (a[i] ?? '').toLowerCase());
+  if (at < 0) at = w.length - 1;
+  if (step === 1) return hint ?? `Xato ${at + 1}-so'z atrofida: "${w[at]}". Gapni qayta o'qing.`;
+  return `${hint ? `${hint}\n` : ''}${a.map((x) => x[0] + '_'.repeat(Math.max(x.length - 1, 1))).join(' ')}`;
+}
+
 function Fix({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fix' }>; answered: boolean; finish: (fb: Feedback) => void }) {
   // The wrong sentence is already in the box: the learner edits it instead of typing everything again.
   const [value, setValue] = useState(ex.wrong);
-  const [showHint, setShowHint] = useState(false);
+  const [helps, setHelps] = useState(0);
   const submit = () => {
     const r = checkFix(value, ex.wrong, ex.a);
     const untouched = r.untouched;
@@ -260,11 +270,18 @@ function Fix({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fix' }>; an
       <p className="text-xs text-muted-foreground mb-1.5">Bu gapda bitta xato bor:</p>
       <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-lg font-medium mb-3 line-through decoration-destructive/40">{ex.wrong}</p>
       <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="To'g'ri gapni yozing…" autoFocus={false} />
-      <div className="flex items-center gap-2 mt-3">
-        {ex.hint && !answered && <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setShowHint(true)}><Lightbulb className="h-4 w-4" />Yordam</Button>}
+      {helps > 0 && !answered && (
+        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 break-words whitespace-pre-line">💡 {fixHint(ex.wrong, ex.a[0], ex.hint, helps)}</p>
+      )}
+      <div className="flex flex-wrap items-center gap-2 mt-3">
+        {!answered && helps < 2 && (
+          <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}>
+            <Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}
+          </Button>
+        )}
+        {!answered && helps >= 2 && <ShowAnswer onClick={() => finish({ correct: false, expected: ex.a[0] })} />}
         <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
       </div>
-      {showHint && ex.hint && <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5">💡 {ex.hint}</p>}
     </div>
   );
 }
