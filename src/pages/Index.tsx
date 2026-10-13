@@ -41,10 +41,12 @@ function StickyCta() {
 
 const FAQ: { q: string; a: string }[] = [
   { q: "Ingliz tilini umuman bilmasam ham boshlay olamanmi?", a: "Ha. Kurs alifbo va tovushlardan boshlanadi (Beginner), keyin Elementary (A1) va Pre-Intermediate (A2) davom etadi, keyingi darajalar bosqichma-bosqich qo'shiladi. Darslar o'zbek tilida tushuntiriladi." },
-  { q: "Bir kunda qancha vaqt kerak?", a: "Bitta dars taxminan 10 daqiqa. Kunlik maqsadni o'zingiz belgilaysiz, streak esa har kuni o'qisangiz o'sib boradi." },
+  { q: "Bir kunda qancha vaqt kerak?", a: "Qisqa dars 5–12 daqiqa, to'liq dars 15–25 daqiqa. Kuniga 10–30 daqiqa yetadi; kunlik maqsadni o'zingiz belgilaysiz, streak esa har kuni o'qisangiz o'sib boradi." },
+  { q: "Qaysi darajadan boshlashni qanday bilaman?", a: "Birinchi kirganingizda 12 ta savolli daraja testi sizga mos darajani aytadi. Yoki darajani o'zingiz tanlaysiz. Agar osonroq darajani tanlab qo'ygan bo'lsangiz, tezkor test topshirib yuqoriga o'tishingiz mumkin." },
   { q: "7 kunlik bepul davrda nima bor?", a: "Har bir yangi hisobga 7 kun Learn to'liq ochiq: barcha darslar, talaffuz, lug'at va takrorlash tizimi. Karta kerak emas." },
   { q: "Narxi qancha va qanday to'layman?", a: "Learn — oyiga 49 000 so'm, IELTS — oyiga 129 000 so'm. 6 oyga birdan to'lasangiz 10% chegirma. To'lov Telegram orqali @scorify_support ga yoziladi, tasdiqlangach tarif yoqiladi." },
   { q: "IELTS Writing va Speaking ham bormi?", a: "Ha. IELTS tarifida Writing va Speaking javoblaringiz baholanadi, mock testlar ham bor. Yangi hisobga sinab ko'rish uchun 3 ta Writing va 2 ta Speaking baholash sovg'a." },
+  { q: "Yordam kerak bo'lsa kimga yozaman?", a: "Saytdagi «Yordam» tugmasi Telegramda @scorify_support ga olib boradi: to'lov, darsdagi xato yoki savol bo'yicha yozing. Foydalanuvchi ID raqamingiz avtomatik qo'shiladi." },
   { q: "Ro'yxatdan qanday o'taman?", a: "Google yoki Telegram orqali bir bosishda. Telegram bot orqali kirsangiz, eslatmalar va do'stlarni taklif qilish ham shu yerda bo'ladi." },
 ];
 
@@ -68,8 +70,8 @@ export default function Index() {
   const steps = [
     { icon: BookOpen, title: 'Tushuntirish', text: "Mavzu sodda o'zbek tilida, misollar va «to'g'ri / noto'g'ri» taqqoslash bilan." },
     { icon: Headphones, title: 'Eshiting va takrorlang', text: "Har bir so'z va gapning talaffuzi bor. Ovoz chiqarib takrorlaysiz." },
-    { icon: PenLine, title: 'Mashq', text: "Tanlash, bo'sh joy, gap tuzish, tarjima va gapirish mashqlari." },
-    { icon: Trophy, title: 'Test va natija', text: "Dars testi, bosqich testi va daraja yakuniy testi. XP va streak yig'asiz." },
+    { icon: PenLine, title: 'Mashq', text: "Tanlash, bo'sh joy, gap tuzish, tarjima, xatoni topish, diktant va gapirish mashqlari. Qiynalsangiz, yordam bor." },
+    { icon: Trophy, title: 'Test va natija', text: "Dars oxirida 3 ta tezkor savol, so'ng mashq o'yinlari, bosqich testi va daraja imtihoni. XP va streak yig'asiz." },
   ];
 
   const features = [
@@ -78,13 +80,16 @@ export default function Index() {
     { icon: Flame, title: 'Streak va kunlik maqsad', text: "Har kuni o'qing, ketma-ket kunlaringizni saqlang va XP to'plang." },
     { icon: Languages, title: "Shaxsiy lug'at", text: "O'rgangan so'zlaringiz bir joyda: qidirish, tinglash va takrorlash." },
     { icon: Trophy, title: 'Reyting va do\'stlar', text: "Do'stlaringizni kuzating, reytingda raqobatlashing, profilingizni bezang." },
+    { icon: Target, title: 'Daraja testi', text: "Kirishda 12 ta savol sizga mos darajani aniqlaydi. Adashib osonini tanlasangiz, tezkor test bilan yuqoriga o'tasiz." },
+    { icon: Zap, title: "Mashq o'yinlari", text: "Qiyin mavzulardan keyin qisqa o'yinlar: so'z juftlari, gap tuzish, tinglash, tezlik va mavzu testi." },
+    { icon: ClipboardCheck, title: 'Imtihon va sertifikat', text: "Beginner va Elementary oxirida 5 ta ko'nikma (grammatika, lug'at, o'qish, tinglash, yozish) bo'yicha imtihon va sertifikat." },
     { icon: Send, title: 'Telegram eslatmalar', text: "Bot sizga o'qishni eslatadi va natijangizni yuboradi. Xohlasangiz, o'chirib qo'yasiz." },
   ];
 
   const levels = [
-    { title: 'Beginner', tag: 'Noldan', units: counts.beginnerUnits, lessons: counts.beginnerLessons, text: "Alifbo, tovushlar, salomlashish, sonlar va birinchi so'zlar.", tone: 'from-rose-500 to-orange-400' },
-    { title: 'Elementary', tag: 'A1', units: counts.a1Units, lessons: counts.a1Lessons, text: "O'zingiz haqingizda gapirish, kundalik suhbat va asosiy zamonlar.", tone: 'from-indigo-500 to-blue-400' },
-    { title: 'Pre-Intermediate', tag: 'A2', units: counts.a2Units, lessons: counts.a2Lessons, text: "O'tmish va kelajak haqida gapirish, taqqoslash, maslahat va iltimoslar, ish, pul va sayohat.", tone: 'from-emerald-500 to-teal-400' },
+    { title: 'Beginner', tag: 'Noldan', exam: true, units: counts.beginnerUnits, lessons: counts.beginnerLessons, text: "Alifbo, tovushlar, salomlashish, sonlar va birinchi so'zlar.", tone: 'from-rose-500 to-orange-400' },
+    { title: 'Elementary', tag: 'A1', exam: true, units: counts.a1Units, lessons: counts.a1Lessons, text: "O'zingiz haqingizda gapirish, kundalik suhbat va asosiy zamonlar.", tone: 'from-indigo-500 to-blue-400' },
+    { title: 'Pre-Intermediate', tag: 'A2', exam: false, units: counts.a2Units, lessons: counts.a2Lessons, text: "O'tmish va kelajak haqida gapirish, taqqoslash, maslahat va iltimoslar, ish, pul va sayohat.", tone: 'from-emerald-500 to-teal-400' },
   ];
 
   const landingJsonLd = [
@@ -92,7 +97,7 @@ export default function Index() {
       '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Scorify.uz', url: 'https://www.scorify.uz/',
       applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'uz',
       description: "Ingliz tilini noldan o'rganish: darslar, talaffuz, lug'at, mashqlar va testlar. IELTS Writing va Speaking baholash ham bor.",
-      featureList: ["Ingliz tili kursi (Beginner, Elementary va Pre-Intermediate)", "Talaffuz audio va gapirish mashqlari", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing va Speaking baholash'],
+      featureList: ["Ingliz tili kursi (Beginner, Elementary va Pre-Intermediate)", "Daraja testi va tezkor yuqoriga o'tish testi", "Talaffuz audio va gapirish mashqlari", "Mashq o'yinlari, bosqich testlari va sertifikat", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing va Speaking baholash'],
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS', description: "7 kun bepul, keyin Learn 49 000 so'm/oy" },
     },
     {
@@ -158,7 +163,7 @@ export default function Index() {
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="grid grid-cols-3 gap-3 mt-10">
               {[
-                { icon: Clock, value: '10 daqiqa', label: 'bitta dars' },
+                { icon: Clock, value: '5–25 daqiqa', label: 'bitta dars' },
                 { icon: Volume2, value: 'Talaffuz', label: 'har so\'zda' },
                 { icon: Flame, value: 'Streak', label: 'kunlik odat' },
               ].map(s => (
@@ -241,7 +246,7 @@ export default function Index() {
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">Alifbodan <span className="gradient-text">birinchi suhbatgacha</span></motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Kurs bosqichma-bosqich: har daraja oxirida yakuniy test. O'tsangiz, keyingi darajaga o'tasiz. Boshlanishda xato tanlagan bo'lsangiz ham, testdan o'tib oldinga siljish mumkin.</motion.p>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Kurs bosqichma-bosqich: har bosqich oxirida test, Beginner va Elementary oxirida ko'nikmalar imtihoni va sertifikat. Boshlanishda xato daraja tanlagan bo'lsangiz ham, tezkor testdan o'tib oldinga siljish mumkin.</motion.p>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
             {levels.map(l => (
@@ -249,7 +254,7 @@ export default function Index() {
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{l.tag}</p>
                 <h3 className="text-2xl font-extrabold mb-2">{l.title}</h3>
                 <p className="text-sm opacity-95 mb-4">{l.text}</p>
-                <div className="flex gap-4 text-sm font-semibold"><span>{l.units} bosqich</span><span>{l.lessons} dars</span><span className="flex items-center gap-1"><ClipboardCheck className="h-4 w-4" />Yakuniy test</span></div>
+                <div className="flex gap-4 text-sm font-semibold"><span>{l.units} bosqich</span><span>{l.lessons} dars</span><span className="flex items-center gap-1"><ClipboardCheck className="h-4 w-4" />{l.exam ? 'Imtihon' : 'Bosqich testlari'}</span></div>
               </div>
             ))}
           </div>
@@ -345,7 +350,7 @@ export default function Index() {
             <div className="relative">
               <Sparkles className="h-11 w-11 text-primary mx-auto mb-4" />
               <h2 className="text-3xl font-bold mb-4">Bugun birinchi darsni boshlang</h2>
-              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">10 daqiqa yetadi. 7 kun bepul, karta kerak emas.</p>
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">Qisqa dars 5–12 daqiqa. 7 kun bepul, karta kerak emas.</p>
               <Link to={user ? '/learn' : '/auth'}><Button variant="glow" size="xl" className="gap-2">{user ? "Darslarga o'tish" : "Bepul boshlash"} <ChevronRight className="h-5 w-5" /></Button></Link>
             </div>
           </div>
