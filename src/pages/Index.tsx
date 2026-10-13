@@ -121,22 +121,22 @@ export default function Index() {
 
         <div className="max-w-7xl mx-auto relative grid lg:grid-cols-2 gap-14 lg:gap-16 items-center">
           <div className="text-center lg:text-left">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            <motion.div initial={false} animate={{ opacity: 1, y: 0 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-semibold tracking-wide mb-7">
               <GraduationCap className="h-4 w-4" /> Ingliz tili kursi · noldan boshlab
             </motion.div>
 
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
+            <motion.h1 initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-[1.1] tracking-tight">
               Ingliz tilini noldan o'rganing — <span className="gradient-text">har kuni 10 daqiqada</span>
             </motion.h1>
 
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            <motion.p initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-9 leading-relaxed">
               Qisqa darslar, har bir so'zning talaffuzi, aqlli takrorlash va testlar. Hammasi telefoningizda, o'zbek tilida tushuntirish bilan.
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               {user ? (
                 <Link to="/learn"><Button variant="glow" size="xl" className="gap-2">Darsni davom ettirish <ChevronRight className="h-5 w-5" /></Button></Link>
@@ -389,6 +389,7 @@ export default function Index() {
             <a className="block text-muted-foreground hover:text-primary" href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
           <div className="space-y-2"><p className="font-semibold">Aloqa</p>
             <a className="block text-muted-foreground hover:text-primary" href="/blog">Blog</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/support">Yordam</a>
             <a className="block text-muted-foreground hover:text-primary" href="https://t.me/scorify_support" rel="noopener noreferrer">Telegram: @scorify_support</a>
             <a className="block text-muted-foreground hover:text-primary" href="#faq">Savol-javob</a></div>
         </div>

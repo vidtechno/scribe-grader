@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { LifeBuoy } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -91,6 +92,9 @@ export function Navbar() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+              <Link to="/support" className="hidden lg:block" aria-current={pathname === '/support' ? 'page' : undefined}>
+                <Button variant="ghost" size="sm" className="gap-2"><LifeBuoy className="h-4 w-4" /><span>Yordam</span></Button>
+              </Link>
               <a href="/blog" className="hidden xl:block">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <BookOpen className="h-4 w-4" />
@@ -126,6 +130,7 @@ export function Navbar() {
               <a href="/#pricing" className="hidden md:block"><Button variant="ghost" size="sm">Narxlar</Button></a>
               <a href="/#ielts" className="hidden lg:block"><Button variant="ghost" size="sm">IELTS</Button></a>
               <a href="/blog" className="hidden sm:block"><Button variant="ghost" size="sm" className="gap-2"><BookOpen className="h-4 w-4" />Blog</Button></a>
+              <Link to="/support" className="hidden lg:block"><Button variant="ghost" size="sm" className="gap-2"><LifeBuoy className="h-4 w-4" />Yordam</Button></Link>
               <ThemeToggle />
               <Link to="/auth">
                 <Button variant="glow">Kirish</Button>

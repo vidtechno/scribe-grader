@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { callLearning } from '../api';
 import { Button } from '@/components/ui/button';
 import type { Exercise } from '../types';
-import { checkOrder, checkTyped, judgeSpeech, shuffle, speechQualityHint, type SpeechJudgement, type SpeechQuality } from '../check';
+import { checkFix, checkOrder, checkTyped, judgeSpeech, shuffle, speechQualityHint, type SpeechJudgement, type SpeechQuality } from '../check';
 import { canRecord, startRecording, transcribeClip, type Recording } from '../recognition';
 import { listenOnce, speak, speakable, speechRecognitionSupported } from '../speech';
 import { Md } from './Md';
@@ -230,9 +230,9 @@ function Fix({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fix' }>; an
   const [value, setValue] = useState(ex.wrong);
   const [showHint, setShowHint] = useState(false);
   const submit = () => {
-    const r = checkTyped(value, ex.a);
-    const untouched = checkTyped(value, [ex.wrong]).correct;
-    finish({ correct: r.correct && !untouched, expected: r.expected, note: untouched ? "Gap o'zgarmagan: xatoni topib to'g'rilashingiz kerak edi." : r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
+    const r = checkFix(value, ex.wrong, ex.a);
+    const untouched = r.untouched;
+    finish({ correct: r.correct, expected: r.expected, note: untouched ? "Gap o'zgarmagan: xatoni topib to'g'rilashingiz kerak edi." : r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
   };
   return (
     <div>

@@ -9,7 +9,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { BottomNav } from "@/components/BottomNav";
 import { Suspense, lazy, useState, useEffect } from "react";
 import Index from "./pages/Index";
-import Auth from "./pages/Auth";
+const Auth = lazy(() => import("./pages/Auth"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Exam = lazy(() => import("./pages/Exam"));
@@ -37,6 +37,8 @@ const LearnLesson = lazy(() => import("./pages/LearnLesson"));
 const LearnUnitTest = lazy(() => import("./pages/LearnUnitTest"));
 const LearnDrill = lazy(() => import("./pages/LearnDrill"));
 const LearnPlacement = lazy(() => import("./pages/LearnPlacement"));
+const LearnLevelCheck = lazy(() => import("./pages/LearnLevelCheck"));
+const Support = lazy(() => import("./pages/Support"));
 const LearnLevelTest = lazy(() => import("./pages/LearnLevelTest"));
 const Practice = lazy(() => import("./pages/Practice"));
 import { safeReturnTo } from "./lib/returnTo";
@@ -85,6 +87,14 @@ function AppRoutes() {
   const [mentorOpen, setMentorOpen] = useState(false);
   const { user } = useAuth();
 
+  // Signed-in users go to the dashboard and the course next: fetch those pages while the browser is idle.
+  useEffect(() => {
+    if (!user) return;
+    const idle = (window as unknown as { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500));
+    const id = idle(() => { void import("./pages/Dashboard"); void import("./pages/Learn"); void import("./pages/LearnLesson"); });
+    return () => { if (typeof id === 'number') window.clearTimeout(id); };
+  }, [user]);
+
   return (
     <>
       <ScrollToTop />
@@ -105,6 +115,9 @@ function AppRoutes() {
         <Route path="/learn/test/:unitId" element={<ProtectedRoute><LearnUnitTest /></ProtectedRoute>} />
         <Route path="/learn/level-test/:level" element={<ProtectedRoute><LearnLevelTest /></ProtectedRoute>} />
         <Route path="/learn/placement" element={<ProtectedRoute><LearnPlacement /></ProtectedRoute>} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/learn/start" element={<ProtectedRoute><LearnLevelCheck /></ProtectedRoute>} />
+        <Route path="/learn/upgrade/:level" element={<ProtectedRoute><LearnLevelCheck /></ProtectedRoute>} />
         <Route path="/exam" element={<ProtectedRoute><Exam /></ProtectedRoute>} />
         <Route path="/writing" element={<ProtectedRoute><Writing /></ProtectedRoute>} />
         <Route path="/result/:id" element={<ProtectedRoute><Result /></ProtectedRoute>} />

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { DRILL_COUNTS, WRITTEN_UNITS, drillIds, loadDrills } from './course';
 import type { Exercise, Lesson } from './types';
+import { checkFix } from './check';
 
 // Validates every lesson of the course. Run one unit with: UNIT=u2 npx vitest run src/features/learn
 const only = process.env.UNIT;
@@ -49,6 +50,9 @@ function exerciseProblems(ex: Exercise, where: string): string[] {
     case 'fix':
       if (!nonEmpty(ex.wrong) || !ex.a.length || !ex.a.every(nonEmpty)) p.push(`${where}: fix needs wrong and answers`);
       else if (ex.a.some((x) => x.trim().toLowerCase() === ex.wrong.trim().toLowerCase())) p.push(`${where}: fix answer equals the wrong sentence`);
+      // Handing the wrong sentence back is wrong; every accepted answer is right (checked the way the app checks it).
+      else if (checkFix(ex.wrong, ex.wrong, ex.a).correct) p.push(`${where}: the wrong sentence is accepted: ${ex.wrong}`);
+      else if (ex.a.some((x) => !checkFix(x, ex.wrong, ex.a).correct)) p.push(`${where}: an accepted answer is rejected (too close to the wrong sentence?): ${ex.a.join(' | ')}`);
       break;
     default:
       p.push(`${where}: unknown exercise kind`);

@@ -52,6 +52,17 @@ export function checkOrder(built: string[], words: string[], alt: string[][] = [
   return [words, ...alt].some((option) => normalize(option.join(' ')) === given);
 }
 
+/**
+ * "Find and fix" answers. Handing the sentence back unchanged is wrong. This is compared word for word (no typo
+ * tolerance, no contraction expansion), so a correct answer that is one letter or one contraction away from the wrong
+ * sentence ("a egg" → "an egg", "Yes, I'm" → "Yes, I am") is never mistaken for an untouched sentence.
+ */
+export function checkFix(input: string, wrong: string, accepted: string[]): TypedResult & { untouched: boolean } {
+  const untouched = normalize(input) === normalize(wrong);
+  const r = checkTyped(input, accepted);
+  return { ...r, correct: r.correct && !untouched, untouched };
+}
+
 /** Share of the target words that were recognised (speech practice). */
 export function spokenMatch(heard: string, target: string): number {
   const want = normalize(target).split(' ').filter(Boolean);

@@ -125,3 +125,16 @@ describe('judgeSpeech (lenient speaking practice)', () => {
     expect(speechQualityHint('hello', { avgLogprob: -1.6 }, true)).toBeNull();
   });
 });
+
+describe('checkFix', () => {
+  it('accepts a correction that is one letter or one contraction away from the wrong sentence', async () => {
+    const { checkFix } = await import('./check');
+    expect(checkFix('an egg', 'a egg', ['an egg']).correct).toBe(true);
+    expect(checkFix('Are you ready? Yes, I am.', "Are you ready? Yes, I'm.", ['Are you ready? Yes, I am.']).correct).toBe(true);
+  });
+  it('rejects the sentence handed back unchanged', async () => {
+    const { checkFix } = await import('./check');
+    expect(checkFix('a egg', 'a egg', ['an egg'])).toMatchObject({ correct: false, untouched: true });
+    expect(checkFix("Yes, I'm.", "Yes, I'm.", ['Yes, I am.']).correct).toBe(false);
+  });
+});

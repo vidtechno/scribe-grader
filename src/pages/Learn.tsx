@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   BookA, Check, CheckCircle2, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, X, Zap,
@@ -33,6 +33,7 @@ const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts
 
 export default function Learn() {
   const { data: state, isLoading, error } = useLearningState();
+  const picking = new URLSearchParams(useLocation().search).get('pick') === '1';
 
   return (
     <div className="min-h-screen bg-background pb-28 md:pb-12">
@@ -41,7 +42,7 @@ export default function Learn() {
       <main className="pt-24 px-4 sm:px-6 max-w-5xl mx-auto">
         {isLoading ? <div className="grid place-items-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
           : error ? <p className="text-center py-24 text-muted-foreground">O'rganish bo'limini yuklab bo'lmadi. Sahifani yangilang.</p>
-            : !state?.profile ? <LevelPicker access={state?.access} />
+            : !state?.profile ? (picking ? <LevelPicker access={state?.access} /> : <Navigate to="/learn/start" replace />)
               : <CourseHome state={state} />}
       </main>
     </div>
