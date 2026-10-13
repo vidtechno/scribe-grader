@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ArrowLeft, BookOpenCheck, ChevronLeft, ChevronRight, Clock, Flame, Loader2, MessageCircleQuestion, RotateCcw,
+  ArrowLeft, LifeBuoy, BookOpenCheck, ChevronLeft, ChevronRight, Clock, Flame, Loader2, MessageCircleQuestion, RotateCcw,
   Sparkles, Star, Target, Trophy, X, Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { shuffle } from '@/features/learn/check';
 import { lessonAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { BlockView } from '@/features/learn/components/BlockView';
+import { ReviewNav } from '@/features/learn/components/ReviewNav';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { Flashcards } from '@/features/learn/components/Flashcards';
 import { lessonEvents, sessionEvents, splitNewWords, type Outcome, type ReviewEvent, type SessionItem } from '@/features/learn/engine/engine';
@@ -146,6 +147,7 @@ function TopBar({ phase, onExit, lesson }: { phase: Phase; onExit: () => void; l
             {PHASES.find((p) => p.id === phase)?.label ?? (phase === 'result' ? 'Natija' : lesson.titleUz)}
           </p>
         </div>
+        <Link to="/support" target="_blank" aria-label="Yordam" className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:border-primary/50"><LifeBuoy className="h-4 w-4 text-primary" /><span className="hidden min-[380px]:inline">Yordam</span></Link>
         {LESSON_MENTOR_ENABLED && (
           <button type="button" aria-label="AI mentordan so'rash" title="Tushunmagan joyingizni AI mentordan so'rang"
             onClick={() => window.dispatchEvent(new CustomEvent('scorify:mentor', { detail: { context: `${lesson.id} ${lesson.title}: ${lesson.goal}` } }))}
@@ -302,19 +304,6 @@ function Practice({ lesson, fresh, onOutcome, onDone }: { lesson: Lesson; fresh:
           <ExerciseView ex={it.ex} mode="practice" onDone={n === pos ? answer : () => {}} />
         </div>
       ))}
-    </div>
-  );
-}
-
-/** "Previous / next question" while a lesson is running: earlier answers can be read again, never changed. */
-function ReviewNav({ shown, current, onShow }: { shown: number; current: number; onShow: (n: number) => void }) {
-  if (current === 0) return null;
-  const reviewing = shown < current;
-  return (
-    <div className="flex items-center justify-between mb-4 -mt-2">
-      <Button type="button" variant="ghost" size="sm" disabled={shown === 0} onClick={() => onShow(shown - 1)} className="gap-1 text-muted-foreground"><ChevronLeft className="h-4 w-4" />Oldingi savol</Button>
-      {reviewing && <span className="text-xs text-amber-600 dark:text-amber-400">Ko'rib chiqish: javobni o'zgartirib bo'lmaydi</span>}
-      {reviewing && <Button type="button" variant="ghost" size="sm" onClick={() => onShow(shown + 1)} className="gap-1 text-primary">{shown + 1 === current ? 'Hozirgi savol' : 'Keyingi'}<ChevronRight className="h-4 w-4" /></Button>}
     </div>
   );
 }

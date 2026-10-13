@@ -1,16 +1,13 @@
-// Pronunciation without paid APIs. Sources, best first:
+// Pronunciation without paid APIs. Sources:
 //  1. recordings of our own, pre-made for every text of the course and served as static files (/audio/<key>.mp3,
 //     see scripts/generate-lesson-audio.ts): they play on every phone, whatever its speech engine or network;
-//  2. only for a text that has no recording (none in the course; a test enforces it): human recordings of single
-//     words from the free Dictionary API, and a free online voice for sentences.
-// The device's own (robotic) speech engine is never used.
+// Every text of the course has a recording (a test enforces it). The device's own speech engine and online robot
+// voices are never used: a text without a recording stays silent and the page offers the written text instead.
 // The clips of the open lesson are loaded into memory when it opens, so a tap plays at once; opening another lesson
 // (or leaving the course) releases them. Nothing here touches our database.
 
-import { audioKey } from './audio-key';
+import { audioKey, audioUrl } from './audio-key';
 
-const SINGLE_WORD = /^[a-z][a-z'-]{2,}$/i;
-const MAX_CHUNK = 180;
 
 /** Lesson text may carry markdown marks or emoji; the speech engines should only get the words. */
 export function cleanText(text: string): string {
@@ -87,38 +84,6 @@ function makeClip(url: string): Clip {
   return clip;
 }
 
-/** Free online voice. Long text is cut into sentences of at most ~180 characters. */
-const onlineVoiceUrl = (text: string) =>
-  `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
-
-function chunks(text: string): string[] {
-  const out: string[] = [];
-  let cur = '';
-  for (const sentence of text.split(/(?<=[.!?])\s+/)) {
-    if (cur && (cur + ' ' + sentence).length > MAX_CHUNK) { out.push(cur); cur = ''; }
-    cur = cur ? `${cur} ${sentence}` : sentence;
-    while (cur.length > MAX_CHUNK) {
-      const cut = cur.lastIndexOf(' ', MAX_CHUNK);
-      out.push(cur.slice(0, cut > 0 ? cut : MAX_CHUNK));
-      cur = cur.slice(cut > 0 ? cut + 1 : MAX_CHUNK);
-    }
-  }
-  if (cur) out.push(cur);
-  return out;
-}
-
-async function dictionaryUrl(word: string): Promise<string | null> {
-  try {
-    const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`, { signal: AbortSignal.timeout(3000) });
-    if (!r.ok) return null;
-    const data: unknown = await r.json();
-    if (!Array.isArray(data)) return null;
-    const urls = data.flatMap((entry: { phonetics?: { audio?: string }[] }) => (entry.phonetics ?? []).map((p) => p.audio ?? ''))
-      .filter((u: string) => u.startsWith('https://'));
-    return urls.find((u: string) => u.includes('-us')) ?? urls.find((u: string) => u.includes('-uk')) ?? urls[0] ?? null;
-  } catch { return null; }
-}
-
 /** Creates (once) the clips of a text. A recording that fails to load is replaced by the online voice. */
 function getClips(text: string): Promise<Clip[] | null> {
   const key = keyOf(text);
@@ -131,19 +96,14 @@ function getClips(text: string): Promise<Clip[] | null> {
     if (hosted(text)) {
       // One more try before giving up on our own recording: a slow network is not a missing file.
       for (let attempt = 0; attempt < 2 && !list; attempt++) {
-        const clip = makeClip(`/audio/${audioKey(text)}.mp3`);
+        const clip = makeClip(audioUrl(text));
         list = (await clip.whenReady) ? [clip] : (disposeClip(clip), null);
       }
     }
-    if (!list && SINGLE_WORD.test(text)) {
-      const url = await dictionaryUrl(text);
-      if (url) {
-        const clip = makeClip(url);
-        list = (await clip.whenReady) ? [clip] : (disposeClip(clip), null);
-      }
-    }
-    list ??= chunks(text).map((c) => makeClip(onlineVoiceUrl(c)));
+    // No recording means no sound: neither the browser voice nor an online robot voice is used.
+    list ??= [];
     if (gen !== generation) { list.forEach(disposeClip); return null; } // another lesson opened meanwhile
+    if (!list.length) { entries.delete(key); return list; } // let the next tap try again
     resolved.set(key, list);
     return list;
   })();

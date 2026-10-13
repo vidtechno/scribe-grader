@@ -1,4 +1,5 @@
-import { X, XCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { LifeBuoy, X, XCircle } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 import type { Exercise } from '../types';
 import { Md } from './Md';
@@ -8,14 +9,15 @@ export function TestShell({ children, onExit, progress, title = 'Bosqich testi',
   return (
     <div className="min-h-screen bg-background">
       <SEOHead title={title} description={title} path={path} noindex />
-      {onExit && (
-        <header className="fixed top-0 inset-x-0 z-40 bg-background/90 backdrop-blur border-b border-border">
-          <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
-            <button type="button" onClick={onExit} aria-label="Chiqish" className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
-            <div className="h-2.5 flex-1 rounded-full bg-secondary overflow-hidden"><div className="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all" style={{ width: `${(progress ?? 0) * 100}%` }} /></div>
-          </div>
-        </header>
-      )}
+      <header className="fixed top-0 inset-x-0 z-40 bg-background/90 backdrop-blur border-b border-border">
+        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
+          {onExit && <button type="button" onClick={onExit} aria-label="Chiqish" className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>}
+          {onExit
+            ? <div className="h-2.5 flex-1 rounded-full bg-secondary overflow-hidden"><div className="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all" style={{ width: `${(progress ?? 0) * 100}%` }} /></div>
+            : <Link to="/learn" className="text-sm font-medium text-muted-foreground hover:text-primary flex-1">← Yo'l xaritasi</Link>}
+          <Link to="/support" target="_blank" className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:border-primary/50"><LifeBuoy className="h-4 w-4 text-primary" />Yordam</Link>
+        </div>
+      </header>
       <main className="max-w-2xl mx-auto px-4 pt-20 pb-24">{children}</main>
     </div>
   );

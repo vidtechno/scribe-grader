@@ -10,3 +10,10 @@ export function audioKey(text: string): string {
   }
   return (h1 >>> 0).toString(16).padStart(8, '0') + (h2 >>> 0).toString(16).padStart(8, '0');
 }
+
+/**
+ * Recordings are cached by phones and browsers for a year (vercel.json), so a re-recorded file needs a new address:
+ * raise this number whenever audio files are replaced.
+ */
+export const AUDIO_VERSION = 2;
+export const audioUrl = (text: string) => `/audio/${audioKey(text)}.mp3?v=${AUDIO_VERSION}`;
