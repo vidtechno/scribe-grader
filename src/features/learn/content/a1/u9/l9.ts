@@ -43,8 +43,8 @@ const lesson: Lesson = {
       title: "Ehtiyot bo'ling: tez-tez uchraydigan xatolar",
       blocks: [
         { t: 'compare', good: { title: "To'g'ri", items: ['I went to the park.', "I didn't go out.", 'Did you see your friends?', 'I was at home on Sunday.'] }, bad: { title: "Noto'g'ri", items: ['I goed to the park.', "I didn't went out.", 'Did you saw your friends?', 'I am at home last Sunday.'] } },
-        { t: 'p', md: "Eslatma: **did / didn't** dan keyin fe'l **oddiy shaklda** (go, see). V2 (went, saw) faqat ijobiy gapda. Va **on** Saturday, **in** the evening, **at** the weekend emas — *last weekend* oldida predlog yo'q." },
-        { t: 'check', ex: { k: 'choice', q: "\"Dam olish kuni hech qayerga bormadim.\"", opts: ["I didn't went anywhere.", "I didn't go anywhere.", "I not go anywhere.", "I don't went anywhere."], a: 1, why: "**didn't + V1**: didn't **go**." } },
+        { t: 'p', md: "Eslatma: **did / didn't** dan keyin fe'l **oddiy shaklda** (go, see). V2 (went, saw) faqat ijobiy gapda. Vaqt predloglari: **on** Saturday, **in** the evening; lekin *last weekend*, *yesterday* oldida predlog yo'q." },
+        { t: 'check', ex: { k: 'choice', q: "\"Dam olish kuni tashqariga chiqmadim.\"", opts: ["I didn't went out.", "I didn't go out.", "I not go out.", "I don't went out."], a: 1, why: "**didn't + V1**: didn't **go**." } },
       ],
     },
   ],
@@ -69,7 +69,7 @@ const lesson: Lesson = {
   quiz: [
     { k: 'choice', q: 'How ___ your weekend?', opts: ['is', 'was', 'did', 'were'], a: 1, why: "weekend — birlik, o'tgan zamon → **was**." },
     { k: 'fill', q: "I ___ go out on Sunday. (negative)", a: ["didn't", 'did not'] },
-    { k: 'order', uz: "Yakshanba kuni nima qilding?", words: ['What', 'did', 'you', 'do', 'on', 'Sunday'], extra: ['do', 'went'] },
+    { k: 'order', uz: "Yakshanba kuni nima qilding?", words: ['What', 'did', 'you', 'do', 'on', 'Sunday'], extra: ['does', 'went'] },
     { k: 'translate', uz: "Biz palov pishirdik.", a: ['We cooked plov.', 'We cooked plov'] },
     { k: 'tf', q: "*I goed home at ten.* — to'g'ri gap.", a: false, why: "**go – went**: I **went** home." },
     { k: 'fix', wrong: 'Did you saw your friends?', a: ['Did you see your friends?'], why: "**Did + V1**." },

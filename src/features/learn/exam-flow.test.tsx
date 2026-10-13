@@ -18,11 +18,11 @@ vi.mock('@/features/learn/components/ExerciseView', () => ({ ExerciseView: ({ on
   <><button type="button" onClick={() => onDone(submitted.pattern(submitted.n++))}>ANSWER</button></>) }));
 vi.mock('@/features/learn/components/TestShell', () => ({ TestShell: ({ children }: { children: React.ReactNode }) => <div>{children}</div>, MistakeReview: () => null }));
 
-import { BeginnerExam } from '@/pages/LearnBeginnerExam';
+import { BeginnerExam, ElementaryExam } from '@/pages/LearnBeginnerExam';
 
-async function run(pattern: (n: number) => boolean) {
+async function run(pattern: (n: number) => boolean, Exam: () => JSX.Element = BeginnerExam) {
   submitted.calls = []; submitted.pattern = pattern; submitted.n = 0;
-  render(<MemoryRouter><BeginnerExam /></MemoryRouter>);
+  render(<MemoryRouter><Exam /></MemoryRouter>);
   fireEvent.click(await screen.findByRole('button', { name: /Imtihonni boshlash/ }));
   for (let n = 0; n < 20; n++) fireEvent.click(await screen.findByRole('button', { name: 'ANSWER' }));
   await screen.findByText(/Ko'nikmalar bo'yicha/);
@@ -52,5 +52,12 @@ it('a weak skill keeps the exam below the pass mark even when the total is high'
   expect(sent).toBeLessThan(14);
   expect(document.body.textContent).toContain("O'qish");
   expect(document.body.textContent).toContain("ga yetmadi");
+  cleanup();
+});
+
+it('the Elementary exam sends level a1 and passes a perfect run', async () => {
+  await run(() => true, ElementaryExam);
+  expect(submitted.calls[0].args).toMatchObject({ _level: 'a1', _score: 20, _total: 20 });
+  expect(document.body.textContent).toContain('Elementary tugallandi');
   cleanup();
 });

@@ -57,6 +57,8 @@ const lesson: Lesson = {
     { en: "tense", uz: "zamon (grammatikada)", ipa: "tens", pos: "noun", ex: "Past Simple is a tense.", exUz: "Past Simple — bu zamon." },
     { en: "sentence", uz: "gap", ipa: "ˈsen.təns", pos: "noun", ex: "Write a short sentence.", exUz: "Qisqa gap yozing." },
     { en: "grammar", uz: "grammatika", ipa: "ˈɡræm.ər", pos: "noun", ex: "English grammar is not difficult.", exUz: "Ingliz grammatikasi qiyin emas." },
+    { en: "exam", uz: "imtihon", ipa: "ɪɡˈzæm", pos: "noun", ex: "I have an exam on Monday.", exUz: "Dushanba kuni imtihonim bor." },
+    { en: "correct", uz: "to'g'ri (javob, gap)", ipa: "kəˈrekt", pos: "adjective", ex: "Choose the correct sentence.", exUz: "To'g'ri gapni tanlang." },
   ],
   practice: [
     { k: "choice", q: "She ___ tea every morning.", opts: ["drink", "drinks", "is drink", "drank"], a: 1 },
@@ -67,7 +69,7 @@ const lesson: Lesson = {
     { k: "tf", q: "*She can to swim* — gap to'g'ri.", a: false, why: "**can** dan keyin **to** kerak emas: *She can swim.*" },
     { k: "listen", say: "You should sleep more.", opts: ["You should sleep more.", "You must sleep more.", "You can sleep more.", "You should sleep now."], a: 0 },
     { k: "dictation", say: "I'm going to take an exam.", a: ["I'm going to take an exam.", "I am going to take an exam."] },
-    { k: "fix", wrong: "I've seen him yesterday.", a: ["I saw him yesterday."], why: "**yesterday** → Past Simple." },
+    { k: "fix", wrong: "She has gone to Paris last year.", a: ["She went to Paris last year."], why: "**last year** → Past Simple." },
     { k: "fill", q: "A: It's hot in here. B: OK, I ___ open the window.", a: ["will", "'ll"], why: "Shu zahoti qaror → **will**." },
     { k: "speak", say: "I've never been to Japan.", uz: "Men hech qachon Yaponiyada bo'lmaganman." },
   ],
@@ -85,7 +87,7 @@ const lesson: Lesson = {
     "Zamonlar: **Simple** — odat, **Continuous** — hozir, **Past Simple** — aniq o'tmish, **Present Perfect** — tajriba, **going to / will** — kelajak.",
     "Modallar: **can** (qila olish), **have to / must** (majburiyat), **should** (maslahat) + oddiy fe'l.",
     "Oltin qoida: yordamchi fe'ldan keyin to'g'ri shakl (V1, V-ing, V3).",
-    "Yangi so'zlar: **tense, sentence, grammar**.",
+    "Yangi so'zlar: **tense, sentence, grammar, exam, correct**.",
   ],
   homework: "O'zingiz haqingizda 6 ta gap yozing: har bir zamon uchun bittadan (Simple, Continuous, Past, Perfect, going to, will).",
 };

@@ -44,7 +44,8 @@ export default function Dashboard() {
       : `You are consistent at Band ${latest}. Try more complex sentence structures to break through.`;
   }, [essays]);
 
-  useEffect(() => { void refreshProfile(); }, [refreshProfile]);
+  // Fresh profile and plan once per visit (counters change on other pages).
+  useEffect(() => { void refreshProfile(); void refreshSub(); }, [refreshProfile, refreshSub]);
 
   // Live-refresh the plan when an admin (or the referral program) changes it.
   useEffect(() => {

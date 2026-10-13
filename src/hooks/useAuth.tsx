@@ -1,5 +1,5 @@
 import { claimPendingReferral } from '@/lib/referral';
-import { useState, useEffect, useRef, createContext, useContext } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -38,7 +38,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const activeUserId = useRef<string | null>(null);
 
-  const fetchProfile = async (userId: string) => {
+  // Stable identities: pages put refreshProfile in effect dependencies, and a new function on every render made
+  // them refetch the profile in a loop.
+  const fetchProfile = useCallback(async (userId: string) => {
     try {
       const { data: initialProfile, error } = await supabase
         .from('profiles')
@@ -51,19 +53,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
-  };
+  }, []);
 
-  const refreshProfile = async () => {
-    if (user) {
-      await fetchProfile(user.id);
-    }
-  };
+  const refreshProfile = useCallback(async () => {
+    const id = activeUserId.current;
+    if (id) await fetchProfile(id);
+  }, [fetchProfile]);
 
   useEffect(() => {
     let disposed = false;
     let authEventReceived = false;
     const applySession = (next: Session | null) => {
       if (disposed) return;
+      // The same signed-in user again (token refresh, tab regained focus): keep what is loaded, no new requests.
+      if (next?.user && activeUserId.current === next.user.id) {
+        setSession(next);
+        setUser((prev) => (prev && prev.id === next.user.id ? prev : next.user));
+        setLoading(false);
+        return;
+      }
       activeUserId.current = next?.user.id ?? null;
       setSession(next);
       setUser(next?.user ?? null);
@@ -91,23 +99,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => { disposed = true; activeUserId.current = null; subscription.unsubscribe(); };
   }, []);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setProfile(null);
-  };
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{
-      user,
-      session,
-      profile,
-      loading,
-      signOut,
-      refreshProfile
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = useMemo(() => ({ user, session, profile, loading, signOut, refreshProfile }), [user, session, profile, loading, signOut, refreshProfile]);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

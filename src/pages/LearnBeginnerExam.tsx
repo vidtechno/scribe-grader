@@ -6,9 +6,11 @@ import { Button } from '@/components/ui/button';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { ALL_LESSONS, LEVELS, LEVEL_TEST } from '@/features/learn/course';
+import type { Exercise, LevelId } from '@/features/learn/types';
 import { callLearning, learningErrorMessage, useLearningState, useRefreshLearning } from '@/features/learn/api';
 import { shuffle } from '@/features/learn/check';
-import { BEGINNER_EXAM, BEGINNER_SPEAKING as SPEAKING, type ExamItem, type ExamSkill } from '@/features/learn/content/beginner/exam';
+import { BEGINNER_EXAM, BEGINNER_SPEAKING, type ExamItem, type ExamSkill } from '@/features/learn/content/beginner/exam';
+import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from '@/features/learn/content/a1/exam';
 import { CertificateDialog } from '@/features/learn/components/CertificateDialog';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
@@ -24,6 +26,18 @@ const SKILLS: { id: ExamSkill; label: string; per: number }[] = [
 /** Every skill needs at least this share, so a strong skill cannot hide a weak one. */
 const SKILL_MIN_PERCENT = 50;
 
+interface ExamConfig {
+  level: LevelId; title: string; cefr: string; bank: ExamItem[]; speaking: Exercise[];
+  /** Said on the result card when the exam is passed. */
+  ready: string;
+}
+const CONFIGS: Record<string, ExamConfig> = {
+  beginner: { level: 'beginner', title: 'Beginner', cefr: 'A1', bank: BEGINNER_EXAM, speaking: BEGINNER_SPEAKING,
+    ready: "Elementary darajasiga tayyorsiz: sodda gaplar tuzish, savol berish va o'tgan, hozirgi zamonda oddiy suhbat qilish ko'nikmalarini ko'rsatdingiz." },
+  a1: { level: 'a1', title: 'Elementary', cefr: 'A1+', bank: ELEMENTARY_EXAM, speaking: ELEMENTARY_SPEAKING,
+    ready: "Pre-Intermediate darajasiga tayyorsiz: kundalik vaziyatlarda gaplashish, o'tgan va kelasi zamon, tajriba haqida gapirish ko'nikmalarini ko'rsatdingiz." },
+};
+
 interface Outcome { passed: boolean; advanced: boolean; next_level: string | null; xp: number }
 
 /**
@@ -31,7 +45,11 @@ interface Outcome { passed: boolean; advanced: boolean; next_level: string | nul
  * from a bank of new situations. Pass = 70% overall AND at least 50% in every skill. The result shows each skill and
  * which lessons to revisit; a short speaking practice follows (it is not scored).
  */
-export function BeginnerExam() {
+export const BeginnerExam = () => <LevelExam config={CONFIGS.beginner} />;
+export const ElementaryExam = () => <LevelExam config={CONFIGS.a1} />;
+
+function LevelExam({ config }: { config: ExamConfig }) {
+  const SPEAKING = config.speaking;
   const navigate = useNavigate();
   const { data: state, isLoading } = useLearningState();
   const refresh = useRefreshLearning();
@@ -45,19 +63,19 @@ export function BeginnerExam() {
   const questions = useMemo(() => items?.map((x) => x.ex) ?? null, [items]);
   const audioTexts = useMemo(() => (questions ? questions.flatMap(exerciseAudioTexts) : null), [questions]);
   useLessonAudio(audioTexts, `exam-${items ? 'q' : ''}`);
-  const path = '/learn/level-test/beginner';
-  const nextLevel = LEVELS[LEVELS.findIndex((l) => l.id === 'beginner') + 1];
+  const path = `/learn/level-test/${config.level}`;
+  const nextLevel = LEVELS[LEVELS.findIndex((l) => l.id === config.level) + 1];
   const firstNext = nextLevel?.available ? ALL_LESSONS.find((l) => l.level === nextLevel.id) : undefined;
 
   const shell = (children: React.ReactNode, props: { progress?: number; onExit?: () => void } = {}) => (
-    <TestShell title="Beginner yakuniy imtihoni" path={path} {...props}>{children}</TestShell>
+    <TestShell title={`${config.title} yakuniy imtihoni`} path={path} {...props}>{children}</TestShell>
   );
   if (isLoading) return shell(<div className="grid place-items-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>);
   if (!state?.profile) return <Navigate to="/learn" replace />;
   if (!state.access.allowed) return shell(<div className="py-10"><LearnPaywall access={state.access} /></div>);
 
   const start = () => {
-    const picked = SKILLS.flatMap((s) => shuffle(BEGINNER_EXAM.filter((x) => x.skill === s.id)).slice(0, s.per));
+    const picked = SKILLS.flatMap((s) => shuffle(config.bank.filter((x) => x.skill === s.id)).slice(0, s.per));
     setItems(picked); setI(0); setAnswers([]); setOutcome(null); setError('');
   };
 
@@ -74,7 +92,7 @@ export function BeginnerExam() {
     const sent = weak && score * 100 >= all.length * LEVEL_TEST.passPercent ? Math.ceil(all.length * LEVEL_TEST.passPercent / 100) - 1 : score;
     try {
       const r = await callLearning<Outcome>('learning_submit_level_test', {
-        _level: 'beginner', _score: sent, _total: all.length, _next_id: firstNext?.id ?? null, _next_title: firstNext?.titleUz ?? null,
+        _level: config.level, _score: sent, _total: all.length, _next_id: firstNext?.id ?? null, _next_title: firstNext?.titleUz ?? null,
       });
       setOutcome(r);
       await refresh();
@@ -95,7 +113,7 @@ export function BeginnerExam() {
             className={`mx-auto mb-4 w-24 h-24 rounded-[30px] grid place-items-center ${outcome.passed ? 'bg-gradient-to-br from-emerald-400 to-teal-500' : 'bg-gradient-to-br from-slate-400 to-slate-500'}`}>
             {outcome.passed ? <PartyPopper className="h-11 w-11 text-white" /> : <Trophy className="h-11 w-11 text-white" />}
           </motion.div>
-          <h1 className="text-2xl font-extrabold mb-1">{outcome.passed ? "Beginner tugallandi!" : "Bu safar o'tmadi"}</h1>
+          <h1 className="text-2xl font-extrabold mb-1">{outcome.passed ? `${config.title} tugallandi!` : "Bu safar o'tmadi"}</h1>
           <p className="text-muted-foreground mb-5">Natija: {score} / {items.length} ({pct}%). O'tish uchun jami {LEVEL_TEST.passPercent}% va har bir ko'nikmada kamida {SKILL_MIN_PERCENT}% kerak.</p>
         </div>
 
@@ -118,7 +136,7 @@ export function BeginnerExam() {
         )}
         {outcome.passed && (
           <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm mb-4">
-            Elementary darajasiga tayyorsiz: sodda gaplar tuzish, savol berish va o'tgan, hozirgi zamonda oddiy suhbat qilish ko'nikmalarini ko'rsatdingiz.
+            {config.ready}
             {missedTopics.length > 0 && " Quyidagi mavzularni vaqti-vaqti bilan takrorlab turing."}
           </div>
         )}
@@ -131,8 +149,8 @@ export function BeginnerExam() {
 
         <div className="glass-card p-4 mb-4">
           <p className="font-semibold flex items-center gap-2 mb-1"><Mic className="h-4 w-4 text-primary" />Gapirish amaliyoti (baholanmaydi)</p>
-          <p className="text-sm text-muted-foreground mb-3">Uchta gapni ovoz chiqarib ayting — Elementary'da gapirishga tayyorlanish uchun.</p>
-          {speaking ? <SpeakingPractice /> : <Button variant="outline" onClick={() => setSpeaking(true)}>Boshlash</Button>}
+          <p className="text-sm text-muted-foreground mb-3">Uchta gapni ovoz chiqarib ayting — keyingi darajada gapirishga tayyorlanish uchun.</p>
+          {speaking ? <SpeakingPractice items={SPEAKING} /> : <Button variant="outline" onClick={() => setSpeaking(true)}>Boshlash</Button>}
         </div>
 
         <MistakeReview questions={questions} answers={answers} />
@@ -143,7 +161,7 @@ export function BeginnerExam() {
             {outcome.passed && outcome.advanced && nextLevel ? `${nextLevel.title} darslariga o'tish` : 'Kursga qaytish'}
           </Button>
         </div>
-        {certificate && <CertificateDialog levelId="beginner" onClose={() => setCertificate(false)} />}
+        {certificate && <CertificateDialog levelId={config.level} onClose={() => setCertificate(false)} />}
       </div>,
     );
   }
@@ -167,8 +185,8 @@ export function BeginnerExam() {
 
   return shell(
     <div className="py-6">
-      <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-2">Beginner · A1</p>
-      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Trophy className="h-8 w-8 text-primary" />Beginner yakuniy imtihoni</h1>
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-2">{config.title} · {config.cefr}</p>
+      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Trophy className="h-8 w-8 text-primary" />{config.title} yakuniy imtihoni</h1>
       <p className="text-muted-foreground mb-5">Barcha darslarni o'tmasdan ham topshirishingiz mumkin. Savollar darslardagi misollardan emas, yangi vaziyatlardan olinadi.</p>
       <ul className="glass-card p-5 space-y-2.5 text-sm mb-6">
         <li>📝 <b>{LEVEL_TEST.questions} ta savol</b>: grammatika, lug'at, o'qish, tinglash, yozish (har biridan 4 ta)</li>
@@ -185,8 +203,8 @@ export function BeginnerExam() {
   );
 }
 
-function SpeakingPractice() {
+function SpeakingPractice({ items }: { items: Exercise[] }) {
   const [n, setN] = useState(0);
-  if (n >= SPEAKING.length) return <p className="text-sm text-emerald-600 font-medium">Barakalla! Gapirish amaliyoti tugadi.</p>;
-  return <ExerciseView key={n} ex={SPEAKING[n]} mode="practice" onDone={() => setN(n + 1)} />;
+  if (n >= items.length) return <p className="text-sm text-emerald-600 font-medium">Barakalla! Gapirish amaliyoti tugadi.</p>;
+  return <ExerciseView key={n} ex={items[n]} mode="practice" onDone={() => setN(n + 1)} />;
 }

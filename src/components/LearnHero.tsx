@@ -3,6 +3,8 @@ import { ArrowRight, Clock, Compass, Flame, GraduationCap, Lock, Play, Target, Z
 import { Button } from '@/components/ui/button';
 import { courseMap, learningStats, placementPending, trialDaysLeft, useLearningState } from '@/features/learn/api';
 import { ALL_LESSONS, COURSE_UNITS, levelOf, unitNo } from '@/features/learn/course';
+import { learningPlan } from '@/features/learn/plan';
+import { NextSteps } from '@/features/learn/components/NextSteps';
 
 /** The dashboard's main card: where the learner is in the English course and the one button that continues it. */
 export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
@@ -51,7 +53,8 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
     );
   }
 
-  const map = courseMap(state);
+  const plan = learningPlan(state, 4);
+  const map = plan.map;
   const stats = learningStats(state);
   const daysLeft = trialDaysLeft(state.access);
   const locked = !state.access.allowed;
@@ -97,6 +100,10 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
             <p className="text-xs opacity-90 mt-2 flex items-center gap-1.5">
               <Target className="h-3.5 w-3.5" />{goalText}
             </p>
+            {!locked && plan.steps.length > 1 && (
+              <div className="mt-3 -mx-2 hidden sm:block"><NextSteps steps={plan.steps} dark /></div>
+            )}
+            <Link to="/learn" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold underline underline-offset-2 opacity-90 hover:opacity-100">Barcha mavzular va {level.title}: {plan.levelDone}/{plan.levelTotal} dars<ArrowRight className="h-3 w-3" /></Link>
           </div>
           {locked ? (
             <Button size="lg" onClick={onUpgrade} className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Lock className="h-4 w-4" />Learn / IELTS</Button>

@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 vi.mock('@/integrations/supabase/client', () => ({ supabase: {} }));
 vi.mock('@/hooks/useAuth', () => ({ useAuth: () => ({ user: null }) }));
 import { courseMap, type LearningState } from './api';
+import { learningPlan } from './plan';
 
 const base = { profile: { level: 'beginner', xp: 0, trial_started_at: '', next_lesson_title: null }, access: { allowed: true, reason: 'paid', plan: 'learn' }, streak: 0, today: '2026-10-11', progress: [], tests: [], activity: [] } as unknown as LearningState;
 const done = (...ids: string[]) => ({ ...base, progress: ids.map((id) => ({ lesson_id: id, best_score: 10, total: 10, stars: 3, attempts: 1, completed_at: '2026-10-01' })) }) as LearningState;
@@ -25,8 +26,10 @@ describe('courseMap with short lessons', () => {
   });
 
   it('Elementary short lessons follow the same rule', () => {
-    const m = courseMap(done('u6-l1', 'u6-l8'));
+    const m = courseMap(done('u6-l1', 'u6-l2'));
     expect(m.done.has('u6-l9')).toBe(false);
+    expect(m.done.has('u6-l12')).toBe(false);
+    expect(courseMap(done('u6-l1', 'u6-l2', 'u6-l3', 'u6-l8')).done.has('u6-l12')).toBe(true);
     expect(courseMap(done('u6-l1', 'u6-l2', 'u6-l3', 'u6-l4', 'u6-l5', 'u6-l6', 'u6-l7', 'u6-l8')).done.has('u6-l11')).toBe(true);
   });
 
@@ -50,5 +53,19 @@ describe('courseMap with short lessons', () => {
     const dr = ['u3-l2-d1', 'u3-l3-d1', 'u3-l3-d2'].map((d) => ({ drill_id: d, best_score: 10, total: 10, stars: 3, attempts: 1, completed_at: '2026-10-01' }));
     const m = courseMap({ ...done('u3-l1', 'u3-l2', 'u3-l3'), drills: dr, tests: [{ unit_id: 'u1', passed_at: '2026-10-01' }, { unit_id: 'u2', passed_at: '2026-10-01' }] } as unknown as LearningState);
     expect(m.nextLesson?.id).toBe('u3-l13');
+  });
+
+  it('the learning plan lists the next steps in course order, first one open', () => {
+    const plan = learningPlan(base, 4);
+    expect(plan.steps).toHaveLength(4);
+    expect(plan.steps[0]).toMatchObject({ id: 'u1-l1', kind: 'lesson', open: true });
+    expect(plan.steps.slice(1).every((s) => !s.open)).toBe(true);
+    expect(plan.unit?.id).toBe('u1');
+    expect(plan.levelTotal).toBeGreaterThan(plan.levelDone);
+  });
+
+  it('the plan puts a pending game right after its lesson', () => {
+    const plan = learningPlan({ ...done('u3-l1', 'u3-l2'), tests: [{ unit_id: 'u1', passed_at: '2026-10-01' }, { unit_id: 'u2', passed_at: '2026-10-01' }] } as unknown as LearningState, 3);
+    expect(plan.steps[0]).toMatchObject({ id: 'u3-l2-d1', kind: 'drill', open: true });
   });
 });

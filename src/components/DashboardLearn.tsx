@@ -10,7 +10,7 @@ const card = 'group glass-card-hover p-4 flex flex-col gap-2';
 /** The learning side of the dashboard: what to review, where you stand this week, latest achievements, referral. */
 export function DashboardLearn() {
   const { data: state } = useLearningState();
-  const { data: queue } = useReviewQueue(!!state?.profile);
+  const { data: queue } = useReviewQueue(!!state?.profile, false);
   const { data: board } = useLeaderboard('global', 'week');
   if (!state?.profile) return null;
 

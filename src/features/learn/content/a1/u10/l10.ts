@@ -1,6 +1,6 @@
 import type { Lesson } from '../../../types';
 
-// Mini lesson (situation): at the pharmacy and the doctor. Recycles headache, cough, sore throat, medicine, should, have to.
+// Mini lesson (situation): at the pharmacy and the doctor. Recycles headache, cough, sore throat, medicine, should.
 const lesson: Lesson = {
   id: 'u10-l10',
   title: 'At the pharmacy and the doctor',
@@ -18,7 +18,7 @@ const lesson: Lesson = {
           { who: 'Doctor', en: 'Do you have a cough?', uz: "Yo'talingiz bormi?" },
           { who: 'Patient', en: 'Yes, a little cough.', uz: "Ha, ozgina yo'talaman." },
           { who: 'Doctor', en: 'You should stay at home and rest. You shouldn\'t go to work.', uz: "Uyda qolib dam olishingiz kerak. Ishga bormasligingiz kerak." },
-          { who: 'Patient', en: 'Do I have to take medicine?', uz: 'Dori ichishim shartmi?' },
+          { who: 'Patient', en: 'Should I take any medicine?', uz: 'Dori ichsammi?' },
           { who: 'Doctor', en: 'Yes. Take one tablet three times a day. Get it at the pharmacy.', uz: "Ha. Kuniga uch marta bittadan tabletka iching. Uni dorixonadan oling." },
         ] },
         { t: 'check', ex: { k: 'choice', q: 'Doctor: "You ___ go to work."', opts: ["shouldn't", "don't should", 'not should', 'shouldn\'t to'], a: 0, why: "**shouldn't** + V1: *You shouldn't go.*" } },
@@ -35,14 +35,14 @@ const lesson: Lesson = {
           ["You shouldn't eat cold food.", "Qilmaslik kerak bo'lgan ish"],
           ['How often do I take it?', 'Dorini qanchalik tez-tez ichishni so\'raysiz'],
         ] },
-        { t: 'tip', tone: 'info', md: "**should** — maslahat (\"yaxshi bo'lardi\"), **have to** — majburiyat (\"shart\"). *You should rest.* (maslahat) / *I have to see a doctor.* (shart)." },
+        { t: 'tip', tone: 'info', md: "**should** — maslahat (\"…gani ma'qul\"): *You should rest.* Shifokor ko'rsatmasi esa buyruq shaklida bo'ladi: *Take one tablet. Drink water.*" },
         { t: 'check', ex: { k: 'fill', q: 'You ___ drink hot tea. (maslahat)', a: ['should'], uz: "Issiq choy ichganingiz ma'qul.", why: "Maslahat uchun **should** + V1." } },
       ],
     },
     {
       title: "Ehtiyot bo'ling: tez-tez uchraydigan xatolar",
       blocks: [
-        { t: 'compare', good: { title: "To'g'ri", items: ["I've got a headache.", 'She should rest.', "He doesn't have to go."], }, bad: { title: "Noto'g'ri", items: ['I have a headache pain.', 'She should to rest.', 'He should rests.'] } },
+        { t: 'compare', good: { title: "To'g'ri", items: ["I've got a headache.", 'She should rest.', "He shouldn't go to work."], }, bad: { title: "Noto'g'ri", items: ['I have a headache pain.', 'She should to rest.', 'He should rests.'] } },
         { t: 'p', md: "Eslatma: **should** dan keyin fe'l oddiy shaklda, *to* va **-s** yo'q (he/she bilan ham). *I'm headache* demang — to'g'risi *I've got a headache.*" },
         { t: 'check', ex: { k: 'choice', q: "Dorixonada: \"Yo'talga biror narsa kerak.\"", opts: ['I need something for a cough.', 'I am cough.', 'I have cough pain.', 'My cough is need.'], a: 0, why: "**I need something for + kasallik** — dorixonada tabiiy ibora." } },
       ],
@@ -64,7 +64,7 @@ const lesson: Lesson = {
     { k: 'listen', say: "What's the matter?", opts: ["What's the matter?", "What's your name?", "Where's the doctor?", "What's the time?"], a: 0 },
     { k: 'dictation', say: "I've got a sore throat.", a: ["I've got a sore throat.", 'I have got a sore throat.', 'I have a sore throat.'] },
     { k: 'fix', wrong: 'He should takes medicine.', a: ['He should take medicine.', 'He should take the medicine.'], why: "**should** dan keyin fe'l oddiy shaklda." },
-    { k: 'fill', q: 'I ___ to see a doctor. It is important. (have to)', a: ['have'], uz: "Shifokorga borishim shart.", why: "**I** bilan — **have to**." },
+    { k: 'fill', q: 'I need something for a ___.', a: ['cough'], uz: "Menga yo'talga biror narsa kerak.", why: "**I need something for a cough.**" },
     { k: 'speak', say: 'I need something for a cough.', uz: "Menga yo'talga biror narsa kerak." },
   ],
   quiz: [
@@ -75,12 +75,12 @@ const lesson: Lesson = {
     { k: 'tf', q: "*You should rest.* — bu maslahat.", a: true },
     { k: 'fix', wrong: 'I am a sore throat.', a: ["I've got a sore throat.", 'I have a sore throat.', 'I have got a sore throat.'], why: "Kasallik bilan **I've got / I have**." },
     { k: 'match', pairs: [['headache', "bosh og'rig'i"], ['cough', "yo'tal"], ['medicine', 'dori'], ['doctor', 'shifokor']] },
-    { k: 'choice', q: 'Do you have to take medicine? — Yes, I ...', opts: ['do', 'should', 'am', 'have'], a: 0 },
+    { k: 'choice', q: 'Doctor: "What\'s the matter?" You: "..."', opts: ["I've got a sore throat.", "I'm a sore throat.", 'I have sore throat pain.', 'My throat is have.'], a: 0 },
   ],
   summary: [
     "Shifokor: **What's the matter?** — javob: **I've got a headache / a fever / a cough.**",
     "Maslahat: **should + V1**, qilmaslik: **shouldn't + V1** (to va -s yo'q).",
-    "Majburiyat: **have to** — *I have to see a doctor.*",
+    "Dorixonada: **I need something for a cough.** Dorini necha marta ichish: **How often do I take it?**",
     "Yangi so'zlar: **pharmacy, fever, tablet, rest**.",
   ],
   homework: "Do'stingizga kasal bo'lgandek 3 ta maslahat bering: *You should…, You shouldn't…*",

@@ -55,6 +55,8 @@ const lesson: Lesson = {
     { en: 'opposite', uz: 'qarshisida', ipa: 'ˈɒp.ə.zɪt', pos: 'preposition', ex: "The bank is opposite the school.", exUz: 'Bank maktabning qarshisida.' },
     { en: 'block', uz: 'kvartal', ipa: 'blɒk', pos: 'noun', ex: 'The station is two blocks away.', exUz: 'Bekat ikki kvartal narida.' },
     { en: 'on foot', uz: 'piyoda', ipa: 'ɒn fʊt', pos: 'phrase', ex: 'I go to work on foot.', exUz: 'Men ishga piyoda boraman.' },
+    { en: 'square', uz: 'maydon', ipa: 'skweə', pos: 'noun', ex: 'The museum is opposite the square.', exUz: 'Muzey maydon qarshisida.' },
+    { en: 'slowly', uz: 'sekin', ipa: 'ˈsləʊ.li', pos: 'adverb', ex: 'Please speak slowly.', exUz: 'Iltimos, sekin gapiring.' },
   ],
   practice: [
     { k: 'choice', q: 'Excuse me, ___ I get to the museum?', opts: ['how do', 'how does', 'where do', 'what is'], a: 0, why: "Yo'l so'rash: **How do I get to…?**" },
@@ -82,7 +84,7 @@ const lesson: Lesson = {
   summary: [
     "So'rash: **Excuse me, how do I get to…? Is there a … near here? Is it far?**",
     "Ko'rsatish: **Go straight on. Turn left/right at the … Take the second left. It's opposite …**",
-    "Tushunmasangiz: **Can you say that again, please?** Yangi so'zlar: **lost, opposite, block, on foot**.",
+    "Tushunmasangiz: **Can you say that again, please?** Yangi so'zlar: **lost, opposite, block, on foot, square, slowly**.",
   ],
   homework: "Uyingizdan eng yaqin dorixonagacha yo'lni 3–4 ta inglizcha gap bilan yozing: *Go straight on… Turn left at…*",
 };

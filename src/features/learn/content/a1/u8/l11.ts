@@ -13,11 +13,11 @@ const lesson: Lesson = {
       blocks: [
         { t: "p", md: "Bir dialogda butun bo'lim: miqdor, narx, buyurtma va maslahat." },
         { t: "dialog", lines: [
-          { who: "Sara", en: "I'd like a cup of tea and a slice of cake, please.", uz: "Bir piyola choy va bir bo'lak tort, iltimos." },
-          { who: "Waiter", en: "That's four dollars fifty. Can I help with anything else?", uz: "To'rt dollar ellik sent. Yana nimadir kerakmi?" },
+          { who: "Sara", en: "I'd like a cup of tea and a slice of cake, please.", uz: "Bir chashka choy va bir bo'lak tort, iltimos." },
+          { who: "Waiter", en: "That's four dollars fifty. Anything else?", uz: "To'rt dollar ellik sent. Yana nimadir kerakmi?" },
           { who: "Sara", en: "No, thanks. Can I pay by card?", uz: "Yo'q, rahmat. Karta bilan to'lasam bo'ladimi?" },
           { who: "Waiter", en: "Of course. This cake is the best in town!", uz: "Albatta. Bu tort shahardagi eng yaxshisi!" },
-          { who: "Sara", en: "It's a bit sweeter than my cake, but I can bake a lot of cakes!", uz: "U meniki tortdan ozgina shirinroq, lekin men ham ko'p tort pishira olaman!" },
+          { who: "Sara", en: "Really? It's much better than my cake!", uz: "Rostdanmi? U mening tortimdan ancha yaxshi!" },
           { who: "Waiter", en: "You should try our lemon cake too.", uz: "Limonli tortimizni ham tatib ko'rishingiz kerak." },
         ] },
         { t: "check", ex: { k: "choice", q: "\"a ___ of cake\"", opts: ["slice", "bottle", "bunch", "carton"], a: 0, why: "Tort — **a slice of cake**." } },

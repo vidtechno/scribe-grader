@@ -58,6 +58,8 @@ const lesson: Lesson = {
     { en: "trip", uz: "sayohat, safar", ipa: "trɪp", pos: "noun", ex: "It was a long trip.", exUz: "Bu uzoq sayohat edi." },
     { en: "lucky", uz: "omadli", ipa: "ˈlʌk.i", pos: "adjective", ex: "You are lucky!", exUz: "Sizning omadingiz bor!" },
     { en: "adventure", uz: "sarguzasht", ipa: "ədˈven.tʃər", pos: "noun", ex: "The trip was a big adventure.", exUz: "Sayohat katta sarguzasht edi." },
+    { en: "postcard", uz: "otkritka, pochta kartochkasi", ipa: "ˈpəʊstkɑːd", pos: "noun", ex: "I sent a postcard from Bukhara.", exUz: "Buxorodan otkritka yubordim." },
+    { en: "souvenir", uz: "esdalik sovg'a", ipa: "ˌsuːvəˈnɪə", pos: "noun", ex: "I bought a souvenir in Khiva.", exUz: "Xivada esdalik sovg'a sotib oldim." },
   ],
   practice: [
     { k: "choice", q: "___ you ever eaten Chinese food?", opts: ["Do", "Did", "Have", "Are"], a: 2, why: "**Have you ever + V3?**" },

@@ -55,7 +55,7 @@ const lesson: Lesson = {
     { en: "serve", uz: "(ovqat) tortmoq", ipa: "sɜːv", pos: "verb", ex: "Serve the soup hot.", exUz: "Sho'rvani issiq torting." },
   ],
   practice: [
-    { k: "choice", q: "___, boil the eggs. Finally, eat them.", opts: ["First", "Finally", "Then", "Last"], a: 0 },
+    { k: "choice", q: "___, boil the eggs. Then peel them.", opts: ["First", "Finally", "Last", "End"], a: 0 },
     { k: "fill", q: "We don't have ___ carrots.", a: ["any"], uz: "Bizda sabzi yo'q.", why: "Inkor gapda **any**." },
     { k: "fill", q: "You ___ eat so many sweets. (not good)", a: ["shouldn't", "should not"], uz: "Shuncha ko'p shirinlik yemaslik kerak.", why: "Tavsiya qilinmaydi → **shouldn't**." },
     { k: "order", uz: "Avval sabzavotlarni yuving.", words: ["First,", "wash", "the", "vegetables."], extra: ["washes", "then"] },
@@ -70,7 +70,7 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "You ___ drink more water.", opts: ["should", "shoulds", "should to", "are should"], a: 0 },
     { k: "choice", q: "We don't need ___ bread.", opts: ["any", "some", "a few", "a"], a: 0 },
-    { k: "fill", q: "___, serve the soup hot.", a: ["Finally", "Last", "Lastly"] },
+    { k: "fill", q: "___, serve the soup hot.", a: ["Finally", "Lastly"], uz: "Oxirida sho'rvani issiq torting." },
     { k: "order", uz: "Bizga ro'yxat kerak.", words: ["We", "need", "a", "list."], extra: ["needs", "an"] },
     { k: "translate", uz: "Mehmonlar bugun keladi.", a: ["We have guests tonight.", "We have guests today.", "Guests are coming tonight.", "Guests are coming today."] },
     { k: "fix", wrong: "We don't have some milk.", a: ["We don't have any milk."], why: "Inkor gapda **any**." },

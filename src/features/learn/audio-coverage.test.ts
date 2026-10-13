@@ -7,6 +7,7 @@ import { cleanText, speakable } from './speech';
 import { generatedFillText } from './engine/engine';
 import type { Exercise } from './types';
 import { BEGINNER_EXAM, BEGINNER_SPEAKING } from './content/beginner/exam';
+import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from './content/a1/exam';
 
 // Every text the course can play (lessons, drills, review rounds) must have a recording in public/audio. A text
 // without one is read by the phone's own voice, which many devices do not have. Record missing ones with:
@@ -49,6 +50,8 @@ describe('audio coverage', () => {
     }
     for (const item of BEGINNER_EXAM) exercise(`exam ${item.topic}`, item.ex);
     for (const ex of BEGINNER_SPEAKING) exercise('exam speaking', ex);
+    for (const item of ELEMENTARY_EXAM) exercise(`exam a1 ${item.topic}`, item.ex);
+    for (const ex of ELEMENTARY_SPEAKING) exercise('exam a1 speaking', ex);
     expect([...problems].slice(0, 20)).toEqual([]);
   }, 60_000);
 });
