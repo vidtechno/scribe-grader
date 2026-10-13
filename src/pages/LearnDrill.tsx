@@ -112,13 +112,13 @@ export default function LearnDrill() {
         <p className="text-sm text-muted-foreground">{drill.goal}</p>
         <div className="h-2 rounded-full bg-secondary overflow-hidden mt-3"><div className="h-full bg-primary transition-all" style={{ width: `${(i / total) * 100}%` }} /></div>
       </div>
-      <ReviewNav shown={view ?? i} current={i} onShow={(n) => setView(n >= i ? null : n)} />
       {/* Answered exercises stay mounted (hidden): the learner can look at them again, but not change them. */}
       {drill.exercises.slice(0, i + 1).map((ex, n) => (
         <div key={`${round}-${n}`} hidden={n !== (view ?? i)} className={n < i ? 'pointer-events-none select-none' : ''} aria-hidden={n !== (view ?? i)}>
           <ExerciseView ex={ex} mode="practice" onDone={n !== i ? () => {} : (ok) => { setAnswers((a) => [...a, ok]); setView(null); setI((k) => k + 1); }} />
         </div>
       ))}
+      <ReviewNav shown={view ?? i} current={i} onShow={(n) => setView(n >= i ? null : n)} />
     </TestShell>
   );
 }
