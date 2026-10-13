@@ -5,13 +5,14 @@ import { loadLesson } from '../course';
 import { buildSession, grammarExercises, type ReviewEvent, type ReviewQueue, type SessionItem } from './engine';
 
 /** Everything waiting for review. Always fresh when a lesson or the review opens. */
-export function useReviewQueue(enabled = true) {
+export function useReviewQueue(enabled = true, fresh = true) {
   const { user } = useAuth();
   return useQuery({
     queryKey: ['learning-review', user?.id],
     enabled: !!user && enabled,
-    staleTime: 0,
-    refetchOnMount: 'always',
+    // Lessons and review rounds need the live queue; dashboard and course-page counters can use a minute-old one.
+    staleTime: fresh ? 0 : 60_000,
+    refetchOnMount: fresh ? 'always' : true,
     retry: 1,
     queryFn: () => callLearning<ReviewQueue>('learning_review_queue'),
   });

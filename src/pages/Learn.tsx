@@ -124,6 +124,7 @@ function CourseHome({ state }: { state: LearningState }) {
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).title} · {levelOf(startLevel).cefr}dan boshlagan</p>
           <h1 className="text-2xl sm:text-3xl font-extrabold">Ingliz tili kursi</h1>
         </div>
+        <Link to="/dashboard" className="inline-flex items-center gap-1.5 rounded-full border border-border text-sm font-medium px-3.5 py-2 hover:border-primary hover:text-primary transition-colors sm:order-last">Bosh sahifa</Link>
         <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3.5 py-2 hover:bg-amber-500/20 transition-colors sm:order-last">
           <Trophy className="h-4 w-4" />Reyting
         </Link>

@@ -25,8 +25,10 @@ describe('courseMap with short lessons', () => {
   });
 
   it('Elementary short lessons follow the same rule', () => {
-    const m = courseMap(done('u6-l1', 'u6-l8'));
+    const m = courseMap(done('u6-l1', 'u6-l2'));
     expect(m.done.has('u6-l9')).toBe(false);
+    expect(m.done.has('u6-l12')).toBe(false);
+    expect(courseMap(done('u6-l1', 'u6-l2', 'u6-l3', 'u6-l8')).done.has('u6-l12')).toBe(true);
     expect(courseMap(done('u6-l1', 'u6-l2', 'u6-l3', 'u6-l4', 'u6-l5', 'u6-l6', 'u6-l7', 'u6-l8')).done.has('u6-l11')).toBe(true);
   });
 

@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { getPlanEntitlement, normalizePlanSlug, type PlanSlug } from '@/lib/plans';
@@ -24,29 +25,22 @@ export interface Subscription {
 // Expired paid plans are auto-downgraded to Free by the `expire_subscriptions` SQL function.
 export function useSubscription() {
   const { user } = useAuth();
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchSubscription = useCallback(async () => {
-    if (!user) { setSubscription(null); setLoading(false); return; }
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-      if (error) throw error;
-      setSubscription(data || null);
-    } catch (error) {
-      console.error('Unable to load subscription:', error);
-      setSubscription(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
-
-  useEffect(() => { fetchSubscription(); }, [fetchSubscription]);
+  // One shared query for every component that needs the plan (navbar, mentor, dashboard…): a single request per
+  // minute instead of one per component, and one per page load.
+  const qc = useQueryClient();
+  const query = useQuery({
+    queryKey: ['subscription', user?.id],
+    enabled: !!user,
+    staleTime: 60_000,
+    queryFn: async () => {
+      const { data, error } = await supabase.from('subscriptions').select('*').eq('user_id', user!.id).maybeSingle();
+      if (error) { console.error('Unable to load subscription:', error); throw error; }
+      return (data as Subscription | null) ?? null;
+    },
+  });
+  const subscription = user ? query.data ?? null : null;
+  const loading = !!user && query.isLoading;
+  const fetchSubscription = useCallback(async () => { await qc.invalidateQueries({ queryKey: ['subscription'] }); }, [qc]);
 
   const s = subscription;
   const writingRemaining = Math.max(0, (s?.writing_limit ?? 0) - (s?.writing_used ?? 0));

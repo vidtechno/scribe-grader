@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { PlanCards } from '@/components/PlanCards';
 import { useAuth } from '@/hooks/useAuth';
 import { Crown } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { loadActivePlans } from '@/lib/cached-plans';
 
 interface Plan {
   slug: string;
@@ -32,13 +32,8 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
   useEffect(() => {
     if (!open) return;
     (async () => {
-      const { data } = await supabase
-        .from('subscription_plans')
-        .select('*')
-        .eq('is_active', true)
-        .neq('slug', 'free')
-        .order('sort_order');
-      const mappedPlans = (data || []).map((plan) => ({
+      const data = await loadActivePlans<Plan & { features: unknown }>();
+      const mappedPlans = data.map((plan) => ({
         ...plan,
         features: Array.isArray(plan.features)
           ? plan.features.filter((feature): feature is string => typeof feature === 'string')

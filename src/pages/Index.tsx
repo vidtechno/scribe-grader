@@ -8,6 +8,7 @@ import { SEOHead } from '@/components/SEOHead';
 import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
+import { loadActivePlans } from '@/lib/cached-plans';
 import { BEGINNER_UNITS, A1_UNITS, A2_UNITS } from '@/features/learn/course';
 import { motion } from 'framer-motion';
 import {
@@ -52,10 +53,7 @@ export default function Index() {
   const [subPlans, setSubPlans] = useState<Tables<'subscription_plans'>[]>([]);
 
   useEffect(() => {
-    (async () => {
-      const { data } = await supabase.from('subscription_plans').select('*').eq('is_active', true).neq('slug', 'free').order('sort_order');
-      setSubPlans(data || []);
-    })();
+    void loadActivePlans<Tables<'subscription_plans'>>().then(setSubPlans);
   }, []);
 
   const counts = useMemo(() => ({

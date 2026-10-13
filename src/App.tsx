@@ -45,7 +45,8 @@ import { isTelegramWebApp, miniAppPath } from "./lib/telegram";
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
 const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
 
-const queryClient = new QueryClient();
+// Fewer round trips to the database: data stays fresh for a minute, no refetch every time the window regains focus.
+const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 60_000, refetchOnWindowFocus: false, retry: 1 } } });
 
 function ScrollToTop() {
   const { pathname } = useLocation();

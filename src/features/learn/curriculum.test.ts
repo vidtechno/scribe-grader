@@ -1,21 +1,22 @@
 import { describe, expect, it } from 'vitest';
-import { BEGINNER_UNITS, DRILL_COUNTS, NEW_DRILL_IDS, drillIds, loadUnit } from './course';
+import { A1_UNITS, BEGINNER_UNITS, DRILL_COUNTS, NEW_DRILL_IDS, drillIds, loadUnit } from './course';
 import { DRILL_GAME, DRILL_REVIEW_OF, GAMES } from './games';
 import { BEGINNER_EXAM } from './content/beginner/exam';
 
-const lessonIds = BEGINNER_UNITS.flatMap((u) => u.lessons.map((l) => l.id));
+const BUILT = [...BEGINNER_UNITS, ...A1_UNITS];
+const lessonIds = BUILT.flatMap((u) => u.lessons.map((l) => l.id));
 const beginnerDrills = lessonIds.flatMap((id) => drillIds(id));
 
-describe('Beginner curriculum structure', () => {
+describe('Rebuilt curriculum structure (Beginner and Elementary)', () => {
   it('has at least 60 meaningful activities, and games are spread through the course', () => {
-    const tests = BEGINNER_UNITS.length + 1; // unit tests + the final exam
+    const tests = BUILT.length + 1; // unit tests + the final exam
     expect(lessonIds.length + beginnerDrills.length + tests).toBeGreaterThanOrEqual(60);
-    for (const u of BEGINNER_UNITS) expect(u.lessons.some((l) => drillIds(l.id).length > 0)).toBe(true);
+    for (const u of BUILT) expect(u.lessons.some((l) => drillIds(l.id).length > 0)).toBe(true);
   });
 
   it('every drill has a game kind and every game kind belongs to an announced drill', () => {
     for (const id of beginnerDrills) expect(DRILL_GAME[id], id).toBeDefined();
-    for (const id of Object.keys(DRILL_GAME)) if (/^u[1-5]-/.test(id)) expect(beginnerDrills, id).toContain(id);
+    for (const id of Object.keys(DRILL_GAME)) if (/^u([1-9]|1[01])-/.test(id)) expect(beginnerDrills, id).toContain(id);
     for (const g of Object.values(DRILL_GAME)) expect(GAMES[g]).toBeDefined();
     for (const id of NEW_DRILL_IDS) expect(DRILL_COUNTS[id.replace(/-d\d+$/, '')]).toBeGreaterThanOrEqual(Number(id.slice(-1)));
   });
@@ -23,7 +24,7 @@ describe('Beginner curriculum structure', () => {
   it('a mastery check or mini-boss comes only after the lessons it revisits, in the same unit', () => {
     for (const [drill, topics] of Object.entries(DRILL_REVIEW_OF)) {
       const lesson = drill.replace(/-d\d+$/, '');
-      const unit = BEGINNER_UNITS.find((u) => u.lessons.some((l) => l.id === lesson))!;
+      const unit = BUILT.find((u) => u.lessons.some((l) => l.id === lesson))!;
       const ids = unit.lessons.map((l) => l.id);
       for (const t of topics) {
         expect(ids, `${drill} revisits ${t}`).toContain(t);
@@ -31,11 +32,11 @@ describe('Beginner curriculum structure', () => {
       }
       expect(['mastery', 'mini-boss']).toContain(DRILL_GAME[drill]);
     }
-    for (const [drill, game] of Object.entries(DRILL_GAME)) if (/^u[1-5]-/.test(game === 'mastery' || game === 'mini-boss' ? drill : 'x')) expect(DRILL_REVIEW_OF[drill], drill).toBeDefined();
+    for (const [drill, game] of Object.entries(DRILL_GAME)) if (/^u([1-9]|1[01])-/.test(game === 'mastery' || game === 'mini-boss' ? drill : 'x')) expect(DRILL_REVIEW_OF[drill], drill).toBeDefined();
   });
 
   it('every unit has a topic review, a real-life situation and ends with a review', () => {
-    for (const u of BEGINNER_UNITS) {
+    for (const u of BUILT) {
       expect(u.lessons.some((l) => l.kind === 'situation'), `${u.id} situation`).toBe(true);
       expect(u.lessons.some((l) => l.kind === 'review'), `${u.id} review`).toBe(true);
       expect(u.lessons.at(-1)!.kind === 'review' || u.lessons.at(-1)!.kind === 'skill', `${u.id} ends with review`).toBe(true);
@@ -47,7 +48,7 @@ describe('Beginner curriculum structure', () => {
   });
 
   it('lesson content kind matches the course outline', async () => {
-    for (const u of BEGINNER_UNITS) {
+    for (const u of BUILT) {
       const lessons = await loadUnit(u.id);
       lessons.forEach((l, i) => { if (l.kind) expect(l.kind, l.id).toBe(u.lessons[i].kind); });
     }

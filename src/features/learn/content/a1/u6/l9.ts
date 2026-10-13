@@ -14,8 +14,8 @@ const lesson: Lesson = {
         { t: 'p', md: "Siz yangi uyga ko'chib keldingiz. Qo'shni eshik oldida salomlashadi. Avval **tanishing**, keyin 1–2 ta oddiy savol bering." },
         { t: 'dialog', lines: [
           { who: 'Sara', en: "Hello! I'm Sara. I live in the next flat. Welcome!", uz: "Salom! Men Saraman. Men yonidagi xonadonda yashayman. Xush kelibsiz!" },
-          { who: 'Ali', en: "Hi, Sara! Nice to meet you. I'm Ali. I'm your new neighbour.", uz: "Salom, Sara! Tanishganimdan xursandman. Men Aliman. Men sizning yangi qo'shnингizman." },
-          { who: 'Sara', en: 'Nice to meet you, too. Where are you from?', uz: 'Menam xursandman. Siz qayerdansiz?' },
+          { who: 'Ali', en: "Hi, Sara! Nice to meet you. I'm Ali. I'm your new neighbour.", uz: "Salom, Sara! Tanishganimdan xursandman. Men Aliman. Men sizning yangi qo'shningizman." },
+          { who: 'Sara', en: 'Nice to meet you, too. Where are you from?', uz: 'Men ham xursandman. Siz qayerdansiz?' },
           { who: 'Ali', en: "I'm from Samarkand. I live here with my wife and my sister.", uz: "Men Samarqanddanman. Bu yerda rafiqam va opam bilan yashayman." },
           { who: 'Sara', en: 'Is your sister tall?', uz: 'Opangiz novchami?' },
           { who: 'Ali', en: "No, she isn't. She's quite short, and she has long curly hair.", uz: "Yo'q. U ancha past bo'yli, uning uzun jingalak sochlari bor." },
@@ -54,11 +54,13 @@ const lesson: Lesson = {
     { en: 'move in', uz: "ko'chib kirmoq", ipa: 'muːv ɪn', pos: 'phrasal verb', ex: 'We move in on Monday.', exUz: "Biz dushanba kuni ko'chib kiramiz." },
     { en: 'welcome', uz: 'xush kelibsiz', ipa: 'ˈwel.kəm', pos: 'exclamation', ex: 'Welcome to our building!', exUz: 'Binomizga xush kelibsiz!' },
     { en: 'nearby', uz: 'yaqin atrofda', ipa: 'ˌnɪəˈbaɪ', pos: 'adverb', ex: 'My sister lives nearby.', exUz: 'Opam yaqin atrofda yashaydi.' },
+    { en: 'building', uz: 'bino', ipa: 'ˈbɪl.dɪŋ', pos: 'noun', ex: 'Our building has ten floors.', exUz: "Bizning binoda o'nta qavat bor." },
+    { en: 'next door', uz: 'yonma-yon eshikda', ipa: 'ˌnekst ˈdɔː', pos: 'adverb', ex: 'My friend lives next door.', exUz: "Do'stim yonimizdagi uyda yashaydi." },
   ],
   practice: [
     { k: 'choice', q: 'Where ___ you from?', opts: ['is', 'are', 'do', 'does'], a: 1, why: "**you** bilan — **are**." },
     { k: 'fill', q: 'She ___ long curly hair. (have)', a: ['has'], uz: "Uning uzun jingalak sochlari bor.", why: "**she** → **has**." },
-    { k: 'order', uz: "Men sizning yangi qo'shnингizman.", words: ["I'm", 'your', 'new', 'neighbour'], extra: ['you', 'is'] },
+    { k: 'order', uz: "Men sizning yangi qo'shningizman.", words: ["I'm", 'your', 'new', 'neighbour'], extra: ['you', 'is'] },
     { k: 'translate', uz: 'Tanishganimdan xursandman.', a: ['Nice to meet you.', 'Nice to meet you!', 'Pleased to meet you.'], why: "Eng tabiiy ibora: **Nice to meet you.**" },
     { k: 'match', pairs: [['neighbour', "qo'shni"], ['welcome', 'xush kelibsiz'], ['nearby', 'yaqin atrofda'], ['move in', "ko'chib kirmoq"], ['friendly', 'xushmuomala']] },
     { k: 'tf', q: "*What does she look like?* — bu xarakter haqidagi savol.", a: false, why: "Bu **tashqi ko'rinish** haqida savol." },
@@ -81,7 +83,7 @@ const lesson: Lesson = {
   summary: [
     "Tanishuv: **I'm your new neighbour. Nice to meet you. Where are you from?**",
     "Ko'rinish: **What does she look like?** — *She has long curly hair.* Xarakter: *She's friendly.*",
-    "Yangi so'zlar: **neighbour, move in, welcome, nearby**.",
+    "Yangi so'zlar: **neighbour, move in, welcome, nearby, building, next door**.",
   ],
   homework: "Xayoliy qo'shningiz bilan 4 gapli dialog yozing: ism, qayerdan, kim bilan yashaydi, qanday ko'rinadi.",
 };
