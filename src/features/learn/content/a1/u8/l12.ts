@@ -79,7 +79,7 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "How ___ yoghurt do we have?", opts: ["much", "many", "a", "is"], a: 0 },
     { k: "choice", q: "How ___ lemons are there?", opts: ["many", "much", "little", "a few"], a: 0 },
-    { k: "fill", q: "\"How much butter is there?\" — \"Not ___.\"", a: ["much"], why: "Sanalmaydigan ot → **not much**." },
+    { k: "fill", q: "How much butter is there? — Not ___.", a: ["much"], why: "Sanalmaydigan ot → **not much**." },
     { k: "order", uz: "Nechta tuxum kerak?", words: ["How", "many", "eggs", "do", "we", "need?"], extra: ["much", "are"] },
     { k: "translate", uz: "Bizda qancha asal bor?", a: ["How much honey do we have?", "How much honey is there?"] },
     { k: "fix", wrong: "How many flour do we need?", a: ["How much flour do we need?"], why: "**flour** sanalmaydi → **How much**." },

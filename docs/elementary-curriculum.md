@@ -7,7 +7,7 @@ Bu fayl `scripts/build-beginner-curriculum.ts` bilan koddagi haqiqiy kontentdan 
 - Darslar: **90** (to'liq 48, mikro-dars 42); turlari: Dars 60, Hayotiy vaziyat 12, Ko'nikma 12, Takror 6
 - O'yin va mavzu testlari (mashq): **62**
 - Mavzu testlari: **6**, yakuniy imtihon: **1** (jami faoliyat: **159**)
-- Noyob yangi so'zlar: **642**
+- Noyob yangi so'zlar: **643**
 - Yakuniy imtihon: 20 savol, banki 62 ta (grammar 16, vocabulary 12, reading 10, listening 12, writing 12), jami 70% va har bir ko'nikmada 50%.
 
 ## Baholash zanjiri
@@ -147,16 +147,16 @@ Mavzu testi: 20 savol, 80% (bosqich oxirida).
 | 2 | u11-l2 | Dars | 3-shakl fe'llar va been / gone | 25 dan ortiq noto'g'ri fe'lning V3 shaklini guruhlab yodlaysiz (written, spoken, lost, broken…), I've lost my … | 10 | 7 | 16 | 10 | u11-l2-d1: So'zlarni moslash |
 | 3 | u11-l12 | Dars (mikro) | Present Perfect: qisqa javoblar, ever va never | Have you ever…? savoliga to'g'ri qisqa javob berasiz (Yes, I have. / No, I haven't.) va ever bilan never o'rni… | 6 | 3 | 13 | 8 | u11-l12-d1: Bo'sh joyni to'ldirish |
 | 4 | u11-l3 | Dars | Present Perfect yoki Past Simple? | Ikki zamonni to'g'ri tanlaysiz: vaqt aytilmasa — Present Perfect (I've been to Bukhara), aniq o'tgan vaqt bo'l… | 10 | 6 | 16 | 10 | u11-l3-d1: Grammatika detektivi<br>u11-l3-d2: Xotira takrori |
-| 5 | u11-l13 | Dars (mikro) | Necha marta? once, twice, three times | Necha marta bo'lganini aytasiz va so'raysiz: How many times have you been to Khiva? — Twice. Va been (borib qa… | 5 | 3 | 13 | 8 | u11-l13-d1: Mavzu testi (takror: u11-l1, u11-l2, u11-l12, u11-l3, u11-l13) |
-| 6 | u11-l9 | Hayotiy vaziyat (mikro) | Tajriba almashish: Have you ever…? | Suhbatdoshingizdan tajribasi haqida so'raysiz (Have you ever…?), o'zingiz haqingizda aytasiz (I've been to… / … | 3 | 3 | 11 | 8 | — |
+| 5 | u11-l13 | Dars (mikro) | Necha marta? once, twice, three times | Necha marta bo'lganini so'raysiz va aytasiz: How many times have you been to Khiva? — Twice. Hamda so far, aga… | 5 | 3 | 13 | 8 | u11-l13-d1: Mavzu testi (takror: u11-l1, u11-l2, u11-l12, u11-l3, u11-l13) |
+| 6 | u11-l9 | Hayotiy vaziyat (mikro) | Tajriba almashish: Have you ever…? | Suhbatdoshingizdan tajribasi haqida so'raysiz (Have you ever…?), o'zingiz haqingizda aytasiz (I've been to… / … | 5 | 3 | 11 | 8 | — |
 | 7 | u11-l4 | Dars | Harakat predloglari: into, across, along… | Harakat yo'nalishini aniq aytasiz: into, out of, up, down, across, along, through, over, under, past, towards,… | 10 | 6 | 16 | 10 | — |
 | 8 | u11-l5 | Dars | Fe'l + to yoki -ing: want to, enjoy -ing | Ikki fe'lni to'g'ri bog'laysiz: want / need / decide / hope + to (I want to learn) va enjoy / finish / practis… | 10 | 6 | 16 | 10 | u11-l5-d1: Bo'sh joyni to'ldirish |
 | 9 | u11-l6 | Dars | Gaplarni bog'lash: when, before, after, or | Ikki gapni vaqt bo'yicha bog'laysiz: When I was a child, I lived in Andijan. After I finished school, I went t… | 10 | 6 | 16 | 10 | — |
 | 10 | u11-l7 | Dars | Kundalik phrasal verbs: get up, put on… | Kundalik hayotdagi eng kerakli phrasal verbs ni ishlatasiz: wake up, put on, take off, turn on / off, look for… | 10 | 7 | 16 | 10 | u11-l7-d1: So'zlarni moslash |
-| 11 | u11-l10 | Hayotiy vaziyat (mikro) | Aralash suhbatlar: hayotiy vaziyatlar | Haqiqiy suhbatda zamonlar aralash keladi: kim ekaningiz (Present Simple), hozir nima qilayotganingiz (Continuo… | 4 | 3 | 11 | 8 | — |
+| 11 | u11-l10 | Hayotiy vaziyat (mikro) | Aralash suhbatlar: hayotiy vaziyatlar | Haqiqiy suhbatda zamonlar aralash keladi: kim ekaningiz (Present Simple), hozir nima qilayotganingiz (Continuo… | 6 | 3 | 11 | 8 | — |
 | 12 | u11-l14 | Ko'nikma (mikro) | Tinglash va gapirish: mening tajribalarim | Tajriba haqidagi qisqa suhbatlarni tinglab tushunasiz va o'zingiz gapirasiz: Have you ever…? — Yes, I have. I … | 6 | 3 | 13 | 8 | u11-l14-d1: Tinglash o'yini |
 | 13 | u11-l8 | Dars | A1 yakuniy takrori: barcha zamonlar | A1 darajasidagi barcha zamonlarni bitta tizimga solasiz: Present Simple, Present Continuous, Past Simple, goin… | 10 | 8 | 18 | 12 | — |
 | 14 | u11-l15 | Ko'nikma (mikro) | O'qish va yozish: tajribalarim haqida xat | Tajribalar haqidagi qisqa xatlarni o'qib tushunasiz va o'zingiz do'stingizga xat yozasiz: salomlashish, tajrib… | 6 | 3 | 13 | 8 | u11-l15-d1: Gap tuzish |
-| 15 | u11-l11 | Takror (mikro) | Elementary: yakuniy takror | Elementary darajasini yakunlaysiz: Present Simple, Present Continuous, Past Simple, going to, will, Present Pe… | 3 | 3 | 11 | 8 | u11-l11-d1: Mini-boss (takror: u11-l1, u11-l2, u11-l3, u11-l4, u11-l5, u11-l6, u11-l7, u11-l8) |
+| 15 | u11-l11 | Takror (mikro) | Elementary: yakuniy takror | Elementary darajasini yakunlaysiz: Present Simple, Present Continuous, Past Simple, going to, will, Present Pe… | 5 | 3 | 11 | 8 | u11-l11-d1: Mini-boss (takror: u11-l1, u11-l2, u11-l3, u11-l4, u11-l5, u11-l6, u11-l7, u11-l8) |
 
 Mavzu testi: 20 savol, 80% (bosqich oxirida).

@@ -14,8 +14,8 @@ const lesson: Lesson = {
       blocks: [
         {
           t: 'text', title: 'The lost key',
-          en: "One day, Madina came home from work and couldn't find her key. At first, she looked in her bag, but it wasn't there. Then she called her brother, and he came with his key. They went inside, but the key was not in the house, either.\nFinally, the next morning, a neighbour knocked on the door. \"I found this in the garden,\" she said. It was Madina's key! Madina was very happy, so she gave her neighbour a gift.",
-          uz: "Bir kuni Madina ishdan uyga keldi va kalitini topa olmadi. Avval sumkasidan qidirdi, lekin u yerda yo'q edi. Keyin akasiga qo'ng'iroq qildi va u o'z kaliti bilan keldi. Ichkariga kirishdi, lekin kalit uyda ham yo'q edi.\nOxiri, ertasi kuni ertalab qo'shni eshikni taqillatdi. \"Buni bog'da topdim\", dedi u. Bu Madinaning kaliti edi! Madina juda xursand bo'ldi va shuning uchun qo'shnisiga sovg'a berdi.",
+          en: "One day, Madina came home from work and couldn't find her key. At first, she looked in her bag, but it wasn't there. Then she called her brother, and he came with his key. They went inside, but the key was not in the house.\nFinally, the next morning, a neighbour knocked on the door. \"I found this in the garden,\" she said. It was Madina's key! Madina was very happy, so she gave her neighbour a gift.",
+          uz: "Bir kuni Madina ishdan uyga keldi va kalitini topa olmadi. Avval sumkasidan qidirdi, lekin u yerda yo'q edi. Keyin akasiga qo'ng'iroq qildi va u o'z kaliti bilan keldi. Ichkariga kirishdi, lekin kalit uyda yo'q edi.\nOxiri, ertasi kuni ertalab qo'shni eshikni taqillatdi. \"Buni bog'da topdim\", dedi u. Bu Madinaning kaliti edi! Madina juda xursand bo'ldi va shuning uchun qo'shnisiga sovg'a berdi.",
         },
         { t: 'check', ex: { k: 'choice', q: 'Where did the neighbour find the key?', opts: ['In the garden', 'In the house', 'In the bag', 'At work'], a: 0, why: "*I found this in the garden.*" } },
         { t: 'check', ex: { k: 'tf', q: 'Madina found her key on the first evening.', a: false, why: "Kalitni **ertasi kuni ertalab** qo'shni topdi (*finally, the next morning*)." } },
@@ -40,7 +40,7 @@ const lesson: Lesson = {
       title: 'Yozing: namuna va mashq',
       blocks: [
         {
-          t: 'text', title: 'My model story',
+          t: 'text', title: 'My story',
           en: "Last Friday, I lost my wallet. At first, I looked in my room, but I didn't find it. Then I called my friend because I was at her house in the afternoon. She looked on the sofa, and she found it! I was very happy, so I bought a lovely cake for her.",
           uz: "O'tgan juma kuni hamyonimni yo'qotdim. Avval xonamdan qidirdim, lekin topolmadim. Keyin do'stimga qo'ng'iroq qildim, chunki tushdan keyin uning uyida edim. U divandan qaradi va topdi! Men juda xursand bo'ldim, shuning uchun unga chiroyli tort sotib oldim.",
         },
@@ -55,12 +55,12 @@ const lesson: Lesson = {
     { en: 'one day', uz: 'bir kuni', ipa: 'wʌn deɪ', pos: 'phrase', ex: 'One day, I met an old friend.', exUz: "Bir kuni eski do'stimni uchratdim." },
     { en: 'gift', uz: 'sovg\'a', ipa: 'ɡɪft', pos: 'noun', ex: 'She gave me a lovely gift.', exUz: "U menga chiroyli sovg'a berdi." },
     { en: 'neighbour', uz: "qo'shni", ipa: 'ˈneɪ.bə', pos: 'noun', ex: 'My neighbour helped me.', exUz: "Qo'shnim menga yordam berdi." },
-    { en: 'knock', uz: 'taqillatmoq', ipa: 'nɒk', pos: 'verb', ex: 'Someone knocked on the door.', exUz: 'Kimdir eshikni taqillatdi.' },
+    { en: 'knock', uz: 'taqillatmoq', ipa: 'nɒk', pos: 'verb', ex: 'My friend knocked on the door.', exUz: 'Do\'stim eshikni taqillatdi.' },
   ],
   practice: [
     { k: 'choice', q: '___, Madina looked in her bag.', opts: ['At first', 'Finally', 'Because', 'So'], a: 0, why: "Birinchi harakat → **At first**." },
     { k: 'choice', q: 'Why did Madina give her neighbour a gift?', opts: ['Because the neighbour found her key.', 'Because it was her birthday.', 'Because the neighbour called her brother.', 'Because she lost her bag.'], a: 0, why: "Kalitni qo'shni topgani uchun." },
-    { k: 'fill', q: 'Someone ___ on the door. (knock)', a: ['knocked'], uz: 'Kimdir eshikni taqillatdi.', why: "Muntazam fe'l: knock + **ed**." },
+    { k: 'fill', q: 'My friend ___ on the door. (knock)', a: ['knocked'], uz: 'Do\'stim eshikni taqillatdi.', why: "Muntazam fe'l: knock + **ed**." },
     { k: 'order', uz: 'Nihoyat, men kalitni topdim.', words: ['Finally,', 'I', 'found', 'the', 'key'], extra: ['find', 'then'] },
     { k: 'translate', uz: "Bir kuni men hamyonimni yo'qotdim.", a: ['One day, I lost my wallet.', 'One day I lost my wallet.', 'One day, I lost my wallet'], why: "**lose – lost**." },
     { k: 'fix', wrong: 'I was tired because I went to bed early.', a: ['I was tired, so I went to bed early.', 'I went to bed early because I was tired.'], why: "Sabab: **tired**; natija: **went to bed**." },

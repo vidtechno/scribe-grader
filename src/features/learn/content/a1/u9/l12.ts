@@ -44,7 +44,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: "I didn't make a mistake.", uz: "Men xato qilmadim." },
           { en: 'Did they correct the answers?', uz: "Ular javoblarni tuzatdilarmi?" },
-          { en: 'We waited for an hour, but nobody came.', uz: "Bir soat kutdik, lekin hech kim kelmadi." },
+          { en: 'We waited for an hour, but she didn\'t come.', uz: "Bir soat kutdik, lekin u kelmadi." },
         ] },
         { t: 'check', ex: { k: 'choice', q: 'Which sentence is correct?', opts: ["She didn't came to the party.", 'Did she came to the party?', "She didn't come to the party.", 'She not came to the party.'], a: 2, why: "**didn't + V1**: didn't **come**." } },
       ],

@@ -21,7 +21,7 @@ const lesson: Lesson = {
     {
       title: "O'qing: qisqa xat",
       blocks: [
-        { t: 'text', title: 'An email from the beach', en: "Hi Jasur,\nHow are you? I'm on holiday at the beach with my family. The hotel is near the sea and the water is warm. Every day I swim in the morning and read a book in the afternoon. Yesterday I forgot my sunscreen, so my nose is red!\nTomorrow we will take a boat trip. Why don't you come next summer? Let me know.\nBest wishes,\nDilnoza", uz: "Salom Jasur,\nQalaysan? Men oilam bilan plyajda ta'tildaman. Mehmonxona dengiz yonida, suv iliq. Har kuni ertalab suzaman, tushdan keyin kitob o'qiyman. Kecha quyoshdan himoya kremimni unutdim, shuning uchun burnim qizarib ketdi!\nErtaga qayiqda sayr qilamiz. Kelasi yozda sen ham kelsang-chi? Menga xabar ber.\nEng yaxshi tilaklar bilan,\nDilnoza" },
+        { t: 'text', title: 'An email from the beach', en: "Hi Jasur,\nHow are you? I'm on holiday at the beach with my family. The hotel is near the sea and the water is warm. Every day I swim in the morning and read a book in the afternoon. Yesterday I forgot my sunscreen, so my nose is red!\nTomorrow we are going to take a boat trip. Why don't you come next summer? Let me know.\nBest wishes,\nDilnoza", uz: "Salom Jasur,\nQalaysan? Men oilam bilan plyajda ta'tildaman. Mehmonxona dengiz yonida, suv iliq. Har kuni ertalab suzaman, tushdan keyin kitob o'qiyman. Kecha quyoshdan himoya kremimni unutdim, shuning uchun burnim qizarib ketdi!\nErtaga qayiqda sayr qilmoqchimiz. Kelasi yozda sen ham kelsang-chi? Menga xabar ber.\nEng yaxshi tilaklar bilan,\nDilnoza" },
         { t: 'check', ex: { k: 'choice', q: 'Why is Dilnoza\'s nose red?', opts: ['She forgot her sunscreen.', 'She is ill.', 'It is cold.', 'She swam all night.'], a: 0, why: "*I forgot my sunscreen, so my nose is red!*" } },
         { t: 'check', ex: { k: 'fill', q: 'Dilnoza invites Jasur. She says: "Why ___ you come next summer?"', a: ["don't", 'do not'], uz: "Kelasi yozda kelsang-chi?", why: "**Why don't you…?** — taklif/maslahat." } },
       ],
@@ -54,7 +54,7 @@ const lesson: Lesson = {
     { k: 'dictation', say: 'I miss you. See you soon!', a: ['I miss you. See you soon!', 'I miss you. See you soon'] },
     { k: 'fix', wrong: 'Yesterday we walk on the beach.', a: ['Yesterday we walked on the beach.'], why: "**walked** — o'tgan zamon." },
     { k: 'order', uz: "Ertaga biz qayiqda sayr qilamiz.", words: ['Tomorrow', 'we', 'are', 'going', 'to', 'take', 'a', 'boat', 'trip'], extra: ['will', 'taking'] },
-    { k: 'translate', uz: "Sizni sog'indim.", a: ['I miss you.'], why: "**I miss you.**" },
+    { k: 'translate', uz: "Sizni sog'indim.", a: ['I miss you.', 'I miss you very much.'], why: "**I miss you.**" },
     { k: 'fill', q: 'Dear Mum and Dad, Greetings ___ Samarkand!', a: ['from'], uz: "Aziz ota-onam, Samarqanddan salom!", why: "**Greetings from…**" },
   ],
   quiz: [

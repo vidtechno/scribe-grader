@@ -12,7 +12,7 @@ const lesson: Lesson = {
     {
       title: 'Tinglash: suhbatni tushunish',
       blocks: [
-        { t: 'p', md: "Suhbatni tinglaganda uchta narsani qidiring: **kim**, **qachon / qayerda**, **nima qildi**. Ko'pincha javob **did / didn't** va **V2** ichida bo'ladi. Avval audioni ochmay o'qing, keyin so'zlarga e'tibor bering." },
+        { t: 'p', md: "Suhbatni tinglaganda uchta narsani qidiring: **kim**, **qachon / qayerda**, **nima qildi**. Ko'pincha javob **did / didn't** va **V2** ichida bo'ladi. Avval suhbatni tinglang, keyin matn bilan solishtiring." },
         { t: 'dialog', lines: [
           { who: 'Nodira', en: 'Hi Sam! What did you do last night?', uz: "Salom, Sam! Kecha kechqurun nima qilding?" },
           { who: 'Sam', en: 'I went to a concert with my cousin. It was lovely!', uz: "Amakivachcham bilan konsertga bordim. Juda yoqimli bo'ldi!" },

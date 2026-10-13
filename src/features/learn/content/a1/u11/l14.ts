@@ -84,7 +84,7 @@ const lesson: Lesson = {
   quiz: [
     { k: "listen", say: "That sounds fun! Did you take a photo?", opts: ["That sounds fun! Did you take a photo?", "That sounds sad! Did you take a photo?", "That sounds fun! Do you take photos?"], a: 0 },
     { k: "dictation", say: "Me neither. I have never been there.", a: ["Me neither. I have never been there.", "Me neither. I've never been there."] },
-    { k: "choice", q: "\"Bu yerda siz tafsilot qo'shasiz\": Have you been to Khiva? — Yes, I have. ___", opts: ["I went there in spring.", "I have gone in spring.", "I go there in spring ago.", "I have been in spring."], a: 0, why: "Aniq vaqt → Past Simple." },
+    { k: "choice", q: "Tafsilot qo'shing. Have you been to Khiva? — Yes, I have. ___", opts: ["I went there in spring.", "I have gone in spring.", "I go there in spring ago.", "I have been in spring."], a: 0, why: "Aniq vaqt → Past Simple." },
     { k: "fill", q: "A: Have you ever seen snow? B: No, I ___.", a: ["haven't", "have not"] },
     { k: "order", uz: "Aytgancha, siz hech chet elda bo'lganmisiz?", words: ["By", "the", "way,", "have", "you", "ever", "been", "abroad?"], extra: ["did", "gone"] },
     { k: "translate", uz: "Qiziq ekan! Siz-chi?", a: ["That sounds fun! How about you?", "Sounds fun! How about you?", "That sounds fun. How about you?"] },

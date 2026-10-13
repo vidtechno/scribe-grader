@@ -61,6 +61,8 @@ const lesson: Lesson = {
     { en: "delayed", uz: "kechikkan", ipa: "dɪˈleɪd", pos: "adjective", ex: "My train is delayed.", exUz: "Poyezdim kechikyapti." },
     { en: "seat", uz: "o'rindiq, joy", ipa: "siːt", pos: "noun", ex: "Is this seat free?", exUz: "Bu joy bo'shmi?" },
     { en: "nervous", uz: "xavotirli", ipa: "ˈnɜː.vəs", pos: "adjective", ex: "I feel a bit nervous.", exUz: "O'zimni biroz xavotirda his qilyapman." },
+    { en: "free", uz: "bo'sh (joy)", ipa: "friː", pos: "adjective", ex: "Is this table free?", exUz: "Bu stol bo'shmi?" },
+    { en: "Excuse me", uz: "Kechirasiz (murojaat)", ipa: "ɪkˈskjuːs miː", pos: "phrase", ex: "Excuse me, where is platform two?", exUz: "Kechirasiz, ikkinchi platforma qayerda?" },
   ],
   practice: [
     { k: "choice", q: "Where ___ you from?", opts: ["is", "are", "do", "does"], a: 1 },
@@ -89,7 +91,7 @@ const lesson: Lesson = {
     "Bitta suhbatda zamonlar aralashadi: **odat/fakt** — Simple, **hozir** — Continuous, **o'tmish** — Past Simple / Present Perfect, **kelajak** — going to / will.",
     "Aniq vaqt (*ago, yesterday*) bo'lsa — **Past Simple**; tajriba — **Present Perfect**.",
     "Vokzal iboralari: *Is this seat free? It's delayed. Nice to meet you.*",
-    "Yangi so'zlar: **platform, delayed, seat, nervous**.",
+    "Yangi so'zlar: **platform, delayed, seat, nervous, free, Excuse me**.",
   ],
   homework: "Do'stingiz bilan tanishuv suhbatini yozing: 6 ta gap, kamida 4 xil zamon bilan.",
 };

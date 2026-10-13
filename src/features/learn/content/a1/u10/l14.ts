@@ -55,8 +55,8 @@ const lesson: Lesson = {
   practice: [
     { k: 'listen', say: 'The train leaves from platform four at nine fifteen.', opts: ['The train leaves from platform four at nine fifteen.', 'The train leaves from platform five at nine fifteen.', 'The train leaves from platform four at nine fifty.', 'The train arrives at platform four at nine fifteen.'], a: 0 },
     { k: 'listen', say: 'Your flight is delayed by one hour.', opts: ['Your flight is delayed by one hour.', 'Your flight is on time.', 'Your flight is delayed by two hours.', 'Your flight leaves at one.'], a: 0 },
-    { k: 'dictation', say: 'Please call me back.', a: ['Please call me back.', 'Please call me back'] },
-    { k: 'dictation', say: 'Attention, please. The flight is boarding.', a: ['Attention, please. The flight is boarding.', 'Attention please. The flight is boarding.'] },
+    { k: 'dictation', say: 'Please call me back.', a: ['Please call me back.'] },
+    { k: 'dictation', say: 'Attention, please. The flight is boarding.', a: ['Attention, please. The flight is boarding.'] },
     { k: 'choice', q: 'Announcement: "The train to Khiva is delayed." What should you do?', opts: ['Wait and listen for news', 'Run to the platform now', 'Buy a new ticket', 'Go home'], a: 0, why: "Poyezd kechikyapti — yangi e'lonni kuting." },
     { k: 'match', pairs: [['announcement', "e'lon"], ['passenger', "yo'lovchi"], ['voicemail', 'ovozli xabar'], ['attention', 'diqqat'], ['call back', "qayta qo'ng'iroq qilmoq"]] },
     { k: 'order', uz: "Iltimos, menga qayta qo'ng'iroq qiling.", words: ['Please', 'call', 'me', 'back'], extra: ['I', 'calls'] },

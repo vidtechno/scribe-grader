@@ -13,9 +13,9 @@ const lesson: Lesson = {
       title: "O'qing: Lolaning xati",
       blocks: [
         { t: "text", title: "An email from Lola",
-          en: "Dear Emma,\nThanks for your email! I hope you are well. You asked about my experiences, so here is my news.\nI have been to three countries so far: Turkey, Kazakhstan and Georgia. I went to Turkey last summer with my family. We stayed in a small hotel near the sea, and I swam every day. I have never been to Europe, but I want to go next year.\nHave you ever been to Uzbekistan? Please write back soon!\nBest wishes,\nLola",
-          uz: "Aziz Emma,\nXatingiz uchun rahmat! Umid qilamanki, yaxshisiz. Siz mening tajribalarim haqida so'rabsiz, mana yangiliklarim.\nMen hozirgacha uchta davlatda bo'lganman: Turkiya, Qozog'iston va Gruziya. Turkiyaga o'tgan yozda oilam bilan borganman. Dengiz yaqinidagi kichik mehmonxonada turdik va men har kuni suzdim. Men hech qachon Yevropada bo'lmaganman, lekin kelasi yil bormoqchiman.\nSiz hech O'zbekistonda bo'lganmisiz? Iltimos, tez javob yozing!\nEng yaxshi tilaklar bilan,\nLola" },
-        { t: "check", ex: { k: "tf", q: "Lola has been to Europe.", a: false, why: "*I have never been to Europe.*" } },
+          en: "Dear Emma,\nThanks for your email! I hope you are well. You asked about my experiences, so here is my news.\nI have been to three countries so far: Turkey, Kazakhstan and Georgia. I went to Turkey last summer with my family. We stayed in a small hotel near the sea, and I swam every day. I have never been to France, but I want to go next year.\nHave you ever been to Uzbekistan? Please write back soon!\nBest wishes,\nLola",
+          uz: "Aziz Emma,\nXatingiz uchun rahmat! Umid qilamanki, yaxshisiz. Siz mening tajribalarim haqida so'rabsiz, mana yangiliklarim.\nMen hozirgacha uchta davlatda bo'lganman: Turkiya, Qozog'iston va Gruziya. Turkiyaga o'tgan yozda oilam bilan borganman. Dengiz yaqinidagi kichik mehmonxonada turdik va men har kuni suzdim. Men hech qachon Fransiyada bo'lmaganman, lekin kelasi yil bormoqchiman.\nSiz hech O'zbekistonda bo'lganmisiz? Iltimos, tez javob yozing!\nEng yaxshi tilaklar bilan,\nLola" },
+        { t: "check", ex: { k: "tf", q: "Lola has been to France.", a: false, why: "*I have never been to France.*" } },
         { t: "check", ex: { k: "choice", q: "When did Lola go to Turkey?", opts: ["Last summer.", "Next year.", "Last winter.", "Two years ago."], a: 0, why: "*I went to Turkey last summer.*" } },
       ],
     },

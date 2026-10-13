@@ -12,7 +12,7 @@ const lesson: Lesson = {
     {
       title: 'Maslahat so\'rash va berish',
       blocks: [
-        { t: 'p', md: "**should** va **Why don't you…?** ni oldin o'rgandingiz. Endi ularni **savolda** ishlatamiz va sayohat uchun ham qo'llaymiz. Hamma gapda **should + V1** (*to* yo'q, *-s* yo'q)." },
+        { t: 'p', md: "**should** va **Why don't you…?** ni oldin o'rgandingiz. Endi ularni sayohat va sog'liq vaziyatlarida **savol, maslahat va qisqa javob** sifatida mashq qilamiz. Hamma gapda **should + V1** (*to* yo'q, *-s* yo'q)." },
         { t: 'examples', items: [
           { en: 'You should drink a lot of water.', uz: "Ko'p suv ichishingiz kerak.", note: "Maslahat: **should**" },
           { en: "You shouldn't stay in the sun all day.", uz: "Kun bo'yi quyoshda qolmasligingiz kerak.", note: "Qilmaslik kerak: **shouldn't**" },
@@ -28,7 +28,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'table', head: ['Vaziyat', 'Maslahat'], speak: [1], rows: [
           ["It's very hot today.", 'You should wear sunscreen.'],
-          ["I feel dizzy and tired.", "Why don't you lie down?"],
+          ["I'm very tired.", "Why don't you lie down?"],
           ['I have a long flight.', 'You should drink bottled water.'],
           ['I have a headache.', "You shouldn't read on the train."],
           ["I'm in a new city.", 'Why don\'t you take a map?'],
@@ -42,12 +42,12 @@ const lesson: Lesson = {
       blocks: [
         { t: 'compare', good: { title: "To'g'ri", items: ['She should lie down.', 'What should I do?', 'Should we take bottled water?'] }, bad: { title: "Noto'g'ri", items: ['She should lies down.', 'What I should do?', 'Do we should take bottled water?'] } },
         { t: 'dialog', lines: [
-          { who: 'Tom', en: "I've got a headache, and we have a long train journey today.", uz: "Boshim og'riyapti, bugun esa uzoq poyezd safarimiz bor." },
-          { who: 'Dilya', en: "What should I do? Should I take a tablet?", uz: 'Nima qilishim kerak? Tabletka ichsammi?' },
-          { who: 'Tom', en: "Yes, you should. And you shouldn't read on the train.", uz: "Ha. Poyezdda o'qimasligingiz kerak." },
-          { who: 'Dilya', en: "Why don't you sleep a little? I'll wake you up.", uz: "Ozgina uxlasangiz-chi? Men sizni uyg'otaman." },
+          { who: 'Tom', en: "You look tired, Dilya. Are you OK?", uz: "Charchaganga o'xshaysiz, Dilya. Hammasi yaxshimi?" },
+          { who: 'Dilya', en: "I've got a headache, and we have a long train journey today. What should I do? Should I take an aspirin?", uz: "Boshim og'riyapti, bugun esa uzoq poyezd safarimiz bor. Nima qilishim kerak? Aspirin ichsammi?" },
+          { who: 'Tom', en: "Yes, you should. And you shouldn't read on the train. Why don't you sleep a little?", uz: "Ha, ichishingiz kerak. Poyezdda o'qimasligingiz kerak. Ozgina uxlasangiz-chi?" },
+          { who: 'Dilya', en: "Good idea, thanks! Please wake me up at the station.", uz: "Yaxshi fikr, rahmat! Vokzalda meni uyg'oting, iltimos." },
         ] },
-        { t: 'check', ex: { k: 'choice', q: 'Tom: "Should I take a tablet?" Dilya: "..."', opts: ["Yes, you should.", 'Yes, you do.', 'Yes, you should to.', 'Yes, you are.'], a: 0, why: "Qisqa javob: **Yes, you should. / No, you shouldn't.**" } },
+        { t: 'check', ex: { k: 'choice', q: 'Dilya: "Should I take an aspirin?" Tom: "..."', opts: ["Yes, you should.", 'Yes, you do.', 'Yes, you should to.', 'Yes, you are.'], a: 0, why: "Qisqa javob: **Yes, you should. / No, you shouldn't.**" } },
       ],
     },
   ],
@@ -67,8 +67,8 @@ const lesson: Lesson = {
     { k: 'match', pairs: [['advice', 'maslahat'], ['sunscreen', 'quyoshdan himoya kremi'], ['fresh air', 'toza havo'], ['lie down', 'yotmoq'], ['bottled water', 'shishadagi suv']] },
     { k: 'tf', q: "*Do we should take a map?* — gap to'g'ri.", a: false, why: "To'g'risi: *Should we take a map?*" },
     { k: 'listen', say: "You shouldn't read on the train.", opts: ["You shouldn't read on the train.", 'You should read on the train.', "You shouldn't eat on the train.", "You shouldn't read on the bus."], a: 0 },
-    { k: 'dictation', say: "Why don't you lie down?", a: ["Why don't you lie down?", 'Why do not you lie down?'] },
-    { k: 'fix', wrong: 'She should takes a tablet.', a: ['She should take a tablet.'], why: "**should** dan keyin fe'l oddiy shaklda, *-s* yo'q." },
+    { k: 'dictation', say: "Why don't you lie down?", a: ["Why don't you lie down?"] },
+    { k: 'fix', wrong: 'She should takes an aspirin.', a: ['She should take an aspirin.'], why: "**should** dan keyin fe'l oddiy shaklda, *-s* yo'q." },
     { k: 'fix', wrong: 'What I should do?', a: ['What should I do?'], why: "Savolda **should** egadan oldin: *What should I do?*" },
     { k: 'fill', q: 'A: Should I wear sunscreen? B: Yes, you ___.', a: ['should'], uz: "Ha, surtishingiz kerak.", why: "Qisqa javob: **Yes, you should.**" },
     { k: 'speak', say: 'What should I do?', uz: 'Nima qilishim kerak?' },
@@ -81,7 +81,7 @@ const lesson: Lesson = {
     { k: 'tf', q: "*Should I take bottled water?* — to'g'ri savol.", a: true },
     { k: 'fix', wrong: 'You should to drink water.', a: ['You should drink water.'], why: "**should** dan keyin *to* yo'q." },
     { k: 'match', pairs: [['advice', 'maslahat'], ['lie down', 'yotmoq'], ['take care', "o'zingizni asrang"], ['fresh air', 'toza havo']] },
-    { k: 'choice', q: 'A: Why don\'t you rest? B: ...', opts: ["Good idea, thanks!", 'Because you rest.', 'Yes, I rest.', 'I don\'t you.'], a: 0 },
+    { k: 'choice', q: 'A: Why don\'t you lie down? B: ...', opts: ["Good idea, thanks!", 'Because you lie down.', 'Yes, I lie down.', 'I don\'t you.'], a: 0 },
   ],
   summary: [
     "Maslahat: **You should + V1**; qilmaslik kerak: **You shouldn't + V1**.",

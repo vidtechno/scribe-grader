@@ -20,7 +20,7 @@ const lesson: Lesson = {
         ] },
         { t: "examples", items: [
           { en: "Have you ever been to a zoo? — Yes, I have.", uz: "Hech hayvonot bog'ida bo'lganmisiz? — Ha, bo'lganman." },
-          { en: "Has your brother ever skied? — No, he hasn't.", uz: "Akangiz hech chang'i uchganmi? — Yo'q, uchmagan." },
+          { en: "Has your brother ever flown in a plane? — No, he hasn't.", uz: "Akangiz hech samolyotda uchganmi? — Yo'q, uchmagan." },
           { en: "Have you ever seen snow? — No, never.", uz: "Hech qor ko'rganmisiz? — Yo'q, hech qachon." },
         ] },
         { t: "tip", tone: "info", md: "Javobda **Yes, I have** deymiz. **Yes, I did** emas (bu Past Simple savoliga javob) va **Yes, I have seen** emas (juda uzun va bu yerda keraksiz)." },
@@ -34,7 +34,7 @@ const lesson: Lesson = {
         { t: "table", head: ["Savol", "Javob"], speak: [0, 1], rows: [
           ["Have you ever been to an island?", "No, never. I've never been to an island."],
           ["Has he ever seen snow?", "No, he hasn't. He's never seen snow."],
-          ["Have you ever tried sushi?", "Yes, I have. I've tried it once."],
+          ["Have you ever tried sushi?", "Yes, I have. I've tried it."],
         ] },
         { t: "compare",
           good: { title: "To'g'ri", items: ["I've never seen an elephant.", "Have you ever seen an elephant?", "Yes, I have."] },
@@ -77,7 +77,7 @@ const lesson: Lesson = {
     { k: "fix", wrong: "Have you ever saw an elephant?", a: ["Have you ever seen an elephant?"], why: "**have** dan keyin V3: **seen**." },
     { k: "fix", wrong: "I've ever been on a boat.", a: ["I've never been on a boat.", "I have never been on a boat."], hint: "Gap \"hech qachon bo'lmaganman\" degan ma'noda.", why: "Darak gapda \"hech qachon\" = **never**." },
     { k: "order", uz: "Siz hech vertolyotda uchganmisiz?", words: ["Have", "you", "ever", "flown", "in", "a", "helicopter?"], extra: ["did", "flew"], why: "**Have + you + ever + V3**." },
-    { k: "translate", uz: "Men hech qachon fil ko'rmaganman.", a: ["I have never seen an elephant.", "I've never seen an elephant.", "I haven't seen an elephant.", "I have not seen an elephant."] },
+    { k: "translate", uz: "Men hech qachon fil ko'rmaganman.", a: ["I have never seen an elephant.", "I've never seen an elephant.", "I haven't seen an elephant.", "I have not seen an elephant.", "I haven't ever seen an elephant."] },
     { k: "speak", say: "No, I haven't. I've never seen snow.", uz: "Yo'q. Men hech qachon qor ko'rmaganman." },
   ],
   quiz: [
@@ -88,7 +88,7 @@ const lesson: Lesson = {
     { k: "fix", wrong: "Yes, I did. I've seen an elephant.", a: ["Yes, I have. I've seen an elephant.", "Yes, I have."], hint: "Savol: Have you ever seen an elephant?", why: "**Have…?** savoliga: **Yes, I have.**" },
     { k: "order", uz: "U hech qachon orolda bo'lmagan.", words: ["He", "has", "never", "been", "to", "an", "island."], extra: ["ever", "was"] },
     { k: "translate", uz: "Siz hech qachon qor ko'rganmisiz?", a: ["Have you ever seen snow?"] },
-    { k: "tf", q: "**Has he ever skied? — No, he hasn't.** — to'g'ri qisqa javob.", a: true, why: "**Has…?** → **No, he hasn't.**" },
+    { k: "tf", q: "**Has he ever been to a zoo? — No, he hasn't.** — to'g'ri qisqa javob.", a: true, why: "**Has…?** → **No, he hasn't.**" },
   ],
   summary: [
     "Qisqa javob savoldagi yordamchi fe'l bilan: **Have you…? → Yes, I have. / No, I haven't.**",
