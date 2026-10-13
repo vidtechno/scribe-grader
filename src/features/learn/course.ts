@@ -140,7 +140,7 @@ export const A1_UNITS: UnitMeta[] = [
   {
     id: "u6", n: 6, level: 'a1', title: "People & Places", titleUz: "Odamlar va joylar: tasvirlash, egalik, yo'l so'rash",
     description: "Tanishuv, odamlarni tasvirlash, mine / yours, tartib sonlar va sanalar, uy, shahar va yo'l so'rash, a / the.",
-    learns: ["Tanishuv va qisqa suhbat, odamlarni tashqi ko'rinishi va xarakteri bo'yicha tasvirlash", "Egalik olmoshlari: mine, yours… va Whose?", "Tartib sonlar va sanalar", "Uy, xonalar, shahar va yo'l so'rash/ko'rsatish", "Artikllar: a / an / the", "Vaziyat: yangi qo'shni, shaharda yo'l so'rash"],
+    learns: ["Tanishuv, odamlarni tasvirlash (tashqi ko'rinish va xarakter)", "Egalik olmoshlari mine / yours, Whose?", "Tartib sonlar, sanalarni aytish va yozish", "Uy, shahar, yo'l so'rash va ko'rsatish; a / an / the yoki artiklsiz", "Tinglash-gapirish va o'qish-yozish; vaziyat: yangi qo'shni, adashib qolish", "Mavzu testi, mini-boss"],
     tone: "from-indigo-500 to-blue-400",
     lessons: [
       { id: "u6-l1", title: "Nice to meet you!", titleUz: "Tanishuv va qisqa suhbat" },
@@ -163,7 +163,7 @@ export const A1_UNITS: UnitMeta[] = [
   {
     id: "u7", n: 7, level: 'a1', title: "Work & Free Time", titleUz: "Ish va bo'sh vaqt: yoqtirish, rejalar, takliflar",
     description: "Kasblar, like / love / hate + -ing, ravishlar, play / go / do, rejalar, would like, takliflar, soat va jadval.",
-    learns: ["Kasblar va ish joylari; like / love / hate + -ing", "Ravishlar (quickly, well, hard); play / go / do bilan sport va hobbi", "Rejalar: Present Continuous; would like va takliflar", "Soat va jadval; How often / How long savollari", "Vaziyat: do'stlar bilan uchrashuv, taklif va rad etish"],
+    learns: ["Kasblar; like / love / hate + -ing; ravishlar; play / go / do", "Present Continuous: hozir yoki reja?", "would like, takliflar: qabul qilish va rad etish", "Soat, jadval, How often / How long savollari", "Tinglash-gapirish va o'qish-yozish; vaziyat: ziyofat, reja tuzish", "Mavzu testi, mini-boss"],
     tone: "from-pink-500 to-rose-400",
     lessons: [
       { id: "u7-l1", title: "Jobs & workplaces", titleUz: "Kasblar va ish joylari" },
@@ -186,7 +186,7 @@ export const A1_UNITS: UnitMeta[] = [
   {
     id: "u8", n: 8, level: 'a1', title: "Food & Shopping", titleUz: "Ovqat va xarid: miqdor, narx, buyurtma",
     description: "Ovqat, idishlar (a cup of…), a few / a little, narx va pul, kafeda buyurtma, kiyim do'koni, retsept, should, qiyoslash.",
-    learns: ["Ovqat va o'lchovlar: a cup of, a bottle of…", "Miqdor: a lot of, a few, a little, no; narx va How much?", "Kafe va kiyim do'konida muloyim muloqot", "Retsept: first, then, finally; should / shouldn't", "Qiyoslash: better, the best, as… as", "Vaziyat: bozor, restoran, kechki ovqat rejasi"],
+    learns: ["Ovqat va o'lchovlar; How much / How many; a lot of, a few, a little", "Pul, narx, kafe va kiyim do'koni; retsept; should / shouldn't", "Qiyoslash: better, the best; as … as, the same as", "Tinglash-gapirish va o'qish-yozish; vaziyat: bozor, kechki ovqat rejasi", "Mavzu testi, mini-boss"],
     tone: "from-orange-500 to-amber-400",
     lessons: [
       { id: "u8-l1", title: "Food & containers: a cup of…", titleUz: "Ovqat va o'lchovlar: a cup of, a bottle of…" },
@@ -209,7 +209,7 @@ export const A1_UNITS: UnitMeta[] = [
   {
     id: "u9", n: 9, level: 'a1', title: "Stories from the Past", titleUz: "O'tmishdan hikoyalar: Past Simple chuqurroq",
     description: "Past Simple chuqurroq: ago / last, yangi noto'g'ri fe'llar, Wh-savollar, there was, could, tarjimai hol, hikoya qilish.",
-    learns: ["Vaqt so'zlari: yesterday, last, ago", "Noto'g'ri fe'llar (3 va 4-qism)", "O'tgan zamonda Wh-savollar; there was / were, could", "Hayot yo'li va hikoya qilish: and, but, so, because", "Ta'til va transport", "Vaziyat: dam olish kunim, o'tgan yozgi sayohat"],
+    learns: ["Past Simple: vaqt so'zlari, noto'g'ri fe'llar, inkor va savollar", "there was / were, could / couldn't", "Hayot yo'li va hikoya: and, but, so, because; ta'til va transport", "Tinglash-gapirish va o'qish-yozish; vaziyat: dam olish kunim, yozgi sayohat", "Mavzu testi, mini-boss"],
     tone: "from-teal-500 to-emerald-400",
     lessons: [
       { id: "u9-l1", title: "Yesterday, last week, two days ago", titleUz: "O'tgan zamon vaqt so'zlari: ago, last, yesterday" },
@@ -232,7 +232,7 @@ export const A1_UNITS: UnitMeta[] = [
   {
     id: "u10", n: 10, level: 'a1', title: "Travel & Health", titleUz: "Sayohat va sog'liq: will, going to, have to, must",
     description: "Ob-havo, aeroport va vokzal, mehmonxona, Could I…?, will yoki going to, kasallik va maslahat, have to, must.",
-    learns: ["Ob-havo, vokzal, aeroport va mehmonxonada: Can / Could I…?", "will yoki going to", "Sog'liq: What's the matter? Maslahat berish", "Majburiyat: have to / don't have to; qoidalar: must / mustn't", "Xabar va xat yozish", "Vaziyat: mehmonxonani band qilish, dorixona va shifokor"],
+    learns: ["Ob-havo, vokzal, aeroport, mehmonxona; chipta, vaqt va narx", "will yoki going to; maslahat: should / Why don't you…?", "Sog'liq; have to / don't have to; must / mustn't", "Tinglash-gapirish (e'lonlar) va o'qish-yozish (otkritka, xat); vaziyat: mehmonxona, dorixona", "Mavzu testi, mini-boss"],
     tone: "from-cyan-500 to-sky-400",
     lessons: [
       { id: "u10-l1", title: "What's the weather like?", titleUz: "Ob-havo va fasllar" },
@@ -255,7 +255,7 @@ export const A1_UNITS: UnitMeta[] = [
   {
     id: "u11", n: 11, level: 'a1', title: "Experiences", titleUz: "Tajribalar va yakun: Present Perfect va barcha zamonlar",
     description: "Present Perfect bilan tanishuv, ever / never, been / gone, fe'l + to / -ing, harakat predloglari, phrasal verbs, A1 yakuniy takrori.",
-    learns: ["Present Perfect: Have you ever…? been / gone", "Present Perfect yoki Past Simple?", "Harakat predloglari, fe'l + to / -ing, gaplarni bog'lash", "Kundalik phrasal verbs", "Elementary yakuniy takrori: barcha zamonlar", "Vaziyat: suhbatda tajriba almashish"],
+    learns: ["Present Perfect: Have you ever…? been / gone, qisqa javoblar, necha marta", "Present Perfect yoki Past Simple?", "Harakat predloglari, fe'l + to / -ing, gaplarni bog'lash, phrasal verbs", "Tinglash-gapirish va o'qish-yozish; vaziyat: tajriba almashish, aralash suhbatlar", "Mavzu testi, mini-boss va Elementary yakuniy imtihoni"],
     tone: "from-purple-500 to-violet-400",
     lessons: [
       { id: "u11-l1", title: "Have you ever…?", titleUz: "Present Perfect: Have you ever…?" },

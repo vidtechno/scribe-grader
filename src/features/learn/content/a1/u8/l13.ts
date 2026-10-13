@@ -63,7 +63,7 @@ const lesson: Lesson = {
     { k: "choice", q: "These apples are as fresh ___ those apples.", opts: ["as", "than", "like", "from"], a: 0, why: "**as … as**." },
     { k: "fill", q: "Her bag is the ___ size as mine.", a: ["same"], uz: "Uning sumkasi meniki bilan bir xil o'lchamda.", why: "**the same size as**." },
     { k: "fill", q: "Tea is different ___ coffee.", a: ["from"], uz: "Choy qahvadan farq qiladi.", why: "**different from**." },
-    { k: "choice", q: "The shoes are 40 dollars. The boots are 40 dollars. The shoes are ___ the boots.", opts: ["the same price as", "different from", "more expensive than", "not as expensive as"], a: 0, why: "Narx bir xil → **the same price as**." },
+    { k: "choice", q: "The shoes are 40 dollars. The boots are 40 dollars. The shoes are ___ the boots.", opts: ["the same price as", "cheaper than", "more expensive than", "not as expensive as"], a: 0, why: "Narx bir xil → **the same price as**." },
     { k: "order", uz: "Bu non unisidek yumshoq.", words: ["This", "bread", "is", "as", "soft", "as", "that", "bread."], extra: ["softer", "than"] },
     { k: "order", uz: "Mening stakanim seniki bilan bir xil o'lchamda.", words: ["My", "glass", "is", "the", "same", "size", "as", "yours."], extra: ["like", "same"] },
     { k: "translate", uz: "Bu marka unisidan farq qiladi.", a: ["This brand is different from that one.", "This brand is different from that brand.", "This brand is not the same as that one."] },
