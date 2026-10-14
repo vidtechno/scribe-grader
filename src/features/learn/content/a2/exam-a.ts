@@ -11,7 +11,7 @@ const v = (topic: string, ex: Exercise): ExamItem => ({ skill: 'vocabulary', top
 export const PREINT_EXAM_A: ExamItem[] = [
   // ---------- Grammar ----------
   // u12: the past
-  g('u12-l4', { k: 'choice', q: 'While I ___ the news, the lights went out.', opts: ['watched', 'was watching', 'am watching', 'have watched'], a: 1, why: "Uzoq davom etgan voqea (**while** bilan) — **Past Continuous**: *was watching*. Qisqa voqea (the lights went out) — Past Simple." }),
+  g('u12-l4', { k: 'choice', q: 'While I ___ the news, the lights went out.', opts: ['watch', 'was watching', 'am watching', 'have watched'], a: 1, why: "Uzoq davom etgan voqea (**while** bilan) — **Past Continuous**: *was watching*. Qisqa voqea (the lights went out) — Past Simple." }),
   g('u12-l5', { k: 'fill', q: 'When I was a child, we ___ live in a small village. Now we live in Tashkent.', a: ['used to'], hint: 'avval shunday edi', why: "O'tgan odat yoki holat: **used to** + fe'l." }),
   g('u12-l6', { k: 'choice', q: '___ it was raining, we played football in the park.', opts: ['Although', 'Because', 'So', 'Or'], a: 0, why: "Kutilmagan qarama-qarshilik: **Although** (garchi … bo'lsa ham) + gap." }),
   g('u12-l2', { k: 'fix', wrong: 'Did she went to the party last night?', a: ['Did she go to the party last night?'], hint: 'did dan keyin', why: "**Did** dan keyin fe'lning asosiy shakli keladi: *Did she **go**…?*" }),
