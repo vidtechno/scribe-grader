@@ -1,6 +1,7 @@
 import { cleanText, speakable } from './speech';
 import { generatedFillText } from './engine/engine';
-import { sceneAudioTexts } from './scene/scene';
+import { sceneAudioTexts, voiceText } from './scene/scene';
+import { dialogVoices, isTwoVoiceLesson } from './dialog-voices';
 import type { Block, Exercise, Lesson } from './types';
 
 // Which English texts of a lesson can be played, so they can be loaded when the lesson opens.
@@ -31,14 +32,18 @@ export function exerciseAudioTexts(ex: Exercise): string[] {
   }
 }
 
-function blockAudioTexts(b: Block): string[] {
+function blockAudioTexts(b: Block, voices = false): string[] {
   switch (b.t) {
     case 'examples': return b.items.flatMap((i) => english(i.en));
     case 'table': return b.speak ? b.rows.flatMap((r) => b.speak!.flatMap((c) => english(r[c]))) : [];
     case 'compare': return b.good.items.filter(isEnglish).flatMap(english);
     case 'sounds': return b.items.flatMap((s) => [...english(s.say), ...(s.examples ?? []).flatMap(english)]);
-    case 'dialog': return b.lines.flatMap((l) => english(l.en));
-    case 'text': return english(b.en);
+    case 'dialog': {
+      // Pre-Intermediate dialogues: every speaker has their own voice (Emma or George)
+      const who = voices ? dialogVoices(b.lines) : null;
+      return b.lines.flatMap((l) => english(l.en).map((t) => (who ? voiceText(who[l.who], t) : t)));
+    }
+    case 'text': return english(b.en).map((t) => (b.voice ? voiceText(b.voice, t) : t));
     case 'check': return exerciseAudioTexts(b.ex);
     default: return [];
   }
@@ -53,7 +58,7 @@ export function lessonAudioTexts(lesson: Lesson, previous?: Lesson | null): stri
     ...(previous ? previous.quiz.flatMap(exerciseAudioTexts) : []),
   ];
   const later = [
-    ...lesson.slides.flatMap((s) => s.blocks.flatMap(blockAudioTexts)),
+    ...lesson.slides.flatMap((s) => s.blocks.flatMap((b) => blockAudioTexts(b, isTwoVoiceLesson(lesson.id)))),
     ...lesson.words.flatMap((w) => english(w.ex)),
     // Review rounds turn a word's example sentence into a fill-in with a pause where the word was.
     ...lesson.words.flatMap((w) => english(generatedFillText(w))),

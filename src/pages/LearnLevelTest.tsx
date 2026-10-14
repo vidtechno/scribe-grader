@@ -13,14 +13,14 @@ import { CertificateDialog } from '@/features/learn/components/CertificateDialog
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { MistakeReview, TestShell } from '@/features/learn/components/TestShell';
-import { BeginnerExam, ElementaryExam } from './LearnBeginnerExam';
+import { BeginnerExam, ElementaryExam, PreIntermediateExam } from './LearnBeginnerExam';
 
 interface Outcome { passed: boolean; advanced: boolean; next_level: string | null; next_soon: boolean; xp: number }
 
 /** Final test of a level: always open, 20 questions from all of its units, 70% to pass and move on. Retake as often as needed. */
 export default function LearnLevelTest() {
   const { level } = useParams();
-  return level === 'beginner' ? <BeginnerExam /> : level === 'a1' ? <ElementaryExam /> : <GenericLevelTest />;
+  return level === 'beginner' ? <BeginnerExam /> : level === 'a1' ? <ElementaryExam /> : level === 'a2' ? <PreIntermediateExam /> : <GenericLevelTest />;
 }
 
 function GenericLevelTest() {

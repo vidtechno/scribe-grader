@@ -5,7 +5,8 @@ import { isEnglish } from './audio-plan';
 import { audioKey } from './audio-key';
 import { cleanText, speakable } from './speech';
 import { generatedFillText } from './engine/engine';
-import { sceneAudioTexts } from './scene/scene';
+import { sceneAudioTexts, voiceText } from './scene/scene';
+import { dialogVoices, isTwoVoiceLesson } from './dialog-voices';
 import type { Exercise } from './types';
 import { BEGINNER_EXAM, BEGINNER_SPEAKING } from './content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from './content/a1/exam';
@@ -45,8 +46,8 @@ describe('audio coverage', () => {
           if (b.t === 'table' && b.speak) b.rows.forEach((r) => b.speak!.forEach((c) => check(at, r[c])));
           if (b.t === 'sounds') b.items.forEach((i) => { check(at, i.say); (i.examples ?? []).forEach((x) => check(at, x)); });
           if (b.t === 'compare') b.good.items.filter(isEnglish).forEach((x) => check(at, x));
-          if (b.t === 'dialog') b.lines.forEach((l) => check(at, l.en));
-          if (b.t === 'text') check(at, b.en);
+          if (b.t === 'dialog') { const who = isTwoVoiceLesson(lesson.id) ? dialogVoices(b.lines) : null; b.lines.forEach((l) => check(at, who ? voiceText(who[l.who], l.en) : l.en)); }
+          if (b.t === 'text') check(at, b.voice ? voiceText(b.voice, b.en) : b.en);
         }
       }
       for (const drill of await loadDrills(unit.id)) drill.exercises.forEach((e) => exercise(drill.id, e));
