@@ -40,7 +40,8 @@ Paying 6 months at once is 10% cheaper. Payment is made through Telegram (@scori
 Defined in `src/lib/plans.ts`.
 
 ### Admin panel (`/admin`)
-- **Users**: join date, last seen, activity, plan, filters, search, CSV export, manual plan changes.
+- **Users**: 20 users per page with numbered pages; the list opens sorted by last visit with the people who are on the site right now on top (green dot, "Hozir onlayn") and everybody else as "2 soat oldin", "3 kun oldin"…; segments (online now, last online, paid, free week, expiring, expired, active/inactive, never studied, referrers), search, other sorts, CSV export, manual plan changes. A second view, **Statistika**, shows who is online (now / 1 hour / 24 hours / 7 / 30 days), growth against the previous period, how many come back, daily active learners, lessons done, plans, levels, sign-in methods, cities and the top learners.
+- **Presence**: a signed-in visitor with the tab open sends a heartbeat (`touch_presence`, `src/hooks/usePresence.ts`) every 2 minutes; the database writes at most once a minute per user (`user_presence` table, no direct access). "Online" means a heartbeat in the last 5 minutes. Statistics come from `admin_user_stats()`, the list from `admin_users_list()` (`online_at`).
 - **Analytics**: site statistics (DataFast), admin only.
 - **Blog**: TipTap rich-text editor (`/admin/blog/:id`), images, SEO fields, publish/draft, view stats.
 - **Announcements** and settings.
@@ -93,7 +94,7 @@ Supabase project: `bywqpgjojnqscelloxew`. Frontend on Vercel at `scorify.uz` / `
 - Authentication: Google OAuth and Telegram (bot confirmation or Mini App, handled by `telegram-auth`). Allow callback URLs for `https://scorify.uz` and `https://www.scorify.uz`.
 - The Telegram bot token is stored in Supabase Vault (`telegram_bot_token`); deployment details are in [docs/telegram-bot.md](docs/telegram-bot.md).
 - Store `OPENAI_API_KEY` only in Supabase Edge Function secrets.
-- Migrations are applied by hand (SQL editor or `execute_sql`, in small pieces: a long migration can time out). Latest: `20261024000000_certificates`, `20261026000000_lesson_completion_threshold`, `20261027000000_security_and_load_hardening`, `20261028000000_start_placed_and_upgrade_level`. Blog posts were inserted with ad-hoc SQL, not migrations. In the Supabase Auth settings enable leaked-password protection (a dashboard switch, not a migration).
+- Migrations are applied by hand (SQL editor or `execute_sql`, in small pieces: a long migration can time out). Latest: `20261024000000_certificates`, `20261026000000_lesson_completion_threshold`, `20261027000000_security_and_load_hardening`, `20261028000000_start_placed_and_upgrade_level`, `20261029000000_user_presence_and_stats`. Blog posts were inserted with ad-hoc SQL, not migrations. In the Supabase Auth settings enable leaked-password protection (a dashboard switch, not a migration).
 - Do not import demo data or users from the previous project.
 
 ## Roadmap

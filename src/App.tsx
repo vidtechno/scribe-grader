@@ -5,6 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { usePresence } from "@/hooks/usePresence";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { BottomNav } from "@/components/BottomNav";
 import { Suspense, lazy, useState, useEffect } from "react";
@@ -86,6 +87,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   const [mentorOpen, setMentorOpen] = useState(false);
   const { user } = useAuth();
+  usePresence(user?.id);
 
   // Signed-in users go to the dashboard and the course next: fetch those pages while the browser is idle.
   useEffect(() => {
