@@ -11,7 +11,7 @@ Per-lesson outlines: [beginner-curriculum.md](beginner-curriculum.md), [elementa
 |---|---|---|---|
 | Beginner | 5 | 88 (40 + 34 short + 14 real-life scenes) | 44 |
 | Elementary A1 | 6 | 90 (48 + 42) | 62 |
-| Pre-Intermediate A2 | 6 | 66 (48 + 18) | 29 |
+| Pre-Intermediate A2 | 6 | 90 (48 + 42) | 65 |
 
 - **Full lessons** (15–25 min) teach one grammar point or topic; **short lessons** (`mini`, 5–12 min, 3–7 new words) are
   life situations, reviews and skill lessons between them. The order of `lessons` in each unit is the teaching order.
@@ -54,9 +54,9 @@ lessons: unlocked in order, counted as done for learners who were already past t
   also choose a level themselves (`/learn?pick=1`). Placement is saved by `learning_start_placed`.
 - **Quick upgrade test** (`/learn/upgrade/:level`): someone who picked a level that is too easy takes a 12-question
   test on the next level (75% to pass) and moves up with `learning_upgrade_level`; lower levels stay open for review.
-- **Final exams**: Beginner and Elementary end with a 20-question skills exam (4 each: grammar, vocabulary, reading,
+- **Final exams**: Beginner, Elementary and Pre-Intermediate end with a 20-question skills exam (4 each: grammar, vocabulary, reading,
   listening, writing; an unscored speaking part). 70% overall and at least 50% in every skill; a weak skill caps the
-  score below the pass mark. Passing gives a certificate. Pre-Intermediate has unit tests only for now.
+  score below the pass mark. Passing gives a certificate. Pre-Intermediate dialogues use two voices (Emma and George, by the speaker's gender; `dialog-voices.ts`).
 - The older placement test (`/learn/placement`, 20 questions from the Beginner units) still exists for the
   Elementary placement flow; the level exams live in `LearnBeginnerExam.tsx` (`LevelExam`).
 
@@ -81,8 +81,8 @@ lessons: unlocked in order, counted as done for learners who were already past t
   hash of the text (`audioKey`). **Only these recordings are played**: the browser voice and online voices are not used.
   When a lesson opens its clips are loaded into memory; nothing touches the database. If nothing plays, listening
   exercises show a "Matnni ko'rsatish" link. A test (`audio-coverage.test.ts`) fails when a playable text has no recording.
-  - Voices: Beginner and Elementary are recorded with the free **Kokoro** model (British male "george"); some early
-    Beginner lessons keep earlier neural recordings (ElevenLabs/edge-tts); Pre-Intermediate is still the older espeak voice.
+  - Voices: Beginner, Elementary and Pre-Intermediate are recorded with the free **Kokoro** model (British male "george"; "emma" for female speakers and situations); some early
+    Beginner lessons keep earlier neural recordings (ElevenLabs/edge-tts).
   - Recording: `KOKORO_DIR=<model folder> PYTHON=<python with sherpa-onnx> npx tsx scripts/generate-lesson-audio.ts --engine kokoro [--only keys.json]`
     (see `scripts/kokoro-tts.py`); `--engine edge`, `--engine elevenlabs` and the default espeak engine also exist. Only new texts
     are recorded unless `--force` or `--only` is given.
