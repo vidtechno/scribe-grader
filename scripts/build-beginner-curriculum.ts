@@ -1,18 +1,20 @@
 /**
- * Writes docs/beginner-curriculum.md and docs/elementary-curriculum.md: the course maps and audits, generated from the
+ * Writes docs/beginner-curriculum.md, docs/elementary-curriculum.md and docs/pre-intermediate-curriculum.md: the course maps and audits, generated from the
  * real lesson content. Run: npx tsx scripts/build-beginner-curriculum.ts
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
-import { A1_UNITS, BEGINNER_UNITS, UNIT_TEST, LEVEL_TEST, drillIds, loadUnit } from '../src/features/learn/course';
+import { A1_UNITS, A2_UNITS, BEGINNER_UNITS, UNIT_TEST, LEVEL_TEST, drillIds, loadUnit } from '../src/features/learn/course';
 import { DRILL_GAME, DRILL_REVIEW_OF, GAMES } from '../src/features/learn/games';
 import { BEGINNER_EXAM } from '../src/features/learn/content/beginner/exam';
 import { ELEMENTARY_EXAM } from '../src/features/learn/content/a1/exam';
+import { PREINTERMEDIATE_EXAM } from '../src/features/learn/content/a2/exam';
 
 const KIND: Record<string, string> = { grammar: 'Dars', situation: 'Hayotiy vaziyat', review: 'Takror', skill: "Ko'nikma", scene: 'Real hayot (ovozli suhbat)' };
 const strip = (s: string) => s.replace(/\*\*|\*|`/g, '').replace(/\n/g, ' ');
 const targets = [
   { name: 'Beginner', file: 'docs/beginner-curriculum.md', units: BEGINNER_UNITS, exam: BEGINNER_EXAM },
   { name: 'Elementary', file: 'docs/elementary-curriculum.md', units: A1_UNITS, exam: ELEMENTARY_EXAM },
+  { name: 'Pre-Intermediate', file: 'docs/pre-intermediate-curriculum.md', units: A2_UNITS, exam: PREINTERMEDIATE_EXAM },
 ];
 for (const target of targets) {
 const out: string[] = [];

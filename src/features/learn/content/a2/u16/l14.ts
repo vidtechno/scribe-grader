@@ -1,0 +1,143 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (skill): listening and speaking, talking about experiences. Recycles l1/l9 structures, adds opinion words.
+const lesson: Lesson = {
+  id: 'u16-l14',
+  title: 'Listening and speaking: talking about experiences',
+  titleUz: 'Tinglash va gapirish: tajribalar haqida suhbat',
+  mini: true,
+  kind: 'skill',
+  goal: "Sayohat va yangi tajribalar haqidagi suhbatni **tinglab tushunasiz** va o'zingiz aytib berasiz: *I've been to Khiva twice. I went there last spring. It was amazing!*",
+  slides: [
+    {
+      title: "Tinglang: Xivadan qaytdi",
+      blocks: [
+        { t: 'p', md: "Dialogni tinglang (▶), keyin matnga qarang. Avval umumiy ma'noni tushuning: **kim qayerda bo'ldi? kim bilan bordi? qanday edi?**" },
+        { t: 'dialog', lines: [
+          { who: 'Jack', en: "Hi Sara! You've just got back from Khiva, haven't you?", uz: "Salom, Sara! Xivadan hozirgina qaytding, to'g'rimi?" },
+          { who: 'Sara', en: 'Yes, I have. I arrived yesterday evening.', uz: 'Ha. Kecha kechqurun yetib keldim.' },
+          { who: 'Jack', en: 'What was it like?', uz: 'Qanday edi?' },
+          { who: 'Sara', en: 'It was amazing! The old city is full of beautiful buildings, and I took lots of photos.', uz: "Ajoyib edi! Eski shahar chiroyli binolarga to'la, men juda ko'p rasm oldim." },
+          { who: 'Jack', en: 'Did you go alone?', uz: "Yolg'iz bordingmi?" },
+          { who: 'Sara', en: 'No, I went with my cousin. We stayed in a small hotel near the old wall.', uz: "Yo'q, amakivachcham bilan bordim. Biz eski devor yaqinidagi kichik mehmonxonada qoldik." },
+          { who: 'Jack', en: "I've never been to Khiva. Was the food good?", uz: "Men Xivada hech bo'lmaganman. Ovqat yaxshi edimi?" },
+          { who: 'Sara', en: 'Yes, it was delicious! We ate plov every day. The only problem was the heat. It was exhausting!', uz: "Ha, mazali edi! Har kuni palov yedik. Faqat issiq muammo bo'ldi. Charchatib yubordi!" },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: 'Who did Sara go with?', opts: ['Her cousin.', 'Jack.', 'Alone.', 'Her teacher.'], a: 0, why: "*I went with my cousin.*" } },
+        { t: 'check', ex: { k: 'listen', say: 'We stayed in a small hotel near the old wall.', opts: ['We stayed in a small hotel near the old wall.', 'We stayed in a big hotel near the old wall.', 'We stayed in a small hotel near the station.', 'We are staying in a small hotel near the old wall.'], a: 0 } },
+      ],
+    },
+    {
+      title: "Tajriba haqida so'rash va aytish",
+      blocks: [
+        { t: 'p', md: "Suhbat odatda uch bosqichda ketadi: **tajriba** (Present Perfect) → **tafsilot** (Past Simple) → **fikr** (*What was it like?*)." },
+        { t: 'table', head: ['Savol', 'Javob'], speak: [0, 1], rows: [
+          ['Have you ever been to Khiva?', "Yes, I have. / No, I haven't. / No, never."],
+          ['When did you go?', 'I went there last spring.'],
+          ['Who did you go with?', 'I went with my cousin.'],
+          ['How long did you stay?', 'We stayed for four days.'],
+          ['What was it like?', 'It was amazing! / It was a bit disappointing.'],
+          ['Would you go again?', 'Yes, definitely!'],
+        ] },
+        { t: 'tip', tone: 'warn', md: "**What was it like?** — «qanday edi?» degan ma'noda. Bu **Did you like it?** (yoqdimi?) degani emas. Javob: *It was amazing / boring / too crowded* — **like** so'zini takrorlamang." },
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ['What was it like?', 'Have you ever been to Khiva?', 'Who did you go with?'] },
+          bad: { title: "Noto'g'ri", items: ['How was it like?', 'Did you ever been to Khiva?', 'With who you went?'] } },
+        { t: 'check', ex: { k: 'choice', q: "*What was it like?* savoliga qaysi javob mos?", opts: ['It was amazing!', 'Yes, I did.', 'Last spring.', 'With my cousin.'], a: 0, why: "Savol fikr so'rayapti: *It was amazing.*" } },
+        { t: 'check', ex: { k: 'fill', q: 'How long did you ___ in Samarkand?', a: ['stay'], why: "**How long did you stay?** — *did* dan keyin V1." } },
+      ],
+    },
+    {
+      title: "Tinglang: eng yaxshi safarim",
+      blocks: [
+        { t: 'p', md: "Matnni tinglang. Savollarga javob berish uchun hamma so'zni tushunish shart emas — **kim, qachon, qanday** degan asosiy ma'lumotni tutib oling." },
+        { t: 'text', title: 'My best trip', voice: 'emma',
+          en: "I have been to many places, but my best trip was to the Chimgan mountains. I went there last August with three friends. We stayed in a small hotel for four days. The weather was lovely and the views were unforgettable. We walked every day, and on the last day we climbed a high hill. It was exhausting, but it was worth it! I have never seen such a beautiful place. I would like to go again in winter, but I haven't decided yet.",
+          uz: "Men ko'p joylarda bo'lganman, lekin eng yaxshi safarim Chimyon tog'lariga bo'ldi. U yerga o'tgan avgustda uch do'stim bilan bordim. Biz kichik mehmonxonada to'rt kun qoldik. Ob-havo yoqimli, manzaralar esa unutilmas edi. Har kuni piyoda yurdik, oxirgi kuni esa baland tepalikka chiqdik. Charchatuvchi edi, lekin arzidi! Bunday go'zal joyni hech qachon ko'rmaganman. Qishda yana borishni xohlayman, lekin hali qaror qilmaganman." },
+        { t: 'check', ex: { k: 'choice', q: 'How long did she stay in the mountains?', opts: ['Four days.', 'Three days.', 'A week.', 'Two days.'], a: 0, why: "*We stayed in a small hotel for four days.*" } },
+        { t: 'check', ex: { k: 'tf', q: 'She went to the mountains alone.', a: false, why: "*…with three friends.*" } },
+        { t: 'check', ex: { k: 'tf', q: 'She has already decided to go again in winter.', a: false, why: "*…but I haven't decided yet.*" } },
+      ],
+    },
+    {
+      title: "Dialog: sizda shunday tajriba bo'lganmi?",
+      blocks: [
+        { t: 'dialog', lines: [
+          { who: 'Botir', en: 'Dilnoza, have you ever ridden a horse?', uz: "Dilnoza, sen hech ot minganmisan?" },
+          { who: 'Dilnoza', en: 'Yes, once. I rode a horse in the mountains two years ago.', uz: "Ha, bir marta. Ikki yil oldin tog'larda ot mindim." },
+          { who: 'Botir', en: 'Really? Was it difficult?', uz: "Rostdanmi? Qiyin bo'ldimi?" },
+          { who: 'Dilnoza', en: 'A little. I was afraid at first, but then it was great. Have you ever tried it?', uz: "Ozgina. Avval qo'rqdim, keyin esa juda yaxshi bo'ldi. Sen hech urinib ko'rganmisan?" },
+          { who: 'Botir', en: "No, never. I'd like to, but I haven't found the time yet.", uz: "Yo'q, hech qachon. Xohlardim, lekin hali vaqt topmadim." },
+          { who: 'Dilnoza', en: 'You should try it! The view was the highlight of my trip.', uz: "Sinab ko'rishing kerak! Manzara safarimning eng yorqin lahzasi edi." },
+        ] },
+        { t: 'tip', tone: 'good', md: "Suhbatni davom ettirish uchun savolni qaytaring: **Have you ever tried it?** / **And you?** Qisqa javobdan keyin bitta tafsilot qo'shing — shunda suhbat jonli bo'ladi." },
+        { t: 'check', ex: { k: 'tf', q: 'Botir has ridden a horse.', a: false, why: "Botir: *No, never.*" } },
+        { t: 'check', ex: { k: 'dictation', say: 'I was afraid at first, but then it was great.', a: ['I was afraid at first, but then it was great.'] } },
+      ],
+    },
+    {
+      title: "Endi siz ayting",
+      blocks: [
+        { t: 'p', md: "Bir sayohat yoki yangi tajriba haqida **4 ta gap** ayting. Reja shunday:" },
+        { t: 'table', head: ['Qadam', 'Qolip'], speak: [1], rows: [
+          ['1. Tajriba', "I've been to … twice."],
+          ['2. Tafsilot', 'I went there in … with … We stayed for …'],
+          ['3. Fikr', 'It was … The highlight was …'],
+          ['4. Savol', 'Have you ever been there?'],
+        ] },
+        { t: 'examples', items: [
+          { en: "I've been to Samarkand twice. I went there last spring with my family, and we stayed for three days.", uz: "Men Samarqandda ikki marta bo'lganman. O'tgan bahorda oilam bilan bordim va uch kun qoldik." },
+          { en: 'It was unforgettable. The highlight was the Registan at night. Have you ever been there?', uz: "Unutilmas edi. Eng yorqin lahza kechki Registon bo'ldi. Siz u yerda bo'lganmisiz?" },
+        ] },
+        { t: 'tip', tone: 'info', md: "Telefoningizga ovoz yozib oling va 2 marta takrorlang: birinchi marta xatolarni topasiz, ikkinchi marta ravonroq gapirasiz." },
+        { t: 'check', ex: { k: 'order', uz: 'Biz u yerda uch kun qoldik.', words: ['We', 'stayed', 'there', 'for', 'three', 'days.'], extra: ['stay', 'since'] } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'amazing', uz: 'ajoyib, hayratlanarli', ipa: 'əˈmeɪ.zɪŋ', pos: 'adj', ex: 'The view was amazing.', exUz: 'Manzara ajoyib edi.' },
+    { en: 'unforgettable', uz: 'unutilmas', ipa: 'ˌʌn.fəˈɡet.ə.bəl', pos: 'adj', ex: 'It was an unforgettable trip.', exUz: 'Bu unutilmas safar edi.' },
+    { en: 'disappointing', uz: "ko'ngilsiz, umidni puchga chiqaruvchi", ipa: 'ˌdɪs.əˈpɔɪn.tɪŋ', pos: 'adj', ex: 'The food was a bit disappointing.', exUz: "Ovqat biroz ko'ngilsiz edi." },
+    { en: 'exhausting', uz: 'charchatuvchi', ipa: 'ɪɡˈzɔː.stɪŋ', pos: 'adj', ex: 'The walk was exhausting.', exUz: 'Piyoda yurish charchatib yubordi.' },
+    { en: 'worth visiting', uz: 'borishga arziydi', ipa: 'wɜːθ ˈvɪz.ɪ.tɪŋ', pos: 'phrase', ex: 'Khiva is worth visiting.', exUz: 'Xivaga borishga arziydi.' },
+    { en: 'highlight', uz: 'eng yorqin lahza, eng yaxshi qism', ipa: 'ˈhaɪ.laɪt', pos: 'noun', ex: 'The mountains were the highlight of the trip.', exUz: "Tog'lar safarning eng yaxshi qismi edi." },
+  ],
+  practice: [
+    { k: 'listen', say: 'Have you ever been to Khiva?', opts: ['Have you ever been to Khiva?', 'Did you go to Khiva?', 'How long did you stay in Khiva?', 'Are you going to Khiva?'], a: 0 },
+    { k: 'listen', say: 'What was it like?', opts: ['What was it like?', 'What is it like?', 'Where was it?', 'Did you like it?'], a: 0 },
+    { k: 'listen', say: 'We stayed in a small hotel for four days.', opts: ['We stayed in a small hotel for four days.', 'We stayed in a small hotel for four weeks.', 'We stayed in a big hotel for four days.', 'We have stayed in a small hotel for four days.'], a: 0 },
+    { k: 'choice', q: 'A: Have you ever been to Samarkand? B: Yes, I have. I ___ there last spring.', opts: ['went', 'have been', 'go', 'have gone'], a: 0, why: "*last spring* — aniq vaqt → Past Simple." },
+    { k: 'choice', q: 'The food was terrible and the hotel was dirty. The trip was very ___.', opts: ['disappointing', 'amazing', 'highlight', 'worth visiting'], a: 0, why: "Yomon taassurot → **disappointing**." },
+    { k: 'fill', q: 'It was a long walk up the mountain. It was really ___.', a: ['exhausting'], uz: "Tog'ga uzoq yurish edi. U juda charchatuvchi edi.", hint: 'charchatuvchi', why: "Charchatadigan narsa — **exhausting**." },
+    { k: 'match', pairs: [['amazing', 'ajoyib'], ['unforgettable', 'unutilmas'], ['disappointing', "ko'ngilsiz"], ['exhausting', 'charchatuvchi'], ['highlight', 'eng yorqin lahza']] },
+    { k: 'order', uz: 'Siz u yerda qancha turdingiz?', words: ['How', 'long', 'did', 'you', 'stay', 'there?'], extra: ['have', 'stayed'], why: "**How long did you stay?**" },
+    { k: 'order', uz: 'Siz kim bilan bordingiz?', words: ['Who', 'did', 'you', 'go', 'with?'], extra: ['went', 'were'], why: "**Who did you go with?**" },
+    { k: 'dictation', say: 'I went there with my cousin last spring.', a: ['I went there with my cousin last spring.', 'Last spring I went there with my cousin.'] },
+    { k: 'fix', wrong: 'Have you ever went to Khiva?', a: ['Have you ever been to Khiva?'], why: "Tajriba savoli: **Have you ever been to…?**" },
+    { k: 'translate', uz: "Men Xivada hech bo'lmaganman.", a: ["I've never been to Khiva.", 'I have never been to Khiva.'], why: "**have never been to**." },
+    { k: 'translate', uz: 'Bu borishga arziydigan joy.', a: ["It's worth visiting.", 'It is worth visiting.', "It's a place worth visiting.", 'It is a place worth visiting.', "It's a place that is worth visiting.", "It's a place which is worth visiting."], why: "**worth visiting** — borishga arziydi." },
+    { k: 'speak', say: 'What was it like?', uz: 'Qanday edi?' },
+    { k: 'speak', say: "I've been to Khiva twice, and it was amazing.", uz: "Men Xivada ikki marta bo'lganman va u ajoyib edi." },
+    { k: 'speak', say: 'We stayed there for three days.', uz: 'Biz u yerda uch kun qoldik.' },
+  ],
+  quiz: [
+    { k: 'listen', say: "I've never been abroad.", opts: ["I've never been abroad.", "I've just been abroad.", "I haven't been abroad yet.", 'I was abroad last year.'], a: 0 },
+    { k: 'listen', say: 'Who did you go with?', opts: ['Who did you go with?', 'Where did you go?', 'When did you go?', 'Who are you going with?'], a: 0 },
+    { k: 'choice', say: 'The trip was exhausting, but it was worth it.', q: 'Listen. How was the trip?', opts: ['Tiring, but good', 'Easy and short', 'Boring', 'Dangerous'], a: 0, why: "**exhausting** = charchatuvchi, **worth it** = arzidi." },
+    { k: 'choice', q: 'How long did you stay? — ___', opts: ['For three days.', 'Since Monday.', 'Yes, I did.', 'In August.'], a: 0, why: "Muddat so'ralyapti: **for three days**." },
+    { k: 'fill', q: 'Have you ever ___ to Bukhara?', a: ['been'], why: "**Have you ever been to…?**" },
+    { k: 'fill', q: 'The view from the hill was the ___ of the trip.', a: ['highlight'], why: "Eng yaxshi qism → **highlight**." },
+    { k: 'order', uz: "Siz o'tgan yozda qayerga bordingiz?", words: ['Where', 'did', 'you', 'go', 'last', 'summer?'], extra: ['have', 'went'] },
+    { k: 'translate', uz: "Biz u yerda to'rt kun qoldik.", a: ['We stayed there for four days.', 'We stayed there four days.', 'We stayed for four days.'], why: "Past Simple: **stayed** + for + muddat." },
+    { k: 'tf', q: "*What was it like?* degani *Did you like it?* bilan bir xil.", a: false, why: "*What was it like?* — qanday edi? (fikr so'raydi)." },
+  ],
+  summary: [
+    "Suhbat tartibi: **Have you ever…?** (tajriba) → **When / Who with / How long…?** (Past Simple) → **What was it like?** (fikr).",
+    "Fikr bildirish: **amazing, unforgettable, disappointing, exhausting**; maqtash: *It's worth visiting.*",
+    "*What was it like?* — «qanday edi?», *Did you like it?* emas.",
+    "Suhbatni davom ettiring: **And you? Have you ever tried it?**",
+  ],
+  homework: "Bitta sayohat yoki yangi tajribangiz haqida 4 gap ayting va telefonga yozib oling: tajriba, tafsilot, fikr, savol. Keyin do'stingizga *Have you ever…?* deb 3 ta savol bering.",
+};
+
+export default lesson;

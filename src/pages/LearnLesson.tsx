@@ -15,6 +15,7 @@ import { shuffle } from '@/features/learn/check';
 import { lessonAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
 import { BlockView } from '@/features/learn/components/BlockView';
+import { isTwoVoiceLesson } from '@/features/learn/dialog-voices';
 import { ReviewNav } from '@/features/learn/components/ReviewNav';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { Flashcards } from '@/features/learn/components/Flashcards';
@@ -253,7 +254,7 @@ function Slides({ lesson, onDone }: { lesson: Lesson; onDone: () => void }) {
             <h2 className="text-2xl font-bold mb-4">{sl.title}</h2>
             <div className="space-y-4">
               {sl.blocks.map((b, j) => (
-                <BlockView key={`${n}-${j}`} block={b} onCheck={() => setAnswered((a) => ({ ...a, [`${n}-${j}`]: true }))} />
+                <BlockView key={`${n}-${j}`} block={b} voices={isTwoVoiceLesson(lesson.id)} onCheck={() => setAnswered((a) => ({ ...a, [`${n}-${j}`]: true }))} />
               ))}
             </div>
           </motion.div>

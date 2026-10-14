@@ -11,6 +11,7 @@ import { callLearning, learningErrorMessage, useLearningState, useRefreshLearnin
 import { shuffle } from '@/features/learn/check';
 import { BEGINNER_EXAM, BEGINNER_SPEAKING, type ExamItem, type ExamSkill } from '@/features/learn/content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from '@/features/learn/content/a1/exam';
+import { PREINTERMEDIATE_EXAM, PREINTERMEDIATE_SPEAKING } from '@/features/learn/content/a2/exam';
 import { CertificateDialog } from '@/features/learn/components/CertificateDialog';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
@@ -36,6 +37,8 @@ const CONFIGS: Record<string, ExamConfig> = {
     ready: "Elementary darajasiga tayyorsiz: sodda gaplar tuzish, savol berish va o'tgan, hozirgi zamonda oddiy suhbat qilish ko'nikmalarini ko'rsatdingiz." },
   a1: { level: 'a1', title: 'Elementary', cefr: 'A1+', bank: ELEMENTARY_EXAM, speaking: ELEMENTARY_SPEAKING,
     ready: "Pre-Intermediate darajasiga tayyorsiz: kundalik vaziyatlarda gaplashish, o'tgan va kelasi zamon, tajriba haqida gapirish ko'nikmalarini ko'rsatdingiz." },
+  a2: { level: 'a2', title: 'Pre-Intermediate', cefr: 'A2', bank: PREINTERMEDIATE_EXAM, speaking: PREINTERMEDIATE_SPEAKING,
+    ready: "A2 darajasini tugatdingiz: o'tgan, hozirgi va kelasi zamonda erkin gaplashish, taqqoslash, maslahat berish, tajriba haqida so'zlash va oddiy xat yozish ko'nikmalarini ko'rsatdingiz. Intermediate (B1) tez orada ochiladi." },
 };
 
 interface Outcome { passed: boolean; advanced: boolean; next_level: string | null; xp: number }
@@ -47,6 +50,7 @@ interface Outcome { passed: boolean; advanced: boolean; next_level: string | nul
  */
 export const BeginnerExam = () => <LevelExam config={CONFIGS.beginner} />;
 export const ElementaryExam = () => <LevelExam config={CONFIGS.a1} />;
+export const PreIntermediateExam = () => <LevelExam config={CONFIGS.a2} />;
 
 function LevelExam({ config }: { config: ExamConfig }) {
   const SPEAKING = config.speaking;

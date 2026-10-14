@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { AlertTriangle, BookOpen, CheckCircle2, Eye, EyeOff, Info, ThumbsDown, ThumbsUp } from 'lucide-react';
-import type { Block } from '../types';
+import type { Block, SceneVoice } from '../types';
+import { dialogVoices } from '../dialog-voices';
+import { voiceText } from '../scene/scene';
 import { ExerciseView } from './ExerciseView';
 import { Md } from './Md';
 import { SpeakButton } from './SpeakButton';
@@ -8,7 +10,7 @@ import { isEnglish } from '../audio-plan';
 import { speakable } from '../speech';
 
 /** Renders one theory block. `onCheck` reports the result of an inline quick check. */
-export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct: boolean) => void }) {
+export function BlockView({ block, onCheck, voices = false }: { block: Block; onCheck?: (correct: boolean) => void; /** Play the lines of a dialogue in two voices (Emma and George). */ voices?: boolean }) {
   switch (block.t) {
     case 'p':
       return <p className="text-[15px] sm:text-base leading-relaxed text-foreground/90"><Md text={block.md} /></p>;
@@ -101,7 +103,8 @@ export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct
           </div>
         </div>
       );
-    case 'dialog':
+    case 'dialog': {
+      const who = voices ? dialogVoices(block.lines) : null;
       return (
         <div className="space-y-2">
           {block.lines.map((l, i) => {
@@ -110,7 +113,7 @@ export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct
               <div key={i} className={`flex ${right ? 'justify-end' : ''}`}>
                 <div className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 ${right ? 'bg-primary/10 rounded-br-md' : 'bg-secondary rounded-bl-md'}`}>
                   <p className="text-[11px] font-semibold text-muted-foreground">{l.who}</p>
-                  <p className="font-semibold flex items-center gap-2"><SpeakButton text={l.en} />{l.en}</p>
+                  <p className="font-semibold flex items-center gap-2"><SpeakButton text={who ? voiceText(who[l.who], l.en) : l.en} />{l.en}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">{l.uz}</p>
                 </div>
               </div>
@@ -118,22 +121,23 @@ export function BlockView({ block, onCheck }: { block: Block; onCheck?: (correct
           })}
         </div>
       );
+    }
     case 'text':
-      return <ReadingText title={block.title} en={block.en} uz={block.uz} />;
+      return <ReadingText title={block.title} en={block.en} uz={block.uz} voice={block.voice} />;
     case 'check':
       return <ExerciseView ex={block.ex} mode="inline" onDone={(c) => onCheck?.(c)} />;
   }
 }
 
 /** A short English passage: read it, listen to it, then check the translation if needed. */
-function ReadingText({ title, en, uz }: { title?: string; en: string; uz: string }) {
+function ReadingText({ title, en, uz, voice }: { title?: string; en: string; uz: string; voice?: SceneVoice }) {
   const [showUz, setShowUz] = useState(false);
   return (
     <div className="rounded-2xl border border-primary/25 bg-primary/[0.04] p-4">
       <div className="flex items-center gap-2 mb-2.5">
         <BookOpen className="h-4 w-4 text-primary shrink-0" />
         <p className="font-semibold text-sm flex-1 min-w-0">{title ?? 'Reading'}</p>
-        <SpeakButton text={en} slow />
+        <SpeakButton text={voice ? voiceText(voice, en) : en} slow />
       </div>
       <div className="space-y-2 text-[15px] leading-relaxed">
         {en.split('\n').filter(Boolean).map((para, i) => <p key={i}><Md text={para} /></p>)}

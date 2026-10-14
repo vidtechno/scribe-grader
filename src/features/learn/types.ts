@@ -37,7 +37,7 @@ export type Block =
   | { t: 'compare'; good: { title: string; items: string[] }; bad: { title: string; items: string[] } }
   | { t: 'dialog'; lines: { who: string; en: string; uz: string }[] }
   /** A short reading passage (English, 40–140 words) with audio and a hidden Uzbek translation. */
-  | { t: 'text'; title?: string; en: string; uz: string }
+  | { t: 'text'; title?: string; en: string; uz: string; /** Who reads it aloud (default: George). */ voice?: SceneVoice }
   | { t: 'check'; ex: Exercise };
 
 export interface Slide {

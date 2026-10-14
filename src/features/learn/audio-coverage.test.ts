@@ -5,10 +5,12 @@ import { isEnglish } from './audio-plan';
 import { audioKey } from './audio-key';
 import { cleanText, speakable } from './speech';
 import { generatedFillText } from './engine/engine';
-import { sceneAudioTexts } from './scene/scene';
+import { sceneAudioTexts, voiceText } from './scene/scene';
+import { dialogVoices, isTwoVoiceLesson } from './dialog-voices';
 import type { Exercise } from './types';
 import { BEGINNER_EXAM, BEGINNER_SPEAKING } from './content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from './content/a1/exam';
+import { PREINTERMEDIATE_EXAM, PREINTERMEDIATE_SPEAKING } from './content/a2/exam';
 
 // Every text the course can play (lessons, drills, review rounds) must have a recording in public/audio. A text
 // without one is read by the phone's own voice, which many devices do not have. Record missing ones with:
@@ -45,8 +47,8 @@ describe('audio coverage', () => {
           if (b.t === 'table' && b.speak) b.rows.forEach((r) => b.speak!.forEach((c) => check(at, r[c])));
           if (b.t === 'sounds') b.items.forEach((i) => { check(at, i.say); (i.examples ?? []).forEach((x) => check(at, x)); });
           if (b.t === 'compare') b.good.items.filter(isEnglish).forEach((x) => check(at, x));
-          if (b.t === 'dialog') b.lines.forEach((l) => check(at, l.en));
-          if (b.t === 'text') check(at, b.en);
+          if (b.t === 'dialog') { const who = isTwoVoiceLesson(lesson.id) ? dialogVoices(b.lines) : null; b.lines.forEach((l) => check(at, who ? voiceText(who[l.who], l.en) : l.en)); }
+          if (b.t === 'text') check(at, b.voice ? voiceText(b.voice, b.en) : b.en);
         }
       }
       for (const drill of await loadDrills(unit.id)) drill.exercises.forEach((e) => exercise(drill.id, e));
@@ -55,6 +57,8 @@ describe('audio coverage', () => {
     for (const ex of BEGINNER_SPEAKING) exercise('exam speaking', ex);
     for (const item of ELEMENTARY_EXAM) exercise(`exam a1 ${item.topic}`, item.ex);
     for (const ex of ELEMENTARY_SPEAKING) exercise('exam a1 speaking', ex);
+    for (const item of PREINTERMEDIATE_EXAM) exercise(`exam a2 ${item.topic}`, item.ex);
+    for (const ex of PREINTERMEDIATE_SPEAKING) exercise('exam a2 speaking', ex);
     expect([...problems].slice(0, 20)).toEqual([]);
   }, 60_000);
 });
