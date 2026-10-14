@@ -3,25 +3,7 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Too
 import { Loader2, Users, GraduationCap, Wallet, Gift, Bot, Flame, CalendarClock } from 'lucide-react';
 import { format } from 'date-fns';
 import { adminRpc, pct, som, type Overview } from './adminApi';
-
-function Stat({ icon: Icon, label, value, hint, tone = 'text-primary' }: { icon: typeof Users; label: string; value: string | number; hint?: string; tone?: string }) {
-  return (
-    <div className="glass-card p-4">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1"><Icon className={`h-4 w-4 ${tone}`} />{label}</div>
-      <p className="text-2xl font-extrabold">{value}</p>
-      {hint && <p className="text-[11px] text-muted-foreground mt-0.5">{hint}</p>}
-    </div>
-  );
-}
-
-function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
-  return (
-    <section className="space-y-3">
-      <div><h2 className="font-bold">{title}</h2>{subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}</div>
-      {children}
-    </section>
-  );
-}
+import { Section, Stat } from './AdminUi';
 
 export function OverviewTab() {
   const { data: o, isLoading, error } = useQuery({ queryKey: ['admin', 'overview'], queryFn: () => adminRpc<Overview>('admin_overview'), refetchInterval: 60_000 });

@@ -32,6 +32,8 @@ export interface AdminUser {
   level: string | null; xp: number | null; streak: number | null; lessons_done: number; last_learn_day: string | null;
   essays: number; speaking: number; mocks: number; invited: number; was_referred: boolean;
   telegram_id: number | null; telegram_username: string | null; telegram_banned: boolean; is_admin: boolean; last_seen: string | null;
+  /** The site's own heartbeat: the last moment this user had the site open (null until the first heartbeat). */
+  online_at: string | null;
 }
 
 export type UserStatus = 'paid' | 'trial' | 'expired' | 'free';
@@ -44,3 +46,48 @@ export function statusOf(u: AdminUser, now = Date.now()): UserStatus {
 }
 
 export const daysUntil = (iso: string | null | undefined) => (iso ? Math.ceil((+new Date(iso) - Date.now()) / 86_400_000) : null);
+
+/** A user counts as online for five minutes after the site's last heartbeat (it beats every two minutes). */
+export const ONLINE_MS = 5 * 60_000;
+export const isOnline = (u: Pick<AdminUser, 'online_at'>, now = Date.now()) => !!u.online_at && now - +new Date(u.online_at) < ONLINE_MS;
+export const seenMs = (u: Pick<AdminUser, 'last_seen' | 'online_at'>) => Math.max(u.online_at ? +new Date(u.online_at) : 0, u.last_seen ? +new Date(u.last_seen) : 0);
+
+/** "hozir", "5 daqiqa oldin", "2 soat oldin", "3 kun oldin"…: when somebody was last on the site, in Uzbek. */
+export function agoUz(ms: number, now = Date.now()): string {
+  if (!ms) return 'kirmagan';
+  const s = Math.max(0, Math.round((now - ms) / 1000));
+  if (s < 60) return 'hozir';
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m} daqiqa oldin`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} soat oldin`;
+  const d = Math.floor(h / 24);
+  if (d < 30) return `${d} kun oldin`;
+  const mo = Math.floor(d / 30);
+  return mo < 12 ? `${mo} oy oldin` : `${Math.floor(mo / 12)} yil oldin`;
+}
+
+/** Page numbers to show under a list: 1 … 4 5 6 … 20. */
+export function pageRange(page: number, pages: number): (number | '…')[] {
+  if (pages <= 7) return Array.from({ length: pages }, (_, i) => i + 1);
+  const set = new Set([1, 2, page - 1, page, page + 1, pages - 1, pages].filter((n) => n >= 1 && n <= pages));
+  const sorted = [...set].sort((a, b) => a - b);
+  const out: (number | '…')[] = [];
+  sorted.forEach((n, i) => { if (i > 0 && n - sorted[i - 1] > 1) out.push('…'); out.push(n); });
+  return out;
+}
+
+export interface UserStats {
+  total: number;
+  online: { now: number; h1: number; h24: number; d7: number; d30: number; never: number };
+  signups: { today: number; d7: number; prev7: number; d30: number; prev30: number };
+  retention: { cohort: number; back: number };
+  sources: { google: number; telegram: number; email: number; telegram_linked: number; with_phone: number };
+  levels: { level: string; n: number }[];
+  not_started: number;
+  lessons: { none: number; few: number; some: number; many: number };
+  plans: { free: number; trial: number; learn: number; ielts: number };
+  cities: { city: string; n: number }[];
+  top_xp: { name: string; xp: number; streak: number; level: string }[];
+  active_14d: { day: string; n: number }[];
+}

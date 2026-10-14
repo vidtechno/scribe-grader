@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { adminRpc, daysUntil, LEVEL_LABEL, PLAN_LABEL, som, statusOf, type AdminUser } from './adminApi';
+import { adminRpc, daysUntil, LEVEL_LABEL, PLAN_LABEL, som, statusOf, type AdminUser, agoUz, isOnline, seenMs } from './adminApi';
 
 interface Detail {
   learning: { level: string; xp: number; streak_current: number; streak_best: number; daily_goal_xp: number; placement_status: string; next_lesson_title: string | null } | null;
@@ -77,6 +77,7 @@ export function UserSheet({ user, onClose, onChanged }: { user: AdminUser | null
             {user.is_admin && <span className="text-[11px] px-2 py-0.5 rounded-full bg-primary/10 text-primary">Admin</span>}
           </SheetTitle>
           <p className="text-xs text-muted-foreground break-all">{user.email}{user.username ? ` · @${user.username}` : ''}{user.public_id ? ` · ID #${user.public_id}` : ''}</p>
+          <p className={`text-xs font-semibold ${isOnline(user) ? 'text-emerald-600 dark:text-emerald-400' : 'text-muted-foreground'}`}>{isOnline(user) ? '● Hozir onlayn' : `Oxirgi onlayn: ${agoUz(seenMs(user))}`}</p>
         </SheetHeader>
 
         <div className="flex flex-wrap gap-2 mt-4">
