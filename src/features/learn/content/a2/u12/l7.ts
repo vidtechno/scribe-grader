@@ -39,7 +39,7 @@ const lesson: Lesson = {
         },
         { t: "tip", tone: "info", md: "Gap boshidagi **First, Next, After that, Later, Finally, Suddenly** dan keyin **vergul** qo'yiladi. **Then** dan keyin odatda vergul kerak emas: *Then we went home.*" },
         { t: "tip", tone: "warn", md: "**At first** ≠ **first**. *At first* = \"dastlab (keyin o'zgardi)\": *At first I didn't like Samarkand, but then I fell in love with it.* *First* = \"birinchi qadam\": *First, add the water.*" },
-        { t: "check", ex: { k: "fill", q: "We got to the hotel. ___, we left our bags in the room. (keyin)", a: ["Then", "Next", "After that"], why: "Ketma-ketlik: keyingi harakat → **Then / Next / After that**." } },
+        { t: "check", ex: { k: "fill", q: "We got to the hotel. ___, we left our bags in the room. (keyin)", a: ["Then", "Next", "After that", "Later"], why: "Ketma-ketlik: keyingi harakat → **Then / Next / After that**." } },
       ],
     },
     {
@@ -146,7 +146,7 @@ const lesson: Lesson = {
     { k: "match", pairs: [["luckily", "omadga"], ["unfortunately", "afsuski"], ["meanwhile", "shu orada"], ["realise", "anglamoq"], ["shocked", "hayratda"]] },
     { k: "listen", say: "Guess what! I met a famous singer today.", opts: ["Guess what! I met a famous singer today.", "Guess what! I meet a famous singer today.", "Just what! I met a famous singer today."], a: 0 },
     { k: "listen", say: "As soon as I got home, I called my friend.", opts: ["As soon as I get home, I call my friend.", "As soon as I got home, I called my friend.", "As soon as I was home, I was calling my friend."], a: 1 },
-    { k: "fill", q: "We arrived at the station. ___, we bought the tickets. (keyin)", a: ["Then", "Next", "After that"], why: "Ketma-ketlik: **Then / Next / After that**." },
+    { k: "fill", q: "We arrived at the station. ___, we bought the tickets. (keyin)", a: ["Then", "Next", "After that", "Later"], why: "Ketma-ketlik: **Then / Next / After that**." },
     { k: "fill", q: "We looked for the keys for an hour. ___, we found them under the sofa. (nihoyat)", a: ["Finally", "In the end"], why: "Yakun → **Finally / In the end**." },
     { k: "fill", q: "___ we finished dinner, we went for a walk. (-gandan keyin)", a: ["After"], why: "**After** + Past Simple." },
     { k: "fill", q: "I was sleeping when the phone ___. (ring)", a: ["rang"], why: "Qisqa voqea → **rang**." },
