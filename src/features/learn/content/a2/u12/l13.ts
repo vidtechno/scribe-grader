@@ -3,7 +3,7 @@ import type { Lesson } from '../../../types';
 // Mini lesson (grammar): when / while / as soon as linking two past events. Builds on l3 (Past Continuous) and l4 (Past Simple or Past Continuous).
 const lesson: Lesson = {
   id: 'u12-l13',
-  title: 'When, while, as soon as: linking two past events',
+  title: 'when, while, as soon as',
   titleUz: "When, while, as soon as: ikki o'tgan voqeani bog'lash",
   mini: true,
   kind: 'grammar',

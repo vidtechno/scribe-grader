@@ -17,7 +17,7 @@ const lesson: Lesson = {
         { t: 'table', head: ['Qadam', 'Nima qilamiz', 'Misol'], speak: [2], rows: [
           ['1', "To'ldiruvchi → ega bo'ladi", 'the telephone …'],
           ['2', "was / were + V3 (zamon o'tgan, ega birlik yoki ko'plik)", 'the telephone was invented'],
-          ['3', 'Eski ega → by + kim (kerak bo'lsa)', 'The telephone was invented by Bell.'],
+          ['3', "Eski ega → by + kim (kerak bo'lsa)", 'The telephone was invented by Bell.'],
         ] },
         { t: 'examples', items: [
           { en: 'Ali painted the room. → The room was painted by Ali.', uz: "Ali xonani bo'yadi. → Xona Ali tomonidan bo'yaldi." },
