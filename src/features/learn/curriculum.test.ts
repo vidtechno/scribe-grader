@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { A1_UNITS, BEGINNER_UNITS, DRILL_COUNTS, NEW_DRILL_IDS, drillIds, loadUnit } from './course';
+import { A1_UNITS, A2_UNITS, BEGINNER_UNITS, DRILL_COUNTS, NEW_DRILL_IDS, drillIds, loadUnit } from './course';
 import { DRILL_GAME, DRILL_REVIEW_OF, GAMES } from './games';
 import { BEGINNER_EXAM } from './content/beginner/exam';
 
-const BUILT = [...BEGINNER_UNITS, ...A1_UNITS];
+const BUILT = [...BEGINNER_UNITS, ...A1_UNITS, ...A2_UNITS];
 const lessonIds = BUILT.flatMap((u) => u.lessons.map((l) => l.id));
 const beginnerDrills = lessonIds.flatMap((id) => drillIds(id));
 
-describe('Rebuilt curriculum structure (Beginner and Elementary)', () => {
+describe('Rebuilt curriculum structure (Beginner, Elementary and Pre-Intermediate)', () => {
   it('has at least 60 meaningful activities, and games are spread through the course', () => {
     const tests = BUILT.length + 1; // unit tests + the final exam
     expect(lessonIds.length + beginnerDrills.length + tests).toBeGreaterThanOrEqual(60);
@@ -16,7 +16,7 @@ describe('Rebuilt curriculum structure (Beginner and Elementary)', () => {
 
   it('every drill has a game kind and every game kind belongs to an announced drill', () => {
     for (const id of beginnerDrills) expect(DRILL_GAME[id], id).toBeDefined();
-    for (const id of Object.keys(DRILL_GAME)) if (/^u([1-9]|1[01])-/.test(id)) expect(beginnerDrills, id).toContain(id);
+    for (const id of Object.keys(DRILL_GAME)) if (/^u([1-9]|1[0-7])-/.test(id)) expect(beginnerDrills, id).toContain(id);
     for (const g of Object.values(DRILL_GAME)) expect(GAMES[g]).toBeDefined();
     for (const id of NEW_DRILL_IDS) expect(DRILL_COUNTS[id.replace(/-d\d+$/, '')]).toBeGreaterThanOrEqual(Number(id.slice(-1)));
   });
@@ -32,7 +32,7 @@ describe('Rebuilt curriculum structure (Beginner and Elementary)', () => {
       }
       expect(['mastery', 'mini-boss']).toContain(DRILL_GAME[drill]);
     }
-    for (const [drill, game] of Object.entries(DRILL_GAME)) if (/^u([1-9]|1[01])-/.test(game === 'mastery' || game === 'mini-boss' ? drill : 'x')) expect(DRILL_REVIEW_OF[drill], drill).toBeDefined();
+    for (const [drill, game] of Object.entries(DRILL_GAME)) if (/^u([1-9]|1[0-7])-/.test(game === 'mastery' || game === 'mini-boss' ? drill : 'x')) expect(DRILL_REVIEW_OF[drill], drill).toBeDefined();
   });
 
   it('every unit has a topic review, a real-life situation and ends with a review', () => {
