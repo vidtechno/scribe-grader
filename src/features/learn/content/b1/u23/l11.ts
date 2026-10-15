@@ -88,7 +88,7 @@ const lesson: Lesson = {
   quiz: [
     { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ["Although it was late, we kept working.", "Although it was late, but we kept working.", "Although of the late, we kept working.", "Although it was late however we kept working."], a: 0, why: "**Although** + gap, **but** yo'q." },
     { k: 'choice', q: "Where ___ this photo taken?", opts: ['was', 'did', 'were', 'is being'], a: 0, why: "Majhul savol: **was … taken**." },
-    { k: 'fill', q: "We stayed at home. ___ , we watched a film.", a: ['Instead', 'Then', 'instead', 'then'], why: "Mantiqiy bog'lovchi." },
+    { k: 'fill', q: "The tickets were very expensive. ___ , we decided to stay at home.", a: ['Therefore', 'As a result', 'therefore', 'as a result'], why: "Natija: **Therefore / As a result**." },
     { k: 'fill', q: "She gave me some good ___ . (maslahat)", a: ['advice'], why: "**advice** — sanalmaydi." },
     { k: 'order', uz: "Agar vaqtim bo'lsa, qo'ng'iroq qilaman.", words: ['If', 'I', 'have', 'time,', 'I', 'will', 'call', 'you.'], extra: ['would', 'had'], why: "Birinchi shart." },
     { k: 'tf', q: "*Today I would like to talk about…* — taqdimotni boshlash iborasi.", a: true, why: "Bu — kirish iborasi." },
