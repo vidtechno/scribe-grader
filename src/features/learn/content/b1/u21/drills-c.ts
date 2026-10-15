@@ -57,7 +57,7 @@ export const drills: Drill[] = [
       { k: 'dictation', say: 'Every room has a view of the lake.', a: ['Every room has a view of the lake.'], uz: "Har bir xonadan ko'l manzarasi ko'rinadi.", why: "**every** + birlik ot + **has**." },
       { k: 'choice', say: 'The museum, which was built in 1900, opens at nine and closes at five.', q: 'When does the museum close?', opts: ['At five', 'At nine', 'At one', 'In 1900'], a: 0, why: "*closes at five*." },
       { k: 'listen', say: 'Do you know if the castle is open today?', opts: ['Do you know if the castle is open today?', 'Do you know when the castle opens?', 'Is the castle open today?', 'Do you know if the castle was open today?'], a: 0, why: "**if** — ha/yo'q savol." },
-      { k: 'tf', say: 'Neither of the two buses goes to the airport.', q: 'You hear: Neither of the two buses goes to the airport. Is it true that one bus goes there?', a: false, why: "**neither** — ikkalasi ham bormaydi." },
+      { k: 'fill', q: 'Neither of the two buses ___ to the airport.', a: ['goes'], uz: "Ikkala avtobus ham aeroportga bormaydi.", why: "**neither of** + birlik fe'l: *goes*." },
       { k: 'dictation', say: 'We stayed in a small hotel near the old town.', a: ['We stayed in a small hotel near the old town.'], uz: "Biz eski shahar yaqinidagi kichik mehmonxonada qoldik.", why: "O'tgan zamon: **stayed**." },
     ],
   },
