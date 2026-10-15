@@ -30,7 +30,7 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Helen', en: "Good morning. Can I help you?", uz: "Xayrli tong. Sizga yordam bera olamanmi?" },
           { who: 'Karim', en: "Yes, please. Could you tell me which sights are the best for one day?", uz: "Ha, iltimos. Bir kunga qaysi ko'rgazmali joylar eng yaxshi ekanini ayta olasizmi?" },
-          { who: 'Helen', en: "Of course. I'd suggest the castle and the old market. Here's a brochure with a map.", uz: "Albatta. Qal'a va eski bozorni tavsiya qilaman. Mana xaritali bukvlet." },
+          { who: 'Helen', en: "Of course. I'd suggest the castle and the old market. Here's a brochure with a map.", uz: "Albatta. Qal'a va eski bozorni tavsiya qilaman. Mana xaritali buklet." },
           { who: 'Karim', en: "Thank you. Do you know what time the castle opens?", uz: "Rahmat. Qal'a soat nechada ochilishini bilasizmi?" },
           { who: 'Helen', en: "It opens at nine and closes at five.", uz: "U to'qqizda ochiladi va beshda yopiladi." },
           { who: 'Karim', en: "And is it possible to join a guided tour?", uz: "Gid bilan ekskursiyaga qo'shilsa bo'ladimi?" },
@@ -69,7 +69,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'brochure', uz: 'bukvlet, risola', ipa: 'ˈbrəʊʃə', pos: 'noun', ex: 'Here is a brochure with a map.', exUz: 'Mana xaritali risola.' },
+    { en: 'brochure', uz: 'buklet, risola', ipa: 'ˈbrəʊʃə', pos: 'noun', ex: 'Here is a brochure with a map.', exUz: 'Mana xaritali risola.' },
     { en: 'timetable', uz: 'jadval', ipa: 'ˈtaɪmteɪbl', pos: 'noun', ex: 'Could I see the bus timetable?', exUz: 'Avtobus jadvalini ko\'rsam bo\'ladimi?' },
     { en: 'fare', uz: 'yo\'l haqi', ipa: 'feə', pos: 'noun', ex: 'The bus fare is two pounds.', exUz: "Avtobus yo'l haqi ikki funt." },
     { en: 'reservation', uz: 'band qilish', ipa: 'ˌrezəˈveɪʃn', pos: 'noun', ex: 'I have a reservation for two nights.', exUz: 'Menda ikki kechaga band qilingan joy bor.' },
