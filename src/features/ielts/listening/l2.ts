@@ -213,7 +213,7 @@ const test: ListeningTest = {
             { q: 'A conventional roof can be up to ___ degrees hotter than a green roof.', a: ['forty', '40'], why: "\"up to forty degrees hotter than that of a green roof\"." },
             { q: 'The simplest cool roof is covered with ___.', a: ['white paint'], why: "\"the simplest version is just white paint\"." },
             { q: 'Trees cool streets by providing ___ and releasing water vapour.', a: ['shade'], why: "\"They provide shade ... and they also release water vapour\"." },
-            { q: 'A city in Germany protects ___ to bring cool air into the centre.', a: ['ventilation corridors'], why: "\"These so-called ventilation corridors allow cool air to flow\"." },
+            { q: 'A city in Germany protects ___ to bring cool air into the centre.', a: ['ventilation corridors', 'open strips', 'open strips of land'], why: "\"These so-called ventilation corridors allow cool air to flow\"." },
             { q: 'Officials say the main barrier to green roofs is high ___ cost.', a: ['installation'], why: "\"The most commonly cited barrier is the high installation cost\"." },
           ],
         },
