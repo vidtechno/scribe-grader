@@ -3,7 +3,7 @@ import { BookA, GraduationCap, LayoutDashboard, Target, User as UserIcon } from 
 import { useAuth } from '@/hooks/useAuth';
 
 /** Pages of the IELTS Practice section (Writing, Speaking, Mock tests, Daily Grammar and their history). */
-const PRACTICE = /^\/(practice|writing|speaking|speaking-history|speaking-result|essays|result|drafts|mock-test|grammar-test|vocabulary)(\/|$)/;
+const PRACTICE = /^\/(practice|reading|listening|writing|speaking|speaking-history|speaking-result|essays|result|drafts|mock-test|grammar-test|vocabulary)(\/|$)/;
 
 export function BottomNav() {
   const { user } = useAuth();

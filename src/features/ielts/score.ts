@@ -31,13 +31,17 @@ export function isCorrect(q: FlatQuestion, answer: Answer): boolean {
   }
 }
 
+const ROMAN = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'];
+/** Matching headings use i, ii, iii...; every other matching list uses A, B, C... */
+export const optionLabel = (instruction: string, i: number) => (/heading/i.test(instruction) ? ROMAN[i] : String.fromCharCode(65 + i));
+
 export function correctText(q: FlatQuestion): string {
   const item = q.group.items[q.index] as { a: unknown; options?: string[] };
   switch (q.group.kind) {
     case 'tfng': return String(item.a).replace('-', ' ').toUpperCase();
     case 'ynng': return String(item.a).replace('-', ' ').toUpperCase();
     case 'mcq': return `${String.fromCharCode(65 + (item.a as number))}  ${item.options?.[item.a as number] ?? ''}`;
-    case 'match': return `${String.fromCharCode(65 + (item.a as number))}  ${(q.group as { options: string[] }).options[item.a as number]}`;
+    case 'match': return `${optionLabel(q.group.instruction, item.a as number)}  ${(q.group as { options: string[] }).options[item.a as number]}`;
     case 'fill': return (item.a as string[])[0];
   }
 }

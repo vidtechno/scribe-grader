@@ -39,3 +39,18 @@ describe('scoring', () => {
     expect(r.correct).toBe(2);
   });
 });
+
+describe('answer keys are scorable', () => {
+  const tests = [...Object.entries(reading).map(([f, m]) => [f, m.default.passages] as const), ...Object.entries(listening).map(([f, m]) => [f, m.default.sections] as const)];
+  for (const [file, parts] of tests) {
+    it(`${file}: the key scores 40/40`, () => {
+      const answers: Record<number, number | string> = {};
+      let n = 1;
+      for (const part of parts) for (const g of part.groups) for (const item of g.items) answers[n++] = g.kind === 'fill' ? (item.a as string[])[0] : (item.a as number | string);
+      const r = score(parts, answers);
+      expect(r.total).toBe(40);
+      expect(r.correct).toBe(40);
+      expect(score(parts, {}).correct).toBe(0);
+    });
+  }
+});

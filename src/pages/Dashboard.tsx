@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BookOpen, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Trophy, Users, LifeBuoy } from 'lucide-react';
+  ArrowRight, Award, BookOpen, Headphones, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Trophy, Users, LifeBuoy } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useActivityData } from '@/hooks/useDashboardData';
@@ -102,17 +102,19 @@ export default function Dashboard() {
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">IELTS practice</h2>
             <Link to="/practice" className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:underline">All practice<ChevronRight className="h-3.5 w-3.5" /></Link>
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
               { icon: PenTool, title: 'Writing', left: writingLimit - writingUsed, onClick: () => openWriting(2) },
               { icon: Mic, title: 'Speaking', left: speakingLimit - speakingUsed, onClick: openSpeaking },
+              { icon: BookOpen, title: 'Reading', note: '3 tests', onClick: () => navigate('/reading') },
+              { icon: Headphones, title: 'Listening', note: '3 tests', onClick: () => navigate('/listening') },
               { icon: ClipboardList, title: 'Mock Test', left: mockLimit - mockUsed, onClick: () => navigate('/mock-test') },
             ].map((t) => (
               <button key={t.title} type="button" onClick={t.onClick} className="group glass-card-hover p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 text-left">
                 <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><t.icon className="h-5 w-5" /></span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-semibold text-sm">{t.title}</span>
-                  <span className="block text-xs text-muted-foreground">{Math.max(0, t.left)} left</span>
+                  <span className="block text-xs text-muted-foreground">{'note' in t ? t.note : `${Math.max(0, t.left)} left`}</span>
                 </span>
                 <ArrowRight className="hidden sm:block h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
               </button>

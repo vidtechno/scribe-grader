@@ -10,17 +10,17 @@ import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import {
   ArrowLeft, Award, MessageSquare, CheckCircle, Target,
-  AlertTriangle, Crown, Mic, BookA, Volume2
+  AlertTriangle, Crown, Mic, BookA, Volume2, TrendingUp, Repeat, Languages, ListChecks
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
 
 interface Feedback {
   overallBand: number;
-  fluencyCoherence: { score: number; feedback: string };
-  lexicalResource: { score: number; feedback: string };
-  grammaticalRange: { score: number; feedback: string };
-  pronunciation: { score: number; feedback: string };
+  fluencyCoherence: Criterion;
+  lexicalResource: Criterion;
+  grammaticalRange: Criterion;
+  pronunciation: Criterion;
   strengths: string[];
   suggestions: string[];
   errorCorrections?: { original: string; corrected: string; explanation: string; type?: string }[];
@@ -32,7 +32,20 @@ interface Feedback {
     topicDevelopment: string;
   };
   sampleAnswer?: string;
+  summaryUz?: string;
+  nextStepsUz?: string[];
+  partFeedback?: string;
+  upgradedPhrases?: { said: string; better: string; why: string }[];
+  grammarProfile?: { used: string[]; missing: string[]; errorPatterns: string[] };
+  pronunciationFocus?: { word: string; tip: string }[];
+  bandUpPlan?: { targetBand: number | null; steps: string[] };
+  metrics?: {
+    words: number; uniqueWords: number; lexicalDiversity: number; wordsPerMinute: number | null; sentences: number;
+    averageSentenceLength: number; longestSentence: number; fillerCount: number; fillers: { word: string; count: number }[];
+    repeatedWords: { word: string; count: number }[]; connectors: string[]; basicConnectorCount: number; longWordShare: number; contractions: number;
+  };
 }
+type Criterion = { score: number; feedback: string; evidence?: string[]; toNextBand?: string[] };
 
 interface Attempt {
   id: string;
@@ -143,6 +156,52 @@ export default function SpeakingResult() {
           </div>
         </div>
 
+        {/* Summary in Uzbek + measured speech facts */}
+        {(fb.summaryUz || fb.metrics) && (
+          <div className="glass-card p-5 mb-6">
+            {fb.summaryUz && (
+              <>
+                <h3 className="font-semibold text-sm mb-2 flex items-center gap-2"><Languages className="h-4 w-4 text-primary" /> Qisqacha xulosa</h3>
+                <p className="text-sm leading-relaxed">{fb.summaryUz}</p>
+                {fb.nextStepsUz && fb.nextStepsUz.length > 0 && (
+                  isFree ? <div className="mt-3"><BlurredContent text={fb.nextStepsUz.join('. ')} onUpgrade={onUpgrade} /></div> : (
+                    <ul className="mt-3 space-y-1.5">{fb.nextStepsUz.map((t, i) => <li key={i} className="text-sm text-muted-foreground">✓ {t}</li>)}</ul>
+                  )
+                )}
+              </>
+            )}
+            {fb.metrics && (
+              <div className={fb.summaryUz ? 'mt-5 pt-4 border-t border-border' : ''}>
+                <h3 className="font-semibold text-sm mb-3">Speech in numbers</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[
+                    ['Words', String(fb.metrics.words), fb.metrics.words < 60 ? 'short' : ''],
+                    ['Speed', fb.metrics.wordsPerMinute ? `${fb.metrics.wordsPerMinute} wpm` : '–', 'natural: 120–160'],
+                    ['Variety', `${Math.round(fb.metrics.lexicalDiversity * 100)}%`, 'different words'],
+                    ['Fillers', String(fb.metrics.fillerCount), 'at least'],
+                    ['Avg sentence', `${fb.metrics.averageSentenceLength}`, 'words'],
+                    ['Longest', `${fb.metrics.longestSentence}`, 'words'],
+                    ['Linkers', String(fb.metrics.connectors.length), 'beyond and/but/so'],
+                    ['Long words', `${Math.round(fb.metrics.longWordShare * 100)}%`, '8+ letters'],
+                  ].map(([k, v, note]) => (
+                    <div key={k} className="p-3 rounded-lg bg-secondary/30">
+                      <p className="text-xs text-muted-foreground">{k}</p>
+                      <p className="font-bold">{v}</p>
+                      {note && <p className="text-[10px] text-muted-foreground">{note}</p>}
+                    </div>
+                  ))}
+                </div>
+                {(fb.metrics.connectors.length > 0 || fb.metrics.repeatedWords.length > 0) && (
+                  <div className="mt-3 space-y-1.5 text-xs text-muted-foreground">
+                    {fb.metrics.connectors.length > 0 && <p><span className="font-semibold text-foreground">Linkers you used:</span> {fb.metrics.connectors.join(', ')}</p>}
+                    {fb.metrics.repeatedWords.length > 0 && <p className="flex items-center gap-1"><Repeat className="h-3 w-3" /><span><span className="font-semibold text-foreground">Repeated a lot:</span> {fb.metrics.repeatedWords.map((w) => `${w.word} ×${w.count}`).join(', ')} — find synonyms.</span></p>}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Criteria Scores */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           {criteria.map((c) => {
@@ -161,7 +220,18 @@ export default function SpeakingResult() {
                 {isFree ? (
                   <BlurredContent text={c.data.feedback} onUpgrade={onUpgrade} />
                 ) : (
-                  <p className="text-sm text-muted-foreground">{c.data.feedback}</p>
+                  <>
+                    <p className="text-sm text-muted-foreground">{c.data.feedback}</p>
+                    {c.data.evidence && c.data.evidence.length > 0 && (
+                      <ul className="mt-2 flex flex-wrap gap-1.5">{c.data.evidence.map((e, i) => <li key={i} className="text-[11px] px-2 py-0.5 rounded-full bg-secondary/60 text-muted-foreground">{e}</li>)}</ul>
+                    )}
+                    {c.data.toNextBand && c.data.toNextBand.length > 0 && (
+                      <div className="mt-3 rounded-lg bg-primary/5 border border-primary/15 p-2.5">
+                        <p className="text-[11px] font-semibold text-primary flex items-center gap-1 mb-1"><TrendingUp className="h-3 w-3" /> To gain +0.5</p>
+                        <ul className="space-y-0.5">{c.data.toNextBand.map((t, i) => <li key={i} className="text-xs text-muted-foreground">• {t}</li>)}</ul>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             );
@@ -211,6 +281,65 @@ export default function SpeakingResult() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Better ways to say it */}
+        {fb.upgradedPhrases && fb.upgradedPhrases.length > 0 && (
+          <div className="glass-card p-5 mb-6">
+            <h3 className="font-semibold text-sm mb-3 flex items-center gap-2"><BookA className="h-4 w-4 text-primary" /> Upgrade your phrases</h3>
+            {isFree ? <BlurredContent text={fb.upgradedPhrases.map((p) => `${p.said} → ${p.better}: ${p.why}`).join('. ')} onUpgrade={onUpgrade} /> : (
+              <div className="space-y-3">
+                {fb.upgradedPhrases.map((p, i) => (
+                  <div key={i} className="p-3 rounded-lg bg-secondary/30">
+                    <p className="text-sm"><span className="text-muted-foreground">{p.said}</span> → <span className="text-primary font-medium">{p.better}</span></p>
+                    <p className="text-xs text-muted-foreground mt-1">{p.why}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Grammar profile + task feedback */}
+        {(fb.grammarProfile && (fb.grammarProfile.used.length + fb.grammarProfile.missing.length + fb.grammarProfile.errorPatterns.length > 0)) || fb.partFeedback ? (
+          <div className="glass-card p-5 mb-6">
+            <h3 className="font-semibold text-sm mb-3 flex items-center gap-2"><ListChecks className="h-4 w-4 text-primary" /> Task and grammar profile</h3>
+            {isFree ? <BlurredContent text={`${fb.partFeedback ?? ''} ${fb.grammarProfile?.used.join(', ') ?? ''}`} onUpgrade={onUpgrade} /> : (
+              <>
+                {fb.partFeedback && <p className="text-sm text-muted-foreground mb-3">{fb.partFeedback}</p>}
+                <div className="grid sm:grid-cols-3 gap-3 text-xs">
+                  {([['Structures you used', fb.grammarProfile?.used, 'text-primary'], ['Add these for band 7', fb.grammarProfile?.missing, 'text-amber-500'], ['Repeated mistakes', fb.grammarProfile?.errorPatterns, 'text-destructive']] as const).map(([title, list, color]) => list && list.length > 0 && (
+                    <div key={title} className="p-3 rounded-lg bg-secondary/30">
+                      <p className={`font-semibold mb-1 ${color}`}>{title}</p>
+                      <ul className="space-y-0.5 text-muted-foreground">{list.map((x, i) => <li key={i}>• {x}</li>)}</ul>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        ) : null}
+
+        {/* Pronunciation focus */}
+        {fb.pronunciationFocus && fb.pronunciationFocus.length > 0 && (
+          <div className="glass-card p-5 mb-6">
+            <h3 className="font-semibold text-sm mb-1 flex items-center gap-2"><Mic className="h-4 w-4 text-primary" /> Pronunciation focus</h3>
+            <p className="text-xs text-muted-foreground mb-3">Chosen from your words (text-based): sounds that are often hard for Uzbek speakers.</p>
+            {isFree ? <BlurredContent text={fb.pronunciationFocus.map((p) => `${p.word}: ${p.tip}`).join('. ')} onUpgrade={onUpgrade} /> : (
+              <ul className="space-y-2">{fb.pronunciationFocus.map((p, i) => <li key={i} className="text-sm"><span className="font-semibold">{p.word}</span> <span className="text-muted-foreground">— {p.tip}</span></li>)}</ul>
+            )}
+          </div>
+        )}
+
+        {/* Plan to the next band */}
+        {fb.bandUpPlan && fb.bandUpPlan.steps.length > 0 && (
+          <div className="glass-card p-5 mb-6 border border-primary/20">
+            <h3 className="font-semibold text-sm mb-3 flex items-center gap-2"><TrendingUp className="h-4 w-4 text-primary" /> Your plan to reach band {fb.bandUpPlan.targetBand ?? Math.min(9, score + 0.5)}</h3>
+            {isFree ? <BlurredContent text={fb.bandUpPlan.steps.join('. ')} onUpgrade={onUpgrade} /> : (
+              <ol className="space-y-2 list-decimal pl-5 text-sm text-muted-foreground">{fb.bandUpPlan.steps.map((t, i) => <li key={i}>{t}</li>)}</ol>
+            )}
+            <Link to="/speaking" className="inline-block mt-4"><Button variant="glow" size="sm" className="gap-2"><Mic className="h-4 w-4" />Practise again</Button></Link>
           </div>
         )}
 

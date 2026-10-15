@@ -23,7 +23,7 @@ export function groupProblems(where: string, groups: QuestionGroup[], evidence: 
       if (group.kind === 'tfng' && !['true', 'false', 'not-given'].includes(item.a as string)) p.push(`${it}: bad tfng answer`);
       if (group.kind === 'ynng' && !['yes', 'no', 'not-given'].includes(item.a as string)) p.push(`${it}: bad ynng answer`);
       if (group.kind === 'mcq') {
-        const o = (item as { options: string[] }).options;
+        const o = (item as unknown as { options: string[] }).options;
         if (!Array.isArray(o) || o.length < 3 || o.length > 4) p.push(`${it}: mcq needs 3-4 options`);
         else if (typeof item.a !== 'number' || item.a < 0 || item.a >= o.length) p.push(`${it}: answer index out of range`);
         else if (new Set(o.map(norm)).size !== o.length) p.push(`${it}: duplicate options`);
