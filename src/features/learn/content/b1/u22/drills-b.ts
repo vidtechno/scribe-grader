@@ -34,7 +34,7 @@ export const drills: Drill[] = [
       { k: "fill", q: "Where is the form? — I filled it ___ this morning.", a: ["in"], uz: "Anketa qani? — Uni bugun ertalab to'ldirdim.", why: "Olmosh o'rtada: *filled it in*." },
       { k: "fill", q: "She ___ after her grandmother every weekend.", a: ["looks"], uz: "U har dam olishda buvisiga qaraydi.", why: "**look after**." },
       { k: "fill", q: "We are looking forward ___ the conference.", a: ["to"], uz: "Konferensiyani intiqlik bilan kutyapmiz.", why: "**look forward to**." },
-      { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["Please turn it off.", "Please turn off it.", "Please off turn it.", "Please turn it, off."], a: 0, why: "Olmosh o'rtada." },
+      { k: "order", uz: "Iltimos, uni o'chiring.", words: ["Please", "turn", "it", "off."], extra: ["up"], why: "Olmosh o'rtada." },
       { k: "choice", q: "We need to ___ a better idea before Monday.", opts: ["come up with", "put up", "drop in", "get over"], a: 0, why: "G'oya o'ylab topish → **come up with**." },
       { k: "fix", wrong: "Please back up them every week.", a: ["Please back them up every week."], hint: "Olmosh qayerda?", why: "Olmosh o'rtada: *back them up*." },
       { k: "fix", wrong: "He looks them after on Sundays.", a: ["He looks after them on Sundays."], hint: "Ajralmaydigan fe'l", why: "**look after** bo'linmaydi." },
