@@ -17,7 +17,7 @@ export interface UnitExtras {
   project: { title: string; prompt: string; criteria: string[] };
 }
 
-const trap = (title: string, md: string, wrong: string, a: string[], why?: string): UnitTrap => ({ title, md, fix: { k: 'fix', wrong, a, why } });
+export const trap = (title: string, md: string, wrong: string, a: string[], why?: string): UnitTrap => ({ title, md, fix: { k: 'fix', wrong, a, why } });
 
 export const UNIT_EXTRAS: Record<string, UnitExtras> = {
   u1: {
@@ -174,3 +174,10 @@ export const UNIT_EXTRAS: Record<string, UnitExtras> = {
     project: { title: "Qisqa CV", prompt: "O'zingiz haqingizda 7 ta gapdan iborat qisqa CV-xulosa yozing: ta'lim, tajriba, ko'nikmalar, kuchli tomonlar va maqsad.", criteria: ["Ta'limni va tajribani yozdim", "Kamida 2 ta ko'nikmani yozdim (I can…)", "-ed / -ing sifatlarni to'g'ri ishlatdim", "Maqsadimni I'd like to… bilan yozdim"] },
   },
 };
+
+// Intermediate units keep their extras next to their lessons (content/b1/uNN/extras.ts).
+const b1Extras = import.meta.glob<{ extras: UnitExtras }>('./content/b1/u*/extras.ts', { eager: true });
+for (const [path, mod] of Object.entries(b1Extras)) {
+  const unit = /\/(u\d+)\/extras\.ts$/.exec(path)?.[1];
+  if (unit) UNIT_EXTRAS[unit] = mod.extras;
+}

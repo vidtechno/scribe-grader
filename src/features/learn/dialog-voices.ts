@@ -29,5 +29,5 @@ export function dialogVoices(lines: { who: string }[]): Record<string, SceneVoic
   return out;
 }
 
-/** Pre-Intermediate (units 12–17) is voiced with Emma and George. */
-export const isTwoVoiceLesson = (lessonId: string): boolean => /^u1[2-7]-l\d+$/.test(lessonId);
+/** Pre-Intermediate and Intermediate (units 12–23) are voiced with Emma and George. */
+export const isTwoVoiceLesson = (lessonId: string): boolean => /^u(1[2-9]|2[0-3])-l\d+$/.test(lessonId);
