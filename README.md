@@ -1,6 +1,6 @@
 # Scorify
 
-AI-powered IELTS Writing and Speaking practice at [scorify.uz](https://www.scorify.uz). Learners submit an essay or a spoken answer and get an estimated band, per-criterion scores, corrections and next steps within seconds.
+AI-powered IELTS Writing and Speaking practice, plus full Reading and Listening tests, at [scorify.uz](https://www.scorify.uz). Learners submit an essay or a spoken answer and get an estimated band, per-criterion scores, corrections and next steps within seconds.
 
 ## Status (October 2026)
 
@@ -13,7 +13,7 @@ Live in production. Personal practice only (Teacher Mode was removed). Sign-in w
 - **Roadmap** (timeline of units with lessons, games, unit tests and what each topic teaches), **spaced repetition** of words and mistakes, personal dictionary, streak, XP, daily goal and achievements.
 - **Social**: Instagram-style profile with username and avatars, people search and follow, learning **leaderboard** (`/leaderboard`).
 - **Referral program**: a friend who signs up through your link and buys a paid plan after the 7-day trial adds 10 000 so'm to your referral balance; payout from 100 000 so'm through the bot (admin approves).
-- **IELTS practice** (secondary, IELTS plan): **Writing** Task 1 and 2 and **Speaking** Parts 1–3 with an estimated band, criteria scores and corrections; **mock tests**, a daily **grammar test**, vocabulary, **AI Mentor**.
+- **IELTS practice** (secondary, IELTS plan): **Writing** Task 1 and 2 and **Speaking** Parts 1–3 with an estimated band, criteria scores and corrections (the Speaking report adds measured speech facts, per-criterion evidence and a +0.5 plan, an Uzbek summary, better phrases, grammar profile and a model answer); **Reading** (`/reading`, 3 full Academic tests: 3 passages, 40 questions, 60 min, all official question types) and **Listening** (`/listening`, 3 tests: 4 sections, 40 questions, British voices recorded with Kokoro, exam mode plays once) scored in the browser with an estimated band, accuracy by question type and an answer review with a transcript (test 1 of each is free); **mock tests**, a daily **grammar test**, vocabulary, **AI Mentor**.
 - **Dashboard** (`/dashboard`): continue card with the next steps of the course, streak and XP, IELTS practice row, plan usage, recent activity.
 - **Support** (`/support`): opens a Telegram chat with @scorify_support with the user's ID, plan and page pre-filled; the same account takes payments.
 - **Announcements** sent by admins and a **Telegram bot** (see [Telegram bot](#telegram-bot)). Sign-in with Google or Telegram.

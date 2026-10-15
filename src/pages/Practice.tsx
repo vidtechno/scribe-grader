@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, BrainCircuit, ChevronRight, ClipboardList, FileText, History, Mic, PenLine, PenTool } from 'lucide-react';
+import { ArrowRight, BookOpen, Headphones, BrainCircuit, ChevronRight, ClipboardList, FileText, History, Mic, PenLine, PenTool } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useActivityData } from '@/hooks/useDashboardData';
 import { Navbar } from '@/components/Navbar';
@@ -48,12 +48,12 @@ export default function Practice() {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden pb-24 md:pb-0">
-      <SEOHead title="IELTS Practice" description="Practise IELTS Writing and Speaking with band scores and corrections." path="/practice" noindex />
+      <SEOHead title="IELTS Practice" description="Practise IELTS Writing, Speaking, Reading and Listening with band scores and corrections." path="/practice" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="mb-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">IELTS Practice</p>
-          <h1 className="text-2xl sm:text-3xl font-bold">Writing, Speaking and mock tests</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold">Writing, Speaking, Reading, Listening and mock tests</h1>
           <p className="text-muted-foreground text-sm sm:text-base">Once your English is ready, practise for the exam and get a band score with corrections.</p>
         </motion.div>
 
@@ -71,6 +71,19 @@ export default function Practice() {
             <Button variant="glow" className="gap-2 flex-1 min-w-[120px]" onClick={openSpeaking}><Mic className="h-4 w-4" />Start speaking</Button>
             <Link to="/speaking-history" className="w-full text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"><History className="h-3.5 w-3.5" />Speaking history<ChevronRight className="h-3 w-3" /></Link>
           </PracticeCard>
+        </motion.section>
+
+        <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={2} className="grid md:grid-cols-2 gap-4 mb-6" aria-label="Reading and Listening">
+          {[
+            { to: '/reading', icon: BookOpen, title: 'IELTS Reading', text: '3 passages · 40 questions · 60 min. All question types, estimated band and answer review.' },
+            { to: '/listening', icon: Headphones, title: 'IELTS Listening', text: '4 sections · 40 questions with British voices. Exam mode (audio plays once) or practice.' },
+          ].map((i) => (
+            <Link key={i.to} to={i.to} className="group glass-card-hover p-5 flex items-center gap-4">
+              <span className="w-12 h-12 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><i.icon className="h-6 w-6" /></span>
+              <span className="min-w-0 flex-1"><span className="block font-semibold">{i.title}</span><span className="block text-xs text-muted-foreground">{i.text}</span></span>
+              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+            </Link>
+          ))}
         </motion.section>
 
         <section aria-label="More practice">
