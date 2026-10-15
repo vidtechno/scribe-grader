@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, Flag, XCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { QuestionGroup } from '../types';
 import { correctText, optionLabel, type Answer } from '../score';
@@ -13,11 +13,14 @@ interface Props {
   /** When set the group is read-only and shows the key and the explanation. */
   review?: Record<number, ReviewInfo>;
   onFocus?: (n: number) => void;
+  /** Questions the learner marked to come back to. */
+  flags?: Set<number>;
+  onFlag?: (n: number) => void;
 }
 
 const TF: Record<string, string> = { true: 'TRUE', false: 'FALSE', 'not-given': 'NOT GIVEN', yes: 'YES', no: 'NO' };
 
-export function GroupView({ group, start, answers, onAnswer, review, onFocus }: Props) {
+export function GroupView({ group, start, answers, onAnswer, review, onFocus, flags, onFlag }: Props) {
   const first = start;
   const last = start + group.items.length - 1;
   const set = (n: number, v: Answer) => onAnswer?.(n, v);
@@ -93,6 +96,12 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus }: 
                     </div>
                   )}
                 </div>
+                {onFlag && !review && (
+                  <button type="button" onClick={() => onFlag(n)} aria-pressed={flags?.has(n)} aria-label={flags?.has(n) ? `Unmark question ${n}` : `Mark question ${n} for review`}
+                    className={cn('mt-0.5 shrink-0 rounded-md p-1.5 transition-colors', flags?.has(n) ? 'text-amber-500 bg-amber-500/10' : 'text-muted-foreground/50 hover:text-amber-500')}>
+                    <Flag className="h-4 w-4" />
+                  </button>
+                )}
               </div>
             </li>
           );
