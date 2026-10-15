@@ -20,7 +20,7 @@ const lesson: Lesson = {
           ],
         },
         { t: "tip", tone: "info", md: "Ko'pincha ikkita shakl ham to'g'ri bo'ladi, lekin **nuqtai nazar** boshqacha. Quyida har biri qachon eng tabiiy ekanini ko'rasiz." },
-        { t: "check", ex: { k: "choice", q: "The train ___ at 7.30 tomorrow morning.", opts: ["leaves", "will be leaving", "is going leave", "leave"], a: 0, why: "Jadval → **Present Simple**: *leaves*." } },
+        { t: "check", ex: { k: "choice", q: "The train ___ at half past seven tomorrow morning.", opts: ["leaves", "will be leaving", "is going leave", "leave"], a: 0, why: "Jadval → **Present Simple**: *leaves*." } },
       ],
     },
     {
@@ -51,7 +51,7 @@ const lesson: Lesson = {
             ["Present Continuous", "I'm having lunch with Dilnoza tomorrow.", "Ertaga Dilnoza bilan tushlik qilamiz (kelishilgan)."],
             ["Present Continuous", "We're flying to Dubai on Friday.", "Juma kuni Dubayga uchamiz (chipta bor)."],
             ["Present Simple", "The film starts at eight.", "Film soat sakkizda boshlanadi (jadval)."],
-            ["Present Simple", "Our flight leaves at 6.15.", "Reysimiz 6.15 da uchadi (jadval)."],
+            ["Present Simple", "Our flight leaves at nine.", "Reysimiz soat 9 da uchadi (jadval)."],
           ],
         },
         { t: "tip", tone: "warn", md: "**Present Continuous** kelajak ma'nosida **vaqt belgisi** (*tomorrow, on Friday, next week*) bilan keladi. Faqat *I'm meeting him* desangiz, hozirgi ish deb tushunishadi." },

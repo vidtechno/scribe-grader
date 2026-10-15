@@ -1,0 +1,117 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (situation): asking for information at a tourist office and on the phone. Uses polite questions and question tags from l6.
+const lesson: Lesson = {
+  id: 'u21-l10',
+  title: 'Asking for information',
+  titleUz: "Ma'lumot so'rash: turistik ofis va telefon orqali",
+  mini: true,
+  kind: 'situation',
+  goal: "Turistik ofisda va telefonda **Could you tell me…?**, **Do you know if…?**, **Is it possible to…?** bilan muloyim savol berasiz, javobni tasdiqlaysiz (*So the tour starts at ten, doesn't it?*) va **Could you repeat that?** deb qayta so'raysiz.",
+  slides: [
+    {
+      title: "Muloyim savol berish",
+      blocks: [
+        { t: 'p', md: "Begona odamdan ma'lumot so'rasangiz, to'g'ridan-to'g'ri savol (*Where is the station?*) biroz keskin eshitilishi mumkin. Shuning uchun **muloyim savol** ishlating. Muhim: bunday savolda so'z tartibi **darak gapdagidek** bo'ladi." },
+        { t: 'table', head: ["To'g'ridan-to'g'ri", 'Muloyim'], speak: [1], rows: [
+          ['Where is the tourist office?', 'Could you tell me where the tourist office is?'],
+          ['What time does the tour start?', 'Do you know what time the tour starts?'],
+          ['How much is the ticket?', 'Could you tell me how much the ticket is?'],
+          ['Can I book a table?', 'Is it possible to book a table?'],
+          ['Is the museum open today?', 'Do you know if the museum is open today?'],
+        ] },
+        { t: 'tip', tone: 'warn', md: "Muloyim savolda **do / does / did** ishlatilmaydi va tartib o'zgaradi: *Could you tell me where **the office is**?* ✅ — *where is the office* ❌. **if** (yoki **whether**) *ha/yo'q* savollarda keladi." },
+        { t: 'check', ex: { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ['Do you know what time the museum opens?', 'Do you know what time does the museum open?', 'Do you know what time opens the museum?', 'Do you know what time the museum does open?'], a: 0, why: "Muloyim savolda darak tartibi: **what time the museum opens**." } },
+      ],
+    },
+    {
+      title: "Dialog: turistik ofisda",
+      blocks: [
+        { t: 'dialog', lines: [
+          { who: 'Helen', en: "Good morning. Can I help you?", uz: "Xayrli tong. Sizga yordam bera olamanmi?" },
+          { who: 'Karim', en: "Yes, please. Could you tell me which sights are the best for one day?", uz: "Ha, iltimos. Bir kunga qaysi ko'rgazmali joylar eng yaxshi ekanini ayta olasizmi?" },
+          { who: 'Helen', en: "Of course. I'd suggest the castle and the old market. Here's a brochure with a map.", uz: "Albatta. Qal'a va eski bozorni tavsiya qilaman. Mana xaritali bukvlet." },
+          { who: 'Karim', en: "Thank you. Do you know what time the castle opens?", uz: "Rahmat. Qal'a soat nechada ochilishini bilasizmi?" },
+          { who: 'Helen', en: "It opens at nine and closes at five.", uz: "U to'qqizda ochiladi va beshda yopiladi." },
+          { who: 'Karim', en: "And is it possible to join a guided tour?", uz: "Gid bilan ekskursiyaga qo'shilsa bo'ladimi?" },
+          { who: 'Helen', en: "Yes, there is one at eleven. It costs ten pounds.", uz: "Ha, o'n birda bor. Narxi o'n funt." },
+          { who: 'Karim', en: "So the tour starts at eleven, doesn't it?", uz: "Demak, ekskursiya o'n birda boshlanadi, shunday emasmi?" },
+          { who: 'Helen', en: "That's right. You can buy a ticket here.", uz: "To'g'ri. Chiptani shu yerdan sotib olishingiz mumkin." },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: "What time does the guided tour start?", opts: ['At eleven', 'At nine', 'At five', 'At ten'], a: 0, why: "*There is one at eleven.*" } },
+        { t: 'check', ex: { k: 'fill', q: "Karim says: So the tour starts at eleven, ___ it?", a: ["doesn't"], why: "Darak gap (*starts*) → **doesn't it?**" } },
+      ],
+    },
+    {
+      title: "Telefon orqali",
+      blocks: [
+        { t: 'p', md: "Telefonda yuz ko'rmaysiz, shuning uchun aniq va sekin gapiring. Tushunmasangiz, **uyalmasdan** qayta so'rang." },
+        { t: 'table', head: ['Vaziyat', 'Ibora'], speak: [1], rows: [
+          ['Boshlash', "Hello, I'm calling about a reservation."],
+          ['Savol', "Could you tell me if there's a room available?"],
+          ['Narx', "Do you know how much the fare is?"],
+          ['Qayta so\'rash', "Sorry, could you repeat that, please?"],
+          ['Sekinroq', "Could you speak a little more slowly?"],
+          ['Tasdiqlash', "So that's two nights, isn't it?"],
+          ['Tugatish', "Thank you very much for your help."],
+        ] },
+        { t: 'dialog', lines: [
+          { who: 'Lily', en: "Grand Hotel, good afternoon.", uz: "Grand mehmonxonasi, xayrli kun." },
+          { who: 'Jack', en: "Hello. I'm calling about a reservation. Could you tell me if you have a room for Friday night?", uz: "Salom. Band qilish haqida qo'ng'iroq qilyapman. Juma kechasiga xona borligini ayta olasizmi?" },
+          { who: 'Lily', en: "Yes, we do. It's seventy pounds, and breakfast is included.", uz: "Ha, bor. Yetmish funt, nonushta kiradi." },
+          { who: 'Jack', en: "Sorry, could you repeat that, please?", uz: "Kechirasiz, takrorlay olasizmi?" },
+          { who: 'Lily', en: "Seventy pounds, with breakfast.", uz: "Yetmish funt, nonushta bilan." },
+          { who: 'Jack', en: "Thank you. Is it possible to get a refund if I cancel?", uz: "Rahmat. Bekor qilsam, pulni qaytarib olsa bo'ladimi?" },
+          { who: 'Lily', en: "Yes, until two days before. After that, we can't give you a refund.", uz: "Ha, ikki kun oldingacha. Undan keyin pulni qaytara olmaymiz." },
+        ] },
+        { t: 'check', ex: { k: 'tf', q: 'Jack can get a refund one hour before the stay.', a: false, why: "Pulni qaytarish faqat *two days before* gacha." } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'brochure', uz: 'bukvlet, risola', ipa: 'ˈbrəʊʃə', pos: 'noun', ex: 'Here is a brochure with a map.', exUz: 'Mana xaritali risola.' },
+    { en: 'timetable', uz: 'jadval', ipa: 'ˈtaɪmteɪbl', pos: 'noun', ex: 'Could I see the bus timetable?', exUz: 'Avtobus jadvalini ko\'rsam bo\'ladimi?' },
+    { en: 'fare', uz: 'yo\'l haqi', ipa: 'feə', pos: 'noun', ex: 'The bus fare is two pounds.', exUz: "Avtobus yo'l haqi ikki funt." },
+    { en: 'reservation', uz: 'band qilish', ipa: 'ˌrezəˈveɪʃn', pos: 'noun', ex: 'I have a reservation for two nights.', exUz: 'Menda ikki kechaga band qilingan joy bor.' },
+    { en: 'refund', uz: 'pulni qaytarish', ipa: 'ˈriːfʌnd', pos: 'noun', ex: 'Can I get a refund?', exUz: 'Pulimni qaytarib olsam bo\'ladimi?' },
+  ],
+  practice: [
+    { k: 'match', pairs: [['brochure', 'risola'], ['timetable', 'jadval'], ['fare', "yo'l haqi"], ['reservation', 'band qilish'], ['refund', 'pulni qaytarish']] },
+    { k: 'choice', q: "Could you tell me where ___?", opts: ['the station is', 'is the station', 'does the station', 'the station does'], a: 0, why: "Muloyim savolda darak tartibi: **where the station is**." },
+    { k: 'choice', q: "Do you know ___ the museum is open on Mondays?", opts: ['if', 'what', 'where', 'who'], a: 0, why: "Ha/yo'q savolda **if** (yoki whether)." },
+    { k: 'fill', q: "Is it ___ to book a table online?", a: ['possible'], uz: "Internetda stol band qilsa bo'ladimi?", why: "**Is it possible to…?** — muloyim savol." },
+    { k: 'fill', q: "The tour starts at ten, ___ it?", a: ["doesn't"], uz: "Ekskursiya o'nda boshlanadi, shunday emasmi?", why: "**starts** → **doesn't it?**" },
+    { k: 'listen', say: 'Could you tell me what time the tour starts?', opts: ['Could you tell me what time the tour starts?', 'Could you tell me what time does the tour start?', 'Could you tell me what time the tour started?', 'Do you know what time the tour starts?'], a: 0 },
+    { k: 'order', uz: "Qal'a soat nechada ochilishini bilasizmi?", words: ['Do', 'you', 'know', 'what', 'time', 'the', 'castle', 'opens?'], extra: ['does', 'open'], why: "Muloyim savol: darak tartibi." },
+    { k: 'order', uz: "Takrorlay olasizmi, iltimos?", words: ['Could', 'you', 'repeat', 'that,', 'please?'], extra: ['say', 'to'], alt: [['Could', 'you', 'please', 'repeat', 'that?']], why: "**Could you …, please?**" },
+    { k: 'fix', wrong: 'Could you tell me where is the post office?', a: ['Could you tell me where the post office is?'], why: "Muloyim savolda darak tartibi: **where the post office is**." },
+    { k: 'fix', wrong: 'Do you know what time does the shop close?', a: ['Do you know what time the shop closes?'], why: "**does** ishlatilmaydi: *the shop closes*." },
+    { k: 'translate', uz: "Avtobus yo'l haqi qancha ekanini bilasizmi?", a: ['Do you know how much the bus fare is?', 'Do you know how much the fare is?', 'Could you tell me how much the bus fare is?', 'Could you tell me how much the fare is?'], why: "**Do you know how much … is?**" },
+    { k: 'translate', uz: "Pulimni qaytarib olsam bo'ladimi?", a: ['Is it possible to get a refund?', 'Can I get a refund?', 'Could I get a refund?', 'Is it possible to have a refund?'], why: "**Is it possible to get a refund?**" },
+    { k: 'tf', q: "*Could you tell me where is the museum?* — Gap to'g'ri.", a: false, why: "To'g'ri: *where the museum is*." },
+    { k: 'dictation', say: 'Is it possible to join a guided tour?', a: ['Is it possible to join a guided tour?'], uz: "Gid bilan ekskursiyaga qo'shilsa bo'ladimi?" },
+    { k: 'speak', say: 'Could you tell me where the tourist office is?', uz: 'Turistik ofis qayerda ekanini ayta olasizmi?' },
+    { k: 'speak', say: 'Sorry, could you repeat that, please?', uz: 'Kechirasiz, takrorlay olasizmi?' },
+  ],
+  quiz: [
+    { k: 'choice', q: "Do you know ___ the bus leaves?", opts: ['when', 'when does', 'does when', 'when is'], a: 0, why: "Muloyim savolda yordamchi fe'l kerak emas: **when the bus leaves**." },
+    { k: 'choice', q: "Could you tell me ___ there is a bank near here?", opts: ['if', 'that', 'what', 'which'], a: 0, why: "Ha/yo'q savol → **if**." },
+    { k: 'choice', q: "Qaysi biri eng muloyim?", opts: ['Could you tell me how much it is?', 'How much is it?', 'Tell me the price.', 'What price?'], a: 0, why: "**Could you tell me…?** — eng muloyim." },
+    { k: 'fill', q: "Sorry, I didn't catch that. Could you ___ it, please?", a: ['repeat'], uz: "Kechirasiz, tushunmadim. Takrorlay olasizmi?", why: "**repeat** — takrorlamoq." },
+    { k: 'fill', q: "I have a ___ for two nights.", a: ['reservation', 'booking'], uz: "Menda ikki kechaga band qilingan joy bor.", why: "**reservation** — band qilish." },
+    { k: 'order', uz: "Chipta narxini ayta olasizmi?", words: ['Could', 'you', 'tell', 'me', 'how', 'much', 'the', 'ticket', 'is?'], extra: ['does', 'costs'], why: "Muloyim savol: **how much the ticket is**." },
+    { k: 'listen', say: 'Do you know if the museum is open today?', opts: ['Do you know if the museum is open today?', 'Do you know if the museum was open today?', 'Do you know when the museum is open today?', 'Is the museum open today?'], a: 0 },
+    { k: 'tf', q: "*Is it possible to…?* iborasi muloyim iltimos va savol uchun ishlatiladi.", a: true, why: "**Is it possible to…?** — muloyim ibora." },
+  ],
+  summary: [
+    "Muloyim savol: **Could you tell me… / Do you know… / Is it possible to…?** va darak tartibi.",
+    "Misol: *Could you tell me where the office is?* — *where is the office* ❌.",
+    "Ha/yo'q savolda **if** (yoki *whether*): *Do you know if the museum is open?*",
+    "Telefonda: **Could you repeat that, please?** va **Could you speak more slowly?** — uyalmang.",
+    "Tasdiqlash uchun question tag: *So the tour starts at ten, doesn't it?*",
+    "Yangi so'zlar: **brochure, timetable, fare, reservation, refund**.",
+  ],
+  homework: "Turistik ofisga borgan holatni tasavvur qiling va 5 ta muloyim savol yozing (Could you tell me…, Do you know if…, Is it possible to…). Do'stingiz bilan rollar bo'yicha o'qing.",
+};
+
+export default lesson;
