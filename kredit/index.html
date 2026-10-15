@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tez va qulay kredit</title>
+  <meta name="description" content="Qulay shartlarda kredit. Shartlarni ko'ring va ariza qoldiring.">
+  <meta name="theme-color" content="#0f766e">
+
+  <!-- META PIXEL: kodni shu yerga qo'yamiz -->
+
+  <style>
+    :root {
+      --green: #0f766e;
+      --green-dark: #0b5b55;
+      --accent: #f59e0b;
+      --bg: #f6f8f8;
+      --text: #14232b;
+      --muted: #5c6b72;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+    }
+    .wrap { max-width: 520px; margin: 0 auto; padding: 0 16px; }
+
+    header {
+      background: linear-gradient(160deg, var(--green), #14b8a6);
+      color: #fff;
+      padding: 40px 0 56px;
+      border-radius: 0 0 28px 28px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+    h1 { font-size: 28px; line-height: 1.2; margin-bottom: 12px; }
+    header p { opacity: .92; font-size: 16px; margin-bottom: 24px; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: transform .1s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--accent); color: #1c1200; box-shadow: 0 6px 16px rgba(245,158,11,.4); }
+    .btn-ghost { background: rgba(255,255,255,.15); color: #fff; margin-top: 12px; border: 1px solid rgba(255,255,255,.4); }
+    .btn-green { background: var(--green); color: #fff; }
+
+    section { padding: 32px 0 0; }
+    h2 { font-size: 22px; margin-bottom: 16px; text-align: center; }
+
+    .cards { display: grid; gap: 12px; }
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      box-shadow: 0 2px 10px rgba(20,35,43,.06);
+    }
+    .icon {
+      flex: none;
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: #e0f2f1;
+      display: grid; place-items: center;
+      font-size: 22px;
+    }
+    .card h3 { font-size: 16px; margin-bottom: 2px; }
+    .card p { color: var(--muted); font-size: 14px; }
+
+    .steps { counter-reset: s; display: grid; gap: 10px; }
+    .step {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 14px 16px 14px 56px;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(20,35,43,.06);
+      font-size: 15px;
+    }
+    .step::before {
+      counter-increment: s;
+      content: counter(s);
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center; font-weight: 700; font-size: 14px;
+    }
+
+    .cta {
+      margin: 36px 0 0;
+      background: var(--green-dark);
+      color: #fff;
+      border-radius: 22px;
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .cta h2 { color: #fff; margin-bottom: 8px; }
+    .cta p { opacity: .85; margin-bottom: 20px; font-size: 15px; }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 28px 0 40px; }
+
+    /* Pastda doim ko'rinib turadigan tugma */
+    .sticky {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 -4px 16px rgba(0,0,0,.08);
+      z-index: 10;
+    }
+    .sticky .btn { max-width: 520px; margin: 0 auto; padding: 14px; }
+    body { padding-bottom: 80px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <span class="badge">✔ Tez va oson rasmiylashtirish</span>
+      <h1>Qulay shartlarda kredit oling</h1>
+      <p>Murakkab qog'ozbozliksiz. Shartlar bilan tanishing va bir necha daqiqada ariza qoldiring.</p>
+      <a class="btn btn-primary" href="https://t.me/azamova_gulbahor" target="_blank" rel="noopener" data-action="apply">Ariza topshirish</a>
+      <a class="btn btn-ghost" href="https://t.me/azamova_gulbahor" target="_blank" rel="noopener" data-action="terms">Kredit shartlarini ko'rish</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>Nega aynan biz?</h2>
+      <div class="cards">
+        <div class="card"><div class="icon">⚡</div><div><h3>Tez ko'rib chiqish</h3><p>Arizangiz qisqa vaqtda ko'rib chiqiladi.</p></div></div>
+        <div class="card"><div class="icon">📄</div><div><h3>Kam hujjat</h3><p>Faqat zarur hujjatlar talab qilinadi.</p></div></div>
+        <div class="card"><div class="icon">💬</div><div><h3>Shaxsiy maslahat</h3><p>Barcha savollarga Telegram orqali javob beramiz.</p></div></div>
+        <div class="card"><div class="icon">🔒</div><div><h3>Ishonchli</h3><p>Ma'lumotlaringiz maxfiy saqlanadi.</p></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Qanday ishlaydi?</h2>
+      <div class="steps">
+        <div class="step">«Ariza topshirish» tugmasini bosing</div>
+        <div class="step">Telegramda menejer bilan bog'laning</div>
+        <div class="step">Shartlarni kelishib, qaror oling</div>
+      </div>
+    </section>
+
+    <div class="cta">
+      <h2>Hoziroq boshlang</h2>
+      <p>Menejerimiz sizga barcha shartlarni tushuntirib beradi.</p>
+      <a class="btn btn-primary" href="https://t.me/azamova_gulbahor" target="_blank" rel="noopener" data-action="apply">Telegramda yozish</a>
+    </div>
+
+    <footer>© 2026 Barcha huquqlar himoyalangan</footer>
+  </main>
+
+  <div class="sticky">
+    <a class="btn btn-green" href="https://t.me/azamova_gulbahor" target="_blank" rel="noopener" data-action="apply">Ariza topshirish</a>
+  </div>
+
+  <script>
+    // Meta Pixel ulanganda, tugma bosilishini shu yerda yuboramiz:
+    // document.querySelectorAll('[data-action]').forEach(function (el) {
+    //   el.addEventListener('click', function () { fbq('track', 'Lead'); });
+    // });
+  </script>
+</body>
+</html>
