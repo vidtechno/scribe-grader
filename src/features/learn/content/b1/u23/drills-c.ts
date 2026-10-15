@@ -37,8 +37,8 @@ export const drills: Drill[] = [
       { k: 'fill', q: "She gave me some useful ___ about the course.", a: ['information'], uz: "U menga kurs haqida foydali ma'lumot berdi.", why: "**information** — sanalmaydi." },
       { k: 'fix', wrong: "If he will come, we will start the meeting.", a: ["If he comes, we will start the meeting."], why: "**if** dan keyin **will** yo'q." },
       { k: 'fix', wrong: "I am agree with your idea.", a: ["I agree with your idea."], why: "**agree** — fe'l." },
-      { k: 'fix', wrong: "Can you tell me where is the library?", a: ["Can you tell me where the library is?"], why: "Ichki savolda darak gap tartibi." },
-      { k: 'fix', wrong: "We discussed about the budget yesterday.", a: ["We discussed the budget yesterday."], why: "**discuss** dan keyin **about** yo'q." },
+      { k: 'order', uz: "Kutubxona qayerdaligini ayta olasizmi?", words: ['Can', 'you', 'tell', 'me', 'where', 'the', 'library', 'is?'], extra: ['does', 'is'], why: "Ichki savolda darak gap tartibi." },
+      { k: 'translate', uz: "Biz kecha byudjetni muhokama qildik.", a: ["We discussed the budget yesterday."], why: "**discuss** dan keyin **about** yo'q." },
     ],
   },
   {
@@ -97,8 +97,8 @@ export const drills: Drill[] = [
       { k: 'fill', q: "Today I would like to ___ about healthy habits.", a: ['talk'], uz: "Bugun men sog'lom odatlar haqida gapirmoqchiman.", why: "Taqdimot kirishi." },
       { k: 'fill', q: "The article is ___ the effects of noise on health.", a: ['about'], uz: "Maqola shovqinning salomatlikka ta'siri haqida.", why: "**The article is about…**" },
       { k: 'fix', wrong: "Although the film was long, but I enjoyed it.", a: ["Although the film was long, I enjoyed it.", "The film was long, but I enjoyed it."], why: "**Although** + **but** yo'q." },
-      { k: 'fix', wrong: "When was built this bridge?", a: ["When was this bridge built?"], why: "Majhul savolda tartib: **When was this bridge built?**" },
-      { k: 'fix', wrong: "People is worried about the air in big cities.", a: ["People are worried about the air in big cities."], why: "**people** — ko'plik." },
+      { k: 'order', uz: "Bu ko'prik qachon qurilgan?", words: ['When', 'was', 'this', 'bridge', 'built?'], extra: ['did', 'build'], why: "Majhul savolda tartib." },
+      { k: 'translate', uz: "Odamlar katta shaharlardagi havodan xavotirda.", a: ["People are worried about the air in big cities.", "People are worried about the air in large cities."], why: "**people** — ko'plik: **are**." },
     ],
   },
 ];

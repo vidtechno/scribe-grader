@@ -28,7 +28,7 @@ export const drills: Drill[] = [
     exercises: [
       { k: 'choice', q: "If it ___ tomorrow, we will cancel the trip.", opts: ['snows', 'snowed', 'will snow', 'would snow'], a: 0, why: "First conditional: **if + Present Simple**." },
       { k: 'choice', q: "If I ___ a pilot, I would see the world from above.", opts: ['were', 'am', 'will be', 'would be'], a: 0, why: "Second conditional: **if I were**." },
-      { k: 'choice', q: "___ you finish your work, you can't go out.", opts: ['Unless', 'If', 'As long as', 'Provided'], a: 1 - 1 + 0, why: "Bu yerda *Unless* — \"agar ... bo'lmasa\" (*if you don't finish*)." },
+      { k: 'choice', q: "___ you finish your work, you can't go out.", opts: ['Unless', 'If', 'As long as', 'Provided'], a: 0, why: "**Unless** = *if not*: tugatmasangiz, chiqolmaysiz." },
       { k: 'fill', q: "You can stay with us ___ long as you help in the kitchen.", a: ['as'], uz: "Oshxonada yordam bersangiz, bizda qolishingiz mumkin.", why: "**as long as** — shart." },
       { k: 'fill', q: "If she had taken the medicine, she ___ have felt better.", a: ['would'], uz: "U dorini ichganida, o'zini yaxshiroq his qilgan bo'lardi.", why: "Third conditional: **would have + V3**." },
       { k: 'choice', q: "He has worked for fourteen hours. He ___ be exhausted.", opts: ['must', "can't", 'might not', 'needn\'t'], a: 0, why: "Aniq xulosa → **must**." },
@@ -50,7 +50,7 @@ export const drills: Drill[] = [
       { k: 'listen', say: 'If I moved abroad, I would miss my family.', opts: ['If I moved abroad, I would miss my family.', 'If I move abroad, I will miss my family.', 'If I had moved abroad, I would have missed my family.', 'If I moved abroad, I would meet my family.'], a: 0, why: "Second conditional." },
       { k: 'choice', say: 'It depends on the salary.', q: "Tinglang. Gap nimaga bog'liq?", opts: ['The salary', 'The city', 'The weather', 'The boss'], a: 0, why: "*It depends on the salary.*" },
       { k: 'dictation', say: 'On the other hand, it is a great chance.', a: ['On the other hand, it is a great chance.', "On the other hand, it's a great chance."], uz: "Boshqa tomondan, bu ajoyib imkoniyat.", why: "**On the other hand** — boshqa tomondan." },
-      { k: 'choice', say: 'I think I will talk to my sister first.', q: "Gapiruvchi nima qilmoqchi?", opts: ['Talk to her sister', 'Call her boss', 'Leave the city', 'Take the job'], a: 0, why: "*I will talk to my sister first.*" },
+      { k: 'choice', say: 'I think I will talk to my sister first.', q: "Gapiruvchi nima qilmoqchi?", opts: ['Talk to a family member', 'Call her boss', 'Leave the city', 'Take the job'], a: 0, why: "*I will talk to my sister first.*" },
       { k: 'listen', say: 'The good thing is that I would earn more money.', opts: ['The good thing is that I would earn more money.', 'The bad thing is that I would earn more money.', 'The good thing is that I earned more money.', 'The good thing is that I would spend more money.'], a: 0, why: "**The good thing is that…**" },
       { k: 'dictation', say: 'In the end, I decided to stay.', a: ['In the end, I decided to stay.'], uz: "Oxir-oqibat qolishga qaror qildim.", why: "**decide to + fe'l**." },
       { k: 'choice', say: 'If I were you, I would not decide in a hurry.', q: "Bu gap nima?", opts: ['Maslahat', 'Buyruq', 'Rad etish', 'Savol'], a: 0, why: "**If I were you…** — maslahat." },

@@ -57,8 +57,8 @@ export const drills: Drill[] = [
       { k: "order", uz: "Umuman olganda, men uni albatta tavsiya qilaman.", words: ["Overall,", "I", "would", "definitely", "recommend", "it."], extra: ["will", "recommended"], why: "**would definitely recommend**." },
       { k: "translate", uz: "Biz Buxoroda uch kun o'tkazdik.", a: ["We spent three days in Bukhara."], why: "Past Simple: **spent**." },
       { k: "translate", uz: "Bu yerda mahalliy taomlarni tatib ko'rish mumkin bo'lgan restoran bor.", a: ["There is a restaurant where you can try local dishes.", "It is a restaurant where you can try local dishes.", "There is a restaurant where you can try local food."], why: "Joy → **where**." },
-      { k: "translate", uz: "Men uni hammaga tavsiya qilaman.", a: ["I would recommend it to everyone.", "I recommend it to everyone.", "I would recommend it to everybody."], why: "**recommend it to** + odam." },
-      { k: "order", uz: "Shovqinga qaramay, biz yaxshi uxladik.", words: ["In", "spite", "of", "the", "noise,", "we", "slept", "well."], extra: ["despite", "although"], why: "**in spite of** + ot." },
+      { k: "choice", q: "Which sentence is correct?", opts: ["Although it was cheap, we were disappointed.", "Although it was cheap, but we were disappointed.", "Despite it was cheap, we were disappointed.", "Despite of cheap, we were disappointed."], a: 0, why: "**Although** + gap, **but** yo'q." },
+      { k: "fix", wrong: "Despite of the noise, we slept well.", a: ["Despite the noise, we slept well.", "In spite of the noise, we slept well."], hint: "despite dan keyin of yo'q", why: "**despite** + ot; **of** faqat *in spite of* da." },
     ],
   },
 ];

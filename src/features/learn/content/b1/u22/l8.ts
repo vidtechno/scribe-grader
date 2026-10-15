@@ -144,7 +144,7 @@ const lesson: Lesson = {
   ],
   practice: [
     { k: "choice", q: "He enjoys ___ with new technology.", opts: ["to work", "working", "work", "worked"], a: 1, why: "**enjoy** + -ing." },
-    { k: "choice", q: "I'm tired. I ___ a coffee break now. (stop, to rest)", opts: ["stopped having", "stopped to have", "stop have", "stopping to have"], a: 1, why: "Boshqa ish qilish uchun to'xtadi → **stop to have**." },
+    { k: "choice", q: "I saw a bakery on my way home, so I stopped ___ some bread.", opts: ["buying", "to buy", "buy", "bought"], a: 1, why: "Yangi ish qilish uchun to'xtadi → **stop to buy**." },
     { k: "match", pairs: [["device", "qurilma"], ["password", "parol"], ["remote", "masofaviy"], ["knowledge", "bilim"], ["challenge", "qiyin vazifa"], ["access", "kirish huquqi"]] },
     { k: "fill", q: "We save our files in the cloud ___ that we can open them anywhere.", a: ["so"], uz: "Fayllarni bulutda saqlaymiz, shunda ularni istalgan joyda ochamiz.", why: "**so that** + gap." },
     { k: "fill", q: "Tomorrow at ten I ___ be giving a presentation.", a: ["will", "'ll"], uz: "Ertaga soat o'nda taqdimot qilib turgan bo'laman.", why: "**will be + -ing**." },
