@@ -117,7 +117,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "Qaysi gap o'tgan zamon pushaymonligi?", opts: ['I wish I had told the truth.', 'I wish I told the truth.', 'I hope I tell the truth.', 'I wish I could tell the truth.'], a: 0, why: "**had + V3** — o'tgan zamon." },
     { k: 'fill', q: "I wish my brother ___ closer to us. (live)", a: ['lived'], why: "Hozirgi orzu: **lived** (Past Simple)." },
     { k: 'fill', q: "It's raining. I ___ it would stop soon. (haqiqatan to'xtashi mumkin)", a: ['hope'], why: "Bo'lishi mumkin bo'lgan ish → **hope**." },
-    { k: 'order', uz: "Kaskiydi, o'sha uyni sotib olmasam edi.", words: ['I', 'wish', 'I', "hadn't", 'bought', 'that', 'house.'], extra: ["didn't", 'would'], alt: [['I', 'wish', 'I', 'had', 'not', 'bought', 'that', 'house.']], why: "**wish + hadn't + V3**." },
+    { k: 'order', uz: "Kaskiydi, o'sha uyni sotib olmasam edi.", words: ['I', 'wish', 'I', "hadn't", 'bought', 'that', 'house.'], extra: ["didn't", 'would'], why: "**wish + hadn't + V3**." },
     { k: 'translate', uz: "Kaskiydi, ingliz tilida yaxshiroq gapira olsam.", a: ['I wish I could speak English better.', 'I wish I could speak better English.'], why: "**wish + could**." },
     { k: 'fix', wrong: 'I wish I am younger.', a: ['I wish I were younger.', 'I wish I was younger.'], why: "**am** → **were** (wish dan keyin)." },
     { k: 'tf', q: "*I hope you like the gift.* — bu gapda orzu haqiqatga mos kelmaydi.", a: false, why: "**hope** — bo'lishi mumkin bo'lgan narsa uchun." },
