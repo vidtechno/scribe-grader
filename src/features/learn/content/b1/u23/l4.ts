@@ -165,7 +165,7 @@ const lesson: Lesson = {
     { k: "choice", q: "**How long ___ in this city?**", opts: ["do you live", "are you living", "have you lived", "did you lived"], a: 2, why: "**How long** + hozirgacha → Present Perfect." },
     { k: "choice", q: "**I ___ Tom yesterday, and he told me the news.**", opts: ["met", "have met", "was meeting", "meet"], a: 0, why: "**yesterday** → Past Simple." },
     { k: "choice", q: "**She ___ her keys, so she couldn't open the door.**", opts: ["lost", "had lost", "has lost", "was losing"], a: 1, why: "Kalitni oldin yo'qotgan → **Past Perfect**." },
-    { k: "choice", q: "**Don't call me at eight. I ___ then.**", opts: ["will be driving", "drive", "have driven", "drove"], a: 0, why: "Kelajakdagi paytda davom etadigan ish." },
+    { k: "choice", q: "**We ___ to Bukhara next month. We have already bought the tickets.**", opts: ["are going", "go", "went", "have gone"], a: 0, why: "Kelishilgan reja → **Present Continuous** (yoki *going to*)." },
     { k: "fill", q: "I ___ to the gym three times a week.", a: ["go"], uz: "Men haftasiga uch marta sport zaliga boraman.", why: "Odat → **Present Simple**." },
     { k: "fill", q: "We ___ watching a film when the power went off. (be)", a: ["were"], uz: "Film ko'rayotganimizda elektr o'chdi.", why: "**were watching** — Past Continuous." },
     { k: "dictation", say: "I'll text you as soon as I arrive.", uz: "Yetib borishim bilan sizga xabar yozaman.", why: "**as soon as** + Present." },

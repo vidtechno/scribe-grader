@@ -72,9 +72,9 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'repair', uz: "ta'mirlamoq", ipa: 'rɪˈpeə', pos: 'verb', ex: 'The road has been repaired.', exUz: "Yo'l ta'mirlandi." },
+    { en: 'renovate', uz: 'yangilamoq, ta\'mirlab yangilamoq', ipa: 'ˈrenəveɪt', pos: 'verb', ex: 'The old hotel will be renovated.', exUz: 'Eski mehmonxona yangilanadi.' },
     { en: 'replace', uz: 'almashtirmoq', ipa: 'rɪˈpleɪs', pos: 'verb', ex: 'The old windows will be replaced.', exUz: 'Eski derazalar almashtiriladi.' },
-    { en: 'damage', uz: 'shikastlamoq, zarar yetkazmoq', ipa: 'ˈdæmɪdʒ', pos: 'verb', ex: 'The roof was damaged in the storm.', exUz: "Tom bo'ronda shikastlandi." },
+    { en: 'destroy', uz: 'vayron qilmoq', ipa: 'dɪˈstrɔɪ', pos: 'verb', ex: 'The old bridge was destroyed by the flood.', exUz: 'Eski ko\'prik toshqinda vayron bo\'ldi.' },
     { en: 'protect', uz: 'himoya qilmoq', ipa: 'prəˈtekt', pos: 'verb', ex: 'Old buildings should be protected.', exUz: 'Eski binolarni himoya qilish kerak.' },
     { en: 'announce', uz: "e'lon qilmoq", ipa: 'əˈnaʊns', pos: 'verb', ex: 'The news has been announced.', exUz: "Yangilik e'lon qilindi." },
   ],
@@ -111,7 +111,7 @@ const lesson: Lesson = {
     "**Kelasi zamon**: *will be + V3*. **Modallar**: *can / must / should be + V3*.",
     "Inkor va savolda yordamchi fe'l o'rni o'zgaradi: *hasn't been done*, *Has it been done?*, *can't be seen*.",
     "Xatolar: *has repaired* ❌ → *has been repaired* ✅; *can booked* ❌ → *can be booked* ✅.",
-    "Yangi so'zlar: **repair, replace, damage, protect, announce**.",
+    "Yangi so'zlar: **renovate, replace, destroy, protect, announce**.",
   ],
   homework: "Shahringiz haqida 5 ta majhul gap yozing: 1 ta *has been …*, 1 ta *will be …*, 1 ta *can be …*, 1 ta *must be …* va 1 ta *hasn't been … yet*.",
 };

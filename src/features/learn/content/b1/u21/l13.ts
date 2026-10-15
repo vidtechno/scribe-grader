@@ -70,10 +70,10 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'option', uz: 'variant, tanlov', ipa: 'ˈɒpʃn', pos: 'noun', ex: 'Both options are good.', exUz: 'Ikkala variant ham yaxshi.' },
-    { en: 'member', uz: "a'zo", ipa: 'ˈmembə', pos: 'noun', ex: 'Each member gets a free ticket.', exUz: "Har bir a'zo bepul chipta oladi." },
+    { en: 'guest', uz: 'mehmon', ipa: 'ɡest', pos: 'noun', ex: 'Each guest gets a free ticket.', exUz: 'Har bir mehmon bepul chipta oladi.' },
     { en: 'available', uz: "bor, mavjud, band emas", ipa: 'əˈveɪləbl', pos: 'adj', ex: 'Neither room is available tonight.', exUz: "Bugun kechqurun na bir xona bo'sh." },
     { en: 'suitable', uz: 'mos, munosib', ipa: 'ˈsuːtəbl', pos: 'adj', ex: 'Either date is suitable for me.', exUz: 'Ikkala sana ham menga mos.' },
-    { en: 'several', uz: 'bir nechta', ipa: 'ˈsevrəl', pos: 'det', ex: 'We visited several museums.', exUz: 'Biz bir nechta muzeyga bordik.' },
+    { en: 'separate', uz: 'alohida', ipa: 'ˈseprət', pos: 'adj', ex: 'Each room has a separate bathroom.', exUz: 'Har bir xonaning alohida hammomi bor.' },
   ],
   practice: [
     { k: 'match', pairs: [['both', 'ikkalasi'], ['all', "hammasi (3+)"], ['either', 'ikkitadan biri'], ['neither', 'ikkalasi ham emas'], ['every', 'har bir (umumiy)'], ['each', 'har biri (alohida)']] },
@@ -108,7 +108,7 @@ const lesson: Lesson = {
     "**either** — ikkitadan biri; **neither** — ikkalasi ham emas. **neither** o'zi inkor: *not* qo'shilmaydi.",
     "**each** va **every** + birlik ot + birlik fe'l: *Every room has…*, *Each of the rooms has…*.",
     "*every of* ❌ → *every one of* yoki *each of* ✅.",
-    "Yangi so'zlar: **option, member, available, suitable, several**.",
+    "Yangi so'zlar: **option, guest, available, suitable, separate**.",
   ],
   homework: "Do'stlaringiz yoki oilangiz haqida 6 ta gap yozing: 1 ta *both*, 1 ta *all*, 1 ta *either*, 1 ta *neither*, 1 ta *each* va 1 ta *every* bilan.",
 };

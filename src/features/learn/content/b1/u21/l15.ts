@@ -67,13 +67,13 @@ const lesson: Lesson = {
   words: [
     { en: 'staff', uz: 'xodimlar', ipa: 'stɑːf', pos: 'noun', ex: 'The staff were very helpful.', exUz: 'Xodimlar juda yordam berishga tayyor edi.' },
     { en: 'comfortable', uz: 'qulay', ipa: 'ˈkʌmftəbl', pos: 'adj', ex: 'The bed was very comfortable.', exUz: "To'shak juda qulay edi." },
-    { en: 'spotless', uz: 'tozaligi ajoyib', ipa: 'ˈspɒtləs', pos: 'adj', ex: 'The bathroom was spotless.', exUz: 'Hammom juda toza edi.' },
+    { en: 'helpful', uz: 'yordam berishga tayyor', ipa: 'ˈhelpfl', pos: 'adj', ex: 'The receptionist was very helpful.', exUz: 'Qabulxona xodimi juda yordamga tayyor edi.' },
     { en: 'disappointed', uz: "hafsalasi pir bo'lgan", ipa: 'ˌdɪsəˈpɔɪntɪd', pos: 'adj', ex: 'We were disappointed with the food.', exUz: "Taomdan hafsalamiz pir bo'ldi." },
-    { en: 'recommend', uz: 'tavsiya qilmoq', ipa: 'ˌrekəˈmend', pos: 'verb', ex: 'I would recommend this hotel.', exUz: 'Men bu mehmonxonani tavsiya qilgan bo\'lardim.' },
+    { en: 'complaint', uz: 'shikoyat', ipa: 'kəmˈpleɪnt', pos: 'noun', ex: 'I made a complaint about the noise.', exUz: 'Shovqin haqida shikoyat qildim.' },
     { en: 'noisy', uz: 'shovqinli', ipa: 'ˈnɔɪzi', pos: 'adj', ex: 'The street was noisy at night.', exUz: 'Ko\'cha kechasi shovqinli edi.' },
   ],
   practice: [
-    { k: 'match', pairs: [['staff', 'xodimlar'], ['comfortable', 'qulay'], ['spotless', 'juda toza'], ['disappointed', "hafsalasi pir bo'lgan"], ['noisy', 'shovqinli'], ['recommend', 'tavsiya qilmoq']] },
+    { k: 'match', pairs: [['staff', 'xodimlar'], ['comfortable', 'qulay'], ['helpful', 'yordamga tayyor'], ['disappointed', "hafsalasi pir bo'lgan"], ['noisy', 'shovqinli'], ['complaint', 'shikoyat']] },
     { k: 'choice', q: "___ the hotel was expensive, the service was excellent.", opts: ['Although', 'However', 'So', 'Because'], a: 0, why: "Gap boshida bog'lovchi → **Although**." },
     { k: 'choice', q: "The staff ___ very friendly.", opts: ['were', 'was', 'is', 'be'], a: 0, why: "**staff** ko'pincha ko'plik fe'l bilan: *were*." },
     { k: 'fill', q: "The room was small. ___, it was very clean.", a: ['However'], uz: "Xona kichik edi. Ammo juda toza edi.", why: "**However,** — alohida gap boshida." },
@@ -104,7 +104,7 @@ const lesson: Lesson = {
     "**Although** + gap, asosiy gap (**but** yo'q); **However,** — alohida gap boshida, vergul bilan.",
     "**staff** + *were*. Shovqin, xona, xizmat haqida aniq so'zlar ishlating: **spotless, comfortable, noisy**.",
     "Tavsiya: *I would (definitely) recommend it. / I'm afraid I can't recommend it.*",
-    "Yangi so'zlar: **staff, comfortable, spotless, disappointed, recommend, noisy**.",
+    "Yangi so'zlar: **staff, comfortable, helpful, disappointed, noisy, complaint**.",
   ],
   homework: "Oxirgi marta qolgan mehmonxona, hostel yoki kurort haqida 6-8 gaplik sharh yozing. Kamida bitta *although* va bitta *However,* ishlating. Oxirida baho (1 dan 5 gacha) qo'ying.",
 };

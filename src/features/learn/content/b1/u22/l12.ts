@@ -90,7 +90,7 @@ const lesson: Lesson = {
   words: [
     { en: 'purpose', uz: 'maqsad, vazifa', ipa: 'ˈpɜː.pəs', pos: 'noun', ex: 'What is the purpose of this meeting?', exUz: "Bu uchrashuvning maqsadi nima?" },
     { en: 'improve', uz: 'yaxshilamoq', ipa: 'ɪmˈpruːv', pos: 'verb', ex: 'I read every day to improve my English.', exUz: "Inglizchamni yaxshilash uchun har kuni o'qiyman." },
-    { en: 'attend', uz: 'qatnashmoq, borib turmoq', ipa: 'əˈtend', pos: 'verb', ex: 'She attends an evening class twice a week.', exUz: "U haftada ikki marta kechki darsga qatnashadi." },
+    { en: 'revise', uz: 'takrorlamoq (imtihonga)', ipa: 'rɪˈvaɪz', pos: 'verb', ex: 'I revise for two hours every evening.', exUz: "Men har kecha ikki soat takrorlayman." },
     { en: 'recharge', uz: 'quvvatlamoq', ipa: 'ˌriːˈtʃɑːdʒ', pos: 'verb', ex: 'I recharge my phone every night.', exUz: "Telefonimni har kecha quvvatlayman." },
     { en: 'schedule', uz: 'jadval, reja', ipa: 'ˈʃed.juːl', pos: 'noun', ex: 'I have a busy schedule this week.', exUz: "Bu hafta jadvalim band." },
   ],

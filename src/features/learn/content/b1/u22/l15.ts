@@ -64,12 +64,12 @@ const lesson: Lesson = {
   words: [
     { en: 'vacancy', uz: "bo'sh ish o'rni", ipa: 'ˈveɪ.kən.si', pos: 'noun', ex: 'There is a vacancy in our marketing team.', exUz: "Marketing jamoamizda bo'sh ish o'rni bor." },
     { en: 'requirement', uz: 'talab', ipa: 'rɪˈkwaɪə.mənt', pos: 'noun', ex: 'Good English is a requirement for this job.', exUz: "Bu ish uchun yaxshi ingliz tili talab qilinadi." },
-    { en: 'qualification', uz: 'malaka, diplom', ipa: ',kwɒl.ɪ.fɪˈkeɪ.ʃən', pos: 'noun', ex: 'She has a qualification in nursing.', exUz: "Uning hamshiralik bo'yicha malakasi bor." },
+    { en: 'applicant', uz: 'nomzod, ariza beruvchi', ipa: 'ˈæp.lɪ.kənt', pos: 'noun', ex: 'There were fifty applicants for the job.', exUz: "Ish uchun ellik nomzod bor edi." },
     { en: 'relevant', uz: "tegishli, mos", ipa: 'ˈrel.ə.vənt', pos: 'adj', ex: 'Do you have any relevant experience?', exUz: "Sizda mos tajriba bormi?" },
     { en: 'suitable', uz: 'mos, munosib', ipa: 'ˈsuː.tə.bəl', pos: 'adj', ex: 'He is a suitable person for the job.', exUz: "U bu ish uchun munosib odam." },
   ],
   practice: [
-    { k: 'match', pairs: [['vacancy', "bo'sh ish o'rni"], ['requirement', 'talab'], ['qualification', 'malaka, diplom'], ['relevant', 'tegishli, mos'], ['suitable', 'munosib']] },
+    { k: 'match', pairs: [['vacancy', "bo'sh ish o'rni"], ['requirement', 'talab'], ['applicant', 'nomzod'], ['relevant', 'tegishli, mos'], ['suitable', 'munosib']] },
     { k: 'choice', q: 'I am writing ___ apply for the job.', opts: ['to', 'for', 'that', 'in order'], a: 0, why: "Maqsad: **to apply**." },
     { k: 'choice', q: 'I look forward to ___ from you.', opts: ['hearing', 'hear', 'heard', 'be hearing'], a: 0, why: "**look forward to** + -ing." },
     { k: 'fill', q: 'I am interested ___ working for your company.', a: ['in'], uz: "Kompaniyangizda ishlashga qiziqaman.", why: "**interested in** + -ing." },

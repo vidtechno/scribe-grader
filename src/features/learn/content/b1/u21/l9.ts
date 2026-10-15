@@ -61,15 +61,15 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'district', uz: 'mahalla, tuman', ipa: 'ˈdɪstrɪkt', pos: 'noun', ex: 'This is a lively district.', exUz: 'Bu jonli mahalla.' },
-    { en: 'crowded', uz: 'gavjum, olomon', ipa: 'ˈkraʊdɪd', pos: 'adj', ex: 'The market is crowded on Saturdays.', exUz: 'Bozor shanba kunlari gavjum bo\'ladi.' },
+    { en: 'neighbourhood', uz: 'mahalla', ipa: 'ˈneɪbəhʊd', pos: 'noun', ex: 'This is a lively neighbourhood.', exUz: 'Bu jonli mahalla.' },
+    { en: 'busy', uz: 'gavjum, band', ipa: 'ˈbɪzi', pos: 'adj', ex: 'The market is busy on Saturdays.', exUz: 'Bozor shanba kunlari gavjum bo\'ladi.' },
     { en: 'lively', uz: 'jonli, quvnoq', ipa: 'ˈlaɪvli', pos: 'adj', ex: 'The street is lively in the evening.', exUz: 'Ko\'cha kechqurun jonli bo\'ladi.' },
     { en: 'nearby', uz: 'yaqin atrofda', ipa: 'ˌnɪəˈbaɪ', pos: 'adj', ex: 'There is a nearby park.', exUz: 'Yaqin atrofda bir bog\' bor.' },
     { en: 'peaceful', uz: 'tinch, osoyishta', ipa: 'ˈpiːsfl', pos: 'adj', ex: 'It is a peaceful village.', exUz: 'Bu osoyishta qishloq.' },
     { en: 'view', uz: "manzara", ipa: 'vjuː', pos: 'noun', ex: 'The room has a lovely view.', exUz: 'Xonadan go\'zal manzara ko\'rinadi.' },
   ],
   practice: [
-    { k: 'match', pairs: [['district', 'mahalla'], ['crowded', 'gavjum'], ['lively', 'jonli'], ['peaceful', 'tinch'], ['view', 'manzara']] },
+    { k: 'match', pairs: [['neighbourhood', 'mahalla'], ['busy', 'gavjum'], ['lively', 'jonli'], ['peaceful', 'tinch'], ['view', 'manzara']] },
     { k: 'choice', q: "What's your town ___?", opts: ['like', 'likes', 'liking', 'alike'], a: 0, why: "Tasvir so'rash: **What's it like?**" },
     { k: 'choice', q: "It's a city ___ is famous for its old bridges.", opts: ['which', 'where', 'who', 'whose'], a: 0, why: "Narsa/joy ega bo'lsa → **which**." },
     { k: 'fill', q: "It's a small town. Everything is within walking ___.", a: ['distance'], uz: "Bu kichik shahar. Hamma narsa piyoda yetib boriladigan masofada.", why: "**within walking distance** — qo'zg'almas ibora." },
@@ -97,7 +97,7 @@ const lesson: Lesson = {
     "**What's it like?** — tasvir so'raydi: javob sifat bilan: *It's lively and friendly.*",
     "Foydali iboralar: **famous for**, **surrounded by**, **within walking distance**, **a lovely view of**.",
     "Tasvirni boyiting: **where** (joy), **which** (narsa), vergul bilan qo'shimcha ma'lumot, majhul nisbat.",
-    "Yangi so'zlar: **district, crowded, lively, nearby, peaceful, view**.",
+    "Yangi so'zlar: **neighbourhood, busy, lively, nearby, peaceful, view**.",
   ],
   homework: "O'z mahallangiz haqida 6 ta gap yozing: bitta *What's it like?* ga javob, bitta *where* bilan, bitta *which* bilan, bitta *famous for* bilan. Keyin ovoz chiqarib o'qing.",
 };

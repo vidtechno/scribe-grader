@@ -72,11 +72,11 @@ const lesson: Lesson = {
     { en: 'describe', uz: 'tasvirlamoq', ipa: 'dɪˈskraɪb', pos: 'verb', ex: 'Can you describe your city?', exUz: 'Shahringizni tasvirlab bera olasizmi?' },
     { en: 'typical', uz: 'xos, odatiy', ipa: 'ˈtɪpɪkl', pos: 'adj', ex: 'This is a typical old town.', exUz: 'Bu odatiy eski shahar.' },
     { en: 'region', uz: 'viloyat, hudud', ipa: 'ˈriːdʒən', pos: 'noun', ex: 'It is the best region for fruit.', exUz: 'Bu meva uchun eng yaxshi hudud.' },
-    { en: 'ancient', uz: 'qadimiy', ipa: 'ˈeɪnʃənt', pos: 'adj', ex: 'It is an ancient city.', exUz: 'Bu qadimiy shahar.' },
+    { en: 'impressive', uz: 'ta\'sirli, ulug\'vor', ipa: 'ɪmˈpresɪv', pos: 'adj', ex: 'The old fortress is very impressive.', exUz: 'Eski qal\'a juda ta\'sirli.' },
     { en: 'valley', uz: 'vodiy', ipa: 'ˈvæli', pos: 'noun', ex: 'The village is in a green valley.', exUz: 'Qishloq yashil vodiyda joylashgan.' },
   ],
   practice: [
-    { k: 'match', pairs: [['describe', 'tasvirlamoq'], ['typical', 'xos, odatiy'], ['region', 'hudud'], ['ancient', 'qadimiy'], ['valley', 'vodiy']] },
+    { k: 'match', pairs: [['describe', 'tasvirlamoq'], ['typical', 'xos, odatiy'], ['region', 'hudud'], ['impressive', "ta'sirli"], ['valley', 'vodiy']] },
     { k: 'listen', say: 'It is an ancient city which has been popular for centuries.', opts: ['It is an ancient city which has been popular for centuries.', 'It is a modern city which has been popular for centuries.', 'It was an ancient city which is popular for centuries.', 'It is an ancient city which was popular last year.'], a: 0 },
     { k: 'listen', say: 'You should definitely visit the old market.', opts: ['You should definitely visit the old market.', 'You should not visit the old market.', 'You should definitely visit the new market.', 'You can visit the old market.'], a: 0 },
     { k: 'choice', q: "The streets are lovely, ___?", opts: ["aren't they", "isn't it", "don't they", "are they"], a: 0, why: "**are** → inkor tag: *aren't they?*" },
@@ -107,7 +107,7 @@ const lesson: Lesson = {
     "Tasvir iboralari: **located in**, **known for**, **surrounded by**, **You should definitely visit…**.",
     "**Question tag** hamsuhbatni jalb qiladi: *It's lovely, isn't it?* — darak gapdan keyin inkor tag.",
     "Xushmuomala savol: **Could you tell me where … is?** (darak tartibi).",
-    "Yangi so'zlar: **describe, typical, region, ancient, valley**.",
+    "Yangi so'zlar: **describe, typical, region, impressive, valley**.",
   ],
   homework: "Shahringiz haqida 1 daqiqalik gapirish matni yozing (6-8 gap), telefon yordamida ovozingizni yozib oling va tinglab ko'ring. Kamida bitta question tag ishlating.",
 };

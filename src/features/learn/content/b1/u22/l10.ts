@@ -67,13 +67,13 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'crash', uz: 'ishdan chiqmoq, qotib qolmoq', ipa: 'kræʃ', pos: 'verb', ex: 'My computer crashed twice today.', exUz: "Kompyuterim bugun ikki marta ishdan chiqdi." },
-    { en: 'update', uz: 'yangilanish', ipa: 'ˈʌp.deɪt', pos: 'noun', ex: 'The update takes ten minutes.', exUz: "Yangilanish o'n daqiqa oladi." },
+    { en: 'password', uz: 'parol', ipa: 'ˈpɑːs.wɜːd', pos: 'noun', ex: 'I forgot my password again.', exUz: "Parolimni yana unutdim." },
     { en: 'backup', uz: 'zaxira nusxa', ipa: 'ˈbæk.ʌp', pos: 'noun', ex: 'Always make a backup of your files.', exUz: "Fayllaringizning zaxira nusxasini doim oling." },
-    { en: 'deadline', uz: 'oxirgi muddat', ipa: 'ˈded.laɪn', pos: 'noun', ex: 'The deadline is next Friday.', exUz: "Oxirgi muddat kelasi juma." },
+    { en: 'urgent', uz: 'shoshilinch', ipa: 'ˈɜː.dʒənt', pos: 'adj', ex: 'This email is urgent.', exUz: "Bu xat shoshilinch." },
     { en: 'error', uz: 'xato', ipa: 'ˈer.ər', pos: 'noun', ex: 'The screen shows an error message.', exUz: "Ekranda xato xabari ko'rinyapti." },
   ],
   practice: [
-    { k: 'match', pairs: [['crash', 'ishdan chiqmoq'], ['update', 'yangilanish'], ['backup', 'zaxira nusxa'], ['deadline', 'oxirgi muddat'], ['error', 'xato']] },
+    { k: 'match', pairs: [['crash', 'ishdan chiqmoq'], ['password', 'parol'], ['backup', 'zaxira nusxa'], ['urgent', 'shoshilinch'], ['error', 'xato']] },
     { k: 'choice', q: 'My app ___ crashing since the update.', opts: ['keeps', 'keep', 'is keep', 'keeping'], a: 0, why: "**keeps + -ing**." },
     { k: 'choice', q: 'Which is the most polite request?', opts: ['Would it be possible to move the deadline?', 'Move the deadline.', 'You must move the deadline.', 'I want a new deadline now.'], a: 0, why: "**Would it be possible to…?** — eng muloyim." },
     { k: 'fill', q: "I'm ___ a problem with my email. (having)", a: ['having'], uz: "Elektron pochtam bilan muammo bor.", why: "**I'm having a problem with…**" },

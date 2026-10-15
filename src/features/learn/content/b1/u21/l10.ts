@@ -70,13 +70,13 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'brochure', uz: 'buklet, risola', ipa: 'ˈbrəʊʃə', pos: 'noun', ex: 'Here is a brochure with a map.', exUz: 'Mana xaritali risola.' },
-    { en: 'timetable', uz: 'jadval', ipa: 'ˈtaɪmteɪbl', pos: 'noun', ex: 'Could I see the bus timetable?', exUz: 'Avtobus jadvalini ko\'rsam bo\'ladimi?' },
-    { en: 'fare', uz: 'yo\'l haqi', ipa: 'feə', pos: 'noun', ex: 'The bus fare is two pounds.', exUz: "Avtobus yo'l haqi ikki funt." },
+    { en: 'enquiry', uz: "so'rov, ma'lumot so'rash", ipa: 'ɪnˈkwaɪri', pos: 'noun', ex: 'I have an enquiry about the tour.', exUz: "Mening ekskursiya haqida savolim bor." },
+    { en: 'deposit', uz: 'avans, garov puli', ipa: 'dɪˈpɒzɪt', pos: 'noun', ex: 'You need to pay a deposit.', exUz: "Avans to'lashingiz kerak." },
     { en: 'reservation', uz: 'band qilish', ipa: 'ˌrezəˈveɪʃn', pos: 'noun', ex: 'I have a reservation for two nights.', exUz: 'Menda ikki kechaga band qilingan joy bor.' },
-    { en: 'refund', uz: 'pulni qaytarish', ipa: 'ˈriːfʌnd', pos: 'noun', ex: 'Can I get a refund?', exUz: 'Pulimni qaytarib olsam bo\'ladimi?' },
+    { en: 'discount', uz: 'chegirma', ipa: 'ˈdɪskaʊnt', pos: 'noun', ex: 'Is there a discount for students?', exUz: 'Talabalar uchun chegirma bormi?' }
   ],
   practice: [
-    { k: 'match', pairs: [['brochure', 'risola'], ['timetable', 'jadval'], ['fare', "yo'l haqi"], ['reservation', 'band qilish'], ['refund', 'pulni qaytarish']] },
+    { k: 'match', pairs: [['brochure', 'risola'], ['enquiry', "so'rov"], ['deposit', 'avans'], ['reservation', 'band qilish'], ['discount', 'chegirma']] },
     { k: 'choice', q: "Could you tell me where ___?", opts: ['the station is', 'is the station', 'does the station', 'the station does'], a: 0, why: "Muloyim savolda darak tartibi: **where the station is**." },
     { k: 'choice', q: "Do you know ___ the museum is open on Mondays?", opts: ['if', 'what', 'where', 'who'], a: 0, why: "Ha/yo'q savolda **if** (yoki whether)." },
     { k: 'fill', q: "Is it ___ to book a table online?", a: ['possible'], uz: "Internetda stol band qilsa bo'ladimi?", why: "**Is it possible to…?** — muloyim savol." },
@@ -86,7 +86,7 @@ const lesson: Lesson = {
     { k: 'order', uz: "Takrorlay olasizmi, iltimos?", words: ['Could', 'you', 'repeat', 'that,', 'please?'], extra: ['say', 'to'], alt: [['Could', 'you', 'please', 'repeat', 'that?']], why: "**Could you …, please?**" },
     { k: 'fix', wrong: 'Could you tell me where is the post office?', a: ['Could you tell me where the post office is?'], why: "Muloyim savolda darak tartibi: **where the post office is**." },
     { k: 'fix', wrong: 'Do you know what time does the shop close?', a: ['Do you know what time the shop closes?'], why: "**does** ishlatilmaydi: *the shop closes*." },
-    { k: 'translate', uz: "Avtobus yo'l haqi qancha ekanini bilasizmi?", a: ['Do you know how much the bus fare is?', 'Do you know how much the fare is?', 'Could you tell me how much the bus fare is?', 'Could you tell me how much the fare is?'], why: "**Do you know how much … is?**" },
+    { k: 'translate', uz: "Chipta qancha turishini bilasizmi?", a: ['Do you know how much the ticket is?', 'Do you know how much the tickets are?', 'Could you tell me how much the ticket is?', 'Do you know how much a ticket is?', 'Could you tell me how much a ticket is?'], why: "**Do you know how much … is?**" },
     { k: 'translate', uz: "Pulimni qaytarib olsam bo'ladimi?", a: ['Is it possible to get a refund?', 'Can I get a refund?', 'Could I get a refund?', 'Is it possible to have a refund?'], why: "**Is it possible to get a refund?**" },
     { k: 'tf', q: "*Could you tell me where is the museum?* — Gap to'g'ri.", a: false, why: "To'g'ri: *where the museum is*." },
     { k: 'dictation', say: 'Is it possible to join a guided tour?', a: ['Is it possible to join a guided tour?'], uz: "Gid bilan ekskursiyaga qo'shilsa bo'ladimi?" },
@@ -109,7 +109,7 @@ const lesson: Lesson = {
     "Ha/yo'q savolda **if** (yoki *whether*): *Do you know if the museum is open?*",
     "Telefonda: **Could you repeat that, please?** va **Could you speak more slowly?** — uyalmang.",
     "Tasdiqlash uchun question tag: *So the tour starts at ten, doesn't it?*",
-    "Yangi so'zlar: **brochure, timetable, fare, reservation, refund**.",
+    "Yangi so'zlar: **brochure, enquiry, deposit, reservation, discount**.",
   ],
   homework: "Turistik ofisga borgan holatni tasavvur qiling va 5 ta muloyim savol yozing (Could you tell me…, Do you know if…, Is it possible to…). Do'stingiz bilan rollar bo'yicha o'qing.",
 };

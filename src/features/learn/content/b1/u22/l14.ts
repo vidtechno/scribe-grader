@@ -69,11 +69,11 @@ const lesson: Lesson = {
     { en: 'device', uz: 'qurilma', ipa: 'dɪˈvaɪs', pos: 'noun', ex: 'I use three devices every day.', exUz: "Men har kuni uchta qurilmadan foydalanaman." },
     { en: 'privacy', uz: 'shaxsiy hayot, maxfiylik', ipa: 'ˈprɪv.ə.si', pos: 'noun', ex: 'Online privacy is important.', exUz: "Onlayn maxfiylik muhim." },
     { en: 'addicted', uz: 'qaram, o\'rganib qolgan', ipa: 'əˈdɪk.tɪd', pos: 'adj', ex: 'Many teenagers are addicted to games.', exUz: "Ko'p o'smirlar o'yinlarga qaram." },
-    { en: 'convenient', uz: 'qulay', ipa: 'kənˈviː.ni.ənt', pos: 'adj', ex: 'Online banking is very convenient.', exUz: "Onlayn bank juda qulay." },
+    { en: 'download', uz: 'yuklab olmoq', ipa: 'ˌdaʊnˈləʊd', pos: 'verb', ex: 'I download podcasts for the train.', exUz: "Poyezd uchun podkastlarni yuklab olaman." },
     { en: 'notification', uz: 'xabarnoma', ipa: 'ˌnəʊ.tɪ.fɪˈkeɪ.ʃən', pos: 'noun', ex: 'I turn off notifications at night.', exUz: "Kechasi xabarnomalarni o'chiraman." },
   ],
   practice: [
-    { k: 'match', pairs: [['device', 'qurilma'], ['privacy', 'maxfiylik'], ['addicted', 'qaram'], ['convenient', 'qulay'], ['notification', 'xabarnoma']] },
+    { k: 'match', pairs: [['device', 'qurilma'], ['privacy', 'maxfiylik'], ['addicted', 'qaram'], ['download', 'yuklab olmoq'], ['notification', 'xabarnoma']] },
     { k: 'choice', q: 'I ___ my phone for almost everything.', opts: ['rely on', 'rely', 'rely at', 'depend'], a: 0, why: "**rely on** + ot." },
     { k: 'choice', q: 'Many people are addicted ___ their phones.', opts: ['to', 'of', 'at', 'for'], a: 0, why: "**addicted to**." },
     { k: 'fill', q: 'The ___ I use my phone, the worse I sleep.', a: ['more'], uz: "Telefonni qancha ko'p ishlatsam, shuncha yomon uxlayman.", why: "**The more…, the worse…**" },
