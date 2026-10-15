@@ -66,7 +66,7 @@ const lesson: Lesson = {
     { en: 'requirement', uz: 'talab', ipa: 'rɪˈkwaɪə.mənt', pos: 'noun', ex: 'Good English is a requirement for this job.', exUz: "Bu ish uchun yaxshi ingliz tili talab qilinadi." },
     { en: 'applicant', uz: 'nomzod, ariza beruvchi', ipa: 'ˈæp.lɪ.kənt', pos: 'noun', ex: 'There were fifty applicants for the job.', exUz: "Ish uchun ellik nomzod bor edi." },
     { en: 'relevant', uz: "tegishli, mos", ipa: 'ˈrel.ə.vənt', pos: 'adj', ex: 'Do you have any relevant experience?', exUz: "Sizda mos tajriba bormi?" },
-    { en: 'suitable', uz: 'mos, munosib', ipa: 'ˈsuː.tə.bəl', pos: 'adj', ex: 'He is a suitable person for the job.', exUz: "U bu ish uchun munosib odam." },
+    { en: 'qualified', uz: 'malakali, layoqatli', ipa: 'ˈkwɒl.ɪ.faɪd', pos: 'adj', ex: 'She is qualified to teach English.', exUz: 'U ingliz tilini o\'qitishga malakali.' },
   ],
   practice: [
     { k: 'match', pairs: [['vacancy', "bo'sh ish o'rni"], ['requirement', 'talab'], ['applicant', 'nomzod'], ['relevant', 'tegishli, mos'], ['suitable', 'munosib']] },

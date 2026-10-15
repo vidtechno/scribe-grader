@@ -69,9 +69,9 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'pace', uz: 'tempo, tezlik', ipa: 'peɪs', pos: 'noun', ex: 'Speak at a slower pace.', exUz: 'Sekinroq tempda gapiring.' },
-    { en: 'pause', uz: "to'xtash, pauza", ipa: 'pɔːz', pos: 'noun', ex: 'Make a short pause after each idea.', exUz: "Har bir fikrdan keyin qisqa to'xtang." },
+    { en: 'intonation', uz: 'ohang, intonatsiya', ipa: 'ˌɪn.təˈneɪ.ʃən', pos: 'noun', ex: 'Your intonation goes up at the end of a question.', exUz: "Savol oxirida ohangingiz ko'tariladi." },
     { en: 'stress', uz: "urg'u berib aytmoq", ipa: 'stres', pos: 'verb', ex: 'Stress the important words.', exUz: "Muhim so'zlarga urg'u bering." },
-    { en: 'rehearse', uz: 'oldindan mashq qilmoq', ipa: 'rɪˈhɜːs', pos: 'verb', ex: 'I rehearse my talk in front of a mirror.', exUz: "Nutqimni oyna oldida mashq qilaman." },
+    { en: 'volume', uz: 'ovoz balandligi', ipa: 'ˈvɒl.juːm', pos: 'noun', ex: 'Raise your volume so everyone can hear you.', exUz: 'Hamma eshitishi uchun ovozingizni balandroq qiling.' },
     { en: 'pronounce', uz: "talaffuz qilmoq", ipa: 'prəˈnaʊns', pos: 'verb', ex: 'How do you pronounce this word?', exUz: "Bu so'zni qanday talaffuz qilasiz?" },
   ],
   practice: [

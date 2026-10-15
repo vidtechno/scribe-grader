@@ -69,9 +69,9 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'option', uz: 'variant, tanlov', ipa: 'ˈɒpʃn', pos: 'noun', ex: 'Both options are good.', exUz: 'Ikkala variant ham yaxshi.' },
-    { en: 'guest', uz: 'mehmon', ipa: 'ɡest', pos: 'noun', ex: 'Each guest gets a free ticket.', exUz: 'Har bir mehmon bepul chipta oladi.' },
-    { en: 'available', uz: "bor, mavjud, band emas", ipa: 'əˈveɪləbl', pos: 'adj', ex: 'Neither room is available tonight.', exUz: "Bugun kechqurun na bir xona bo'sh." },
+    { en: 'identical', uz: 'bir xil, aynan o\'xshash', ipa: 'aɪˈden.tɪ.kəl', pos: 'adj', ex: 'The two bags are identical, so I can\'t tell them apart.', exUz: 'Ikkala sumka bir xil, shuning uchun ularni ajrata olmayman.' },
+    { en: 'participant', uz: 'ishtirokchi', ipa: 'pɑːˈtɪs.ɪ.pənt', pos: 'noun', ex: 'Each participant gets a free T-shirt.', exUz: 'Har bir ishtirokchi bepul futbolka oladi.' },
+    { en: 'mutual', uz: 'o\'zaro, umumiy', ipa: 'ˈmjuː.tʃu.əl', pos: 'adj', ex: 'Both of us have a mutual friend in London.', exUz: 'Ikkalamizning Londonda umumiy do\'stimiz bor.' },
     { en: 'suitable', uz: 'mos, munosib', ipa: 'ˈsuːtəbl', pos: 'adj', ex: 'Either date is suitable for me.', exUz: 'Ikkala sana ham menga mos.' },
     { en: 'separate', uz: 'alohida', ipa: 'ˈseprət', pos: 'adj', ex: 'Each room has a separate bathroom.', exUz: 'Har bir xonaning alohida hammomi bor.' },
   ],

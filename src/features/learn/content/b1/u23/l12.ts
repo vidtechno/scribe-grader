@@ -68,10 +68,10 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'however', uz: 'biroq, lekin', ipa: 'haʊˈev.ər', pos: 'adv', ex: 'It is cheap. However, it is not very good.', exUz: 'Arzon. Biroq u unchalik yaxshi emas.' },
+    { en: 'in contrast', uz: "aksincha, farqli o'laroq", ipa: 'ɪn ˈkɒn.trɑːst', pos: 'phrase', ex: 'Summers are hot here. In contrast, winters are very mild.', exUz: 'Bu yerda yozlar issiq. Aksincha, qishlar juda yumshoq.' },
     { en: 'therefore', uz: 'shuning uchun', ipa: 'ˈðeə.fɔːr', pos: 'adv', ex: 'It was raining. Therefore, we stayed inside.', exUz: "Yomg'ir yog'ayotgan edi. Shuning uchun uyda qoldik." },
     { en: 'moreover', uz: 'bundan tashqari', ipa: 'mɔːrˈəʊ.vər', pos: 'adv', ex: 'The hotel is clean. Moreover, the staff are friendly.', exUz: 'Mehmonxona toza. Bundan tashqari, xodimlar xushmuomala.' },
-    { en: 'whereas', uz: 'holbuki, esa', ipa: 'weəˈræz', pos: 'conj', ex: 'Tom is quiet, whereas his sister is very talkative.', exUz: "Tom jim, singlisi esa juda gapdon." },
+    { en: 'as a result', uz: 'natijada', ipa: 'æz ə rɪˈzʌlt', pos: 'phrase', ex: 'He trained hard. As a result, he won the race.', exUz: "U qattiq shug'ullandi. Natijada u poygada g'alaba qozondi." },
     { en: 'nevertheless', uz: "shunga qaramay", ipa: 'ˌnev.ə.ðəˈles', pos: 'adv', ex: 'The test was hard. Nevertheless, she passed it.', exUz: "Test qiyin edi. Shunga qaramay, u o'tdi." },
   ],
   practice: [

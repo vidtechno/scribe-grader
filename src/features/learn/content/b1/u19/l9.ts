@@ -78,8 +78,8 @@ const lesson: Lesson = {
     { en: 'witness', uz: "guvoh", ipa: 'ˈwɪt.nəs', pos: 'noun', ex: 'The witness saw the whole accident.', exUz: "Guvoh butun hodisani ko'rdi." },
     { en: 'injured', uz: "jarohatlangan", ipa: 'ˈɪn.dʒəd', pos: 'adj', ex: 'Two people were slightly injured.', exUz: "Ikki kishi yengil jarohat oldi." },
     { en: 'crash', uz: "to'qnashmoq; to'qnashuv", ipa: 'kræʃ', pos: 'verb', ex: 'The van crashed into a wall.', exUz: "Furgon devorga borib urildi." },
-    { en: 'steal – stole – stolen', uz: "o'g'irlamoq", ipa: 'stiːl – stəʊl – ˈstəʊ.lən', pos: 'verb', ex: 'Someone stole my wallet on the bus.', exUz: "Kimdir avtobusda hamyonimni o'g'irladi." },
-    { en: 'damage', uz: "zarar, shikast", ipa: 'ˈdæm.ɪdʒ', pos: 'noun', ex: 'There was a lot of damage to the car.', exUz: "Mashinaga ancha zarar yetgan edi." },
+    { en: 'theft', uz: "o'g'irlik", ipa: 'θeft', pos: 'noun', ex: "The theft happened while we were on holiday.", exUz: "O'g'irlik biz dam olayotganimizda sodir bo'ldi." },
+    { en: 'break in', uz: "bostirib kirmoq", ipa: 'breɪk ɪn', pos: 'phrasal verb', ex: "Someone broke in through the back window.", exUz: "Kimdir orqa deraza orqali bostirib kirdi." },
     { en: 'make a statement', uz: "ko'rsatma bermoq", ipa: 'meɪk ə ˈsteɪt.mənt', pos: 'phrase', ex: 'The police asked him to make a statement.', exUz: "Politsiya undan ko'rsatma berishni so'radi." },
   ],
   practice: [

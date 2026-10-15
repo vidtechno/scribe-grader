@@ -65,12 +65,12 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'staff', uz: 'xodimlar', ipa: 'stɑːf', pos: 'noun', ex: 'The staff were very helpful.', exUz: 'Xodimlar juda yordam berishga tayyor edi.' },
-    { en: 'comfortable', uz: 'qulay', ipa: 'ˈkʌmftəbl', pos: 'adj', ex: 'The bed was very comfortable.', exUz: "To'shak juda qulay edi." },
-    { en: 'helpful', uz: 'yordam berishga tayyor', ipa: 'ˈhelpfl', pos: 'adj', ex: 'The receptionist was very helpful.', exUz: 'Qabulxona xodimi juda yordamga tayyor edi.' },
-    { en: 'disappointed', uz: "hafsalasi pir bo'lgan", ipa: 'ˌdɪsəˈpɔɪntɪd', pos: 'adj', ex: 'We were disappointed with the food.', exUz: "Taomdan hafsalamiz pir bo'ldi." },
-    { en: 'complaint', uz: 'shikoyat', ipa: 'kəmˈpleɪnt', pos: 'noun', ex: 'I made a complaint about the noise.', exUz: 'Shovqin haqida shikoyat qildim.' },
-    { en: 'noisy', uz: 'shovqinli', ipa: 'ˈnɔɪzi', pos: 'adj', ex: 'The street was noisy at night.', exUz: 'Ko\'cha kechasi shovqinli edi.' },
+    { en: 'cleanliness', uz: 'tozalik', ipa: 'ˈkliːn.li.nəs', pos: 'noun', ex: 'The cleanliness of the room was excellent.', exUz: 'Xonaning tozaligi a\'lo darajada edi.' },
+    { en: 'outdated', uz: 'eskirgan', ipa: 'ˌaʊtˈdeɪ.tɪd', pos: 'adj', ex: 'The furniture in the room was a bit outdated.', exUz: 'Xonadagi mebel biroz eskirgan edi.' },
+    { en: 'satisfied', uz: 'mamnun', ipa: 'ˈsæt.ɪs.faɪd', pos: 'adj', ex: 'We were very satisfied with our stay.', exUz: 'Biz turib o\'tganimizdan juda mamnun edik.' },
+    { en: 'amenities', uz: 'qulayliklar', ipa: 'əˈmiː.nə.tiz', pos: 'noun', ex: 'The hotel has great amenities, including a gym and a pool.', exUz: 'Mehmonxonada sport zali va basseyn kabi ajoyib qulayliklar bor.' },
+    { en: 'hospitality', uz: 'mehmondo\'stlik', ipa: 'ˌhɒs.pɪˈtæl.ə.ti', pos: 'noun', ex: 'We were impressed by the warm hospitality.', exUz: 'Biz iliq mehmondo\'stlikdan hayratda qoldik.' },
+    { en: 'courteous', uz: 'xushmuomala', ipa: 'ˈkɜː.ti.əs', pos: 'adj', ex: 'The receptionist was polite and courteous.', exUz: 'Qabulxona xodimi odobli va xushmuomala edi.' },
   ],
   practice: [
     { k: 'match', pairs: [['staff', 'xodimlar'], ['comfortable', 'qulay'], ['helpful', 'yordamga tayyor'], ['disappointed', "hafsalasi pir bo'lgan"], ['noisy', 'shovqinli'], ['complaint', 'shikoyat']] },

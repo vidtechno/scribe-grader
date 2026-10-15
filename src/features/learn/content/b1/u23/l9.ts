@@ -66,7 +66,7 @@ const lesson: Lesson = {
   words: [
     { en: 'contribute', uz: "hissa qo'shmoq, qatnashmoq", ipa: 'kənˈtrɪb.juːt', pos: 'verb', ex: 'Everyone should contribute to the discussion.', exUz: "Hamma munozarada qatnashishi kerak." },
     { en: 'interrupt', uz: "gapini bo'lmoq", ipa: 'ˌɪn.təˈrʌpt', pos: 'verb', ex: 'Please do not interrupt me.', exUz: "Iltimos, gapimni bo'lmang." },
-    { en: 'suggest', uz: 'taklif qilmoq', ipa: 'səˈdʒest', pos: 'verb', ex: 'I suggest that we vote now.', exUz: "Hozir ovoz berishni taklif qilaman." },
+    { en: 'bring up', uz: "(mavzuni) ko'tarib chiqmoq", ipa: 'ˌbrɪŋ ˈʌp', pos: 'phrasal verb', ex: 'Can I bring up one more problem?', exUz: "Yana bitta muammoni ko'tarsam bo'ladimi?" },
     { en: 'concern', uz: 'xavotir, tashvish', ipa: 'kənˈsɜːn', pos: 'noun', ex: 'My main concern is the cost.', exUz: "Mening asosiy xavotirim — narx." },
     { en: 'point', uz: 'fikr, dalil', ipa: 'pɔɪnt', pos: 'noun', ex: 'That is a good point.', exUz: "Bu yaxshi fikr." },
   ],

@@ -69,7 +69,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'describe', uz: 'tasvirlamoq', ipa: 'dɪˈskraɪb', pos: 'verb', ex: 'Can you describe your city?', exUz: 'Shahringizni tasvirlab bera olasizmi?' },
+    { en: 'atmosphere', uz: 'muhit, kayfiyat', ipa: 'ˈæt.məs.fɪər', pos: 'noun', ex: 'The town has a friendly atmosphere.', exUz: 'Shaharchada do\'stona muhit bor.' },
     { en: 'typical', uz: 'xos, odatiy', ipa: 'ˈtɪpɪkl', pos: 'adj', ex: 'This is a typical old town.', exUz: 'Bu odatiy eski shahar.' },
     { en: 'region', uz: 'viloyat, hudud', ipa: 'ˈriːdʒən', pos: 'noun', ex: 'It is the best region for fruit.', exUz: 'Bu meva uchun eng yaxshi hudud.' },
     { en: 'impressive', uz: 'ta\'sirli, ulug\'vor', ipa: 'ɪmˈpresɪv', pos: 'adj', ex: 'The old fortress is very impressive.', exUz: 'Eski qal\'a juda ta\'sirli.' },

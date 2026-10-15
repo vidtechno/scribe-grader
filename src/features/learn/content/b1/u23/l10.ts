@@ -64,8 +64,8 @@ const lesson: Lesson = {
   words: [
     { en: 'compromise', uz: "kelishuv, yon berish", ipa: 'ˈkɒm.prə.maɪz', pos: 'noun', ex: 'We found a compromise in the end.', exUz: 'Oxirida kelishuvga erishdik.' },
     { en: 'disagree', uz: "rozi bo'lmaslik", ipa: 'ˌdɪs.əˈɡriː', pos: 'verb', ex: 'I disagree with you about the price.', exUz: "Narx haqida sizga qo'shilmayman." },
-    { en: 'fair', uz: 'adolatli', ipa: 'feər', pos: 'adj', ex: 'It is not fair to ask her to pay everything.', exUz: "Hammasini uning to'lashini so'rash adolatsizlik." },
-    { en: 'persuade', uz: "ishontirmoq", ipa: 'pəˈsweɪd', pos: 'verb', ex: 'She persuaded me to join the club.', exUz: "U meni klubga qo'shilishga ko'ndirdi." },
+    { en: 'reasonable', uz: "o'rinli, oqilona", ipa: 'ˈriː.zən.ə.bəl', pos: 'adj', ex: 'That sounds like a reasonable offer.', exUz: "Bu o'rinli taklifga o'xshaydi." },
+    { en: 'meet halfway', uz: "o'rtada kelishmoq, yon bermoq", ipa: 'ˌmiːt hɑːfˈweɪ', pos: 'phrase', ex: "I'll meet you halfway and pay half the cost.", exUz: "Sizga yon beraman va xarajatning yarmini to'layman." },
     { en: 'alternative', uz: 'muqobil variant', ipa: 'ɔːlˈtɜː.nə.tɪv', pos: 'noun', ex: 'Is there an alternative to this plan?', exUz: "Bu rejaga muqobil bormi?" },
   ],
   practice: [

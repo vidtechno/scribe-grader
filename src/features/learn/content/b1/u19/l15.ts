@@ -69,7 +69,7 @@ const lesson: Lesson = {
     { en: 'announce', uz: "e'lon qilmoq", ipa: 'əˈnaʊns', pos: 'verb', ex: 'The school announced that it would close early.', exUz: "Maktab erta yopilishini e'lon qildi." },
     { en: 'quote', uz: "iqtibos; iqtibos keltirmoq", ipa: 'kwəʊt', pos: 'noun', ex: 'The article ends with a quote from the mayor.', exUz: "Maqola merdan olingan iqtibos bilan tugaydi." },
     { en: 'council', uz: "kengash (shahar)", ipa: 'ˈkaʊn.səl', pos: 'noun', ex: 'The town council meets every month.', exUz: "Shahar kengashi har oy yig'iladi." },
-    { en: 'volunteer', uz: "ko'ngilli", ipa: 'ˌvɒl.ənˈtɪə', pos: 'noun', ex: 'Volunteers cleaned the beach on Sunday.', exUz: "Ko'ngillilar yakshanba kuni sohilni tozaladi." },
+    { en: 'organiser', uz: "tashkilotchi", ipa: 'ˈɔː.ɡən.aɪ.zər', pos: 'noun', ex: "The organiser said that about 300 people had come.", exUz: "Tashkilotchi taxminan 300 kishi kelganini aytdi." },
   ],
   practice: [
     { k: 'match', pairs: [['spokesperson', 'vakil'], ['announce', "e'lon qilmoq"], ['quote', 'iqtibos'], ['council', 'kengash'], ['volunteer', "ko'ngilli"]] },

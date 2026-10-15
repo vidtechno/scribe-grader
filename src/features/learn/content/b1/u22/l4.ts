@@ -137,14 +137,14 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "efficient", uz: "samarali", ipa: "ɪˈfɪʃ.ənt", pos: "adj", ex: "Online banking is more efficient than visiting a branch.", exUz: "Onlayn bank filialga borishdan samaraliroq." },
-    { en: "reliable", uz: "ishonchli", ipa: "rɪˈlaɪ.ə.bəl", pos: "adj", ex: "Our internet is much more reliable now.", exUz: "Internetimiz endi ancha ishonchli." },
-    { en: "convenient", uz: "qulay", ipa: "kənˈviː.ni.ənt", pos: "adj", ex: "The office is convenient for the station.", exUz: "Ofis bekatga yaqin va qulay." },
+    { en: "durable", uz: "chidamli, uzoq xizmat qiladigan", ipa: "ˈdjʊə.rə.bəl", pos: "adj", ex: "This bag is more durable than my old one.", exUz: "Bu sumka eskisiga qaraganda ancha chidamli." },
+    { en: "affordable", uz: "hamyonbop, arzon", ipa: "əˈfɔː.də.bəl", pos: "adj", ex: "Public transport is far more affordable than a taxi.", exUz: "Jamoat transporti taksiga qaraganda ancha arzon." },
     { en: "demanding", uz: "ko'p kuch talab qiladigan", ipa: "dɪˈmɑːn.dɪŋ", pos: "adj", ex: "Teaching is a demanding job.", exUz: "O'qituvchilik ko'p kuch talab qiladigan kasb." },
     { en: "flexible", uz: "moslashuvchan", ipa: "ˈflek.sə.bəl", pos: "adj", ex: "I prefer flexible working hours.", exUz: "Moslashuvchan ish soatlarini afzal ko'raman." },
-    { en: "slightly", uz: "biroz, ozgina", ipa: "ˈslaɪt.li", pos: "adv", ex: "Prices are slightly higher this year.", exUz: "Narxlar bu yil biroz yuqori." },
+    { en: "noticeably", uz: "sezilarli darajada, ko'zga tashlanib", ipa: "ˈnəʊ.tɪ.sə.bli", pos: "adv", ex: "The city is noticeably quieter on Sundays.", exUz: "Yakshanba kunlari shahar ko'zga tashlanib tinchroq bo'ladi." },
     { en: "considerably", uz: "sezilarli darajada", ipa: "kənˈsɪd.ər.ə.bli", pos: "adv", ex: "The new system is considerably faster.", exUz: "Yangi tizim sezilarli darajada tezroq." },
     { en: "increasingly", uz: "tobora, borgan sari", ipa: "ɪnˈkriː.sɪŋ.li", pos: "adv", ex: "Increasingly, people shop online.", exUz: "Tobora ko'proq odam onlayn xarid qilmoqda." },
-    { en: "gradually", uz: "asta-sekin", ipa: "ˈɡrædʒ.u.ə.li", pos: "adv", ex: "My English is gradually getting better.", exUz: "Ingliz tilim asta-sekin yaxshilanmoqda." },
+    { en: "steadily", uz: "izchil, bir maromda", ipa: "ˈsted.ɪ.li", pos: "adv", ex: "Sales have grown steadily over the last year.", exUz: "So'nggi yil davomida savdo izchil o'sdi." },
     { en: "compared with", uz: "...ga nisbatan", ipa: "kəmˈpeəd wɪð", pos: "phrase", ex: "Compared with last year, sales are up.", exUz: "O'tgan yilga nisbatan savdo oshgan." },
   ],
   practice: [

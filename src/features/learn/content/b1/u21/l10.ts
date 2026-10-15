@@ -72,8 +72,8 @@ const lesson: Lesson = {
     { en: 'brochure', uz: 'buklet, risola', ipa: 'ˈbrəʊʃə', pos: 'noun', ex: 'Here is a brochure with a map.', exUz: 'Mana xaritali risola.' },
     { en: 'enquiry', uz: "so'rov, ma'lumot so'rash", ipa: 'ɪnˈkwaɪri', pos: 'noun', ex: 'I have an enquiry about the tour.', exUz: "Mening ekskursiya haqida savolim bor." },
     { en: 'deposit', uz: 'avans, garov puli', ipa: 'dɪˈpɒzɪt', pos: 'noun', ex: 'You need to pay a deposit.', exUz: "Avans to'lashingiz kerak." },
-    { en: 'reservation', uz: 'band qilish', ipa: 'ˌrezəˈveɪʃn', pos: 'noun', ex: 'I have a reservation for two nights.', exUz: 'Menda ikki kechaga band qilingan joy bor.' },
-    { en: 'discount', uz: 'chegirma', ipa: 'ˈdɪskaʊnt', pos: 'noun', ex: 'Is there a discount for students?', exUz: 'Talabalar uchun chegirma bormi?' }
+    { en: 'availability', uz: 'bo\'sh joy borligi', ipa: 'əˌveɪ.ləˈbɪl.ə.ti', pos: 'noun', ex: 'Can you check the availability for next weekend?', exUz: 'Kelasi dam olish kunlari uchun bo\'sh joy bor-yo\'qligini tekshira olasizmi?' },
+    { en: 'itinerary', uz: 'sayohat rejasi', ipa: 'aɪˈtɪn.ər.ər.i', pos: 'noun', ex: 'Could you send me the itinerary for the tour?', exUz: 'Tur uchun sayohat rejasini yubora olasizmi?' },
   ],
   practice: [
     { k: 'match', pairs: [['brochure', 'risola'], ['enquiry', "so'rov"], ['deposit', 'avans'], ['reservation', 'band qilish'], ['discount', 'chegirma']] },

@@ -78,10 +78,10 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'waste', uz: "behuda sarflamoq, isrof qilmoq", ipa: 'weɪst', pos: 'verb', ex: "We wasted a lot of time in the queue.", exUz: "Biz navbatda ko'p vaqtni behuda sarfladik." },
-    { en: 'fail', uz: "muvaffaqiyatsiz bo'lmoq, yiqilmoq (imtihonda)", ipa: 'feɪl', pos: 'verb', ex: "He failed his driving test twice.", exUz: "U haydovchilik imtihonidan ikki marta yiqildi." },
-    { en: 'notice', uz: "payqamoq, sezmoq", ipa: 'ˈnəʊ.tɪs', pos: 'verb', ex: "I didn't notice the sign.", exUz: "Men belgini payqamadim." },
-    { en: 'warn', uz: "ogohlantirmoq", ipa: 'wɔːn', pos: 'verb', ex: "You should have warned me about the price.", exUz: "Narx haqida meni ogohlantirishing kerak edi." },
-    { en: 'realise', uz: "anglab yetmoq, tushunib qolmoq", ipa: 'ˈrɪə.laɪz', pos: 'verb', ex: "I realised my mistake too late.", exUz: "Xatomni juda kech angladim." },
+    { en: 'oversleep', uz: "uxlab qolmoq", ipa: 'ˌəʊ.vəˈsliːp', pos: 'verb', ex: "I overslept, so I missed the first lesson.", exUz: "Uxlab qoldim, shuning uchun birinchi darsdan qoldim." },
+    { en: 'rush', uz: "shoshilmoq", ipa: 'rʌʃ', pos: 'verb', ex: "You shouldn't have rushed the work; there were many mistakes.", exUz: "Ishni shoshib qilmasligingiz kerak edi; xatolar ko'p bo'ldi." },
+    { en: 'neglect', uz: "e'tiborsiz qoldirmoq", ipa: 'nɪˈɡlekt', pos: 'verb', ex: "He shouldn't have neglected his health for so long.", exUz: "U sog'lig'iga shuncha vaqt e'tiborsiz qaramasligi kerak edi." },
+    { en: 'overlook', uz: "ko'rmay qolmoq, e'tibor bermay o'tib ketmoq", ipa: 'ˌəʊ.vəˈlʊk', pos: 'verb', ex: "We overlooked a small detail in the contract.", exUz: "Shartnomadagi bir mayda tafsilotga e'tibor bermay qoldik." },
   ],
   practice: [
     { k: 'match', pairs: [['waste', 'behuda sarflamoq'], ['fail', 'imtihonda yiqilmoq'], ['notice', 'payqamoq'], ['warn', 'ogohlantirmoq'], ['realise', 'anglab yetmoq']] },

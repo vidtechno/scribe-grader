@@ -56,11 +56,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'reader', uz: "o'quvchi, kitobxon", ipa: 'ˈriː.də', pos: 'noun', ex: "A reader wrote to the magazine.", exUz: "Bir o'quvchi jurnalga yozdi." },
-    { en: 'cope with', uz: "uddalamoq, bardosh bermoq", ipa: 'kəʊp wɪð', pos: 'phrase', ex: "How do you cope with stress?", exUz: "Stressga qanday bardosh berasiz?" },
-    { en: 'support', uz: "qo'llab-quvvatlamoq; qo'llab-quvvatlash", ipa: 'səˈpɔːt', pos: 'verb', ex: "My family always supports me.", exUz: "Oilam meni doim qo'llab-quvvatlaydi." },
+    { en: 'struggle', uz: "qiynalmoq, kurashmoq", ipa: 'ˈstrʌɡ.əl', pos: 'verb', ex: "Many students struggle with exam stress.", exUz: "Ko'p talabalar imtihon stressi bilan qiynaladi." },
+    { en: 'bother', uz: "bezovta qilmoq, xalaqit bermoq", ipa: 'ˈbɒð.ər', pos: 'verb', ex: "Sorry to bother you, but I need some advice.", exUz: "Bezovta qilganim uchun uzr, lekin menga maslahat kerak." },
+    { en: 'mature', uz: "ulg'aygan, pishgan", ipa: 'məˈtʃʊər', pos: 'adj', ex: "He is very mature for his age.", exUz: "U yoshiga nisbatan juda pishgan." },
     { en: 'pressure', uz: "bosim", ipa: 'ˈpreʃ.ə', pos: 'noun', ex: "There is a lot of pressure at work.", exUz: "Ishda bosim juda katta." },
-    { en: 'reply', uz: "javob; javob bermoq", ipa: 'rɪˈplaɪ', pos: 'noun', ex: "I'm waiting for your reply.", exUz: "Javobingizni kutyapman." },
+    { en: 'stand up for', uz: "himoya qilmoq, yonini olmoq", ipa: 'stænd ʌp fɔːr', pos: 'phrasal verb', ex: "You should stand up for yourself at work.", exUz: "Ishda o'zingizni himoya qilishingiz kerak." },
   ],
   practice: [
     { k: 'match', pairs: [['reader', "o'quvchi"], ['cope with', 'uddalamoq'], ['support', "qo'llab-quvvatlamoq"], ['pressure', 'bosim'], ['reply', 'javob']] },

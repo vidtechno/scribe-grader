@@ -136,7 +136,7 @@ const lesson: Lesson = {
     { en: "rehearse", uz: "mashq qilmoq, tayyorlanmoq", ipa: "rɪˈhɜːs", pos: "verb", ex: "We rehearsed the talk three times.", exUz: "Biz nutqni uch marta mashq qildik." },
     { en: "pause", uz: "to'xtab turmoq; pauza", ipa: "pɔːz", pos: "verb", ex: "Pause for a moment after a key idea.", exUz: "Asosiy fikrdan keyin bir lahza to'xtab turing." },
     { en: "eye contact", uz: "ko'z bilan aloqa", ipa: "ˈaɪ ˌkɒn.tækt", pos: "noun", ex: "Keep eye contact with the audience.", exUz: "Tinglovchilar bilan ko'z aloqasini saqlang." },
-    { en: "deliver", uz: "(nutq) so'zlamoq, taqdim etmoq", ipa: "dɪˈlɪv.ər", pos: "verb", ex: "She delivered an excellent talk.", exUz: "U ajoyib nutq so'zladi." },
+    { en: "convey", uz: "yetkazmoq, bildirmoq", ipa: "kənˈveɪ", pos: "verb", ex: "Good speakers convey their message clearly.", exUz: "Yaxshi notiqlar o'z fikrini aniq yetkazadi." },
   ],
   practice: [
     { k: "match", pairs: [["audience", "tinglovchilar"], ["topic", "mavzu"], ["structure", "tuzilma"], ["rehearse", "mashq qilmoq"], ["emphasise", "ta'kidlamoq"], ["summarise", "qisqacha bayon qilmoq"]] },

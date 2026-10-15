@@ -57,11 +57,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'summarise', uz: "qisqacha bayon qilmoq", ipa: 'ˈsʌm.ə.raɪz', pos: 'verb', ex: 'Can you summarise the article in three sentences?', exUz: "Maqolani uchta gapda qisqacha aytib bera olasizmi?" },
+    { en: 'key point', uz: 'asosiy nuqta', ipa: 'ˈkiː ˌpɔɪnt', pos: 'noun', ex: 'Underline each key point as you read.', exUz: "O'qiyotganda har bir asosiy nuqtani chizib qo'ying." },
     { en: 'paraphrase', uz: "o'z so'zlar bilan qayta aytmoq", ipa: 'ˈpær.ə.freɪz', pos: 'verb', ex: 'Do not copy the text. Paraphrase it.', exUz: "Matnni ko'chirmang. Uni o'z so'zlaringiz bilan ayting." },
     { en: 'main idea', uz: "asosiy g'oya", ipa: 'meɪn aɪˈdɪə', pos: 'noun', ex: 'What is the main idea of this text?', exUz: "Bu matnning asosiy g'oyasi nima?" },
     { en: 'detail', uz: 'tafsilot', ipa: 'ˈdiː.teɪl', pos: 'noun', ex: 'You do not need every detail in a summary.', exUz: "Qisqacha bayonda har bir tafsilot kerak emas." },
-    { en: 'headline', uz: 'sarlavha (gazeta)', ipa: 'ˈhed.laɪn', pos: 'noun', ex: 'The headline made me curious.', exUz: "Sarlavha meni qiziqtirib qo'ydi." },
+    { en: 'shorten', uz: 'qisqartirmoq', ipa: 'ˈʃɔː.tən', pos: 'verb', ex: 'Try to shorten your summary to fifty words.', exUz: "Qisqacha bayoningizni ellik so'zgacha qisqartirishga harakat qiling." },
   ],
   practice: [
     { k: 'match', pairs: [['summarise', 'qisqacha bayon qilmoq'], ['paraphrase', "o'z so'zlar bilan aytmoq"], ['main idea', "asosiy g'oya"], ['detail', 'tafsilot'], ['headline', 'sarlavha']] },

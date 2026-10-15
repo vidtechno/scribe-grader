@@ -72,9 +72,9 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'faulty', uz: "nuqsonli, buzuq", ipa: 'ˈfɔːl.ti', pos: 'adj', ex: 'The phone was faulty from the start.', exUz: "Telefon boshidanoq nuqsonli edi." },
-    { en: 'refund', uz: "pulni qaytarish", ipa: 'ˈriː.fʌnd', pos: 'noun', ex: 'I asked for a full refund.', exUz: "Men to'liq pulni qaytarishni so'radim." },
-    { en: 'complaint', uz: "shikoyat", ipa: 'kəmˈpleɪnt', pos: 'noun', ex: 'I would like to make a complaint.', exUz: "Men shikoyat qilmoqchiman." },
+    { en: 'defective', uz: "nuqsonli, yaroqsiz", ipa: 'dɪˈfek.tɪv', pos: 'adj', ex: "The kettle was defective, so I took it back.", exUz: "Choynak nuqsonli edi, shuning uchun uni qaytarib olib bordim." },
+    { en: 'compensation', uz: "tovon, kompensatsiya", ipa: 'ˌkɒm.penˈseɪ.ʃən', pos: 'noun', ex: "They offered us compensation for the delay.", exUz: "Ular kechikish uchun bizga tovon taklif qilishdi." },
+    { en: 'warranty', uz: "kafolat (mahsulotga)", ipa: 'ˈwɒr.ən.ti', pos: 'noun', ex: "The laptop is still under warranty.", exUz: "Noutbuk hali kafolat ostida." },
     { en: 'replacement', uz: "almashtirish; almashtirish uchun narsa", ipa: 'rɪˈpleɪs.mənt', pos: 'noun', ex: 'They sent me a replacement.', exUz: "Ular menga almashtirib yuborishdi." },
     { en: 'unacceptable', uz: "qabul qilib bo'lmaydigan", ipa: 'ˌʌn.əkˈsep.tə.bəl', pos: 'adj', ex: 'Waiting two hours is unacceptable.', exUz: "Ikki soat kutish qabul qilib bo'lmaydi." },
   ],

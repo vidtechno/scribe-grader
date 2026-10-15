@@ -122,13 +122,13 @@ const lesson: Lesson = {
   words: [
     { en: "resident", uz: "aholi, yashovchi", ipa: "ˈrez.ɪ.dənt", pos: "noun", ex: "Local residents helped to clean the park.", exUz: "Mahalliy aholi bog'ni tozalashga yordam berdi." },
     { en: "architect", uz: "me'mor", ipa: "ˈɑː.kɪ.tekt", pos: "noun", ex: "The theatre was designed by a young architect.", exUz: "Teatrni yosh me'mor loyihalagan." },
-    { en: "century", uz: "asr", ipa: "ˈsen.tʃər.i", pos: "noun", ex: "The mosque was built many centuries ago.", exUz: "Masjid ko'p asrlar oldin qurilgan." },
-    { en: "ancient", uz: "qadimiy", ipa: "ˈeɪn.ʃənt", pos: "adj", ex: "We visited an ancient city in the desert.", exUz: "Biz cho'ldagi qadimiy shaharni ko'rdik." },
-    { en: "tradition", uz: "an'ana", ipa: "trəˈdɪʃ.ən", pos: "noun", ex: "Drinking tea together is an old tradition.", exUz: "Birga choy ichish — qadimiy an'ana." },
+    { en: "medieval", uz: "o'rta asrlarga oid", ipa: "ˌmed.iˈiː.vəl", pos: "adj", ex: "The town has a medieval castle.", exUz: "Shaharchada o'rta asrlarga oid qasr bor." },
+    { en: "settlement", uz: "aholi punkti, posyolka", ipa: "ˈset.əl.mənt", pos: "noun", ex: "The first settlement here was built by farmers.", exUz: "Bu yerdagi birinchi aholi punktini dehqonlar qurgan." },
+    { en: "legacy", uz: "meros", ipa: "ˈleɡ.ə.si", pos: "noun", ex: "The old king left a rich legacy to his country.", exUz: "Qari shoh o'z mamlakatiga boy meros qoldirdi." },
     { en: "heritage", uz: "meros", ipa: "ˈher.ɪ.tɪdʒ", pos: "noun", ex: "The old town is part of our cultural heritage.", exUz: "Eski shahar madaniy merosimizning bir qismi." },
     { en: "monument", uz: "yodgorlik", ipa: "ˈmɒn.jə.mənt", pos: "noun", ex: "There is a monument in the middle of the square.", exUz: "Maydon o'rtasida yodgorlik bor." },
     { en: "craftsman", uz: "hunarmand", ipa: "ˈkrɑːfts.mən", pos: "noun", ex: "The bowls are made by a local craftsman.", exUz: "Kosalarni mahalliy hunarmand yasaydi." },
-    { en: "community", uz: "jamoa, mahalla", ipa: "kəˈmjuː.nə.ti", pos: "noun", ex: "The whole community came to the festival.", exUz: "Butun mahalla bayramga keldi." },
+    { en: "ceremony", uz: "marosim", ipa: "ˈser.ɪ.mə.ni", pos: "noun", ex: "The opening ceremony was held in the main square.", exUz: "Ochilish marosimi asosiy maydonda o'tkazildi." },
     { en: "ruins", uz: "xarobalar, vayronalar", ipa: "ˈruː.ɪnz", pos: "noun", ex: "We walked around the ruins of an old fortress.", exUz: "Biz eski qal'a xarobalari atrofida sayr qildik." },
   ],
   practice: [

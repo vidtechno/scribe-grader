@@ -88,11 +88,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'mistake', uz: 'xato', ipa: 'mɪˈsteɪk', pos: 'noun', ex: 'Everyone makes mistakes when they learn a language.', exUz: "Til o'rganganda hamma xato qiladi." },
-    { en: 'habit', uz: 'odat', ipa: 'ˈhæb.ɪt', pos: 'noun', ex: 'Reading every day is a good habit.', exUz: "Har kuni o'qish — yaxshi odat." },
+    { en: 'confuse', uz: 'adashtirmoq, chalkashtirmoq', ipa: 'kənˈfjuːz', pos: 'verb', ex: "Many learners confuse 'make' and 'do'.", exUz: "Ko'p o'quvchilar 'make' va 'do' ni adashtiradi." },
+    { en: 'overuse', uz: "haddan tashqari ko'p ishlatmoq", ipa: 'ˌəʊ.vəˈjuːz', pos: 'verb', ex: "Try not to overuse the word 'very'.", exUz: "'Very' so'zini haddan tashqari ko'p ishlatmaslikka harakat qiling." },
     { en: 'accurate', uz: "aniq, to'g'ri", ipa: 'ˈæk.jə.rət', pos: 'adj', ex: 'Try to write accurate sentences.', exUz: "To'g'ri gaplar yozishga harakat qiling." },
     { en: 'careless', uz: "beparvo, e'tiborsiz", ipa: 'ˈkeə.ləs', pos: 'adj', ex: 'It was a careless mistake.', exUz: "Bu e'tiborsizlik tufayli qilingan xato edi." },
-    { en: 'improve', uz: 'yaxshilamoq', ipa: 'ɪmˈpruːv', pos: 'verb', ex: 'I want to improve my writing.', exUz: "Yozishimni yaxshilamoqchiman." },
+    { en: 'get used to', uz: "o'rganib qolmoq, ko'nikmoq", ipa: 'ɡet ˈjuːst tə', pos: 'phrasal verb', ex: 'It took me a month to get used to the new schedule.', exUz: "Yangi jadvalga ko'nikishim uchun bir oy kerak bo'ldi." },
   ],
   practice: [
     { k: 'match', pairs: [['depend on', "...ga bog'liq bo'lmoq"], ['listen to', 'tinglamoq'], ['wait for', 'kutmoq'], ['married to', 'turmushga chiqqan'], ['interested in', "qiziqmoq"]] },

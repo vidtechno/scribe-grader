@@ -66,10 +66,10 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'crash', uz: 'ishdan chiqmoq, qotib qolmoq', ipa: 'kræʃ', pos: 'verb', ex: 'My computer crashed twice today.', exUz: "Kompyuterim bugun ikki marta ishdan chiqdi." },
-    { en: 'password', uz: 'parol', ipa: 'ˈpɑːs.wɜːd', pos: 'noun', ex: 'I forgot my password again.', exUz: "Parolimni yana unutdim." },
+    { en: 'freeze', uz: 'qotib qolmoq (ekran, dastur)', ipa: 'friːz', pos: 'verb', ex: 'The screen froze while I was typing.', exUz: 'Men yozayotganimda ekran qotib qoldi.' },
+    { en: 'reboot', uz: 'qayta ishga tushirmoq', ipa: 'ˌriːˈbuːt', pos: 'verb', ex: 'Try to reboot the computer and see if that helps.', exUz: 'Kompyuterni qayta ishga tushirib ko\'ring, balki yordam berar.' },
     { en: 'backup', uz: 'zaxira nusxa', ipa: 'ˈbæk.ʌp', pos: 'noun', ex: 'Always make a backup of your files.', exUz: "Fayllaringizning zaxira nusxasini doim oling." },
-    { en: 'urgent', uz: 'shoshilinch', ipa: 'ˈɜː.dʒənt', pos: 'adj', ex: 'This email is urgent.', exUz: "Bu xat shoshilinch." },
+    { en: 'glitch', uz: 'kichik nosozlik', ipa: 'ɡlɪtʃ', pos: 'noun', ex: 'There was a small glitch in the system this morning.', exUz: 'Bugun ertalab tizimda kichik nosozlik bo\'ldi.' },
     { en: 'error', uz: 'xato', ipa: 'ˈer.ər', pos: 'noun', ex: 'The screen shows an error message.', exUz: "Ekranda xato xabari ko'rinyapti." },
   ],
   practice: [

@@ -64,8 +64,8 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'debate', uz: 'munozara', ipa: 'dɪˈbeɪt', pos: 'noun', ex: 'There is a lot of debate about this idea.', exUz: "Bu g'oya haqida ko'p munozara bor." },
-    { en: 'evidence', uz: 'dalil, isbot', ipa: 'ˈev.ɪ.dəns', pos: 'noun', ex: 'You need evidence to support your opinion.', exUz: "Fikringizni asoslash uchun dalil kerak." },
+    { en: 'reflect', uz: "o'ylab ko'rmoq, mulohaza yuritmoq", ipa: 'rɪˈflekt', pos: 'verb', ex: 'Take a moment to reflect on what you have learned.', exUz: "Nimalarni o'rganganingiz haqida bir lahza o'ylab ko'ring." },
+    { en: 'make progress', uz: "yutuqqa erishmoq, olg'a siljimoq", ipa: 'meɪk ˈprəʊ.ɡres', pos: 'phrase', ex: 'You are making good progress with your English.', exUz: 'Ingliz tilingizda yaxshi natijalarga erishayapsiz.' },
     { en: 'viewpoint', uz: 'nuqtai nazar', ipa: 'ˈvjuː.pɔɪnt', pos: 'noun', ex: 'Try to see the problem from another viewpoint.', exUz: "Muammoga boshqa nuqtai nazardan qarashga harakat qiling." },
     { en: 'express', uz: 'ifodalamoq', ipa: 'ɪkˈspres', pos: 'verb', ex: 'It is hard to express this idea in English.', exUz: "Bu fikrni inglizcha ifodalash qiyin." },
     { en: 'balance', uz: 'muvozanat', ipa: 'ˈbæl.əns', pos: 'noun', ex: 'We need a balance between work and rest.', exUz: "Ish va dam olish o'rtasida muvozanat kerak." },

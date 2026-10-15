@@ -81,9 +81,9 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'upset', uz: "xafa, ranjigan", ipa: 'ʌpˈset', pos: 'adj', ex: "She was upset about the news.", exUz: "U yangilikdan xafa bo'ldi." },
-    { en: 'argue', uz: "bahslashmoq, janjallashmoq", ipa: 'ˈɑːɡ.juː', pos: 'verb', ex: "My brother and I argue about football.", exUz: "Akam bilan futbol haqida bahslashamiz." },
+    { en: 'reassure', uz: "tinchlantirmoq, ishontirmoq", ipa: 'ˌriː.əˈʃɔːr', pos: 'verb', ex: "I tried to reassure her that everything would be fine.", exUz: "Men uni hammasi yaxshi bo'lishiga ishontirishga harakat qildim." },
     { en: 'calm down', uz: "tinchlanmoq", ipa: 'kɑːm daʊn', pos: 'phrase', ex: "Take a deep breath and calm down.", exUz: "Chuqur nafas oling va tinchlaning." },
-    { en: 'honest', uz: "halol, ochiq", ipa: 'ˈɒn.ɪst', pos: 'adj', ex: "Be honest with your friends.", exUz: "Do'stlaringiz bilan ochiq bo'ling." },
+    { en: 'sympathetic', uz: "hamdard, tushunadigan", ipa: 'ˌsɪm.pəˈθet.ɪk', pos: 'adj', ex: "My teacher was very sympathetic when I told her about my problem.", exUz: "Muammom haqida aytganimda o'qituvchim juda hamdard bo'ldi." },
     { en: 'talk it over', uz: "(masalani) muhokama qilib olmoq", ipa: 'tɔːk ɪt ˈəʊ.və', pos: 'phrase', ex: "Let's talk it over before we decide.", exUz: "Qaror qilishdan oldin muhokama qilib olaylik." },
   ],
   practice: [

@@ -127,13 +127,13 @@ const lesson: Lesson = {
   words: [
     { en: "paragraph", uz: "abzats", ipa: "ˈpær.ə.ɡrɑːf", pos: "noun", ex: "Each paragraph has one main idea.", exUz: "Har bir abzatsda bitta asosiy fikr bor." },
     { en: "introduction", uz: "kirish", ipa: "ˌɪn.trəˈdʌk.ʃən", pos: "noun", ex: "Write a short introduction first.", exUz: "Avval qisqa kirish yozing." },
-    { en: "conclusion", uz: "xulosa", ipa: "kənˈkluː.ʒən", pos: "noun", ex: "The conclusion repeats your opinion.", exUz: "Xulosa fikringizni takrorlaydi." },
-    { en: "reader", uz: "o'quvchi", ipa: "ˈriː.dər", pos: "noun", ex: "Think about your reader when you write.", exUz: "Yozayotganda o'quvchingiz haqida o'ylang." },
+    { en: "outline", uz: "reja, qisqa tuzilma; reja tuzmoq", ipa: "ˈaʊt.laɪn", pos: "noun", ex: "Write an outline before you start the essay.", exUz: "Esseni boshlashdan oldin reja tuzing." },
+    { en: "topic sentence", uz: "abzatsning bosh gapi", ipa: "ˈtɒp.ɪk ˌsen.təns", pos: "noun", ex: "The topic sentence tells us what the paragraph is about.", exUz: "Bosh gap abzats nima haqida ekanini aytadi." },
     { en: "balanced", uz: "muvozanatli, xolis", ipa: "ˈbæl.ənst", pos: "adj", ex: "A balanced essay shows both sides.", exUz: "Xolis esse ikkala tomonni ko'rsatadi." },
     { en: "formal", uz: "rasmiy", ipa: "ˈfɔː.məl", pos: "adj", ex: "Use formal language in an essay.", exUz: "Esseda rasmiy tildan foydalaning." },
-    { en: "persuade", uz: "ishontirmoq", ipa: "pəˈsweɪd", pos: "verb", ex: "Good examples can persuade the reader.", exUz: "Yaxshi misollar o'quvchini ishontirishi mumkin." },
-    { en: "overall", uz: "umuman olganda", ipa: "ˌəʊ.vərˈɔːl", pos: "adv", ex: "Overall, the idea has more benefits than problems.", exUz: "Umuman olganda, g'oyaning kamchiligidan ko'ra foydasi ko'proq." },
-    { en: "draft", uz: "qoralama", ipa: "drɑːft", pos: "noun", ex: "I wrote two drafts of the essay.", exUz: "Men essening ikkita qoralamasini yozdim." },
+    { en: "firstly", uz: "birinchidan", ipa: "ˈfɜːst.li", pos: "adv", ex: "Firstly, I would like to explain why this matters.", exUz: "Birinchidan, bu nega muhimligini tushuntirmoqchiman." },
+    { en: "to sum up", uz: "xulosa qilib aytganda", ipa: "tə ˈsʌm ʌp", pos: "phrase", ex: "To sum up, both sides have good arguments.", exUz: "Xulosa qilib aytganda, ikkala tomonning ham yaxshi dalillari bor." },
+    { en: "for instance", uz: "masalan", ipa: "fər ˈɪn.stəns", pos: "phrase", ex: "Many cities have problems, for instance traffic and noise.", exUz: "Ko'p shaharlarda muammolar bor, masalan tirbandlik va shovqin." },
     { en: "proofread", uz: "xatolarni tekshirib o'qimoq", ipa: "ˈpruːf.riːd", pos: "verb", ex: "Always proofread your work before you send it.", exUz: "Yuborishdan oldin ishingizni doim tekshirib chiqing." },
   ],
   practice: [

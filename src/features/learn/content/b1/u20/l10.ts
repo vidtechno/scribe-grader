@@ -79,11 +79,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'apologise', uz: "uzr so'ramoq", ipa: 'əˈpɒl.ə.dʒaɪz', pos: 'verb', ex: "I apologise for the delay.", exUz: "Kechikish uchun uzr so'rayman." },
-    { en: 'regret', uz: "pushaymon bo'lmoq", ipa: 'rɪˈɡret', pos: 'verb', ex: "I regret not studying more.", exUz: "Ko'proq o'qimaganimdan pushaymonman." },
-    { en: 'blame', uz: "ayblamoq", ipa: 'bleɪm', pos: 'verb', ex: "Don't blame yourself.", exUz: "O'zingizni ayblamang." },
+    { en: 'apology', uz: "uzr", ipa: 'əˈpɒl.ə.dʒi', pos: 'noun', ex: "Please accept my apology for being late.", exUz: "Kechikkanim uchun uzrimni qabul qiling." },
+    { en: 'sincere', uz: "samimiy", ipa: 'sɪnˈsɪər', pos: 'adj', ex: "He gave me a sincere apology.", exUz: "U mendan samimiy uzr so'radi." },
+    { en: 'confess', uz: "tan olmoq, bo'yniga olmoq", ipa: 'kənˈfes', pos: 'verb', ex: "I have to confess that I forgot your birthday.", exUz: "Tug'ilgan kuningizni unutganimni tan olishim kerak." },
     { en: 'forgive', uz: "kechirmoq", ipa: 'fəˈɡɪv', pos: 'verb', ex: "Please forgive me.", exUz: "Iltimos, meni kechiring." },
-    { en: 'fault', uz: "ayb, aybdorlik", ipa: 'fɔːlt', pos: 'noun', ex: "It was my fault.", exUz: "Bu mening aybim edi." },
+    { en: 'excuse', uz: "bahona, uzr", ipa: 'ɪkˈskjuːs', pos: 'noun', ex: "That is not a good excuse for missing the meeting.", exUz: "Bu yig'ilishga kelmaslik uchun yaxshi bahona emas." },
   ],
   practice: [
     { k: 'match', pairs: [['apologise', "uzr so'ramoq"], ['regret', 'pushaymon bo\'lmoq'], ['blame', 'ayblamoq'], ['forgive', 'kechirmoq'], ['fault', 'ayb']] },

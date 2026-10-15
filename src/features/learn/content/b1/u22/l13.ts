@@ -77,12 +77,12 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'definitely', uz: 'albatta, shubhasiz', ipa: 'ˈdef.ɪ.nət.li', pos: 'adv', ex: 'I will definitely call you tonight.', exUz: "Bugun kechqurun albatta qo'ng'iroq qilaman." },
-    { en: 'probably', uz: 'ehtimol, ko\'pincha', ipa: 'ˈprɒb.ə.bli', pos: 'adv', ex: 'He will probably be late.', exUz: "U ehtimol kech qoladi." },
+    { en: 'predict', uz: 'bashorat qilmoq', ipa: 'prɪˈdɪkt', pos: 'verb', ex: 'Nobody can predict exactly what will happen.', exUz: 'Nima bo\'lishini hech kim aniq bashorat qila olmaydi.' },
+    { en: 'bound to', uz: 'albatta ... bo\'ladi (muqarrar)', ipa: 'baʊnd tuː', pos: 'phrase', ex: 'You are bound to feel nervous before the exam.', exUz: 'Imtihondan oldin hayajonlanishingiz tabiiy.' },
     { en: 'doubt', uz: 'shubhalanmoq', ipa: 'daʊt', pos: 'verb', ex: 'I doubt he knows the answer.', exUz: "U javobni biladi deb o'ylamayman." },
-    { en: 'likely', uz: 'ehtimol, mumkin', ipa: 'ˈlaɪ.kli', pos: 'adj', ex: 'It is likely to rain this evening.', exUz: "Bu oqshom yomg'ir yog'ishi mumkin." },
-    { en: 'unlikely', uz: 'dargumon', ipa: 'ʌnˈlaɪ.kli', pos: 'adj', ex: 'A strike is unlikely this year.', exUz: "Bu yil ish tashlash dargumon." },
-    { en: 'certain', uz: 'aniq, ishonchli', ipa: 'ˈsɜː.tən', pos: 'adj', ex: 'I\'m certain I locked the door.', exUz: "Eshikni qulflaganimga ishonchim komil." },
+    { en: 'surely', uz: 'albatta, shubhasiz', ipa: 'ˈʃɔː.li', pos: 'adv', ex: 'Surely they will call us if there is a problem.', exUz: 'Muammo bo\'lsa, ular albatta bizga qo\'ng\'iroq qilishadi.' },
+    { en: 'inevitable', uz: 'muqarrar, oldini olib bo\'lmaydigan', ipa: 'ɪˈnev.ɪ.tə.bəl', pos: 'adj', ex: 'Some changes in the job market are inevitable.', exUz: 'Ish bozoridagi ayrim o\'zgarishlar muqarrar.' },
+    { en: 'assume', uz: 'deb o\'ylamoq, taxmin qilmoq', ipa: 'əˈsjuːm', pos: 'verb', ex: 'I assume the shop will be open on Monday.', exUz: 'Do\'kon dushanba kuni ochiq bo\'ladi deb o\'ylayman.' },
   ],
   practice: [
     { k: 'match', pairs: [['definitely', 'albatta'], ['probably', 'ehtimol'], ['I doubt', 'shubhalanaman'], ['unlikely', 'dargumon'], ['certain', 'aniq, ishonchli']] },

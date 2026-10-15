@@ -74,9 +74,9 @@ const lesson: Lesson = {
   words: [
     { en: 'renovate', uz: 'yangilamoq, ta\'mirlab yangilamoq', ipa: 'ˈrenəveɪt', pos: 'verb', ex: 'The old hotel will be renovated.', exUz: 'Eski mehmonxona yangilanadi.' },
     { en: 'replace', uz: 'almashtirmoq', ipa: 'rɪˈpleɪs', pos: 'verb', ex: 'The old windows will be replaced.', exUz: 'Eski derazalar almashtiriladi.' },
-    { en: 'destroy', uz: 'vayron qilmoq', ipa: 'dɪˈstrɔɪ', pos: 'verb', ex: 'The old bridge was destroyed by the flood.', exUz: 'Eski ko\'prik toshqinda vayron bo\'ldi.' },
+    { en: 'demolish', uz: 'buzib tashlamoq', ipa: 'dɪˈmɒl.ɪʃ', pos: 'verb', ex: 'The old building will be demolished next year.', exUz: 'Eski bino kelasi yil buzib tashlanadi.' },
     { en: 'protect', uz: 'himoya qilmoq', ipa: 'prəˈtekt', pos: 'verb', ex: 'Old buildings should be protected.', exUz: 'Eski binolarni himoya qilish kerak.' },
-    { en: 'announce', uz: "e'lon qilmoq", ipa: 'əˈnaʊns', pos: 'verb', ex: 'The news has been announced.', exUz: "Yangilik e'lon qilindi." },
+    { en: 'approve', uz: 'ma\'qullamoq, tasdiqlamoq', ipa: 'əˈpruːv', pos: 'verb', ex: 'The plan has been approved by the council.', exUz: 'Reja kengash tomonidan tasdiqlandi.' },
   ],
   practice: [
     { k: 'match', pairs: [['has been repaired', "ta'mirlangan"], ['will be opened', 'ochiladi'], ['can be seen', "ko'rish mumkin"], ['must be finished', 'tugatilishi kerak'], ['should be protected', 'himoya qilinishi kerak']] },

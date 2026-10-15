@@ -62,11 +62,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'notice', uz: "payqamoq, sezmoq", ipa: 'ˈnəʊ.tɪs', pos: 'verb', ex: 'I noticed that the window was open.', exUz: "Derazaning ochiqligini payqadim." },
-    { en: 'reply', uz: "javob bermoq", ipa: 'rɪˈplaɪ', pos: 'verb', ex: 'She replied that she was busy.', exUz: "U band ekanini javob qildi." },
-    { en: 'mention', uz: "tilga olmoq, eslatib o'tmoq", ipa: 'ˈmen.ʃən', pos: 'verb', ex: 'He mentioned that he had a new job.', exUz: "U yangi ishi borligini aytib o'tdi." },
-    { en: 'explain', uz: "tushuntirmoq", ipa: 'ɪkˈspleɪn', pos: 'verb', ex: 'The teacher explained why the test was moved.', exUz: "O'qituvchi testning nega ko'chirilganini tushuntirdi." },
-    { en: 'apologise', uz: "uzr so'ramoq", ipa: 'əˈpɒl.ə.dʒaɪz', pos: 'verb', ex: 'He apologised for being late.', exUz: "U kechikkani uchun uzr so'radi." },
+    { en: 'confess', uz: "tan olmoq, bo'yniga olmoq", ipa: 'kənˈfes', pos: 'verb', ex: "He confessed that he had broken the window.", exUz: "U derazani sindirganini bo'yniga oldi." },
+    { en: 'reveal', uz: "oshkor qilmoq", ipa: 'rɪˈviːl', pos: 'verb', ex: "She revealed that she was moving abroad.", exUz: "U chet elga ko'chib ketayotganini oshkor qildi." },
+    { en: 'murmur', uz: "pichirlab aytmoq, g'o'ldiramoq", ipa: 'ˈmɜː.mər', pos: 'verb', ex: "He murmured that he was tired and went to bed.", exUz: "U charchaganini pichirlab aytdi va yotgani ketdi." },
+    { en: 'recount', uz: "hikoya qilib bermoq", ipa: 'rɪˈkaʊnt', pos: 'verb', ex: "She recounted what had happened that night.", exUz: "U o'sha kechasi nima bo'lganini hikoya qilib berdi." },
+    { en: 'overlook', uz: "e'tibordan chetda qoldirmoq", ipa: 'ˌəʊ.vəˈlʊk', pos: 'verb', ex: "I had overlooked a small mistake in my report.", exUz: "Hisobotimdagi kichik xatoni e'tibordan chetda qoldirgan edim." },
   ],
   practice: [
     { k: 'match', pairs: [['notice', 'payqamoq'], ['reply', 'javob bermoq'], ['mention', 'tilga olmoq'], ['explain', 'tushuntirmoq'], ['apologise', "uzr so'ramoq"]] },

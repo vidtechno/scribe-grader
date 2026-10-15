@@ -73,10 +73,10 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'dilemma', uz: "qiyin tanlov, ikkilanish", ipa: 'dɪˈlem.ə', pos: 'noun', ex: "I'm in a real dilemma.", exUz: "Men haqiqiy ikkilanishdaman." },
-    { en: 'decision', uz: "qaror", ipa: 'dɪˈsɪʒ.ən', pos: 'noun', ex: "It was a hard decision.", exUz: "Bu qiyin qaror edi." },
-    { en: 'risk', uz: "xavf, tavakkal", ipa: 'rɪsk', pos: 'noun', ex: "Starting a business is a big risk.", exUz: "Biznes boshlash katta tavakkal." },
+    { en: 'consult', uz: "maslahatlashmoq", ipa: 'kənˈsʌlt', pos: 'verb', ex: "You should consult a lawyer before you sign anything.", exUz: "Biror narsaga imzo chekishdan oldin advokat bilan maslahatlashing." },
+    { en: 'reasonable', uz: "o'rinli, mantiqli", ipa: 'ˈriː.zən.ə.bəl', pos: 'adj', ex: "It sounds like a reasonable offer to me.", exUz: "Menga bu o'rinli taklifdek tuyuladi." },
     { en: 'option', uz: "variant, imkoniyat", ipa: 'ˈɒp.ʃən', pos: 'noun', ex: "We have two options.", exUz: "Bizda ikkita variant bor." },
-    { en: 'depend on', uz: "…ga bog'liq bo'lmoq", ipa: 'dɪˈpend ɒn', pos: 'phrase', ex: "It depends on the weather.", exUz: "Bu ob-havoga bog'liq." },
+    { en: 'cautious', uz: "ehtiyotkor, hushyor", ipa: 'ˈkɔː.ʃəs', pos: 'adj', ex: "She is cautious about spending money on new gadgets.", exUz: "U yangi gadjetlarga pul sarflashda ehtiyotkor." },
   ],
   practice: [
     { k: 'listen', say: 'I have a real dilemma.', opts: ['I have a real dilemma.', 'I have a real problem.', 'I had a real dilemma.', 'I have a real decision.'], a: 0 },

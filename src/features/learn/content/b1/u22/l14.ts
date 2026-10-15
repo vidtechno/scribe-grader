@@ -66,10 +66,10 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'device', uz: 'qurilma', ipa: 'dɪˈvaɪs', pos: 'noun', ex: 'I use three devices every day.', exUz: "Men har kuni uchta qurilmadan foydalanaman." },
+    { en: 'browse', uz: 'internetda ko\'zdan kechirmoq', ipa: 'braʊz', pos: 'verb', ex: 'I often browse the internet before I go to sleep.', exUz: 'Uxlashdan oldin tez-tez internetni ko\'zdan kechiraman.' },
     { en: 'privacy', uz: 'shaxsiy hayot, maxfiylik', ipa: 'ˈprɪv.ə.si', pos: 'noun', ex: 'Online privacy is important.', exUz: "Onlayn maxfiylik muhim." },
     { en: 'addicted', uz: 'qaram, o\'rganib qolgan', ipa: 'əˈdɪk.tɪd', pos: 'adj', ex: 'Many teenagers are addicted to games.', exUz: "Ko'p o'smirlar o'yinlarga qaram." },
-    { en: 'download', uz: 'yuklab olmoq', ipa: 'ˌdaʊnˈləʊd', pos: 'verb', ex: 'I download podcasts for the train.', exUz: "Poyezd uchun podkastlarni yuklab olaman." },
+    { en: 'stream', uz: 'onlayn tomosha qilmoq yoki tinglamoq', ipa: 'striːm', pos: 'verb', ex: 'We usually stream films at the weekend.', exUz: 'Dam olish kunlari odatda filmlarni onlayn tomosha qilamiz.' },
     { en: 'notification', uz: 'xabarnoma', ipa: 'ˌnəʊ.tɪ.fɪˈkeɪ.ʃən', pos: 'noun', ex: 'I turn off notifications at night.', exUz: "Kechasi xabarnomalarni o'chiraman." },
   ],
   practice: [

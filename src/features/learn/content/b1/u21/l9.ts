@@ -61,12 +61,12 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'neighbourhood', uz: 'mahalla', ipa: 'ˈneɪbəhʊd', pos: 'noun', ex: 'This is a lively neighbourhood.', exUz: 'Bu jonli mahalla.' },
-    { en: 'busy', uz: 'gavjum, band', ipa: 'ˈbɪzi', pos: 'adj', ex: 'The market is busy on Saturdays.', exUz: 'Bozor shanba kunlari gavjum bo\'ladi.' },
-    { en: 'lively', uz: 'jonli, quvnoq', ipa: 'ˈlaɪvli', pos: 'adj', ex: 'The street is lively in the evening.', exUz: 'Ko\'cha kechqurun jonli bo\'ladi.' },
-    { en: 'nearby', uz: 'yaqin atrofda', ipa: 'ˌnɪəˈbaɪ', pos: 'adj', ex: 'There is a nearby park.', exUz: 'Yaqin atrofda bir bog\' bor.' },
+    { en: 'surroundings', uz: 'atrof-muhit', ipa: 'səˈraʊn.dɪŋz', pos: 'noun', ex: 'The hotel has beautiful surroundings.', exUz: 'Mehmonxonaning atrofi juda chiroyli.' },
+    { en: 'spacious', uz: 'keng, keng-mo\'l', ipa: 'ˈspeɪ.ʃəs', pos: 'adj', ex: 'The flat is spacious and full of light.', exUz: 'Kvartira keng va yorug\'.' },
+    { en: 'picturesque', uz: 'go\'zal, rasmdek', ipa: 'ˌpɪk.tʃəˈresk', pos: 'adj', ex: 'It is a picturesque village with old stone houses.', exUz: 'Bu eski tosh uylari bor chiroyli qishloq.' },
+    { en: 'scenic', uz: 'manzarali', ipa: 'ˈsiː.nɪk', pos: 'adj', ex: 'We took a scenic route along the coast.', exUz: 'Biz qirg\'oq bo\'ylab manzarali yo\'ldan bordik.' },
     { en: 'peaceful', uz: 'tinch, osoyishta', ipa: 'ˈpiːsfl', pos: 'adj', ex: 'It is a peaceful village.', exUz: 'Bu osoyishta qishloq.' },
-    { en: 'view', uz: "manzara", ipa: 'vjuː', pos: 'noun', ex: 'The room has a lovely view.', exUz: 'Xonadan go\'zal manzara ko\'rinadi.' },
+    { en: 'charming', uz: 'maftunkor, yoqimli', ipa: 'ˈtʃɑː.mɪŋ', pos: 'adj', ex: 'It is a charming little town by the sea.', exUz: 'Bu dengiz bo\'yidagi yoqimli kichik shahar.' },
   ],
   practice: [
     { k: 'match', pairs: [['neighbourhood', 'mahalla'], ['busy', 'gavjum'], ['lively', 'jonli'], ['peaceful', 'tinch'], ['view', 'manzara']] },

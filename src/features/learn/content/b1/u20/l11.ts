@@ -68,10 +68,10 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'imagine', uz: "tasavvur qilmoq", ipa: 'ɪˈmædʒ.ɪn', pos: 'verb', ex: "Imagine you won a prize.", exUz: "Tasavvur qiling, siz sovrin yutdingiz." },
-    { en: 'chance', uz: "imkoniyat, ehtimol", ipa: 'tʃɑːns', pos: 'noun', ex: "There is a good chance of rain.", exUz: "Yomg'ir yog'ish ehtimoli katta." },
-    { en: 'unlikely', uz: "ehtimoldan yiroq", ipa: 'ʌnˈlaɪk.li', pos: 'adj', ex: "It is unlikely that he will come.", exUz: "Uning kelishi ehtimoldan yiroq." },
-    { en: 'otherwise', uz: "aks holda", ipa: 'ˈʌð.ə.waɪz', pos: 'adv', ex: "Hurry up, otherwise we'll be late.", exUz: "Tezroq bo'l, aks holda kechikamiz." },
+    { en: 'possibility', uz: "imkoniyat, ehtimol", ipa: 'ˌpɒs.əˈbɪl.ə.ti', pos: 'noun', ex: "There is a possibility that it will rain tomorrow.", exUz: "Ertaga yomg'ir yog'ishi ehtimoli bor." },
+    { en: 'prospect', uz: "istiqbol, kutilayotgan imkoniyat", ipa: 'ˈprɒs.pekt', pos: 'noun', ex: "The prospect of living abroad excites me.", exUz: "Xorijda yashash istiqboli meni hayajonlantiradi." },
+    { en: 'uncertain', uz: "noaniq", ipa: 'ʌnˈsɜː.tən', pos: 'adj', ex: "The future of the project is still uncertain.", exUz: "Loyihaning kelajagi hali noaniq." },
+    { en: 'outcome', uz: "natija, oqibat", ipa: 'ˈaʊt.kʌm', pos: 'noun', ex: "We are waiting for the outcome of the meeting.", exUz: "Biz majlis natijasini kutyapmiz." },
     { en: 'suppose', uz: "faraz qilmoq, deb o'ylamoq", ipa: 'səˈpəʊz', pos: 'verb', ex: "I suppose you are right.", exUz: "Menimcha, haqsiz." },
   ],
   practice: [

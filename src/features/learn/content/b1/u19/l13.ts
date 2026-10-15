@@ -70,13 +70,13 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'suggest', uz: "taklif qilmoq, maslahat bermoq", ipa: 'səˈdʒest', pos: 'verb', ex: 'She suggested taking a taxi.', exUz: "U taksiga o'tirishni taklif qildi." },
-    { en: 'promise', uz: "va'da bermoq", ipa: 'ˈprɒm.ɪs', pos: 'verb', ex: 'He promised to send me the photos.', exUz: "U menga suratlarni yuborishga va'da berdi." },
+    { en: 'threaten', uz: "do'q qilmoq, tahdid qilmoq", ipa: 'ˈθret.ən', pos: 'verb', ex: "He threatened to call the police.", exUz: "U politsiyani chaqirish bilan do'q qildi." },
+    { en: 'accuse', uz: "ayblamoq", ipa: 'əˈkjuːz', pos: 'verb', ex: "She accused him of taking her bag.", exUz: "U uni sumkasini olganlikda aybladi." },
     { en: 'admit', uz: "tan olmoq", ipa: 'ədˈmɪt', pos: 'verb', ex: 'She admitted making a mistake.', exUz: "U xato qilganini tan oldi." },
     { en: 'deny', uz: "inkor qilmoq", ipa: 'dɪˈnaɪ', pos: 'verb', ex: 'He denied telling anyone the secret.', exUz: "U sirni hech kimga aytganini inkor qildi." },
-    { en: 'warn', uz: "ogohlantirmoq", ipa: 'wɔːn', pos: 'verb', ex: 'The sign warns people not to swim here.', exUz: "Belgi odamlarni bu yerda suzmaslikka ogohlantiradi." },
-    { en: 'refuse', uz: "rad etmoq", ipa: 'rɪˈfjuːz', pos: 'verb', ex: 'He refused to wait any longer.', exUz: "U boshqa kutishdan bosh tortdi." },
-    { en: 'offer', uz: "taklif qilmoq (yordam)", ipa: 'ˈɒf.ə', pos: 'verb', ex: 'My neighbour offered to look after the cat.', exUz: "Qo'shnim mushukka qarashni taklif qildi." },
+    { en: 'propose', uz: "taklif qilmoq (reja, fikr)", ipa: 'prəˈpəʊz', pos: 'verb', ex: "I proposed meeting at the station.", exUz: "Men vokzalda uchrashishni taklif qildim." },
+    { en: 'urge', uz: "qattiq undamoq, shoshiltirmoq", ipa: 'ɜːdʒ', pos: 'verb', ex: "The teacher urged us to start revising early.", exUz: "O'qituvchi bizni takrorlashni erta boshlashga qattiq undadi." },
+    { en: 'swear', uz: "qasam ichmoq", ipa: 'sweər', pos: 'verb', ex: "He swore that he would never be late again.", exUz: "U boshqa hech qachon kechikmaslikka qasam ichdi." },
   ],
   practice: [
     { k: 'match', pairs: [['suggest', 'taklif qilmoq'], ['promise', "va'da bermoq"], ['admit', 'tan olmoq'], ['deny', 'inkor qilmoq'], ['warn', 'ogohlantirmoq'], ['refuse', 'rad etmoq']] },

@@ -87,11 +87,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'afford', uz: "(pul jihatidan) imkoni bo'lmoq", ipa: 'əˈfɔːd', pos: 'verb', ex: "I wish I could afford a bigger flat.", exUz: "Kaskiydi, kattaroq kvartiraga pulim yetsa." },
+    { en: 'homesick', uz: "vatanini sog'ingan", ipa: 'ˈhəʊm.sɪk', pos: 'adj', ex: "I feel homesick when I think about my family.", exUz: "Oilamni o'ylasam, vatanni sog'inaman." },
     { en: 'pity', uz: "afsus, achinarli hol", ipa: 'ˈpɪt.i', pos: 'noun', ex: "It's a pity you can't come.", exUz: "Kela olmasligingiz achinarli." },
-    { en: 'lonely', uz: "yolg'iz, yolg'izlik his qilgan", ipa: 'ˈləʊn.li', pos: 'adj', ex: "She feels lonely in the new city.", exUz: "U yangi shaharda o'zini yolg'iz his qiladi." },
-    { en: 'lucky', uz: "omadli", ipa: 'ˈlʌk.i', pos: 'adj', ex: "You are lucky to have such good friends.", exUz: "Shunday yaxshi do'stlaringiz borligi sizning omadingiz." },
-    { en: 'abroad', uz: "chet elda, chet elga", ipa: 'əˈbrɔːd', pos: 'adv', ex: "I wish I could study abroad.", exUz: "Kaskiydi, chet elda o'qiy olsam." },
+    { en: 'envy', uz: "hasad qilmoq, havas qilmoq", ipa: 'ˈen.vi', pos: 'verb', ex: "I envy people who can speak five languages.", exUz: "Beshta tilda gapira oladigan odamlarga havasim keladi." },
+    { en: 'overseas', uz: "xorijda, chet elda", ipa: 'ˌəʊ.vəˈsiːz', pos: 'adv', ex: "I wish I could study overseas for a year.", exUz: "Kaskiydi, bir yil xorijda o'qiy olsam." },
+    { en: 'stubborn', uz: "qaysar, o'jar", ipa: 'ˈstʌb.ən', pos: 'adj', ex: "I wish I were less stubborn when I argue.", exUz: "Kaskiydi, tortishganda bunchalik qaysar bo'lmasam." },
   ],
   practice: [
     { k: 'match', pairs: [['afford', "pul jihatidan imkoni bo'lmoq"], ['pity', 'afsus, achinarli hol'], ['lonely', "yolg'iz"], ['lucky', 'omadli'], ['abroad', 'chet elda']] },

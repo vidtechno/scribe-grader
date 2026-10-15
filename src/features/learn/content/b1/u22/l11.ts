@@ -75,11 +75,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'software', uz: "dasturiy ta'minot", ipa: 'ˈsɒft.weər', pos: 'noun', ex: 'The software is easy to use.', exUz: "Dastur ishlatishga oson." },
+    { en: 'seminar', uz: 'seminar, amaliy mashg\'ulot', ipa: 'ˈsem.ɪ.nɑː', pos: 'noun', ex: 'I have a seminar on Thursday afternoon.', exUz: 'Payshanba kuni tushdan keyin seminarim bor.' },
     { en: 'tutor', uz: 'repetitor, mentor', ipa: 'ˈtjuː.tər', pos: 'noun', ex: 'My tutor corrects my essays.', exUz: "Repetitorim inshollarimni tuzatadi." },
     { en: 'overtime', uz: "qo'shimcha ish vaqti", ipa: 'ˈəʊ.və.taɪm', pos: 'noun', ex: 'He did two hours of overtime.', exUz: "U ikki soat qo'shimcha ishladi." },
     { en: 'supervisor', uz: 'rahbar, nazoratchi', ipa: 'ˈsuː.pə.vaɪ.zər', pos: 'noun', ex: 'Ask your supervisor for advice.', exUz: "Rahbaringizdan maslahat so'rang." },
-    { en: 'remote', uz: 'masofaviy', ipa: 'rɪˈməʊt', pos: 'adj', ex: 'She has a remote job.', exUz: "Uning masofaviy ishi bor." },
+    { en: 'lecturer', uz: 'universitet o\'qituvchisi', ipa: 'ˈlek.tʃər.ər', pos: 'noun', ex: 'Our lecturer gives very clear explanations.', exUz: 'Bizning o\'qituvchimiz juda tushunarli tushuntiradi.' },
   ],
   practice: [
     { k: 'match', pairs: [['software', 'dastur'], ['tutor', 'repetitor'], ['overtime', "qo'shimcha ish vaqti"], ['supervisor', 'rahbar'], ['remote', 'masofaviy']] },

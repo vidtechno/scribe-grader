@@ -114,7 +114,7 @@ const lesson: Lesson = {
     { en: "clue", uz: "ishora, iz", ipa: "kluː", pos: "noun", ex: "The footprints were the first clue.", exUz: "Oyoq izlari birinchi ishora bo'ldi." },
     { en: "mystery", uz: "sir, jumboq", ipa: "ˈmɪs.tər.i", pos: "noun", ex: "The disappearance of the ship is still a mystery.", exUz: "Kemaning yo'qolishi hali ham jumboq." },
     { en: "guess", uz: "taxmin qilmoq", ipa: "ɡes", pos: "verb", ex: "Can you guess my age?", exUz: "Yoshimni taxmin qila olasizmi?" },
-    { en: "definitely", uz: "albatta, shubhasiz", ipa: "ˈdef.ɪ.nət.li", pos: "adv", ex: "She will definitely win.", exUz: "U albatta g'alaba qozonadi." },
+    { en: "presumably", uz: "ehtimol, shunday bo'lsa kerak", ipa: "prɪˈzjuː.mə.bli", pos: "adv", ex: "He isn't answering, so presumably he is still in the meeting.", exUz: "U javob bermayapti, demak hali majlisda bo'lsa kerak." },
     { en: "possibly", uz: "ehtimol, balki", ipa: "ˈpɒs.ə.bli", pos: "adv", ex: "He is possibly the best player in the team.", exUz: "U jamoadagi eng yaxshi o'yinchi bo'lishi mumkin." },
     { en: "conclusion", uz: "xulosa", ipa: "kənˈkluː.ʒən", pos: "noun", ex: "I came to the conclusion that he was right.", exUz: "U haq degan xulosaga keldim." },
   ],

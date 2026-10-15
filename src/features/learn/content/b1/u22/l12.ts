@@ -89,10 +89,10 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'purpose', uz: 'maqsad, vazifa', ipa: 'ˈpɜː.pəs', pos: 'noun', ex: 'What is the purpose of this meeting?', exUz: "Bu uchrashuvning maqsadi nima?" },
-    { en: 'improve', uz: 'yaxshilamoq', ipa: 'ɪmˈpruːv', pos: 'verb', ex: 'I read every day to improve my English.', exUz: "Inglizchamni yaxshilash uchun har kuni o'qiyman." },
-    { en: 'revise', uz: 'takrorlamoq (imtihonga)', ipa: 'rɪˈvaɪz', pos: 'verb', ex: 'I revise for two hours every evening.', exUz: "Men har kecha ikki soat takrorlayman." },
+    { en: 'boost', uz: 'oshirmoq, kuchaytirmoq', ipa: 'buːst', pos: 'verb', ex: 'I drink coffee in the morning to boost my energy.', exUz: 'Quvvatimni oshirish uchun ertalab qahva ichaman.' },
+    { en: 'prevent', uz: 'oldini olmoq, to\'sqinlik qilmoq', ipa: 'prɪˈvent', pos: 'verb', ex: 'We wear helmets to prevent injuries.', exUz: 'Jarohatlarning oldini olish uchun dubulg\'a kiyamiz.' },
     { en: 'recharge', uz: 'quvvatlamoq', ipa: 'ˌriːˈtʃɑːdʒ', pos: 'verb', ex: 'I recharge my phone every night.', exUz: "Telefonimni har kecha quvvatlayman." },
-    { en: 'schedule', uz: 'jadval, reja', ipa: 'ˈʃed.juːl', pos: 'noun', ex: 'I have a busy schedule this week.', exUz: "Bu hafta jadvalim band." },
+    { en: 'enhance', uz: 'yaxshilamoq, kuchaytirmoq', ipa: 'ɪnˈhɑːns', pos: 'verb', ex: 'She took a course to enhance her skills.', exUz: 'U malakasini oshirish uchun kursga bordi.' },
   ],
   practice: [
     { k: 'match', pairs: [['to learn', "o'rganish uchun"], ['in order to', "...ish uchun (rasmiy)"], ['so that', "shunday qilib..., ... uchun (gap bilan)"], ['in order not to', "...maslik uchun"], ['for', "uchun (ot yoki -ing bilan)"]] },

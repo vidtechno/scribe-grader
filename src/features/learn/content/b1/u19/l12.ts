@@ -71,9 +71,9 @@ const lesson: Lesson = {
   words: [
     { en: 'by the time', uz: "...ga kelib, ...gacha (vaqtga kelib)", ipa: 'baɪ ðə taɪm', pos: 'phrase', ex: 'By the time we arrived, the shop had closed.', exUz: "Biz yetib borganimizda do'kon yopilib bo'lgan edi." },
     { en: 'by then', uz: "o'sha vaqtga kelib", ipa: 'baɪ ðen', pos: 'phrase', ex: 'I called at nine, but he had gone to bed by then.', exUz: "Soat to'qqizda qo'ng'iroq qildim, lekin u o'sha vaqtga kelib yotgan edi." },
-    { en: 'as soon as', uz: "...ishi bilan", ipa: 'æz suːn æz', pos: 'phrase', ex: 'I called her as soon as I read the message.', exUz: "Xabarni o'qishim bilan unga qo'ng'iroq qildim." },
+    { en: 'turn up', uz: "kelib qolmoq, paydo bo'lmoq", ipa: 'tɜːn ʌp', pos: 'phrasal verb', ex: "By the time Tom turned up, the film had started.", exUz: "Tom kelib qolganda film boshlanib bo'lgan edi." },
     { en: 'turn out', uz: "bo'lib chiqmoq", ipa: 'tɜːn aʊt', pos: 'verb', ex: 'The test turned out to be easy.', exUz: "Test oson bo'lib chiqdi." },
-    { en: 'realise', uz: "anglab yetmoq, payqamoq", ipa: 'ˈrɪə.laɪz', pos: 'verb', ex: 'I realised that I had left my keys at home.', exUz: "Kalitlarimni uyda qoldirganimni payqadim." },
+    { en: 'ever since', uz: "o'shandan beri", ipa: 'ˌev.ə ˈsɪns', pos: 'phrase', ex: "I have lived here ever since I finished school.", exUz: "Maktabni tugatganimdan beri shu yerda yashayman." },
   ],
   practice: [
     { k: 'match', pairs: [['by the time', "...ga kelib"], ['by then', "o'sha vaqtga kelib"], ['as soon as', '...ishi bilan'], ['turn out', "bo'lib chiqmoq"], ['realise', 'payqamoq']] },

@@ -75,9 +75,9 @@ const lesson: Lesson = {
   words: [
     { en: 'convenient', uz: 'qulay (joylashgan)', ipa: 'kənˈviːniənt', pos: 'adj', ex: 'The hotel is convenient for the station.', exUz: 'Mehmonxona bekatga yaqin va qulay.' },
     { en: 'landscape', uz: 'manzara, tabiat', ipa: 'ˈlændskeɪp', pos: 'noun', ex: 'The landscape is beautiful.', exUz: 'Tabiat go\'zal.' },
-    { en: 'population', uz: 'aholi', ipa: 'ˌpɒpjuˈleɪʃn', pos: 'noun', ex: 'The population is growing.', exUz: "Aholi soni o'smoqda." },
+    { en: 'economy', uz: 'iqtisodiyot', ipa: 'ɪˈkɒn.ə.mi', pos: 'noun', ex: 'Tourism is important for the economy of this region.', exUz: 'Turizm bu hududning iqtisodiyoti uchun muhim.' },
     { en: 'cultural', uz: 'madaniy', ipa: 'ˈkʌltʃrəl', pos: 'adj', ex: 'It is a cultural centre.', exUz: 'Bu madaniy markaz.' },
-    { en: 'renovate', uz: 'yangilamoq', ipa: 'ˈrenəveɪt', pos: 'verb', ex: 'They will renovate the old station.', exUz: 'Ular eski bekatni yangilaydi.' },
+    { en: 'infrastructure', uz: 'infratuzilma', ipa: 'ˈɪn.frəˌstrʌk.tʃər', pos: 'noun', ex: 'The city is spending money on roads and other infrastructure.', exUz: 'Shahar yo\'llar va boshqa infratuzilmaga pul sarflamoqda.' },
   ],
   practice: [
     { k: 'match', pairs: [['convenient', 'qulay'], ['landscape', 'tabiat manzarasi'], ['population', 'aholi'], ['cultural', 'madaniy'], ['renovate', 'yangilamoq']] },

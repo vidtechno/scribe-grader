@@ -140,14 +140,14 @@ const lesson: Lesson = {
   words: [
     { en: "set up", uz: "o'rnatmoq, sozlamoq, ochmoq", ipa: "set ʌp", pos: "phrasal verb", ex: "I need to set up a new email account.", exUz: "Yangi elektron pochta hisobini ochishim kerak." },
     { en: "hand in", uz: "topshirmoq (ish, hujjat)", ipa: "hænd ɪn", pos: "phrasal verb", ex: "Please hand in your essays on Monday.", exUz: "Iltimos, inshoyingizni dushanba kuni topshiring." },
-    { en: "fill in", uz: "to'ldirmoq (anketa)", ipa: "fɪl ɪn", pos: "phrasal verb", ex: "Fill in the form in capital letters.", exUz: "Anketani bosh harflar bilan to'ldiring." },
+    { en: "figure out", uz: "tushunib yetmoq, yechimini topmoq", ipa: "ˈfɪɡ.ər aʊt", pos: "phrasal verb", ex: "I can't figure out how this machine works.", exUz: "Bu mashina qanday ishlashini tushunolmayapman." },
     { en: "back up", uz: "zaxira nusxasini olmoq", ipa: "bæk ʌp", pos: "phrasal verb", ex: "Back up your photos before you update the phone.", exUz: "Telefonni yangilashdan oldin suratlaringizning zaxira nusxasini oling." },
     { en: "sign up", uz: "ro'yxatdan o'tmoq, yozilmoq", ipa: "saɪn ʌp", pos: "phrasal verb", ex: "I signed up for a cooking class.", exUz: "Pazandalik kursiga yozildim." },
     { en: "look into", uz: "tekshirib ko'rmoq", ipa: "lʊk ˈɪn.tuː", pos: "phrasal verb", ex: "The manager will look into your complaint.", exUz: "Menejer shikoyatingizni tekshirib ko'radi." },
     { en: "put off", uz: "kechiktirmoq, qoldirmoq", ipa: "pʊt ɒf", pos: "phrasal verb", ex: "Don't put off your homework until tomorrow.", exUz: "Uy vazifangni ertaga qoldirma." },
     { en: "come up with", uz: "o'ylab topmoq", ipa: "kʌm ʌp wɪð", pos: "phrasal verb", ex: "We need to come up with a better plan.", exUz: "Yaxshiroq reja o'ylab topishimiz kerak." },
     { en: "drop out", uz: "o'qishni tashlamoq", ipa: "drɒp aʊt", pos: "phrasal verb", ex: "Many students drop out in the first year.", exUz: "Ko'p talabalar birinchi yilda o'qishni tashlaydi." },
-    { en: "catch up", uz: "yetib olmoq, orqada qolganini to'ldirmoq", ipa: "kætʃ ʌp", pos: "phrasal verb", ex: "I missed a week, so I have to catch up.", exUz: "Bir hafta qoldirdim, shuning uchun yetib olishim kerak." },
+    { en: "carry out", uz: "o'tkazmoq, bajarmoq", ipa: "ˈkær.i aʊt", pos: "phrasal verb", ex: "Scientists carried out a survey last month.", exUz: "Olimlar o'tgan oy so'rovnoma o'tkazishdi." },
   ],
   practice: [
     { k: "choice", q: "Please ___ this form before you leave.", opts: ["fill in", "look after", "get over", "run into"], a: 0, why: "Anketa **fill in** qilinadi." },

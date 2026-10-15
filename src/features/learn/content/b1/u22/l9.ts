@@ -73,11 +73,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'strength', uz: 'kuchli tomon', ipa: 'streŋθ', pos: 'noun', ex: 'My main strength is communication.', exUz: "Mening asosiy kuchli tomonim — muloqot." },
-    { en: 'weakness', uz: 'zaif tomon, kamchilik', ipa: 'ˈwiːk.nəs', pos: 'noun', ex: 'My weakness is that I worry too much.', exUz: "Mening kamchiligim — juda ko'p tashvishlanishim." },
-    { en: 'achievement', uz: 'yutuq', ipa: 'əˈtʃiːv.mənt', pos: 'noun', ex: 'Finishing my degree was a big achievement.', exUz: "Darajamni tugatish katta yutuq edi." },
+    { en: 'ambitious', uz: 'shuhratparast, intiluvchan', ipa: 'æmˈbɪʃ.əs', pos: 'adj', ex: 'He is an ambitious young engineer.', exUz: 'U intiluvchan yosh muhandis.' },
+    { en: 'enthusiastic', uz: 'ishtiyoqli, g\'ayratli', ipa: 'ɪnˌθjuː.ziˈæs.tɪk', pos: 'adj', ex: 'She is enthusiastic about learning new things.', exUz: 'U yangi narsalarni o\'rganishga ishtiyoqli.' },
+    { en: 'teamwork', uz: 'jamoaviy ish, hamkorlik', ipa: 'ˈtiːm.wɜːk', pos: 'noun', ex: 'Good teamwork helped us finish the project early.', exUz: 'Yaxshi hamkorlik loyihani erta tugatishga yordam berdi.' },
     { en: 'motivated', uz: 'ishtiyoqli, g\'ayratli', ipa: 'ˈməʊ.tɪ.veɪ.tɪd', pos: 'adj', ex: 'She is a motivated student.', exUz: "U ishtiyoqli talaba." },
-    { en: 'confident', uz: 'o\'ziga ishongan', ipa: 'ˈkɒn.fɪ.dənt', pos: 'adj', ex: 'I feel confident about the interview.', exUz: "Suhbat haqida o'zimga ishonchim komil." },
+    { en: 'adaptable', uz: 'moslashuvchan', ipa: 'əˈdæp.tə.bəl', pos: 'adj', ex: 'I am adaptable and I learn quickly.', exUz: 'Men moslashuvchanman va tez o\'rganaman.' },
   ],
   practice: [
     { k: 'match', pairs: [['strength', 'kuchli tomon'], ['weakness', 'zaif tomon'], ['achievement', 'yutuq'], ['motivated', 'ishtiyoqli'], ['confident', 'o\'ziga ishongan']] },
