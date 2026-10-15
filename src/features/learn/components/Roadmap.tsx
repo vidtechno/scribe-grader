@@ -71,7 +71,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
           <div className="min-w-0 flex-1">
             <h2 className="font-bold leading-snug">{canQuickUp ? `${levelOf(level).title} sizga oson bo'lsa, ${nextLevel!.title}'ga sakrang` : `${levelOf(level).title} yakuniy imtihoni`}</h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {canQuickUp ? "Qisqa test: 12 savol, taxminan 3 daqiqa, 75% kerak. Eski darslar yopilmaydi." : `${LEVEL_TEST.questions} ta savol, ${LEVEL_TEST.passPercent}% kerak. Barcha darslarni tugatmasdan ham topshirsa bo'ladi.`}
+              {canQuickUp ? "Qisqa test: 15 savol, taxminan 4 daqiqa, 75% kerak. Eski darslar yopilmaydi." : `${LEVEL_TEST.questions} ta savol, ${LEVEL_TEST.passPercent}% kerak. Barcha darslarni tugatmasdan ham topshirsa bo'ladi.`}
               {levelTest && !levelTest.passed_at ? ` Eng yaxshi natija ${Math.round((levelTest.best_score / levelTest.best_total) * 100)}%.` : ''}
             </p>
           </div>

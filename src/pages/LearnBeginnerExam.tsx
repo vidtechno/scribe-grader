@@ -12,6 +12,7 @@ import { shuffle } from '@/features/learn/check';
 import { BEGINNER_EXAM, BEGINNER_SPEAKING, type ExamItem, type ExamSkill } from '@/features/learn/content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from '@/features/learn/content/a1/exam';
 import { PREINTERMEDIATE_EXAM, PREINTERMEDIATE_SPEAKING } from '@/features/learn/content/a2/exam';
+import { INTERMEDIATE_EXAM, INTERMEDIATE_SPEAKING } from '@/features/learn/content/b1/exam';
 import { CertificateDialog } from '@/features/learn/components/CertificateDialog';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
@@ -38,7 +39,9 @@ const CONFIGS: Record<string, ExamConfig> = {
   a1: { level: 'a1', title: 'Elementary', cefr: 'A1+', bank: ELEMENTARY_EXAM, speaking: ELEMENTARY_SPEAKING,
     ready: "Pre-Intermediate darajasiga tayyorsiz: kundalik vaziyatlarda gaplashish, o'tgan va kelasi zamon, tajriba haqida gapirish ko'nikmalarini ko'rsatdingiz." },
   a2: { level: 'a2', title: 'Pre-Intermediate', cefr: 'A2', bank: PREINTERMEDIATE_EXAM, speaking: PREINTERMEDIATE_SPEAKING,
-    ready: "A2 darajasini tugatdingiz: o'tgan, hozirgi va kelasi zamonda erkin gaplashish, taqqoslash, maslahat berish, tajriba haqida so'zlash va oddiy xat yozish ko'nikmalarini ko'rsatdingiz. Intermediate (B1) tez orada ochiladi." },
+    ready: "A2 darajasini tugatdingiz: o'tgan, hozirgi va kelasi zamonda erkin gaplashish, taqqoslash, maslahat berish, tajriba haqida so'zlash va oddiy xat yozish ko'nikmalarini ko'rsatdingiz." },
+  b1: { level: 'b1', title: 'Intermediate', cefr: 'B1', bank: INTERMEDIATE_EXAM, speaking: INTERMEDIATE_SPEAKING,
+    ready: "B1 darajasini tugatdingiz: tajriba va voqealarni hikoya qilish, fikr bildirish va asoslash, shart gaplar, majhul nisbat va ko'chirma gap, rasmiy xat va qisqa taqdimot ko'nikmalarini ko'rsatdingiz. Upper-Intermediate (B2) tez orada ochiladi." },
 };
 
 interface Outcome { passed: boolean; advanced: boolean; next_level: string | null; xp: number }
@@ -51,6 +54,7 @@ interface Outcome { passed: boolean; advanced: boolean; next_level: string | nul
 export const BeginnerExam = () => <LevelExam config={CONFIGS.beginner} />;
 export const ElementaryExam = () => <LevelExam config={CONFIGS.a1} />;
 export const PreIntermediateExam = () => <LevelExam config={CONFIGS.a2} />;
+export const IntermediateExam = () => <LevelExam config={CONFIGS.b1} />;
 
 function LevelExam({ config }: { config: ExamConfig }) {
   const SPEAKING = config.speaking;

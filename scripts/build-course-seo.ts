@@ -11,7 +11,7 @@ import { UNIT_EXTRAS } from '../src/features/learn/unit-extras';
 
 const plain = (s: string) => s.replace(/[*`_]/g, '').replace(/\\n|\n/g, ' ').replace(/\s+/g, ' ').trim();
 const slugify = (s: string) => s.toLowerCase().replace(/[ʻʼ’‘`´']/g, '').normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
-const LEVEL_SLUG: Record<string, string> = { beginner: 'beginner', a1: 'elementary', a2: 'pre-intermediate' };
+const LEVEL_SLUG: Record<string, string> = { beginner: 'beginner', a1: 'elementary', a2: 'pre-intermediate', b1: 'intermediate' };
 
 const levels = [];
 for (const level of LEVELS.filter((l) => LEVEL_SLUG[l.id])) {

@@ -2,12 +2,12 @@ import { COURSE_UNITS, LEVELS, loadUnit } from './course';
 import { shuffle } from './check';
 import type { Exercise, Lesson, LevelId } from './types';
 
-/** A short level check: 12 questions picked from the real lesson quizzes, easy levels first. */
+/** A short level check: 15 questions picked from the real lesson quizzes, easy levels first. */
 export interface CheckItem { ex: Exercise; band: LevelId }
 
-export const CHECK_SIZE = 12;
+export const CHECK_SIZE = 15;
 /** Share of correct answers in a band that counts as "knows this level". */
-export const BAND_PASS = { beginner: 0.8, a1: 0.75, a2: 0.67 } as const;
+export const BAND_PASS = { beginner: 0.8, a1: 0.75, a2: 0.67, b1: 0.67 } as const;
 /** Moving up with the quick test needs this share overall. */
 export const UPGRADE_PASS_PERCENT = 75;
 
@@ -18,6 +18,7 @@ const START_PLAN: { band: LevelId; units: string[] }[] = [
   { band: 'beginner', units: ['u1', 'u2', 'u3', 'u4', 'u5'] },
   { band: 'a1', units: ['u6', 'u8', 'u9', 'u11'] },
   { band: 'a2', units: ['u13', 'u15', 'u16'] },
+  { band: 'b1', units: ['u18', 'u20', 'u22'] },
 ];
 
 function pick(lessons: Lesson[], count: number): Exercise[] {
@@ -34,7 +35,7 @@ function pick(lessons: Lesson[], count: number): Exercise[] {
   return out;
 }
 
-/** Questions for a first-time learner: 5 Beginner, 4 Elementary, 3 Pre-Intermediate. */
+/** Questions for a first-time learner: 5 Beginner, 4 Elementary, 3 Pre-Intermediate, 3 Intermediate. */
 export async function buildStartCheck(): Promise<CheckItem[]> {
   const items: CheckItem[] = [];
   for (const { band, units } of START_PLAN) {
@@ -46,7 +47,7 @@ export async function buildStartCheck(): Promise<CheckItem[]> {
   return items.slice(0, CHECK_SIZE);
 }
 
-/** Questions for moving up to `target`: 12 from the units of the level just below it. */
+/** Questions for moving up to `target`: 15 from the units of the level just below it. */
 export async function buildUpgradeCheck(target: LevelId): Promise<CheckItem[]> {
   const below = LEVELS[LEVELS.findIndex((l) => l.id === target) - 1];
   if (!below) return [];
@@ -72,5 +73,6 @@ export function recommendLevel(results: BandResult[]): LevelId {
   const share = (b: LevelId) => { const r = results.find((x) => x.band === b); return r && r.total ? r.right / r.total : 0; };
   if (share('beginner') < BAND_PASS.beginner) return 'beginner';
   if (share('a1') < BAND_PASS.a1) return 'a1';
-  return 'a2';
+  if (share('a2') < BAND_PASS.a2) return 'a2';
+  return 'b1';
 }

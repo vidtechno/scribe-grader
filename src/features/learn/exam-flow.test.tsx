@@ -18,7 +18,7 @@ vi.mock('@/features/learn/components/ExerciseView', () => ({ ExerciseView: ({ on
   <><button type="button" onClick={() => onDone(submitted.pattern(submitted.n++))}>ANSWER</button></>) }));
 vi.mock('@/features/learn/components/TestShell', () => ({ TestShell: ({ children }: { children: React.ReactNode }) => <div>{children}</div>, MistakeReview: () => null }));
 
-import { BeginnerExam, ElementaryExam, PreIntermediateExam } from '@/pages/LearnBeginnerExam';
+import { BeginnerExam, ElementaryExam, IntermediateExam, PreIntermediateExam } from '@/pages/LearnBeginnerExam';
 
 async function run(pattern: (n: number) => boolean, Exam: () => JSX.Element = BeginnerExam) {
   submitted.calls = []; submitted.pattern = pattern; submitted.n = 0;
@@ -66,5 +66,12 @@ it('the Pre-Intermediate exam sends level a2 and passes a perfect run', async ()
   await run(() => true, PreIntermediateExam);
   expect(submitted.calls[0].args).toMatchObject({ _level: 'a2', _score: 20, _total: 20 });
   expect(document.body.textContent).toContain('Pre-Intermediate tugallandi');
+  cleanup();
+});
+
+it('the Intermediate exam sends level b1 and passes a perfect run', async () => {
+  await run(() => true, IntermediateExam);
+  expect(submitted.calls[0].args).toMatchObject({ _level: 'b1', _score: 20, _total: 20 });
+  expect(document.body.textContent).toContain('Intermediate tugallandi');
   cleanup();
 });

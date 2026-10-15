@@ -3,6 +3,7 @@ import { ALL_LESSONS } from './course';
 import { BEGINNER_EXAM, type ExamSkill } from './content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from './content/a1/exam';
 import { PREINTERMEDIATE_EXAM, PREINTERMEDIATE_SPEAKING } from './content/a2/exam';
+import { INTERMEDIATE_EXAM, INTERMEDIATE_SPEAKING } from './content/b1/exam';
 import type { Exercise } from './types';
 
 const MIN: Record<ExamSkill, number> = { grammar: 16, vocabulary: 12, reading: 10, listening: 12, writing: 12 };
@@ -181,6 +182,51 @@ describe('Pre-Intermediate speaking', () => {
   it('has 3 speak prompts', () => {
     expect(PREINTERMEDIATE_SPEAKING).toHaveLength(3);
     for (const e of PREINTERMEDIATE_SPEAKING) {
+      expect(e.k).toBe('speak');
+      expect(e.k === 'speak' && e.say.trim().length > 0).toBe(true);
+    }
+  });
+});
+
+describe('Intermediate exam bank', () => {
+  it('has enough items per skill', () => {
+    for (const [skill, n] of Object.entries(MIN)) {
+      expect(INTERMEDIATE_EXAM.filter((i) => i.skill === skill).length, skill).toBeGreaterThanOrEqual(n);
+    }
+  });
+
+  it('topics exist in the course', () => {
+    const ids = new Set(ALL_LESSONS.map((x) => x.id));
+    expect(INTERMEDIATE_EXAM.filter((i) => !ids.has(i.topic)).map((i) => i.topic)).toEqual([]);
+  });
+
+  it('has no duplicate questions', () => {
+    const keys = INTERMEDIATE_EXAM.map((i) => key(i.ex).trim().toLowerCase());
+    expect(keys.filter((k, i) => keys.indexOf(k) !== i)).toEqual([]);
+  });
+
+  it('uses only allowed kinds per skill and valid exercises', () => {
+    const allowed: Record<ExamSkill, string[]> = {
+      grammar: ['choice', 'fill', 'fix'],
+      vocabulary: ['choice', 'match', 'fill'],
+      reading: ['choice', 'tf'],
+      listening: ['listen', 'dictation'],
+      writing: ['order', 'translate', 'fix'],
+    };
+    const p: string[] = [];
+    INTERMEDIATE_EXAM.forEach((i, n) => {
+      if (!allowed[i.skill].includes(i.ex.k)) p.push(`#${n + 1}: ${i.ex.k} not allowed in ${i.skill}`);
+      if (i.skill === 'reading' && !('q' in i.ex && i.ex.q.includes('\n\n'))) p.push(`#${n + 1}: reading needs passage + question`);
+      p.push(...problems(i.ex, `#${n + 1} ${i.skill}`));
+    });
+    expect(p).toEqual([]);
+  });
+});
+
+describe('Intermediate speaking', () => {
+  it('has 3 speak prompts', () => {
+    expect(INTERMEDIATE_SPEAKING).toHaveLength(3);
+    for (const e of INTERMEDIATE_SPEAKING) {
       expect(e.k).toBe('speak');
       expect(e.k === 'speak' && e.say.trim().length > 0).toBe(true);
     }

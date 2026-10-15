@@ -15,7 +15,7 @@ import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { TestShell } from '@/features/learn/components/TestShell';
 
 /**
- * A short level check (12 questions). Two uses:
+ * A short level check (15 questions). Two uses:
  *  - /learn/start: a first-time learner finds the right level and starts there;
  *  - /learn/upgrade/:level: a learner who started too low moves up with a short test.
  */
@@ -161,7 +161,7 @@ export default function LearnLevelCheck() {
           : "Bir necha qisqa savol — qaysi darajadan boshlash kerakligini topamiz. Shunda oson narsalarga vaqt sarflamaysiz va qiyin joydan ham boshlamaysiz."}
       </p>
       <ul className="glass-card p-5 space-y-2.5 text-sm mb-6">
-        <li>📝 <b>{CHECK_SIZE} ta savol</b>, taxminan 3 daqiqa</li>
+        <li>📝 <b>{CHECK_SIZE} ta savol</b>, taxminan 4 daqiqa</li>
         <li>🤔 Bilmasangiz «Bilmayman» ni bosing, taxmin qilish shart emas</li>
         <li>{upgrade ? <>🎯 O'tish uchun kamida <b>{UPGRADE_PASS_PERCENT}%</b></> : '🎯 Oxirida darajangiz va natijalaringiz ko\'rsatiladi, boshlash joyini o\'zingiz tasdiqlaysiz'}</li>
         <li>🔊 Eshitish savollari bor, ovoz yoqilgan bo'lsin</li>

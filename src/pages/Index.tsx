@@ -42,7 +42,7 @@ function StickyCta() {
 const FAQ: { q: string; a: string }[] = [
   { q: "Ingliz tilini umuman bilmasam ham boshlay olamanmi?", a: "Ha. Kurs alifbo va tovushlardan boshlanadi (Beginner), keyin Elementary (A1) va Pre-Intermediate (A2) davom etadi, keyingi darajalar bosqichma-bosqich qo'shiladi. Darslar o'zbek tilida tushuntiriladi." },
   { q: "Bir kunda qancha vaqt kerak?", a: "Qisqa dars 5–12 daqiqa, to'liq dars 15–25 daqiqa. Kuniga 10–30 daqiqa yetadi; kunlik maqsadni o'zingiz belgilaysiz, streak esa har kuni o'qisangiz o'sib boradi." },
-  { q: "Qaysi darajadan boshlashni qanday bilaman?", a: "Birinchi kirganingizda 12 ta savolli daraja testi sizga mos darajani aytadi. Yoki darajani o'zingiz tanlaysiz. Agar osonroq darajani tanlab qo'ygan bo'lsangiz, tezkor test topshirib yuqoriga o'tishingiz mumkin." },
+  { q: "Qaysi darajadan boshlashni qanday bilaman?", a: "Birinchi kirganingizda 15 ta savolli daraja testi sizga mos darajani aytadi. Yoki darajani o'zingiz tanlaysiz. Agar osonroq darajani tanlab qo'ygan bo'lsangiz, tezkor test topshirib yuqoriga o'tishingiz mumkin." },
   { q: "7 kunlik bepul davrda nima bor?", a: "Har bir yangi hisobga 7 kun Learn to'liq ochiq: barcha darslar, talaffuz, lug'at va takrorlash tizimi. Karta kerak emas." },
   { q: "Narxi qancha va qanday to'layman?", a: "Learn — oyiga 49 000 so'm, IELTS — oyiga 129 000 so'm. 6 oyga birdan to'lasangiz 10% chegirma. To'lov Telegram orqali @scorify_support ga yoziladi, tasdiqlangach tarif yoqiladi." },
   { q: "IELTS Writing va Speaking ham bormi?", a: "Ha. IELTS tarifida Writing va Speaking javoblaringiz baholanadi, mock testlar ham bor. Yangi hisobga sinab ko'rish uchun 3 ta Writing va 2 ta Speaking baholash sovg'a." },
@@ -80,7 +80,7 @@ export default function Index() {
     { icon: Flame, title: 'Streak va kunlik maqsad', text: "Har kuni o'qing, ketma-ket kunlaringizni saqlang va XP to'plang." },
     { icon: Languages, title: "Shaxsiy lug'at", text: "O'rgangan so'zlaringiz bir joyda: qidirish, tinglash va takrorlash." },
     { icon: Trophy, title: 'Reyting va do\'stlar', text: "Do'stlaringizni kuzating, reytingda raqobatlashing, profilingizni bezang." },
-    { icon: Target, title: 'Daraja testi', text: "Kirishda 12 ta savol sizga mos darajani aniqlaydi. Adashib osonini tanlasangiz, tezkor test bilan yuqoriga o'tasiz." },
+    { icon: Target, title: 'Daraja testi', text: "Kirishda 15 ta savol sizga mos darajani aniqlaydi. Adashib osonini tanlasangiz, tezkor test bilan yuqoriga o'tasiz." },
     { icon: Zap, title: "Mashq o'yinlari", text: "Qiyin mavzulardan keyin qisqa o'yinlar: so'z juftlari, gap tuzish, tinglash, tezlik va mavzu testi." },
     { icon: MessagesSquare, title: 'Real hayotiy suhbatlar', text: "Kafe, yo'l so'rash, mehmonxona va boshqa vaziyatlarda ovozli suhbat: xato qilsangiz, sababini o'zbekcha tushuntiramiz." },
     { icon: Send, title: 'Telegram eslatmalar', text: "Bot sizga o'qishni eslatadi va natijangizni yuboradi. Xohlasangiz, o'chirib qo'yasiz." },
