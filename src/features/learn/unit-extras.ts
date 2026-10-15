@@ -1,4 +1,11 @@
 import type { Exercise } from './types';
+import { extras as extras18 } from './content/b1/u18/extras';
+import { extras as extras19 } from './content/b1/u19/extras';
+import { extras as extras20 } from './content/b1/u20/extras';
+import { extras as extras21 } from './content/b1/u21/extras';
+import { extras as extras22 } from './content/b1/u22/extras';
+import { extras as extras23 } from './content/b1/u23/extras';
+
 
 /**
  * Extras that come with every unit and go beyond single lessons: what the learner can do afterwards ("can-do"),
@@ -176,8 +183,4 @@ export const UNIT_EXTRAS: Record<string, UnitExtras> = {
 };
 
 // Intermediate units keep their extras next to their lessons (content/b1/uNN/extras.ts).
-const b1Extras = import.meta.glob<{ extras: UnitExtras }>('./content/b1/u*/extras.ts', { eager: true });
-for (const [path, mod] of Object.entries(b1Extras)) {
-  const unit = /\/(u\d+)\/extras\.ts$/.exec(path)?.[1];
-  if (unit) UNIT_EXTRAS[unit] = mod.extras;
-}
+Object.assign(UNIT_EXTRAS, { u18: extras18, u19: extras19, u20: extras20, u21: extras21, u22: extras22, u23: extras23 });

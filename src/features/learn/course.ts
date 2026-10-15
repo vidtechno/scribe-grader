@@ -8,7 +8,7 @@ const A1_OPEN = true;
 /** Pre-Intermediate (A2) is open. Set to false to hide it again without touching the lessons. */
 const A2_OPEN = true;
 /** Intermediate (B1) is open. Set to false to hide it again without touching the lessons. */
-const B1_OPEN = false;
+const B1_OPEN = true;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },

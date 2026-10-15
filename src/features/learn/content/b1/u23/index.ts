@@ -1,9 +1,22 @@
 import type { Drill, Lesson } from '../../../types';
+import l1 from './l1';
+import l12 from './l12';
+import l2 from './l2';
+import l3 from './l3';
+import l4 from './l4';
+import l13 from './l13';
+import l9 from './l9';
+import l5 from './l5';
+import l6 from './l6';
+import l14 from './l14';
+import l10 from './l10';
+import l7 from './l7';
+import l15 from './l15';
+import l8 from './l8';
+import l11 from './l11';
+import { drills as drillsA } from './drills-a';
+import { drills as drillsB } from './drills-b';
+import { drills as drillsC } from './drills-c';
 
-// While the unit is being written the files are discovered, so a half-written unit still loads. The final index imports every file explicitly (scripts run outside Vite).
-const lessonFiles = import.meta.glob<{ default: Lesson }>('./l*.ts', { eager: true });
-const drillFiles = import.meta.glob<{ drills: Drill[] }>('./drills*.ts', { eager: true });
-const ORDER = ['l1', 'l12', 'l2', 'l3', 'l4', 'l13', 'l9', 'l5', 'l6', 'l14', 'l10', 'l7', 'l15', 'l8', 'l11'];
-
-export const lessons: Lesson[] = ORDER.map((k) => lessonFiles[`./${k}.ts`]?.default).filter((l): l is Lesson => !!l);
-export const drills: Drill[] = Object.keys(drillFiles).sort().flatMap((k) => drillFiles[k].drills);
+export const lessons: Lesson[] = [l1, l12, l2, l3, l4, l13, l9, l5, l6, l14, l10, l7, l15, l8, l11];
+export const drills: Drill[] = [...drillsA, ...drillsB, ...drillsC];
