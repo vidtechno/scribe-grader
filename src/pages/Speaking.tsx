@@ -11,7 +11,9 @@ import { AudioQualityCheck } from '@/components/AudioQualityCheck';
 import { AudioPlayer } from '@/components/AudioPlayer';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
-import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
+import { randomTopic, type TopicOption } from '@/lib/speakingTopics';
+import { TopicCard } from '@/components/speaking/TopicCard';
+import { TopicPicker } from '@/components/speaking/TopicPicker';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic, RefreshCw, Clock, Brain, CheckCircle2, BarChart3,
@@ -31,10 +33,13 @@ const GRADING_STEPS = [
 
 type PartType = 'part1' | 'part2' | 'part3';
 
-const PART_INFO: Record<PartType, { label: string; time: number; desc: string }> = {
-  part1: { label: 'Part 1', time: 60, desc: 'Answer questions about familiar topics (4-5 minutes in real exam)' },
-  part2: { label: 'Part 2', time: 120, desc: 'Speak for 1-2 minutes on a topic card' },
-  part3: { label: 'Part 3', time: 120, desc: 'Discuss abstract ideas related to Part 2 topic' },
+const PART_INFO: Record<PartType, { label: string; name: string; time: number; desc: string; real: string; tips: string[] }> = {
+  part1: { label: 'Part 1', name: 'Interview', time: 60, desc: 'Answer four short questions about yourself and everyday topics.', real: '4–5 min in the real exam',
+    tips: ['Answer in 2–3 sentences, not one word.', 'Give a reason or a short example.', 'Speak naturally; do not memorise answers.'] },
+  part2: { label: 'Part 2', name: 'Long turn', time: 120, desc: 'Speak for 1–2 minutes on a cue card. You get one minute to prepare.', real: '1–2 min talk after 1 min of preparation',
+    tips: ['Cover every bullet point in order.', 'Use past, present and future where it fits.', 'Keep going until time is up: add feelings and details.'] },
+  part3: { label: 'Part 3', name: 'Discussion', time: 120, desc: 'Discuss bigger ideas linked to a topic: opinions, reasons, comparisons.', real: '4–5 min in the real exam',
+    tips: ['Give an opinion, then a reason, then an example.', 'Compare past and present, or different groups.', 'It is fine to say "That depends…" and explain.'] },
 };
 
 export default function Speaking() {
@@ -44,7 +49,8 @@ export default function Speaking() {
   const canAttempt = speakingRemaining > 0;
 
   const [selectedPart, setSelectedPart] = useState<PartType>('part2');
-  const [topic, setTopic] = useState(() => getRandomSpeakingTopic('part2'));
+  const [option, setOption] = useState<TopicOption>(() => randomTopic('part2'));
+  const [prepLeft, setPrepLeft] = useState<number | null>(null);
   const [useCustomTopic, setUseCustomTopic] = useState(false);
   const [customTopic, setCustomTopic] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -71,7 +77,19 @@ export default function Speaking() {
     setPending(null);
   };
 
-  const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic;
+  const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : option.text;
+  const needsPrep = selectedPart === 'part2' && prepLeft !== 0;
+
+  // Part 2 gives one minute to prepare before the recorder opens, like the real exam.
+  useEffect(() => {
+    if (!started || !micReady || selectedPart !== 'part2') return;
+    setPrepLeft((v) => (v === null ? 60 : v));
+  }, [started, micReady, selectedPart]);
+  useEffect(() => {
+    if (prepLeft === null || prepLeft <= 0) return;
+    const t = window.setTimeout(() => setPrepLeft((v) => (v === null ? v : v - 1)), 1000);
+    return () => window.clearTimeout(t);
+  }, [prepLeft]);
 
   useEffect(() => {
     if (user) fetchTotalAttempts();
@@ -92,13 +110,12 @@ export default function Speaking() {
     setRecent((data as any) || []);
   };
 
-  const changeTopic = () => setTopic(getRandomSpeakingTopic(selectedPart));
-
   const changePart = (part: PartType) => {
     setSelectedPart(part);
-    setTopic(getRandomSpeakingTopic(part));
+    setOption(randomTopic(part));
     setStarted(false);
     setMicReady(false);
+    setPrepLeft(null);
   };
 
   const handleRecordingComplete = async (blob: Blob, duration: number) => {
@@ -246,75 +263,58 @@ export default function Speaking() {
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="text-center mb-6">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-2">IELTS Speaking Practice</h1>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">IELTS Speaking</p>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3">Speaking practice</h1>
             <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground flex-wrap">
-              <span className="flex items-center gap-1 font-medium">
-                Speaking remaining: <span className="text-primary">{speakingRemaining}</span>
-              </span>
-              <span>•</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 font-medium">{speakingRemaining} evaluations left</span>
               <Link to="/speaking-history" className="inline-flex items-center gap-1 text-primary hover:underline">
                 <History className="h-3.5 w-3.5" /> History ({totalAttempts})
               </Link>
             </div>
           </div>
 
-          {/* Part Selector */}
+          {/* Part selector */}
           {!started && (
-            <div className="grid grid-cols-3 gap-3 mb-6">
+            <div className="grid grid-cols-3 gap-3 mb-6" role="tablist" aria-label="Speaking part">
               {(Object.entries(PART_INFO) as [PartType, typeof PART_INFO[PartType]][]).map(([key, info]) => (
-                <button
-                  key={key}
-                  onClick={() => changePart(key)}
-                  className={`p-3 rounded-xl border text-center transition-all ${
-                    selectedPart === key
-                      ? 'border-primary bg-primary/5 text-primary'
-                      : 'border-border bg-card hover:bg-secondary/30'
-                  }`}
-                >
-                  <p className="font-semibold text-sm">{info.label}</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">{info.time}s max</p>
+                <button key={key} role="tab" aria-selected={selectedPart === key} onClick={() => changePart(key)}
+                  className={`p-3 sm:p-4 rounded-2xl border text-left transition-all ${selectedPart === key ? 'border-primary bg-primary/5 ring-1 ring-primary/40' : 'border-border bg-card hover:border-primary/40'}`}>
+                  <p className={`text-xs font-semibold ${selectedPart === key ? 'text-primary' : 'text-muted-foreground'}`}>{info.label}</p>
+                  <p className="font-bold text-sm sm:text-base">{info.name}</p>
+                  <p className="text-[11px] text-muted-foreground mt-1 hidden sm:block">{info.real}</p>
                 </button>
               ))}
             </div>
           )}
 
-          {/* Topic Card */}
-          <div className="glass-card p-6 mb-8">
-            <div className="flex items-start justify-between gap-3 mb-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Mic className="h-4 w-4 text-primary" />
-                </div>
-                <span className="font-semibold text-sm">{PART_INFO[selectedPart].label}</span>
-              </div>
-              {!started && (
+          {/* Chosen topic, drawn like the real card */}
+          <div className="mb-6">
+            <TopicCard option={useCustomTopic ? undefined : option} custom={useCustomTopic ? (customTopic.trim() || 'Type your own topic below…') : undefined} seconds={PART_INFO[selectedPart].time} />
+            {!started && (
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs text-muted-foreground">{PART_INFO[selectedPart].desc}</p>
                 <Button variant="ghost" size="sm" onClick={() => setUseCustomTopic(!useCustomTopic)} className="gap-1 text-xs">
-                  <PenLine className="h-3 w-3" />
-                  {useCustomTopic ? 'Use random topic' : 'Use my own topic'}
+                  <PenLine className="h-3 w-3" />{useCustomTopic ? 'Choose from the topic list' : 'Use my own topic'}
                 </Button>
-              )}
-            </div>
-            {useCustomTopic && !started ? (
-              <Input
-                placeholder={`Type your own ${PART_INFO[selectedPart].label} topic...`}
-                value={customTopic}
-                onChange={(e) => setCustomTopic(e.target.value)}
-              />
-            ) : (
-              <>
-                <p className="text-sm leading-relaxed">{activeTopic}</p>
-                {!started && !useCustomTopic && (
-                  <Button variant="ghost" size="sm" onClick={changeTopic} className="gap-1 mt-3">
-                    <RefreshCw className="h-3 w-3" /> New random topic
-                  </Button>
-                )}
-              </>
+              </div>
             )}
-            <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-              <Clock className="h-3 w-3" />
-              <span>Max {PART_INFO[selectedPart].time} seconds</span>
-            </div>
+            {!started && useCustomTopic && (
+              <Input className="mt-3" placeholder={`Type your own ${PART_INFO[selectedPart].label} topic...`} value={customTopic} onChange={(e) => setCustomTopic(e.target.value)} />
+            )}
           </div>
+
+          {!started && !useCustomTopic && (
+            <div className="glass-card p-4 sm:p-5 mb-6">
+              <h2 className="font-semibold text-sm mb-3">Choose a topic</h2>
+              <TopicPicker part={selectedPart} selectedId={option.id} onSelect={(t) => { setOption(t); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+            </div>
+          )}
+
+          {!started && (
+            <ul className="grid sm:grid-cols-3 gap-2 mb-6 text-xs text-muted-foreground" aria-label="Tips">
+              {PART_INFO[selectedPart].tips.map((t, i) => <li key={i} className="rounded-xl bg-secondary/40 p-3 flex gap-2"><span className="text-primary font-bold">{i + 1}</span>{t}</li>)}
+            </ul>
+          )}
 
           {!canAttempt ? (
             <div className="glass-card p-6 text-center">
@@ -341,10 +341,17 @@ export default function Speaking() {
               >
                 <Mic className="h-5 w-5" /> Start Speaking
               </Button>
-              <p className="text-xs text-muted-foreground mt-3">{PART_INFO[selectedPart].desc}</p>
             </div>
           ) : !micReady ? (
             <AudioQualityCheck onPass={() => setMicReady(true)} />
+          ) : needsPrep ? (
+            <div className="glass-card p-6 text-center space-y-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Preparation time</p>
+              <p className="text-5xl font-bold tabular-nums">{String(Math.floor((prepLeft ?? 60) / 60)).padStart(2, '0')}:{String((prepLeft ?? 60) % 60).padStart(2, '0')}</p>
+              <p className="text-sm text-muted-foreground">Think about each bullet point. Write key words if you like (notes are not saved).</p>
+              <textarea className="w-full min-h-[96px] rounded-xl border border-border bg-background p-3 text-sm" placeholder="Your notes…" aria-label="Preparation notes" />
+              <Button variant="glow" className="gap-2" onClick={() => setPrepLeft(0)}><Mic className="h-4 w-4" />I am ready, start recording</Button>
+            </div>
           ) : pending ? (
             <div className="glass-card p-6 space-y-5">
               <div className="text-center">

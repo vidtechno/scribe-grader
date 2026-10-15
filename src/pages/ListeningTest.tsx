@@ -8,7 +8,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { cn } from '@/lib/utils';
-import { LISTENING_TESTS, listeningAudioUrl, loadListeningTest } from '@/features/ielts/registry';
+import { DIFFICULTY_HINT, LISTENING_TESTS, listeningAudioUrl, loadListeningTest } from '@/features/ielts/registry';
 import type { ListeningTest } from '@/features/ielts/types';
 import { bandFor } from '@/features/ielts/bands';
 import { flatten, score, type Answer } from '@/features/ielts/score';
@@ -122,8 +122,10 @@ export default function ListeningTestPage() {
         <main className="pt-24 pb-12 px-4 max-w-2xl mx-auto">
           <Link to="/listening" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6"><ArrowLeft className="h-4 w-4" />All listening tests</Link>
           <div className="glass-card p-6">
-            <h1 className="text-2xl font-bold mb-1">{test.title}</h1>
-            <p className="text-sm text-muted-foreground mb-4">{test.topics.join(' · ')}</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">{test.title} · {meta.difficulty} <span className="normal-case tracking-normal text-muted-foreground">({DIFFICULTY_HINT[meta.difficulty]})</span></p>
+            <h1 className="text-2xl font-bold mb-2">{meta.name}</h1>
+            <p className="text-sm text-muted-foreground mb-4">{meta.blurb}</p>
+            <ul className="mb-5 space-y-1.5 text-sm">{test.sections.map((s, i) => <li key={i} className="flex gap-2"><span className="text-primary font-semibold shrink-0">Section {i + 1}</span><span className="text-muted-foreground">{s.title.replace(/^Section \d+:\s*/, '')}</span></li>)}</ul>
             <ul className="text-sm space-y-1.5 mb-5 list-disc pl-5">
               <li>4 sections, 40 questions, about 30 minutes of audio — like the real IELTS Listening.</li>
               <li>Section 1: everyday conversation · 2: talk on a social topic · 3: academic discussion · 4: university lecture.</li>

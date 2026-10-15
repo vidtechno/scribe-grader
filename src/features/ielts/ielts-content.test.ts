@@ -54,3 +54,24 @@ describe('answer keys are scorable', () => {
     });
   }
 });
+
+import { LISTENING_TESTS, READING_TESTS } from './registry';
+describe('hub registry matches the test files', () => {
+  it('every reading test has a card and the card names its passages', () => {
+    const files = Object.values(reading).map((m) => m.default);
+    expect(READING_TESTS.map((t) => t.id).sort()).toEqual(files.map((t) => t.id).sort());
+    for (const meta of READING_TESTS) {
+      const t = files.find((x) => x.id === meta.id)!;
+      expect(meta.parts, meta.id).toEqual(t.passages.map((p) => p.title));
+      expect(meta.blurb.length).toBeGreaterThan(40);
+    }
+  });
+  it('every listening test has a card and the card names its sections', () => {
+    const files = Object.values(listening).map((m) => m.default);
+    expect(LISTENING_TESTS.map((t) => t.id).sort()).toEqual(files.map((t) => t.id).sort());
+    for (const meta of LISTENING_TESTS) {
+      const t = files.find((x) => x.id === meta.id)!;
+      expect(meta.parts, meta.id).toEqual(t.sections.map((p) => p.title));
+    }
+  });
+});
