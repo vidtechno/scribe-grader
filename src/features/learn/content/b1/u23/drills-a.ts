@@ -38,7 +38,7 @@ export const drills: Drill[] = [
       { k: "fix", wrong: "The museum built in 1950.", a: ["The museum was built in 1950."], hint: "be kerak", why: "Past passive: **was built**." },
       { k: "choice", q: "The letters ___ yet.", opts: ["haven't been sent", "weren't send", "aren't sent", "haven't sent"], a: 0, why: "**yet** → **have not been + V3**." },
       { k: "fix", wrong: "Where did this photo take?", a: ["Where was this photo taken?"], hint: "majhul savol", why: "Passive savol: **was + ega + V3**." },
-      { k: "choice", q: "Take a jacket ___ it gets cold.", opts: ["in case", "unless", "otherwise", "if not"], a: 0, why: "Ehtiyot uchun → **in case**." },
+      { k: "fill", q: "Take a jacket ___ it gets cold.", a: ["in case"], uz: "Sovuq bo'lib qolsa, deb kurtka oling.", why: "Ehtiyot uchun → **in case**." },
     ],
   },
   {
