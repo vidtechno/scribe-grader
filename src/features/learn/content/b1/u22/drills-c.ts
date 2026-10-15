@@ -56,7 +56,7 @@ export const drills: Drill[] = [
       { k: 'choice', q: 'Listen: why did she turn off her notifications?', say: 'I turned off my notifications so that I could sleep better.', opts: ['To sleep better', 'Because the phone broke', 'To save money', 'To call a friend'], a: 0, why: "**so that I could sleep better**." },
       { k: 'dictation', say: 'Could you send me a screenshot of the error?', a: ['Could you send me a screenshot of the error?'], why: "Muloyim iltimos." },
       { k: 'listen', say: 'Online banking is very convenient.', opts: ['Online banking is very convenient.', 'Online banking is very expensive.', 'Online banks are very convenient.', 'Online shopping is very convenient.'], a: 0, why: "**convenient** — qulay." },
-      { k: 'tf', q: 'The speaker can start work in January.', say: 'I am available to start in January.', a: true, why: "**available to start in January**." },
+      { k: 'choice', q: 'Listen: when can the speaker start work?', say: 'I am available to start in January.', opts: ['In January', 'In June', 'Next week', 'Never'], a: 0, why: "**available to start in January**." },
     ],
   },
   {
