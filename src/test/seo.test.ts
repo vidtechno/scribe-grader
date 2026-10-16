@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { fitTitle } from '../../api/_lib/shell';
 
 const root = process.cwd();
 const read = (path: string) => readFileSync(resolve(root, path), 'utf8');
@@ -32,5 +33,21 @@ describe('public search pages', () => {
     }
     expect(read('index.html')).toContain('rel="canonical" href="https://www.scorify.uz/"');
     expect(read('public/robots.txt')).toContain('Sitemap: https://www.scorify.uz/sitemap.xml');
+  });
+
+  it('lets search engines read the noindex on /auth and declares the Scorify favicon on every page template', () => {
+    expect(read('public/robots.txt')).not.toContain('Disallow: /auth');
+    for (const file of ['index.html', 'api/_lib/shell.ts', 'public/ielts-writing-task-1.html', 'public/ielts-writing-task-2.html', 'public/ielts-speaking-practice.html']) {
+      const text = read(file);
+      expect(text, file).toContain('/favicon-96.png');
+      expect(text, file).toContain('/favicon.ico');
+    }
+  });
+
+  it('drops the brand suffix only when the title would be cut off in search results', () => {
+    expect(fitTitle('Short title | Scorify.uz')).toBe('Short title | Scorify.uz');
+    const long = 'Describe a piece of technology you use often: IELTS Part 2 Answer';
+    expect(fitTitle(`${long} | Scorify.uz`)).toBe(long);
+    expect(fitTitle('No suffix here')).toBe('No suffix here');
   });
 });

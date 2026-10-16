@@ -8,8 +8,7 @@ import { WORD_TOPICS } from './data-learn-words.js';
 
 export const COURSE_BASE = '/ingliz-tili-darslari';
 
-// Beginner and Elementary are open; Pre-Intermediate pages come back when that level opens.
-const OPEN_LEVELS = new Set(['beginner', 'elementary', 'pre-intermediate']);
+const OPEN_LEVELS = new Set(['beginner', 'elementary', 'pre-intermediate', 'intermediate']);
 const COURSE = ALL_COURSE.filter(l => OPEN_LEVELS.has(l.slug));
 
 type LevelInfo = { h1: string; lead: string; who: string; after: string[]; metaTitle: string; metaDesc: string };
@@ -38,6 +37,14 @@ const INFO: Record<string, LevelInfo> = {
     metaTitle: "Pre-Intermediate (A2) ingliz tili kursi: 48 dars",
     metaDesc: "Pre-Intermediate (A2) ingliz tili darslari: o'tgan va kelasi zamon, taqqoslash, majhul nisbat, relative clauses, email yozish. 48 ta dars o'zbek tilida.",
   },
+  intermediate: {
+    h1: "Intermediate (B1) ingliz tili kursi",
+    lead: "Fikringizni erkin va aniq aytish: tajriba va hayot hikoyalari, ko'chirma gap, shart gaplar, majhul nisbat, ish va texnologiya, munozara.",
+    who: "A2 darajasini tugatgan va ingliz tilida fikr bildirishni, hikoya aytishni va murakkabroq matnlarni tushunishni xohlaganlar uchun.",
+    after: ["Present Perfect va Past Perfect bilan tajriba va voqealarni hikoya qilasiz", "Shart gaplar (second va third conditional) va wish bilan tasavvur va pushaymonlikni aytasiz", "Fikringizni asoslab aytasiz, majhul nisbat va ko'chirma gapni erkin ishlatasiz"],
+    metaTitle: "Intermediate (B1) ingliz tili kursi: 90 dars o'zbekcha",
+    metaDesc: "Intermediate (B1) ingliz tili darslari: Present Perfect, Past Perfect, ko'chirma gap, shart gaplar, majhul nisbat, gerund va infinitive. 90 ta dars o'zbek tilida.",
+  },
 };
 
 const FAQ = [
@@ -65,7 +72,7 @@ export const courseUrls = (): string[] => [COURSE_BASE, ...COURSE.flatMap(l => [
 
 export function courseHub(): string {
   const total = COURSE.reduce((n, l) => n + lessonCount(l), 0);
-  const body = `${hero("Ingliz tili kursi", "Ingliz tilini noldan o'rganing: Beginner'dan Pre-Intermediate'gacha", `${total} ta dars, o'zbekcha tushuntirish, talaffuz audiosi va mashqlar. Har kuni 10–15 daqiqa bilan boshlash mumkin.`, crumbHtml(['Ingliz tili darslari']))}
+  const body = `${hero("Ingliz tili kursi", "Ingliz tilini noldan o'rganing: Beginner'dan Intermediate'gacha", `${total} ta dars, o'zbekcha tushuntirish, talaffuz audiosi va mashqlar. Har kuni 10–15 daqiqa bilan boshlash mumkin.`, crumbHtml(['Ingliz tili darslari']))}
 <main class="page"><div class="wrap">
 <div class="grid">${COURSE.map(l => `<a class="card" href="${levelPath(l)}"><div class="body"><h3>${esc(l.title)} · ${esc(l.cefr)}</h3><p>${esc(INFO[l.slug].who)}</p><p><b>${lessonCount(l)}</b> dars · <b>${l.units.length}</b> bosqich · <b>${wordCount(l)}</b> so'z</p></div></a>`).join('')}</div>
 <section class="section"><h2>Darslar qanday ishlaydi</h2>
@@ -80,7 +87,7 @@ ${ctaBox("Birinchi darsni hoziroq boshlang", "Ro'yxatdan o'ting va Beginner kurs
 </div></main>`;
   return page({
     title: "Ingliz tilini noldan o'rganish: darslar, mashqlar | Scorify.uz",
-    description: `Ingliz tilini noldan o'rganing: Beginner, Elementary va Pre-Intermediate, jami ${total} ta dars. O'zbekcha tushuntirish, talaffuz audiosi, mashqlar va testlar.`,
+    description: `Ingliz tilini noldan o'rganing: Beginner'dan Intermediate (B1)gacha, jami ${total} ta dars. O'zbekcha tushuntirish, talaffuz audiosi, mashqlar va testlar.`,
     path: COURSE_BASE, lang: 'uz', body,
     alternates: [{ lang: 'uz', path: COURSE_BASE }, { lang: 'en', path: '/learn-english-from-uzbek' }, { lang: 'x-default', path: COURSE_BASE }],
     jsonLd: [breadcrumbLd([{ name: 'Bosh sahifa', path: '/' }, { name: 'Ingliz tili darslari', path: COURSE_BASE }]), faqLd,

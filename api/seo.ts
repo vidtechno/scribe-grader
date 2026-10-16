@@ -16,6 +16,8 @@ const wc = (paras: string[]) => paras.join(' ').split(/\s+/).filter(Boolean).len
 const vocabList = (v: Vocab[]) => `<ul class="vocab">${v.map(([w, m]) => `<li><b>${esc(w)}</b> — ${esc(m)}</li>`).join('')}</ul>`;
 const bullets = (items: string[]) => `<ul>${items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>`;
 const faqLd = (faq: { q: string; a: string }[]) => ({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
+/** First candidate that fits the ~60 characters search results show; the last one is the fallback. */
+const pick = (...c: string[]) => c.find(x => x.length <= 60) ?? c[c.length - 1];
 const faqHtml = (faq: { q: string; a: string }[]) => faq.map(f => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
 const crumbs = (...items: [string, string?][]) => ['<a href="/">Home</a>', '<a href="/blog">Blog</a>', ...items.map(([t, h]) => (h ? `<a href="${h}">${esc(t)}</a>` : esc(t)))].join(' / ');
 const hero = (eyebrow: string, h1: string, lead: string, trail: string) => `<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb">${trail}</nav><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p></div></section>`;
@@ -56,14 +58,15 @@ function qaHub(key: 'sp1' | 'sp3') {
   const c = QA[key];
   const body = `${hero(`IELTS Speaking Part ${c.part}`, c.hubH1, c.hubLead, crumbs([`Speaking Part ${c.part}`]))}
 <main class="page"><div class="wrap"><div class="grid">${c.data.map(t => `<a class="card" href="${c.base}/${t.slug}"><div class="body"><h3>${esc(t.title)}</h3><p>${esc(t.intro)}</p></div></a>`).join('')}</div>
-<section class="section"><h2>How Part ${c.part} works</h2><p>${esc(c.how)}</p></section>${ctaBox(`Practise Part ${c.part} out loud`, c.cta, '/auth', 'Practise speaking')}</div></main>`;
+<section class="section"><h2>How Part ${c.part} works</h2><p>${esc(c.how)}</p></section>
+<section class="section"><h2>Other Speaking parts</h2><div class="grid">${(['1', '2', '3'] as const).filter(n => n !== c.part).map(n => `<a class="card" href="/ielts-speaking-part-${n}"><div class="body"><h3>Speaking Part ${n}</h3><p>Topics, questions and sample answers.</p></div></a>`).join('')}</div></section>${ctaBox(`Practise Part ${c.part} out loud`, c.cta, '/auth', 'Practise speaking')}</div></main>`;
   return page({ title: `${c.hubTitle} | Scorify.uz`, description: `${c.data.length} ${c.hubDesc}`, path: c.base, body, jsonLd: [ld([[`Speaking Part ${c.part}`, c.base]])] });
 }
 async function qaPage(key: 'sp1' | 'sp3', t: Part1Topic) {
   const c = QA[key]; const path = `${c.base}/${t.slug}`;
   const others = c.data.filter(x => x.slug !== t.slug).slice(0, 6);
-  const title = `IELTS Speaking Part ${c.part}: ${t.title} – Questions & Sample Answers`;
-  const desc = `IELTS Speaking Part ${c.part} questions about ${t.title.toLowerCase()} with natural band 7 sample answers, vocabulary and tips.`;
+  const title = pick(`IELTS Speaking Part ${c.part}: ${t.title} Questions and Answers`, `IELTS Speaking Part ${c.part}: ${t.title} Answers`, `Speaking Part ${c.part}: ${t.title} Answers`);
+  const desc = `${t.qa.length} real IELTS Speaking Part ${c.part} questions about ${t.title.toLowerCase()} with band 7 sample answers, useful vocabulary and examiner tips. Practise free with AI feedback.`;
   const body = `${hero(`IELTS Speaking Part ${c.part}`, `${t.title}: IELTS Speaking Part ${c.part} questions and answers`, t.intro, crumbs([`Speaking Part ${c.part}`, c.base], [t.title]))}
 <main class="page"><div class="narrow">
 <section><h2>Questions and sample answers</h2>${t.qa.map(x => `<div class="qa"><h3>${esc(x.q)}</h3><p>${esc(x.a)}</p></div>`).join('')}</section>
@@ -78,18 +81,26 @@ ${ctaBox(`Answer these ${t.title.toLowerCase()} questions yourself`, 'Record you
 
 /* ---------- Speaking Part 2 ---------- */
 function part2Hub() {
+  const faq = [
+    { q: 'How long is IELTS Speaking Part 2?', a: 'You get one minute to prepare and then speak for one to two minutes. The examiner stops you at two minutes, so aim to speak for almost the full time. The whole Speaking test lasts 11 to 14 minutes.' },
+    { q: 'What happens if I stop before two minutes?', a: 'The examiner may ask one or two short follow-up questions. Stopping very early limits how much language you show, which can lower your fluency and vocabulary scores.' },
+    { q: 'Can I make notes in Part 2?', a: 'Yes. You receive paper and a pencil during the one-minute preparation time. Write keywords for each bullet point, not full sentences.' },
+    { q: 'How many cue cards should I practise?', a: 'Practise a range of topic types (a person, a place, an object, an event) rather than memorising answers. Examiners notice rehearsed speech, and the real card is often different from any you prepared.' },
+  ];
   const cats = [...new Set(CUE_CARDS.map(c => c.category))];
   const body = `${hero('IELTS Speaking Part 2', 'IELTS Speaking Part 2 cue cards with band 7 sample answers', 'Popular “Describe a…” topics with a model answer, key vocabulary and the Part 3 follow-up questions examiners often ask.', crumbs(['Speaking Part 2']))}
 <main class="page"><div class="wrap">${cats.map(cat => `<section class="section"><h2>${esc(cat)}</h2><div class="grid">${CUE_CARDS.filter(c => c.category === cat).map(c => `<a class="card" href="/ielts-speaking-part-2/${c.slug}"><div class="body"><h3>${esc(c.title)}</h3><p>${esc(c.cue)}</p></div></a>`).join('')}</div></section>`).join('')}
-<section class="section"><h2>How to answer a cue card</h2><p>You get one minute to prepare and then speak for up to two minutes. Use your minute to jot down keywords for each bullet point, start with a clear opening sentence and finish with a short reflection. Talking for the full two minutes matters: stopping early limits your fluency score.</p></section>
+<section class="section"><h2>How to answer a cue card</h2><p>You get one minute to prepare and then speak for up to two minutes. Use your minute to jot down keywords for each bullet point, start with a clear opening sentence and finish with a short reflection. Talking for the full two minutes matters: stopping early limits your fluency score. For a step-by-step method, read <a href="/blog/ielts-speaking-part-2-how-to-speak-for-two-minutes">how to speak for two minutes in Part 2</a>.</p></section>
+<section class="section"><h2>IELTS Speaking Part 2: common questions</h2>${faqHtml(faq)}</section>
+<section class="section"><h2>Other Speaking parts</h2><div class="grid"><a class="card" href="/ielts-speaking-part-1"><div class="body"><h3>Speaking Part 1 topics</h3><p>Short everyday questions with model answers.</p></div></a><a class="card" href="/ielts-speaking-part-3"><div class="body"><h3>Speaking Part 3 questions</h3><p>Abstract discussion questions with developed answers.</p></div></a><a class="card" href="/ielts-speaking-practice"><div class="body"><h3>Speaking practice with AI feedback</h3><p>Record an answer and get a band estimate.</p></div></a></div></section>
 ${ctaBox('Time yourself on a real cue card', 'Practise Part 2 with a timer, record your answer and get a band estimate.', '/auth', 'Practise Part 2')}</div></main>`;
-  return page({ title: 'IELTS Speaking Part 2 Cue Cards and Sample Answers | Scorify.uz', description: `${CUE_CARDS.length} IELTS Speaking Part 2 cue cards with band 7 sample answers, vocabulary and Part 3 questions. Practise free with AI feedback.`, path: '/ielts-speaking-part-2', body, jsonLd: [ld([['Speaking Part 2', '/ielts-speaking-part-2']])] });
+  return page({ title: `IELTS Speaking Part 2: ${CUE_CARDS.length} Cue Cards with Answers | Scorify.uz`, description: `How long is IELTS Speaking Part 2? You prepare for 1 minute and speak for 1–2 minutes. ${CUE_CARDS.length} cue cards with band 7 sample answers, vocabulary and Part 3 questions.`, path: '/ielts-speaking-part-2', body, jsonLd: [faqLd(faq), ld([['Speaking Part 2', '/ielts-speaking-part-2']])] });
 }
 async function part2Page(c: CueCard) {
   const path = `/ielts-speaking-part-2/${c.slug}`;
   const others = CUE_CARDS.filter(x => x.slug !== c.slug && x.category === c.category).concat(CUE_CARDS.filter(x => x.slug !== c.slug && x.category !== c.category)).slice(0, 6);
-  const title = `IELTS Speaking Part 2: ${c.title} – Sample Answer`;
-  const desc = `Band 7 sample answer for the IELTS Speaking Part 2 cue card “${c.title}”, with vocabulary, tips and Part 3 follow-up questions.`;
+  const title = pick(`${c.title}: IELTS Speaking Part 2 Answer`, `${c.title}: IELTS Part 2 Answer`, `${c.title} (Part 2 Answer)`);
+  const desc = `Band 7 sample answer for the IELTS Speaking Part 2 cue card “${c.title}” with a 2-minute structure, useful vocabulary and Part 3 follow-up questions. Practise free.`;
   const body = `${hero('IELTS Speaking Part 2', `${c.title}: IELTS Speaking Part 2 sample answer`, c.cue, crumbs(['Speaking Part 2', '/ielts-speaking-part-2'], [c.title]))}
 <main class="page"><div class="narrow">
 <section><h2>The cue card</h2><div class="box tip"><p><strong>${esc(c.cue)}</strong></p><p>You should say:</p>${bullets(c.points)}</div></section>
@@ -117,8 +128,8 @@ async function task2Page(q: Task2Question) {
   const path = `/ielts-writing-task-2-questions/${q.slug}`;
   const others = TASK2.filter(x => x.slug !== q.slug && (x.type === q.type || x.category === q.category)).slice(0, 6);
   const words = wc(q.sample);
-  const title = `IELTS Writing Task 2: ${q.title} – Sample Essay & Plan`;
-  const desc = `Band 7+ sample essay, plan and vocabulary for the IELTS Writing Task 2 question on ${q.title.toLowerCase()}. Includes analysis and common mistakes.`;
+  const title = pick(`${q.title}: IELTS Writing Task 2 Essay`, `${q.title}: IELTS Task 2 Essay`, `${q.title} (Task 2 Essay)`);
+  const desc = `Band 7+ sample essay, step-by-step plan and vocabulary for the IELTS Writing Task 2 question on ${q.title.toLowerCase()}. Includes question analysis and common mistakes.`;
   const faq = [
     { q: 'What type of essay is this IELTS Task 2 question?', a: `It is a ${q.type.toLowerCase()} question. ${q.analysis}` },
     { q: 'How many words should the essay be?', a: 'Write at least 250 words. Most strong answers are 260–290 words, planned in about five minutes and completed in 40 minutes.' },
@@ -154,8 +165,8 @@ async function task1Page(t: Task1Page) {
   const path = `/ielts-writing-task-1-samples/${t.slug}`;
   const others = TASK1.filter(x => x.slug !== t.slug && x.chartType === t.chartType).concat(TASK1.filter(x => x.slug !== t.slug && x.chartType !== t.chartType)).slice(0, 6);
   const words = wc(t.sample);
-  const title = `IELTS Writing Task 1: ${t.title} – Sample Report`;
-  const desc = `Band 7 sample answer for an IELTS Writing Task 1 ${t.chartType.toLowerCase()}: ${t.title.toLowerCase()}, with the overview, useful language and common mistakes.`;
+  const title = pick(`${t.title}: IELTS Writing Task 1 ${t.chartType}`, `${t.title}: IELTS Task 1 ${t.chartType}`, `${t.title} (Task 1 ${t.chartType})`);
+  const desc = `Band 7 sample answer for an IELTS Writing Task 1 ${t.chartType.toLowerCase()} on ${t.title.toLowerCase()}, with the overview, useful language and common mistakes.`;
   const faq = [
     { q: 'How many words should an IELTS Task 1 report be?', a: 'Write at least 150 words. Strong reports are usually 160–190 words and take about 20 minutes, leaving a minute or two to check.' },
     { q: 'What is an overview in Task 1?', a: 'The overview is a short paragraph, written without detailed numbers, that states the main trends or the most important features of the data. Reports without a clear overview are limited to a lower band.' },
@@ -186,7 +197,7 @@ ${ctaBox('Use the words in a real answer', 'Write or record an answer on any top
 }
 async function vocabPage(v: VocabPage) {
   const path = `/ielts-vocabulary/${v.slug}`; const others = VOCAB.filter(x => x.slug !== v.slug).slice(0, 6);
-  const title = `${v.title}: IELTS Vocabulary with Examples`; const desc = `${v.title} for IELTS Writing and Speaking: word lists with meanings, example sentences and tips for using them accurately.`;
+  const title = pick(`${v.title.replace(/^IELTS (Vocabulary for )?/, '')}: IELTS Vocabulary List`, `${v.title.replace(/^IELTS (Vocabulary for )?/, '')}: IELTS Words`); const desc = `${v.title} for IELTS Writing and Speaking: word lists with meanings, example sentences and tips for using them accurately.`;
   const body = `${hero('IELTS vocabulary', v.title, v.intro, crumbs(['Vocabulary', '/ielts-vocabulary'], [v.title]))}
 <main class="page"><div class="narrow">
 ${v.groups.map(g => `<section class="section"><h2>${esc(g.head)}</h2><div class="table-scroll"><table class="data"><thead><tr><th>Word or phrase</th><th>Meaning</th><th>Example</th></tr></thead><tbody>${g.items.map(i => `<tr><th scope="row">${esc(i.word)}</th><td>${esc(i.meaning)}</td><td>${esc(i.example)}</td></tr>`).join('')}</tbody></table></div></section>`).join('')}
@@ -205,17 +216,22 @@ async function calculator() {
     { q: 'How is the IELTS overall band score calculated?', a: 'The overall band is the average of your Listening, Reading, Writing and Speaking scores, rounded to the nearest half band. An average ending in .25 rounds up to the next half band, and an average ending in .75 rounds up to the next whole band.' },
     { q: 'What is 6.75 rounded to in IELTS?', a: 'An average of 6.75 rounds up to an overall band 7.0.' },
     { q: 'What is 6.25 rounded to in IELTS?', a: 'An average of 6.25 rounds up to an overall band 6.5.' },
+    { q: 'Do Writing and Speaking count more than Listening and Reading?', a: 'No. All four sections carry equal weight in the overall band: each contributes one quarter of the average.' },
+    { q: 'Is the overall band calculated the same way for Academic and General Training?', a: 'Yes. Both versions use the same rule: the average of the four section bands, rounded to the nearest half or whole band.' },
+    { q: 'What do I need in each section for an overall 7.0?', a: 'Several combinations work. For example 7, 7, 7, 7 gives 7.0, and 7, 7, 6.5, 7 gives an average of 6.875, which also rounds up to 7.0. Check your own scores with the calculator above.' },
   ];
+  const examples = [[8.5, 8.5, 7, 7], [7, 7, 6.5, 7], [7, 7, 7, 6], [6, 6, 6, 7], [7, 6.5, 6, 6.5], [5.5, 6, 5.5, 6]].map(x => { const a = x.reduce((m, v) => m + v, 0) / 4; const f = Math.floor(a), d = a - f; const b = d < 0.25 ? f : d < 0.75 ? f + 0.5 : f + 1; return `<tr><td>${x.map(v => v.toFixed(1)).join(' / ')}</td><td>${a.toFixed(3).replace(/0$/, '')}</td><th scope="row">${b.toFixed(1)}</th></tr>`; }).join('');
   const body = `${hero('Free tool', 'IELTS Band Score Calculator', 'Enter your four section scores to see your overall IELTS band, using the official rounding rule.', crumbs(['Band score calculator']))}
 <main class="page"><div class="narrow"><section class="box"><div class="calc" id="calc">
 <label>Listening<select id="l">${opts}</select></label><label>Reading<select id="r">${opts}</select></label><label>Writing<select id="w">${opts}</select></label><label>Speaking<select id="s">${opts}</select></label></div>
 <p style="margin:24px 0 4px;color:#64748b">Your overall band</p><div class="result" id="out">6.5</div><p id="avg" style="color:#64748b;margin-top:8px"></p></section>
 <script>(function(){var ids=['l','r','w','s'];function calc(){var t=0;ids.forEach(function(i){t+=parseFloat(document.getElementById(i).value)});var a=t/4;var f=Math.floor(a);var d=a-f;var b;if(d<0.25)b=f;else if(d<0.75)b=f+0.5;else b=f+1;document.getElementById('out').textContent=b.toFixed(1);document.getElementById('avg').textContent='Average of your four scores: '+a.toFixed(2)}ids.forEach(function(i){document.getElementById(i).addEventListener('change',calc)});calc()})()</script>
 <section class="section"><h2>How the overall band is rounded</h2><ul><li>Average ending in <strong>.25</strong> rounds up to the next half band (6.25 → 6.5).</li><li>Average ending in <strong>.75</strong> rounds up to the next whole band (6.75 → 7.0).</li><li>Other averages round to the nearest half or whole band (6.125 → 6.0, 6.375 → 6.5).</li></ul></section>
+<section class="section"><h2>Examples of overall band calculations</h2><div class="table-scroll"><table class="data"><thead><tr><th>Listening / Reading / Writing / Speaking</th><th>Average</th><th>Overall band</th></tr></thead><tbody>${examples}</tbody></table></div></section>
 ${await studyGuides('band score')}
 <section class="section"><h2>Improve your Writing and Speaking scores</h2><p>Writing and Speaking are usually the hardest to raise without feedback. Scorify gives you an estimated band, criterion scores and corrections after every practice.</p></section>
 ${ctaBox()}<section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section></div></main>`;
-  return page({ title: 'IELTS Band Score Calculator – Overall Band | Scorify.uz', description: 'Free IELTS band score calculator. Enter your Listening, Reading, Writing and Speaking scores to get your overall band using the official rounding rule.', path: '/ielts-band-score-calculator', body, jsonLd: [faqLd(faq), { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'IELTS Band Score Calculator', url: `${SITE}/ielts-band-score-calculator`, applicationCategory: 'EducationalApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }, ld([['Band score calculator', '/ielts-band-score-calculator']])] });
+  return page({ title: 'IELTS Overall Band Score Calculator (with Rounding) | Scorify.uz', description: 'Free IELTS band score calculator: enter your Listening, Reading, Writing and Speaking scores and see your overall band with the official rounding rule (6.25 → 6.5, 6.75 → 7.0).', path: '/ielts-band-score-calculator', body, jsonLd: [faqLd(faq), { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'IELTS Band Score Calculator', url: `${SITE}/ielts-band-score-calculator`, applicationCategory: 'EducationalApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }, ld([['Band score calculator', '/ielts-band-score-calculator']])] });
 }
 
 export default async function handler(req: IncomingMessage, res: ServerResponse & { statusCode: number }) {
