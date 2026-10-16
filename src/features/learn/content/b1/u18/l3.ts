@@ -90,7 +90,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "A very busy month", voice: "emma",
           en: "Nilufar has been decorating her flat for a month, and she is exhausted. She has been painting the walls every weekend, and she has been searching online for the right furniture. So far she has painted three rooms and bought a new sofa. She has also been repairing an old table. Her friend Jack asked, \"What have you been doing lately? I haven't heard from you!\" Nilufar laughed. \"I've been working very hard. I haven't been going out much, but the flat is almost ready.\" Jack has promised to come and help next Saturday.",
-          uz: "Nilufar bir oydan beri kvartirasini ta'mirlayapti va juda charchagan. U har dam olish kunida devorlarni bo'yayapti va to'g'ri mebelni internetdan qidiryapti. Hozirgacha u uchta xonani bo'yadi va yangi divan sotib oldi. U eski stolni ham ta'mirlayapti. Do'sti Jek so'radi: «Oxirgi paytda nima qilyapsan? Sendan darak yo'q!» Nilufar kuldi: «Juda qattiq ishlayapman. Ko'p tashqariga chiqmadim, lekin kvartira deyarli tayyor.» Jek kelasi shanba kuni kelib yordam berishga va'da berdi.",
+          uz: "Nilufar bir oydan beri kvartirasini ta'mirlayapti va juda charchagan. U har dam olish kunida devorlarni bo'yayapti va to'g'ri mebelni internetdan qidiryapti. Hozirgacha u uchta xonani bo'yadi va yangi divan sotib oldi. U eski stolni ham ta'mirlayapti. Do'sti Jek so'radi: «Oxirgi paytda nima qilyapsan? Sendan darak yo'q!» Nilufar kuldi: «Juda qattiq ishlayapman. Ko'p tashqariga chiqmayapman, lekin kvartira deyarli tayyor.» Jek kelasi shanba kuni kelib yordam berishga va'da berdi.",
         },
         { t: "check", ex: { k: "tf", q: "Nilufar has painted three rooms so far.", a: true, why: "Matnda: *So far she has painted three rooms* — natija va son (Simple)." } },
         { t: "check", ex: { k: "choice", q: "Why does the text say **has painted three rooms**, not **has been painting three rooms**?", opts: ["Because the number three shows the result.", "Because painting is a state.", "Because it is a question.", "Because it happened yesterday."], a: 0, why: "Son (**three rooms**) — natija, shuning uchun Simple." } },
@@ -101,11 +101,11 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "dialog", lines: [
-            { who: "Ben", en: "You look exhausted, Lily. What have you been doing?", uz: "Charchagan ko'rinasan, Lili. Nima qilib yurgan eding?" },
+            { who: "Ben", en: "You look exhausted, Lily. What have you been doing?", uz: "Charchagan ko'rinasan, Lili. Nima bilan band bo'lib yuribsan?" },
             { who: "Lily", en: "I've been preparing for my driving test. I've been practising every evening.", uz: "Haydovchilik imtihoniga tayyorlanyapman. Har kech mashq qilyapman." },
             { who: "Ben", en: "How long have you been learning to drive?", uz: "Qancha vaqtdan beri haydashni o'rganyapsan?" },
             { who: "Lily", en: "For about three months. I've had ten lessons so far, and I've passed the theory test.", uz: "Taxminan uch oydan beri. Hozirgacha o'nta dars oldim va nazariy imtihondan o'tdim." },
-            { who: "Ben", en: "That's great! I've been trying to find a driving instructor for weeks.", uz: "Zo'r! Men bir necha haftadan beri o'qituvchi topishga urinyapman." },
+            { who: "Ben", en: "That's great! I've been trying to find a driving instructor for weeks.", uz: "Zo'r! Men bir necha haftadan beri haydash o'qituvchisi topishga urinyapman." },
             { who: "Lily", en: "Mine is very good. I can give you her number.", uz: "Meniki juda yaxshi. Telefon raqamini bera olaman." },
           ],
         },
@@ -114,16 +114,16 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "fed up", uz: "zerikkan, bezor bo'lgan", ipa: "fed ʌp", pos: "adj", ex: "I've been feeling fed up with this rain all week.", exUz: "Men butun hafta shu yomg'irdan bezor bo'lib yuribman." },
+    { en: "fed up", uz: "bezor bo'lgan, toliqqan", ipa: "fed ʌp", pos: "adj", ex: "I've been feeling fed up with this rain all week.", exUz: "Men butun hafta shu yomg'irdan bezor bo'lib yuribman." },
     { en: "sort out", uz: "tartibga solmoq, hal qilmoq", ipa: "sɔːt aʊt", pos: "phrasal verb", ex: "I've been sorting out my old photos all morning.", exUz: "Men butun ertalab eski suratlarimni saralab o'tirdim." },
     { en: "tidy up", uz: "tartibga keltirmoq, yig'ishtirmoq", ipa: "ˈtaɪ.di ʌp", pos: "phrasal verb", ex: "They have been tidying up the flat since lunchtime.", exUz: "Ular tushlikdan beri kvartirani yig'ishtirishyapti." },
-    { en: "clear out", uz: "tozalab tashlamoq (keraksiz narsalardan)", ipa: "klɪər aʊt", pos: "phrasal verb", ex: "We have been clearing out the garage all weekend.", exUz: "Biz butun dam olish kunlari garajni keraksiz narsalardan tozaladik." },
+    { en: "clear out", uz: "tozalab tashlamoq (keraksiz narsalardan)", ipa: "klɪər aʊt", pos: "phrasal verb", ex: "We have been clearing out the garage all weekend.", exUz: "Biz butun dam olish kunlari garajni keraksiz narsalardan tozalab yuribmiz." },
     { en: "wait around", uz: "bekor kutib turmoq", ipa: "weɪt əˈraʊnd", pos: "phrasal verb", ex: "I've been waiting around for the plumber for two hours.", exUz: "Men ikki soatdan beri chilangarni bekor kutib turibman." },
     { en: "search", uz: "qidirmoq (diqqat bilan)", ipa: "sɜːtʃ", pos: "verb", ex: "I have been searching for a flat online.", exUz: "Men internetda kvartira qidiryapman." },
     { en: "lately", uz: "so'nggi paytlarda", ipa: "ˈleɪt.li", pos: "adv", ex: "Have you been feeling well lately?", exUz: "So'nggi paytlarda o'zingizni yaxshi his qilyapsizmi?" },
     { en: "keep up", uz: "davom ettirmoq, ortda qolmaslik", ipa: "kiːp ʌp", pos: "phrasal verb", ex: "She has been keeping up her French by watching films.", exUz: "U film ko'rib, frantsuz tilini unutmay kelyapti." },
     { en: "decorate", uz: "bezamoq; ta'mirlab bo'yamoq", ipa: "ˈdek.ə.reɪt", pos: "verb", ex: "We have been decorating the living room.", exUz: "Biz mehmonxonani ta'mirlayapmiz." },
-    { en: "work out", uz: "sport bilan shug'ullanmoq; yechim topmoq", ipa: "wɜːk aʊt", pos: "phrase", ex: "She has been working out at the gym since March.", exUz: "U martdan beri sport zalida shug'ullanadi." },
+    { en: "work out", uz: "sport bilan shug'ullanmoq; yechim topmoq", ipa: "wɜːk aʊt", pos: "phrasal verb", ex: "She has been working out at the gym since March.", exUz: "U martdan beri sport zalida shug'ullanadi." },
   ],
   practice: [
     { k: "choice", q: "**We ___ for you for an hour!**", opts: ["have waited been", "have been waiting", "are been waiting", "has been waiting"], a: 1, why: "we → **have been waiting**." },
@@ -135,7 +135,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I've been trying to call you ___ days.", a: ["for"], why: "*days* — muddat → **for**." },
     { k: "fill", q: "My sister has ___ working out since March. (be)", a: ["been"], why: "**has been** + V-ing." },
     { k: "order", uz: "Qancha vaqtdan beri kutyapsiz?", words: ["How", "long", "have", "you", "been", "waiting?"], extra: ["are", "wait"], why: "**How long have you been + V-ing?**" },
-    { k: "order", uz: "U butun ertalab yig'layotgan edi.", words: ["He", "has", "been", "crying", "all", "morning."], extra: ["is", "cried"], alt: [["He's", "been", "crying", "all", "morning."]], why: "Davomiylik: *has been crying*." },
+    { k: "order", uz: "U butun ertalab yig'lab keldi.", words: ["He", "has", "been", "crying", "all", "morning."], extra: ["is", "cried"], alt: [["He's", "been", "crying", "all", "morning."]], why: "Davomiylik: *has been crying*." },
     { k: "translate", uz: "Men so'nggi paytlarda yomon uxlayapman.", a: ["I have been sleeping badly lately.", "I've been sleeping badly lately.", "I have been sleeping badly recently.", "I've been sleeping badly recently.", "I haven't been sleeping well lately.", "I haven't been sleeping well recently."], why: "Jarayon + lately: **have been sleeping**." },
     { k: "translate", uz: "U uch oydan beri ingliz tilini o'rganyapti.", a: ["She has been learning English for three months.", "She's been learning English for three months.", "He has been learning English for three months.", "He's been learning English for three months.", "She has been studying English for three months.", "He has been studying English for three months."], why: "**has been learning … for three months**." },
     { k: "fix", wrong: "I have been knowing him for years.", a: ["I have known him for years.", "I've known him for years."], hint: "holat fe'li", why: "**know** Continuous bo'lmaydi." },

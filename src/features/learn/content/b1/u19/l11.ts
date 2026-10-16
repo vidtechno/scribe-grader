@@ -28,7 +28,7 @@ const lesson: Lesson = {
         { t: 'p', md: "Ko'chirma gapda zamon **bir qadam o'tmishga** siljiydi; savollarda **if / whether** yoki so'roq so'z va **oddiy gap tartibi** keladi; buyruqda **to / not to**." },
         { t: 'table', head: ["To'g'ridan-to'g'ri", "Ko'chirma gap"], speak: [1], rows: [
           ['"I am tired."', "She said that she was tired."],
-          ['"I saw him."', "He told me that he had seen him."],
+          ['"I saw her."', "He told me that he had seen her."],
           ['"Will you come?"', "She asked if I would come."],
           ['"Where do you live?"', "He asked where I lived."],
           ['"Close the door."', "She told me to close the door."],
@@ -62,7 +62,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'exclaim', uz: "xitob qilib aytmoq", ipa: 'ɪkˈskleɪm', pos: 'verb', ex: "She exclaimed that it was the best day of her life.", exUz: "U bu hayotidagi eng yaxshi kun ekanini xitob qilib aytdi." },
+    { en: 'exclaim', uz: "hayajon bilan aytmoq", ipa: 'ɪkˈskleɪm', pos: 'verb', ex: "She exclaimed that it was the best day of her life.", exUz: "U bu hayotidagi eng yaxshi kun ekanini hayajon bilan aytdi." },
     { en: 'reveal', uz: "oshkor qilmoq", ipa: 'rɪˈviːl', pos: 'verb', ex: "She revealed that she was moving abroad.", exUz: "U chet elga ko'chib ketayotganini oshkor qildi." },
     { en: 'murmur', uz: "pichirlab aytmoq, g'o'ldiramoq", ipa: 'ˈmɜː.mər', pos: 'verb', ex: "He murmured that he was tired and went to bed.", exUz: "U charchaganini pichirlab aytdi va yotgani ketdi." },
     { en: 'recount', uz: "hikoya qilib bermoq", ipa: 'rɪˈkaʊnt', pos: 'verb', ex: "She recounted what had happened that night.", exUz: "U o'sha kechasi nima bo'lganini hikoya qilib berdi." },
@@ -73,7 +73,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "By the time we arrived, the concert ___.", opts: ["had started", "starts", "was start", "start"], a: 0, why: "Oldin boshlangan → **had started**." },
     { k: 'choice', q: "\"I'll help you,\" said Ben. → Ben said that he ___ help me.", opts: ["would", "will", "can", "had"], a: 0, why: "*will* → **would**." },
     { k: 'fill', q: "She asked me if I ___ tea or coffee. (want)", a: ["wanted"], why: "Savol → oddiy tartib, zamon siljiydi: **wanted**." },
-    { k: 'fill', q: "He apologised ___ being late.", a: ["for"], why: "**apologise for**." },
+    { k: 'fill', q: "He congratulated me ___ passing the exam.", a: ["on"], why: "**congratulate somebody on**." },
     { k: 'fill', q: "The doctor told me ___ to eat too much sugar.", a: ["not"], why: "Inkor buyruq → **not to**." },
     { k: 'fix', wrong: "She asked me where did I work.", a: ["She asked me where I worked."], why: "Ko'chirma savolda oddiy tartib: **where I worked**." },
     { k: 'fix', wrong: "He denied to take the money.", a: ["He denied taking the money.", "He denied that he had taken the money.", "He denied that he took the money."], why: "**deny** + -ing." },

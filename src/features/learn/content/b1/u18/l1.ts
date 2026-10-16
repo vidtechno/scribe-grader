@@ -53,7 +53,7 @@ const lesson: Lesson = {
         {
           t: "table", head: ["So'z / qolip", "Ma'nosi", "Misol"], speak: [2],
           rows: [
-            ["ever", "hech (savolda)", "Have you ever met a famous person?"],
+            ["ever", "biror marta (savolda)", "Have you ever met a famous person?"],
             ["never", "hech qachon", "I've never been on a plane."],
             ["before", "avval, ilgari", "I haven't tried it before."],
             ["once / twice / three times", "bir / ikki / uch marta", "She has won twice."],
@@ -140,7 +140,7 @@ const lesson: Lesson = {
     { en: "challenge", uz: "qiyin sinov, qiyinchilik", ipa: "ˈtʃæl.ɪndʒ", pos: "noun", ex: "Learning a new language is a big challenge.", exUz: "Yangi til o'rganish katta sinov." },
     { en: "competition", uz: "musobaqa, tanlov", ipa: "ˌkɒm.pəˈtɪʃ.ən", pos: "noun", ex: "She has entered a photography competition.", exUz: "U fotosurat tanloviga qatnashish uchun yozildi." },
     { en: "award", uz: "mukofot, sovrin", ipa: "əˈwɔːd", pos: "noun", ex: "The film has won three awards.", exUz: "Film uchta mukofot yutdi." },
-    { en: "volunteer", uz: "ko'ngilli (kishi); ko'ngilli bo'lmoq", ipa: "ˌvɒl.ənˈtɪər", pos: "noun", ex: "I have worked as a volunteer at a hospital.", exUz: "Men kasalxonada ko'ngilli bo'lib ishlaganman." },
+    { en: "volunteer", uz: "ko'ngilli (kishi); ko'ngilli bo'lmoq", ipa: "ˌvɒl.ənˈtɪə", pos: "noun", ex: "I have worked as a volunteer at a hospital.", exUz: "Men kasalxonada ko'ngilli bo'lib ishlaganman." },
     { en: "proud", uz: "faxrlangan, g'ururlangan", ipa: "praʊd", pos: "adj", ex: "My parents are proud of me.", exUz: "Ota-onam men bilan faxrlanishadi." },
     { en: "get a degree", uz: "diplom olmoq", ipa: "ɡet ə dɪˈɡriː", pos: "phrase", ex: "He has just got a degree in engineering.", exUz: "U hozirgina muhandislik bo'yicha diplom oldi." },
     { en: "take part in", uz: "qatnashmoq", ipa: "teɪk pɑːt ɪn", pos: "phrase", ex: "Have you ever taken part in a race?", exUz: "Hech poygada qatnashganmisiz?" },

@@ -27,7 +27,7 @@ const lesson: Lesson = {
       ],
     },
     {
-      title: "Sanalmaydigan otlar va kelishik",
+      title: "Sanalmaydigan otlar va fe'lning shakli",
       blocks: [
         { t: 'p', md: "Ba'zi so'zlar o'zbek tilida sanaladi, inglizchada esa **sanalmaydi**. Ular bilan **a/an** va **-s** ishlatilmaydi, fe'l esa birlikda turadi." },
         { t: 'compare',
@@ -101,9 +101,9 @@ const lesson: Lesson = {
     { k: 'fill', q: "If it ___ tomorrow, we will cancel the picnic. (rain)", a: ['rains'], uz: "Ertaga yomg'ir yog'sa, piknikni bekor qilamiz.", why: "**If** dan keyin hozirgi zamon: *rains*." },
     { k: 'fill', q: "I'm 30 years ___.", a: ['old'], uz: "Men 30 yoshdaman.", why: "Yosh: *I am 30 years old.*" },
     { k: 'fix', wrong: "I am agree with this opinion.", a: ["I agree with this opinion."], why: "**agree** — fe'l: *I agree*." },
-    { k: 'fix', wrong: "She is interested to learn Japanese.", a: ["She is interested in learning Japanese.", "She is interested in Japanese."], why: "**interested in** + -ing." },
+    { k: 'fix', wrong: "She is good in cooking.", a: ["She is good at cooking."], why: "**good at** + -ing (predlogdan keyin -ing)." },
     { k: 'fix', wrong: "Can you tell me where is the post office?", a: ["Can you tell me where the post office is?"], why: "Ichki savolda darak gap tartibi." },
-    { k: 'order', uz: "Biz ob-havoga bog'liqmiz.", words: ['It', 'depends', 'on', 'the', 'weather.'], extra: ['of', 'from'], why: "**depend on**." },
+    { k: 'order', uz: "Bu ob-havoga bog'liq.", words: ['It', 'depends', 'on', 'the', 'weather.'], extra: ['of', 'from'], why: "**depend on**." },
     { k: 'translate', uz: "Men musiqa tinglashni yaxshi ko'raman.", a: ["I like listening to music.", "I love listening to music.", "I enjoy listening to music."], why: "**listen to** + music." },
     { k: 'dictation', say: 'He gave me some useful information.', a: ['He gave me some useful information.'], uz: "U menga foydali ma'lumot berdi." },
     { k: 'speak', say: 'I agree with you, but it depends on the price.', uz: "Men senga qo'shilaman, lekin bu narxga bog'liq." },
@@ -122,7 +122,7 @@ const lesson: Lesson = {
     "Fe'l + predlog: **discuss** (predlogsiz), **explain to**, **depend on**, **listen to**, **wait for**, **married to**.",
     "**advice, information, news, research** — sanalmaydi (*a/an* va *-s* yo'q). **People** — ko'plik.",
     "**If** dan keyin *will* yo'q; **I agree** (am yo'q); **I am 25 years old**; **since** bilan Present Perfect.",
-    "Ichki savolda darak tartibi: *Do you know where the bank is?* Yangi so'zlar: **mistake, habit, accurate, careless, improve**.",
+    "Ichki savolda darak tartibi: *Do you know where the bank is?* Yangi so'zlar: **confuse, overuse, accurate, careless, get used to**.",
   ],
   homework: "Oxirgi yozgan matningizni oching va shu darsdagi 6 ta xatoni qidiring. Topgan xatolaringizni daftarga \"xato -> to'g'ri\" ko'rinishida yozib boring.",
 };

@@ -108,7 +108,7 @@ const lesson: Lesson = {
     { en: "honeymoon", uz: "asal oyi", ipa: "ˈhʌn.i.muːn", pos: "noun", ex: "They spent their honeymoon on a beautiful island.", exUz: "Ular asal oyini go'zal orolda o'tkazishdi." },
     { en: "get a promotion", uz: "lavozimi ko'tarilmoq", ipa: "ɡet ə prəˈməʊ.ʃən", pos: "phrase", ex: "He got a promotion after two years.", exUz: "U ikki yildan keyin lavozimga ko'tarildi." },
     { en: "move out", uz: "ko'chib chiqmoq", ipa: "muːv aʊt", pos: "phrasal verb", ex: "He moved out of his parents' house when he was twenty-two.", exUz: "U yigirma ikki yoshida ota-onasining uyidan ko'chib chiqdi." },
-    { en: "settle down", uz: "joylashib, osoyishta hayot kechirmoq", ipa: "ˈset.əl daʊn", pos: "phrase", ex: "He wants to settle down and have a family.", exUz: "U oila qurib, osoyishta yashashni xohlaydi." },
+    { en: "settle down", uz: "joylashib, osoyishta hayot kechirmoq", ipa: "ˈset.əl daʊn", pos: "phrasal verb", ex: "He wants to settle down and have a family.", exUz: "U oila qurib, osoyishta yashashni xohlaydi." },
     { en: "retirement", uz: "nafaqa, nafaqaga chiqish davri", ipa: "rɪˈtaɪə.mənt", pos: "noun", ex: "My grandfather is enjoying his retirement in the countryside.", exUz: "Bobom nafaqada qishloqda hordiq chiqarmoqda." },
   ],
   practice: [
@@ -137,7 +137,7 @@ const lesson: Lesson = {
     { k: "listen", say: "They moved to a new flat in March.", opts: ["They moved to a new flat in March.", "They moved to a new job in March.", "They are moving to a new flat in March.", "They have moved to a new flat for March."], a: 0, why: "**moved to a new flat in March**." },
     { k: "order", uz: "U 2015-yilda universitetni bitirgan.", words: ["He", "graduated", "from", "university", "in", "2015."], extra: ["has", "at"], why: "Aniq vaqt → Past Simple; **graduate from**." },
     { k: "tf", q: "**Get engaged** and **get married** have the same meaning.", a: false, why: "*get engaged* = unashtirilmoq; *get married* = turmush qurmoq." },
-    { k: "translate", uz: "Ular o'tgan yozda turmush qurishdi.", a: ["They got married last summer.", "They got married last summer"], why: "**last summer** — Past Simple." },
+    { k: "translate", uz: "Ular o'tgan yozda turmush qurishdi.", a: ["They got married last summer."], why: "**last summer** — Past Simple." },
   ],
   summary: [
     "**Hayot voqealari**: *grow up, graduate, get engaged, get married, move house, get a promotion, retire, settle down*.",

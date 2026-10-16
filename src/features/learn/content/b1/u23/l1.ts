@@ -86,7 +86,7 @@ const lesson: Lesson = {
             { en: "I don't think we should wait any longer.", uz: "Menimcha, biz endi ko'proq kutmasligimiz kerak." },
             { en: "I don't think that's true.", uz: "Menimcha, bu to'g'ri emas." },
             { en: "Do you think people will work from home in the future?", uz: "Sizningcha, kelajakda odamlar uydan ishlaydimi?" },
-            { en: "I think so. / I don't think so.", uz: "Menimcha, ha. / Menimcha, yo'q.", note: "Qisqa javob." },
+            { en: "I think so. I don't think so.", uz: "Menimcha, ha. Menimcha, yo'q.", note: "Qisqa javob." },
           ],
         },
         { t: "tip", tone: "info", md: "Qisqa javob: **I think so** (ha, shunday deb o'ylayman), **I don't think so** (yo'q, shunday deb o'ylamayman). ~~I think no~~ deb aytilmaydi." },

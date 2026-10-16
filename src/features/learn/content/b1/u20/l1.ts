@@ -63,13 +63,13 @@ const lesson: Lesson = {
     {
       title: "Eng katta xato: if dan keyin would",
       blocks: [
-        { t: "p", md: "O'zbek tilida «bo'lsam, qilardim» deymiz va ikkalasi ham «qilgan» ohangida. Shuning uchun ko'pchilik **if** dan keyin ham **would** qo'yib yuboradi. Inglizchada **would** faqat **asosiy qismda** turadi." },
+        { t: "p", md: "O'zbek tilida «bo'lsam, qilardim» deymiz, ya'ni ikkala qismda ham «-ardim» ma'nosi bor. Shuning uchun ko'pchilik **if** dan keyin ham **would** qo'yib yuboradi. Inglizchada **would** faqat **asosiy qismda** turadi." },
         {
           t: "compare",
           good: { title: "To'g'ri", items: ["If I had a car, I would drive to work.", "If she knew the answer, she would tell us.", "What would you do if you lost your passport?"] },
           bad: { title: "Xato", items: ["If I would have a car, I would drive to work.", "If she would know the answer, she would tell us.", "What would you do if you would lose your passport?"] },
         },
-        { t: "tip", tone: "warn", md: "Qoida oddiy: **if** dan keyin hech qachon **will** ham, **would** ham qo'ymaymiz (first yoki second conditional bo'lishidan qat'i nazar). **If** dan keyin faqat oddiy zamon: *If I won, If I get*." },
+        { t: "tip", tone: "warn", md: "Qoida oddiy: **if** dan keyin odatda **will** ham, **would** ham qo'ymaymiz (first yoki second conditional bo'lishidan qat'i nazar). **If** dan keyin faqat oddiy zamon: *If I won, If I get*." },
         { t: "check", ex: { k: "fix", wrong: "If I would have more time, I would learn Spanish.", a: ["If I had more time, I would learn Spanish.", "If I had more time, I'd learn Spanish."], hint: "If dan keyin would bo'lmaydi", why: "**If** dan keyin Past Simple: *If I had*." } },
         { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["If he would earn more, he would move out.", "If he earned more, he would move out.", "If he earns more, he would move out.", "If he earned more, he will move out."], a: 1, why: "Xayoliy vaziyat: **If + Past Simple, would + V1**." } },
       ],
@@ -103,7 +103,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "If I had a free year", voice: "emma",
           en: "Nilufar works in a bank in Tashkent. She likes her job, but sometimes she imagines a different life. \"If I had a free year, I would travel around Central Asia,\" she says. \"I would visit small villages and learn about local crafts. If I met an interesting craftsman, I would ask him to teach me. I could write a blog about my trip, too.\" Her brother laughs. \"If you quit your job, you wouldn't have any money,\" he says. \"That's true,\" Nilufar answers. \"I wouldn't leave my job without a plan. But it is fun to imagine, isn't it?\"",
-          uz: "Nilufar Toshkentdagi bankda ishlaydi. U ishini yaxshi ko'radi, lekin ba'zan boshqacha hayotni tasavvur qiladi. «Agar bir yil bo'sh vaqtim bo'lsa, Markaziy Osiyo bo'ylab sayohat qilardim,» deydi u. «Kichik qishloqlarga borardim va mahalliy hunarmandchilik haqida o'rganardim. Qiziq usta uchratsam, undan menga o'rgatishini so'rardim. Sayohatim haqida blog ham yozishim mumkin bo'lardi.» Akasi kuladi. «Agar ishingdan ketsang, pulsiz qolasan,» deydi u. «To'g'ri,» deb javob beradi Nilufar. «Rejasiz ishimni tashlamasdim. Lekin tasavvur qilish qiziq-ku, shunday emasmi?»",
+          uz: "Nilufar Toshkentdagi bankda ishlaydi. U ishini yaxshi ko'radi, lekin ba'zan boshqacha hayotni tasavvur qiladi. «Agar bir yil bo'sh vaqtim bo'lsa, Markaziy Osiyo bo'ylab sayohat qilardim,» deydi u. «Kichik qishloqlarga borardim va mahalliy hunarmandchilik haqida o'rganardim. Qiziqarli usta uchratsam, undan menga o'rgatishini so'rardim. Sayohatim haqida blog ham yozishim mumkin bo'lardi.» Akasi kuladi. «Agar ishingdan ketsang, pulsiz qolasan,» deydi u. «To'g'ri,» deb javob beradi Nilufar. «Rejasiz ishimni tashlamasdim. Lekin tasavvur qilish qiziq-ku, shunday emasmi?»",
         },
         { t: "check", ex: { k: "tf", q: "Nilufar is going to travel around Central Asia next year.", a: false, why: "U faqat **tasavvur qilyapti** (*If I had a free year…*). Bu reja emas." } },
         { t: "check", ex: { k: "choice", q: "Why does the brother say \"you wouldn't have any money\"?", opts: ["Because she would stop working.", "Because she hates her job.", "Because he is a banker.", "Because travelling is free."], a: 0, why: "Agar ishdan ketsa, maoshi bo'lmaydi." } },
@@ -115,7 +115,7 @@ const lesson: Lesson = {
         {
           t: "dialog", lines: [
             { who: "Sara", en: "What would you do if you won the lottery, Tom?", uz: "Tom, lotereya yutsang nima qilarding?" },
-            { who: "Tom", en: "First, I would pay off my loan. Then I would buy a small house near the sea.", uz: "Birinchi navbatda qarzimni to'lardim. Keyin dengiz yaqinidan kichik uy sotib olardim." },
+            { who: "Tom", en: "First, I would pay off my loan. Then I would buy a small house near the sea.", uz: "Birinchi navbatda qarzimni to'lardim. Keyin dengiz yaqinida kichik uy sotib olardim." },
             { who: "Sara", en: "Would you stop working?", uz: "Ishlashni to'xtatarmiding?" },
             { who: "Tom", en: "No, I wouldn't. I would be bored. I would start my own company.", uz: "Yo'q. Zerikib qolardim. O'z kompaniyamni ochardim." },
             { who: "Sara", en: "If I were you, I would travel for a year first.", uz: "Sening o'rningda bo'lsam, avval bir yil sayohat qilardim." },
@@ -137,7 +137,7 @@ const lesson: Lesson = {
     { en: "unlikely", uz: "ehtimoldan yiroq", ipa: "ʌnˈlaɪk.li", pos: "adj", ex: "It is unlikely that he will come today.", exUz: "Uning bugun kelishi ehtimoldan yiroq." },
     { en: "mansion", uz: "saroy, katta hashamatli uy", ipa: "ˈmæn.ʃən", pos: "noun", ex: "If I won the lottery, I would buy a mansion by the sea.", exUz: "Lotereya yutsam, dengiz bo'yida katta saroy sotib olardim." },
     { en: "invest", uz: "sarmoya kiritmoq", ipa: "ɪnˈvest", pos: "verb", ex: "If I had spare money, I would invest it in a small business.", exUz: "Ortiqcha pulim bo'lsa, uni kichik biznesga sarmoya qilardim." },
-    { en: "luxury", uz: "hashamat, dabdabali", ipa: "ˈlʌk.ʃər.i", pos: "noun", ex: "A holiday in a luxury hotel is too expensive for me.", exUz: "Hashamatli mehmonxonada dam olish men uchun juda qimmat." },
+    { en: "luxury", uz: "hashamat, dabdabali", ipa: "ˈlʌk.ʃər.i", pos: "noun", ex: "He lives a life of luxury in a huge house.", exUz: "U katta uyda hashamat ichida yashaydi." },
   ],
   practice: [
     { k: "choice", q: "**If I ___ a million pounds, I would buy an island.**", opts: ["have", "had", "would have", "will have"], a: 1, why: "Xayoliy vaziyat: if qismida **Past Simple** (*had*)." },

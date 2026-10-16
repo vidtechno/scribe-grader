@@ -99,7 +99,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Moving into a new flat",
           en: "Last month I moved into a new flat. It is on the second floor, and the kitchen is the biggest room. I don't have much furniture yet, only a bed, a table and a few chairs. My friend gave me some good advice: buy things slowly. I have plenty of boxes, but I haven't unpacked them. I need more equipment for the kitchen, but I have very little money at the moment. Luckily, the neighbours are friendly. One of them lent me a lamp, and another gave me some useful information about the local shops.",
-          uz: "O'tgan oy yangi kvartiraga ko'chib o'tdim. U ikkinchi qavatda, oshxona eng katta xona. Hozircha mebelim ko'p emas: faqat karavot, stol va bir nechta stul. Do'stim menga yaxshi maslahat berdi: narsalarni sekin sotib ol. Menda qutilar ko'p, lekin ularni hali ochmaganman. Oshxona uchun ko'proq jihoz kerak, lekin hozir pulim juda oz. Yaxshiyamki, qo'shnilar ochiq ko'ngil. Biri menga chiroq qarz berdi, boshqasi mahalliy do'konlar haqida foydali ma'lumot berdi.",
+          uz: "O'tgan oy yangi kvartiraga ko'chib o'tdim. U ikkinchi qavatda, oshxona eng katta xona. Hozircha mebelim ko'p emas: faqat karavot, stol va bir nechta stul. Do'stim menga yaxshi maslahat berdi: narsalarni sekin sotib ol. Menda qutilar ko'p, lekin ularni hali ochmaganman. Oshxona uchun ko'proq jihoz kerak, lekin hozir pulim juda oz. Yaxshiyamki, qo'shnilar mehribon. Biri menga chiroq qarz berdi, boshqasi mahalliy do'konlar haqida foydali ma'lumot berdi.",
         },
         { t: "check", ex: { k: "tf", q: "The writer has a lot of furniture.", a: false, why: "*I don't have much furniture yet* — mebel kam." } },
         { t: "check", ex: { k: "choice", q: "What did the friend give the writer?", opts: ["Some good advice", "A lamp", "Some boxes", "Some money"], a: 0, why: "*My friend gave me some good advice.*" } },
@@ -125,7 +125,7 @@ const lesson: Lesson = {
   words: [
     { en: "scenery", uz: "manzara, tabiat ko'rinishi", ipa: "ˈsiː.nər.i", pos: "noun", ex: "The scenery in the mountains is beautiful.", exUz: "Tog'lardagi manzara chiroyli." },
     { en: "information", uz: "ma'lumot", ipa: "ˌɪn.fəˈmeɪ.ʃən", pos: "noun", ex: "I need more information about the course.", exUz: "Kurs haqida ko'proq ma'lumot kerak." },
-    { en: "behaviour", uz: "xulq-atvor", ipa: "bɪˈheɪ.vjər", pos: "noun", ex: "His behaviour at the meeting was very polite.", exUz: "Uning yig'ilishdagi xulq-atvori juda odobli edi." },
+    { en: "behaviour", uz: "xulq-atvor", ipa: "bɪˈheɪ.vjə", pos: "noun", ex: "His behaviour at the meeting was very polite.", exUz: "Uning yig'ilishdagi xulq-atvori juda odobli edi." },
     { en: "equipment", uz: "jihoz, uskunalar", ipa: "ɪˈkwɪp.mənt", pos: "noun", ex: "The gym has modern equipment.", exUz: "Sport zalida zamonaviy jihozlar bor." },
     { en: "machinery", uz: "mashina-uskunalar", ipa: "məˈʃiː.nər.i", pos: "noun", ex: "The factory bought some new machinery.", exUz: "Zavod yangi mashina-uskunalar sotib oldi." },
     { en: "housing", uz: "uy-joy", ipa: "ˈhaʊ.zɪŋ", pos: "noun", ex: "Housing in big cities is often expensive.", exUz: "Katta shaharlarda uy-joy ko'pincha qimmat bo'ladi." },

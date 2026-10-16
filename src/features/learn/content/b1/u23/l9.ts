@@ -40,7 +40,7 @@ const lesson: Lesson = {
           ["Mavzuga qaytish", "Going back to what Tom said…"],
           ["Yakunlash", "So, to sum up…"],
         ] },
-        { t: 'tip', tone: 'good', md: "Munozarada **qo'pol** bo'lmaslik uchun gapni to'xtatishdan oldin uzr so'rang: *Sorry to interrupt, but…* Odatda gap tinglovchi bilan chiqadi: avval **qo'shiling**, keyin **fikringizni** aytib boring." },
+        { t: 'tip', tone: 'good', md: "Munozarada **qo'pol** bo'lmaslik uchun gapni to'xtatishdan oldin uzr so'rang: *Sorry to interrupt, but…* Avval gapiruvchi bilan **qo'shiling** (*That's a good point*), keyin **o'z fikringizni** ayting." },
         { t: 'compare',
           good: { title: "Muloyim", items: ["Sorry to interrupt, but I have a question.", "That's a good point. May I add something?", "What do you think, Sara?"] },
           bad: { title: "Qo'pol", items: ["Stop! Listen to me!", "You are wrong.", "Hey you, say something!"] } },
@@ -97,7 +97,7 @@ const lesson: Lesson = {
     "Gapni boshlash: **Can I add something?** To'xtatish: **Sorry to interrupt, but…**. Tugatish: **Can I just finish my point?**",
     "Boshqalarni taklif qilish: **What do you think, Sara? Would you like to say something?**",
     "Javob qolipi: **I see what you mean, but…** va **That's a good point. However, …**",
-    "Yakunlash: **So, to sum up…**. Yangi so'zlar: **contribute, interrupt, suggest, concern, point**.",
+    "Yakunlash: **So, to sum up…**. Yangi so'zlar: **contribute, interrupt, bring up, concern, point**.",
   ],
   homework: "Do'stlaringiz bilan (yoki yolg'iz o'zingiz) bitta mavzu bo'yicha 3 daqiqalik munozara qiling. Kamida 3 ta iboradan foydalaning: **Can I add something?**, **That's a good point**, **So, to sum up**.",
 };

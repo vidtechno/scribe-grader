@@ -12,7 +12,7 @@ const lesson: Lesson = {
     {
       title: "Tinglang: ish yoki o'qish?",
       blocks: [
-        { t: 'p', md: "Sardor uchun qiyin tanlov: yaxshi ish taklifi bor, lekin u o'qishni davom ettirishni ham xohlaydi. Dialogni tinglang (▶). Avval umumiy ma'noni tushuning: **muammo nima? ikkala variant qanday?**" },
+        { t: 'p', md: "Sardor uchun qiyin tanlov: yaxshi ish taklifi bor, lekin u o'qishni davom ettirishni ham xohlaydi. Dialogni tinglang. Avval umumiy ma'noni tushuning: **muammo nima? ikkala variant qanday?**" },
         { t: 'dialog', lines: [
           { who: 'Sardor', en: "Nilufar, I have a real dilemma. A company has offered me a job, but I also want to finish my master's degree.", uz: "Nilufar, menda qiyin tanlov bor. Bir kompaniya menga ish taklif qildi, lekin men magistraturani ham tugatmoqchiman." },
           { who: 'Nilufar', en: "That's a big decision. What would happen if you took the job?", uz: "Bu katta qaror. Ishni qabul qilsang nima bo'ladi?" },
@@ -81,7 +81,7 @@ const lesson: Lesson = {
   practice: [
     { k: 'listen', say: 'I have a real dilemma.', opts: ['I have a real dilemma.', 'I have a real problem.', 'I had a real dilemma.', 'I have a real decision.'], a: 0 },
     { k: 'listen', say: 'If I took the job, I would earn more money.', opts: ['If I took the job, I would earn more money.', 'If I take the job, I will earn more money.', 'If I had taken the job, I would have earned more money.', 'If I took the job, I would earn less money.'], a: 0 },
-    { k: 'match', pairs: [['dilemma', 'qiyin tanlov'], ['decision', 'qaror'], ['risk', 'tavakkal'], ['option', 'variant'], ['depend on', "…ga bog'liq bo'lmoq"]] },
+    { k: 'match', pairs: [['dilemma', 'qiyin tanlov'], ['consult', 'maslahatlashmoq'], ['reasonable', "o'rinli, mantiqli"], ['option', 'variant'], ['cautious', 'ehtiyotkor']] },
     { k: 'choice', q: "Qaysi ibora \"boshqa tomondan\" degani?", opts: ['On the other hand', 'In other hand', 'On other side', 'At the other hand'], a: 0, why: "**On the other hand**." },
     { k: 'fill', q: "It ___ on the price. (depend)", a: ['depends'], uz: "Bu narxga bog'liq.", why: "**It depends on…**" },
     { k: 'fill', q: "If I moved to a bigger city, I ___ miss my family.", a: ['would'], uz: "Kattaroq shaharga ko'chsam, oilamni sog'inardim.", why: "Second conditional: **would + fe'l**." },
@@ -109,7 +109,7 @@ const lesson: Lesson = {
     "Muammoni ayting: **I have a real dilemma.** Variantlar: **If I took…, I would… On the other hand, …**",
     "**depend on** — doim *on*: *It depends on the situation.* Qaror: **In the end, I've decided to…**",
     "Tinglashda avval umumiy ma'noni tushuning: muammo nima, ikkita variant qanday, qaror qanday.",
-    "Yangi so'zlar: **dilemma, decision, risk, option, depend on**.",
+    "Yangi so'zlar: **dilemma, consult, reasonable, option, cautious**.",
   ],
   homework: "O'zingizning haqiqiy yoki o'ylab topilgan qiyin tanlovingiz haqida 1 daqiqalik nutq tayyorlang: muammo, ikkita variant (second conditional), qaror. Telefoningizga yozib tinglang.",
 };

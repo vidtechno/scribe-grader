@@ -13,7 +13,7 @@ const lesson: Lesson = {
     {
       title: "Vaziyat: muhim uchrashuvni unutdingiz",
       blocks: [
-        { t: 'p', md: "Siz do'stingiz bilan uchrashuvni unutdingiz. Yaxshi uzrda **3 qism** bor: **1) uzr so'rash, 2) nima bo'lganini qisqa ayting, 3) tuzatishni taklif qiling.** Dialogni tinglang (▶)." },
+        { t: 'p', md: "Siz do'stingiz bilan uchrashuvni unutdingiz. Yaxshi uzrda **3 qism** bor: **1) uzr so'rash, 2) nima bo'lganini qisqa ayting, 3) tuzatishni taklif qiling.** Dialogni tinglang." },
         { t: 'dialog', lines: [
           { who: 'Ben', en: "Lily, I'm so sorry. I completely forgot about our meeting yesterday.", uz: "Lily, juda uzr. Kecha uchrashuvimiz haqida butunlay unutibman." },
           { who: 'Lily', en: "I waited for an hour. I was quite upset, to be honest.", uz: "Bir soat kutdim. Rostini aytsam, ancha xafa bo'ldim." },
@@ -86,7 +86,7 @@ const lesson: Lesson = {
     { en: 'excuse', uz: "bahona, uzr", ipa: 'ɪkˈskjuːs', pos: 'noun', ex: "That is not a good excuse for missing the meeting.", exUz: "Bu yig'ilishga kelmaslik uchun yaxshi bahona emas." },
   ],
   practice: [
-    { k: 'match', pairs: [['apologise', "uzr so'ramoq"], ['regret', 'pushaymon bo\'lmoq'], ['blame', 'ayblamoq'], ['forgive', 'kechirmoq'], ['fault', 'ayb']] },
+    { k: 'match', pairs: [['apology', 'uzr'], ['sincere', 'samimiy'], ['confess', "tan olmoq"], ['forgive', 'kechirmoq'], ['excuse', 'bahona, uzr']] },
     { k: 'choice', q: "Siz kechikdingiz. Uzr so'rang:", opts: ["I'm so sorry for being late.", "Sorry for be late.", "I apologise you.", "Late, sorry me."], a: 0, why: "**sorry for + -ing**." },
     { k: 'choice', q: "\"I'm sorry I broke your cup.\" Muloyim javob:", opts: ["Don't worry about it. It's only a cup.", "You are a bad friend.", "It was my fault.", "I will never forgive you."], a: 0, why: "Uzrni qabul qilish." },
     { k: 'fill', q: "It was my ___. I should have checked the time.", a: ['fault', 'mistake'], uz: "Bu mening aybim edi. Vaqtni tekshirishim kerak edi.", why: "**my fault** — aybni tan olish." },
@@ -117,7 +117,7 @@ const lesson: Lesson = {
     "**sorry for / apologise for + -ing**; **I regret + -ing**; **I didn't mean to…**",
     "Pushaymonlik: **I should have… / I shouldn't have… / I wish I hadn't…**",
     "Uzrni qabul qilish: **Don't worry about it. / That's OK. / No harm done.**",
-    "Yangi so'zlar: **apologise, regret, blame, forgive, fault**.",
+    "Yangi so'zlar: **apology, sincere, confess, forgive, excuse**.",
   ],
   homework: "Ikkita uzr yozing: biri do'stingizga (kechikkaningiz uchun), biri ish joyiga (xato uchun). Har birida uzr, sabab va tuzatish taklifi bo'lsin.",
 };

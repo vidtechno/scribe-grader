@@ -16,7 +16,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: 'I\'m a marketing assistant. I\'ve been working in a small company for three years.', uz: "Men marketing yordamchisiman. Uch yildan beri kichik kompaniyada ishlayman.", note: 'Present Perfect Continuous: davomiylik' },
           { en: 'I\'m good at working in a team, and I enjoy solving problems.', uz: "Men jamoada ishlashni yaxshi bilaman va muammolarni yechishni yaxshi ko'raman.", note: 'good at / enjoy + -ing' },
-          { en: 'I\'m applying for this job because I want to learn new skills.', uz: "Men bu ishga yangi ko'nikmalarni o'rganish uchun ariza berdim.", note: 'Maqsad: want to / because' },
+          { en: 'I\'m applying for this job because I want to learn new skills.', uz: "Men bu ishga yangi ko'nikmalarni o'rganish uchun ariza berayapman.", note: 'Maqsad: want to / because' },
         ] },
         { t: 'check', ex: { k: 'fill', q: "I'm good ___ organising events.", a: ['at'], uz: "Men tadbirlarni tashkil qilishni yaxshi bilaman.", why: "**good at** + -ing." } },
       ],
@@ -43,7 +43,7 @@ const lesson: Lesson = {
           { who: 'Helen', en: 'Thank you for coming, Aziz. Could you tell me a little about yourself?', uz: "Kelganingiz uchun rahmat, Aziz. O'zingiz haqingizda ozgina aytib bera olasizmi?" },
           { who: 'Aziz', en: 'Of course. I studied computer science, and for two years I\'ve been working as a support engineer. I enjoy helping customers solve technical problems.', uz: "Albatta. Men kompyuter fanlarini o'qiganman va ikki yildan beri qo'llab-quvvatlash muhandisi bo'lib ishlayman. Mijozlarga texnik muammolarni hal qilishda yordam berishni yaxshi ko'raman." },
           { who: 'Helen', en: 'Why do you want to work for us?', uz: "Nega bizda ishlamoqchisiz?" },
-          { who: 'Aziz', en: 'Your company is growing fast, so I\'ll probably learn more here than in my current job. The more I learn, the better I work.', uz: "Kompaniyangiz tez o'syapti, shuning uchun bu yerda hozirgi ishimdan ko'proq o'rganaman. Qancha ko'p o'rgansam, shuncha yaxshi ishlayman." },
+          { who: 'Aziz', en: 'Your company is growing fast, so I\'ll probably learn more here than in my current job. The more I learn, the better I work.', uz: "Kompaniyangiz tez o'syapti, shuning uchun bu yerda hozirgi ishimdagidan ehtimol ko'proq o'rganaman. Qancha ko'p o'rgansam, shuncha yaxshi ishlayman." },
           { who: 'Helen', en: 'Where do you see yourself in five years?', uz: "Besh yildan keyin o'zingizni qayerda ko'rasiz?" },
           { who: 'Aziz', en: 'In five years\' time I\'ll be leading a small team, I hope. By then I will have finished a master\'s degree.', uz: "Besh yildan keyin kichik jamoani boshqarayotgan bo'laman, umid qilaman. O'sha vaqtga kelib magistraturani tugatgan bo'laman." },
           { who: 'Helen', en: 'Do you have any questions for us?', uz: "Bizga savollaringiz bormi?" },
@@ -76,7 +76,7 @@ const lesson: Lesson = {
     { en: 'enthusiastic', uz: "ishtiyoqli, g'ayratli", ipa: 'ɪnˌθjuː.ziˈæs.tɪk', pos: 'adj', ex: "He is an enthusiastic young engineer.", exUz: "U ishtiyoqli yosh muhandis." },
     { en: 'awkward', uz: "noqulay", ipa: 'ˈɔː.kwəd', pos: 'adj', ex: "There was an awkward silence after his joke.", exUz: "Uning hazilidan keyin noqulay jimlik cho'kdi." },
     { en: 'teamwork', uz: 'jamoaviy ish, hamkorlik', ipa: 'ˈtiːm.wɜːk', pos: 'noun', ex: 'Good teamwork helped us finish the project early.', exUz: 'Yaxshi hamkorlik loyihani erta tugatishga yordam berdi.' },
-    { en: 'motivated', uz: 'ishtiyoqli, g\'ayratli', ipa: 'ˈməʊ.tɪ.veɪ.tɪd', pos: 'adj', ex: 'She is a motivated student.', exUz: "U ishtiyoqli talaba." },
+    { en: 'motivated', uz: "intiluvchan, o'z ishiga rag'batli", ipa: 'ˈməʊ.tɪ.veɪ.tɪd', pos: 'adj', ex: 'She is a motivated student.', exUz: "U intiluvchan talaba." },
     { en: 'adaptable', uz: 'moslashuvchan', ipa: 'əˈdæp.tə.bəl', pos: 'adj', ex: 'I am adaptable and I learn quickly.', exUz: 'Men moslashuvchanman va tez o\'rganaman.' },
   ],
   practice: [

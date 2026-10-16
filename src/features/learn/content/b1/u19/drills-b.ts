@@ -47,7 +47,7 @@ export const drills: Drill[] = [
     titleUz: "Hikoya gaplarini tuzing",
     goal: "Hikoya yozishda kerak bo'ladigan qoliplarni (bog'lovchi + gap, to'g'ridan-to'g'ri nutq, fon va voqea, Past Perfect) so'zlardan yig'asiz.",
     exercises: [
-      { k: "order", uz: "To'satdan eshik ochildi.", words: ["Suddenly,", "the", "door", "opened."], extra: ["open", "finally"], why: "**Suddenly,** + Past Simple." },
+      { k: "order", uz: "To'satdan eshik ochildi.", words: ["Suddenly,", "the", "door", "opened."], extra: ["open", "sudden"], why: "**Suddenly,** + Past Simple." },
       { k: "order", uz: "Avvaliga men juda asabiy edim.", words: ["At", "first,", "I", "was", "very", "nervous."], extra: ["am", "last"], why: "**At first,** + gap." },
       { k: "order", uz: "«Charchadim», dedi Tom.", words: ["\"I'm", "tired,\"", "said", "Tom."], extra: ["says"], alt: [["Tom", "said,", "\"I'm", "tired.\""]], why: "Nutq tirnoqda, vergul tirnoq ichida." },
       { k: "order", uz: "«Qayerdasan?» deb so'radi Emma.", words: ["\"Where", "are", "you?\"", "asked", "Emma."], extra: ["is", "asks"], alt: [["Emma", "asked,", "\"Where", "are", "you?\""]], why: "Savol nutqi: *asked Emma*." },

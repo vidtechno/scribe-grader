@@ -62,7 +62,7 @@ const lesson: Lesson = {
     {
       title: "when, as soon as, before: will yo'q!",
       blocks: [
-        { t: "p", md: "Bu o'zbek tilida so'zlovchilar tez-tez qiladigan xato. Vaqt bog'lovchilaridan (**when, as soon as, before, after, until**) keyin kelajak haqida gapirsak ham, **Present Simple** ishlatamiz. **will** faqat bosh gapda bo'ladi." },
+        { t: "p", md: "Bu o'zbek tilida so'zlashuvchilar tez-tez qiladigan xato. Vaqt bog'lovchilaridan (**when, as soon as, before, after, until**) keyin kelajak haqida gapirsak ham, **Present Simple** ishlatamiz. **will** faqat bosh gapda bo'ladi." },
         {
           t: "compare",
           good: { title: "To'g'ri", items: ["I'll call you when I arrive.", "As soon as she finishes, we'll leave.", "Wait here until I come back."] },
@@ -97,7 +97,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "A busy week ahead",
           en: "Next week is going to be very busy for Ben. On Monday he is flying to Manchester for a conference. His plane leaves at seven in the morning, so he is going to get up at four. On Tuesday he is meeting a new client and giving a short presentation. Ben is a little nervous, but he thinks it will go well. As soon as he gets back, he is going to take two days off. He says he will sleep a lot and he won't check his email at all.",
-          uz: "Kelasi hafta Ben uchun juda band bo'ladi. Dushanba kuni u konferensiya uchun Manchesterga uchyapti. Samolyoti ertalab soat yettida jo'naydi, shuning uchun u to'rtda turmoqchi. Seshanba kuni u yangi mijoz bilan uchrashadi va qisqa taqdimot qiladi. Ben biroz hayajonda, lekin yaxshi o'tadi deb o'ylaydi. Qaytib kelishi bilan u ikki kun dam oladi. U ko'p uxlayman va elektron pochtani umuman tekshirmayman deydi.",
+          uz: "Kelasi hafta Ben uchun juda band bo'ladi. Dushanba kuni u konferensiya uchun Manchesterga uchyapti. Samolyoti ertalab soat yettida jo'naydi, shuning uchun u to'rtda turmoqchi. Seshanba kuni u yangi mijoz bilan uchrashadi va qisqa taqdimot qiladi. Ben biroz hayajonda, lekin yaxshi o'tadi deb o'ylaydi. Qaytib kelishi bilan u ikki kun dam oladi. U ko'p uxlashini va elektron pochtasini umuman tekshirmasligini aytadi.",
         },
         { t: "check", ex: { k: "tf", q: "Ben is sure the presentation will be a disaster.", a: false, why: "U *thinks it will go well* — yaxshi o'tadi deb o'ylaydi." } },
         { t: "check", ex: { k: "choice", q: "\"His plane leaves at seven\" uses Present Simple because it is...", opts: ["a timetable", "a promise", "a prediction", "a past event"], a: 0, why: "Reys vaqti — **jadval**, shuning uchun Present Simple." } },
@@ -127,7 +127,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Qaytib kelishim bilan senga qo'ng'iroq qilaman.", words: ["I'll", "call", "you", "as", "soon", "as", "I", "get", "back."], extra: ["will"], why: "**as soon as** dan keyin Present Simple." },
     { k: "order", uz: "Biz yangi ilovani ertaga ishga tushiramiz.", words: ["We", "are", "going", "to", "launch", "the", "new", "app", "tomorrow."], extra: ["will", "launching"], alt: [["We", "are", "launching", "the", "new", "app", "tomorrow."]], why: "Reja → **going to** yoki Present Continuous." },
     { k: "tf", q: "\"I'll call you when I will get home\" is correct.", a: false, why: "**when** dan keyin Present Simple: *when I get home*." },
-    { k: "fix", wrong: "The meeting is starting at nine tomorrow, according to the timetable.", a: ["The meeting starts at nine tomorrow, according to the timetable.", "The meeting starts at nine tomorrow according to the timetable."], hint: "jadval", why: "Jadval → **Present Simple**." },
+    { k: "fix", wrong: "The bank is opening at nine every weekday.", a: ["The bank opens at nine every weekday."], hint: "doimiy jadval", why: "Doimiy jadval → **Present Simple**." },
     { k: "fix", wrong: "I will go to the dentist tomorrow at five. I have already booked it.", a: ["I am going to the dentist tomorrow at five. I have already booked it.", "I'm going to the dentist tomorrow at five. I have already booked it.", "I am going to go to the dentist tomorrow at five. I have already booked it.", "I'm going to go to the dentist tomorrow at five. I have already booked it."], hint: "kelishilgan uchrashuv", why: "Oldindan band qilingan → **Present Continuous** yoki **going to**." },
     { k: "dictation", say: "I'm going to learn a new skill this year.", uz: "Bu yil yangi ko'nikma o'rganmoqchiman.", why: "Reja → **going to**." },
     { k: "listen", say: "Our flight leaves at nine.", opts: ["Our flight leaves at nine.", "Our flight left at nine.", "Our flight is leaving at nine.", "Our flights leave at nine."], a: 0, why: "Jadval → *leaves*." },
@@ -137,7 +137,7 @@ const lesson: Lesson = {
   quiz: [
     { k: "choice", q: "Oh, the printer isn't working. — Don't worry. I ___ it.", opts: ["'ll fix", "'m going to fix", "fix", "'m fixing"], a: 0, why: "Shu zahoti taklif → **will**." },
     { k: "choice", q: "Why are you buying paint? — I ___ the kitchen this weekend.", opts: ["am going to paint", "will to paint", "paint", "painting"], a: 0, why: "Oldindan qilingan reja → **going to**." },
-    { k: "choice", q: "What time ___ tomorrow's lecture begin?", opts: ["does", "will", "is", "do"], a: 0, why: "Jadval → Present Simple savoli: *What time does … begin?*" },
+    { k: "choice", q: "What time ___ tomorrow's lecture begin?", opts: ["does", "did", "is", "do"], a: 0, why: "Jadval → Present Simple savoli: *What time does … begin?*" },
     { k: "choice", q: "Call me as soon as you ___ the results.", opts: ["get", "will get", "are going get", "got"], a: 0, why: "**as soon as** dan keyin Present Simple." },
     { k: "fill", q: "I think the new phone ___ expensive, but I'm not sure.", a: ["will be", "'ll be"], hint: "be", why: "Shaxsiy fikr → **will**." },
     { k: "fill", q: "We ___ lunch with the clients at one o'clock tomorrow. It's all arranged.", a: ["are having", "'re having"], hint: "have", why: "Kelishilgan tadbir → **Present Continuous**." },

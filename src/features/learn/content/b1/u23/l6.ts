@@ -164,7 +164,7 @@ const lesson: Lesson = {
     { k: "fill", q: "Could you ___ that, please? I didn't hear the question.", a: ["repeat"], uz: "Buni takrorlay olasizmi? Savolni eshitmadim.", why: "**repeat** — takrorlamoq." },
     { k: "listen", say: "I'd like to draw your attention to this chart.", opts: ["I'd like to draw your attention to this chart.", "I'd like to draw your attention to this part.", "I'd like to show your attention to this chart.", "I like to draw your attention to this chart."], a: 0 },
     { k: "tf", q: "**I will explain you the idea** — bu gap to'g'ri.", a: false, why: "To'g'risi: *I will explain the idea to you.*" },
-    { k: "order", uz: "Xulosa qilib aytganda, biz ko'proq vaqt kerak.", words: ["To", "sum", "up,", "we", "need", "more", "time."], extra: ["sums", "needs"] },
+    { k: "order", uz: "Xulosa qilib aytganda, bizga ko'proq vaqt kerak.", words: ["To", "sum", "up,", "we", "need", "more", "time."], extra: ["sums", "needs"] },
     { k: "translate", uz: "Men buni ertaga mashq qilaman.", a: ["I will rehearse it tomorrow.", "I'll rehearse it tomorrow.", "I will practise it tomorrow.", "I'll practise it tomorrow.", "I will practice it tomorrow.", "I'll practice it tomorrow.", "I am going to rehearse it tomorrow.", "I'm going to rehearse it tomorrow."], why: "**rehearse** yoki **practise** — mashq qilmoq." },
   ],
   summary: [

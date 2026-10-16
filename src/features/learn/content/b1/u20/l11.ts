@@ -48,7 +48,7 @@ const lesson: Lesson = {
           ['had better', "kuchli maslahat, ogohlantirish", "You'd better leave now, or you'll miss the train."],
           ["If I were you…", "yumshoq maslahat", "If I were you, I'd talk to her."],
         ] },
-        { t: 'tip', tone: 'warn', md: "**had better** + fe'l (**to** yo'q): *You'd better go.* Inkor: *You'd better not go.* Bu o'tgan zamon emas, kelajak haqida ogohlantirish." },
+        { t: 'tip', tone: 'warn', md: "**had better** + fe'l (**to** yo'q): *You'd better go.* Inkor: *You'd better not go.* Bu o'tgan zamon emas, hozirgi yoki kelajak haqida ogohlantirish." },
         { t: 'check', ex: { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ["You'd better take an umbrella.", "You'd better to take an umbrella.", "You had better took an umbrella.", "You better taking an umbrella."], a: 0, why: "**had better + fe'l (to siz)**." } },
       ],
     },
@@ -75,7 +75,7 @@ const lesson: Lesson = {
     { en: 'suppose', uz: "faraz qilmoq, deb o'ylamoq", ipa: 'səˈpəʊz', pos: 'verb', ex: "I suppose you are right.", exUz: "Menimcha, haqsiz." },
   ],
   practice: [
-    { k: 'match', pairs: [['imagine', 'tasavvur qilmoq'], ['chance', 'imkoniyat'], ['unlikely', 'ehtimoldan yiroq'], ['otherwise', 'aks holda'], ['suppose', 'faraz qilmoq']] },
+    { k: 'match', pairs: [['possibility', 'imkoniyat, ehtimol'], ['prospect', 'istiqbol'], ['uncertain', 'noaniq'], ['outcome', 'natija, oqibat'], ['suppose', 'faraz qilmoq']] },
     { k: 'choice', q: "If I ___ a million pounds, I would travel the world.", opts: ['had', 'have', 'will have', 'would have'], a: 0, why: "Second conditional: **if + Past Simple**." },
     { k: 'choice', q: "If we ___ the map, we wouldn't have got lost.", opts: ['had checked', 'checked', 'would check', 'have checked'], a: 0, why: "Third conditional: **if + had + V3**." },
     { k: 'choice', q: "He has won the lottery again. He ___ be very lucky!", opts: ['must', "can't", 'needn\'t', 'mustn\'t'], a: 0, why: "Aniq xulosa → **must**." },
@@ -86,10 +86,10 @@ const lesson: Lesson = {
     { k: 'order', uz: "Tezroq ketganing yaxshi, aks holda kechikasan.", words: ["You'd", 'better', 'go,', 'otherwise', "you'll", 'be', 'late.'], extra: ['to', 'would'], why: "**had better + fe'l**." },
     { k: 'fix', wrong: "You'd better to see a doctor.", a: ["You'd better see a doctor.", 'You had better see a doctor.'], why: "**had better** dan keyin **to** yo'q." },
     { k: 'fix', wrong: 'If I would be rich, I would buy a house.', a: ['If I were rich, I would buy a house.', "If I were rich, I'd buy a house.", 'If I was rich, I would buy a house.', "If I was rich, I'd buy a house."], why: "**if** dan keyin **would** emas, Past Simple." },
-    { k: 'translate', uz: "U kelmagan bo'lsa kerak.", a: ["He can't have come.", "She can't have come.", "He must not have come.", "She must not have come.", "He cannot have come.", "She cannot have come."], why: "O'tgan zamon taxmin: **can't have + V3**." },
+    { k: 'translate', uz: "U kelgan bo'lishi mumkin emas.", a: ["He can't have come.", "She can't have come.", "He couldn't have come.", "She couldn't have come.", "He cannot have come.", "She cannot have come."], why: "O'tgan zamon taxmin: **can't have + V3**." },
     { k: 'tf', q: "*Unless you hurry, you will be late.* — Shoshilsangiz, kechikasiz.", a: false, why: "**unless** = *if not*: shoshilmasangiz, kechikasiz." },
     { k: 'dictation', say: 'If I had known, I would have told you.', a: ['If I had known, I would have told you.', "If I'd known, I would have told you.", "If I had known, I'd have told you.", "If I'd known, I'd have told you."], uz: "Bilganimda, senga aytgan bo'lardim." },
-    { k: 'speak', say: 'I wish I had studied harder.', uz: "Kaskiydi, ko'proq o'qiganimda." },
+    { k: 'speak', say: 'I wish I had studied harder.', uz: "Kaskiydi, ko'proq o'qigan bo'lsam." },
     { k: 'speak', say: "If I were you, I'd talk to him.", uz: "Sening o'rningda bo'lsam, u bilan gaplashardim." },
   ],
   quiz: [
@@ -105,10 +105,10 @@ const lesson: Lesson = {
   ],
   summary: [
     "**First:** if + Present, will. **Second:** if + Past Simple, would. **Third:** if + had + V3, would have + V3. **unless** = if not.",
-    "**wish** + Past Simple / could (hozir), **wish + had + V3** (o'tgan). *I wish I would have* ❌.",
+    "**wish** + Past Simple / could (hozir), **wish + had + V3** (o'tgan). *I wish I would have* — xato.",
     "**must / might / can't** + fe'l (hozir), + **have + V3** (o'tgan); **should / shouldn't / could / needn't have + V3**.",
     "Maslahat: **should, ought to, had better (to siz), If I were you…**",
-    "Yangi so'zlar: **imagine, chance, unlikely, otherwise, suppose**.",
+    "Yangi so'zlar: **possibility, prospect, uncertain, outcome, suppose**.",
   ],
   homework: "Bosqichning har bir mavzusidan bittadan gap yozing (first, second, third conditional, wish, must/might/can't, should have, had better). Jami 7 ta o'zingizning gapingiz.",
 };

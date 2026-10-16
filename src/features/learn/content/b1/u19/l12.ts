@@ -72,7 +72,7 @@ const lesson: Lesson = {
     { en: 'by the time', uz: "...ga kelib, ...gacha (vaqtga kelib)", ipa: 'baɪ ðə taɪm', pos: 'phrase', ex: 'By the time we arrived, the shop had closed.', exUz: "Biz yetib borganimizda do'kon yopilib bo'lgan edi." },
     { en: 'by then', uz: "o'sha vaqtga kelib", ipa: 'baɪ ðen', pos: 'phrase', ex: 'I called at nine, but he had gone to bed by then.', exUz: "Soat to'qqizda qo'ng'iroq qildim, lekin u o'sha vaqtga kelib yotgan edi." },
     { en: 'turn up', uz: "kelib qolmoq, paydo bo'lmoq", ipa: 'tɜːn ʌp', pos: 'phrasal verb', ex: "By the time Tom turned up, the film had started.", exUz: "Tom kelib qolganda film boshlanib bo'lgan edi." },
-    { en: 'turn out', uz: "bo'lib chiqmoq", ipa: 'tɜːn aʊt', pos: 'verb', ex: 'The test turned out to be easy.', exUz: "Test oson bo'lib chiqdi." },
+    { en: 'turn out', uz: "bo'lib chiqmoq", ipa: 'tɜːn aʊt', pos: 'phrasal verb', ex: 'The test turned out to be easy.', exUz: "Test oson bo'lib chiqdi." },
     { en: 'not long after', uz: "...dan ko'p o'tmay", ipa: 'nɒt lɒŋ ˈɑːf.tər', pos: 'phrase', ex: "Not long after we left, the storm began.", exUz: "Biz ketganimizdan ko'p o'tmay bo'ron boshlandi." },
   ],
   practice: [

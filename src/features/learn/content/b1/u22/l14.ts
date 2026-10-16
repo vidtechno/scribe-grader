@@ -45,7 +45,7 @@ const lesson: Lesson = {
     {
       title: 'Tinglang: kelajak texnologiyalari',
       blocks: [
-        { t: 'p', md: "Endi qisqa monologni tinglang. Tinglayotganda javob bering: **qaysi uchta texnologiya aytilgan?**" },
+        { t: 'p', md: "Endi qisqa monologni tinglang. Tinglayotganda javob bering: **qanday o'zgarishlar bo'lishi aytilgan?**" },
         { t: 'text', title: 'Technology in ten years', voice: 'emma', en: "In ten years' time, technology will probably have changed our daily life even more. I think we will be using voice assistants at home and at work, and we will definitely be doing much more shopping online. Many people will be working from home at least two days a week. I doubt that robots will have replaced teachers, though. Learning from a real person is still the best way, in my opinion. Of course, it is difficult to be certain about the future, but new devices are likely to make our lives more convenient.", uz: "O'n yildan keyin texnologiya kundalik hayotimizni yana ham o'zgartirgan bo'ladi. O'ylaymanki, biz uyda va ishda ovozli yordamchilardan foydalanamiz va albatta onlayn xaridni ancha ko'proq qilamiz. Ko'p odamlar haftasiga kamida ikki kun uydan ishlaydi. Lekin robotlar o'qituvchilarni almashtirgan bo'ladi deb o'ylamayman. Mening fikrimcha, haqiqiy odamdan o'rganish hali ham eng yaxshi yo'l. Albatta, kelajak haqida aniq aytish qiyin, lekin yangi qurilmalar hayotimizni qulayroq qilishi mumkin." },
         { t: 'check', ex: { k: 'tf', q: 'The speaker thinks robots will replace teachers.', a: false, why: "*I doubt that robots will have replaced teachers.*" } },
         { t: 'check', ex: { k: 'choice', q: 'How many days a week will many people work from home?', opts: ['At least two', 'Every day', 'Never', 'Once a month'], a: 0, why: "*at least two days a week*." } },
@@ -77,10 +77,10 @@ const lesson: Lesson = {
     { k: 'choice', q: 'I ___ my phone for almost everything.', opts: ['rely on', 'rely', 'rely at', 'depend'], a: 0, why: "**rely on** + ot." },
     { k: 'choice', q: 'Many people are addicted ___ their phones.', opts: ['to', 'of', 'at', 'for'], a: 0, why: "**addicted to**." },
     { k: 'fill', q: 'The ___ I use my phone, the worse I sleep.', a: ['more'], uz: "Telefonni qancha ko'p ishlatsam, shuncha yomon uxlayman.", why: "**The more…, the worse…**" },
-    { k: 'fill', q: 'I turned off my notifications ___ I could concentrate.', a: ['so that'], uz: "Diqqatimni jamlay olishim uchun xabarnomalarni o'chirdim.", why: "**so that** + could." },
+    { k: 'fill', q: 'I turned off my notifications ___ I could concentrate.', a: ['so that', 'so'], uz: "Diqqatimni jamlay olishim uchun xabarnomalarni o'chirdim.", why: "**so that** + could." },
     { k: 'fill', q: 'I doubt that robots ___ replace good teachers.', a: ['will'], uz: "Robotlar yaxshi o'qituvchilarni almashtiradi deb o'ylamayman.", why: "**I doubt** + darak gap." },
     { k: 'order', uz: "Menimcha, texnologiya hayotni osonlashtiradi.", words: ['In', 'my', 'opinion,', 'technology', 'makes', 'life', 'easier.'], extra: ['more', 'easy'], why: "**In my opinion** + gap." },
-    { k: 'order', uz: "Rozi bo'lishimga ishonchim komil emas.", words: ["I'm", 'not', 'sure', 'I', 'agree.'], extra: ['am', 'to'], alt: [['I', 'am', 'not', 'sure', 'I', 'agree.']], why: "Muloyim e'tiroz." },
+    { k: 'order', uz: "Rozi ekanligimga ishonchim komil emas.", words: ["I'm", 'not', 'sure', 'I', 'agree.'], extra: ['am', 'to'], alt: [['I', 'am', 'not', 'sure', 'I', 'agree.']], why: "Muloyim e'tiroz." },
     { k: 'fix', wrong: 'I am addicted of my phone.', a: ['I am addicted to my phone.', "I'm addicted to my phone."], why: "**addicted to**." },
     { k: 'fix', wrong: 'The more I sleep, the more better I feel.', a: ['The more I sleep, the better I feel.'], hint: 'better — allaqachon qiyosiy daraja', why: "**the better**, **more better** emas." },
     { k: 'dictation', say: 'I turned off most notifications and I sleep better now.', a: ['I turned off most notifications and I sleep better now.', 'I turned off most notifications, and I sleep better now.'], why: "Tinglab yozing." },
@@ -89,8 +89,8 @@ const lesson: Lesson = {
   ],
   quiz: [
     { k: 'listen', say: 'New devices are likely to make our lives more convenient.', opts: ['New devices are likely to make our lives more convenient.', 'New devices are unlikely to make our lives more convenient.', 'Old devices are likely to make our lives easier.', 'New devices will make our lives more expensive.'], a: 0, why: "**likely to**." },
-    { k: 'choice', q: 'What does "I have a point" mean? You say: "You have a point."', opts: ['You partly agree.', 'You are angry.', 'You do not understand.', 'You want to leave.'], a: 0, why: "**You have a point** — qisman rozilik." },
-    { k: 'fill', q: 'Online banking is very ___. I can pay from my sofa.', a: ['convenient'], uz: "Onlayn bank juda qulay. Divanimdan turib to'lay olaman.", why: "**convenient** — qulay." },
+    { k: 'choice', q: 'What do you mean when you say "You have a point"?', opts: ['You partly agree.', 'You are angry.', 'You do not understand.', 'You want to leave.'], a: 0, why: "**You have a point** — qisman rozilik." },
+    { k: 'fill', q: 'Online banking is very ___. I can pay from my sofa.', a: ['convenient', 'easy', 'handy', 'useful'], uz: "Onlayn bank juda qulay. Divanimdan turib to'lay olaman.", why: "**convenient** — qulay." },
     { k: 'fill', q: 'I turn off ___ at night so that my phone does not wake me up.', a: ['notifications'], uz: "Telefon meni uyg'otmasligi uchun kechasi xabarnomalarni o'chiraman.", why: "Ko'plik: **notifications**." },
     { k: 'fix', wrong: 'The less I use my phone, the more calmer I feel.', a: ['The less I use my phone, the calmer I feel.'], why: "**the calmer**, **more calmer** emas." },
     { k: 'order', uz: "Yangi qurilmalar hayotimizni qulayroq qilishi mumkin.", words: ['New', 'devices', 'are', 'likely', 'to', 'make', 'life', 'more', 'convenient.'], extra: ['unlikely', 'will'], why: "**be likely to**." },

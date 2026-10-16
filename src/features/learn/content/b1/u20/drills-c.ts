@@ -32,7 +32,7 @@ export const drills: Drill[] = [
       { k: 'fill', q: "You can stay with us ___ long as you help in the kitchen.", a: ['as'], uz: "Oshxonada yordam bersangiz, bizda qolishingiz mumkin.", why: "**as long as** — shart." },
       { k: 'fill', q: "If she had taken the medicine, she ___ have felt better.", a: ['would'], uz: "U dorini ichganida, o'zini yaxshiroq his qilgan bo'lardi.", why: "Third conditional: **would have + V3**." },
       { k: 'choice', q: "He has worked for fourteen hours. He ___ be exhausted.", opts: ['must', "can't", 'might not', 'needn\'t'], a: 0, why: "Aniq xulosa → **must**." },
-      { k: 'choice', q: "She says she was at the cinema with me last night, but I was in London. She ___ have been there.", opts: ["can't", 'must', 'should', 'might to'], a: 0, why: "Mumkin emas → **can't have**." },
+      { k: 'choice', q: "She says she was at the cinema with me last night, but I was in London. She ___ have been with me.", opts: ["can't", 'must', 'should', 'might to'], a: 0, why: "Mumkin emas → **can't have**." },
       { k: 'fill', q: "The lights are off. They may ___ gone out. (have)", a: ['have'], uz: "Chiroqlar o'chiq. Ular chiqib ketgan bo'lishi mumkin.", why: "O'tgan zamon taxmin: **may have + V3**." },
       { k: 'fix', wrong: 'If I would see him, I would tell him.', a: ['If I saw him, I would tell him.', "If I saw him, I'd tell him."], why: "**if** dan keyin Past Simple, *would* emas." },
       { k: 'fix', wrong: 'You should have went to the doctor.', a: ['You should have gone to the doctor.'], why: "**should have** dan keyin **V3** (*gone*)." },

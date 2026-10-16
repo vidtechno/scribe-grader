@@ -51,7 +51,7 @@ const lesson: Lesson = {
           { who: 'Lily', en: 'Hi Jack, do you have a minute? I\'m afraid I won\'t finish the report by Friday.', uz: "Salom, Jack, bir daqiqang bormi? Afsuski, hisobotni jumagacha tugatolmayman." },
           { who: 'Jack', en: 'What\'s the problem?', uz: "Muammo nimada?" },
           { who: 'Lily', en: 'The system was down for two days, so I couldn\'t get the data. Would it be possible to have an extra day?', uz: "Tizim ikki kun ishlamadi, shuning uchun ma'lumotlarni ola olmadim. Bir kun qo'shimcha vaqt olsam bo'ladimi?" },
-          { who: 'Jack', en: 'Monday is fine. By then you will have finished it, I hope. Let me know if you need any help.', uz: "Dushanba bo'ladi. O'sha vaqtga kelib tugatgan bo'lasiz, umid qilaman. Yordam kerak bo'lsa, ayting." },
+          { who: 'Jack', en: 'Monday is fine. By then you will have finished it, I hope. Let me know if you need any help.', uz: "Dushanba bo'ladi. O'sha vaqtga kelib tugatgan bo'lasan, umid qilaman. Yordam kerak bo'lsa, ayt." },
           { who: 'Lily', en: 'Thanks. I\'ll definitely send it first thing on Monday morning.', uz: "Rahmat. Dushanba ertalab birinchi ish sifatida albatta yuboraman." },
         ] },
         { t: 'table', head: ['Maqsad', 'Ibora'], speak: [1], rows: [
@@ -61,7 +61,7 @@ const lesson: Lesson = {
           ['Yordam so\'rash', 'Could you give me a hand with this?'],
           ['Va\'da', 'I\'ll let you know as soon as it\'s done.'],
         ] },
-        { t: 'check', ex: { k: 'order', uz: "Yana bir kun olsam bo'ladimi?", words: ['Would', 'it', 'be', 'possible', 'to', 'have', 'an', 'extra', 'day?'], extra: ['can', 'could'], why: "Muloyim iltimos: **Would it be possible to…?**" } },
+        { t: 'check', ex: { k: 'order', uz: "Yana bir kun olsam bo'ladimi?", words: ['Would', 'it', 'be', 'possible', 'to', 'have', 'an', 'extra', 'day?'], extra: ['having', 'is'], why: "Muloyim iltimos: **Would it be possible to…?**" } },
       ],
     },
   ],
@@ -74,7 +74,7 @@ const lesson: Lesson = {
   ],
   practice: [
     { k: 'match', pairs: [['crash', 'ishdan chiqmoq'], ['password', 'parol'], ['backup', 'zaxira nusxa'], ['urgent', 'shoshilinch'], ['error', 'xato']] },
-    { k: 'choice', q: 'My app ___ crashing since the update.', opts: ['keeps', 'keep', 'is keep', 'keeping'], a: 0, why: "**keeps + -ing**." },
+    { k: 'choice', q: 'My app ___ crashing every time I open it.', opts: ['keeps', 'keep', 'is keep', 'keeping'], a: 0, why: "**keeps + -ing**." },
     { k: 'choice', q: 'Which is the most polite request?', opts: ['Would it be possible to move the deadline?', 'Move the deadline.', 'You must move the deadline.', 'I want a new deadline now.'], a: 0, why: "**Would it be possible to…?** — eng muloyim." },
     { k: 'fill', q: "I'm ___ a problem with my email. (having)", a: ['having'], uz: "Elektron pochtam bilan muammo bor.", why: "**I'm having a problem with…**" },
     { k: 'fill', q: 'I have already tried ___ it off and on again. (turn)', a: ['turning'], uz: "Uni o'chirib-yoqib ko'rdim.", why: "**try + -ing** — sinab ko'rmoq." },

@@ -49,7 +49,7 @@ const lesson: Lesson = {
     {
       title: "as … as, not as … as",
       blocks: [
-        { t: "p", md: "Ikki narsa **teng** bo'lsa **as + sifat + as** deymiz. Teng bo'lmasa **not as … as** (ko'pincha shu qolip *than* dan yaxshi eshitiladi)." },
+        { t: "p", md: "Ikki narsa **teng** bo'lsa **as + sifat + as** deymiz. Teng bo'lmasa **not as … as** deymiz." },
         {
           t: "table", head: ["Qolip", "Misol", "Ma'nosi"], speak: [1],
           rows: [
@@ -94,7 +94,7 @@ const lesson: Lesson = {
         { t: "p", md: "Superlative (eng yuqori daraja) ni A2 da o'rgangansiz. Endi uni yanada tabiiy qiladigan qoliplar:" },
         {
           t: "examples", items: [
-            { en: "This is by far the best course I've ever taken.", uz: "Bu men o'qigan eng yaxshi kurs, farq bilan.", note: "**by far the** + superlative — «ancha ustun»." },
+            { en: "This is by far the best course I've ever taken.", uz: "Bu men o'qigan kurslarning ichida ancha farq bilan eng yaxshisi.", note: "**by far the** + superlative — «ancha ustun»." },
             { en: "She is one of the most successful designers in the city.", uz: "U shahardagi eng muvaffaqiyatli dizaynerlardan biri.", note: "**one of the** + superlative + ko'plik ot." },
             { en: "It's the most interesting film I've ever seen.", uz: "Bu men ko'rgan eng qiziq film.", note: "Superlative + **I've ever** + V3." },
             { en: "Computers are getting faster and faster.", uz: "Kompyuterlar tobora tezlashib bormoqda.", note: "**-er and -er** yoki **more and more** — tobora." },
@@ -107,13 +107,13 @@ const lesson: Lesson = {
       ],
     },
     {
-      title: "Dialog: telefon tanlash",
+      title: "Dialog: noutbuk tanlash",
       blocks: [
         {
           t: "dialog", lines: [
             { who: "Nilufar", en: "I'm trying to choose a new laptop. This one is much cheaper than that one.", uz: "Yangi noutbuk tanlamoqchiman. Bu ikkinchisidan ancha arzon." },
             { who: "Tom", en: "Yes, but it isn't as fast. The more you pay, the faster it is.", uz: "Ha, lekin u unchalik tez emas. Qancha ko'p to'lasangiz, u shuncha tez." },
-            { who: "Nilufar", en: "True. And the battery is slightly shorter, too.", uz: "To'g'ri. Batareya ham biroz kamroq ishlaydi." },
+            { who: "Nilufar", en: "True. And the battery life is slightly shorter, too.", uz: "To'g'ri. Batareyasi ham biroz kamroq ishlaydi." },
             { who: "Tom", en: "What do you need it for?", uz: "U senga nima uchun kerak?" },
             { who: "Nilufar", en: "Mainly for studying. I use fewer programs than you, so I don't need the most powerful one.", uz: "Asosan o'qish uchun. Men sendan kamroq dastur ishlataman, shuning uchun eng kuchlisi kerak emas." },
             { who: "Tom", en: "Then this cheaper one is the best choice. It's by far the most sensible.", uz: "Unda bu arzonrog'i eng yaxshi tanlov. Bu eng oqilona tanlov." },
@@ -128,7 +128,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Office or home?", voice: "emma",
           en: "More and more people are working from home these days. Working at home is often more convenient than going to an office, and it is much cheaper because you spend less on transport. However, many people say that it is not as easy to stay motivated at home. The more you are alone, the harder it can be to feel part of a team. Some companies are now trying a mixed model. Employees work from the office two days a week and from home for the rest of the time. Most people say it is a little more tiring than working in one place, but they agree that it is far more flexible.",
-          uz: "Bu kunlarda tobora ko'proq odam uydan ishlamoqda. Uyda ishlash ko'pincha ofisga borishdan qulayroq va ancha arzonroq, chunki transportga kamroq pul sarflaysiz. Biroq ko'pchilik uyda ruhni baland tutish unchalik oson emasligini aytadi. Qancha ko'p yolg'iz qolsangiz, jamoaning bir qismi ekanligingizni his qilish shuncha qiyin bo'lishi mumkin. Ba'zi kompaniyalar endi aralash modelni sinab ko'rmoqda. Xodimlar haftada ikki kun ofisdan, qolgan vaqt uydan ishlaydi. Ko'pchilik bu bir joyda ishlashdan biroz charchatadi, lekin ancha moslashuvchan ekanligiga rozi.",
+          uz: "Bu kunlarda tobora ko'proq odam uydan ishlamoqda. Uyda ishlash ko'pincha ofisga borishdan qulayroq va ancha arzonroq, chunki transportga kamroq pul sarflaysiz. Biroq ko'pchilik uyda o'zini ishga undab turish unchalik oson emasligini aytadi. Qancha ko'p yolg'iz qolsangiz, jamoaning bir qismi ekanligingizni his qilish shuncha qiyin bo'lishi mumkin. Ba'zi kompaniyalar endi aralash modelni sinab ko'rmoqda. Xodimlar haftada ikki kun ofisdan, qolgan vaqt uydan ishlaydi. Ko'pchilik bu usul bir joyda ishlashdan biroz ko'proq charchatishini, lekin ancha moslashuvchan ekanini aytadi.",
         },
         { t: "check", ex: { k: "tf", q: "The text says working at home is more expensive than going to an office.", a: false, why: "Matnda uyda ishlash **much cheaper** (ancha arzonroq) deyilgan." } },
         { t: "check", ex: { k: "choice", q: "What does \"far more flexible\" mean?", opts: ["a lot more flexible", "slightly more flexible", "not flexible", "less flexible"], a: 0, why: "**far** + qiyosiy daraja — katta farq." } },

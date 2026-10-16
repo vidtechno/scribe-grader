@@ -14,7 +14,7 @@ export const drills: Drill[] = [
       { k: "choice", q: "She leads a ___ lifestyle: she sleeps well and does sport.", opts: ["healthy", "health", "healthily", "heal"], a: 0, why: "*lifestyle* dan oldin sifat kerak: **healthy**." },
       { k: "choice", q: "Which word means the number of people living in a place?", opts: ["population", "society", "waste", "diet"], a: 0, why: "**population** — aholi soni." },
       { k: "fill", q: "Families can ___ glass, paper and plastic.", a: ["recycle"], uz: "Oilalar shisha, qog'oz va plastmassani qayta ishlashga topshirishi mumkin.", why: "**recycle** — qayta ishlashga topshirmoq." },
-      { k: "fill", q: "Too much food ___ is a problem in rich countries.", a: ["waste"], uz: "Boy mamlakatlarda juda ko'p oziq-ovqat chiqindisi muammo.", why: "**food waste** — oziq-ovqat chiqindisi." },
+      { k: "fill", q: "Too much food ___ is a problem in rich countries.", a: ["waste"], uz: "Oziq-ovqat chiqindisining haddan tashqari ko'pligi boy mamlakatlarda muammo.", why: "**food waste** — oziq-ovqat chiqindisi." },
       { k: "fill", q: "A balanced ___ includes fruit, vegetables and protein.", a: ["diet"], uz: "Muvozanatli ovqatlanishga meva, sabzavot va oqsil kiradi.", why: "**balanced diet** — muvozanatli ovqatlanish." },
       { k: "fill", q: "Too much sugar does ___ to your teeth.", a: ["harm", "damage"], uz: "Ko'p shakar tishlaringizga zarar qiladi.", why: "**do harm / do damage to** — zarar keltirmoq." },
       { k: "fix", wrong: "I make exercise three times a week.", a: ["I do exercise three times a week.", "I take exercise three times a week.", "I exercise three times a week.", "I do sport three times a week."], hint: "make bu yerda mos emas", why: "**do / take exercise** deymiz, *make exercise* emas." },
@@ -48,7 +48,7 @@ export const drills: Drill[] = [
     goal: "Esse uchun kerakli gaplarni (kirish, sabab, misol, qarama-qarshilik, xulosa) bo'laklardan to'g'ri tartibda yig'asiz va tarjima qilasiz.",
     exercises: [
       { k: "order", uz: "Mening fikrimcha, bu g'oya yaxshi.", words: ["In", "my", "opinion,", "this", "idea", "is", "good."], extra: ["on", "mine"], why: "Esse kirishi: **In my opinion, …**" },
-      { k: "order", uz: "Ko'pincha bolalar o'yin orqali yaxshi o'rganadi, deyiladi.", words: ["It", "is", "often", "said", "that", "children", "learn", "well", "through", "play."], extra: ["say", "by"], why: "**It is often said that …** — kirish qolipi." },
+      { k: "order", uz: "Ko'pincha bolalar o'yin orqali yaxshi o'rganadi, deyiladi.", words: ["It", "is", "often", "said", "that", "children", "learn", "well", "through", "play."], extra: ["say", "on"], why: "**It is often said that …** — kirish qolipi." },
       { k: "order", uz: "Birinchidan, sport salomatlikni yaxshilaydi.", words: ["Firstly,", "sport", "improves", "your", "health."], extra: ["improve", "first"], why: "**Firstly,** — birinchi sabab." },
       { k: "choice", q: "Complete: ___, walking reduces stress.", opts: ["For example", "In the example", "As example of", "By example"], a: 0, why: "**For example,** — misol keltirish." },
       { k: "order", uz: "Bundan tashqari, bu arzon.", words: ["In", "addition,", "it", "is", "cheap."], extra: ["on", "are"], alt: [["Moreover,", "it", "is", "cheap."]], why: "**In addition,** — qo'shimcha fikr." },

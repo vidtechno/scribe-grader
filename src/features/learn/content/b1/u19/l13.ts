@@ -27,9 +27,9 @@ const lesson: Lesson = {
       blocks: [
         { t: 'p', md: "**admit** (tan olmoq) va **deny** (inkor qilmoq) dan keyin ish nomi (**-ing**) keladi. Agar ish ancha oldin bo'lgan bo'lsa, **that + Past Perfect** ham ishlatiladi." },
         { t: 'examples', items: [
-          { en: "Jack admitted breaking the printer.", uz: "Jek printerni sindirganini tan oldi." },
+          { en: "Jack admitted breaking the printer.", uz: "Jack printerni sindirganini tan oldi." },
           { en: "He admitted that he had broken it.", uz: "U uni sindirganini tan oldi.", note: "*that* + **had broken**: ma'no bir xil." },
-          { en: "Lily denied taking my pen.", uz: "Lili qalamimni olganini inkor qildi." },
+          { en: "Lily denied taking my pen.", uz: "Lily qalamimni olganini inkor qildi." },
           { en: "Tom suggested going by train.", uz: "Tom poyezdda borishni taklif qildi.", note: "**suggest** + -ing." },
           { en: "Tom suggested that we should go by train.", uz: "Tom poyezdda borishimizni taklif qildi.", note: "Yoki **suggested that we should + fe'l**." },
         ] },
@@ -57,11 +57,11 @@ const lesson: Lesson = {
       title: "Dialog: Buzilgan printer",
       blocks: [
         { t: 'dialog', lines: [
-          { who: 'Nilufar', en: "Have you spoken to Jack about the printer?", uz: "Printer haqida Jek bilan gaplashdingmi?" },
+          { who: 'Nilufar', en: "Have you spoken to Jack about the printer?", uz: "Printer haqida Jack bilan gaplashdingmi?" },
           { who: 'Tom', en: "Yes. He admitted breaking it yesterday, and he offered to pay for a new one.", uz: "Ha. U uni kecha sindirganini tan oldi va yangisi uchun to'lashni taklif qildi." },
           { who: 'Nilufar', en: "That's kind of him. What did the manager say?", uz: "Bu uning yaxshiligi. Menejer nima dedi?" },
-          { who: 'Tom', en: "She suggested buying a cheaper one, and she warned us not to touch the old printer.", uz: "U arzonroq printer olishni taklif qildi va eskisiga tegmaslikka ogohlantirdi." },
-          { who: 'Nilufar', en: "Good idea. Did Jack say sorry?", uz: "Yaxshi fikr. Jek uzr so'radimi?" },
+          { who: 'Tom', en: "She suggested buying a cheaper one, and she warned us not to touch the old printer.", uz: "U arzonroq printer olishni taklif qildi va eski printerga tegmaslik haqida bizni ogohlantirdi." },
+          { who: 'Nilufar', en: "Good idea. Did Jack say sorry?", uz: "Yaxshi fikr. Jack uzr so'radimi?" },
           { who: 'Tom', en: "Yes, and he promised to be more careful next time.", uz: "Ha, va keyingi safar ehtiyotkorroq bo'lishga va'da berdi." },
         ] },
         { t: 'check', ex: { k: 'choice', q: "What did Jack offer to do?", opts: ["Pay for a new printer", "Repair the old printer", "Buy a cheaper printer", "Leave the office"], a: 0, why: "*He offered to pay for a new one.*" } },
@@ -71,7 +71,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'hint', uz: "ishora qilmoq, shama qilmoq", ipa: 'hɪnt', pos: 'verb', ex: "She hinted that she wanted a lift home.", exUz: "U uyga olib borishlarini istayotganiga shama qildi." },
-    { en: 'accuse', uz: "ayblamoq", ipa: 'əˈkjuːz', pos: 'verb', ex: "She accused him of taking her bag.", exUz: "U uni sumkasini olganlikda aybladi." },
+    { en: 'accuse', uz: "ayblamoq", ipa: 'əˈkjuːz', pos: 'verb', ex: "She accused him of taking her bag.", exUz: "U uni sumkasini olgan deb aybladi." },
     { en: 'admit', uz: "tan olmoq", ipa: 'ədˈmɪt', pos: 'verb', ex: 'She admitted making a mistake.', exUz: "U xato qilganini tan oldi." },
     { en: 'deny', uz: "inkor qilmoq", ipa: 'dɪˈnaɪ', pos: 'verb', ex: 'He denied telling anyone the secret.', exUz: "U sirni hech kimga aytganini inkor qildi." },
     { en: 'own up', uz: "aybini tan olmoq", ipa: 'əʊn ʌp', pos: 'phrasal verb', ex: "He owned up to breaking the vase.", exUz: "U vazani sindirganini tan oldi." },

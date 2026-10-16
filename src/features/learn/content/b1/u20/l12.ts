@@ -24,7 +24,7 @@ const lesson: Lesson = {
           { en: 'I wish I had more free time.', uz: "Kaskiydi, bo'sh vaqtim ko'proq bo'lsa.", note: "Hozir vaqt kam — **had** (Past Simple), ma'no esa hozirgi." },
           { en: 'I wish I could speak French.', uz: "Kaskiydi, fransuzcha gapira olsam.", note: "**can** o'rniga **could**." },
         ] },
-        { t: 'tip', tone: 'info', md: "O'zbekchada bu **\"…edi\"** shakliga o'xshaydi: *Kaskiydi, mashinam bo'lsa.* Inglizchada esa fe'lni o'tgan zamon shaklida qo'yish kerak: *I wish I **had** a car.* (*I wish I have a car* ❌)." },
+        { t: 'tip', tone: 'info', md: "O'zbekchada bu **\"…edi\"** shakliga o'xshaydi: *Kaskiydi, mashinam bo'lsa.* Inglizchada esa fe'lni o'tgan zamon shaklida qo'yish kerak: *I wish I **had** a car.* (*I wish I have a car* — xato)." },
         { t: 'check', ex: { k: 'choice', q: "Menda mashina yo'q, lekin kaskiydi, bo'lsa.", opts: ['I wish I had a car.', 'I wish I have a car.', 'I wish I will have a car.', 'I wish I having a car.'], a: 0, why: "Hozirgi orzu: **wish + Past Simple** (*had*)." } },
       ],
     },
@@ -54,7 +54,7 @@ const lesson: Lesson = {
           { en: "I wish I had listened to my teacher.", uz: "Kaskiydi, ustozimning gapiga quloq solsam edi.", note: "Pushaymonlik o'tgan zamon ish haqida." },
           { en: "I wish I hadn't eaten so much.", uz: "Kaskiydi, shuncha ko'p yemasam edi.", note: "Inkor shakl: **hadn't + V3**." },
         ] },
-        { t: 'tip', tone: 'warn', md: "*I wish I would have studied* ❌ — bunday deyilmaydi. To'g'ri: *I wish I **had** studied.* Yodda tuting: **wish** dan keyin **would have** yo'q." },
+        { t: 'tip', tone: 'warn', md: "*I wish I would have studied* — xato, bunday deyilmaydi. To'g'ri: *I wish I **had** studied.* Yodda tuting: **wish** dan keyin **would have** yo'q." },
         { t: 'check', ex: { k: 'choice', q: "Kecha imtihonga tayyorlanmadim. Hozir pushaymonman.", opts: ['I wish I had studied.', 'I wish I studied.', 'I wish I would study.', 'I wish I have studied.'], a: 0, why: "O'tgan zamon pushaymonligi: **wish + had + V3**." } },
         { t: 'check', ex: { k: 'tf', q: "*I wish I lived in London.* — Men hozir Londonda yashayman.", a: false, why: "Bu hozirgi orzu: aslida Londonda yashamayman." } },
       ],
@@ -94,7 +94,7 @@ const lesson: Lesson = {
     { en: 'stubborn', uz: "qaysar, o'jar", ipa: 'ˈstʌb.ən', pos: 'adj', ex: "I wish I were less stubborn when I argue.", exUz: "Kaskiydi, tortishganda bunchalik qaysar bo'lmasam." },
   ],
   practice: [
-    { k: 'match', pairs: [['afford', "pul jihatidan imkoni bo'lmoq"], ['pity', 'afsus, achinarli hol'], ['lonely', "yolg'iz"], ['lucky', 'omadli'], ['abroad', 'chet elda']] },
+    { k: 'match', pairs: [['homesick', "vatanini sog'ingan"], ['pity', 'afsus, achinarli hol'], ['envy', 'havas qilmoq'], ['overseas', 'xorijda, chet elda'], ['stubborn', "qaysar, o'jar"]] },
     { k: 'choice', q: "I don't have enough money. I wish I ___ more.", opts: ['had', 'have', 'would have', 'having'], a: 0, why: "Hozirgi orzu: **wish + Past Simple**." },
     { k: 'choice', q: "I wish I ___ swim. The water looks lovely.", opts: ['could', 'can', 'will', 'am able'], a: 0, why: "**can** → **could** (wish dan keyin)." },
     { k: 'fill', q: "I wish I ___ taller. (to be)", a: ['were', 'was'], uz: "Kaskiydi, bo'yim balandroq bo'lsa.", why: "**to be** → **were** (yoki norasmiy *was*)." },
@@ -125,9 +125,9 @@ const lesson: Lesson = {
   summary: [
     "**I wish + Past Simple / could / were** — hozirgi vaziyat yoqmaydi: *I wish I had a car. I wish I could swim. I wish I were taller.*",
     "**I wish + had + V3** — o'tgan zamon pushaymonligi: *I wish I had studied harder. I wish I hadn't said that.*",
-    "**wish** dan keyin *am, can, have* emas, \"orqaga\" shakl keladi; *I wish I would have…* ❌.",
+    "**wish** dan keyin *am, can, have* emas, \"orqaga\" shakl keladi; *I wish I would have…* — xato.",
     "**hope** — bo'lishi mumkin ish (*I hope you pass*), **wish** — o'zgartirib bo'lmaydigan narsa.",
-    "Yangi so'zlar: **afford, pity, lonely, lucky, abroad**.",
+    "Yangi so'zlar: **homesick, pity, envy, overseas, stubborn**.",
   ],
   homework: "O'z hayotingiz haqida 3 ta hozirgi orzu (*I wish I had… / I wish I could…*) va 2 ta o'tgan zamon pushaymonligi (*I wish I had… / I wish I hadn't…*) yozing.",
 };

@@ -26,7 +26,7 @@ const lesson: Lesson = {
       title: "Qachon ishlatamiz?",
       blocks: [
         { t: 'examples', items: [
-          { en: "The roof has been damaged by the storm.", uz: "Tom bo'ron tufayli shikastlangan.", note: "**has been + V3** — natija hozir ko'rinib turibdi." },
+          { en: "The roof has been damaged by the storm.", uz: "Uyning tomi bo'rondan shikastlangan.", note: "**has been + V3** — natija hozir ko'rinib turibdi." },
           { en: "The new station will be opened next spring.", uz: "Yangi bekat kelasi bahorda ochiladi.", note: "**will be + V3** — reja yoki bashorat." },
           { en: "Tickets can be bought online.", uz: "Chiptalarni internetda sotib olish mumkin.", note: "**can be + V3** — imkoniyat." },
           { en: "Shoes must be taken off at the door.", uz: "Oyoq kiyimni eshik oldida yechish kerak.", note: "**must be + V3** — majburiyat." },
@@ -80,7 +80,7 @@ const lesson: Lesson = {
   ],
   practice: [
     { k: 'match', pairs: [['has been repaired', "ta'mirlangan"], ['will be opened', 'ochiladi'], ['can be seen', "ko'rish mumkin"], ['must be finished', 'tugatilishi kerak'], ['should be protected', 'himoya qilinishi kerak']] },
-    { k: 'choice', q: "The streets ___ already ___ by the city workers.", opts: ['have been cleaned', 'are been cleaned', 'has cleaned', 'have cleaned'], a: 0, why: "Ega ko'plik (*streets*): **have been + V3**." },
+    { k: 'choice', q: "The streets ___ by the city workers already.", opts: ['have been cleaned', 'are been cleaned', 'has cleaned', 'have cleaned'], a: 0, why: "Ega ko'plik (*streets*): **have been + V3**." },
     { k: 'fill', q: "The museum has ___ closed for repairs.", a: ['been'], uz: "Muzey ta'mir uchun yopilgan.", why: "Present Perfect majhul: **has been + V3**." },
     { k: 'fill', q: "The new library will ___ opened in September.", a: ['be'], uz: "Yangi kutubxona sentabrda ochiladi.", why: "**will be + V3**." },
     { k: 'listen', say: 'The old castle can be visited every day.', opts: ['The old castle can be visited every day.', 'The old castle can visit every day.', 'The old castle was visited every day.', 'The old castle will be visited every day.'], a: 0 },
@@ -89,7 +89,7 @@ const lesson: Lesson = {
     { k: 'order', uz: "Bu ishni hali tugatishmagan.", words: ["The", 'work', "hasn't", 'been', 'finished', 'yet.'], extra: ['was', 'finish'], alt: [['The', 'work', 'has', 'not', 'been', 'finished', 'yet.']], why: "Inkor: **hasn't been + V3**." },
     { k: 'fix', wrong: 'The bridge has repaired.', a: ['The bridge has been repaired.', "The bridge's been repaired."], why: "Majhul nisbat: **has been + V3**." },
     { k: 'fix', wrong: 'Tickets can booked online.', a: ['Tickets can be booked online.'], why: "Modaldan keyin **be** kerak: *can be booked*." },
-    { k: 'translate', uz: "Bu bino kelasi yili buzib tashlanadi.", a: ['This building will be pulled down next year.', 'This building will be demolished next year.', 'This building will be knocked down next year.', 'The building will be pulled down next year.', 'The building will be demolished next year.', 'The building will be knocked down next year.'], why: "**will be + V3**." },
+    { k: 'translate', uz: "Bu bino kelasi yil buzib tashlanadi.", a: ['This building will be pulled down next year.', 'This building will be demolished next year.', 'This building will be knocked down next year.', 'The building will be pulled down next year.', 'The building will be demolished next year.', 'The building will be knocked down next year.'], why: "**will be + V3**." },
     { k: 'translate', uz: "Chiptalarni bu yerda sotib olish mumkin.", a: ['Tickets can be bought here.', 'The tickets can be bought here.'], why: "**can be + V3**." },
     { k: 'tf', q: "*The photos have been taken by Ben.* — Suratlarni Ben olgan (majhul).", a: true, why: "**have been taken by …** — majhul nisbat, ishni bajaruvchi *by* bilan." },
     { k: 'dictation', say: 'Has the road been closed?', a: ['Has the road been closed?'], uz: "Yo'l yopilganmi?" },
@@ -110,8 +110,8 @@ const lesson: Lesson = {
     "Majhul nisbat formulasi: **to be + V3**. **Present Perfect**: *has / have been + V3*.",
     "**Kelasi zamon**: *will be + V3*. **Modallar**: *can / must / should be + V3*.",
     "Inkor va savolda yordamchi fe'l o'rni o'zgaradi: *hasn't been done*, *Has it been done?*, *can't be seen*.",
-    "Xatolar: *has repaired* ❌ → *has been repaired* ✅; *can booked* ❌ → *can be booked* ✅.",
-    "Yangi so'zlar: **renovate, replace, destroy, protect, announce**.",
+    "Xatolar: *has repaired* (xato) → *has been repaired* (to'g'ri); *can booked* (xato) → *can be booked* (to'g'ri).",
+    "Yangi so'zlar: **renovate, replace, demolish, protect, approve**.",
   ],
   homework: "Shahringiz haqida 5 ta majhul gap yozing: 1 ta *has been …*, 1 ta *will be …*, 1 ta *can be …*, 1 ta *must be …* va 1 ta *hasn't been … yet*.",
 };

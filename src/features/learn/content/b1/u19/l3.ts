@@ -26,7 +26,7 @@ const lesson: Lesson = {
           ["Present Simple", "Past Simple", "I like it.", "She said she liked it."],
           ["Present Continuous", "Past Continuous", "I'm working.", "He said he was working."],
           ["Present Perfect", "Past Perfect", "I've finished.", "She said she had finished."],
-          ["Past Simple", "Past Perfect", "I saw him.", "He said he had seen him."],
+          ["Past Simple", "Past Perfect", "I saw her.", "He said he had seen her."],
           ["will", "would", "I'll call.", "She said she would call."],
           ["can", "could", "I can swim.", "He said he could swim."],
           ["must", "had to", "I must go.", "She said she had to go."],
@@ -75,7 +75,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["He said that he was late.", "He told me that he was late.", "He said to me that he was late."] },
           bad: { title: "Xato", items: ["He said me that he was late.", "He told that he was late.", "He told to me that he was late."] } },
         { t: "tip", tone: "warn", md: "Esda tuting: **tell** + kishi (*told me, told Anna*), **say** + gap. *told to me* va *said me* bo'lmaydi." },
-        { t: "tip", tone: "info", md: "Agar gapni aytgan odam **hozir ham** shuni aytayotgan bo'lsa (*She says…*), yoki gap hamon haqiqat bo'lsa, zamon siljishi shart emas: *I live in Tashkent* gapini *She said she lives in Tashkent* yoki *She said she lived in Tashkent* deb aytish mumkin. Ammo ishonchingiz komil bo'lmasa, orqaga siljitgan xavfsiz." },
+        { t: "tip", tone: "info", md: "Agar gapni aytgan odam **hozir ham** shuni aytayotgan bo'lsa (*She says…*), yoki gap hamon haqiqat bo'lsa, zamon siljishi shart emas: *I live in Tashkent* gapini *She said she lives in Tashkent* yoki *She said she lived in Tashkent* deb aytish mumkin. Ammo ishonchingiz komil bo'lmasa, orqaga siljitgan xavfsiz. Mashqlarda va testlarda biz doim orqaga siljitamiz." },
         { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["She told that she was ill.", "She said me that she was ill.", "She told me that she was ill.", "She told to me that she was ill."], a: 2, why: "**tell** + kishi: *told me*." } },
         { t: "check", ex: { k: "fix", wrong: "He said me that he would come.", a: ["He told me that he would come.", "He said that he would come.", "He told me he would come.", "He said he would come."], hint: "say yoki tell", why: "*said me* xato: **told me** yoki **said (that)**." } },
       ],
@@ -85,7 +85,7 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "text", title: "News at the office",
-          en: "On Monday morning, the manager called a short meeting. He told the team that the company was opening a new office in Samarkand. He said that they would need three people there. Dilnoza asked nothing, but she told her colleague later that she had always wanted to live in Samarkand. Her colleague said that he couldn't leave Tashkent because his family lived there. At lunch, everyone was talking about the news. Dilnoza said she was going to apply the next day, and her friend replied that she would be perfect for the job.",
+          en: "On Monday morning, the manager called a short meeting. He told the team that the company was opening a new office in Samarkand. He said that they would need three people there. Dilnoza didn't ask anything, but she told her colleague later that she had always wanted to live in Samarkand. Her colleague said that he couldn't leave Tashkent because his family lived there. At lunch, everyone was talking about the news. Dilnoza said she was going to apply the next day, and her friend replied that she would be perfect for the job.",
           uz: "Dushanba kuni ertalab menejer qisqa yig'ilish o'tkazdi. U jamoaga kompaniya Samarqandda yangi ofis ochayotganini aytdi. U yerda uch kishi kerak bo'lishini aytdi. Dilnoza hech narsa so'ramadi, lekin keyinroq hamkasbiga har doim Samarqandda yashashni xohlaganini aytdi. Hamkasbi Toshkentni tashlab keta olmasligini, chunki oilasi shu yerda yashashini aytdi. Tushlikda hamma shu yangilik haqida gaplashardi. Dilnoza ertasi kuni murojaat qilmoqchi ekanini aytdi, do'sti esa u ish uchun juda mos kelishini javob qildi.",
         },
         { t: "check", ex: { k: "choice", q: "Why couldn't Dilnoza's colleague go to Samarkand?", opts: ["His family lived in Tashkent.", "He didn't like the job.", "The office was too small.", "He had already applied."], a: 0, why: "Matnda: *he couldn't leave Tashkent because his family lived there.*" } },

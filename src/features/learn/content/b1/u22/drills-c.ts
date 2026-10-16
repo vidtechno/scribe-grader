@@ -16,7 +16,7 @@ export const drills: Drill[] = [
       { k: 'choice', q: 'This tool is ___ cutting metal.', opts: ['for', 'to', 'so that', 'in order'], a: 0, why: "Narsa vazifasi: **for + -ing**." },
       { k: 'fix', wrong: 'I joined the gym for lose weight.', a: ['I joined the gym to lose weight.', 'I joined the gym in order to lose weight.', 'I joined the gym for losing weight.'], why: "**for** dan keyin fe'l yo'q: **to lose**." },
       { k: 'fix', wrong: 'He spoke slowly so that everyone to understand.', a: ['He spoke slowly so that everyone could understand.', 'He spoke slowly so that everyone would understand.', 'He spoke slowly so everyone could understand.'], why: "**so that** + gap." },
-      { k: 'order', uz: "Men ertalab hammasini eslab qolish uchun yozib oldim.", words: ['I', 'wrote', 'it', 'down', 'so', 'as', 'not', 'to', 'forget.'], extra: ['for', 'that'], alt: [['I', 'wrote', 'it', 'down', 'in', 'order', 'not', 'to', 'forget.']], why: "**so as not to** + fe'l." },
+      { k: 'order', uz: "Unutmaslik uchun uni yozib qo'ydim.", words: ['I', 'wrote', 'it', 'down', 'so', 'as', 'not', 'to', 'forget.'], extra: ['for', 'that'], alt: [['I', 'wrote', 'it', 'down', 'in', 'order', 'not', 'to', 'forget.']], why: "**so as not to** + fe'l." },
       { k: 'translate', uz: "U yangi ish topish uchun onlayn kurs o'qiyapti.", a: ['She is taking an online course to find a new job.', "She's taking an online course to find a new job.", 'She is doing an online course to find a new job.', "She's doing an online course to find a new job.", 'She is studying an online course to find a new job.'], why: "Maqsad: **to find**." },
     ],
   },
@@ -37,7 +37,7 @@ export const drills: Drill[] = [
       { k: 'fix', wrong: "She won't probably pass the test.", a: ["She probably won't pass the test.", 'She will probably not pass the test.'], why: "**probably won't**." },
       { k: 'choice', q: 'Which means you think it will not happen?', opts: ['I doubt she will agree.', 'She will definitely agree.', 'She might agree.', 'She is likely to agree.'], a: 0, why: "**I doubt** — shubha." },
       { k: 'order', uz: "U ehtimol kelasi yil ishini o'zgartiradi.", words: ['He', 'will', 'probably', 'change', 'jobs', 'next', 'year.'], extra: ['unlikely', 'to'], alt: [['Next', 'year', 'he', 'will', 'probably', 'change', 'jobs.']], why: "will + **probably**." },
-      { k: 'translate', uz: "Yangi qurilmalar hayotimizni osonlashtirishi mumkin.", a: ['New devices are likely to make our lives easier.', 'New devices are likely to make life easier.'], why: "**be likely to**." },
+      { k: 'translate', uz: "Yangi qurilmalar hayotimizni osonlashtirishi ehtimoli bor.", a: ['New devices are likely to make our lives easier.', 'New devices are likely to make life easier.', 'New devices are likely to make our lives more convenient.'], why: "**be likely to**." },
     ],
   },
   {

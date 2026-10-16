@@ -20,7 +20,7 @@ const lesson: Lesson = {
           ['Can I book a table?', 'Is it possible to book a table?'],
           ['Is the museum open today?', 'Do you know if the museum is open today?'],
         ] },
-        { t: 'tip', tone: 'warn', md: "Muloyim savolda **do / does / did** ishlatilmaydi va tartib o'zgaradi: *Could you tell me where **the office is**?* ✅ — *where is the office* ❌. **if** (yoki **whether**) *ha/yo'q* savollarda keladi." },
+        { t: 'tip', tone: 'warn', md: "Muloyim savolda **do / does / did** ishlatilmaydi va tartib o'zgaradi: *Could you tell me where **the office is**?* (to'g'ri) — *where is the office* (xato). **if** (yoki **whether**) *ha/yo'q* savollarda keladi." },
         { t: 'check', ex: { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ['Do you know what time the museum opens?', 'Do you know what time does the museum open?', 'Do you know what time opens the museum?', 'Do you know what time the museum does open?'], a: 0, why: "Muloyim savolda darak tartibi: **what time the museum opens**." } },
       ],
     },
@@ -29,7 +29,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'dialog', lines: [
           { who: 'Helen', en: "Good morning. Can I help you?", uz: "Xayrli tong. Sizga yordam bera olamanmi?" },
-          { who: 'Karim', en: "Yes, please. Could you tell me which sights are the best for one day?", uz: "Ha, iltimos. Bir kunga qaysi ko'rgazmali joylar eng yaxshi ekanini ayta olasizmi?" },
+          { who: 'Karim', en: "Yes, please. Could you tell me which sights are the best for one day?", uz: "Ha, iltimos. Bir kunga qaysi diqqatga sazovor joylar eng yaxshi ekanini ayta olasizmi?" },
           { who: 'Helen', en: "Of course. I'd suggest the castle and the old market. Here's a brochure with a map.", uz: "Albatta. Qal'a va eski bozorni tavsiya qilaman. Mana xaritali buklet." },
           { who: 'Karim', en: "Thank you. Do you know what time the castle opens?", uz: "Rahmat. Qal'a soat nechada ochilishini bilasizmi?" },
           { who: 'Helen', en: "It opens at nine and closes at five.", uz: "U to'qqizda ochiladi va beshda yopiladi." },
@@ -73,7 +73,7 @@ const lesson: Lesson = {
     { en: 'enquiry', uz: "so'rov, ma'lumot so'rash", ipa: 'ɪnˈkwaɪri', pos: 'noun', ex: 'I have an enquiry about the tour.', exUz: "Mening ekskursiya haqida savolim bor." },
     { en: 'deposit', uz: 'avans, garov puli', ipa: 'dɪˈpɒzɪt', pos: 'noun', ex: 'You need to pay a deposit.', exUz: "Avans to'lashingiz kerak." },
     { en: 'availability', uz: 'bo\'sh joy borligi', ipa: 'əˌveɪ.ləˈbɪl.ə.ti', pos: 'noun', ex: 'Can you check the availability for next weekend?', exUz: 'Kelasi dam olish kunlari uchun bo\'sh joy bor-yo\'qligini tekshira olasizmi?' },
-    { en: 'itinerary', uz: 'sayohat rejasi', ipa: 'aɪˈtɪn.ər.ər.i', pos: 'noun', ex: 'Could you send me the itinerary for the tour?', exUz: 'Tur uchun sayohat rejasini yubora olasizmi?' },
+    { en: 'itinerary', uz: 'sayohat rejasi', ipa: 'aɪˈtɪn.ər.i', pos: 'noun', ex: 'Could you send me the itinerary for the tour?', exUz: 'Tur uchun sayohat rejasini yubora olasizmi?' },
   ],
   practice: [
     { k: 'match', pairs: [['brochure', 'risola'], ['enquiry', "so'rov"], ['deposit', 'avans'], ['reservation', 'band qilish'], ['discount', 'chegirma']] },
@@ -105,11 +105,11 @@ const lesson: Lesson = {
   ],
   summary: [
     "Muloyim savol: **Could you tell me… / Do you know… / Is it possible to…?** va darak tartibi.",
-    "Misol: *Could you tell me where the office is?* — *where is the office* ❌.",
+    "Misol: *Could you tell me where the office is?* — *where is the office* (xato).",
     "Ha/yo'q savolda **if** (yoki *whether*): *Do you know if the museum is open?*",
     "Telefonda: **Could you repeat that, please?** va **Could you speak more slowly?** — uyalmang.",
     "Tasdiqlash uchun question tag: *So the tour starts at ten, doesn't it?*",
-    "Yangi so'zlar: **brochure, enquiry, deposit, reservation, discount**.",
+    "Yangi so'zlar: **brochure, enquiry, deposit, availability, itinerary**.",
   ],
   homework: "Turistik ofisga borgan holatni tasavvur qiling va 5 ta muloyim savol yozing (Could you tell me…, Do you know if…, Is it possible to…). Do'stingiz bilan rollar bo'yicha o'qing.",
 };

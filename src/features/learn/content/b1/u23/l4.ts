@@ -99,7 +99,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["When I get home, I will call you.", "As soon as she arrives, we will start.", "I'll tell him if I see him."] },
           bad: { title: "Xato", items: ["When I will get home, I will call you.", "As soon as she will arrive, we will start.", "I'll tell him if I will see him."] },
         },
-        { t: "tip", tone: "warn", md: "**when, as soon as, before, after, until, if** dan keyin kelajak ma'nosida ham **Present** ishlatiladi. O'zbekchada «qaytib kelsam» kabi, shunga o'xshab ~~when I will come~~ deymiz; inglizchada *when I come*." },
+        { t: "tip", tone: "warn", md: "**when, as soon as, before, after, until, if** dan keyin kelajak ma'nosida ham **Present** ishlatiladi. Xato: ~~when I will come~~. To'g'risi: *when I come*." },
         { t: "check", ex: { k: "fix", wrong: "When I will arrive, I will text you.", a: ["When I arrive, I will text you.", "When I arrive, I'll text you."], hint: "when dan keyin zamon", why: "**when** dan keyin Present Simple." } },
       ],
     },

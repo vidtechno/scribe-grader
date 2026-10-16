@@ -75,7 +75,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "The hotel, which was built in 1900, is full of character.", uz: "1900-yilda qurilgan mehmonxona o'ziga xos ruhga to'la.", note: "Passive + vergul bilan nisbiy gap." },
             { en: "The room was cleaned every day.", uz: "Xona har kuni tozalanardi.", note: "Passive: kim tozalagani muhim emas." },
-            { en: "The staff, who were very helpful, spoke good English.", uz: "Xodimlar, juda yordamchi, yaxshi ingliz tilida gapirishardi." },
+            { en: "The staff, who were very helpful, spoke good English.", uz: "Xodimlar, ular juda yordamsevar edi, yaxshi ingliz tilida gapirishardi." },
             { en: "It is a small restaurant where you can try local dishes.", uz: "Bu mahalliy taomlarni tatib ko'rish mumkin bo'lgan kichik restoran.", note: "**where** — joy haqida." },
           ],
         },
@@ -120,11 +120,11 @@ const lesson: Lesson = {
     { en: "overpriced", uz: "narxiga arzimaydigan, haddan tashqari qimmat", ipa: "ˌəʊ.vəˈpraɪst", pos: "adj", ex: "The drinks were overpriced.", exUz: "Ichimliklar haddan tashqari qimmat edi." },
     { en: "authentic", uz: "haqiqiy, asl", ipa: "ɔːˈθen.tɪk", pos: "adj", ex: "We ate at an authentic Italian restaurant.", exUz: "Biz haqiqiy italyan restoranida ovqatlandik." },
     { en: "cosy", uz: "shinam", ipa: "ˈkəʊ.zi", pos: "adj", ex: "It is a cosy little cafe near the river.", exUz: "Bu daryo yaqinidagi shinam kichik kafe." },
-    { en: "mediocre", uz: "o'rtamiyona", ipa: "ˌmiː.diˈəʊ.kər", pos: "adj", ex: "The food was mediocre and rather expensive.", exUz: "Taom o'rtamiyona va ancha qimmat edi." },
-    { en: "worthwhile", uz: "arziydigan, foydali", ipa: "ˌwɜːθˈwaɪl", pos: "adj", ex: "The long walk to the castle was well worthwhile.", exUz: "Qasrgacha uzoq yurish o'zini oqladi." },
+    { en: "mediocre", uz: "o'rtamiyona", ipa: "ˌmiː.diˈəʊ.kə", pos: "adj", ex: "The food was mediocre and rather expensive.", exUz: "Taom o'rtamiyona va ancha qimmat edi." },
+    { en: "worthwhile", uz: "arziydigan, foydali", ipa: "ˌwɜːθˈwaɪl", pos: "adj", ex: "The long walk to the castle was well worthwhile.", exUz: "Qal'agacha uzoq yurish o'zini oqladi." },
     { en: "rating", uz: "baho, reyting", ipa: "ˈreɪ.tɪŋ", pos: "noun", ex: "The hotel has a high rating online.", exUz: "Mehmonxonaning internetdagi bahosi yuqori." },
     { en: "value for money", uz: "narxiga arziydigan", ipa: "ˌvæl.juː fə ˈmʌn.i", pos: "phrase", ex: "The meal was great value for money.", exUz: "Ovqat narxiga juda arzidi." },
-    { en: "off the beaten track", uz: "gavjum yo'ldan chetda", ipa: "ɒf ðə ˌbiː.tən ˈtræk", pos: "phrase", ex: "We found a lovely café off the beaten track.", exUz: "Biz gavjum yo'ldan chetda joylashgan yoqimli kafe topdik." },
+    { en: "off the beaten track", uz: "sayyohlar kam boradigan joyda", ipa: "ɒf ðə ˌbiː.tən ˈtræk", pos: "phrase", ex: "We found a lovely café off the beaten track.", exUz: "Biz sayyohlar kam boradigan joyda yoqimli kafe topdik." },
   ],
   practice: [
     { k: "match", pairs: [["stunning", "juda go'zal"], ["spotless", "juda toza"], ["overpriced", "narxiga arzimaydigan"], ["tiny", "juda kichik"], ["cosy", "shinam"]] },

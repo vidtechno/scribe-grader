@@ -118,14 +118,14 @@ const lesson: Lesson = {
   words: [
     { en: "skyline", uz: "shahar silueti", ipa: "ˈskaɪ.laɪn", pos: "noun", ex: "The skyline of the city looks amazing at night.", exUz: "Shahar silueti kechasi ajoyib ko'rinadi." },
     { en: "district", uz: "tuman, mavze", ipa: "ˈdɪs.trɪkt", pos: "noun", ex: "The old district has narrow streets and small shops.", exUz: "Eski mavzeda tor ko'chalar va kichik do'konlar bor." },
-    { en: "skyscraper", uz: "osmono'par bino", ipa: "ˈskaɪˌskreɪ.pər", pos: "noun", ex: "The city has more than twenty skyscrapers.", exUz: "Shaharda yigirmadan ortiq osmono'par bino bor." },
+    { en: "skyscraper", uz: "osmono'par bino", ipa: "ˈskaɪˌskreɪ.pə", pos: "noun", ex: "The city has more than twenty skyscrapers.", exUz: "Shaharda yigirmadan ortiq osmono'par bino bor." },
     { en: "landmark", uz: "mashhur belgi, diqqatga sazovor bino", ipa: "ˈlænd.mɑːk", pos: "noun", ex: "The tower is the best-known landmark in town.", exUz: "Minora shahardagi eng mashhur belgi." },
     { en: "outskirts", uz: "shahar chekkasi", ipa: "ˈaʊt.skɜːts", pos: "noun", ex: "They live on the outskirts of the city.", exUz: "Ular shahar chekkasida yashaydi." },
     { en: "accommodation", uz: "turar joy", ipa: "əˌkɒm.əˈdeɪ.ʃən", pos: "noun", ex: "Cheap accommodation is hard to find in July.", exUz: "Iyulda arzon turar joy topish qiyin." },
-    { en: "residential", uz: "turar-joy", ipa: "ˌrez.ɪˈden.ʃəl", pos: "adj", ex: "This is a quiet residential area with many parks.", exUz: "Bu ko'plab bog'lari bor tinch turar-joy tumani." },
+    { en: "residential", uz: "turar-joy (rayoni)", ipa: "ˌrez.ɪˈden.ʃəl", pos: "adj", ex: "This is a quiet residential area with many parks.", exUz: "Bu ko'plab bog'lari bor tinch turar-joy tumani." },
     { en: "destination", uz: "borilgan manzil, yo'nalish", ipa: "ˌdes.tɪˈneɪ.ʃən", pos: "noun", ex: "Turkey is a popular holiday destination.", exUz: "Turkiya mashhur ta'til yo'nalishi." },
-    { en: "bustling", uz: "gavjum, qaynoq", ipa: "ˈbʌs.lɪŋ", pos: "adj", ex: "The market is a bustling place on Saturdays.", exUz: "Bozor shanba kunlari qaynoq joy bo'ladi." },
-    { en: "guided tour", uz: "gid hamrohligidagi sayohat", ipa: "ˈɡaɪ.dɪd tʊər", pos: "noun", ex: "We went on a guided tour of the old town.", exUz: "Biz eski shahar bo'ylab gid hamrohligida sayohat qildik." },
+    { en: "bustling", uz: "gavjum, jonli", ipa: "ˈbʌs.lɪŋ", pos: "adj", ex: "The market is a bustling place on Saturdays.", exUz: "Bozor shanba kunlari gavjum va jonli joy bo'ladi." },
+    { en: "guided tour", uz: "gid hamrohligidagi sayohat", ipa: "ˈɡaɪ.dɪd tʊə", pos: "noun", ex: "We went on a guided tour of the old town.", exUz: "Biz eski shahar bo'ylab gid hamrohligida sayohat qildik." },
   ],
   practice: [
     { k: "match", pairs: [["suburb", "shahar chekkasi"], ["skyscraper", "osmono'par bino"], ["landmark", "mashhur belgi"], ["sightseeing", "joylarni aylanib ko'rish"], ["accommodation", "turar joy"]] },

@@ -45,7 +45,7 @@ const lesson: Lesson = {
     {
       title: "Matn: yangi shahar, yangi hayot",
       blocks: [
-        { t: 'text', title: "Moving to Manchester", voice: 'emma', en: "I moved to Manchester two years ago. I had a good job in London, but I wanted a quieter life. I have lived in my new flat for eighteen months now, and I love it. Lately I have been walking to work, so I have saved a lot of money. So far, I have made three close friends. I met the first one at a language class last spring. How long have you lived in your city? And how long ago did you decide to stay there?", uz: "Men ikki yil oldin Manchesterga ko'chib keldim. Londonda yaxshi ishim bor edi, lekin tinchroq hayot xohladim. Yangi kvartiramda o'n sakkiz oydan beri yashayman va u menga juda yoqadi. So'nggi paytda ishga piyoda boryapman, shuning uchun ko'p pul tejadim. Hozircha uchta yaqin do'st orttirdim. Birinchisi bilan o'tgan bahorda til kursida tanishdim. Siz shaharingizda qancha vaqtdan beri yashaysiz? Va shu yerda qolishga qancha vaqt oldin qaror qildingiz?" },
+        { t: 'text', title: "Moving to Manchester", voice: 'emma', en: "I moved to Manchester two years ago. I had a good job in London, but I wanted a quieter life. I have lived in my new flat for eighteen months now, and I love it. Lately I have been walking to work, so I have saved a lot of money. So far, I have made three close friends. I met the first one at a language class last spring. How long have you lived in your city? And how long ago did you move there?", uz: "Men ikki yil oldin Manchesterga ko'chib keldim. Londonda yaxshi ishim bor edi, lekin tinchroq hayot xohladim. Yangi kvartiramda o'n sakkiz oydan beri yashayman va u menga juda yoqadi. So'nggi paytda ishga piyoda boryapman, shuning uchun ko'p pul tejadim. Hozircha uchta yaqin do'st orttirdim. Birinchisi bilan o'tgan bahorda til kursida tanishdim. Siz shaharingizda qancha vaqtdan beri yashaysiz? Va u yerga qancha vaqt oldin ko'chib bordingiz?" },
         { t: 'check', ex: { k: 'tf', q: "The writer still lives in Manchester.", a: true, why: "*I have lived in my new flat for eighteen months now.*" } },
         { t: 'check', ex: { k: 'choice', q: "When did the writer move to Manchester?", opts: ["Two years ago", "Eighteen months ago", "Last spring", "Last month"], a: 0, why: "*I moved to Manchester two years ago.*" } },
       ],
@@ -53,7 +53,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'work part-time', uz: 'yarim kunlik ishlamoq', ipa: 'wɜːk ˌpɑːtˈtaɪm', pos: 'phrase', ex: 'I\'ve worked part-time for a year.', exUz: 'Men bir yildan beri yarim kunlik ishlayman.' },
-    { en: 'not any more', uz: 'endi emas', ipa: 'nɒt ˈen.i mɔːr', pos: 'phrase', ex: 'I haven\'t played football for years, so I don\'t play any more.', exUz: 'Men yillardan beri futbol o\'ynamaganman, endi o\'ynamayman.' },
+    { en: 'not any more', uz: 'endi emas', ipa: 'nɒt ˈen.i mɔː', pos: 'phrase', ex: 'I haven\'t played football for years, so I don\'t play any more.', exUz: 'Men yillardan beri futbol o\'ynamaganman, endi o\'ynamayman.' },
     { en: 'these days', uz: 'hozirgi kunlarda', ipa: 'ðiːz deɪz', pos: 'phrase', ex: "These days, most people shop online.", exUz: "Hozirgi kunlarda ko'pchilik internetdan xarid qiladi." },
     { en: 'all my life', uz: "butun umr bo'yi", ipa: 'ɔːl maɪ laɪf', pos: 'phrase', ex: "I've lived in this street all my life.", exUz: "Men butun umrim shu ko'chada yashaganman." },
     { en: 'over the years', uz: "yillar davomida", ipa: 'ˈəʊ.və ðə jɪəz', pos: 'phrase', ex: "Over the years, the town has changed a lot.", exUz: "Yillar davomida shahar juda o'zgardi." },
@@ -83,13 +83,13 @@ const lesson: Lesson = {
     { k: 'fill', q: "Over the years, our town ___ a lot. (change)", a: ['has changed'], why: "**over the years** — hozirgacha davom etgan davr → Present Perfect." },
     { k: 'tf', q: "*I have worked here two years ago.* — to'g'ri gap.", a: false, why: "**ago** bilan *I worked*." },
     { k: 'order', uz: "U uch hafta oldin ishdan ketdi.", words: ['She', 'left', 'her', 'job', 'three', 'weeks', 'ago.'], extra: ['has', 'for'], why: "**ago** + Past Simple." },
-    { k: 'translate', uz: "Siz qancha vaqtdan beri ingliz tilini o'rganyapsiz?", a: ["How long have you been learning English?", "How long have you learned English?", "How long have you been studying English?"], why: "**How long have you been learning…?**" },
+    { k: 'translate', uz: "Siz qancha vaqtdan beri ingliz tilini o'rganyapsiz?", a: ["How long have you been learning English?", "How long have you been studying English?"], why: "**How long have you been learning…?**" },
   ],
   summary: [
     "**How long have you…?** — hozirgacha davom etgan davr (Present Perfect). **How long ago did you…?** — o'tmishdagi payt (Past Simple).",
     "**ago**, **yesterday**, **last week**, **in 2019** → Past Simple. **for**, **since**, **lately**, **so far**, **today** → Present Perfect.",
     "*I lived there for two years* — endi yashamaydi; *I have lived there for two years* — hali ham yashaydi.",
-    "Yangi iboralar: **lately, so far, these days, all my life, over the years**.",
+    "Yangi iboralar: **work part-time, not any more, these days, all my life, over the years**.",
   ],
   homework: "Hayotingiz haqida 6 ta gap yozing: 3 tasida **ago** (Past Simple), 3 tasida **for** yoki **since** (Present Perfect). Masalan: *I started learning English two years ago. I have studied it for two years.*",
 };

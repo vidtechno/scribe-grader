@@ -10,7 +10,7 @@ const lesson: Lesson = {
       title: "Majhul nisbat nima uchun kerak?",
       blocks: [
         { t: "p", md: "Oddiy (aktiv) gapda **ish qiluvchi** birinchi turadi: *Tom wrote the email.* Majhul nisbatda esa **ishning o'zi yoki natijasi** muhim bo'ladi: *The email was written yesterday.* Kim qilgani noma'lum, muhim emas yoki o'zi ma'lum bo'lsa, passive ishlatamiz." },
-        { t: "p", md: "O'zbek tilida buni **-ilmoq, -inmoq** qo'shimchalari beradi: *qurilgan, ishlab chiqariladi, o'g'irlangan*. Inglizchada esa qo'shimcha yo'q: **be + V3** (fe'lning uchinchi shakli) ishlatiladi." },
+        { t: "p", md: "O'zbek tilida buni **-il, -in** qo'shimchalari beradi: *qurilgan, ishlab chiqariladi, o'g'irlangan*. Inglizchada esa qo'shimcha yo'q: **be + V3** (fe'lning uchinchi shakli) ishlatiladi." },
         {
           t: "table", head: ["Aktiv", "Passive"],
           rows: [
@@ -110,7 +110,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Bread from the corner bakery",
           en: "Our local bakery is famous in the neighbourhood. The bread is made every morning before sunrise, and it is sold while it is still warm. The flour is delivered from a small mill outside the town. In the past, the dough was mixed by hand, but today it is mixed by a machine. Last year the old oven was replaced and the shop was repainted. Not all the bread is sold on the same day. What is left is given to a local charity in the evening.",
-          uz: "Bizning mahalladagi nonvoyxona hammaga tanish. Non har kuni tong otishidan oldin yopiladi va hali iliq paytida sotiladi. Un shahar tashqarisidagi kichik tegirmondan yetkazib beriladi. Ilgari xamir qo'lda qorilgan, bugun esa mashinada qoriladi. O'tgan yili eski tandir almashtirildi va do'kon qayta bo'yaldi. Barcha non o'sha kuni sotilmaydi. Qolgani kechqurun mahalliy xayriya tashkilotiga beriladi.",
+          uz: "Bizning mahalladagi nonvoyxona hammaga tanish. Non har kuni tong otishidan oldin pishiriladi va hali iliq paytida sotiladi. Un shahar tashqarisidagi kichik tegirmondan yetkazib beriladi. Ilgari xamir qo'lda qorilgan, bugun esa mashinada qoriladi. O'tgan yili eski tandir almashtirildi va do'kon qayta bo'yaldi. Barcha non o'sha kuni sotilmaydi. Qolgani kechqurun mahalliy xayriya tashkilotiga beriladi.",
         },
         { t: "check", ex: { k: "tf", q: "Today the dough is mixed by hand.", a: false, why: "*In the past* qo'lda edi, hozir **mashinada**: *it is mixed by a machine*." } },
         { t: "check", ex: { k: "choice", q: "Why does the text say \"the old oven was replaced\"?", opts: ["It happened last year and who did it is not important.", "The oven is still old.", "It is a question.", "It happens every day."], a: 0, why: "**Last year** — o'tgan zamon passive, ishni kim qilgani muhim emas." } },
@@ -134,10 +134,10 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "manufacture", uz: "ishlab chiqarmoq (sanoatda)", ipa: "ˌmæn.jəˈfæk.tʃər", pos: "verb", ex: "Cars are manufactured in this factory.", exUz: "Mashinalar shu zavodda ishlab chiqariladi." },
+    { en: "manufacture", uz: "ishlab chiqarmoq (sanoatda)", ipa: "ˌmæn.jəˈfæk.tʃə", pos: "verb", ex: "Cars are manufactured in this factory.", exUz: "Mashinalar shu zavodda ishlab chiqariladi." },
     { en: "export", uz: "eksport qilmoq", ipa: "ɪkˈspɔːt", pos: "verb", ex: "Many countries export fruit and vegetables.", exUz: "Ko'p mamlakatlar meva va sabzavot eksport qiladi." },
     { en: "construct", uz: "qurmoq", ipa: "kənˈstrʌkt", pos: "verb", ex: "The bridge was constructed in 1998.", exUz: "Ko'prik 1998-yilda qurilgan." },
-    { en: "assemble", uz: "yig'moq (mexanizmni)", ipa: "əˈsem.bəl", pos: "verb", ex: "The furniture is assembled by hand.", exUz: "Mebel qo'lda yig'iladi." },
+    { en: "assemble", uz: "yig'moq, yig'ib qurmoq", ipa: "əˈsem.bəl", pos: "verb", ex: "The furniture is assembled by hand.", exUz: "Mebel qo'lda yig'iladi." },
     { en: "release", uz: "chiqarmoq, e'lon qilmoq", ipa: "rɪˈliːs", pos: "verb", ex: "The new phone was released last week.", exUz: "Yangi telefon o'tgan hafta sotuvga chiqarildi." },
     { en: "steal", uz: "o'g'irlamoq", ipa: "stiːl", pos: "verb", ex: "Someone stole my wallet on the bus.", exUz: "Kimdir avtobusda hamyonimni o'g'irladi." },
     { en: "transport", uz: "tashimoq", ipa: "trænˈspɔːt", pos: "verb", ex: "Fruit is transported to the shops by lorry.", exUz: "Mevalar do'konlarga yuk mashinasida tashiladi." },
