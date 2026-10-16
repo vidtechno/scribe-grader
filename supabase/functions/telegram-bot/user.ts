@@ -521,26 +521,23 @@ export async function showPlan(ctx: Ctx) {
     usage("✍️ Writing ", sub?.writing_used, sub?.writing_limit),
     usage("🎤 Speaking", sub?.speaking_used, sub?.speaking_limit),
     usage("🧪 Mock test", sub?.mock_test_used, sub?.mock_test_limit),
+    plan === "plus" ? "📖 Reading va 🎧 Listening  ♾ cheksiz" : `📖 Reading va 🎧 Listening  ${hint("3 tadan test ochiq")}`,
     "",
     quote([
       "<b>Learn</b> — 49 000 so'm oyiga",
       hint("Barcha ingliz tili darslari · adaptiv o'rganish · so'z va grammatika takrori · XP va streak"),
       "",
       "<b>IELTS</b> — 129 000 so'm oyiga",
-      hint("Learn'dagi hammasi + 50 Writing · 30 Speaking · AI baholash va tahlil"),
+      hint("Learn'dagi hammasi + cheksiz Reading va Listening · 50 Writing · 30 Speaking · AI baholash va tahlil"),
       "",
-      "🎁 Yangi hisob: <b>7 kun Learn bepul</b> + 3 Writing va 2 Speaking. IELTS tarifida bepul davr yo'q.",
-      "🎉 <b>6 oyga birdan to'lasangiz −10%</b>",
-      hint("Learn: 264 600 so'm · IELTS: 696 600 so'm (limitlar har 30 kunda yangilanadi)"),
+      "🎁 Yangi hisob: <b>7 kun Learn bepul</b> + 1 Writing, 1 Speaking va 3 tadan Reading hamda Listening testi. IELTS tarifida bepul davr yo'q.",
+      "🎉 <b>Oldindan to'lasangiz chegirma:</b> 3 oy −5%, 6 oy −10%",
+      hint("Learn: 139 650 / 264 600 so'm · IELTS: 367 650 / 696 600 so'm (limitlar har 30 kunda yangilanadi)"),
     ].join("\n")),
-    hint("💳 To'lov Telegram orqali. Tasdiqlangach tarif yoqiladi va shu yerga xabar keladi."),
+    hint("💳 To'lov Click yoki Payme orqali, saytning o'zida. To'lagach tarif avtomatik yoqiladi va shu yerga xabar keladi."),
   ].join("\n");
-  const id = o.profile?.public_id ? ` Mening ID: #${o.profile.public_id}.` : "";
-  const buy = (name: string, period: string, price: string) => link(`💳 ${name} · ${period} — ${price}`,
-    `https://t.me/${PAYMENTS_USERNAME}?text=${encodeURIComponent(`Salom! Men "${name}" tarifini ${period} uchun sotib olmoqchiman: ${price}.${id}`)}`);
   await reply(ctx, text, [
-    [buy("Learn", "1 oy", "49 000 so'm"), buy("Learn", "6 oy", "264 600 so'm")],
-    [buy("IELTS", "1 oy", "129 000 so'm"), buy("IELTS", "6 oy", "696 600 so'm")],
+    [app("💳 Tarifni sotib olish", "/dashboard?pricing=1")],
     [cb("🎁 Referal — do'st taklif qiling, pul ishlang", "u:invite")],
     [cb("⬅️ Kabinet", "u:cab")],
   ]);

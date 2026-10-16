@@ -28,7 +28,7 @@ const COPY = {
 /** Reading or Listening: a shelf of test variants, each with a name, a short description and the learner's progress. */
 export default function IeltsTests({ skill }: { skill: 'reading' | 'listening' }) {
   const { user } = useAuth();
-  const { isPremium } = useSubscription();
+  const { isIelts } = useSubscription();
   const attempts = useAttempts(skill, user?.id);
   const tests = skill === 'reading' ? READING_TESTS : LISTENING_TESTS;
   const copy = COPY[skill];
@@ -43,7 +43,7 @@ export default function IeltsTests({ skill }: { skill: 'reading' | 'listening' }
   }, [list]);
   const best = (id: string) => Math.max(0, ...list.filter((a) => a.test_id === id && a.mode === 'full').map((a) => Number(a.band)));
   const count = (id: string) => list.filter((a) => a.test_id === id).length;
-  const nextUp = tests.find((t) => count(t.id) === 0 && (t.free || isPremium));
+  const nextUp = tests.find((t) => count(t.id) === 0 && (t.free || isIelts));
   const nameOf = (id: string) => tests.find((t) => t.id === id)?.name ?? id;
 
   return (
@@ -79,11 +79,11 @@ export default function IeltsTests({ skill }: { skill: 'reading' | 'listening' }
 
         <div className="flex items-baseline justify-between mb-3">
           <h2 className="text-lg font-semibold">Choose a test</h2>
-          <p className="text-xs text-muted-foreground">{tests.length} tests · each one has new topics</p>
+          <p className="text-xs text-muted-foreground">{tests.length} tests · each one has new topics · {isIelts ? 'unlimited with your IELTS plan' : 'tests 1–3 free, all tests unlimited with IELTS'}</p>
         </div>
         <div className="grid md:grid-cols-2 gap-4 mb-10">
           {tests.map((t: TestMeta, index) => {
-            const locked = !t.free && !isPremium;
+            const locked = !t.free && !isIelts;
             const b = best(t.id);
             const n = count(t.id);
             return (

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { getPlanEntitlement, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, planTotalUzs, purchaseLink } from './plans';
+import { READING_TESTS, LISTENING_TESTS } from '@/features/ielts/registry';
+import { FREE_PRACTICE_TESTS, getPlanEntitlement, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, planTotalUzs, purchaseLink } from './plans';
 
 describe('unified subscription entitlements', () => {
   it('offers only Learn (go) and IELTS (plus) as paid plans', () => {
@@ -9,7 +10,8 @@ describe('unified subscription entitlements', () => {
   it('defines the exact Free allowances for personal usage', () => {
     expect(PLAN_ENTITLEMENTS.free).toMatchObject({
       name: 'Free', priceUsd: '0', priceUzs: '0',
-      personal: { writing: 3, speaking: 2, mockTests: 0 },
+      personal: { writing: 1, speaking: 1, mockTests: 0 },
+      practice: { reading: 3, listening: 3 },
     });
   });
 
@@ -24,13 +26,21 @@ describe('unified subscription entitlements', () => {
     expect(PLAN_ENTITLEMENTS.plus).toMatchObject({
       name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
       personal: { writing: 50, speaking: 30, mockTests: 3 },
+      practice: { reading: null, listening: null },
     });
+    expect(PLAN_ENTITLEMENTS.plus.features.join(' ')).toMatch(/Reading: CHEKSIZ.*Listening: CHEKSIZ/s);
   });
 
   it('never grants paid owner quotas to unknown or legacy client plan names', () => {
     expect(getPlanEntitlement('pro_legacy')).toBe(PLAN_ENTITLEMENTS.free);
     expect(getPlanEntitlement('pro')).toBe(PLAN_ENTITLEMENTS.free);
     expect(getPlanEntitlement(undefined)).toBe(PLAN_ENTITLEMENTS.free);
+  });
+
+  it('opens exactly the promised number of Reading and Listening tests for free', () => {
+    expect(READING_TESTS.filter((t) => t.free)).toHaveLength(FREE_PRACTICE_TESTS);
+    expect(LISTENING_TESTS.filter((t) => t.free)).toHaveLength(FREE_PRACTICE_TESTS);
+    expect(PLAN_ENTITLEMENTS.free.practice).toEqual({ reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS });
   });
 
   it('gives 10% off for 6 months paid in advance', () => {

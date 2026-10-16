@@ -75,8 +75,8 @@ export default function Practice() {
 
         <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={2} className="grid md:grid-cols-2 gap-4 mb-6" aria-label="Reading and Listening">
           {[
-            { to: '/reading', icon: BookOpen, title: 'IELTS Reading', text: '3 passages · 40 questions · 60 min. All question types, estimated band and answer review.' },
-            { to: '/listening', icon: Headphones, title: 'IELTS Listening', text: '4 sections · 40 questions with British voices. Exam mode (audio plays once) or practice.' },
+            { to: '/reading', icon: BookOpen, title: 'IELTS Reading', text: '3 passages · 40 questions · 60 min. All question types, estimated band and answer review. 5 tests: 1–3 free, unlimited with IELTS.' },
+            { to: '/listening', icon: Headphones, title: 'IELTS Listening', text: '4 sections · 40 questions with British voices. Exam mode (audio plays once) or practice. 5 tests: 1–3 free, unlimited with IELTS.' },
           ].map((i) => (
             <Link key={i.to} to={i.to} className="group glass-card-hover p-5 flex items-center gap-4">
               <span className="w-12 h-12 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><i.icon className="h-6 w-6" /></span>

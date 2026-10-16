@@ -19,7 +19,7 @@ export function LearnPaywall({ access, compact = false }: { access: LearningAcce
       </p>
       <ul className="space-y-2 mb-5 text-sm">
         {["Barcha ingliz tili darslari, bosqichma-bosqich", "Adaptiv o'rganish: so'z va grammatika takrori, xatolar daftari", "Bosqich testlari, XP va streak",
-          "Learn — 49 000 so'm/oy · IELTS — 129 000 so'm/oy (Writing va Speaking AI baholash bilan)"].map((t) => <li key={t} className="flex gap-2"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />{t}</li>)}
+          "Learn — 49 000 so'm/oy · IELTS — 129 000 so'm/oy (cheksiz Reading va Listening, Writing va Speaking AI baholash bilan)"].map((t) => <li key={t} className="flex gap-2"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />{t}</li>)}
       </ul>
       <Button variant="glow" size="lg" className="w-full" onClick={() => setOpen(true)}>Tarifni tanlash</Button>
       {!compact && <Link to="/learn" className="block text-center text-sm text-muted-foreground mt-3 hover:text-primary">Yo'l xaritasiga qaytish</Link>}

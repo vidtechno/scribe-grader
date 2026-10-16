@@ -53,7 +53,7 @@ function SectionPlayer({ src, exam, played, onStart }: { src: string; exam: bool
 
 export default function ListeningTestPage() {
   const { id = '' } = useParams<{ id: string }>();
-  const { isPremium } = useSubscription();
+  const { isIelts } = useSubscription();
   const navigate = useNavigate();
   const meta = LISTENING_TESTS.find((t) => t.id === id);
   const [test, setTest] = useState<ListeningTest | null | undefined>(undefined);
@@ -67,7 +67,7 @@ export default function ListeningTestPage() {
   const saved = useRef(false);
 
   useEffect(() => { let off = false; void loadListeningTest(id).then((t) => { if (!off) setTest(t); }); return () => { off = true; }; }, [id]);
-  const locked = !!meta && !meta.free && !isPremium;
+  const locked = !!meta && !meta.free && !isIelts;
   const starts = useMemo(() => {
     if (!test) return [];
     let n = 1;
@@ -134,7 +134,7 @@ export default function ListeningTestPage() {
             {locked ? (
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-4 text-sm">
                 <p className="flex items-center gap-2 font-semibold mb-1"><Lock className="h-4 w-4" />IELTS plan</p>
-                <p className="text-muted-foreground mb-3">Test 1 is free. The other tests are part of the IELTS plan.</p>
+                <p className="text-muted-foreground mb-3">Tests 1–3 are free. Tests 4–5 come with the IELTS plan: unlimited Listening practice, all tests, no limits.</p>
                 <Button variant="glow" onClick={() => setShowPricing(true)}>See plans</Button>
               </div>
             ) : (

@@ -5,7 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 vi.mock('@/integrations/supabase/client', () => ({ supabase: { rpc: vi.fn(async () => ({ error: null })) } }));
 vi.mock('@/hooks/useAuth', () => ({ useAuth: () => ({ user: { id: 'u1' } }) }));
 let premium = true;
-vi.mock('@/hooks/useSubscription', () => ({ useSubscription: () => ({ isPremium: premium }) }));
+vi.mock('@/hooks/useSubscription', () => ({ useSubscription: () => ({ isIelts: premium }) }));
 vi.mock('@/components/Navbar', () => ({ Navbar: () => null }));
 vi.mock('@/components/PricingModal', () => ({ PricingModal: ({ open }: { open: boolean }) => (open ? <div>pricing</div> : null) }));
 vi.mock('@/components/SEOHead', () => ({ SEOHead: () => null }));
@@ -39,11 +39,14 @@ describe('reading test page', () => {
     expect((saved[0] as { correct: number }).correct).toBe(1);
   });
 
-  it('locks paid tests for free users', async () => {
+  it('keeps tests 4 and 5 for the IELTS plan, and opens tests 1 to 3 for everyone', async () => {
     premium = false;
-    open('/reading/r2', <ReadingTestPage />, '/reading/:id');
-    expect(await screen.findByText(/Test 1 is free/)).toBeTruthy();
+    open('/reading/r4', <ReadingTestPage />, '/reading/:id');
+    expect(await screen.findByText(/Tests 1–3 are free/)).toBeTruthy();
     expect(screen.queryByText(/Full test/)).toBeNull();
+    cleanup();
+    open('/reading/r3', <ReadingTestPage />, '/reading/:id');
+    expect(await screen.findByText(/Full test/)).toBeTruthy();
   });
 });
 

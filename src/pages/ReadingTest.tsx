@@ -24,7 +24,7 @@ const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${St
 export default function ReadingTestPage() {
   const { id = '' } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const { isPremium } = useSubscription();
+  const { isIelts } = useSubscription();
   const navigate = useNavigate();
   const meta = READING_TESTS.find((t) => t.id === id);
   const [test, setTest] = useState<ReadingTest | null | undefined>(undefined);
@@ -44,7 +44,7 @@ export default function ReadingTestPage() {
 
   useEffect(() => { let off = false; void loadReadingTest(id).then((t) => { if (!off) setTest(t); }); return () => { off = true; }; }, [id]);
 
-  const locked = !!meta && !meta.free && !isPremium;
+  const locked = !!meta && !meta.free && !isIelts;
   // Question numbers run across the whole test, so each passage starts after the previous one.
   const starts = useMemo(() => {
     if (!test) return [];
@@ -131,7 +131,7 @@ export default function ReadingTestPage() {
             {locked ? (
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-4 text-sm">
                 <p className="flex items-center gap-2 font-semibold mb-1"><Lock className="h-4 w-4" />IELTS plan</p>
-                <p className="text-muted-foreground mb-3">Test 1 is free. The other tests are part of the IELTS plan.</p>
+                <p className="text-muted-foreground mb-3">Tests 1–3 are free. Tests 4–5 come with the IELTS plan: unlimited Reading practice, all tests, no limits.</p>
                 <Button variant="glow" onClick={() => setShowPricing(true)}>See plans</Button>
               </div>
             ) : (
