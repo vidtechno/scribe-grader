@@ -66,9 +66,9 @@ const lesson: Lesson = {
   words: [
     { en: 'nostalgic', uz: 'o\'tmishni sog\'ingan', ipa: 'nɒˈstæl.dʒɪk', pos: 'adj', ex: 'Looking at old photos makes me feel nostalgic.', exUz: 'Eski suratlarga qarash meni o\'tmishni sog\'intiradi.' },
     { en: 'treasure', uz: 'qadrlamoq, aziz ko\'rmoq', ipa: 'ˈtreʒ.ər', pos: 'verb', ex: 'I will always treasure the time we spent together.', exUz: 'Birga o\'tkazgan vaqtimizni doim aziz ko\'raman.' },
-    { en: 'reflect', uz: 'o\'ylab ko\'rmoq, mulohaza qilmoq', ipa: 'rɪˈflekt', pos: 'verb', ex: 'It is good to reflect on what you have learned this year.', exUz: 'Bu yil nimalarni o\'rganganingiz haqida o\'ylab ko\'rish yaxshi.' },
+    { en: 'carry on', uz: 'davom etmoq', ipa: 'ˈkær.i ɒn', pos: 'phrasal verb', ex: 'Whatever happens, I\'ll carry on learning English.', exUz: 'Nima bo\'lsa ham, ingliz tilini o\'rganishda davom etaman.' },
     { en: 'look back', uz: "o'tmishga nazar tashlamoq", ipa: 'lʊk bæk', pos: 'phrasal verb', ex: "When I look back, I feel proud.", exUz: "O'tmishga qarasam, faxrlanaman." },
-    { en: 'mature', uz: 'pishgan, ulg\'aygan; kamolga yetmoq', ipa: 'məˈtʃʊər', pos: 'adj', ex: 'She has become much more mature since she moved abroad.', exUz: 'U chet elga ko\'chganidan beri ancha ulg\'ayib, pishib qoldi.' },
+    { en: 'move on', uz: 'oldinga yurmoq, o\'tmishni ortda qoldirmoq', ipa: 'muːv ɒn', pos: 'phrasal verb', ex: 'It is time to move on and start a new chapter.', exUz: 'Oldinga yurib, yangi sahifa boshlash vaqti keldi.' },
   ],
   practice: [
     { k: 'match', pairs: [['experience', 'tajriba'], ['memory', 'xotira'], ['settle down', 'joylashib olmoq'], ['look back', "o'tmishga nazar tashlamoq"], ['adapt', 'moslashmoq']] },

@@ -52,7 +52,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'ever since', uz: 'o\'shandan beri', ipa: 'ˌev.ə ˈsɪns', pos: 'phrase', ex: 'I\'ve lived in London ever since I left university.', exUz: 'Universitetni tugatganimdan beri Londonda yashayman.' },
+    { en: 'work part-time', uz: 'yarim kunlik ishlamoq', ipa: 'wɜːk ˌpɑːtˈtaɪm', pos: 'phrase', ex: 'I\'ve worked part-time for a year.', exUz: 'Men bir yildan beri yarim kunlik ishlayman.' },
     { en: 'not any more', uz: 'endi emas', ipa: 'nɒt ˈen.i mɔːr', pos: 'phrase', ex: 'I haven\'t played football for years, so I don\'t play any more.', exUz: 'Men yillardan beri futbol o\'ynamaganman, endi o\'ynamayman.' },
     { en: 'these days', uz: 'hozirgi kunlarda', ipa: 'ðiːz deɪz', pos: 'phrase', ex: "These days, most people shop online.", exUz: "Hozirgi kunlarda ko'pchilik internetdan xarid qiladi." },
     { en: 'all my life', uz: "butun umr bo'yi", ipa: 'ɔːl maɪ laɪf', pos: 'phrase', ex: "I've lived in this street all my life.", exUz: "Men butun umrim shu ko'chada yashaganman." },

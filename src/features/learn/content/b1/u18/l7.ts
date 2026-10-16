@@ -92,7 +92,7 @@ const lesson: Lesson = {
     { en: "biography", uz: "tarjimai hol", ipa: "baɪˈɒɡ.rə.fi", pos: "noun", ex: "I read a short biography of a famous scientist.", exUz: "Mashhur olim haqida qisqa tarjimai holni o'qidim." },
     { en: "early life", uz: "hayotining dastlabki yillari", ipa: "ˈɜː.li laɪf", pos: "noun", ex: "Her early life was spent in a small mountain village.", exUz: "Uning hayotining dastlabki yillari kichik tog' qishlog'ida o'tgan." },
     { en: "reputation", uz: "obro', nom", ipa: "ˌrep.jəˈteɪ.ʃən", pos: "noun", ex: "He built a good reputation as a teacher.", exUz: "U o'qituvchi sifatida yaxshi nom qozondi." },
-    { en: "pursue", uz: "intilmoq, ergashmoq (maqsad)", ipa: "pəˈsjuː", pos: "verb", ex: "She decided to pursue her dream of becoming a singer.", exUz: "U xonanda bo'lish orzusiga intilishga qaror qildi." },
+    { en: "dedicated", uz: "fidoyi, o'zini bag'ishlagan", ipa: "ˈded.ɪ.keɪ.tɪd", pos: "adj", ex: "He was a dedicated doctor who worked day and night.", exUz: "U kechayu kunduz ishlaydigan fidoyi shifokor edi." },
     { en: "inspire", uz: "ilhomlantirmoq", ipa: "ɪnˈspaɪər", pos: "verb", ex: "Her story inspired many young people.", exUz: "Uning hikoyasi ko'plab yoshlarni ilhomlantirdi." },
     { en: "eventually", uz: "oxir-oqibat", ipa: "ɪˈven.tʃu.ə.li", pos: "adv", ex: "Eventually, she became the manager of the company.", exUz: "Oxir-oqibat u kompaniya rahbari bo'ldi." },
     { en: "afterwards", uz: "keyin, undan so'ng", ipa: "ˈɑːf.tə.wədz", pos: "adv", ex: "He studied law and worked as a lawyer afterwards.", exUz: "U huquqshunoslik o'qidi va keyin yurist bo'lib ishladi." },

@@ -111,7 +111,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "explain", uz: "tushuntirmoq", ipa: "ɪkˈspleɪn", pos: "verb", ex: "The teacher explained that the lesson would start late.", exUz: "O'qituvchi dars kech boshlanishini tushuntirdi." },
-    { en: "point out", uz: "ta'kidlab ko'rsatmoq", ipa: "pɔɪnt aʊt", pos: "phrasal verb", ex: "He pointed out that the shop was closed on Sundays.", exUz: "U do'kon yakshanba kuni yopiq bo'lishini ta'kidlab ko'rsatdi." },
+    { en: "remark", uz: "fikr bildirmoq, izoh bermoq", ipa: "rɪˈmɑːk", pos: "verb", ex: "She remarked that the weather was getting colder.", exUz: "U ob-havo sovib borayotganini aytib o'tdi." },
     { en: "complain", uz: "shikoyat qilmoq", ipa: "kəmˈpleɪn", pos: "verb", ex: "She complained that the room was too noisy.", exUz: "U xona juda shovqinli ekanidan shikoyat qildi." },
     { en: "boast", uz: "maqtanmoq", ipa: "bəʊst", pos: "verb", ex: "He boasted that he had won every game.", exUz: "U har bir o'yinda g'olib chiqqanini maqtanib aytdi." },
     { en: "insist", uz: "turib olmoq", ipa: "ɪnˈsɪst", pos: "verb", ex: "She insisted that she was right.", exUz: "U o'zi haq ekanini turib aytdi." },

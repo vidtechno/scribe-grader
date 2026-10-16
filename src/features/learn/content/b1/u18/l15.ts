@@ -52,7 +52,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'get in touch', uz: 'bog\'lanmoq, aloqaga chiqmoq', ipa: 'ɡet ɪn tʌtʃ', pos: 'phrase', ex: 'Please get in touch when you arrive in London.', exUz: 'Londonga yetib kelganingizda, iltimos, bog\'laning.' },
+    { en: 'grow apart', uz: 'uzoqlashib qolmoq', ipa: 'ɡrəʊ əˈpɑːt', pos: 'phrasal verb', ex: 'We grew apart after I moved to another city.', exUz: 'Men boshqa shaharga ko\'chganimdan keyin biz bir-birimizdan uzoqlashib qoldik.' },
     { en: 'all the best', uz: 'hammasi yaxshi bo\'lsin (xat oxirida)', ipa: 'ɔːl ðə best', pos: 'phrase', ex: 'All the best with your new job!', exUz: 'Yangi ishingizda omad tilayman!' },
     { en: 'give my love to', uz: 'salom aytmoq (yaqin odamga)', ipa: 'ɡɪv maɪ lʌv tuː', pos: 'phrase', ex: 'Give my love to your family.', exUz: 'Oilangizga mening salomimni ayting.' },
     { en: 'last time', uz: 'oxirgi marta', ipa: 'lɑːst taɪm', pos: 'phrase', ex: 'The last time I saw you was at Sara\'s wedding.', exUz: 'Sizni oxirgi marta Saraning to\'yida ko\'rgandim.' },

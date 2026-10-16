@@ -58,10 +58,10 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'run out of', uz: 'tugab qolmoq', ipa: 'rʌn aʊt ɒv', pos: 'phrase', ex: 'We\'ve just run out of milk, so I\'m going to the shop.', exUz: 'Sutimiz hozirgina tugab qoldi, shuning uchun do\'konga ketyapman.' },
-    { en: 'turn up', uz: 'kelib qolmoq, paydo bo\'lmoq', ipa: 'tɜːn ʌp', pos: 'phrasal verb', ex: 'Has Tom turned up yet? The meeting started ten minutes ago.', exUz: 'Tom hali kelmadimi? Yig\'ilish o\'n daqiqa oldin boshlandi.' },
-    { en: 'get over', uz: 'tuzalmoq, o\'zini tutib olmoq', ipa: 'ɡet ˈəʊ.vər', pos: 'phrasal verb', ex: 'I haven\'t got over my cold yet.', exUz: 'Men shamollashdan hali tuzalganim yo\'q.' },
-    { en: 'register', uz: 'ro\'yxatdan o\'tmoq', ipa: 'ˈredʒ.ɪ.stər', pos: 'verb', ex: 'Have you registered for the course yet?', exUz: 'Kursga ro\'yxatdan o\'tdingizmi?' },
+    { en: 'look around', uz: 'aylanib ko\'rmoq', ipa: 'lʊk əˈraʊnd', pos: 'phrasal verb', ex: 'We\'ve just looked around the new flat.', exUz: 'Biz hozirgina yangi kvartirani aylanib ko\'rdik.' },
+    { en: 'get back', uz: 'qaytib kelmoq', ipa: 'ɡet bæk', pos: 'phrasal verb', ex: 'Tom has just got back from Paris.', exUz: 'Tom hozirgina Parijdan qaytib keldi.' },
+    { en: 'save up', uz: 'jamg\'arib bormoq', ipa: 'seɪv ʌp', pos: 'phrasal verb', ex: 'I\'ve just saved up enough money for a laptop.', exUz: 'Men noutbuk uchun yetarli pulni hozirgina jamg\'ardim.' },
+    { en: 'take over', uz: 'o\'z zimmasiga olmoq', ipa: 'teɪk ˈəʊ.vər', pos: 'phrasal verb', ex: 'Has Helen taken over the project yet?', exUz: 'Helen loyihani hali o\'z zimmasiga oldimi?' },
     { en: 'work on', uz: 'ustida ishlamoq', ipa: 'wɜːk ɒn', pos: 'phrasal verb', ex: 'She has already worked on the report this morning.', exUz: 'U bugun ertalab hisobot ustida allaqachon ishladi.' },
   ],
   practice: [

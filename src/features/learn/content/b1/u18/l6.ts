@@ -99,7 +99,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "unfamiliar", uz: "notanish", ipa: "ˌʌn.fəˈmɪl.i.ər", pos: "adj", ex: "At first, the city felt unfamiliar to me.", exUz: "Dastlab shahar menga notanish tuyuldi." },
-    { en: "homesick", uz: "uyni sog'ingan", ipa: "ˈhəʊm.sɪk", pos: "adj", ex: "I felt homesick during my first month abroad.", exUz: "Chet elda birinchi oyimda uyni sog'inib yurdim." },
+    { en: "lie in", uz: "uzoqroq uxlamoq", ipa: "laɪ ɪn", pos: "phrasal verb", ex: "I used to lie in on Sundays.", exUz: "Men yakshanba kunlari uzoqroq uxlardim." },
     { en: "lifestyle", uz: "hayot tarzi", ipa: "ˈlaɪf.staɪl", pos: "noun", ex: "A healthy lifestyle starts with good food.", exUz: "Sog'lom hayot tarzi yaxshi ovqatdan boshlanadi." },
     { en: "adapt", uz: "moslashmoq", ipa: "əˈdæpt", pos: "verb", ex: "Children adapt to new schools quickly.", exUz: "Bolalar yangi maktabga tez moslashadi." },
     { en: "adjust", uz: "moslashmoq", ipa: "əˈdʒʌst", pos: "verb", ex: "It took me a few weeks to adjust to the new time zone.", exUz: "Yangi vaqt mintaqasiga moslashishim uchun bir necha hafta kerak bo'ldi." },
@@ -107,7 +107,7 @@ const lesson: Lesson = {
     { en: "nowadays", uz: "hozirgi kunlarda", ipa: "ˈnaʊ.ə.deɪz", pos: "adv", ex: "Nowadays most people shop online.", exUz: "Hozirgi kunlarda ko'pchilik onlayn xarid qiladi." },
     { en: "settle in", uz: "joylashib olmoq, o'rganib qolmoq", ipa: "ˈset.əl ɪn", pos: "phrasal verb", ex: "She has settled in well at her new school.", exUz: "U yangi maktabida yaxshi o'rganib oldi." },
     { en: "culture shock", uz: "madaniy shok", ipa: "ˈkʌl.tʃə ʃɒk", pos: "noun", ex: "Many students feel culture shock when they move abroad.", exUz: "Ko'p talabalar chet elga ko'chib borganda madaniy shokni his qilishadi." },
-    { en: "cope with", uz: "uddalamoq, bardosh bermoq", ipa: "kəʊp wɪð", pos: "phrasal verb", ex: "I'm still learning to cope with the cold weather here.", exUz: "Men bu yerdagi sovuq ob-havoga bardosh berishni hali o'rganyapman." },
+    { en: "grow out of", uz: "katta bo'lib, tashlab ketmoq", ipa: "ɡrəʊ aʊt ɒv", pos: "phrasal verb", ex: "I used to bite my nails, but I grew out of it.", exUz: "Men tirnoqlarimni tishlardim, lekin katta bo'lgach bu odat ketdi." },
   ],
   practice: [
     { k: "choice", q: "When I was a child, I ___ play outside all day.", opts: ["used to", "am used to", "get used to", "was used to"], a: 0, why: "Ilgarigi odat → **used to** + fe'l." },

@@ -124,13 +124,13 @@ const lesson: Lesson = {
   words: [
     { en: "bring back", uz: "esga solmoq, qaytarmoq", ipa: "brɪŋ bæk", pos: "phrasal verb", ex: "That song always brings back happy memories.", exUz: "Bu qo'shiq har doim quvonchli xotiralarni esga soladi." },
     { en: "come across", uz: "tasodifan topib olmoq", ipa: "kʌm əˈkrɒs", pos: "phrasal verb", ex: "I came across some old photos while I was cleaning.", exUz: "Tozalayotib, tasodifan eski suratlarni topib oldim." },
-    { en: "figure out", uz: "tushunib yetmoq, topmoq", ipa: "ˈfɪɡ.ər aʊt", pos: "phrasal verb", ex: "I haven't figured out how this app works yet.", exUz: "Men bu ilova qanday ishlashini hali tushunib yetganim yo'q." },
+    { en: "look through", uz: "ko'zdan kechirmoq, varaqlamoq", ipa: "lʊk θruː", pos: "phrasal verb", ex: "I looked through my old diaries last night.", exUz: "Kecha kechqurun eski kundaliklarimni varaqladim." },
     { en: "occur", uz: "sodir bo'lmoq", ipa: "əˈkɜːr", pos: "verb", ex: "The accident occurred last night, and the road has been closed since.", exUz: "Voqea kecha kechqurun sodir bo'ldi va yo'l o'shandan beri yopiq." },
     { en: "forgetful", uz: "esi past, unutuvchan", ipa: "fəˈɡet.fəl", pos: "adj", ex: "My grandfather has become forgetful in recent years.", exUz: "Bobom so'nggi yillarda unutuvchan bo'lib qoldi." },
     { en: "keep in mind", uz: "yodda tutmoq", ipa: "kiːp ɪn maɪnd", pos: "phrase", ex: "Keep in mind that I've already told you about this twice.", exUz: "Shuni yodda tuting, men bu haqda sizga allaqachon ikki marta aytganman." },
     { en: "gradually", uz: "asta-sekin", ipa: "ˈɡrædʒ.u.ə.li", pos: "adv", ex: "My English has gradually improved.", exUz: "Inglizchamni asta-sekin yaxshilandi." },
     { en: "recent", uz: "yaqindagi, so'nggi", ipa: "ˈriː.sənt", pos: "adj", ex: "Have you seen any recent films?", exUz: "Yaqinda biror film ko'rdingizmi?" },
-    { en: "in the meantime", uz: "shu orada", ipa: "ɪn ðə ˈmiːnˌtaɪm", pos: "phrase", ex: "I phoned the hotel, and in the meantime she has booked a taxi.", exUz: "Men mehmonxonaga qo'ng'iroq qildim, shu orada u taksi buyurtma qildi." },
+    { en: "take place", uz: "bo'lib o'tmoq", ipa: "teɪk pleɪs", pos: "phrase", ex: "The wedding took place in June.", exUz: "To'y iyun oyida bo'lib o'tdi." },
     { en: "mention", uz: "tilga olmoq, eslatib o'tmoq", ipa: "ˈmen.ʃən", pos: "verb", ex: "She didn't mention her new job.", exUz: "U yangi ishi haqida gapirmadi." },
   ],
   practice: [

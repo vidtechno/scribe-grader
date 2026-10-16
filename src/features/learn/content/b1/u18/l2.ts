@@ -144,7 +144,7 @@ const lesson: Lesson = {
     { en: "get along", uz: "chiqishmoq, til topishmoq", ipa: "ɡet əˈlɒŋ", pos: "phrasal verb", ex: "We have got along well since the first day we met.", exUz: "Biz tanishgan birinchi kundan beri bir-birimiz bilan yaxshi chiqishamiz." },
     { en: "supportive", uz: "qo'llab-quvvatlovchi", ipa: "səˈpɔː.tɪv", pos: "adj", ex: "My friends have been very supportive for years.", exUz: "Do'stlarim yillar davomida meni juda qo'llab-quvvatlab kelishdi." },
     { en: "community", uz: "jamoa, mahalla (jamiyat)", ipa: "kəˈmjuː.nə.ti", pos: "noun", ex: "The local community has raised money for a new park.", exUz: "Mahalliy jamoa yangi bog' uchun pul yig'di." },
-    { en: "loyal", uz: "sodiq", ipa: "ˈlɔɪ.əl", pos: "adj", ex: "He has been a loyal friend to me since school.", exUz: "U maktabdan beri menga sodiq do'st bo'lib kelyapti." },
+    { en: "take after", uz: "o'xshamoq (oila a'zosiga)", ipa: "teɪk ˈɑːf.tər", pos: "phrasal verb", ex: "She takes after her mother in many ways.", exUz: "U ko'p jihatdan onasiga o'xshaydi." },
     { en: "collect", uz: "yig'moq, to'plamoq", ipa: "kəˈlekt", pos: "verb", ex: "He has collected stamps since he was ten.", exUz: "U o'n yoshidan beri markalar yig'adi." },
     { en: "get to know", uz: "tanishib bormoq, yaxshi bilib olmoq", ipa: "ɡet tə nəʊ", pos: "phrase", ex: "I have got to know my colleagues better since January.", exUz: "Men yanvardan beri hamkasblarimni yaxshiroq bilib oldim." },
     { en: "stay in touch", uz: "aloqada bo'lmoq", ipa: "steɪ ɪn tʌtʃ", pos: "phrase", ex: "We have stayed in touch for many years.", exUz: "Biz ko'p yillardan beri aloqada bo'lamiz." },

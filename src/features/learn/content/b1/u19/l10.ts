@@ -74,7 +74,7 @@ const lesson: Lesson = {
   words: [
     { en: 'defective', uz: "nuqsonli, yaroqsiz", ipa: 'dɪˈfek.tɪv', pos: 'adj', ex: "The kettle was defective, so I took it back.", exUz: "Choynak nuqsonli edi, shuning uchun uni qaytarib olib bordim." },
     { en: 'compensation', uz: "tovon, kompensatsiya", ipa: 'ˌkɒm.penˈseɪ.ʃən', pos: 'noun', ex: "They offered us compensation for the delay.", exUz: "Ular kechikish uchun bizga tovon taklif qilishdi." },
-    { en: 'warranty', uz: "kafolat (mahsulotga)", ipa: 'ˈwɒr.ən.ti', pos: 'noun', ex: "The laptop is still under warranty.", exUz: "Noutbuk hali kafolat ostida." },
+    { en: 'let down', uz: "umidini oqlamaslik, xafa qilmoq", ipa: 'let daʊn', pos: 'phrasal verb', ex: "The company let me down by sending the wrong item.", exUz: "Kompaniya noto'g'ri mahsulot yuborib, umidimni oqlamadi." },
     { en: 'replacement', uz: "almashtirish; almashtirish uchun narsa", ipa: 'rɪˈpleɪs.mənt', pos: 'noun', ex: 'They sent me a replacement.', exUz: "Ular menga almashtirib yuborishdi." },
     { en: 'unacceptable', uz: "qabul qilib bo'lmaydigan", ipa: 'ˌʌn.əkˈsep.tə.bəl', pos: 'adj', ex: 'Waiting two hours is unacceptable.', exUz: "Ikki soat kutish qabul qilib bo'lmaydi." },
   ],

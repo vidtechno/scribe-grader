@@ -60,7 +60,7 @@ const lesson: Lesson = {
   words: [
     { en: 'obstacle', uz: 'to\'siq', ipa: 'ˈɒb.stə.kl̩', pos: 'noun', ex: 'She overcame many obstacles to become a doctor.', exUz: 'U shifokor bo\'lish yo\'lida ko\'p to\'siqlarni yengib o\'tdi.' },
     { en: 'achievement', uz: 'yutuq', ipa: 'əˈtʃiːv.mənt', pos: 'noun', ex: "Finishing the marathon was a big achievement.", exUz: "Marafonni tugatish katta yutuq edi." },
-    { en: 'struggle', uz: 'kurash, qiyinchilik', ipa: 'ˈstrʌɡ.l̩', pos: 'noun', ex: 'His struggle with the language lasted two years.', exUz: 'Uning tilni o\'rganishdagi qiyinchiligi ikki yil davom etdi.' },
+    { en: 'defeat', uz: 'mag\'lubiyat', ipa: 'dɪˈfiːt', pos: 'noun', ex: 'The team learned a lot from its first defeat.', exUz: 'Jamoa birinchi mag\'lubiyatidan ko\'p narsa o\'rgandi.' },
     { en: 'hire', uz: 'ishga olmoq', ipa: 'ˈhaɪ.ə', pos: 'verb', ex: "The company has hired three new engineers.", exUz: "Kompaniya uchta yangi muhandisni ishga oldi." },
     { en: 'again and again', uz: 'qayta-qayta', ipa: 'əˈɡen ənd əˈɡen', pos: 'phrase', ex: "I've told him again and again.", exUz: "Men unga qayta-qayta aytganman." },
   ],

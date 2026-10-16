@@ -62,11 +62,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'confess', uz: "tan olmoq, bo'yniga olmoq", ipa: 'kənˈfes', pos: 'verb', ex: "He confessed that he had broken the window.", exUz: "U derazani sindirganini bo'yniga oldi." },
+    { en: 'exclaim', uz: "xitob qilib aytmoq", ipa: 'ɪkˈskleɪm', pos: 'verb', ex: "She exclaimed that it was the best day of her life.", exUz: "U bu hayotidagi eng yaxshi kun ekanini xitob qilib aytdi." },
     { en: 'reveal', uz: "oshkor qilmoq", ipa: 'rɪˈviːl', pos: 'verb', ex: "She revealed that she was moving abroad.", exUz: "U chet elga ko'chib ketayotganini oshkor qildi." },
     { en: 'murmur', uz: "pichirlab aytmoq, g'o'ldiramoq", ipa: 'ˈmɜː.mər', pos: 'verb', ex: "He murmured that he was tired and went to bed.", exUz: "U charchaganini pichirlab aytdi va yotgani ketdi." },
     { en: 'recount', uz: "hikoya qilib bermoq", ipa: 'rɪˈkaʊnt', pos: 'verb', ex: "She recounted what had happened that night.", exUz: "U o'sha kechasi nima bo'lganini hikoya qilib berdi." },
-    { en: 'overlook', uz: "e'tibordan chetda qoldirmoq", ipa: 'ˌəʊ.vəˈlʊk', pos: 'verb', ex: "I had overlooked a small mistake in my report.", exUz: "Hisobotimdagi kichik xatoni e'tibordan chetda qoldirgan edim." },
+    { en: 'congratulate', uz: "tabriklamoq", ipa: 'kənˈɡrætʃ.ə.leɪt', pos: 'verb', ex: "He congratulated me on passing the exam.", exUz: "U meni imtihondan o'tganim bilan tabrikladi." },
   ],
   practice: [
     { k: 'match', pairs: [['notice', 'payqamoq'], ['reply', 'javob bermoq'], ['mention', 'tilga olmoq'], ['explain', 'tushuntirmoq'], ['apologise', "uzr so'ramoq"]] },

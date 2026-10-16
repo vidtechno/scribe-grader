@@ -114,7 +114,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "overcome", uz: "yengib o'tmoq", ipa: "ˌəʊ.vəˈkʌm", pos: "verb", ex: "He has overcome many difficulties in his life.", exUz: "U hayotida ko'p qiyinchiliklarni yengib o'tdi." },
+    { en: "lesson", uz: "saboq, dars", ipa: "ˈles.ən", pos: "noun", ex: "Every mistake has taught me a useful lesson.", exUz: "Har bir xato menga foydali saboq berdi." },
     { en: "opportunity", uz: "imkoniyat", ipa: "ˌɒp.əˈtʃuː.nə.ti", pos: "noun", ex: "Living abroad gave me many opportunities.", exUz: "Chet elda yashash menga ko'p imkoniyat berdi." },
     { en: "priority", uz: "ustuvor vazifa", ipa: "praɪˈɒr.ə.ti", pos: "noun", ex: "My family has always been my first priority.", exUz: "Oilam men uchun doimo birinchi o'rinda turgan." },
     { en: "sacrifice", uz: "qurbon qilmoq, fidokorlik", ipa: "ˈsæk.rɪ.faɪs", pos: "verb", ex: "She has sacrificed a lot to give her children a good education.", exUz: "U bolalariga yaxshi ta'lim berish uchun ko'p narsadan voz kechdi." },
