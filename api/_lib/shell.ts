@@ -34,12 +34,21 @@ const NAV_UZ = [
 
 const FOOTER_UZ = `<div class="cols">
 <div><h4>Scorify.uz</h4><p>Ingliz tilini noldan o'rganish: o'zbekcha tushuntirishli darslar, talaffuz, mashqlar va testlar. IELTS Writing va Speaking baholash ham bor.</p><a class="btn" href="/auth" style="display:inline-flex">Boshlash</a></div>
-<div><h4>Kurs</h4><a href="/ingliz-tili-darslari">Barcha darslar</a><a href="/ingliz-tili-darslari/beginner">Beginner (noldan)</a><a href="/ingliz-tili-darslari/elementary">Elementary (A1)</a><a href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a><a href="/ingliz-tili-qoidalari">Ingliz tili qoidalari</a><a href="/inglizcha-sozlar">Inglizcha so'zlar</a><a href="/learn-english-from-uzbek">Learn English (EN)</a></div>
+<div><h4>Kurs</h4><a href="/ingliz-tili-darslari">Barcha darslar</a><a href="/ingliz-tili-darslari/beginner">Beginner (noldan)</a><a href="/ingliz-tili-darslari/elementary">Elementary (A1)</a><a href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a><a href="/ingliz-tili-darslari/intermediate">Intermediate (B1)</a><a href="/ingliz-tili-qoidalari">Ingliz tili qoidalari</a><a href="/inglizcha-sozlar">Inglizcha so'zlar</a><a href="/learn-english-from-uzbek">Learn English (EN)</a></div>
 <div><h4>IELTS</h4><a href="/ielts-writing-task-2-questions">Writing Task 2</a><a href="/ielts-speaking-part-2">Speaking Part 2</a><a href="/ielts-vocabulary">Vocabulary</a><a href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
 <div><h4>Resurslar</h4><a href="/blog">Blog va qo'llanmalar</a><a href="/blog/rss.xml">RSS</a></div>
 </div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS tegishli egalarining ro'yxatdan o'tgan savdo belgisi; Scorify.uz u bilan bog'liq emas.</p>`;
 
+const BRAND_SUFFIX = ' | Scorify.uz';
+/** Keeps a title inside the ~60 characters search results show: the brand suffix is dropped when it would not fit. */
+export function fitTitle(title: string): string {
+  if (!title.endsWith(BRAND_SUFFIX)) return title;
+  const core = title.slice(0, -BRAND_SUFFIX.length);
+  return core.length + BRAND_SUFFIX.length <= 62 ? title : core;
+}
+
 export function page(o: PageOptions): string {
+  o = { ...o, title: fitTitle(o.title) };
   const uz = o.lang === 'uz';
   const url = `${SITE}${o.path}`;
   const og = o.ogImage || `${SITE}/og-image.png`;
@@ -52,7 +61,7 @@ export function page(o: PageOptions): string {
 <link rel="canonical" href="${esc(url)}">
 ${(o.alternates || []).map(a => `<link rel="alternate" hreflang="${esc(a.lang)}" href="${esc(SITE + a.path)}">`).join('\n')}
 <link rel="alternate" type="application/rss+xml" title="Scorify IELTS Blog" href="/blog/rss.xml">
-<link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" href="/logo-48.png?v=3" type="image/png" sizes="48x48"><link rel="icon" href="/logo-192.png?v=3" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/logo-180.png?v=3">
+<link rel="icon" href="/favicon-96.png?v=4" type="image/png" sizes="96x96"><link rel="icon" href="/favicon.ico?v=4" sizes="any"><link rel="icon" href="/logo-192.png?v=4" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/logo-180.png?v=4">
 <meta property="og:site_name" content="Scorify.uz"><meta property="og:type" content="${esc(o.ogType || 'website')}">
 <meta property="og:title" content="${esc(o.title)}"><meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${esc(url)}"><meta property="og:image" content="${esc(og)}">
