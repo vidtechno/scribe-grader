@@ -19,7 +19,7 @@ const lesson: Lesson = {
         { t: "compare",
           good: { title: "To'g'ri", items: ["She asked me where I lived.", "He asked what time it was.", "They asked why we were late."] },
           bad: { title: "Xato", items: ["She asked me where did I live.", "He asked what time was it.", "They asked why were we late."] } },
-        { t: "tip", tone: "warn", md: "Eng ko'p xato: so'roq tartibini saqlab qolish (*where did I live*). O'zbekchada savol tartibi o'zgarmaydi, inglizchada esa ko'chirma savolda **ega fe'ldan oldin** keladi: *where I lived*." },
+        { t: "tip", tone: "warn", md: "Eng ko'p xato: oddiy savoldagi so'roq tartibini saqlab qolish (*where did I live*). Ko'chirma savolda esa **ega fe'ldan oldin** keladi va do / did ishlatilmaydi: *where I lived*." },
         { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["He asked me where did I work.", "He asked me where I worked.", "He asked me where do I work.", "He asked me where I do work."], a: 1, why: "Ko'chirma savolda do / did yo'q: **where I worked**." } },
       ],
     },
@@ -61,7 +61,7 @@ const lesson: Lesson = {
     {
       title: "Hammasini birga ko'rib chiqamiz",
       blocks: [
-        { t: "p", md: "Bir suhbatni uch xil usulda yetkazish mumkin. Mana misol:" },
+        { t: "p", md: "Bir intervyuni turli gaplar bilan yetkazish mumkin. Mana misollar:" },
         { t: "examples", items: [
           { en: "The interviewer asked me why I wanted the job.", uz: "Intervyu oluvchi mendan nega bu ishni xohlayotganimni so'radi.", note: "Wh- savol, so'roq tartibi yo'q." },
           { en: "She asked if I had any experience.", uz: "U menda tajriba bormi, deb so'radi.", note: "Yes / No savol: if + had." },
@@ -79,7 +79,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "The job interview",
           en: "Yesterday Sardor had an interview at a travel company. The manager asked him where he had studied and why he wanted the job. He also asked if Sardor could work at weekends. Sardor replied that he could, and he asked how many people worked in the team. At the end, the manager told him to wait outside for a few minutes. Then she asked him to come back and told him not to worry about the salary, because it was a good one. She said that they would call him the next week. Sardor left the building with a big smile on his face.",
-          uz: "Kecha Sardorning sayohat kompaniyasida intervyusi bor edi. Menejer undan qayerda o'qiganini va nega bu ishni xohlayotganini so'radi. U yana Sardor dam olish kunlari ishlay oladimi, deb ham so'radi. Sardor ishlay olishini javob berdi va jamoada necha kishi ishlashini so'radi. Oxirida menejer unga bir necha daqiqa tashqarida kutib turishni aytdi. Keyin uni qaytib kirishni so'radi va maosh haqida xavotir olmaslikni aytdi, chunki u yaxshi maosh edi. U kelasi hafta ularga qo'ng'iroq qilishlarini aytdi. Sardor yuzida katta tabassum bilan binodan chiqdi.",
+          uz: "Kecha Sardorning sayohat kompaniyasida intervyusi bor edi. Menejer undan qayerda o'qiganini va nega bu ishni xohlayotganini so'radi. U yana Sardor dam olish kunlari ishlay oladimi, deb ham so'radi. Sardor ishlay olishini javob berdi va jamoada necha kishi ishlashini so'radi. Oxirida menejer unga bir necha daqiqa tashqarida kutib turishni aytdi. Keyin uni qaytib kirishga chaqirdi va maosh haqida xavotir olmaslikni aytdi, chunki u yaxshi maosh edi. U kelasi hafta ularga qo'ng'iroq qilishlarini aytdi. Sardor yuzida katta tabassum bilan binodan chiqdi.",
         },
         { t: "check", ex: { k: "choice", q: "What did the manager ask Sardor about weekends?", opts: ["If he could work at weekends.", "Where he spent weekends.", "Why he liked weekends.", "When he had his weekend."], a: 0, why: "Matnda: *asked if Sardor could work at weekends.*" } },
         { t: "check", ex: { k: "tf", q: "The manager told Sardor to go home at once.", a: false, why: "U Sardorga **tashqarida kutib turishni** aytdi (*to wait outside*)." } },
@@ -142,7 +142,7 @@ const lesson: Lesson = {
     { k: "fill", q: "She asked the waiter ___ bring the bill.", hint: "to", a: ["to"], why: "**asked + kishi + to + V1**." },
     { k: "listen", say: "The teacher asked us to open our books.", opts: ["The teacher asked us to open our books.", "The teacher asked us we open our books.", "The teacher asked us opened our books.", "The teacher asked that we open our books."], a: 0, why: "**asked us to open**." },
     { k: "tf", q: "Ko'chirma savolda ega fe'ldan oldin keladi: *He asked where I lived.*", a: true, why: "So'roq tartibi yo'q: ega + fe'l." },
-    { k: "order", uz: "U mendan kimga qo'ng'iroq qilganimni so'radi.", words: ["She", "asked", "me", "who", "I", "had", "called."], extra: ["did", "whom"], why: "So'roq tartibi yo'q: who I had called." },
+    { k: "order", uz: "U mendan kimga qo'ng'iroq qilganimni so'radi.", words: ["She", "asked", "me", "who", "I", "had", "called."], extra: ["did", "that"], why: "So'roq tartibi yo'q: who I had called." },
     { k: "translate", uz: "U mendan yordam bera olamanmi, deb so'radi.", a: ["He asked me if I could help.", "She asked me if I could help.", "He asked if I could help.", "She asked if I could help.", "He asked me whether I could help.", "She asked me whether I could help."], why: "**asked me if I could help**." },
   ],
   summary: [

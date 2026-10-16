@@ -70,7 +70,7 @@ const lesson: Lesson = {
     {
       title: "To'rt shakl: qaysi birini tanlaymiz?",
       blocks: [
-        { t: "p", md: "Endi uchta tanlovni birga ko'ramiz: **Past Simple**, **Present Perfect (Simple yoki Continuous)** va **Past Continuous**:" },
+        { t: "p", md: "Endi to'rt shaklni birga ko'ramiz: **Past Simple**, **Past Continuous**, **Present Perfect Simple** va **Present Perfect Continuous**:" },
         {
           t: "table", head: ["Shakl", "Qachon", "Misol"], speak: [2],
           rows: [
@@ -84,7 +84,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "I broke my arm when I was skiing.", uz: "Chang'i uchayotganimda qo'limni sindirib oldim.", note: "Past Simple (qisqa voqea) + Past Continuous (jarayon)." },
             { en: "I've been skiing since I was six, and I've broken my arm only once.", uz: "Men olti yoshimdan beri chang'i uchaman va qo'limni faqat bir marta sindirganman.", note: "Davomiylik (PPC) + son (PP)." },
-            { en: "Where have you been? I've been waiting for you for an hour!", uz: "Qayerda eding? Sizni bir soatdan beri kutyapman!" },
+            { en: "Where have you been? I've been waiting for you for an hour!", uz: "Qayerda eding? Seni bir soatdan beri kutyapman!" },
           ],
         },
         { t: "tip", tone: "info", md: "Savol-testi: (1) Vaqt aniq va tugaganmi? → **Past Simple**. (2) Boshqa voqea paytida davom etayotgan edimi? → **Past Continuous**. (3) Hozirgacha davom etmoqdami yoki jarayon muhimmi? → **Present Perfect Continuous**. (4) Natija, son, tajriba muhimmi? → **Present Perfect Simple**." },
@@ -93,7 +93,7 @@ const lesson: Lesson = {
       ],
     },
     {
-      title: "O'qing: bir kechaning hikoyasi",
+      title: "O'qing: g'alati topilma",
       blocks: [
         {
           t: "text", title: "A strange discovery",
@@ -111,10 +111,10 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Emma", en: "Have you ever lived in another country, Karim?", uz: "Karim, boshqa mamlakatda yashaganmisan?" },
             { who: "Karim", en: "Yes, I have. I lived in Germany for two years.", uz: "Ha. Germaniyada ikki yil yashaganman." },
-            { who: "Emma", en: "That's interesting! When did you go there?", uz: "Qiziq! U yerga qachon borgansan?" },
+            { who: "Emma", en: "That's interesting! When did you go there?", uz: "Qiziq! U yerga qachon bording?" },
             { who: "Karim", en: "I went in 2017 to study engineering. I came back in 2019.", uz: "2017-yilda muhandislikni o'qish uchun bordim. 2019-yilda qaytdim." },
-            { who: "Emma", en: "Have you kept in touch with your friends there?", uz: "U yerdagi do'stlaringiz bilan aloqada bo'lib kelayapsizmi?" },
-            { who: "Karim", en: "Yes. I've been writing to my best friend, Jonas, every month since I left. He visited me here last summer.", uz: "Ha. Ketganimdan beri eng yaqin do'stim Yonasga har oy yozaman. U o'tgan yozda meni ko'rgani keldi." },
+            { who: "Emma", en: "Have you kept in touch with your friends there?", uz: "U yerdagi do'stlaring bilan aloqada bo'lib kelyapsanmi?" },
+            { who: "Karim", en: "Yes. I've been writing to my best friend, Jonas, every month since I left. He visited me here last summer.", uz: "Ha. Ketganimdan beri eng yaqin do'stim Yonasga har oy yozib turaman. U o'tgan yozda meni ko'rgani keldi." },
           ],
         },
         { t: "check", ex: { k: "choice", q: "Why does Karim say **I lived in Germany**, not **I have lived**?", opts: ["He doesn't live there now; it is a finished period.", "Germany is far away.", "He has never lived there.", "It is a question."], a: 0, why: "Davr tugagan (2017-2019) → Past Simple." } },
@@ -123,12 +123,12 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "bring back", uz: "esga solmoq, qaytarmoq", ipa: "brɪŋ bæk", pos: "phrasal verb", ex: "That song always brings back happy memories.", exUz: "Bu qo'shiq har doim quvonchli xotiralarni esga soladi." },
-    { en: "come across", uz: "tasodifan topib olmoq", ipa: "kʌm əˈkrɒs", pos: "phrasal verb", ex: "I came across some old photos while I was cleaning.", exUz: "Tozalayotib, tasodifan eski suratlarni topib oldim." },
+    { en: "come across", uz: "tasodifan topib olmoq", ipa: "kʌm əˈkrɒs", pos: "phrasal verb", ex: "I came across some old photos while I was cleaning.", exUz: "Tozalayotganimda tasodifan eski suratlarni topib oldim." },
     { en: "look through", uz: "ko'zdan kechirmoq, varaqlamoq", ipa: "lʊk θruː", pos: "phrasal verb", ex: "I looked through my old diaries last night.", exUz: "Kecha kechqurun eski kundaliklarimni varaqladim." },
-    { en: "occur", uz: "sodir bo'lmoq", ipa: "əˈkɜːr", pos: "verb", ex: "The accident occurred last night, and the road has been closed since.", exUz: "Voqea kecha kechqurun sodir bo'ldi va yo'l o'shandan beri yopiq." },
+    { en: "occur", uz: "sodir bo'lmoq", ipa: "əˈkɜː", pos: "verb", ex: "The accident occurred last night, and the road has been closed since.", exUz: "Voqea kecha kechqurun sodir bo'ldi va yo'l o'shandan beri yopiq." },
     { en: "forgetful", uz: "esi past, unutuvchan", ipa: "fəˈɡet.fəl", pos: "adj", ex: "My grandfather has become forgetful in recent years.", exUz: "Bobom so'nggi yillarda unutuvchan bo'lib qoldi." },
     { en: "keep in mind", uz: "yodda tutmoq", ipa: "kiːp ɪn maɪnd", pos: "phrase", ex: "Keep in mind that I've already told you about this twice.", exUz: "Shuni yodda tuting, men bu haqda sizga allaqachon ikki marta aytganman." },
-    { en: "gradually", uz: "asta-sekin", ipa: "ˈɡrædʒ.u.ə.li", pos: "adv", ex: "My English has gradually improved.", exUz: "Inglizchamni asta-sekin yaxshilandi." },
+    { en: "gradually", uz: "asta-sekin", ipa: "ˈɡrædʒ.u.ə.li", pos: "adv", ex: "My English has gradually improved.", exUz: "Inglizcham asta-sekin yaxshilandi." },
     { en: "recent", uz: "yaqindagi, so'nggi", ipa: "ˈriː.sənt", pos: "adj", ex: "Have you seen any recent films?", exUz: "Yaqinda biror film ko'rdingizmi?" },
     { en: "take place", uz: "bo'lib o'tmoq", ipa: "teɪk pleɪs", pos: "phrase", ex: "The wedding took place in June.", exUz: "To'y iyun oyida bo'lib o'tdi." },
     { en: "mention", uz: "tilga olmoq, eslatib o'tmoq", ipa: "ˈmen.ʃən", pos: "verb", ex: "She didn't mention her new job.", exUz: "U yangi ishi haqida gapirmadi." },
@@ -141,7 +141,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I ___ my keys. Can you help me look for them? (lose)", a: ["have lost", "'ve lost"], why: "Hozirgi natija (kalitlar yo'q) → Present Perfect." },
     { k: "fill", q: "He ___ his leg three years ago. (break)", a: ["broke"], why: "**ago** → Past Simple: *broke*." },
     { k: "fill", q: "I've ___ studying since seven o'clock. (be)", a: ["been"], why: "**have been + V-ing**: jarayon, since bilan." },
-    { k: "fill", q: "Luckily, I ___ my passport before the flight. (find)", a: ["found"], why: "Voqea tugagan va hikoya qilinayapti → Past Simple." },
+    { k: "fill", q: "Luckily, I ___ my passport an hour before the flight. (find)", a: ["found"], why: "Voqea tugagan va hikoya qilinayapti → Past Simple." },
     { k: "order", uz: "Qachon bu shaharga ko'chib keldingiz?", words: ["When", "did", "you", "move", "to", "this", "city?"], extra: ["have", "moved"], why: "**When did you + V1?**" },
     { k: "order", uz: "Men o'tgan hafta yangi kafeni topib oldim.", words: ["I", "discovered", "a", "new", "café", "last", "week."], extra: ["have", "discover"], alt: [["Last", "week", "I", "discovered", "a", "new", "café."]], why: "**last week** → Past Simple." },
     { k: "translate", uz: "Biz o'tgan yili Buxoroga borganmiz.", a: ["We went to Bukhara last year.", "Last year we went to Bukhara."], why: "**last year** → Past Simple." },

@@ -71,7 +71,7 @@ const lesson: Lesson = {
           ],
         },
         { t: "tip", tone: "warn", md: "**Whose** dan keyin **a / the** kelmaydi: *a man whose the car* — xato. To'g'risi: **a man whose car**." },
-        { t: "check", ex: { k: "fill", q: "That's the woman ___ husband is a famous chef.", a: ["whose"], why: "**Kimning** erini aytyapmiz → **whose** + ot." } },
+        { t: "check", ex: { k: "fill", q: "That's the woman ___ husband is a famous chef.", a: ["whose"], why: "**Kimning** eri haqida gapiryapmiz → **whose** + ot." } },
         { t: "check", ex: { k: "order", uz: "Biz yashaydigan uy juda eski.", words: ["The", "house", "we", "live", "in", "is", "very", "old."], extra: ["where", "on"], why: "Predlog nisbiy gap oxirida: **we live in**." } },
       ],
     },
