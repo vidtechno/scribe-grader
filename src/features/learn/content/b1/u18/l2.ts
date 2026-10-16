@@ -79,7 +79,7 @@ const lesson: Lesson = {
             ["since then", "o'shandan beri", "She moved abroad. Since then, we have written often."],
           ],
         },
-        { t: "tip", tone: "warn", md: "**since** dan keyingi gapda ham Present Perfect qo'ymang: ~~since I have moved here~~ emas, **since I moved here**. Boshlanish payti — tugagan voqea, shuning uchun Past Simple." },
+        { t: "tip", tone: "warn", md: "**since** dan keyingi gapda ham odatda Present Perfect qo'ymang: ~~since I have moved here~~ emas, **since I moved here**. Boshlanish payti — tugagan voqea, shuning uchun Past Simple." },
         { t: "check", ex: { k: "fill", q: "I have loved football since I ___ a boy. (be)", a: ["was"], why: "**since** + Past Simple: *since I was a boy*." } },
         { t: "check", ex: { k: "choice", q: "**We haven't met ___ ages.**", opts: ["for", "since", "from", "at"], a: 0, why: "*ages* — muddat → **for ages**." } },
       ],
@@ -114,8 +114,8 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "text", title: "Our neighbourhood", voice: "emma",
-          en: "My family has lived in the same neighbourhood for more than twenty years. I have known most of my neighbours since I was a child. Mrs Karimova has lived next door for ages, and she has collected old coins since her youth. The community centre opened in 2010, and I have been a member since then. Last year I started a small club for young people. We have met every Friday since February, and now we have twenty members. I haven't missed a single meeting. A few friends from school have moved away, but we stay in touch. It's a habit I really value.",
-          uz: "Mening oilam yigirma yildan ko'proq vaqtdan beri bir xil mahallada yashaydi. Men qo'shnilarning ko'pchiligini bolaligimdan beri taniyman. Karimova xonim juda uzoq vaqtdan beri yonimizda yashaydi va yoshligidan beri eski tangalar yig'adi. Jamoat markazi 2010-yilda ochilgan va men o'shandan beri uning a'zosiman. O'tgan yili men yoshlar uchun kichik klub boshladim. Fevraldan beri har juma uchrashamiz, endi yigirma a'zomiz bor. Men bitta uchrashuvni ham o'tkazib yubormadim. Maktabdagi do'stlarimdan ba'zilari boshqa joyga ko'chib ketdi, lekin biz aloqada bo'lamiz. Bu men juda qadrlaydigan odat.",
+          en: "My family has lived in the same neighbourhood for more than twenty years. I have known most of my neighbours since I was a child. Mrs Karimova has lived next door for ages, and she has collected old coins since her youth. The community centre opened in 2010, and I have been a member since then. Last year I started a small club for young people. We have met every Friday since February, and now we have twenty members. I haven't missed a single meeting. A few friends from school have moved away, but we stay in touch. I really value this sense of community.",
+          uz: "Mening oilam yigirma yildan ko'proq vaqtdan beri bir xil mahallada yashaydi. Men qo'shnilarning ko'pchiligini bolaligimdan beri taniyman. Karimova xonim juda uzoq vaqtdan beri yonimizda yashaydi va yoshligidan beri eski tangalar yig'adi. Jamoat markazi 2010-yilda ochilgan va men o'shandan beri uning a'zosiman. O'tgan yili men yoshlar uchun kichik klub boshladim. Fevraldan beri har juma uchrashamiz, endi yigirma a'zomiz bor. Men bitta uchrashuvni ham o'tkazib yubormadim. Maktabdagi do'stlarimdan ba'zilari boshqa joyga ko'chib ketdi, lekin biz aloqada bo'lamiz. Men bu jamoa hissini juda qadrlayman.",
         },
         { t: "check", ex: { k: "tf", q: "The writer has been a member of the community centre since 2010.", a: true, why: "Matnda: *I have been a member since then* (2010 dan beri)." } },
         { t: "check", ex: { k: "choice", q: "Which sentence in the text is about a **finished** time?", opts: ["The community centre opened in 2010.", "I have known most of my neighbours.", "We have met every Friday.", "I haven't missed a meeting."], a: 0, why: "*opened in 2010* — aniq o'tgan vaqt, Past Simple." } },
@@ -126,7 +126,7 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "dialog", lines: [
-            { who: "Helen", en: "Aziz! I haven't seen you for ages. How are you?", uz: "Aziz! Seni juda ko'rmadim. Qalaysan?" },
+            { who: "Helen", en: "Aziz! I haven't seen you for ages. How are you?", uz: "Aziz! Seni ko'rmaganimga ancha bo'ldi. Qalaysan?" },
             { who: "Aziz", en: "I'm fine, Helen. I've worked in Manchester since last year.", uz: "Yaxshiman, Helen. O'tgan yildan beri Manchesterda ishlayman." },
             { who: "Helen", en: "Really? How long have you lived there?", uz: "Rostdanmi? U yerda qancha vaqtdan beri yashaysan?" },
             { who: "Aziz", en: "For about eight months. It's a friendly city, and I've made a few good friends.", uz: "Taxminan sakkiz oydan beri. Do'stona shahar, bir nechta yaxshi do'st orttirdim." },
@@ -144,7 +144,7 @@ const lesson: Lesson = {
     { en: "get along", uz: "chiqishmoq, til topishmoq", ipa: "ɡet əˈlɒŋ", pos: "phrasal verb", ex: "We have got along well since the first day we met.", exUz: "Biz tanishgan birinchi kundan beri bir-birimiz bilan yaxshi chiqishamiz." },
     { en: "supportive", uz: "qo'llab-quvvatlovchi", ipa: "səˈpɔː.tɪv", pos: "adj", ex: "My friends have been very supportive for years.", exUz: "Do'stlarim yillar davomida meni juda qo'llab-quvvatlab kelishdi." },
     { en: "community", uz: "jamoa, mahalla (jamiyat)", ipa: "kəˈmjuː.nə.ti", pos: "noun", ex: "The local community has raised money for a new park.", exUz: "Mahalliy jamoa yangi bog' uchun pul yig'di." },
-    { en: "take after", uz: "o'xshamoq (oila a'zosiga)", ipa: "teɪk ˈɑːf.tər", pos: "phrasal verb", ex: "She takes after her mother in many ways.", exUz: "U ko'p jihatdan onasiga o'xshaydi." },
+    { en: "take after", uz: "o'xshamoq (oila a'zosiga)", ipa: "teɪk ˈɑːf.tə", pos: "phrasal verb", ex: "She takes after her mother in many ways.", exUz: "U ko'p jihatdan onasiga o'xshaydi." },
     { en: "collect", uz: "yig'moq, to'plamoq", ipa: "kəˈlekt", pos: "verb", ex: "He has collected stamps since he was ten.", exUz: "U o'n yoshidan beri markalar yig'adi." },
     { en: "get to know", uz: "tanishib bormoq, yaxshi bilib olmoq", ipa: "ɡet tə nəʊ", pos: "phrase", ex: "I have got to know my colleagues better since January.", exUz: "Men yanvardan beri hamkasblarimni yaxshiroq bilib oldim." },
     { en: "stay in touch", uz: "aloqada bo'lmoq", ipa: "steɪ ɪn tʌtʃ", pos: "phrase", ex: "We have stayed in touch for many years.", exUz: "Biz ko'p yillardan beri aloqada bo'lamiz." },
