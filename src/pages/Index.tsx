@@ -335,6 +335,31 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Free material: internal links for readers and search engines */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8" id="free-material">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-center">Bepul <span className="gradient-text">qo'llanmalar va mashqlar</span></h2>
+          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">Ro'yxatdan o'tmasdan ham foydali materiallarni o'qing, so'ng darslarni bepul boshlang.</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { href: '/inglizcha-sozlar', title: "Inglizcha so'zlar", text: "Hayvonlar, ranglar, oila, hafta kunlari va boshqa mavzular: talaffuz va tarjima bilan." },
+              { href: '/ingliz-tili-qoidalari', title: 'Ingliz tili qoidalari', text: "Zamonlar, artikllar, shart gaplar va majhul nisbat o'zbek tilida." },
+              { href: '/ielts-speaking-part-2', title: 'IELTS Speaking namunalari', text: "Part 1, 2 va 3 savollari band 7 namuna javoblar bilan." },
+              { href: '/ielts-writing-task-2-questions', title: 'IELTS Writing namunalari', text: "Task 1 va Task 2 savollari, reja va namuna insholar." },
+              { href: '/ielts-reading-practice', title: 'IELTS Reading mashqi', text: "Savol turlari, band jadvali va bepul testlar." },
+              { href: '/ielts-listening-practice', title: 'IELTS Listening mashqi', text: "4 ta section, maslahatlar va band jadvali." },
+              { href: '/ielts-band-score-calculator', title: 'IELTS band kalkulyatori', text: "Umumiy ballingizni rasmiy yaxlitlash qoidasi bilan hisoblang." },
+              { href: '/blog', title: 'Blog va qo\'llanmalar', text: "Ingliz tilini o'rganish va IELTS ga tayyorlanish bo'yicha maqolalar." },
+            ].map(l => (
+              <a key={l.href} href={l.href} className="glass-card-hover p-5 block">
+                <h3 className="font-semibold mb-1">{l.title}</h3>
+                <p className="text-sm text-muted-foreground">{l.text}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="py-20 px-4 sm:px-6 lg:px-8" id="faq">
         <div className="max-w-3xl mx-auto">

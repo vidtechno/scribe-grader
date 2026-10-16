@@ -1,3 +1,4 @@
+import { listeningPage, readingPage, siteMapPage } from './_lib/practice-pages.js';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { SITE, breadcrumbLd, ctaBox, esc, notFoundPage, page, send } from './_lib/shell.js';
 import { PART1 } from './_lib/data-part1.js';
@@ -18,6 +19,8 @@ const bullets = (items: string[]) => `<ul>${items.map(i => `<li>${esc(i)}</li>`)
 const faqLd = (faq: { q: string; a: string }[]) => ({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
 /** First candidate that fits the ~60 characters search results show; the last one is the fallback. */
 const pick = (...c: string[]) => c.find(x => x.length <= 60) ?? c[c.length - 1];
+/** Learn promo shown under IELTS pages: visitors who need general English are sent to the course. */
+const learnBox = () => `<aside class="box good" style="margin-top:32px"><p><b>Need stronger English first?</b> Learn English from zero to B1 with explanations in Uzbek, audio for every word and short daily lessons: <a href="/ingliz-tili-darslari">Scorify English course</a>, 7 days free. <i>Ingliz tilini o'zbek tilida, noldan o'rganing.</i></p></aside>`;
 const faqHtml = (faq: { q: string; a: string }[]) => faq.map(f => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
 const crumbs = (...items: [string, string?][]) => ['<a href="/">Home</a>', '<a href="/blog">Blog</a>', ...items.map(([t, h]) => (h ? `<a href="${h}">${esc(t)}</a>` : esc(t)))].join(' / ');
 const hero = (eyebrow: string, h1: string, lead: string, trail: string) => `<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb">${trail}</nav><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p></div></section>`;
@@ -74,6 +77,7 @@ async function qaPage(key: 'sp1' | 'sp3', t: Part1Topic) {
 <section class="section"><h2>Tips for this topic</h2>${bullets(t.tips)}</section>
 ${await studyGuides('speaking')}
 ${ctaBox(`Answer these ${t.title.toLowerCase()} questions yourself`, 'Record your own answers and get instant feedback on fluency, grammar, vocabulary and pronunciation.', '/auth', 'Practise speaking')}
+${learnBox()}
 <section class="section"><h2>More Part ${c.part} topics</h2><div class="grid">${others.map(o => link(c.base, o.slug, o.title)).join('')}</div></section>
 </div></main>`;
   return page({ title: `${title} | Scorify.uz`, description: desc, path, body, ogType: 'article', jsonLd: [article({ mainEntityOfPage: SITE + path }, title, desc), faqLd(t.qa.slice(0, 5).map(x => ({ q: x.q, a: x.a }))), ld([[`Speaking Part ${c.part}`, c.base], [t.title, path]])] });
@@ -110,6 +114,7 @@ async function part2Page(c: CueCard) {
 <section class="section"><h2>Part 3 follow-up questions</h2>${c.part3.map(x => `<div class="qa"><h3>${esc(x.q)}</h3><p><strong>Idea:</strong> ${esc(x.idea)}</p></div>`).join('')}<p>More discussion questions with full answers: <a href="/ielts-speaking-part-3">IELTS Speaking Part 3 topics</a>.</p></section>
 ${await studyGuides('speaking')}
 ${ctaBox('Now record your own answer', 'Speak for two minutes and get a fluency, grammar, vocabulary and pronunciation score with feedback.', '/auth', 'Practise this topic')}
+${learnBox()}
 <section class="section"><h2>More cue cards</h2><div class="grid">${others.map(o => link('/ielts-speaking-part-2', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
   return page({ title: `${title} | Scorify.uz`, description: desc, path, body, ogType: 'article', jsonLd: [article({ mainEntityOfPage: SITE + path }, title, desc), ld([['Speaking Part 2', '/ielts-speaking-part-2'], [c.title, path]])] });
@@ -147,6 +152,7 @@ async function task2Page(q: Task2Question) {
 ${await studyGuides('writing')}
 ${ctaBox('Write your own answer to this question', 'Get a band score, criterion feedback and corrections on your essay in seconds.', '/auth', 'Check my essay')}
 <section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section>
+${learnBox()}
 <section class="section"><h2>More Task 2 questions</h2><div class="grid">${others.map(o => link('/ielts-writing-task-2-questions', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
   return page({ title: `${title} | Scorify.uz`, description: desc, path, body, ogType: 'article', jsonLd: [article({ mainEntityOfPage: SITE + path, wordCount: words }, title, desc), faqLd(faq), ld([['Writing Task 2 questions', '/ielts-writing-task-2-questions'], [q.title, path]])] });
@@ -182,6 +188,7 @@ async function task1Page(t: Task1Page) {
 ${await studyGuides('writing')}
 ${ctaBox('Write your own report and get a band score', 'Describe a chart in 20 minutes and receive criterion scores and corrections from AI.', '/auth', 'Practise Task 1')}
 <section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section>
+${learnBox()}
 <section class="section"><h2>More Task 1 samples</h2><div class="grid">${others.map(o => link('/ielts-writing-task-1-samples', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
   return page({ title: `${title} | Scorify.uz`, description: desc, path, body, ogType: 'article', jsonLd: [article({ mainEntityOfPage: SITE + path, wordCount: words }, title, desc), faqLd(faq), ld([['Writing Task 1 samples', '/ielts-writing-task-1-samples'], [t.title, path]])] });
@@ -204,6 +211,7 @@ ${v.groups.map(g => `<section class="section"><h2>${esc(g.head)}</h2><div class=
 <section class="section"><h2>How to use these words well</h2>${bullets(v.tips)}</section>
 ${await studyGuides('writing')}
 ${ctaBox('Use these words in your own answer', 'Write an essay or record a speaking answer and see how your vocabulary is scored.', '/auth', 'Try Scorify free')}
+${learnBox()}
 <section class="section"><h2>More vocabulary lists</h2><div class="grid">${others.map(o => link('/ielts-vocabulary', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
   return page({ title: `${title} | Scorify.uz`, description: desc, path, body, ogType: 'article', jsonLd: [article({ mainEntityOfPage: SITE + path }, title, desc), ld([['Vocabulary', '/ielts-vocabulary'], [v.title, path]])] });
@@ -250,6 +258,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse 
       case 'wt1': { if (!slug) return send(res, 200, task1Hub()); const t = TASK1.find(x => x.slug === slug); return t ? send(res, 200, await task1Page(t)) : missing(); }
       case 'vocab': { if (!slug) return send(res, 200, vocabHub()); const v = VOCAB.find(x => x.slug === slug); return v ? send(res, 200, await vocabPage(v)) : missing(); }
       case 'calc': return send(res, 200, await calculator());
+      case 'reading': return send(res, 200, readingPage());
+      case 'listening': return send(res, 200, listeningPage());
+      case 'map': return send(res, 200, await siteMapPage());
       case 'course': return send(res, 200, courseHub());
       case 'level': { const l = levelBySlug(url.searchParams.get('level')); if (!l) return missing(); return send(res, 200, levelPage(l)); }
       case 'lesson': {

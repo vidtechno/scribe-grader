@@ -2,7 +2,7 @@
 // speakers, points out the typical traps caused by Uzbek, and leads to the matching interactive lesson.
 export type GuideSection = { h2: string; p?: string[]; list?: string[]; table?: { head: string[]; rows: string[][] }; ex?: [en: string, uz: string][] };
 export type Guide = {
-  slug: string; level: 'beginner' | 'elementary' | 'pre-intermediate';
+  slug: string; level: 'beginner' | 'elementary' | 'pre-intermediate' | 'intermediate';
   h1: string; metaTitle: string; metaDesc: string; intro: string;
   sections: GuideSection[]; traps: string[]; faq: { q: string; a: string }[];
   lesson: [level: string, slug: string]; related: string[];

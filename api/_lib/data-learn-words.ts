@@ -1,6 +1,6 @@
 // Uzbek topic word lists for the public SEO section /inglizcha-sozlar: English word, IPA, Uzbek meaning.
 export type WordTopic = {
-  slug: string; level: 'beginner' | 'elementary' | 'pre-intermediate';
+  slug: string; level: 'beginner' | 'elementary' | 'pre-intermediate' | 'intermediate';
   h1: string; metaTitle: string; metaDesc: string; intro: string;
   words: [en: string, ipa: string, uz: string][];
   phrases: [en: string, uz: string][];
