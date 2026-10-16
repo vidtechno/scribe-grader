@@ -1,0 +1,158 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u19-l4",
+  title: "Reported questions, requests and orders",
+  titleUz: "Ko'chirma savollar, iltimos va buyruqlar",
+  goal: "Birovning **savolini** (*She asked me where I lived*), **iltimosini** (*asked me to help*) va **buyrug'ini** (*told me not to be late*) reported speech da to'g'ri yetkazasiz. **Do / did** ishlatmaysiz, so'roq gap tartibini darak tartibiga aylantirasiz.",
+  slides: [
+    {
+      title: "Ko'chirma savol: asosiy qoida",
+      blocks: [
+        { t: "p", md: "Savolni boshqa odamga yetkazganda u endi **savol bo'lmaydi**. Shuning uchun: **savol belgisi yo'q**, **do / does / did yo'q**, so'z tartibi **darak gapdagidek** (ega + fe'l), zamon esa odatda **bir pog'ona orqaga** suriladi." },
+        { t: "table", head: ["To'g'ri savol", "Ko'chirma savol"], speak: [0, 1], rows: [
+          ["Where do you live?", "He asked me where I lived."],
+          ["What time does the film start?", "She asked what time the film started."],
+          ["Why are you crying?", "I asked her why she was crying."],
+          ["How long have you been here?", "He asked how long I had been there."],
+        ] },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["She asked me where I lived.", "He asked what time it was.", "They asked why we were late."] },
+          bad: { title: "Xato", items: ["She asked me where did I live.", "He asked what time was it.", "They asked why were we late."] } },
+        { t: "tip", tone: "warn", md: "Eng ko'p xato: so'roq tartibini saqlab qolish (*where did I live*). O'zbekchada savol tartibi o'zgarmaydi, inglizchada esa ko'chirma savolda **ega fe'ldan oldin** keladi: *where I lived*." },
+        { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["He asked me where did I work.", "He asked me where I worked.", "He asked me where do I work.", "He asked me where I do work."], a: 1, why: "Ko'chirma savolda do / did yo'q: **where I worked**." } },
+      ],
+    },
+    {
+      title: "Yes / No savollar: if yoki whether",
+      blocks: [
+        { t: "p", md: "Savol so'roq so'zisiz boshlansa (**Do you…? Are you…? Can you…?**), ko'chirma gapda **if** yoki **whether** qo'shamiz. Ma'nosi bir xil: «...mi, yo'qmi?»." },
+        { t: "table", head: ["To'g'ri savol", "Ko'chirma savol"], speak: [0, 1], rows: [
+          ["Do you like coffee?", "She asked me if I liked coffee."],
+          ["Are you ready?", "He asked whether I was ready."],
+          ["Have you finished?", "They asked if I had finished."],
+          ["Can you swim?", "She asked me if I could swim."],
+          ["Will you come?", "He asked if I would come."],
+        ] },
+        { t: "tip", tone: "good", md: "**if** — kundalik nutqda keng tarqalgan. **whether** — rasmiyroq va «yoki yo'q» deb qo'shilganda: *He asked whether I wanted tea or not.* **that** esa savolda ishlatilmaydi: *asked me that* bo'lmaydi." },
+        { t: "check", ex: { k: "fill", q: "\"Do you speak French?\" She asked me ___ I spoke French.", a: ["if", "whether"], why: "Yes / No savol → **if / whether**." } },
+        { t: "check", ex: { k: "fix", wrong: "He asked me if did I know her.", a: ["He asked me if I knew her.", "He asked if I knew her.", "He asked me whether I knew her.", "He asked whether I knew her."], hint: "do / did kerak emas", why: "Ko'chirma savolda **did** yo'q: *if I knew her*." } },
+      ],
+    },
+    {
+      title: "Iltimos va buyruqlar",
+      blocks: [
+        { t: "p", md: "Iltimos va buyruqlarni yetkazish uchun gap qolipi boshqacha: **asked / told + kishi + to + fe'l (V1)**. Zamon siljishi bu yerda yo'q, chunki infinitiv ishlatiladi." },
+        { t: "table", head: ["To'g'ri gap", "Ko'chirma gap"], speak: [0, 1], rows: [
+          ["Could you help me?", "She asked me to help her."],
+          ["Please open the window.", "He asked me to open the window."],
+          ["Sit down!", "The teacher told us to sit down."],
+          ["Don't be late!", "My mother told me not to be late."],
+          ["Don't touch it.", "He told her not to touch it."],
+        ] },
+        { t: "tip", tone: "info", md: "**ask** — iltimos (kamtarroq, muloyim), **tell** — buyruq yoki ko'rsatma. Inkor: **not to + V1** (*told me not to go*), ~~didn't to go~~ emas." },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["She asked me to wait.", "He told us not to worry.", "They asked him to leave."] },
+          bad: { title: "Xato", items: ["She asked me that I wait.", "He told us don't worry.", "They asked him leave."] } },
+        { t: "check", ex: { k: "choice", q: "\"Don't make noise!\" Reported: The librarian told us ___ noise.", opts: ["don't make", "not make", "not to make", "to not making"], a: 2, why: "Inkor buyruq: **told us not to make**." } },
+        { t: "check", ex: { k: "fill", q: "\"Please call me tonight.\" He asked me ___ call him that night.", a: ["to"], why: "**asked me to + V1**." } },
+      ],
+    },
+    {
+      title: "Hammasini birga ko'rib chiqamiz",
+      blocks: [
+        { t: "p", md: "Bir suhbatni uch xil usulda yetkazish mumkin. Mana misol:" },
+        { t: "examples", items: [
+          { en: "The interviewer asked me why I wanted the job.", uz: "Intervyu oluvchi mendan nega bu ishni xohlayotganimni so'radi.", note: "Wh- savol, so'roq tartibi yo'q." },
+          { en: "She asked if I had any experience.", uz: "U menda tajriba bormi, deb so'radi.", note: "Yes / No savol: if + had." },
+          { en: "She asked me to send my CV the next day.", uz: "U mendan ertasi kuni rezyumeni yuborishni so'radi.", note: "Iltimos: asked me to." },
+          { en: "She told me not to be nervous.", uz: "U asabiylashmaslikni aytdi.", note: "Inkor buyruq: not to." },
+        ] },
+        { t: "tip", tone: "warn", md: "Savol so'zi **ega** bo'lsa (*Who called you?*, *What happened?*), tartib o'zgarmaydi: *She asked who had called me. He asked what had happened.* Bu yerda so'roq so'zi o'zi ega." },
+        { t: "check", ex: { k: "choice", q: "\"What happened?\" Reported: She asked ___.", opts: ["what did happen", "what had happened", "what happened did", "that what happened"], a: 1, why: "**what** ega; Past Simple → **Past Perfect**: *what had happened*." } },
+        { t: "check", ex: { k: "tf", q: "Ko'chirma savoldan keyin savol belgisi (?) qo'yiladi.", a: false, why: "Ko'chirma savol darak gap kabi nuqta bilan tugaydi." } },
+      ],
+    },
+    {
+      title: "O'qing: Ish intervyusi",
+      blocks: [
+        {
+          t: "text", title: "The job interview",
+          en: "Yesterday Sardor had an interview at a travel company. The manager asked him where he had studied and why he wanted the job. He also asked if Sardor could work at weekends. Sardor replied that he could, and he asked how many people worked in the team. At the end, the manager told him to wait outside for a few minutes. Then she asked him to come back and told him not to worry about the salary, because it was a good one. She said that they would call him the next week. Sardor left the building with a big smile on his face.",
+          uz: "Kecha Sardorning sayohat kompaniyasida intervyusi bor edi. Menejer undan qayerda o'qiganini va nega bu ishni xohlayotganini so'radi. U yana Sardor dam olish kunlari ishlay oladimi, deb ham so'radi. Sardor ishlay olishini javob berdi va jamoada necha kishi ishlashini so'radi. Oxirida menejer unga bir necha daqiqa tashqarida kutib turishni aytdi. Keyin uni qaytib kirishni so'radi va maosh haqida xavotir olmaslikni aytdi, chunki u yaxshi maosh edi. U kelasi hafta ularga qo'ng'iroq qilishlarini aytdi. Sardor yuzida katta tabassum bilan binodan chiqdi.",
+        },
+        { t: "check", ex: { k: "choice", q: "What did the manager ask Sardor about weekends?", opts: ["If he could work at weekends.", "Where he spent weekends.", "Why he liked weekends.", "When he had his weekend."], a: 0, why: "Matnda: *asked if Sardor could work at weekends.*" } },
+        { t: "check", ex: { k: "tf", q: "The manager told Sardor to go home at once.", a: false, why: "U Sardorga **tashqarida kutib turishni** aytdi (*to wait outside*)." } },
+      ],
+    },
+    {
+      title: "Dialog: Yangi shaharda",
+      blocks: [
+        {
+          t: "dialog", lines: [
+            { who: "Emma", en: "A stranger stopped me in the street today.", uz: "Bugun ko'chada notanish odam meni to'xtatdi." },
+            { who: "Ben", en: "What did he want?", uz: "U nima xohladi?" },
+            { who: "Emma", en: "He asked me where the nearest bank was.", uz: "U eng yaqin bank qayerda ekanini so'radi." },
+            { who: "Ben", en: "And could you help him?", uz: "Yordam bera oldingmi?" },
+            { who: "Emma", en: "Yes. He also asked if it was open on Sundays, but I wasn't sure.", uz: "Ha. U yana yakshanba kunlari ochiqmi, deb so'radi, lekin men ishonchim komil emas edi." },
+            { who: "Ben", en: "Did he ask you to show him the way?", uz: "U yo'lni ko'rsatishingni so'radimi?" },
+            { who: "Emma", en: "Yes, he did. So I told him to follow me.", uz: "Ha, so'radi. Shuning uchun unga ortimdan kelishini aytdim." },
+          ],
+        },
+        { t: "check", ex: { k: "choice", q: "What did Emma tell the stranger to do?", opts: ["To follow her.", "To wait there.", "To go home.", "To call a taxi."], a: 0, why: "Dialogda: *I told him to follow me.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: "ask for", uz: "so'ramoq, talab qilmoq (narsani)", ipa: "ɑːsk fɔː", pos: "phrasal verb", ex: "He asked for a glass of water.", exUz: "U bir stakan suv so'radi." },
+    { en: "beg", uz: "yalinmoq, ko'p iltimos qilmoq", ipa: "beɡ", pos: "verb", ex: "The boy begged his mother to let him stay up.", exUz: "Bola onasiga uxlamay turishiga ruxsat berishini yalinib so'radi." },
+    { en: "instruction", uz: "ko'rsatma", ipa: "ɪnˈstrʌk.ʃən", pos: "noun", ex: "Please follow the instructions carefully.", exUz: "Iltimos, ko'rsatmalarga diqqat bilan amal qiling." },
+    { en: "forbid", uz: "taqiqlamoq", ipa: "fəˈbɪd", pos: "verb", ex: "The school forbids students to use phones in class.", exUz: "Maktab o'quvchilarga darsda telefon ishlatishni taqiqlaydi." },
+    { en: "advise", uz: "maslahat bermoq", ipa: "ədˈvaɪz", pos: "verb", ex: "The doctor advised me to drink more water.", exUz: "Shifokor menga ko'proq suv ichishni maslahat berdi." },
+    { en: "manners", uz: "odob, xulq-atvor qoidalari", ipa: "ˈmæn.əz", pos: "noun", ex: "Good manners are important in every country.", exUz: "Yaxshi odob har bir mamlakatda muhim." },
+    { en: "impolite", uz: "odobsiz, muloyim emas", ipa: "ˌɪm.pəˈlaɪt", pos: "adj", ex: "It is impolite to talk with your mouth full.", exUz: "Og'zing to'la holda gapirish odobsizlik." },
+    { en: "urgent", uz: "shoshilinch", ipa: "ˈɜː.dʒənt", pos: "adj", ex: "He sent an urgent message to the office.", exUz: "U ofisga shoshilinch xabar yubordi." },
+    { en: "enquire", uz: "so'ramoq, surishtirmoq", ipa: "ɪnˈkwaɪər", pos: "verb", ex: "I called the hotel to enquire about rooms.", exUz: "Xonalar haqida surishtirish uchun mehmonxonaga qo'ng'iroq qildim." },
+    { en: "demand", uz: "qat'iy talab qilmoq", ipa: "dɪˈmɑːnd", pos: "verb", ex: "The customer demanded a refund.", exUz: "Mijoz pulini qaytarishni talab qildi." },
+  ],
+  practice: [
+    { k: "choice", q: "\"Where do you work?\" Reported: She asked me where I ___.", opts: ["work", "worked", "do work", "did work"], a: 1, why: "Present Simple → Past Simple, do yo'q: **worked**." },
+    { k: "choice", q: "\"Are you tired?\" Reported: He asked me ___ I was tired.", opts: ["that", "if", "what", "do"], a: 1, why: "Yes / No savol → **if**." },
+    { k: "choice", q: "\"Please sit down.\" Reported: She asked me ___ down.", opts: ["sit", "to sit", "sitting", "that I sit"], a: 1, why: "**asked me to + V1**." },
+    { k: "listen", say: "He asked me where I had bought my phone.", opts: ["He asked me where I had bought my phone.", "He asked me where did I buy my phone.", "He asked me where I buy my phone.", "He asked where have I bought my phone."], a: 0, why: "Ko'chirma savol: **where I had bought**." },
+    { k: "fill", q: "She asked me ___ I had finished my homework.", hint: "if", a: ["if", "whether"], why: "Yes / No savol → **if / whether**." },
+    { k: "fill", q: "They asked us what time the shop ___.", hint: "open, Past Simple", a: ["opened"], why: "Do / did yo'q: **what time the shop opened**." },
+    { k: "fill", q: "The doctor told me not ___ coffee.", hint: "drink", a: ["to drink"], why: "Inkor: **not to + V1**." },
+    { k: "fill", q: "My boss asked me ___ the report by Friday.", hint: "finish", a: ["to finish"], why: "**asked me to + V1**." },
+    { k: "order", uz: "U mendan nima yeganimni so'radi.", words: ["She", "asked", "me", "what", "I", "had", "eaten."], extra: ["did", "have"], alt: [["She", "asked", "me", "what", "I", "ate."]], why: "So'roq tartibi yo'q: what I had eaten." },
+    { k: "order", uz: "Ustoz bizga jim bo'lishni aytdi.", words: ["The", "teacher", "told", "us", "to", "be", "quiet."], extra: ["that", "not"], why: "**told us to + V1**." },
+    { k: "translate", uz: "U mendan qayerdan ekanimni so'radi.", a: ["He asked me where I was from.", "She asked me where I was from.", "He asked where I was from.", "She asked where I was from.", "He asked me where I came from.", "She asked me where I came from."], why: "So'roq tartibi yo'q: **where I was from**." },
+    { k: "translate", uz: "Onam menga kech qolmaslikni aytdi.", a: ["My mother told me not to be late.", "My mum told me not to be late.", "My mother told me not to be late."], why: "**told me not to be late**." },
+    { k: "match", pairs: [["polite", "muloyim"], ["rude", "qo'pol"], ["urgent", "shoshilinch"], ["permission", "ruxsat"], ["remind", "eslatmoq"], ["demand", "talab qilmoq"]] },
+    { k: "tf", q: "*She asked me where did I live.* — bu gap to'g'ri.", a: false, why: "Ko'chirma savolda did yo'q: *where I lived*." },
+    { k: "fix", wrong: "He told me don't worry.", a: ["He told me not to worry."], hint: "Inkor buyruq", why: "Inkor: **told me not to worry**." },
+    { k: "speak", say: "She asked me why I was learning English, and I told her it was for my job.", uz: "U mendan nega ingliz tilini o'rganayotganimni so'radi, men unga bu ish uchun ekanini aytdim." },
+  ],
+  quiz: [
+    { k: "choice", q: "\"What are you doing?\" Reported: He asked me what I ___.", opts: ["am doing", "was doing", "did", "do doing"], a: 1, why: "Present Continuous → Past Continuous: **was doing**." },
+    { k: "choice", q: "\"Have you been to Paris?\" Reported: She asked me ___ to Paris.", opts: ["if I had been", "have I been", "that I had been", "did I go"], a: 0, why: "Yes / No savol → **if** + Past Perfect." },
+    { k: "choice", q: "\"Don't open the door!\" Reported: He told me ___ the door.", opts: ["don't open", "not to open", "to not opening", "no open"], a: 1, why: "Inkor buyruq: **not to open**." },
+    { k: "fill", q: "They asked me why I ___ late.", hint: "be, Past Simple", a: ["was"], why: "**why I was late**, why was I emas." },
+    { k: "fill", q: "He asked ___ it was raining.", hint: "if / whether", a: ["if", "whether"], why: "Yes / No savol → **if / whether**." },
+    { k: "fill", q: "She asked the waiter ___ bring the bill.", hint: "to", a: ["to"], why: "**asked + kishi + to + V1**." },
+    { k: "listen", say: "The teacher asked us to open our books.", opts: ["The teacher asked us to open our books.", "The teacher asked us we open our books.", "The teacher asked us opened our books.", "The teacher asked that we open our books."], a: 0, why: "**asked us to open**." },
+    { k: "tf", q: "Ko'chirma savolda ega fe'ldan oldin keladi: *He asked where I lived.*", a: true, why: "So'roq tartibi yo'q: ega + fe'l." },
+    { k: "order", uz: "U mendan kimga qo'ng'iroq qilganimni so'radi.", words: ["She", "asked", "me", "who", "I", "had", "called."], extra: ["did", "whom"], why: "So'roq tartibi yo'q: who I had called." },
+    { k: "translate", uz: "U mendan yordam bera olamanmi, deb so'radi.", a: ["He asked me if I could help.", "She asked me if I could help.", "He asked if I could help.", "She asked if I could help.", "He asked me whether I could help.", "She asked me whether I could help."], why: "**asked me if I could help**." },
+  ],
+  summary: [
+    "Ko'chirma savolda **savol belgisi yo'q**, **do / does / did yo'q**, tartib: ega + fe'l: *She asked where I lived.*",
+    "Yes / No savol → **if / whether**: *He asked if I was ready.* Zamon bir pog'ona orqaga suriladi.",
+    "Iltimos va buyruq: **asked / told + kishi + to + V1**: *She asked me to wait.* Inkor: **not to**: *He told me not to worry.*",
+    "Savol so'zi ega bo'lsa tartib o'zgarmaydi: *She asked who had called.*",
+    "Xatolar: ~~asked me where did I live~~, ~~told me don't worry~~, ~~asked me that~~.",
+  ],
+  homework: "Do'stingiz sizga bergan 3 ta savolni va 2 ta iltimos yoki buyruqni eslang. Ularni reported speech da yozing: *He asked me if…, She asked me where…, My teacher told me to…, My mother asked me not to…* Keyin do'stingizga yozganingizni o'qib bering va xatolarni tekshiring.",
+};
+
+export default lesson;

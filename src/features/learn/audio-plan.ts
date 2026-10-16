@@ -17,7 +17,7 @@ export function isEnglish(text: string): boolean {
 
 const english = (t: string | undefined): string[] => {
   const c = t ? cleanText(t) : '';
-  return c && speakable(c) && /^[A-Za-z0-9£$…(—]/.test(c) ? [c] : [];
+  return c && speakable(c) && /^[A-Za-z0-9£$…(—"“‘']/.test(c) ? [c] : [];
 };
 
 export function exerciseAudioTexts(ex: Exercise): string[] {

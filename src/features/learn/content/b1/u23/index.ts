@@ -1,0 +1,22 @@
+import type { Drill, Lesson } from '../../../types';
+import l1 from './l1';
+import l12 from './l12';
+import l2 from './l2';
+import l3 from './l3';
+import l4 from './l4';
+import l13 from './l13';
+import l9 from './l9';
+import l5 from './l5';
+import l6 from './l6';
+import l14 from './l14';
+import l10 from './l10';
+import l7 from './l7';
+import l15 from './l15';
+import l8 from './l8';
+import l11 from './l11';
+import { drills as drillsA } from './drills-a';
+import { drills as drillsB } from './drills-b';
+import { drills as drillsC } from './drills-c';
+
+export const lessons: Lesson[] = [l1, l12, l2, l3, l4, l13, l9, l5, l6, l14, l10, l7, l15, l8, l11];
+export const drills: Drill[] = [...drillsA, ...drillsB, ...drillsC];

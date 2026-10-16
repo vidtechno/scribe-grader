@@ -9,9 +9,9 @@ const base = { profile: { level: 'beginner', xp: 0, trial_started_at: '', next_l
 const done = (...ids: string[]) => ({ ...base, progress: ids.map((id) => ({ lesson_id: id, best_score: 10, total: 10, stars: 3, attempts: 1, completed_at: '2026-10-01' })) }) as LearningState;
 
 describe('courseMap with short lessons', () => {
-  it('Beginner, Elementary and Pre-Intermediate are on the course path', () => {
+  it('Beginner, Elementary, Pre-Intermediate and Intermediate are on the course path', () => {
     expect(courseMap(base).total).toBeGreaterThan(0);
-    expect(courseMap(base).unitsTotal).toBe(17);
+    expect(courseMap(base).unitsTotal).toBe(23);
   });
 
   it('short lessons stay locked until the lessons before them are done', () => {

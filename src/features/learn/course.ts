@@ -7,12 +7,14 @@ import type { Drill, Lesson, LevelId, UnitMeta } from './types';
 const A1_OPEN = true;
 /** Pre-Intermediate (A2) is open. Set to false to hide it again without touching the lessons. */
 const A2_OPEN = true;
+/** Intermediate (B1) is open. Set to false to hide it again without touching the lessons. */
+const B1_OPEN = true;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },
   { id: 'a1', title: 'Elementary', cefr: 'A1', text: "Oddiy gaplarni tushunaman, o'zim haqimda biroz gapira olaman.", available: A1_OPEN },
   { id: 'a2', title: 'Pre-Intermediate', cefr: 'A2', text: "Kundalik mavzularda gaplasha olaman, lekin xatolarim ko'p.", available: A2_OPEN },
-  { id: 'b1', title: 'Intermediate', cefr: 'B1', text: "Ko'p narsani tushunaman, fikrimni ayta olaman.", available: false },
+  { id: 'b1', title: 'Intermediate', cefr: 'B1', text: "Ko'p narsani tushunaman, fikrimni ayta olaman.", available: B1_OPEN },
   { id: 'b2', title: 'Upper-Intermediate', cefr: 'B2', text: "Erkin gaplashaman, murakkab matnlarni o'qiyman.", available: false },
   { id: 'c1', title: 'Advanced', cefr: 'C1', text: "Deyarli erkin, akademik ingliz tilini mukammallashtirmoqchiman.", available: false },
   { id: 'ielts', title: 'IELTS', cefr: 'IELTS', text: "IELTS imtihoniga maqsadli tayyorgarlik.", available: false },
@@ -433,14 +435,155 @@ export const A2_UNITS: UnitMeta[] = [
   },
 ];
 
+export const B1_UNITS: UnitMeta[] = [
+  {
+    id: "u18", n: 18, level: 'b1', title: "Life stories and experiences", titleUz: "Hayot hikoyalari va tajriba: Present Perfect va uning shakllari",
+    description: "Present Perfect (tajriba, natija, for / since), Present Perfect Continuous, Past Simple bilan farqi, o'zgarishlar va hayot voqealari.",
+    learns: ["Present Perfect: tajriba va natija (ever, never, already, yet, just)", "for va since bilan davomiylik; How long…?", "Present Perfect Continuous: davom etayotgan jarayon", "Present Perfect yoki Past Simple?; used to, be used to, get used to", "Hayot voqealari lug'ati, biografiya va yangiliklarni gapirib berish", "Vaziyat: yangi odam bilan tanishish, do'stga yangiliklarni aytish"],
+    tone: "from-indigo-500 to-blue-400",
+    lessons: [
+      { id: "u18-l1", title: "Present Perfect: experiences and results", titleUz: "Present Perfect: tajriba va natija (ever, never, already, yet, just)" },
+      { id: "u18-l12", title: "Been or gone? Just, already, yet", titleUz: "Been yoki gone? Just, already va yet bilan ishlash", mini: true, kind: 'grammar' },
+      { id: "u18-l2", title: "Present Perfect with for and since", titleUz: "For va since: How long…? savollari" },
+      { id: "u18-l3", title: "Present Perfect Continuous", titleUz: "Present Perfect Continuous: davom etayotgan jarayon" },
+      { id: "u18-l4", title: "Present Perfect or Past Simple?", titleUz: "Present Perfect yoki Past Simple? Simple yoki Continuous?" },
+      { id: "u18-l13", title: "How long, ago and time words", titleUz: "How long, ago va vaqt so'zlari: to'g'ri zamonni tanlash", mini: true, kind: 'grammar' },
+      { id: "u18-l9", title: "Meeting someone new: talking about your life", titleUz: "Yangi tanish bilan suhbat: hayotingiz haqida gapirish", mini: true, kind: 'situation' },
+      { id: "u18-l5", title: "Life events and milestones", titleUz: "Hayot voqealari: get married, move house, graduate, retire" },
+      { id: "u18-l6", title: "Changes: used to, be used to, get used to", titleUz: "O'zgarishlar: used to, be used to va get used to" },
+      { id: "u18-l14", title: "Listening and speaking: an interview about a life", titleUz: "Tinglash va gapirish: hayot haqida intervyu", mini: true, kind: 'skill' },
+      { id: "u18-l10", title: "Catching up with a friend by phone", titleUz: "Do'stga telefonda yangiliklarni aytish", mini: true, kind: 'situation' },
+      { id: "u18-l7", title: "Writing a short biography", titleUz: "Yozish: qisqa tarjimai hol" },
+      { id: "u18-l15", title: "Reading and writing: an email to an old friend", titleUz: "O'qish va yozish: eski do'stga xat", mini: true, kind: 'skill' },
+      { id: "u18-l8", title: "Unit review: experiences", titleUz: "Bosqich takrori: tajriba va Present Perfect" },
+      { id: "u18-l11", title: "Life stories: final review", titleUz: "Hayot hikoyalari: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u19", n: 19, level: 'b1', title: "Telling stories and reporting", titleUz: "Hikoya aytish va gapni ko'chirish: Past Perfect, reported speech",
+    description: "Past Perfect, hikoya zamonlari, ko'chirma gap (bayon, savol, iltimos), reporting fe'llari va yangiliklar.",
+    learns: ["Past Perfect: o'tmishdan oldingi voqea", "Hikoya zamonlari: Past Simple, Continuous va Perfect birga", "Reported speech: darak gaplar (say / tell, zamon siljishi)", "Reported questions, buyruq va iltimoslar; reporting fe'llari (suggest, promise, admit)", "Yangiliklar lug'ati, hikoyada bog'lovchilar, hikoya yozish", "Vaziyat: voqea haqida xabar berish, shikoyat qilish"],
+    tone: "from-fuchsia-500 to-pink-400",
+    lessons: [
+      { id: "u19-l1", title: "Past Perfect: what had happened before", titleUz: "Past Perfect: o'tmishdan oldin nima bo'lgan edi" },
+      { id: "u19-l12", title: "Past Perfect or Past Simple? Before, after, by the time", titleUz: "Past Perfect yoki Past Simple? Before, after, by the time", mini: true, kind: 'grammar' },
+      { id: "u19-l2", title: "Narrative tenses together", titleUz: "Hikoya zamonlari birga: Past Simple, Continuous, Perfect" },
+      { id: "u19-l3", title: "Reported speech: statements", titleUz: "Reported speech: darak gaplar (say, tell, zamon siljishi)" },
+      { id: "u19-l4", title: "Reported questions, requests and orders", titleUz: "Ko'chirma savollar, iltimos va buyruqlar" },
+      { id: "u19-l13", title: "Reporting verbs: suggest, promise, admit, deny", titleUz: "Reporting fe'llari: suggest, promise, admit, deny, warn", mini: true, kind: 'grammar' },
+      { id: "u19-l9", title: "Reporting an incident", titleUz: "Voqea haqida xabar berish: yo'l hodisasi, o'g'rilik", mini: true, kind: 'situation' },
+      { id: "u19-l5", title: "News and media", titleUz: "Yangiliklar va ommaviy axborot: so'zlar va sarlavhalar" },
+      { id: "u19-l6", title: "Linking a story: suddenly, meanwhile, in the end", titleUz: "Hikoyada bog'lovchilar: suddenly, meanwhile, eventually, in the end" },
+      { id: "u19-l14", title: "Listening and speaking: a news report", titleUz: "Tinglash va gapirish: yangiliklar ma'ruzasi", mini: true, kind: 'skill' },
+      { id: "u19-l10", title: "Making a complaint", titleUz: "Shikoyat qilish: mahsulot yoki xizmatdan norozilik", mini: true, kind: 'situation' },
+      { id: "u19-l7", title: "Writing a story", titleUz: "Yozish: qiziqarli hikoya" },
+      { id: "u19-l15", title: "Reading and writing: a news article", titleUz: "O'qish va yozish: yangilik maqolasi", mini: true, kind: 'skill' },
+      { id: "u19-l8", title: "Unit review: stories and reporting", titleUz: "Bosqich takrori: hikoya va ko'chirma gap" },
+      { id: "u19-l11", title: "Stories and reporting: final review", titleUz: "Hikoya va ko'chirma gap: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u20", n: 20, level: 'b1', title: "Possibilities and imagination", titleUz: "Imkoniyatlar va tasavvur: shart gaplar, wish, taxmin",
+    description: "Second va third conditional, wish, taxmin modal fe'llari (must, might, can't), maslahat va pushaymonlik.",
+    learns: ["Second conditional: xayoliy hozirgi vaziyat (If I were…)", "First va second conditional farqi; unless, as long as, provided", "Third conditional: o'tgan zamon pushaymonligi; wish + Past Simple / Past Perfect", "Taxmin modallari: must, might, can't (hozir va o'tgan: must have been)", "Maslahat va tanqid: should, ought to, had better, should have", "Vaziyat: maslahat berish, uzr so'rash va pushaymonlik bildirish"],
+    tone: "from-cyan-500 to-sky-400",
+    lessons: [
+      { id: "u20-l1", title: "Second conditional: imaginary situations", titleUz: "Second conditional: xayoliy vaziyatlar (If I were…, I would…)" },
+      { id: "u20-l12", title: "I wish… (present and past)", titleUz: "I wish…: hozirgi va o'tgan zamon orzu-pushaymonligi", mini: true, kind: 'grammar' },
+      { id: "u20-l2", title: "First or second conditional? Unless, as long as", titleUz: "First yoki second conditional? Unless, as long as, provided" },
+      { id: "u20-l3", title: "Third conditional: past regrets", titleUz: "Third conditional: o'tgan zamon pushaymonligi" },
+      { id: "u20-l4", title: "Modals of deduction: must, might, can't", titleUz: "Taxmin modallari: must, might, can't (must have been)" },
+      { id: "u20-l13", title: "Modals in the past: should have, could have", titleUz: "O'tgan zamon modallari: should have, could have, needn't have", mini: true, kind: 'grammar' },
+      { id: "u20-l9", title: "Giving advice to a friend", titleUz: "Do'stga maslahat berish: muammoli vaziyat", mini: true, kind: 'situation' },
+      { id: "u20-l5", title: "Dreams, ambitions and feelings", titleUz: "Orzu, intilish va his-tuyg'ular lug'ati" },
+      { id: "u20-l6", title: "Advice and suggestions: should, ought to, had better", titleUz: "Maslahat va taklif: should, ought to, had better, If I were you" },
+      { id: "u20-l14", title: "Listening and speaking: a dilemma", titleUz: "Tinglash va gapirish: qiyin tanlov", mini: true, kind: 'skill' },
+      { id: "u20-l10", title: "Apologising and expressing regret", titleUz: "Uzr so'rash va pushaymonlik bildirish", mini: true, kind: 'situation' },
+      { id: "u20-l7", title: "Writing a letter of advice", titleUz: "Yozish: maslahat xati" },
+      { id: "u20-l15", title: "Reading and writing: a problem page", titleUz: "O'qish va yozish: maslahat ustuni", mini: true, kind: 'skill' },
+      { id: "u20-l8", title: "Unit review: conditionals and modals", titleUz: "Bosqich takrori: shart gaplar va modallar" },
+      { id: "u20-l11", title: "Possibilities: final review", titleUz: "Imkoniyatlar: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u21", n: 21, level: 'b1', title: "People, places and things", titleUz: "Odamlar, joylar va narsalar: majhul nisbat, nisbiy gaplar, artikl",
+    description: "Passive voice, nisbiy gaplar (who, which, whose), artikl va miqdor so'zlari, savol dumlari va xushmuomala savollar.",
+    learns: ["Passive voice: Present, Past, Present Perfect va modallar bilan", "Defining va non-defining relative clauses (who, which, that, where, whose)", "Artikl va miqdor so'zlari (a / the / —, all, both, either, neither)", "Question tags va xushmuomala (indirect) savollar", "Shahar, bino va turizm lug'ati; so'z yasalishi", "Vaziyat: joyni tasvirlash, ma'lumot so'rash"],
+    tone: "from-lime-500 to-emerald-400",
+    lessons: [
+      { id: "u21-l1", title: "The passive: present and past", titleUz: "Majhul nisbat: hozirgi va o'tgan zamon (is made, was built)" },
+      { id: "u21-l12", title: "The passive: perfect, future and modals", titleUz: "Majhul nisbat: has been built, will be done, can be seen", mini: true, kind: 'grammar' },
+      { id: "u21-l2", title: "Defining relative clauses", titleUz: "Aniqlovchi nisbiy gaplar: who, which, that, where, whose" },
+      { id: "u21-l3", title: "Non-defining relative clauses", titleUz: "Qo'shimcha ma'lumot beruvchi nisbiy gaplar (vergul bilan)" },
+      { id: "u21-l4", title: "Articles and determiners", titleUz: "Artikl va aniqlovchilar: a, the, artikl yo'q; some, any, much, many" },
+      { id: "u21-l13", title: "All, both, either, neither, each, every", titleUz: "All, both, either, neither, each va every", mini: true, kind: 'grammar' },
+      { id: "u21-l9", title: "Describing a place", titleUz: "Joyni tasvirlash: shahar yoki mahalla", mini: true, kind: 'situation' },
+      { id: "u21-l5", title: "Cities, buildings and tourism", titleUz: "Shahar, binolar va turizm: so'zlar va so'z yasalishi" },
+      { id: "u21-l6", title: "Question tags and polite questions", titleUz: "Question tags va xushmuomala savollar (Could you tell me…?)" },
+      { id: "u21-l14", title: "Listening and speaking: describing a place", titleUz: "Tinglash va gapirish: joyni tasvirlab berish", mini: true, kind: 'skill' },
+      { id: "u21-l10", title: "Asking for information", titleUz: "Ma'lumot so'rash: turistik ofis va telefon orqali", mini: true, kind: 'situation' },
+      { id: "u21-l7", title: "Writing a travel review", titleUz: "Yozish: sayohat sharhi" },
+      { id: "u21-l15", title: "Reading and writing: a hotel review", titleUz: "O'qish va yozish: mehmonxona sharhi", mini: true, kind: 'skill' },
+      { id: "u21-l8", title: "Unit review: passive and relative clauses", titleUz: "Bosqich takrori: majhul nisbat va nisbiy gaplar" },
+      { id: "u21-l11", title: "People and places: final review", titleUz: "Odamlar va joylar: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u22", n: 22, level: 'b1', title: "Work, study and technology", titleUz: "Ish, o'qish va texnologiya: gerund / infinitive, kelasi zamonlar, phrasal verbs",
+    description: "Gerund va infinitive, maqsad bildirish, Future Continuous / Perfect, taqqoslash, phrasal verbs, rasmiy xat.",
+    learns: ["Gerund yoki infinitive: fe'l qoliplari (stop, remember, try, want, enjoy)", "Maqsad: to, in order to, so that, for", "Kelasi zamon shakllari; Future Continuous va Future Perfect", "Taqqoslash chuqurroq: the more… the more, much, far, as… as", "Phrasal verbs (ajraladigan va ajralmaydigan); ish, ta'lim, texnologiya lug'ati", "Vaziyat: ish suhbati, texnik yordam"],
+    tone: "from-orange-500 to-amber-400",
+    lessons: [
+      { id: "u22-l1", title: "Gerund or infinitive?", titleUz: "Gerund yoki infinitive? Fe'l qoliplari" },
+      { id: "u22-l12", title: "Purpose: to, in order to, so that, for", titleUz: "Maqsad: to, in order to, so that, for", mini: true, kind: 'grammar' },
+      { id: "u22-l2", title: "Future forms: will, going to, present tenses", titleUz: "Kelasi zamon shakllari: will, going to, Present Continuous / Simple" },
+      { id: "u22-l3", title: "Future Continuous and Future Perfect", titleUz: "Future Continuous va Future Perfect: kelajakdagi jarayon va natija" },
+      { id: "u22-l4", title: "Comparing in depth", titleUz: "Taqqoslash chuqurroq: the more… the more, much / far, as… as" },
+      { id: "u22-l13", title: "Predictions and certainty", titleUz: "Bashorat va ishonch darajasi: probably, definitely, I doubt", mini: true, kind: 'grammar' },
+      { id: "u22-l9", title: "A job interview", titleUz: "Ish suhbati: o'zingiz va rejalaringiz haqida", mini: true, kind: 'situation' },
+      { id: "u22-l5", title: "Work, careers and education", titleUz: "Ish, kasb va ta'lim: lug'at va birikmalar" },
+      { id: "u22-l6", title: "Phrasal verbs", titleUz: "Phrasal verbs: ajraladigan va ajralmaydigan" },
+      { id: "u22-l14", title: "Listening and speaking: technology in our lives", titleUz: "Tinglash va gapirish: hayotimizdagi texnologiya", mini: true, kind: 'skill' },
+      { id: "u22-l10", title: "Solving a problem at work or with technology", titleUz: "Ishdagi yoki texnik muammoni hal qilish", mini: true, kind: 'situation' },
+      { id: "u22-l7", title: "Writing a formal email", titleUz: "Yozish: rasmiy elektron xat" },
+      { id: "u22-l15", title: "Reading and writing: a job advert and cover email", titleUz: "O'qish va yozish: e'lon va qo'shimcha xat", mini: true, kind: 'skill' },
+      { id: "u22-l8", title: "Unit review: work and technology", titleUz: "Bosqich takrori: ish va texnologiya" },
+      { id: "u22-l11", title: "Work, study and technology: final review", titleUz: "Ish, o'qish va texnologiya: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u23", n: 23, level: 'b1', title: "Ideas, opinions and communication", titleUz: "G'oyalar, fikrlar va muloqot: munozara, bog'lovchilar, B1 yakuni",
+    description: "Fikr bildirish va asoslash, taqqoslash, bog'lovchi so'zlar, qiyin mavzular bo'yicha munozara, taqdimot, esse va B1 yakuniy takrori.",
+    learns: ["Fikr bildirish, rozi bo'lish va bo'lmaslik, mulohazani yumshatish", "Bog'lovchi so'zlar: however, therefore, on the other hand, in addition", "Afzallik va kamchiliklarni taqqoslash; muammo va yechim", "Barcha zamonlar va shart gaplar takrori; uzbek tilida tipik xatolar", "Jamiyat, atrof-muhit, salomatlik lug'ati; taqdimot va esse yozish", "Vaziyat: guruh munozarasi, kelishuvga erishish"],
+    tone: "from-violet-600 to-purple-400",
+    lessons: [
+      { id: "u23-l1", title: "Giving and defending opinions", titleUz: "Fikr bildirish va himoya qilish: I think, In my view, I'm convinced" },
+      { id: "u23-l12", title: "Linking ideas: however, therefore, in addition", titleUz: "Fikrlarni bog'lash: however, therefore, in addition, on the other hand", mini: true, kind: 'grammar' },
+      { id: "u23-l2", title: "Advantages and disadvantages", titleUz: "Afzallik va kamchiliklar: taqqoslash va xulosa" },
+      { id: "u23-l3", title: "Grammar bridge: conditionals and the passive", titleUz: "Grammatika ko'prigi: shart gaplar va majhul nisbat takrori" },
+      { id: "u23-l4", title: "Grammar bridge: all tenses", titleUz: "Grammatika ko'prigi: barcha zamonlar takrori" },
+      { id: "u23-l13", title: "Typical mistakes of Uzbek speakers at B1", titleUz: "B1 darajada o'zbek tilida so'zlashuvchilarning tipik xatolari", mini: true, kind: 'grammar' },
+      { id: "u23-l9", title: "Taking part in a group discussion", titleUz: "Guruh munozarasida qatnashish", mini: true, kind: 'situation' },
+      { id: "u23-l5", title: "Society, environment and health", titleUz: "Jamiyat, atrof-muhit va salomatlik: so'zlar va birikmalar" },
+      { id: "u23-l6", title: "Giving a short presentation", titleUz: "Qisqa taqdimot qilish: tuzilma va iboralar" },
+      { id: "u23-l14", title: "Listening and speaking: a two-minute talk", titleUz: "Tinglash va gapirish: ikki daqiqalik nutq", mini: true, kind: 'skill' },
+      { id: "u23-l10", title: "Disagreeing politely and finding a compromise", titleUz: "Xushmuomala e'tiroz bildirish va kelishuvga erishish", mini: true, kind: 'situation' },
+      { id: "u23-l7", title: "Writing an opinion essay", titleUz: "Yozish: fikr bildiruvchi esse" },
+      { id: "u23-l15", title: "Reading and writing: summarising an article", titleUz: "O'qish va yozish: maqolani qisqacha bayon qilish", mini: true, kind: 'skill' },
+      { id: "u23-l8", title: "B1 final review", titleUz: "B1 yakuniy takrori: barcha mavzular" },
+      { id: "u23-l11", title: "Intermediate: final review", titleUz: "Intermediate: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+];
+
 /** Levels that are only partly released: shown under their units. */
 export const PARTIAL_LEVELS: Partial<Record<LevelId, string>> = {};
 
 /** Every unit of every level, in course order. */
-export const COURSE_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...(A1_OPEN ? A1_UNITS : []), ...(A2_OPEN ? A2_UNITS : [])];
+export const COURSE_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...(A1_OPEN ? A1_UNITS : []), ...(A2_OPEN ? A2_UNITS : []), ...(B1_OPEN ? B1_UNITS : [])];
 
 /** Every unit that is written, released or not (the content tests and the audio generator use this). */
-export const WRITTEN_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...A1_UNITS, ...A2_UNITS];
+export const WRITTEN_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...A1_UNITS, ...A2_UNITS, ...B1_UNITS];
 
 export function unitsOf(level: LevelId): UnitMeta[] {
   return COURSE_UNITS.filter((u) => u.level === level);
@@ -500,6 +643,12 @@ const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[]; drills?: Dr
   u15: () => import('./content/a2/u15'),
   u16: () => import('./content/a2/u16'),
   u17: () => import('./content/a2/u17'),
+  u18: () => import('./content/b1/u18'),
+  u19: () => import('./content/b1/u19'),
+  u20: () => import('./content/b1/u20'),
+  u21: () => import('./content/b1/u21'),
+  u22: () => import('./content/b1/u22'),
+  u23: () => import('./content/b1/u23'),
 };
 
 export async function loadUnit(unitId: string): Promise<Lesson[]> {
@@ -550,6 +699,8 @@ export const DRILL_COUNTS: Record<string, number> = {
   'u15-l1': 1, 'u15-l2': 1, 'u15-l3': 1, 'u15-l4': 1,
   'u16-l1': 2, 'u16-l2': 1, 'u16-l3': 2, 'u16-l4': 2, 'u16-l6': 1,
   'u17-l1': 1,
+  // Intermediate: every unit has a practice game after l2–l7 and after each mini lesson that teaches or reviews
+  'u18-l2': 1, 'u18-l3': 1, 'u18-l4': 1, 'u18-l5': 1, 'u18-l6': 1, 'u18-l7': 1, 'u18-l12': 1, 'u18-l13': 1, 'u18-l14': 1, 'u18-l15': 1, 'u18-l11': 1, 'u19-l2': 1, 'u19-l3': 1, 'u19-l4': 1, 'u19-l5': 1, 'u19-l6': 1, 'u19-l7': 1, 'u19-l12': 1, 'u19-l13': 1, 'u19-l14': 1, 'u19-l15': 1, 'u19-l11': 1, 'u20-l2': 1, 'u20-l3': 1, 'u20-l4': 1, 'u20-l5': 1, 'u20-l6': 1, 'u20-l7': 1, 'u20-l12': 1, 'u20-l13': 1, 'u20-l14': 1, 'u20-l15': 1, 'u20-l11': 1, 'u21-l2': 1, 'u21-l3': 1, 'u21-l4': 1, 'u21-l5': 1, 'u21-l6': 1, 'u21-l7': 1, 'u21-l12': 1, 'u21-l13': 1, 'u21-l14': 1, 'u21-l15': 1, 'u21-l11': 1, 'u22-l2': 1, 'u22-l3': 1, 'u22-l4': 1, 'u22-l5': 1, 'u22-l6': 1, 'u22-l7': 1, 'u22-l12': 1, 'u22-l13': 1, 'u22-l14': 1, 'u22-l15': 1, 'u22-l11': 1, 'u23-l2': 1, 'u23-l3': 1, 'u23-l4': 1, 'u23-l5': 1, 'u23-l6': 1, 'u23-l7': 1, 'u23-l12': 1, 'u23-l13': 1, 'u23-l14': 1, 'u23-l15': 1, 'u23-l11': 1,
   // Elementary rebuild
   'u6-l3': 1, 'u6-l12': 1, 'u6-l14': 1, 'u6-l13': 1, 'u6-l15': 1, 'u6-l11': 1, 'u7-l1': 1, 'u7-l12': 1, 'u7-l13': 1, 'u7-l14': 1, 'u7-l15': 1, 'u7-l11': 1, 'u8-l1': 1, 'u8-l12': 1, 'u8-l13': 1, 'u8-l14': 1, 'u8-l15': 1, 'u8-l11': 1, 'u9-l7': 1, 'u9-l12': 1, 'u9-l13': 1, 'u9-l14': 1, 'u9-l15': 1, 'u9-l11': 1, 'u10-l2': 1, 'u10-l13': 1, 'u10-l12': 1, 'u10-l14': 1, 'u10-l15': 1, 'u10-l11': 1, 'u11-l7': 1, 'u11-l12': 1, 'u11-l13': 1, 'u11-l14': 1, 'u11-l15': 1, 'u11-l11': 1,
   // Pre-Intermediate rebuild

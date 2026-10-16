@@ -270,12 +270,15 @@ interface LearningSummary {
   today_xp?: number; daily_goal?: number; week_xp?: number;
   streak_info?: { current: number; best: number; at_risk: boolean; broken: boolean };
 }
-// Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units and 88 lessons including 14 real-life scenes, Elementary 6 and 90, Pre-Intermediate 6 and 90).
+// Lessons and unit tests on the learning path, by the level the learner started at (Beginner 5 units and 88 lessons including 14 real-life scenes, Elementary, Pre-Intermediate and Intermediate 6 units and 90 each).
 const COURSE_SIZE: Record<string, { name: string; lessons: number; units: number }> = {
-  beginner: { name: "Beginner", lessons: 268, units: 17 },
-  a1: { name: "Elementary (A1)", lessons: 180, units: 12 },
-  a2: { name: "Pre-Intermediate (A2)", lessons: 90, units: 6 },
+  beginner: { name: "Beginner", lessons: 358, units: 23 },
+  a1: { name: "Elementary (A1)", lessons: 270, units: 18 },
+  a2: { name: "Pre-Intermediate (A2)", lessons: 180, units: 12 },
+  b1: { name: "Intermediate (B1)", lessons: 90, units: 6 },
 };
+
+const placementName = (target?: string | null) => (target === "b1" ? "Intermediate" : target === "a2" ? "Pre-Intermediate" : "Elementary");
 
 export async function showDictionary(ctx: Ctx) {
   const userId = await requireUser(ctx);
@@ -311,8 +314,8 @@ export async function showLearn(ctx: Ctx) {
   }
   if (s.placement_status === "pending") {
     await reply(ctx, [
-      title("🧭", `${s.placement_target === "a2" ? "Pre-Intermediate" : "Elementary"} uchun daraja testi`),
-      hint(`Oldingi darajalardan 20 ta savol. Kamida 70% topsangiz, to'g'ridan-to'g'ri ${s.placement_target === "a2" ? "Pre-Intermediate" : "Elementary"} darslariga o'tasiz; 2 ta urinish.`),
+      title("🧭", `${placementName(s.placement_target)} uchun daraja testi`),
+      hint(`Oldingi darajalardan 20 ta savol. Kamida 70% topsangiz, to'g'ridan-to'g'ri ${placementName(s.placement_target)} darslariga o'tasiz; 2 ta urinish.`),
     ].join("\n"), [[app("🧭 Testni boshlash", "/learn/placement")], [app("🎓 Kursni ochish", "/learn")]]);
     return;
   }

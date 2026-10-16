@@ -1,0 +1,163 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u19-l3",
+  title: "Reported speech: statements",
+  titleUz: "Reported speech: darak gaplar (say, tell, zamon siljishi)",
+  goal: "Birovning gapini **reported speech** da aytasiz: **say** va **tell** ni farqlaysiz, zamonni bir pog'ona **orqaga siljitasiz** (*am* - *was*, *will* - *would*), olmosh va vaqt so'zlarini (*tomorrow* - *the next day*) to'g'ri almashtirasiz.",
+  slides: [
+    {
+      title: "To'g'ri va ko'chirma gap",
+      blocks: [
+        { t: "p", md: "Birovning gapini ikki usulda yetkazamiz. **Direct speech** (o'z so'zi bilan, tirnoq ichida) va **reported speech** (ko'chirma gap, o'z so'zimiz bilan). O'zbekchada: *«Charchadim,» dedi* va *U charchaganini aytdi*." },
+        { t: "table", head: ["Direct speech", "Reported speech"], speak: [0, 1], rows: [
+          ["Anna said, \"I'm tired.\"", "Anna said that she was tired."],
+          ["He told us, \"I live in Tashkent.\"", "He told us that he lived in Tashkent."],
+        ] },
+        { t: "p", md: "Reported speech da: tirnoq va vergul **yo'q**, **that** ni tushirib qoldirish mumkin, gap oddiy darak gap tartibida bo'ladi va odatda **zamon bir pog'ona orqaga** suriladi." },
+        { t: "tip", tone: "info", md: "Nega orqaga suriladi? Chunki biz gapni **keyinroq** yetkazayapmiz, o'sha gap esa o'tmishda aytilgan. Shuning uchun *is* o'rniga *was*, *will* o'rniga *would* deymiz." },
+        { t: "check", ex: { k: "choice", q: "Reported speech ni toping.", opts: ["\"I'm hungry,\" said Ben.", "Ben said that he was hungry.", "Ben, are you hungry?", "Ben is hungry now."], a: 1, why: "Tirnoqsiz, zamon siljigan, **said that…**: bu reported speech." } },
+      ],
+    },
+    {
+      title: "Zamon siljishi (backshift)",
+      blocks: [
+        { t: "table", head: ["To'g'ri gapda", "Reported speech da", "To'g'ri gap", "Reported speech"], rows: [
+          ["Present Simple", "Past Simple", "I like it.", "She said she liked it."],
+          ["Present Continuous", "Past Continuous", "I'm working.", "He said he was working."],
+          ["Present Perfect", "Past Perfect", "I've finished.", "She said she had finished."],
+          ["Past Simple", "Past Perfect", "I saw him.", "He said he had seen him."],
+          ["will", "would", "I'll call.", "She said she would call."],
+          ["can", "could", "I can swim.", "He said he could swim."],
+          ["must", "had to", "I must go.", "She said she had to go."],
+          ["may", "might", "It may rain.", "He said it might rain."],
+          ["am / is / are", "was / were", "I'm late.", "He said he was late."],
+        ] },
+        { t: "tip", tone: "good", md: "Qoida: har bir zamon **bir pog'ona orqaga** suriladi. **Past Perfect** o'zgarmaydi (undan orqaga zamon yo'q): *I had left* gapi: *She said she had left.*" },
+        { t: "check", ex: { k: "fill", q: "\"I'll help you.\" Reported: He said he ___ help me.", a: ["would"], why: "**will** → **would**." } },
+        { t: "check", ex: { k: "choice", q: "\"We've bought a car.\" Reported: They said they ___ a car.", opts: ["bought", "had bought", "have bought", "buy"], a: 1, why: "Present Perfect → **Past Perfect**: *had bought*." } },
+      ],
+    },
+    {
+      title: "Olmosh va vaqt so'zlari",
+      blocks: [
+        { t: "p", md: "Gapni yetkazganda **kim** gapirayotgani o'zgaradi, shuning uchun olmoshlar ma'noga qarab almashadi: *\"I'm tired,\" Karim said.* → *Karim said he was tired.* (I → he). Vaqt va joy so'zlari ham, agar gap boshqa kun yoki boshqa joyda yetkazilsa, o'zgaradi:" },
+        { t: "table", head: ["To'g'ri gapda", "Reported speech da"], rows: [
+          ["now", "then / at that time"],
+          ["today", "that day"],
+          ["tonight", "that night"],
+          ["yesterday", "the day before / the previous day"],
+          ["tomorrow", "the next day / the following day"],
+          ["next week", "the following week"],
+          ["last year", "the year before"],
+          ["two days ago", "two days before"],
+          ["here", "there"],
+          ["this", "that"],
+        ] },
+        { t: "examples", items: [
+          { en: "She said she would see me the next day.", uz: "U ertasi kuni ko'rishishimizni aytdi.", note: "To'g'ri gap: I'll see you tomorrow." },
+          { en: "They said they had moved there two years before.", uz: "Ular u yerga ikki yil oldin ko'chib kelganini aytdi.", note: "To'g'ri gap: We moved here two years ago." },
+        ] },
+        { t: "tip", tone: "warn", md: "Agar gapni **o'sha kuni va o'sha joyda** yetkazsangiz, vaqt va joy so'zlarini o'zgartirish shart emas: *She said she'd call tomorrow* (bugun ham «ertaga» to'g'ri). Muhimi — mantiq." },
+        { t: "check", ex: { k: "fill", q: "\"I'm leaving tomorrow.\" Reported: He said he was leaving the ___ day.", a: ["next", "following"], why: "**tomorrow** → **the next / the following day**." } },
+      ],
+    },
+    {
+      title: "Say yoki tell?",
+      blocks: [
+        { t: "p", md: "Bu o'zbek o'quvchilar uchun eng ko'p uchraydigan xato. **say** bilan odam nomi darhol kelmaydi, **tell** bilan esa **kimga** aytilgani doim ko'rsatiladi." },
+        { t: "table", head: ["Fe'l", "Qolip", "Misol"], rows: [
+          ["say", "say (that) + gap", "She said (that) she was busy."],
+          ["say", "say to + kishi", "She said to me that she was busy."],
+          ["tell", "tell + kishi + (that) + gap", "She told me (that) she was busy."],
+        ] },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["He said that he was late.", "He told me that he was late.", "He said to me that he was late."] },
+          bad: { title: "Xato", items: ["He said me that he was late.", "He told that he was late.", "He told to me that he was late."] } },
+        { t: "tip", tone: "warn", md: "Esda tuting: **tell** + kishi (*told me, told Anna*), **say** + gap. *told to me* va *said me* bo'lmaydi." },
+        { t: "tip", tone: "info", md: "Agar gapni aytgan odam **hozir ham** shuni aytayotgan bo'lsa (*She says…*), yoki gap hamon haqiqat bo'lsa, zamon siljishi shart emas: *I live in Tashkent* gapini *She said she lives in Tashkent* yoki *She said she lived in Tashkent* deb aytish mumkin. Ammo ishonchingiz komil bo'lmasa, orqaga siljitgan xavfsiz." },
+        { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["She told that she was ill.", "She said me that she was ill.", "She told me that she was ill.", "She told to me that she was ill."], a: 2, why: "**tell** + kishi: *told me*." } },
+        { t: "check", ex: { k: "fix", wrong: "He said me that he would come.", a: ["He told me that he would come.", "He said that he would come.", "He told me he would come.", "He said he would come."], hint: "say yoki tell", why: "*said me* xato: **told me** yoki **said (that)**." } },
+      ],
+    },
+    {
+      title: "O'qing: Ishdagi yangilik",
+      blocks: [
+        {
+          t: "text", title: "News at the office",
+          en: "On Monday morning, the manager called a short meeting. He told the team that the company was opening a new office in Samarkand. He said that they would need three people there. Dilnoza asked nothing, but she told her colleague later that she had always wanted to live in Samarkand. Her colleague said that he couldn't leave Tashkent because his family lived there. At lunch, everyone was talking about the news. Dilnoza said she was going to apply the next day, and her friend replied that she would be perfect for the job.",
+          uz: "Dushanba kuni ertalab menejer qisqa yig'ilish o'tkazdi. U jamoaga kompaniya Samarqandda yangi ofis ochayotganini aytdi. U yerda uch kishi kerak bo'lishini aytdi. Dilnoza hech narsa so'ramadi, lekin keyinroq hamkasbiga har doim Samarqandda yashashni xohlaganini aytdi. Hamkasbi Toshkentni tashlab keta olmasligini, chunki oilasi shu yerda yashashini aytdi. Tushlikda hamma shu yangilik haqida gaplashardi. Dilnoza ertasi kuni murojaat qilmoqchi ekanini aytdi, do'sti esa u ish uchun juda mos kelishini javob qildi.",
+        },
+        { t: "check", ex: { k: "choice", q: "Why couldn't Dilnoza's colleague go to Samarkand?", opts: ["His family lived in Tashkent.", "He didn't like the job.", "The office was too small.", "He had already applied."], a: 0, why: "Matnda: *he couldn't leave Tashkent because his family lived there.*" } },
+        { t: "check", ex: { k: "tf", q: "The manager said that the new office would need five people.", a: false, why: "Menejer **uch kishi** kerakligini aytdi (*three people*)." } },
+      ],
+    },
+    {
+      title: "Dialog: Kim nima dedi?",
+      blocks: [
+        {
+          t: "dialog", lines: [
+            { who: "Lily", en: "Did you talk to Jack about the trip?", uz: "Jack bilan sayohat haqida gaplashdingmi?" },
+            { who: "Karim", en: "Yes. He told me that he was very busy this month.", uz: "Ha. U bu oy juda band ekanini aytdi." },
+            { who: "Lily", en: "So he can't come?", uz: "Demak, kela olmaydimi?" },
+            { who: "Karim", en: "He said he might come in July. He said he would check his diary.", uz: "U iyulda kelishi mumkinligini aytdi. Kundaligini tekshirishini aytdi." },
+            { who: "Lily", en: "And what did Sara say?", uz: "Sara-chi, u nima dedi?" },
+            { who: "Karim", en: "She said she had already bought her ticket!", uz: "U chiptasini allaqachon sotib olganini aytdi!" },
+          ],
+        },
+        { t: "check", ex: { k: "tf", q: "Jack told Karim that he was free this month.", a: false, why: "Jack **band** ekanini aytdi: *he was very busy this month*." } },
+      ],
+    },
+  ],
+  words: [
+    { en: "explain", uz: "tushuntirmoq", ipa: "ɪkˈspleɪn", pos: "verb", ex: "The teacher explained that the lesson would start late.", exUz: "O'qituvchi dars kech boshlanishini tushuntirdi." },
+    { en: "remark", uz: "fikr bildirmoq, izoh bermoq", ipa: "rɪˈmɑːk", pos: "verb", ex: "She remarked that the weather was getting colder.", exUz: "U ob-havo sovib borayotganini aytib o'tdi." },
+    { en: "complain", uz: "shikoyat qilmoq", ipa: "kəmˈpleɪn", pos: "verb", ex: "She complained that the room was too noisy.", exUz: "U xona juda shovqinli ekanidan shikoyat qildi." },
+    { en: "boast", uz: "maqtanmoq", ipa: "bəʊst", pos: "verb", ex: "He boasted that he had won every game.", exUz: "U har bir o'yinda g'olib chiqqanini maqtanib aytdi." },
+    { en: "insist", uz: "turib olmoq", ipa: "ɪnˈsɪst", pos: "verb", ex: "She insisted that she was right.", exUz: "U o'zi haq ekanini turib aytdi." },
+    { en: "inform", uz: "xabardor qilmoq", ipa: "ɪnˈfɔːm", pos: "verb", ex: "They informed us that the meeting was cancelled.", exUz: "Ular uchrashuv bekor qilinganini bizga ma'lum qildi." },
+    { en: "rumour", uz: "mish-mish", ipa: "ˈruː.mər", pos: "noun", ex: "There is a rumour that the shop will close.", exUz: "Do'kon yopiladi degan mish-mish bor." },
+    { en: "assure", uz: "ishontirmoq, kafolat bermoq", ipa: "əˈʃɔːr", pos: "verb", ex: "The manager assured us that everything was under control.", exUz: "Menejer hammasi nazorat ostida ekaniga bizni ishontirdi." },
+    { en: "gossip", uz: "g'iybat, mish-mish", ipa: "ˈɡɒs.ɪp", pos: "noun", ex: "I don't like office gossip.", exUz: "Ofisdagi g'iybatni yoqtirmayman." },
+    { en: "declare", uz: "e'lon qilmoq, rasman bildirmoq", ipa: "dɪˈkleər", pos: "verb", ex: "The judge declared that the match was over.", exUz: "Hakam o'yin tugaganini e'lon qildi." },
+  ],
+  practice: [
+    { k: "choice", q: "\"I'm busy,\" said Tom. Reported: Tom said he ___ busy.", opts: ["is", "was", "were", "has been"], a: 1, why: "**am / is** → **was**." },
+    { k: "choice", q: "\"We live in Khiva.\" Reported: They told me they ___ in Khiva.", opts: ["live", "lived", "had lived", "were live"], a: 1, why: "Present Simple → **Past Simple**: *lived*." },
+    { k: "choice", q: "\"I'll call you.\" Reported: She said she ___ call me.", opts: ["will", "would", "can", "did"], a: 1, why: "**will** → **would**." },
+    { k: "listen", say: "He told me that he had lost his keys.", opts: ["He told me that he had lost his keys.", "He said me that he had lost his keys.", "He told that he had lost his keys.", "He told me that he lost his keys."], a: 0, why: "**told me that** + **had lost**." },
+    { k: "fill", q: "She ___ me that she was tired.", hint: "say yoki tell", a: ["told"], why: "Kishi bor, shuning uchun **told me**." },
+    { k: "fill", q: "He ___ that he had finished.", hint: "say yoki tell", a: ["said"], why: "Kishi yo'q, shuning uchun **said**." },
+    { k: "fill", q: "\"I saw her yesterday.\" Reported: He said he had seen her the ___ before.", a: ["day"], why: "**yesterday** → **the day before**." },
+    { k: "fill", q: "\"I must leave.\" Reported: She said she ___ to leave.", hint: "must", a: ["had"], why: "**must** → **had to**." },
+    { k: "order", uz: "U ertasi kuni kelishini aytdi.", words: ["He", "said", "he", "would", "come", "the", "next", "day."], extra: ["will", "tomorrow"], alt: [["He", "said", "that", "he", "would", "come", "the", "next", "day."], ["He", "said", "he", "would", "come", "the", "following", "day."]], why: "will → would, tomorrow → the next day." },
+    { k: "order", uz: "U menga band ekanini aytdi.", words: ["She", "told", "me", "she", "was", "busy."], extra: ["said", "to"], alt: [["She", "told", "me", "that", "she", "was", "busy."]], why: "**told me** — kishi bilan." },
+    { k: "translate", uz: "U menga charchaganini aytdi.", a: ["He told me that he was tired.", "He told me he was tired.", "She told me that she was tired.", "She told me she was tired."], why: "**told me** + zamon siljishi: *was tired*." },
+    { k: "translate", uz: "Ular allaqachon ovqatlanganini aytishdi.", a: ["They said that they had already eaten.", "They said they had already eaten.", "They told me they had already eaten.", "They told me that they had already eaten."], why: "Present Perfect / Past Simple → **had already eaten**." },
+    { k: "match", pairs: [["now", "then"], ["tomorrow", "the next day"], ["yesterday", "the day before"], ["here", "there"], ["this", "that"]] },
+    { k: "tf", q: "*He told to me that he was busy.* — bu gap to'g'ri.", a: false, why: "**told me** (to yo'q): *He told me that he was busy.*" },
+    { k: "fix", wrong: "She said me that she was ready.", a: ["She told me that she was ready.", "She told me she was ready.", "She said that she was ready.", "She said she was ready."], hint: "say yoki tell", why: "*said me* xato: **told me** yoki **said (that)**." },
+  ],
+  quiz: [
+    { k: "choice", q: "\"I can't find my phone.\" Reported: She said she ___ find her phone.", opts: ["can't", "couldn't", "didn't", "won't"], a: 1, why: "**can't** → **couldn't**." },
+    { k: "choice", q: "\"I've never been to Spain.\" Reported: He said he ___ been to Spain.", opts: ["has never", "never was", "had never", "would never"], a: 2, why: "Present Perfect → **had never been**." },
+    { k: "choice", q: "\"We are going to move.\" Reported: They said they ___ going to move.", opts: ["are", "was", "were", "be"], a: 2, why: "**are** → **were** (ular)." },
+    { k: "fill", q: "\"I'll do it tomorrow.\" Reported: She said she would do it the ___ day.", a: ["next", "following"], why: "**tomorrow** → **the next day**." },
+    { k: "fill", q: "He ___ us that the film was boring.", hint: "say yoki tell", a: ["told"], why: "Kishi (*us*) bor → **told**." },
+    { k: "fill", q: "\"I work here.\" Reported: He said he ___ there.", hint: "work", a: ["worked"], why: "Present Simple → Past Simple: **worked**." },
+    { k: "listen", say: "She said that she would call me later.", opts: ["She said that she would call me later.", "She told me that she will call me later.", "She said that she called me later.", "She said me that she would call later."], a: 0, why: "**said that she would call**." },
+    { k: "tf", q: "Reported speech da gapning boshida tirnoq va vergul qo'yiladi.", a: false, why: "Reported speech da tirnoq **yo'q**." },
+    { k: "order", uz: "U Londonda yashashini aytdi.", words: ["He", "said", "he", "lived", "in", "London."], extra: ["lives", "me"], alt: [["He", "said", "that", "he", "lived", "in", "London."]], why: "Present Simple → Past Simple." },
+    { k: "translate", uz: "U menga hech qachon Parijda bo'lmaganini aytdi.", a: ["She told me that she had never been to Paris.", "She told me she had never been to Paris.", "He told me that he had never been to Paris.", "He told me he had never been to Paris."], why: "**told me** + **had never been**." },
+  ],
+  summary: [
+    "**Reported speech**: tirnoq yo'q, oddiy gap tartibi, odatda zamon **bir pog'ona orqaga**: *\"I'm tired.\"* → *She said she was tired.*",
+    "Zamon siljishi: Present Simple → Past Simple; Present Perfect va Past Simple → **Past Perfect**; **will → would, can → could, must → had to**.",
+    "Vaqt va joy: **now → then, tomorrow → the next day, yesterday → the day before, here → there, this → that**.",
+    "**say** + gap (kishisiz); **tell** + kishi: *He told me…*. Xato: ~~He said me~~, ~~He told to me~~.",
+    "Aytilgan gap hamon haqiqat bo'lsa yoki *says* hozirgi zamonda bo'lsa, siljitish shart emas.",
+  ],
+  homework: "Kecha biror kishi sizga aytgan 5 ta gapni yozing va ularni reported speech ga aylantiring. Masalan: \"I'm leaving tomorrow.\" Reported: *He said he was leaving the next day.* Har gapda *said* va *told me* ni navbat bilan ishlating va zamon siljishini tekshiring.",
+};
+
+export default lesson;

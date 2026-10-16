@@ -1,4 +1,11 @@
 import type { Exercise } from './types';
+import { extras as extras18 } from './content/b1/u18/extras';
+import { extras as extras19 } from './content/b1/u19/extras';
+import { extras as extras20 } from './content/b1/u20/extras';
+import { extras as extras21 } from './content/b1/u21/extras';
+import { extras as extras22 } from './content/b1/u22/extras';
+import { extras as extras23 } from './content/b1/u23/extras';
+
 
 /**
  * Extras that come with every unit and go beyond single lessons: what the learner can do afterwards ("can-do"),
@@ -17,7 +24,7 @@ export interface UnitExtras {
   project: { title: string; prompt: string; criteria: string[] };
 }
 
-const trap = (title: string, md: string, wrong: string, a: string[], why?: string): UnitTrap => ({ title, md, fix: { k: 'fix', wrong, a, why } });
+export const trap = (title: string, md: string, wrong: string, a: string[], why?: string): UnitTrap => ({ title, md, fix: { k: 'fix', wrong, a, why } });
 
 export const UNIT_EXTRAS: Record<string, UnitExtras> = {
   u1: {
@@ -174,3 +181,6 @@ export const UNIT_EXTRAS: Record<string, UnitExtras> = {
     project: { title: "Qisqa CV", prompt: "O'zingiz haqingizda 7 ta gapdan iborat qisqa CV-xulosa yozing: ta'lim, tajriba, ko'nikmalar, kuchli tomonlar va maqsad.", criteria: ["Ta'limni va tajribani yozdim", "Kamida 2 ta ko'nikmani yozdim (I can…)", "-ed / -ing sifatlarni to'g'ri ishlatdim", "Maqsadimni I'd like to… bilan yozdim"] },
   },
 };
+
+// Intermediate units keep their extras next to their lessons (content/b1/uNN/extras.ts).
+Object.assign(UNIT_EXTRAS, { u18: extras18, u19: extras19, u20: extras20, u21: extras21, u22: extras22, u23: extras23 });
