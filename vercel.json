@@ -88,6 +88,18 @@
       "destination": "/api/seo?kind=vocab&slug=:slug"
     },
     {
+      "source": "/ielts-reading-practice",
+      "destination": "/api/seo?kind=reading"
+    },
+    {
+      "source": "/ielts-listening-practice",
+      "destination": "/api/seo?kind=listening"
+    },
+    {
+      "source": "/sitemap",
+      "destination": "/api/seo?kind=map"
+    },
+    {
       "source": "/ielts-band-score-calculator",
       "destination": "/api/seo?kind=calc"
     },

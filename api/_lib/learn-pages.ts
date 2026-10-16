@@ -29,6 +29,29 @@ const examples = (ex: [string, string][]) => `<ul class="vocab">${ex.map(([en, u
 const lessonCta = (l: [string, string], what: string) =>
   ctaBox(`${what} darsda mashqlar va audio bilan o'tang`, `«${lessonTitle(l)}» darsi: qisqa tushuntirish, talaffuz audiosi, mashqlar va yakuniy savollar. Ro'yxatdan o'ting va hoziroq boshlang.`, '/auth', 'Darsni boshlash');
 
+
+/** A short in-page quiz built from the topic's own words: visitors start practising before they sign up. */
+function quizSection(t: WordTopic): string {
+  const n = t.words.length;
+  const picks = Array.from({ length: Math.min(6, n) }, (_, i) => Math.floor((i * n) / Math.min(6, n) + (t.slug.length % Math.max(1, Math.floor(n / 6)))) % n);
+  const qs = [...new Set(picks)].map((i, k) => {
+    const [en, , uz] = t.words[i];
+    const wrong = [1, 3, 5].map(d => t.words[(i + d * 2 + k) % n][0]).filter(w => w !== en);
+    const opts = [en, ...wrong.slice(0, 3)];
+    const shift = (k + i) % opts.length;
+    const rotated = [...opts.slice(shift), ...opts.slice(0, shift)];
+    return { q: uz, o: rotated, a: rotated.indexOf(en) };
+  });
+  const data = JSON.stringify(qs).replace(/</g, '\\u003c');
+  return `<section class="section" id="mini-test"><h2>Mini-test: ${qs.length} ta savol, bilimingizni tekshiring</h2>
+<div class="box" id="mq"><p id="mq-text">Testni boshlash uchun tugmani bosing.</p><div id="mq-opts"></div><p><button class="btn" id="mq-go" type="button">Testni boshlash</button></p></div>
+<script type="application/json" id="mq-data">${data}</script>
+<script>(function(){var d=JSON.parse(document.getElementById('mq-data').textContent),i=0,sc=0,t=document.getElementById('mq-text'),o=document.getElementById('mq-opts'),g=document.getElementById('mq-go');
+function show(){o.textContent='';if(i>=d.length){t.textContent='Natija: '+sc+' / '+d.length+(sc>=d.length-1?'. Zo‘r!':'. Yana mashq qiling.')+' Bu so’zlarni audio va mashqlar bilan mustahkamlang.';g.textContent='Darsni bepul boshlash';g.onclick=function(){location.href='/auth'};return}
+t.textContent=(i+1)+'/'+d.length+'. «'+d[i].q+'» inglizcha qanday?';g.style.display='none';d[i].o.forEach(function(w,k){var b=document.createElement('button');b.type='button';b.className='btn ghost';b.style.margin='4px 8px 4px 0';b.textContent=w;b.onclick=function(){if(b.dataset.done)return;Array.prototype.forEach.call(o.children,function(x){x.dataset.done=1});if(k===d[i].a){sc++;b.style.borderColor='#16a34a';b.style.background='#f0fdf4'}else{b.style.borderColor='#dc2626';b.style.background='#fef2f2';o.children[d[i].a].style.borderColor='#16a34a'}setTimeout(function(){i++;g.style.display='';g.textContent=i>=d.length?'Natijani ko‘rish':'Keyingi savol';g.onclick=show;o.textContent=''},700)};o.appendChild(b)})}
+g.onclick=show})()</script></section>`;
+}
+
 /* ---------- grammar guides ---------- */
 export const guideBySlug = (slug: string | null) => GUIDES.find(g => g.slug === slug);
 
@@ -92,8 +115,10 @@ export function wordsPage(t: WordTopic): string {
   const related = t.related.map(s => WORD_TOPICS.find(x => x.slug === s)).filter((x): x is WordTopic => !!x);
   const body = `${hero(`Inglizcha so'zlar · ${LEVEL_TITLE[t.level]}`, t.h1, t.intro, crumbs(["Inglizcha so'zlar", WORDS_BASE], [t.h1]))}
 <main class="page"><div class="wrap">
+<aside class="box good"><p><b>Bu mavzuni audio bilan o'rganing.</b> Har bir so'zning talaffuzi, mashqlar va takrorlash: <a href="${lessonHref(t.lesson)}">«${esc(lessonTitle(t.lesson))}» darsi</a>. Ro'yxatdan o'tgan har bir yangi hisobga 7 kun bepul. <a class="btn" href="/auth" style="margin-left:8px">Bepul boshlash</a></p></aside>
 <section class="section"><h2>So'zlar va talaffuz</h2>
 <div class="table-scroll"><table class="data"><thead><tr><th>Inglizcha</th><th>Talaffuz</th><th>O'zbekcha</th></tr></thead><tbody>${t.words.map(([en, ipa, uz]) => `<tr><th scope="row">${esc(en)}</th><td>${esc(ipa)}</td><td>${esc(uz)}</td></tr>`).join('')}</tbody></table></div></section>
+${quizSection(t)}
 <section class="section"><h2>Gap ichida ishlatish</h2>${examples(t.phrases)}</section>
 <section class="section"><h2>Eslab qolish uchun maslahat</h2><p>${esc(t.tip)}</p></section>
 ${lessonCta(t.lesson, 'Bu mavzuni')}

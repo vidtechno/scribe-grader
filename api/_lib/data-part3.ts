@@ -1,3 +1,4 @@
+import { PART3_NEW } from './data-part3-new.js';
 import type { Part1Topic } from './types.js';
 
 export const PART3: Part1Topic[] = [
@@ -254,3 +255,5 @@ export const PART3: Part1Topic[] = [
     tips: ["Use second conditionals: “If lessons used…, students would…”.", "Support opinions with ideas about education and culture.", "Refer to both past and present."],
   },
 ];
+
+PART3.push(...PART3_NEW);

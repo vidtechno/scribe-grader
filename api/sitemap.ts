@@ -9,10 +9,11 @@ import { TASK1 } from './_lib/data-task1.js';
 import { VOCAB } from './_lib/data-vocab.js';
 import { COURSE_BASE, courseUrls } from './_lib/course-pages.js';
 import { learnUrls } from './_lib/learn-pages.js';
+import { PRACTICE_URLS } from './_lib/practice-pages.js';
 
 type Url = { path: string; priority: string; changefreq: string; lastmod?: string };
 /** Bump when the static or programmatic content changes meaningfully. */
-const CONTENT_UPDATED = '2026-10-11';
+const CONTENT_UPDATED = '2026-10-17';
 
 export default async function handler(_req: IncomingMessage, res: ServerResponse & { statusCode: number }) {
   const urls: Url[] = [
@@ -28,6 +29,7 @@ export default async function handler(_req: IncomingMessage, res: ServerResponse
     { path: '/ielts-vocabulary', priority: '0.8', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
     { path: '/ielts-band-score-calculator', priority: '0.8', changefreq: 'monthly', lastmod: CONTENT_UPDATED },
     { path: '/blog', priority: '0.8', changefreq: 'daily', lastmod: CONTENT_UPDATED },
+    ...PRACTICE_URLS.map(path => ({ path, priority: path === '/sitemap' ? '0.4' : '0.9', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
     ...courseUrls().map(path => ({ path, priority: path === COURSE_BASE ? '1.0' : path.split('/').length === 3 ? '0.9' : '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
     ...learnUrls().map(path => ({ path, priority: path.split('/').length === 2 ? '0.9' : '0.8', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
     ...TASK2.map(q => ({ path: `/ielts-writing-task-2-questions/${q.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
