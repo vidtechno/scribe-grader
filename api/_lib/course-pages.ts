@@ -53,7 +53,7 @@ const FAQ = [
   { q: "Beginner kursini tugatish qancha vaqt oladi?", a: "Kuniga 30–60 daqiqa mashq qilsangiz, taxminan 1–2 oy. Bu taxminiy hisob: natija shaxsiy sur'atga va takrorlashga bog'liq." },
   { q: "Telefonda ishlaydimi?", a: "Ha, hech narsa o'rnatish shart emas: darslar telefon va kompyuter brauzerida ochiladi." },
   { q: "Kurs bepulmi?", a: "Ro'yxatdan o'tganingizda sinov muddati beriladi, davom etish uchun Learn tarifi kerak bo'ladi." },
-  { q: "IELTS ham bormi?", a: "Ha. Scorify.uz IELTS Writing va Speaking javoblarini sun'iy intellekt bilan baholaydi, shuningdek mock testlar va blog maqolalari bor." },
+  { q: "IELTS ham bormi?", a: "Ha. Scorify.uz IELTS Writing va Speaking javoblarini sun'iy intellekt bilan baholaydi, Reading va Listening bo'yicha 5 tadan to'liq test beradi, shuningdek mock testlar va blog maqolalari bor." },
 ];
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: 'uz', mainEntity: FAQ.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 const faqHtml = FAQ.map(f => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');

@@ -19,7 +19,7 @@ export function SEOHead({ title, description, path = '', noindex, exactTitle, js
   const fullTitle = title ? (exactTitle ? title : `${title} | ${BASE_TITLE}`) : `${BASE_TITLE} — Ingliz tilini noldan o'rganing | IELTS Writing & Speaking`;
   const desc =
     description ||
-    "Ingliz tilini noldan o'rganing: darslar, talaffuz, lug'at va testlar. IELTS Writing va Speaking baholash, mock testlar va AI mentor ham bor.";
+    "Ingliz tilini noldan o'rganing: darslar, talaffuz, lug'at va testlar. IELTS Writing, Speaking, Reading va Listening, mock testlar va AI mentor ham bor.";
   const url = `${BASE_URL}${path}`;
 
   return (

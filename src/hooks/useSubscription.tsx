@@ -76,6 +76,8 @@ export function useSubscription() {
     refresh: fetchSubscription,
     // Compat aliases (legacy). Consider `planType !== 'free'` for premium gating.
     isPremium: planType !== 'free',
+    /** IELTS plan: unlimited Reading and Listening practice (Free and Learn open tests 1–3 of each). */
+    isIelts: planType === 'plus',
     creditsRemaining: 0,
   };
 }

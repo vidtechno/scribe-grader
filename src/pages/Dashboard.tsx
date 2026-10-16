@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
 import {
@@ -28,9 +28,18 @@ const fadeUp = {
 export default function Dashboard() {
   const { user, profile, refreshProfile } = useAuth();
   const { planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, entitlement,
-    expiresAt, daysRemaining, isExpired, refresh: refreshSub } = useSubscription();
+    expiresAt, daysRemaining, isExpired, isIelts, refresh: refreshSub } = useSubscription();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [showPricing, setShowPricing] = useState(false);
+  // The Telegram bot links here (`?pricing=1`) to open the plans straight away.
+  useEffect(() => {
+    if (searchParams.get('pricing') !== '1') return;
+    setShowPricing(true);
+    const next = new URLSearchParams(searchParams);
+    next.delete('pricing');
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams]);
   const activityQ = useActivityData();
   const essays = useMemo(() => activityQ.data?.essays ?? [], [activityQ.data]);
   const speaking = useMemo(() => activityQ.data?.speaking ?? [], [activityQ.data]);
@@ -105,18 +114,25 @@ export default function Dashboard() {
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">IELTS practice</h2>
             <Link to="/practice" className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:underline">All practice<ChevronRight className="h-3.5 w-3.5" /></Link>
           </div>
+          {!isIelts && (
+            <div className="mb-3 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
+              <Sparkles className="h-4 w-4 text-primary shrink-0" />
+              <p className="flex-1 min-w-[14rem]"><b>New: IELTS Reading and Listening.</b> <span className="text-muted-foreground">5 full tests each (40 questions, estimated band, answer review). Tests 1–3 are free; the IELTS plan makes them all unlimited.</span></p>
+              <Button size="sm" variant="outline" onClick={() => setShowPricing(true)}>See IELTS plan</Button>
+            </div>
+          )}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
               { icon: PenTool, title: 'Writing', left: writingLimit - writingUsed, onClick: () => openWriting(2) },
               { icon: Mic, title: 'Speaking', left: speakingLimit - speakingUsed, onClick: openSpeaking },
-              { icon: BookOpen, title: 'Reading', note: '3 tests', onClick: () => navigate('/reading') },
-              { icon: Headphones, title: 'Listening', note: '3 tests', onClick: () => navigate('/listening') },
+              { icon: BookOpen, title: 'Reading', note: isIelts ? '5 tests · unlimited' : '3 of 5 tests free', isNew: true, onClick: () => navigate('/reading') },
+              { icon: Headphones, title: 'Listening', note: isIelts ? '5 tests · unlimited' : '3 of 5 tests free', isNew: true, onClick: () => navigate('/listening') },
               { icon: ClipboardList, title: 'Mock Test', left: mockLimit - mockUsed, onClick: () => navigate('/mock-test') },
             ].map((t) => (
               <button key={t.title} type="button" onClick={t.onClick} className="group glass-card-hover p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 text-left">
                 <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><t.icon className="h-5 w-5" /></span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-semibold text-sm">{t.title}</span>
+                  <span className="block font-semibold text-sm">{t.title}{'isNew' in t && t.isNew && <span className="ml-1.5 align-middle text-[9px] font-bold uppercase rounded-full bg-primary text-primary-foreground px-1.5 py-0.5">New</span>}</span>
                   <span className="block text-xs text-muted-foreground">{'note' in t ? t.note : `${Math.max(0, t.left)} left`}</span>
                 </span>
                 <ArrowRight className="hidden sm:block h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
@@ -155,8 +171,18 @@ export default function Dashboard() {
                     <UsageBar used={used as number} limit={limit as number} />
                   </div>
                 ))}
+                {[['Reading', BookOpen, '/reading'], ['Listening', Headphones, '/listening']].map(([label, Icon, to]) => {
+                  const Ico = Icon as typeof BookOpen;
+                  return (
+                    <Link key={label as string} to={to as string} className="flex items-center justify-between text-xs rounded-lg bg-secondary/40 hover:bg-secondary/70 px-3 py-2 transition-colors">
+                      <span className="inline-flex items-center gap-2 font-medium"><Ico className="h-3.5 w-3.5 text-primary" />{label as string} tests</span>
+                      <span className={isIelts ? 'font-semibold text-primary' : 'text-muted-foreground'}>{isIelts ? 'Unlimited' : '3 of 5 open'}</span>
+                    </Link>
+                  );
+                })}
               </div>
-              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Learn — 49 000 so'm/month: the full English course. IELTS — 129 000 so'm/month: Learn plus 50 Writing and 30 Speaking evaluations.</p>}
+              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Learn — 49 000 so'm/month: the full English course. IELTS — 129 000 so'm/month: Learn plus unlimited Reading and Listening, 50 Writing and 30 Speaking evaluations.</p>}
+              {planType === 'go' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">IELTS — 129 000 so'm/month: all 5 Reading and 5 Listening tests unlimited, plus 50 Writing and 30 Speaking evaluations and mock tests.</p>}
             </section>
           </aside>
         </div>

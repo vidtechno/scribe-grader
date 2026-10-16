@@ -41,7 +41,7 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
         <GraduationCap className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
         <p>
           <strong>Har bir yangi hisobga {LEARN_TRIAL_DAYS} kun Learn bepul</strong> — barcha darslar va moslashuvchan tizim —
-          shuningdek 3 ta Writing va 2 ta Speaking baholash. Keyin Learn yoki IELTS ni tanlaysiz.
+          shuningdek 1 ta Writing, 1 ta Speaking baholash va 3 tadan IELTS Reading hamda Listening testi. Keyin Learn yoki IELTS ni tanlaysiz.
         </p>
       </div>
       <div className="flex justify-center mb-6">

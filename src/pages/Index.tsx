@@ -44,8 +44,9 @@ const FAQ: { q: string; a: string }[] = [
   { q: "Bir kunda qancha vaqt kerak?", a: "Qisqa dars 5–12 daqiqa, to'liq dars 15–25 daqiqa. Kuniga 10–30 daqiqa yetadi; kunlik maqsadni o'zingiz belgilaysiz, streak esa har kuni o'qisangiz o'sib boradi." },
   { q: "Qaysi darajadan boshlashni qanday bilaman?", a: "Birinchi kirganingizda 15 ta savolli daraja testi sizga mos darajani aytadi. Yoki darajani o'zingiz tanlaysiz. Agar osonroq darajani tanlab qo'ygan bo'lsangiz, tezkor test topshirib yuqoriga o'tishingiz mumkin." },
   { q: "7 kunlik bepul davrda nima bor?", a: "Har bir yangi hisobga 7 kun Learn to'liq ochiq: barcha darslar, talaffuz, lug'at va takrorlash tizimi. Karta kerak emas." },
-  { q: "Narxi qancha va qanday to'layman?", a: "Learn — oyiga 49 000 so'm, IELTS — oyiga 129 000 so'm. 6 oyga birdan to'lasangiz 10% chegirma. To'lov Telegram orqali @scorify_support ga yoziladi, tasdiqlangach tarif yoqiladi." },
-  { q: "IELTS Writing va Speaking ham bormi?", a: "Ha. IELTS tarifida Writing va Speaking javoblaringiz baholanadi, mock testlar ham bor. Yangi hisobga sinab ko'rish uchun 3 ta Writing va 2 ta Speaking baholash sovg'a." },
+  { q: "Narxi qancha va qanday to'layman?", a: "Learn — oyiga 49 000 so'm, IELTS — oyiga 129 000 so'm. 3 oyga birdan to'lasangiz 5%, 6 oyga 10% chegirma. To'lov Click yoki Payme orqali saytning o'zida amalga oshadi va tarif to'lovdan keyin avtomatik yoqiladi." },
+  { q: "IELTS Writing, Speaking, Reading va Listening ham bormi?", a: "Ha, IELTS ning to'rttala qismi bor. Writing va Speaking javoblaringiz AI bilan baholanadi (Writing oyiga 50 ta, Speaking oyiga 30 ta), Reading va Listening bo'yicha 5 tadan to'liq test CHEKSIZ ochiladi, shuningdek mock testlar bor. Sinab ko'rish uchun yangi hisobga 1 ta Writing, 1 ta Speaking baholash va 3 tadan Reading hamda Listening testi bepul." },
+  { q: "IELTS Reading va Listening testlari qanday?", a: "Reading: 3 passage, 40 savol, 60 daqiqa. Listening: 4 section, 40 savol, audio bilan (imtihon rejimida har bir yozuv bir marta eshittiriladi). Har bir test boshqa mavzuda; oxirida taxminiy band, savol turlari bo'yicha aniqlik va har bir javob tahlili chiqadi." },
   { q: "Yordam kerak bo'lsa kimga yozaman?", a: "Saytdagi «Yordam» tugmasi Telegramda @scorify_support ga olib boradi: to'lov, darsdagi xato yoki savol bo'yicha yozing. Foydalanuvchi ID raqamingiz avtomatik qo'shiladi." },
   { q: "Ro'yxatdan qanday o'taman?", a: "Google yoki Telegram orqali bir bosishda. Telegram bot orqali kirsangiz, eslatmalar va do'stlarni taklif qilish ham shu yerda bo'ladi." },
 ];
@@ -99,8 +100,8 @@ export default function Index() {
     {
       '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Scorify.uz', url: 'https://www.scorify.uz/',
       applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'uz',
-      description: "Ingliz tilini noldan o'rganish: darslar, talaffuz, lug'at, mashqlar va testlar. IELTS Writing va Speaking baholash ham bor.",
-      featureList: ["Ingliz tili kursi (Beginner, Elementary, Pre-Intermediate va Intermediate)", "Real hayotiy ovozli suhbatlar (kafe, yo'l so'rash, mehmonxona)", "Daraja testi va tezkor yuqoriga o'tish testi", "Talaffuz audio va gapirish mashqlari", "Mashq o'yinlari, bosqich testlari va sertifikat", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing va Speaking baholash'],
+      description: "Ingliz tilini noldan o'rganish: darslar, talaffuz, lug'at, mashqlar va testlar. IELTS Writing, Speaking, Reading va Listening ham bor.",
+      featureList: ["Ingliz tili kursi (Beginner, Elementary, Pre-Intermediate va Intermediate)", "Real hayotiy ovozli suhbatlar (kafe, yo'l so'rash, mehmonxona)", "Daraja testi va tezkor yuqoriga o'tish testi", "Talaffuz audio va gapirish mashqlari", "Mashq o'yinlari, bosqich testlari va sertifikat", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing, Speaking, Reading va Listening'],
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS', description: "7 kun bepul, keyin Learn 49 000 so'm/oy" },
     },
     {
@@ -114,7 +115,7 @@ export default function Index() {
       <SEOHead
         title="Scorify.uz — Ingliz tili darslari: noldan o'rganing, 7 kun bepul"
         exactTitle
-        description="Scorify.uz: ingliz tilini noldan o'rganing. Bepul ingliz tili darslari: o'zbekcha tushuntirish, talaffuz audiosi, lug'at, mashqlar va testlar. 7 kun bepul. IELTS Writing va Speaking baholash ham bor."
+        description="Scorify.uz: ingliz tilini noldan o'rganing. Bepul ingliz tili darslari: o'zbekcha tushuntirish, talaffuz audiosi, lug'at, mashqlar va testlar. 7 kun bepul. IELTS Writing, Speaking, Reading va Listening ham bor."
         path="/"
         jsonLd={landingJsonLd}
       />
@@ -293,14 +294,16 @@ export default function Index() {
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
             <motion.div variants={fadeUp} custom={0} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-xs font-medium mb-4"><Target className="h-3.5 w-3.5" /> IELTS ga tayyorlanyapsizmi?</motion.div>
-            <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">IELTS <span className="gradient-text">Writing va Speaking</span> baholash</motion.h2>
-            <motion.p variants={fadeUp} custom={2} className="text-muted-foreground max-w-2xl mx-auto">Ingliz tilini o'rganish bilan birga IELTS javoblaringizni ham tekshiring: taxminiy band, mezonlar bo'yicha ball va aniq tuzatishlar.</motion.p>
+            <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">IELTS ning <span className="gradient-text">to'rttala qismi</span>: Writing, Speaking, Reading, Listening</motion.h2>
+            <motion.p variants={fadeUp} custom={2} className="text-muted-foreground max-w-2xl mx-auto">Ingliz tilini o'rganish bilan birga IELTS ga tayyorlaning: Writing va Speaking javoblaringizni AI tekshiradi, Reading va Listening bo'yicha esa 5 tadan to'liq test sizni kutadi. Hammasi taxminiy band, mezonlar bo'yicha ball va aniq tuzatishlar bilan.</motion.p>
           </motion.div>
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-4">
               {[
                 { icon: PenLine, title: 'Writing Task 1 va Task 2', text: "Esse yozing, 4 ta rasmiy mezon bo'yicha taxminiy band va tuzatishlarni oling." },
                 { icon: Mic, title: 'Speaking Part 1–3', text: "Brauzerda yozib oling, matnga aylantirilgan javobingizni ko'ring, ravonlik, grammatika, lug'at va talaffuz bahosini oling." },
+                { icon: BookOpen, title: 'Yangi: IELTS Reading', text: "5 ta to'liq test: 3 passage, 40 savol, 60 daqiqa. Barcha savol turlari, taxminiy band va har bir javob tahlili. IELTS tarifida cheksiz." },
+                { icon: Headphones, title: 'Yangi: IELTS Listening', text: "5 ta to'liq test: 4 section, 40 savol, audio va transkript bilan. Imtihon rejimida yozuv bir marta eshittiriladi. IELTS tarifida cheksiz." },
                 { icon: Clock, title: 'Mock testlar', text: "Imtihon vaqti bilan to'liq mashq: Writing va Speaking, oxirida umumiy hisobot." },
               ].map(f => (
                 <div key={f.title} className="glass-card p-5 flex items-start gap-4">
@@ -311,8 +314,10 @@ export default function Index() {
               <div className="flex flex-wrap gap-3 pt-2">
                 <Link to={user ? '/writing' : '/auth'}><Button variant="outline" className="gap-2"><PenLine className="h-4 w-4" />Writing</Button></Link>
                 <Link to={user ? '/speaking' : '/auth'}><Button variant="outline" className="gap-2"><Mic className="h-4 w-4" />Speaking</Button></Link>
+                <Link to={user ? '/reading' : '/auth'}><Button variant="outline" className="gap-2"><BookOpen className="h-4 w-4" />Reading</Button></Link>
+                <Link to={user ? '/listening' : '/auth'}><Button variant="outline" className="gap-2"><Headphones className="h-4 w-4" />Listening</Button></Link>
               </div>
-              <p className="text-xs text-muted-foreground">Yangi hisobga 3 ta Writing va 2 ta Speaking baholash sovg'a. Baholar taxminiy, rasmiy IELTS natijasi emas.</p>
+              <p className="text-xs text-muted-foreground">Yangi hisobga 1 ta Writing, 1 ta Speaking baholash va 3 tadan Reading hamda Listening testi sovg'a. Baholar taxminiy, rasmiy IELTS natijasi emas.</p>
             </div>
             <HeroSpeakingDemo />
           </div>
@@ -324,7 +329,7 @@ export default function Index() {
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">Oddiy <span className="gradient-text">narxlar</span></motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Learn — ingliz tili kursi, kuniga taxminan 1 600 so'm. IELTS — kursga qo'shimcha Writing va Speaking baholash. 6 oyga birdan to'lasangiz 10% chegirma.</motion.p>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Learn — ingliz tili kursi, kuniga taxminan 1 600 so'm. IELTS — kursga qo'shimcha: cheksiz Reading va Listening, oyiga 50 ta Writing va 30 ta Speaking AI baholash, mock testlar. 3 oyga 5%, 6 oyga 10% chegirma.</motion.p>
           </motion.div>
           <PlanCards plans={subPlans} />
         </div>
@@ -363,7 +368,7 @@ export default function Index() {
       <section className="py-14 px-4 sm:px-6 border-t border-border" aria-labelledby="free-guides-heading">
         <div className="max-w-6xl mx-auto">
           <h2 id="free-guides-heading" className="text-2xl font-bold mb-3">Bepul IELTS qo'llanmalari</h2>
-          <p className="text-muted-foreground mb-7 max-w-2xl">IELTS Writing va Speaking formatini o'rganing va bitta foydali ko'nikmani mashq qiling.</p>
+          <p className="text-muted-foreground mb-7 max-w-2xl">IELTS Writing, Speaking, Reading va Listening formatini o'rganing va bitta foydali ko'nikmani mashq qiling.</p>
           <div className="grid md:grid-cols-3 gap-4">
             <a href="/ielts-writing-task-2-questions" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Task 2 savollar va namunalar</h3><p className="text-sm text-muted-foreground">Esse savollari va namunaviy javoblar.</p></a>
             <a href="/ielts-speaking-part-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Speaking Part 2 kartochkalari</h3><p className="text-sm text-muted-foreground">Mashhur «Describe a…» mavzulari.</p></a>
@@ -383,7 +388,7 @@ export default function Index() {
               <img src="/logo-128.webp" alt="Scorify" className="h-8 w-8 object-contain" />
               <span className="font-bold">Scorify<span className="text-primary">.uz</span></span>
             </div>
-            <p className="text-muted-foreground">Ingliz tilini noldan o'rganish. IELTS Writing va Speaking baholash ham bor.</p>
+            <p className="text-muted-foreground">Ingliz tilini noldan o'rganish. IELTS Writing, Speaking, Reading va Listening ham bor.</p>
           </div>
           <div className="space-y-2"><p className="font-semibold">Kurs</p>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/beginner">Beginner</a>

@@ -102,7 +102,7 @@ lessons: unlocked in order, counted as done for learners who were already past t
 - **Tables**: `learning_profiles`, `learning_lesson_progress`, `learning_unit_tests`, `learning_daily_activity`. Learners can only read their own rows; all writes go through the functions above.
 - **Prices**:
   - Learn (slug `go`): 49 000 so'm — the English course only. IELTS (slug `plus`): 129 000 so'm — Learn + 50 Writing + 30 Speaking a month.
-  - Every new account gets a 7-day Learn trial (`subscriptions.learn_trial_ends_at`, set at sign-up) with 3 Writing + 2 Speaking that belong to the trial, not to the IELTS allowance. IELTS has no trial.
+  - Every new account gets a 7-day Learn trial (`subscriptions.learn_trial_ends_at`, set at sign-up) with 1 Writing + 1 Speaking that belong to the trial, not to the IELTS allowance. IELTS has no trial.
   - 6 months paid at once: −10% (Learn 264 600 so'm, IELTS 696 600 so'm). The admin panel and the bot admin panel can grant 6 months.
   - On long plans the Writing/Speaking/Mock allowance renews every 30 days (`roll_subscription_usage`, also run daily by cron).
 - **Telegram**:

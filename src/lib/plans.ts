@@ -8,9 +8,14 @@ export type PlanEntitlement = {
   /** Local price for payments made in Uzbekistan. */
   priceUzs: string;
   personal: { writing: number; speaking: number; mockTests: number };
+  /** IELTS Reading and Listening practice tests that are open: a number of tests, or null for every test, unlimited. */
+  practice: { reading: number | null; listening: number | null };
   /** What the plan includes, shown on pricing cards. */
   features: string[];
 };
+
+/** Reading and Listening tests 1 to 3 are open to everyone (see `free` in the IELTS registry). */
+export const FREE_PRACTICE_TESTS = 3;
 
 /**
  * Internal slugs stay `go` and `plus` (referrals, the admin panel, the bot and the database use them);
@@ -19,29 +24,43 @@ export type PlanEntitlement = {
 export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
   free: {
     slug: 'free', name: 'Free', priceUsd: '0', priceUzs: '0',
-    personal: { writing: 3, speaking: 2, mockTests: 0 },
-    features: ["To'liq Learn kursi 7 kun", '3 ta Writing baholash', '2 ta Speaking baholash'],
+    personal: { writing: 1, speaking: 1, mockTests: 0 },
+    practice: { reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS },
+    features: [
+      "To'liq Learn kursi 7 kun",
+      '1 ta Writing baholash',
+      '1 ta Speaking baholash',
+      `${FREE_PRACTICE_TESTS} ta IELTS Reading testi`,
+      `${FREE_PRACTICE_TESTS} ta IELTS Listening testi`,
+    ],
   },
   go: {
     slug: 'go', name: 'Learn', priceUsd: '4', priceUzs: '49 000',
     personal: { writing: 0, speaking: 0, mockTests: 0 },
+    practice: { reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS },
     features: [
-      "Barcha ingliz tili darslari: hozir Beginner, Elementary va Pre-Intermediate, yangi darajalar qo'shilgach ular ham",
-      "Natijangizga moslashadigan o'qish",
-      "Aqlli lug'at takrorlash (spaced repetition)",
-      "Grammatika takrori va xatolar daftari",
-      'XP, streak va o\'qish progressi',
-      'Telegram eslatmalari va yangiliklar',
+      "Noldan Intermediate (B1) gacha 350 dan ortiq dars: o'zbekcha tushuntirish va talaffuz audiosi",
+      "Real hayotiy ovozli suhbatlar: kafe, yo'l so'rash, mehmonxona",
+      "Mashq o'yinlari, bosqich testlari va daraja imtihoni",
+      "Aqlli lug'at takrori: so'zlar unutilishidan oldin qaytadi",
+      'Grammatika takrori va xatolar daftari',
+      "Streak, XP, reyting va do'stlar: o'qish odatini qurasiz",
+      "Telegram eslatmalari: bir kun ham o'tkazib yubormaysiz",
+      `IELTS Reading va Listening: ${FREE_PRACTICE_TESTS} tadan test ochiq`,
     ],
   },
   plus: {
     slug: 'plus', name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
     personal: { writing: 50, speaking: 30, mockTests: 3 },
+    practice: { reading: null, listening: null },
     features: [
-      'Learn tarifidagi hamma narsa',
-      'IELTS Writing: har oy 50 ta baholash',
-      'IELTS Speaking: har oy 30 ta baholash',
-      'Batafsil izohli AI baholash',
+      "Learn dagi hamma narsa: 350 dan ortiq dars va daraja imtihonlari",
+      "IELTS Reading: CHEKSIZ. 5 ta to'liq test (3 passage, 40 savol, 60 daqiqa), band va har bir javob tahlili",
+      "IELTS Listening: CHEKSIZ. 5 ta to'liq test (4 section, 40 savol), audio va transkript bilan",
+      "IELTS Writing: har oy 50 ta AI baholash, 4 ta rasmiy mezon bo'yicha band va tuzatishlar",
+      "IELTS Speaking: har oy 30 ta AI baholash, ravonlik, grammatika, lug'at va talaffuz tahlili",
+      "Har oy 3 ta to'liq Mock test: imtihon vaqti bilan",
+      "Batafsil izohli AI baholash va xatolar tahlili",
     ],
   },
 };
