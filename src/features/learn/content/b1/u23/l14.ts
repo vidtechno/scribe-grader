@@ -31,7 +31,7 @@ const lesson: Lesson = {
           ['4. Xulosa', "In conclusion, I believe…"],
           ['4. Xulosa', "Thank you for listening."],
         ] },
-        { t: 'tip', tone: 'info', md: "Ikki daqiqa taxminan **200–250 so'z**. Ko'p fikr aytishdan ko'ra, **bir-ikki fikrni misol bilan** ochib bering." },
+        { t: 'tip', tone: 'info', md: "Ikki daqiqalik nutq uchun **bir necha yuz so'z** yetarli. Ko'p fikr aytishdan ko'ra, **bir-ikki fikrni misol bilan** ochib bering." },
         { t: 'check', ex: { k: 'order', uz: "Bugun men odatlar haqida gapirmoqchiman.", words: ['Today', 'I', 'would', 'like', 'to', 'talk', 'about', 'habits.'], extra: ['say', 'am'], why: "Kirish iborasi." } },
         { t: 'check', ex: { k: 'choice', q: "Nutqni yakunlaysiz:", opts: ["In conclusion, I believe we should start today.", "Firstly, we should start.", "I have three reasons.", "For example, today."], a: 0, why: "Yakun: **In conclusion**." } },
       ],
@@ -69,9 +69,9 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'pace', uz: 'tempo, tezlik', ipa: 'peɪs', pos: 'noun', ex: 'Speak at a slower pace.', exUz: 'Sekinroq tempda gapiring.' },
-    { en: 'intonation', uz: 'ohang, intonatsiya', ipa: 'ˌɪn.təˈneɪ.ʃən', pos: 'noun', ex: 'Your intonation goes up at the end of a question.', exUz: "Savol oxirida ohangingiz ko'tariladi." },
+    { en: 'intonation', uz: 'ohang, intonatsiya', ipa: 'ˌɪn.təˈneɪ.ʃən', pos: 'noun', ex: 'Your intonation often goes up at the end of a question.', exUz: "Savol oxirida ohangingiz ko'pincha ko'tariladi." },
     { en: 'stress', uz: "urg'u berib aytmoq", ipa: 'stres', pos: 'verb', ex: 'Stress the important words.', exUz: "Muhim so'zlarga urg'u bering." },
-    { en: 'volume', uz: 'ovoz balandligi', ipa: 'ˈvɒl.juːm', pos: 'noun', ex: 'Raise your volume so everyone can hear you.', exUz: 'Hamma eshitishi uchun ovozingizni balandroq qiling.' },
+    { en: 'volume', uz: 'ovoz balandligi', ipa: 'ˈvɒl.juːm', pos: 'noun', ex: 'Your volume is too low, so the people at the back cannot hear you.', exUz: 'Ovozingiz juda past, shuning uchun orqadagilar sizni eshitmayapti.' },
     { en: 'pronounce', uz: "talaffuz qilmoq", ipa: 'prəˈnaʊns', pos: 'verb', ex: 'How do you pronounce this word?', exUz: "Bu so'zni qanday talaffuz qilasiz?" },
   ],
   practice: [
@@ -102,7 +102,7 @@ const lesson: Lesson = {
     "Nutq tuzilmasi: **kirish** (*Today I would like to talk about…*), **fikrlar** (*Firstly, Secondly, Finally*), **qiyinchilik** (*However*), **xulosa** (*In conclusion*).",
     "Sekin gapiring, fikrlar orasida **to'xtang**, muhim so'zlarga **urg'u bering**.",
     "Oldindan mashq qiling va o'zingizni yozib oling.",
-    "Yangi so'zlar: **pace, pause, stress, rehearse, pronounce**.",
+    "Yangi so'zlar: **pace, intonation, stress, volume, pronounce**.",
   ],
   homework: "\"A skill I want to learn\" mavzusida ikki daqiqalik nutqni 3 marta ovoz chiqarib ayting, telefonga yozing va tinglang. Har safar bitta narsani yaxshilang: tempni, pauzani yoki urg'uni.",
 };

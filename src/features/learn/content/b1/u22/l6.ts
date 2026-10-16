@@ -139,7 +139,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "set up", uz: "o'rnatmoq, sozlamoq, ochmoq", ipa: "set ʌp", pos: "phrasal verb", ex: "I need to set up a new email account.", exUz: "Yangi elektron pochta hisobini ochishim kerak." },
-    { en: "hand in", uz: "topshirmoq (ish, hujjat)", ipa: "hænd ɪn", pos: "phrasal verb", ex: "Please hand in your essays on Monday.", exUz: "Iltimos, inshoyingizni dushanba kuni topshiring." },
+    { en: "hand in", uz: "topshirmoq (ish, hujjat)", ipa: "hænd ɪn", pos: "phrasal verb", ex: "Please hand in your essays on Monday.", exUz: "Iltimos, inshongizni dushanba kuni topshiring." },
     { en: "figure out", uz: "tushunib yetmoq, yechimini topmoq", ipa: "ˈfɪɡ.ər aʊt", pos: "phrasal verb", ex: "I can't figure out how this machine works.", exUz: "Bu mashina qanday ishlashini tushunolmayapman." },
     { en: "back up", uz: "zaxira nusxasini olmoq", ipa: "bæk ʌp", pos: "phrasal verb", ex: "Back up your photos before you update the phone.", exUz: "Telefonni yangilashdan oldin suratlaringizning zaxira nusxasini oling." },
     { en: "sign up", uz: "ro'yxatdan o'tmoq, yozilmoq", ipa: "saɪn ʌp", pos: "phrasal verb", ex: "I signed up for a cooking class.", exUz: "Pazandalik kursiga yozildim." },
@@ -154,7 +154,7 @@ const lesson: Lesson = {
     { k: "choice", q: "The team needs to ___ a new idea for the advert.", opts: ["come up with", "put up", "drop out", "turn off"], a: 0, why: "G'oya o'ylab topish → **come up with**." },
     { k: "match", pairs: [["set up", "o'rnatmoq, ochmoq"], ["hand in", "topshirmoq"], ["back up", "zaxira nusxa olmoq"], ["put off", "kechiktirmoq"], ["drop out", "o'qishni tashlamoq"], ["look into", "tekshirib ko'rmoq"]] },
     { k: "fill", q: "I forgot to ___ up my files, and now they are gone.", a: ["back"], uz: "Fayllarimning zaxira nusxasini olishni unutdim, endi ular yo'q.", why: "**back up** — zaxira nusxa." },
-    { k: "fill", q: "She is ___ for a new job after the summer.", a: ["looking"], uz: "U yozdan keyin yangi ish qidirmoqda.", hint: "look for", why: "**look for** — qidirmoq (A2 dan ma'lum)." },
+    { k: "fill", q: "She is ___ for a new job after the summer.", a: ["looking", "searching"], uz: "U yozdan keyin yangi ish qidirmoqda.", hint: "look for", why: "**look for** — qidirmoq (A2 dan ma'lum)." },
     { k: "fill", q: "We are looking forward ___ our holiday.", a: ["to"], uz: "Ta'tilimizni intiqlik bilan kutyapmiz.", why: "**look forward to**." },
     { k: "fill", q: "Where is the report? — I handed ___ in this morning.", a: ["it"], uz: "Hisobot qani? — Uni bugun ertalab topshirdim.", why: "Olmosh (it) fe'l va particle o'rtasida: *handed it in*." },
     { k: "order", uz: "Iltimos, ularning zaxira nusxasini oling.", words: ["Please", "back", "them", "up."], extra: ["on", "off"], why: "Olmosh o'rtada: *back them up*." },
@@ -177,7 +177,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Biz yaxshi reja o'ylab topdik.", words: ["We", "came", "up", "with", "a", "good", "plan."], extra: ["on", "off"], why: "**come up with**." },
     { k: "fix", wrong: "Can you set up it for me?", a: ["Can you set it up for me?"], hint: "Olmosh", why: "Olmosh o'rtada: *set it up*." },
     { k: "tf", q: "**Log in** ga ob'ekt shart emas: *You have to log in.*", a: true, why: "Ob'ektsiz phrasal verb." },
-    { k: "translate", uz: "Biz yangi hamkasb qidiryapmiz.", a: ["We are looking for a new colleague.", "We're looking for a new colleague."], why: "**look for** — qidirmoq." },
+    { k: "translate", uz: "Biz yangi hamkasb qidiryapmiz.", a: ["We are looking for a new colleague.", "We're looking for a new colleague.", "We are searching for a new colleague.", "We're searching for a new colleague."], why: "**look for** — qidirmoq." },
   ],
   summary: [
     "**Phrasal verb** = fe'l + particle, ma'nosi yangi: *back up, fill in, look into*. Butun birikmani yodlang.",

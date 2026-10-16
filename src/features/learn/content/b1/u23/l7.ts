@@ -42,7 +42,7 @@ const lesson: Lesson = {
     {
       title: "Asosiy abzatslar va bog'lovchilar",
       blocks: [
-        { t: "p", md: "Abzats ichida gaplar bir-biri bilan **bog'lovchi so'zlar** orqali bog'lanadi. Siz ularni oldingi darsda o'rgandingiz; endi esseda ishlating:" },
+        { t: "p", md: "Abzats ichida gaplar bir-biri bilan **bog'lovchi so'zlar** orqali bog'lanadi. Siz ularni ilgari o'rgandingiz; endi esseda ishlating:" },
         {
           t: "table", head: ["Vazifa", "So'zlar"], speak: [1],
           rows: [

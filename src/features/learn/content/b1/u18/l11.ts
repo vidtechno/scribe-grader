@@ -57,7 +57,7 @@ const lesson: Lesson = {
     {
       title: "Matn: bitta hayot, bir necha bosqich",
       blocks: [
-        { t: 'text', title: "A short life story", en: "My grandfather was born in a small village in 1950. He graduated from university in 1974 and got married a year later. He used to work as an engineer, and he moved house three times for his job. He retired in 2010. He has been living in the same town for twenty years, and he is used to the quiet life. Recently he has been writing a book about his life. So far, he has finished six chapters. He says that writing has been the biggest challenge of his career.", uz: "Mening bobom 1950-yilda kichik qishloqda tug'ilgan. U 1974-yilda universitetni tugatgan va bir yildan keyin uylangan. U muhandis bo'lib ishlagan va ish uchun uch marta ko'chib o'tgan. 2010-yilda nafaqaga chiqqan. U yigirma yildan beri bir shaharda yashaydi va tinch hayotga ko'nikib bo'lgan. So'nggi paytda o'z hayoti haqida kitob yozyapti. Hozircha olti bobni tugatgan. U yozish karerasidagi eng katta sinov bo'ldi, deydi." },
+        { t: 'text', title: "A short life story", en: "My grandfather was born in a small village in 1950. He graduated from university in 1974 and got married a year later. He used to work as an engineer, and he moved house three times for his job. He retired in 2010. He has been living in the same town for twenty years, and he is used to the quiet life. Recently he has been writing a book about his life. So far, he has finished six chapters. He says that writing has been the biggest challenge of his career.", uz: "Mening bobom 1950-yilda kichik qishloqda tug'ilgan. U 1974-yilda universitetni tugatgan va bir yildan keyin uylangan. U muhandis bo'lib ishlagan va ish uchun uch marta ko'chib o'tgan. 2010-yilda nafaqaga chiqqan. U yigirma yildan beri bir shaharda yashaydi va tinch hayotga ko'nikib bo'lgan. So'nggi paytda o'z hayoti haqida kitob yozyapti. Hozircha olti bobni tugatgan. U yozish karerasidagi eng katta sinov bo'lganini aytadi." },
         { t: 'check', ex: { k: 'tf', q: "The grandfather still works as an engineer.", a: false, why: "*He retired in 2010.*" } },
         { t: 'check', ex: { k: 'choice', q: "What is he doing now?", opts: ["Writing a book", "Moving house", "Studying at university", "Looking for a job"], a: 0, why: "*Recently he has been writing a book.*" } },
       ],
@@ -65,7 +65,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'nostalgic', uz: 'o\'tmishni sog\'ingan', ipa: 'nɒˈstæl.dʒɪk', pos: 'adj', ex: 'Looking at old photos makes me feel nostalgic.', exUz: 'Eski suratlarga qarash meni o\'tmishni sog\'intiradi.' },
-    { en: 'treasure', uz: 'qadrlamoq, aziz ko\'rmoq', ipa: 'ˈtreʒ.ər', pos: 'verb', ex: 'I will always treasure the time we spent together.', exUz: 'Birga o\'tkazgan vaqtimizni doim aziz ko\'raman.' },
+    { en: 'treasure', uz: 'qadrlamoq, aziz ko\'rmoq', ipa: 'ˈtreʒ.ə', pos: 'verb', ex: 'I will always treasure the time we spent together.', exUz: 'Birga o\'tkazgan vaqtimizni doim aziz ko\'raman.' },
     { en: 'carry on', uz: 'davom etmoq', ipa: 'ˈkær.i ɒn', pos: 'phrasal verb', ex: 'Whatever happens, I\'ll carry on learning English.', exUz: 'Nima bo\'lsa ham, ingliz tilini o\'rganishda davom etaman.' },
     { en: 'look back', uz: "o'tmishga nazar tashlamoq", ipa: 'lʊk bæk', pos: 'phrasal verb', ex: "When I look back, I feel proud.", exUz: "O'tmishga qarasam, faxrlanaman." },
     { en: 'move on', uz: 'oldinga yurmoq, o\'tmishni ortda qoldirmoq', ipa: 'muːv ɒn', pos: 'phrasal verb', ex: 'It is time to move on and start a new chapter.', exUz: 'Oldinga yurib, yangi sahifa boshlash vaqti keldi.' },
@@ -101,7 +101,7 @@ const lesson: Lesson = {
     "**Present Perfect** — tajriba, natija, hozirgacha davom etgan davr; **Past Simple** — aniq o'tgan vaqt (*ago, in 2019, last year*).",
     "**for** — davomiylik, **since** — boshlanish nuqtasi; ikkalasi Present Perfect (yoki Continuous) bilan. **been** — borib qaytgan, **gone** — hozir yo'q.",
     "**used to** — ilgarigi odat; **be / get used to + -ing** — ko'nikmoq.",
-    "Yangi so'zlar: **experience, memory, settle down, look back, adapt**.",
+    "Yangi so'zlar: **nostalgic, treasure, carry on, look back, move on**.",
   ],
   homework: "O'z hayotingiz haqida 8 gap yozing: 2 ta Past Simple (aniq yil), 2 ta Present Perfect (tajriba), 2 ta **for / since**, 1 ta **used to**, 1 ta **be used to**.",
 };

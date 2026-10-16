@@ -29,7 +29,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'text', title: 'Millbrook to Get a New Library', voice: 'emma',
           en: "Millbrook Town Council announced yesterday that a new library will open next spring. A council spokesperson said that the building had been empty for three years. At first, local people were worried about the cost. However, the council promised that the project would not raise taxes. \"We want a place where every child can read and study,\" the spokesperson told reporters. Meanwhile, volunteers have already started to collect books. Eventually, the library will have more than ten thousand books.",
-          uz: "Millbrook shahar kengashi kecha keyingi bahorda yangi kutubxona ochilishini e'lon qildi. Kengash vakili bino uch yildan beri bo'sh turganini aytdi. Dastlab mahalliy aholi xarajatdan xavotirda edi. Biroq kengash loyiha soliqlarni oshirmasligiga va'da berdi. \"Biz har bir bola o'qiy oladigan va o'rgana oladigan joy xohlaymiz\", dedi vakil muxbirlarga. Shu orada ko'ngillilar kitob yig'ishni allaqachon boshlashdi. Oxir-oqibat kutubxonada o'n mingdan ortiq kitob bo'ladi." },
+          uz: "Millbrook shahar kengashi kecha keyingi bahorda yangi kutubxona ochilishini e'lon qildi. Kengash vakili bino uch yildan beri bo'sh turganini aytdi. Dastlab mahalliy aholi xarajatdan xavotirda edi. Biroq kengash loyiha soliqlarni oshirmasligiga va'da berdi. «Biz har bir bola o'qiy oladigan va o'rgana oladigan joy xohlaymiz», dedi vakil muxbirlarga. Shu orada ko'ngillilar kitob yig'ishni allaqachon boshlashdi. Oxir-oqibat kutubxonada o'n mingdan ortiq kitob bo'ladi." },
         { t: 'check', ex: { k: 'choice', q: "When will the new library open?", opts: ["Next spring", "Yesterday", "In three years", "This summer"], a: 0, why: "*A new library will open next spring.*" } },
         { t: 'check', ex: { k: 'tf', q: "The council said that the project would raise taxes.", a: false, why: "*The project would not raise taxes.*" } },
         { t: 'check', ex: { k: 'choice', q: "What are the volunteers doing?", opts: ["Collecting books", "Building the library", "Paying taxes", "Writing to reporters"], a: 0, why: "*Volunteers have already started to collect books.*" } },
@@ -67,7 +67,7 @@ const lesson: Lesson = {
   words: [
     { en: 'spokesperson', uz: "vakil, matbuot kotibi", ipa: 'ˈspəʊks.pɜː.sən', pos: 'noun', ex: 'A spokesperson said that the road would reopen soon.', exUz: "Vakil yo'l tez orada ochilishini aytdi." },
     { en: 'announce', uz: "e'lon qilmoq", ipa: 'əˈnaʊns', pos: 'verb', ex: 'The school announced that it would close early.', exUz: "Maktab erta yopilishini e'lon qildi." },
-    { en: 'quote', uz: "iqtibos; iqtibos keltirmoq", ipa: 'kwəʊt', pos: 'noun', ex: 'The article ends with a quote from the mayor.', exUz: "Maqola merdan olingan iqtibos bilan tugaydi." },
+    { en: 'quote', uz: "iqtibos; iqtibos keltirmoq", ipa: 'kwəʊt', pos: 'noun', ex: 'The article ends with a quote from the mayor.', exUz: "Maqola shahar hokimidan olingan iqtibos bilan tugaydi." },
     { en: 'council', uz: "kengash (shahar)", ipa: 'ˈkaʊn.səl', pos: 'noun', ex: 'The town council meets every month.', exUz: "Shahar kengashi har oy yig'iladi." },
     { en: 'organiser', uz: "tashkilotchi", ipa: 'ˈɔː.ɡən.aɪ.zər', pos: 'noun', ex: "The organiser said that about 300 people had come.", exUz: "Tashkilotchi taxminan 300 kishi kelganini aytdi." },
   ],
@@ -80,7 +80,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: "The council announced to open a new library.", a: ["The council announced that it would open a new library.", "The council announced that a new library would open.", "The council announced that they would open a new library.", "The council announced the opening of a new library."], hint: "announced + that + gap", why: "**announce** dan keyin odatda *that + gap* keladi." },
     { k: 'fix', wrong: "The spokesperson told that the building was empty.", a: ["The spokesperson told reporters that the building was empty.", "The spokesperson said that the building was empty.", "The spokesperson told us that the building was empty."], hint: "told + kim yoki said", why: "**told** dan keyin odam kerak, yoki **said** ishlating." },
     { k: 'tf', q: "Yangilik maqolasida eng muhim ma'lumot birinchi gapda aytiladi.", a: true, why: "Kim, nima, qachon — boshida." },
-    { k: 'order', uz: "Oxir-oqibat kutubxonada ko'p kitob bo'ladi.", words: ["Eventually,", "the", "library", "will", "have", "many", "books."], extra: ["has", "would"], why: "**Eventually** — oxir-oqibat." },
+    { k: 'order', uz: "Oxir-oqibat kutubxonada ko'p kitob bo'ladi.", words: ["Eventually,", "the", "library", "will", "have", "many", "books."], extra: ["has", "is"], why: "**Eventually** — oxir-oqibat." },
     { k: 'translate', uz: "Kengash kecha yangi park ochilishini e'lon qildi.", a: ["The council announced yesterday that a new park would open.", "The council announced yesterday that a new park will open.", "The council announced yesterday that it would open a new park.", "The council announced yesterday that they would open a new park."] },
     { k: 'dictation', say: "Millbrook Town Council announced yesterday that a new library will open next spring.", a: ["Millbrook Town Council announced yesterday that a new library will open next spring."] },
     { k: 'speak', say: "A council spokesperson said that the building had been empty for three years.", uz: "Kengash vakili bino uch yildan beri bo'sh turganini aytdi." },
@@ -97,7 +97,7 @@ const lesson: Lesson = {
     "Maqola tuzilishi: **sarlavha → birinchi gap (kim, nima, qachon) → tafsilot → iqtibos → keyin nima bo'ladi**.",
     "Fe'llar: **announced that…, said that…, told reporters that…, promised that…** (*will* → *would*).",
     "Iqtibos qo'shtirnoqda aynan beriladi: **\"…,\" the spokesperson said.**",
-    "Hikoyani bog'lang: **meanwhile, however, eventually**.",
+    "Hikoyani bog'lang: **at first, meanwhile, eventually**.",
   ],
   homework: "Xayoliy shahar yoki maktab haqida 6–8 gapli yangilik maqolasi yozing: sarlavha, birinchi gap, bitta *said that…*, bitta iqtibos va *meanwhile* yoki *eventually*. Keyin yuqoridagi tekshiruv ro'yxati bo'yicha tekshiring.",
 };

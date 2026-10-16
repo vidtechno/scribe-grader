@@ -54,7 +54,7 @@ const lesson: Lesson = {
     {
       title: "Ohang va javob",
       blocks: [
-        { t: "p", md: "Tag ning ma'nosini **ovoz ohangi** belgilaydi:" },
+        { t: "p", md: "Tagning ma'nosini **ovoz ohangi** belgilaydi:" },
         {
           t: "table", head: ["Ohang", "Ma'nosi", "Misol"],
           rows: [
@@ -62,7 +62,7 @@ const lesson: Lesson = {
             ["Ko'tariluvchi ↗", "Haqiqatan ham bilmayman, so'rayapman", "You haven't seen my keys, have you?"],
           ],
         },
-        { t: "tip", tone: "info", md: "Javob **faktga** qarab beriladi, tag ga emas. *You don't like coffee, do you?* — Agar rostdan ham yoqtirmasangiz: **No, I don't.** Agar yoqtirsangiz: **Yes, I do.** O'zbekcha «yo'q, yoqtirmayman» bilan bir xil mantiq." },
+        { t: "tip", tone: "info", md: "Javob **faktga** qarab beriladi, tagga emas. *You don't like coffee, do you?* — Agar rostdan ham yoqtirmasangiz: **No, I don't.** Agar yoqtirsangiz: **Yes, I do.** O'zbekcha «yo'q, yoqtirmayman» bilan bir xil mantiq." },
         { t: "examples", items: [
           { en: "It's very hot today, isn't it? — Yes, it is. I need some water.", uz: "Bugun juda issiq, a? — Ha. Menga suv kerak." },
           { en: "You don't eat meat, do you? — No, I don't. I'm a vegetarian.", uz: "Sen go'sht yemaysan, a? — Yo'q, yemayman. Men vegetarianman." },
@@ -127,12 +127,12 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "directions", uz: "yo'l ko'rsatma", ipa: "dɪˈrek.ʃənz", pos: "noun", ex: "Could you give me directions to the station?", exUz: "Bekatga yo'l ko'rsatib bera olasizmi?" },
+    { en: "directions", uz: "yo'l-yo'riq, yo'nalish", ipa: "dɪˈrek.ʃənz", pos: "noun", ex: "Could you give me directions to the station?", exUz: "Bekatga yo'l ko'rsatib bera olasizmi?" },
     { en: "assistance", uz: "yordam", ipa: "əˈsɪs.təns", pos: "noun", ex: "Thank you for your assistance.", exUz: "Yordamingiz uchun rahmat." },
     { en: "complimentary", uz: "bepul (hurmat belgisi sifatida)", ipa: "ˌkɒm.plɪˈmen.tər.i", pos: "adj", ex: "Breakfast is complimentary for all guests.", exUz: "Nonushta barcha mehmonlar uchun bepul." },
     { en: "valid", uz: "amal qiladigan, yaroqli", ipa: "ˈvæl.ɪd", pos: "adj", ex: "Is this ticket valid for the whole day?", exUz: "Bu chipta butun kun uchun amal qiladimi?" },
     { en: "booking", uz: "band qilish, buyurtma", ipa: "ˈbʊk.ɪŋ", pos: "noun", ex: "I'd like to change my booking.", exUz: "Buyurtmamni o'zgartirmoqchi edim." },
-    { en: "kindly", uz: "marhamat qilib", ipa: "ˈkaɪnd.li", pos: "adv", ex: "Would you kindly tell me where the station is?", exUz: "Bekat qayerdaligini aytib berolmaysizmi?" },
+    { en: "kindly", uz: "marhamat qilib", ipa: "ˈkaɪnd.li", pos: "adv", ex: "Would you kindly tell me where the station is?", exUz: "Marhamat qilib, bekat qayerdaligini ayta olasizmi?" },
     { en: "in person", uz: "shaxsan", ipa: "ɪn ˈpɜː.sən", pos: "phrase", ex: "You have to collect the tickets in person.", exUz: "Chiptalarni shaxsan olishingiz kerak." },
     { en: "at your convenience", uz: "o'zingizga qulay paytda", ipa: "æt jɔː kənˈviː.ni.əns", pos: "phrase", ex: "Please call us at your convenience.", exUz: "Iltimos, o'zingizga qulay paytda bizga qo'ng'iroq qiling." },
     { en: "opening hours", uz: "ish vaqti", ipa: "ˈəʊ.pən.ɪŋ ˌaʊəz", pos: "phrase", ex: "What are the opening hours of the museum?", exUz: "Muzeyning ish vaqti qanday?" },

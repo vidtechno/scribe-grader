@@ -110,7 +110,7 @@ const lesson: Lesson = {
     "Majhul nisbat formulasi: **to be + V3**. **Present Perfect**: *has / have been + V3*.",
     "**Kelasi zamon**: *will be + V3*. **Modallar**: *can / must / should be + V3*.",
     "Inkor va savolda yordamchi fe'l o'rni o'zgaradi: *hasn't been done*, *Has it been done?*, *can't be seen*.",
-    "Xatolar: *has repaired* ❌ → *has been repaired* ✅; *can booked* ❌ → *can be booked* ✅.",
+    "Xatolar: *has repaired* (xato) → *has been repaired* (to'g'ri); *can booked* (xato) → *can be booked* (to'g'ri).",
     "Yangi so'zlar: **renovate, replace, demolish, protect, approve**.",
   ],
   homework: "Shahringiz haqida 5 ta majhul gap yozing: 1 ta *has been …*, 1 ta *will be …*, 1 ta *can be …*, 1 ta *must be …* va 1 ta *hasn't been … yet*.",

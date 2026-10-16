@@ -96,7 +96,7 @@ const lesson: Lesson = {
     "Muloyim e'tiroz: **I see your point, but…**, **I'm afraid I don't agree**, **I agree up to a point, but…**",
     "Kelishuv: **Why don't we…? How about + -ing? Let's meet halfway.** Shart: **If you…, I will…**",
     "Qabul qilish: **That sounds fair. I'm happy with that.** **disagree with** somebody.",
-    "Yangi so'zlar: **compromise, disagree, fair, persuade, alternative**.",
+    "Yangi so'zlar: **compromise, disagree, acceptable, meet halfway, alternative**.",
   ],
   homework: "Do'stingiz bilan kelishmovchilik bo'lgan bir vaziyatni tasavvur qiling (masalan, dam olish joyi). 6 qatorli dialog yozing: e'tiroz, tushuntirish, kelishuv taklifi, kelishuvni qabul qilish.",
 };

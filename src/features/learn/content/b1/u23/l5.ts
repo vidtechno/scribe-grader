@@ -9,7 +9,7 @@ const lesson: Lesson = {
     {
       title: "So'z emas, birikma o'rganing",
       blocks: [
-        { t: "p", md: "Munozarada va esseda ingliz tili so'zlarni **doim bir-biriga yaqin juftlik** qilib ishlatadi. Bunday juftlikni **collocation** (birikma) deymiz. Masalan, *pollution* so'zi bilan biz **reduce** deymiz (*reduce pollution*), lekin *make pollution smaller* demaymiz." },
+        { t: "p", md: "Munozarada va esseda ingliz tili ba'zi so'zlarni **doim bir-biri bilan birga** ishlatadi. Bunday juftlikni **collocation** (birikma) deymiz. Masalan, *pollution* so'zi bilan biz **reduce** deymiz (*reduce pollution*), lekin *make pollution smaller* demaymiz." },
         { t: "p", md: "O'zbek tilida ham shunday: «choy ichmoq», «gap sotmoq». Ularni so'zma-so'z tarjima qilib bo'lmaydi. Inglizchada ham **birikmani butunligicha** eslab qoling." },
         {
           t: "table", head: ["Mavzu", "Foydali birikma", "Ma'nosi"], speak: [1],
@@ -50,7 +50,7 @@ const lesson: Lesson = {
         {
           t: "table", head: ["Inglizcha birikma", "O'zbekcha", "Eslatma"], speak: [0],
           rows: [
-            ["lead a healthy lifestyle", "sog'lom hayot kechirmoq", "*have* emas, **lead**"],
+            ["lead a healthy lifestyle", "sog'lom hayot kechirmoq", "tayyor birikma: **lead**"],
             ["take regular exercise", "muntazam mashq qilmoq", "*make exercise* — xato"],
             ["eat a balanced diet", "muvozanatli ovqatlanmoq", "sabzavot, meva, oqsil"],
             ["suffer from stress", "stressdan azob chekmoq", "**suffer from**"],
@@ -77,7 +77,7 @@ const lesson: Lesson = {
             ["pollute", "pollution", "polluted"],
             ["recycle", "recycling", "recycled"],
             ["protect", "protection", "protective"],
-            ["", "health", "healthy / unhealthy"],
+            ["", "health", "healthy"],
             ["reduce", "reduction", "reduced"],
             ["", "society", "social"],
           ],
@@ -87,10 +87,10 @@ const lesson: Lesson = {
             { en: "Factories **pollute** the river.", uz: "Zavodlar daryoni ifloslantiradi.", note: "Fe'l." },
             { en: "River **pollution** is a serious problem.", uz: "Daryoning ifloslanishi jiddiy muammo.", note: "Ot." },
             { en: "The river is badly **polluted**.", uz: "Daryo qattiq ifloslangan.", note: "Sifat." },
-            { en: "We need a **reduction** in plastic bags.", uz: "Bizga plastik paketlarni kamaytirish kerak.", note: "Ot: *reduction*." },
+            { en: "We need a big **reduction** in the use of plastic bags.", uz: "Plastik paketlardan foydalanishni sezilarli kamaytirish kerak.", note: "Ot: *reduction*." },
           ],
         },
-        { t: "tip", tone: "warn", md: "**Society** — jamiyat (ot), **social** — ijtimoiy (sifat). *social problems* — to'g'ri, *society problems* ham uchraydi, lekin esseda **social problems** yaxshiroq." },
+        { t: "tip", tone: "warn", md: "**Society** — jamiyat (ot), **social** — ijtimoiy (sifat). *social problems* — to'g'ri, ~~society problems~~ — xato." },
         { t: "check", ex: { k: "fill", q: "Air ___ is a big problem in many cities. (pollute)", a: ["pollution"], why: "*Air ___* — ot kerak: **pollution**." } },
         { t: "check", ex: { k: "fill", q: "Sugar is not very ___ for children. (health)", a: ["healthy"], why: "*be healthy* — sifat kerak: **healthy**." } },
       ],
@@ -101,7 +101,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "Life in a big city",
           en: "Many people move to big cities because there are more jobs and better schools. The population of Tashkent has grown a lot, and this brings both good and bad things. On the one hand, society offers more choice: people can study, work and meet new friends. On the other hand, the traffic causes air pollution, and there is too much waste. The city council is trying to protect the environment. It asks families to recycle paper and glass, and it wants to reduce the number of old cars. Doctors also say that city life can be bad for mental health. People work long hours and often have no time for exercise. A healthy lifestyle and a balanced diet can help.",
-          uz: "Ko'p odamlar katta shaharlarga ko'chib keladi, chunki u yerda ish ko'proq va maktablar yaxshiroq. Toshkent aholisi ancha oshdi va bu yaxshi hamda yomon oqibatlar keltiradi. Bir tomondan, jamiyat ko'proq tanlov beradi: odamlar o'qiydi, ishlaydi va yangi do'stlar topadi. Ikkinchi tomondan, tirbandlik havoni ifloslantiradi va chiqindi juda ko'p. Shahar kengashi atrof-muhitni himoya qilishga harakat qilmoqda. U oilalardan qog'oz va shishani qayta ishlashga topshirishni so'raydi va eski mashinalar sonini kamaytirmoqchi. Shifokorlar shahar hayoti ruhiy salomatlikka zarar bo'lishi mumkinligini ham aytadi. Odamlar uzoq ishlaydi va ko'pincha mashq qilishga vaqti bo'lmaydi. Sog'lom turmush tarzi va muvozanatli ovqatlanish yordam berishi mumkin.",
+          uz: "Ko'p odamlar katta shaharlarga ko'chib keladi, chunki u yerda ish ko'proq va maktablar yaxshiroq. Toshkent aholisi ancha oshdi va bu yaxshi hamda yomon oqibatlar keltiradi. Bir tomondan, jamiyat ko'proq tanlov beradi: odamlar o'qiydi, ishlaydi va yangi do'stlar topadi. Ikkinchi tomondan, tirbandlik havoni ifloslantiradi va chiqindi juda ko'p. Shahar kengashi atrof-muhitni himoya qilishga harakat qilmoqda. U oilalardan qog'oz va shishani qayta ishlashga topshirishni so'raydi va eski mashinalar sonini kamaytirmoqchi. Shifokorlar shahar hayoti ruhiy salomatlikka zarar keltirishi mumkinligini ham aytadi. Odamlar uzoq ishlaydi va ko'pincha mashq qilishga vaqti bo'lmaydi. Sog'lom turmush tarzi va muvozanatli ovqatlanish yordam berishi mumkin.",
         },
         { t: "check", ex: { k: "tf", q: "The city council wants to reduce the number of old cars.", a: true, why: "Matnda: *it wants to reduce the number of old cars*." } },
         { t: "check", ex: { k: "choice", q: "According to the text, why can city life be bad for mental health?", opts: ["People work long hours and have little time for exercise.", "There are too few schools.", "The population is getting smaller.", "Doctors do not help people."], a: 0, why: "Matnda: *People work long hours and often have no time for exercise.*" } },
@@ -154,7 +154,7 @@ const lesson: Lesson = {
     { k: "speak", say: "I try to lead a healthy lifestyle and protect the environment.", uz: "Men sog'lom hayot kechirishga va atrof-muhitni himoya qilishga harakat qilaman." },
   ],
   quiz: [
-    { k: "choice", q: "Factories ___ the river, so the water is dirty.", opts: ["pollute", "pollution", "polluted", "pollutes"], a: 0, why: "Ko'plik ega (*factories*) bilan fe'l kerak: **pollute**." },
+    { k: "choice", q: "Some factories ___ the river every day, so the water is dirty.", opts: ["pollute", "pollution", "polluted", "pollutes"], a: 0, why: "Ko'plik ega (*factories*) bilan fe'l kerak: **pollute**." },
     { k: "choice", q: "The government wants to ___ the amount of waste.", opts: ["reduce", "produce", "recycle", "protect"], a: 0, why: "**reduce the amount of waste** — chiqindi miqdorini kamaytirmoq." },
     { k: "choice", q: "A ___ diet includes fruit, vegetables and protein.", opts: ["balanced", "balance", "balancing", "balances"], a: 0, why: "Sifat kerak: **balanced diet**." },
     { k: "fill", q: "She suffers ___ stress at work.", a: ["from"], uz: "U ishda stressdan azob chekadi.", why: "**suffer from** — birikma." },
@@ -163,7 +163,7 @@ const lesson: Lesson = {
     { k: "listen", say: "The population of the city has grown a lot.", opts: ["The population of the city has grown a lot.", "The pollution of the city has grown a lot.", "The population of the city has gone a lot.", "The population of the country has grown a lot."], a: 0 },
     { k: "tf", q: "**I make regular exercise** — bu gap to'g'ri.", a: false, why: "To'g'risi: *I take regular exercise* yoki *I do regular exercise*." },
     { k: "order", uz: "Bu muammo haqida xabardorlikni oshirishimiz kerak.", words: ["We", "need", "to", "raise", "awareness", "of", "this", "problem."], extra: ["make", "about"] },
-    { k: "translate", uz: "Plastik paketlar atrof-muhit uchun yomon.", a: ["Plastic bags are bad for the environment.", "Plastic bags are bad for environment."], why: "**the environment** — atrof-muhit." },
+    { k: "translate", uz: "Plastik paketlar atrof-muhit uchun yomon.", a: ["Plastic bags are bad for the environment."], why: "**the environment** — atrof-muhit." },
   ],
   summary: [
     "Mavzu bo'yicha gapirish uchun **birikmalarni** o'rganing: *protect the environment, reduce pollution, lead a healthy lifestyle, take regular exercise.*",

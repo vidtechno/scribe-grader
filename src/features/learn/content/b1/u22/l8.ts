@@ -72,7 +72,7 @@ const lesson: Lesson = {
             ["twice as… as", "This screen is twice as big as the old one."],
           ],
         },
-        { t: "tip", tone: "info", md: "**Taqqoslash kuchaytirgichi** (*much, far, a lot*) faqat **comparative** bilan keladi: *much better*, *far more expensive*. *Much good* emas." },
+        { t: "tip", tone: "info", md: "**Taqqoslash kuchaytirgichi** (*much, far, a lot*) faqat **comparative** bilan keladi: *much better*, *far more expensive*. *very better* emas." },
         { t: "check", ex: { k: "fill", q: "By next Friday I ___ finished the report.", a: ["will have", "'ll have"], why: "Muddatgacha tugaydi → **will have + V3**." } },
         { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["The more I read, the more I learn.", "The more I read, more I learn.", "More I read, the more I learn.", "The most I read, the most I learn."], a: 0, why: "**the + comparative, the + comparative**." } },
       ],

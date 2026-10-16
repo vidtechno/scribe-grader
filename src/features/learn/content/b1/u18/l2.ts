@@ -102,7 +102,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "I haven't seen him since Tuesday.", uz: "Men uni seshanbadan beri ko'rmadim." },
             { en: "We haven't had a holiday for two years.", uz: "Biz ikki yildan beri ta'tilga chiqmadik." },
-            { en: "It's two years since I last saw her.", uz: "Uni oxirgi marta ko'rganimga ikki yil bo'ldi.", note: "Bu gap *I haven't seen her for two years* bilan bir xil." },
+            { en: "It's been two years since I last saw her.", uz: "Uni oxirgi marta ko'rganimga ikki yil bo'ldi.", note: "Bu gap *I haven't seen her for two years* bilan bir xil." },
           ],
         },
         { t: "check", ex: { k: "choice", q: "**He has taught here for ten years.** — Hozir u...", opts: ["still teaches here.", "doesn't teach here now.", "will teach here.", "is a student here."], a: 0, why: "Present Perfect + for → hali ham davom etmoqda." } },

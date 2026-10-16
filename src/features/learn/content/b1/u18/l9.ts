@@ -62,7 +62,7 @@ const lesson: Lesson = {
   words: [
     { en: 'originally', uz: 'asli, dastlab', ipa: 'əˈrɪdʒ.ən.əl.i', pos: 'adv', ex: "He's originally from Tashkent.", exUz: "U asli Toshkentlik." },
     { en: 'be raised', uz: 'tarbiyalanib o\'smoq', ipa: 'bi reɪzd', pos: 'phrase', ex: 'I was raised in a small village near Samarkand.', exUz: 'Men Samarqand yaqinidagi kichik qishloqda o\'sganman.' },
-    { en: 'accent', uz: 'talaffuz, shevasi', ipa: 'ˈæk.sənt', pos: 'noun', ex: 'You have a lovely accent. Where are you from?', exUz: 'Sizning talaffuzingiz juda yoqimli. Qayerdansiz?' },
+    { en: 'accent', uz: 'talaffuz (urg\'u), sheva', ipa: 'ˈæk.sənt', pos: 'noun', ex: 'You have a lovely accent. Where are you from?', exUz: 'Sizning talaffuzingiz juda yoqimli. Qayerdansiz?' },
     { en: 'immigrant', uz: 'muhojir', ipa: 'ˈɪm.ɪ.ɡrənt', pos: 'noun', ex: 'My uncle is an immigrant and has lived in Canada for ten years.', exUz: 'Amakim muhojir va o\'n yildan beri Kanadada yashaydi.' },
     { en: 'roots', uz: 'ildizlar, kelib chiqish', ipa: 'ruːts', pos: 'noun', ex: 'I travel a lot, but my roots are in Tashkent.', exUz: 'Men ko\'p sayohat qilaman, lekin ildizlarim Toshkentda.' },
   ],
@@ -83,8 +83,8 @@ const lesson: Lesson = {
     { k: 'speak', say: "I've lived here for three years. What about you?", uz: "Men bu yerda uch yildan beri yashayman. Siz-chi?" },
   ],
   quiz: [
-    { k: 'choice', q: "Qaysi savol 'Qancha vaqtdan beri shu yerda yashaysiz?' degani?", opts: ["How long have you lived here?", "How long ago do you live here?", "How long you live here?", "How long did you lived here?"], a: 0, why: "**How long have you lived…?**" },
-    { k: 'choice', q: "'Asli Samarqandlikman' deyish uchun:", opts: ["I'm originally from Samarkand.", "I'm origin from Samarkand.", "I originally Samarkand.", "I'm from originally Samarkand."], a: 0, why: "**originally from**." },
+    { k: 'choice', q: "Qaysi savol «Qancha vaqtdan beri shu yerda yashaysiz?» degani?", opts: ["How long have you lived here?", "How long ago do you live here?", "How long you live here?", "How long did you lived here?"], a: 0, why: "**How long have you lived…?**" },
+    { k: 'choice', q: "«Asli Samarqandlikman» deyish uchun:", opts: ["I'm originally from Samarkand.", "I'm origin from Samarkand.", "I originally Samarkand.", "I'm from originally Samarkand."], a: 0, why: "**originally from**." },
     { k: 'fill', q: "I've been working here ___ last year.", a: ['since'], why: "Boshlanish payti → **since**." },
     { k: 'fill', q: "Nice to ___ you. I'm Helen.", a: ['meet'], why: "**Nice to meet you.**" },
     { k: 'tf', q: "*What about you?* — bu savol suhbatdoshga javob berish navbatini beradi.", a: true, why: "Savolni qaytarish uchun ishlatiladi." },
@@ -96,7 +96,7 @@ const lesson: Lesson = {
     "Tanishuv: **Nice to meet you. Where are you from? What do you do? What about you?**",
     "Qancha vaqtdan beri: **How long have you lived here? — I've lived here for three years / since 2022.**",
     "Tajriba: **Have you ever lived abroad?** Aloqa: **Let's keep in touch.**",
-    "Yangi so'zlar: **originally, grow up, hometown, abroad, keep in touch**.",
+    "Yangi so'zlar: **originally, be raised, accent, immigrant, roots**.",
   ],
   homework: "O'zingizni 6 gapda tanishtiring: ism, qayerdan, qancha vaqtdan beri yashaysiz (**for / since**), kasb, bitta tajriba (**I've been to…**) va savol (**What about you?**). Ovoz chiqarib ayting.",
 };

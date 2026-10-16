@@ -38,7 +38,7 @@ const lesson: Lesson = {
             { en: "A witness told the police what she had seen.", uz: "Guvoh politsiyaga ko'rganlarini aytib berdi.", note: "**witness** — voqeani o'z ko'zi bilan ko'rgan odam." },
           ],
         },
-        { t: "tip", tone: "info", md: "O'tgan darsdagi ko'chirma gapni eslang: yangiliklarda ko'pincha **kimdir nima degani** aytiladi. *The mayor said that the road would reopen soon.* Bunday gaplar yangilik tilining asosi." },
+        { t: "tip", tone: "info", md: "Oldingi darslardagi ko'chirma gapni eslang: yangiliklarda ko'pincha **kimdir nima degani** aytiladi. *The mayor said that the road would reopen soon.* Bunday gaplar yangilik tilining asosi." },
         { t: "check", ex: { k: "fill", q: "The radio station will ___ a new programme next week. (efirga uzatmoq)", a: ["broadcast"], why: "Radio va televizor uchun: **broadcast**." } },
         { t: "check", ex: { k: "choice", q: "Who is a witness?", opts: ["A person who saw an event", "A person who writes headlines", "A person who reads the news on TV", "A person who owns a newspaper"], a: 0, why: "**Witness** — voqeani ko'rgan guvoh." } },
       ],
@@ -92,7 +92,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "A news report", voice: "emma",
           en: "Breaking news from the town of Rivermouth. Last night a small fire started in the old market. According to the fire service, nobody was hurt. A witness, Mr Hall, told our reporter that he had heard a loud noise before he saw the smoke. The firefighters arrived within ten minutes and put out the fire. Earlier today there was a rumour that the whole market would close for a year, but the mayor said that this was not true. The market will open again on Saturday. We will bring you more news later this evening.",
-          uz: "Rivermaut shahridan shoshilinch xabar. Kecha kechqurun eski bozorda kichik yong'in boshlandi. Yong'in xizmatining aytishicha, hech kim jabrlanmadi. Guvoh janob Xoll muxbirimizga tutunni ko'rishdan oldin baland shovqinni eshitganini aytdi. O't o'chiruvchilar o'n daqiqa ichida yetib kelib, yong'inni o'chirishdi. Bugun erta tongda butun bozor bir yilga yopiladi degan mish-mish tarqaldi, lekin shahar hokimi bu to'g'ri emasligini aytdi. Bozor shanba kuni yana ochiladi. Bugun kechqurun yangi xabarlarni yetkazamiz.",
+          uz: "Rivermaut shahridan shoshilinch xabar. Kecha kechqurun eski bozorda kichik yong'in boshlandi. Yong'in xizmatining aytishicha, hech kim jabrlanmadi. Guvoh janob Xoll muxbirimizga tutunni ko'rishdan oldin baland shovqinni eshitganini aytdi. O't o'chiruvchilar o'n daqiqa ichida yetib kelib, yong'inni o'chirishdi. Bugun ertaroq butun bozor bir yilga yopiladi degan mish-mish tarqaldi, lekin shahar hokimi bu to'g'ri emasligini aytdi. Bozor shanba kuni yana ochiladi. Bugun kechqurun yangi xabarlarni yetkazamiz.",
         },
         { t: "check", ex: { k: "tf", q: "The market will close for a year.", a: false, why: "Bu faqat **mish-mish** edi. Hokim to'g'ri emasligini aytdi; bozor shanba kuni ochiladi." } },
         { t: "check", ex: { k: "choice", q: "What did Mr Hall hear before he saw the smoke?", opts: ["A loud noise", "A rumour", "The mayor", "A broadcast"], a: 0, why: "Matnda: *he had heard a loud noise before he saw the smoke*." } },

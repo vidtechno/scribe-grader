@@ -58,7 +58,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'obstacle', uz: 'to\'siq', ipa: 'ˈɒb.stə.kl̩', pos: 'noun', ex: 'She overcame many obstacles to become a doctor.', exUz: 'U shifokor bo\'lish yo\'lida ko\'p to\'siqlarni yengib o\'tdi.' },
+    { en: 'obstacle', uz: 'to\'siq', ipa: 'ˈɒb.stə.kəl', pos: 'noun', ex: 'She overcame many obstacles to become a doctor.', exUz: 'U shifokor bo\'lish yo\'lida ko\'p to\'siqlarni yengib o\'tdi.' },
     { en: 'achievement', uz: 'yutuq', ipa: 'əˈtʃiːv.mənt', pos: 'noun', ex: "Finishing the marathon was a big achievement.", exUz: "Marafonni tugatish katta yutuq edi." },
     { en: 'defeat', uz: 'mag\'lubiyat', ipa: 'dɪˈfiːt', pos: 'noun', ex: 'The team learned a lot from its first defeat.', exUz: 'Jamoa birinchi mag\'lubiyatidan ko\'p narsa o\'rgandi.' },
     { en: 'hire', uz: 'ishga olmoq', ipa: 'ˈhaɪ.ə', pos: 'verb', ex: "The company has hired three new engineers.", exUz: "Kompaniya uchta yangi muhandisni ishga oldi." },
@@ -68,7 +68,7 @@ const lesson: Lesson = {
     { k: 'listen', say: 'What are you most proud of?', opts: ['What are you most proud of?', 'What are you most afraid of?', 'Where are you most proud?', 'What were you proud of?'], a: 0 },
     { k: 'listen', say: "I've hired six people so far.", opts: ["I've hired six people so far.", "I hired six people last year.", "I'll hire six people soon.", "I've hired sixteen people so far."], a: 0 },
     { k: 'listen', say: 'I moved here eight years ago.', opts: ['I moved here eight years ago.', "I've lived here for eight years.", 'I move here every eight years.', 'I moved here eighteen years ago.'], a: 0 },
-    { k: 'choice', q: "Karim: 'Eight years ago.' Qaysi savolga javob?", opts: ["When did you move to England?", "How long have you lived in England?", "Do you like England?", "Where are you from?"], a: 0, why: "**ago** — payt haqida (Past Simple) javob." },
+    { k: 'choice', q: "Karim: «Eight years ago.» Qaysi savolga javob?", opts: ["When did you move to England?", "How long have you lived in England?", "Do you like England?", "Where are you from?"], a: 0, why: "**ago** — payt haqida (Past Simple) javob." },
     { k: 'choice', q: "Qaysi gap hozir ham davom etayotgan ishni bildiradi?", opts: ["I've been working here since 2021.", "I worked here in 2021.", "I used to work here.", "I started here two years ago."], a: 0, why: "**have been working since** — hozir ham ishlaydi." },
     { k: 'fill', q: "I'm very ___ of my daughter. She won the competition.", a: ['proud'], uz: "Men qizimdan juda faxrlanaman.", why: "**proud of** — faxrlanmoq." },
     { k: 'fill', q: "At first I wasn't used to the cold, but I ___ used to it.", a: ['got'], uz: "Avvaliga sovuqqa ko'nikmagan edim, lekin ko'nikdim.", why: "**get used to** → o'tgan zamon *got used to*." },
@@ -81,7 +81,7 @@ const lesson: Lesson = {
     { k: 'speak', say: "I'm proud of my family. We've always helped each other.", uz: "Men oilamdan faxrlanaman. Biz doim bir-birimizga yordam berganmiz." },
   ],
   quiz: [
-    { k: 'choice', q: "Eshitdingiz: 'I've been teaching for ten years.' Bu odam hozir:", opts: ["Hali ham o'qitadi", "Endi o'qitmaydi", "O'n yil oldin boshlagan va tashlagan", "Hech qachon o'qitmagan"], a: 0, why: "**have been teaching for** — hozirgacha davom etadi." },
+    { k: 'choice', q: "Eshitdingiz: «I've been teaching for ten years.» Bu odam hozir:", opts: ["Hali ham o'qitadi", "Endi o'qitmaydi", "O'n yil oldin boshlagan va tashlagan", "Hech qachon o'qitmagan"], a: 0, why: "**have been teaching for** — hozirgacha davom etadi." },
     { k: 'choice', q: "Eshitmadingiz. Nima deysiz?", opts: ["Sorry, could you say that again, please?", "What? Say again!", "I don't understand you.", "Repeat, please you."], a: 0, why: "Muloyim iltimos: **Could you say that again, please?**" },
     { k: 'fill', q: "Learning English has been a big ___ for me, but I enjoy it.", a: ['challenge'], why: "**challenge** — sinov, qiyinchilik." },
     { k: 'fill', q: "Many customers have come back ___ and again.", a: ['again'], why: "**again and again** — qayta-qayta." },
@@ -94,7 +94,7 @@ const lesson: Lesson = {
     "Intervyuda **raqam + years / ago / since** va zamonlarga e'tibor bering: **ago** — o'tmish, **for / since** — hozirgacha.",
     "Javob 3 qadamda: **javob, tafsilot, misol**. Masalan: *I've lived here for four years. I moved here after university.*",
     "Eshitmasangiz: **Sorry, could you say that again, please?**",
-    "Yangi so'zlar: **proud, achievement, challenge, hire, again and again**.",
+    "Yangi so'zlar: **obstacle, achievement, defeat, hire, again and again**.",
   ],
   homework: "O'zingizdan intervyu oling: 4 ta savol (**Where did you grow up? How long have you lived here? What are you proud of? What has been a challenge?**) va har biriga 3 qadamli javob ayting. Telefoningizda yozib oling va tinglang.",
 };

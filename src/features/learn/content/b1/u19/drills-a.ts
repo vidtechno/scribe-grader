@@ -51,7 +51,7 @@ export const drills: Drill[] = [
       { k: "choice", q: "\"Are you ready?\" Reported: He asked ___ I was ready.", opts: ["if", "that", "what", "how"], a: 0, why: "Yes / No savol → **if / whether**." },
       { k: "tf", q: "*He asked me what time was it.* — to'g'ri gap.", a: false, why: "To'g'risi: *He asked me what time it was.*" },
       { k: "fix", wrong: "She asked me where did I buy the book.", a: ["She asked me where I bought the book.", "She asked me where I had bought the book.", "She asked where I bought the book.", "She asked where I had bought the book."], hint: "do / did", why: "Ko'chirma savolda **did** yo'q." },
-      { k: "fix", wrong: "He asked me if I like coffee.", a: ["He asked me if I liked coffee.", "He asked if I liked coffee."], hint: "Zamon", why: "Zamon siljishi: **liked**." },
+      { k: "fix", wrong: "He asked me do I like coffee.", a: ["He asked me if I liked coffee.", "He asked if I liked coffee.", "He asked me whether I liked coffee.", "He asked me if I like coffee."], hint: "if kerak", why: "Yes / No savol → **if / whether** + darak tartib." },
       { k: "fix", wrong: "The teacher told us don't talk.", a: ["The teacher told us not to talk."], hint: "Inkor buyruq", why: "Inkor: **not to + V1**." },
       { k: "fix", wrong: "She asked me that I help her.", a: ["She asked me to help her."], hint: "Iltimos qolipi", why: "**asked me to + V1**." },
       { k: "fix", wrong: "They asked why were we late.", a: ["They asked why we were late."], hint: "So'roq tartibi", why: "**why we were late**." },
