@@ -23,8 +23,27 @@ export const getPost = async (slug: string): Promise<Post | null> => {
   const fromDb = await rest<Post[]>(`blog_posts?select=*&slug=eq.${encodeURIComponent(slug)}&limit=1`).then(r => r[0] || null).catch(() => null);
   return fromDb ?? STATIC_POSTS.find(p => p.slug === slug) ?? null;
 };
+/**
+ * The list is read on almost every public page (the "study guides" block) and by crawlers all day, so it is kept in
+ * memory for a few minutes per server instance. Every request used to cost one Supabase API call and one log entry.
+ * If Supabase is slow or down, the last good list keeps being served.
+ */
+const LIST_TTL_MS = 10 * 60_000;
+let listCache: { at: number; rows: ListItem[] } | null = null;
+export const clearPostsCache = () => { listCache = null; };
+
 export const listPosts = async (limit = 500): Promise<ListItem[]> => {
-  const fromDb = await rest<ListItem[]>(`blog_posts?select=${LIST_COLS}&order=published_at.desc&limit=${limit}`).catch(() => [] as ListItem[]);
+  const now = Date.now();
+  if (!listCache || now - listCache.at > LIST_TTL_MS) {
+    try {
+      const rows = await rest<ListItem[]>(`blog_posts?select=${LIST_COLS}&order=published_at.desc&limit=500`);
+      listCache = { at: now, rows };
+    } catch {
+      // keep the previous rows when there are any; retry soon instead of on every request
+      listCache = { at: listCache ? now - LIST_TTL_MS + 30_000 : now - LIST_TTL_MS + 30_000, rows: listCache?.rows ?? [] };
+    }
+  }
+  const fromDb = listCache.rows;
   const have = new Set(fromDb.map(p => p.slug));
   return [...fromDb, ...STATIC_POSTS.filter(p => !have.has(p.slug)).map(summary)]
     .sort((a, b) => +new Date(b.published_at) - +new Date(a.published_at)).slice(0, limit);
