@@ -61,7 +61,7 @@ const lesson: Lesson = {
           ['Yordam so\'rash', 'Could you give me a hand with this?'],
           ['Va\'da', 'I\'ll let you know as soon as it\'s done.'],
         ] },
-        { t: 'check', ex: { k: 'order', uz: "Yana bir kun olsam bo'ladimi?", words: ['Would', 'it', 'be', 'possible', 'to', 'have', 'an', 'extra', 'day?'], extra: ['can', 'could'], why: "Muloyim iltimos: **Would it be possible to…?**" } },
+        { t: 'check', ex: { k: 'order', uz: "Yana bir kun olsam bo'ladimi?", words: ['Would', 'it', 'be', 'possible', 'to', 'have', 'an', 'extra', 'day?'], extra: ['having', 'is'], why: "Muloyim iltimos: **Would it be possible to…?**" } },
       ],
     },
   ],

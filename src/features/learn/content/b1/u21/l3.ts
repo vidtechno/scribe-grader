@@ -106,8 +106,8 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "author", uz: "muallif, yozuvchi", ipa: "ˈɔː.θər", pos: "noun", ex: "The author of this book lives in Samarkand.", exUz: "Bu kitobning muallifi Samarqandda yashaydi." },
-    { en: "founder", uz: "asoschi", ipa: "ˈfaʊn.dər", pos: "noun", ex: "The founder of the company is only thirty.", exUz: "Kompaniya asoschisi atigi o'ttiz yoshda." },
+    { en: "author", uz: "muallif, yozuvchi", ipa: "ˈɔː.θə", pos: "noun", ex: "The author of this book lives in Samarkand.", exUz: "Bu kitobning muallifi Samarqandda yashaydi." },
+    { en: "founder", uz: "asoschi", ipa: "ˈfaʊn.də", pos: "noun", ex: "The founder of the company is only thirty.", exUz: "Kompaniya asoschisi atigi o'ttiz yoshda." },
     { en: "scientist", uz: "olim", ipa: "ˈsaɪ.ən.tɪst", pos: "noun", ex: "My uncle is a scientist at a university.", exUz: "Amakim universitetda olim." },
     { en: "celebrity", uz: "mashhur shaxs, yulduz", ipa: "səˈleb.rə.ti", pos: "noun", ex: "She became a celebrity after the show.", exUz: "U ko'rsatuvdan keyin mashhur bo'lib ketdi." },
     { en: "talented", uz: "iqtidorli, qobiliyatli", ipa: "ˈtæl.ən.tɪd", pos: "adj", ex: "She is a talented young painter.", exUz: "U iqtidorli yosh rassom." },

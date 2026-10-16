@@ -8,9 +8,9 @@ export const drills: Drill[] = [
     goal: "Orzu, maqsad va his-tuyg'u so'zlarini (**ambition, achieve, determined, jealous, grateful, anxious**) tez eslab qolasiz va ularni to'g'ri ishlatasiz.",
     exercises: [
       { k: "match", pairs: [["ambition", "intilish, katta maqsad"], ["achieve", "erishmoq"], ["determined", "qat'iyatli"], ["realistic", "real, haqiqatga yaqin"], ["come true", "ushalmoq"]] },
-      { k: "match", pairs: [["disappointed", "umidi puchga chiqqan"], ["jealous", "hasadgo'y"], ["grateful", "minnatdor"], ["anxious", "xavotirli"], ["imagination", "tasavvur"], ["proud", "faxrlangan"]] },
+      { k: "match", pairs: [["disappointed", "umidi puchga chiqqan"], ["jealous", "hasad qiluvchi"], ["grateful", "minnatdor"], ["anxious", "xavotirli"], ["imagination", "tasavvur"], ["proud", "faxrlangan"]] },
       { k: "choice", q: "She has an ___ to become a famous architect.", opts: ["ambition", "imagination", "opportunity", "emotion"], a: 0, why: "Katta maqsad → **ambition**." },
-      { k: "choice", q: "*grateful* qaysi ma'noni bildiradi?", opts: ["minnatdor", "hasadgo'y", "xavotirli", "qat'iyatli"], a: 0, why: "**grateful** — minnatdor." },
+      { k: "choice", q: "*grateful* qaysi ma'noni bildiradi?", opts: ["minnatdor", "hasad qiluvchi", "xavotirli", "qat'iyatli"], a: 0, why: "**grateful** — minnatdor." },
       { k: "choice", q: "He felt ___ before the exam, so he could not eat breakfast.", opts: ["anxious", "grateful", "proud", "realistic"], a: 0, why: "Imtihon oldidan ovqat yemaslik xavotirdan → **anxious**." },
       { k: "fill", q: "I hope all your dreams will come ___.", a: ["true"], uz: "Umid qilamanki, barcha orzularing ushaladi.", why: "**come true** — ushalmoq." },
       { k: "fill", q: "He worked hard to ___ his goal. (erishmoq)", a: ["achieve", "reach"], why: "**achieve a goal** — maqsadga erishmoq." },

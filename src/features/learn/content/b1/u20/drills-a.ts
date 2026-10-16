@@ -11,7 +11,7 @@ export const drills: Drill[] = [
       { k: "choice", q: "If I ___ a million pounds, I would buy an island.", opts: ["have", "had", "will have", "would have"], a: 1, why: "Xayoliy vaziyat: **if + Past Simple**." },
       { k: "fill", q: "If you ___ hard, you will pass the exam. (work)", a: ["work"], uz: "Agar astoydil ishlasangiz, imtihondan o'tasiz.", why: "First conditional: if + Present Simple." },
       { k: "fill", q: "If I ___ you, I would call her. (be)", a: ["were"], uz: "Sizning o'rningizda bo'lsam, unga qo'ng'iroq qilardim.", why: "**If I were you** qolipi." },
-      { k: "fill", q: "We will start the meeting ___ everyone is here.", a: ["unless"], hint: "faqat ... kelmasa", uz: "Hamma kelmaguncha yig'ilishni boshlamaymiz.", why: "Unless = if ... not. Gapda inkor ma'no bor, shuning uchun **unless**." },
+      { k: "fill", q: "We won't start the meeting ___ everyone is here.", a: ["unless"], hint: "faqat ... kelmasa", uz: "Hamma kelmaguncha yig'ilishni boshlamaymiz.", why: "Unless = if ... not. Gapda inkor ma'no bor, shuning uchun **unless**." },
       { k: "fill", q: "You can borrow my car as ___ as you drive carefully.", a: ["long"], uz: "Ehtiyotkor haydasangiz, mashinamni olishingiz mumkin.", why: "**as long as** = faqat shart bajarilsa." },
       { k: "fill", q: "Hurry up, ___ you will miss the train.", a: ["otherwise"], uz: "Shoshiling, aks holda poyezdga kech qolasiz.", why: "**otherwise** = aks holda." },
       { k: "choice", q: "Take an umbrella ___ it rains later.", opts: ["in case", "unless", "as long as", "otherwise if"], a: 0, why: "**in case** = oldindan tayyorgarlik." },

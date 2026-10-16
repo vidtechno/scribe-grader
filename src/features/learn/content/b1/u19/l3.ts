@@ -75,7 +75,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["He said that he was late.", "He told me that he was late.", "He said to me that he was late."] },
           bad: { title: "Xato", items: ["He said me that he was late.", "He told that he was late.", "He told to me that he was late."] } },
         { t: "tip", tone: "warn", md: "Esda tuting: **tell** + kishi (*told me, told Anna*), **say** + gap. *told to me* va *said me* bo'lmaydi." },
-        { t: "tip", tone: "info", md: "Agar gapni aytgan odam **hozir ham** shuni aytayotgan bo'lsa (*She says…*), yoki gap hamon haqiqat bo'lsa, zamon siljishi shart emas: *I live in Tashkent* gapini *She said she lives in Tashkent* yoki *She said she lived in Tashkent* deb aytish mumkin. Ammo ishonchingiz komil bo'lmasa, orqaga siljitgan xavfsiz." },
+        { t: "tip", tone: "info", md: "Agar gapni aytgan odam **hozir ham** shuni aytayotgan bo'lsa (*She says…*), yoki gap hamon haqiqat bo'lsa, zamon siljishi shart emas: *I live in Tashkent* gapini *She said she lives in Tashkent* yoki *She said she lived in Tashkent* deb aytish mumkin. Ammo ishonchingiz komil bo'lmasa, orqaga siljitgan xavfsiz. Mashqlarda va testlarda biz doim orqaga siljitamiz." },
         { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["She told that she was ill.", "She said me that she was ill.", "She told me that she was ill.", "She told to me that she was ill."], a: 2, why: "**tell** + kishi: *told me*." } },
         { t: "check", ex: { k: "fix", wrong: "He said me that he would come.", a: ["He told me that he would come.", "He said that he would come.", "He told me he would come.", "He said he would come."], hint: "say yoki tell", why: "*said me* xato: **told me** yoki **said (that)**." } },
       ],

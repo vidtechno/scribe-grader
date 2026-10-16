@@ -28,7 +28,7 @@ export const drills: Drill[] = [
     goal: "Hikoya zamonlari, ko'chirma gap (darak, savol, buyruq) va reporting fe'llarini yangi gaplarda o'zingiz tekshirasiz.",
     exercises: [
       { k: 'choice', q: "I ___ along the river when I saw a strange bird.", opts: ['was walking', 'walked', 'had walked', 'walk'], a: 0, why: "Fon (davom etayotgan ish) → **was walking**." },
-      { k: 'choice', q: "She was tired because she ___ all night.", opts: ['had worked', 'was working', 'works', 'worked'], a: 0, why: "Sabab oldin bo'lgan → **had worked**." },
+      { k: 'choice', q: "She was tired because she ___ all night.", opts: ['had worked', 'is working', 'works', 'will work'], a: 0, why: "Sabab oldin bo'lgan → **had worked**." },
       { k: 'choice', q: "\"I'm hungry,\" said Tom. → Tom said that he ___ hungry.", opts: ['was', 'is', 'has been', 'will be'], a: 0, why: "*am* → **was**." },
       { k: 'choice', q: "\"I bought a car,\" she said. → She said that she ___ a car.", opts: ['had bought', 'buys', 'buying', 'will buy'], a: 0, why: "Past Simple → **Past Perfect**." },
       { k: 'fill', q: "He asked me ___ I liked the film. (if / whether)", a: ['if', 'whether'], uz: "U mendan film yoqdimi, deb so'radi.", why: "Ha/yo'q savol → **if / whether**." },
@@ -38,7 +38,7 @@ export const drills: Drill[] = [
       { k: 'fix', wrong: "She said me that she was ill.", a: ['She told me that she was ill.', 'She told me she was ill.', 'She said that she was ill.', 'She said she was ill.'], why: "**said** dan keyin *me* yo'q: *told me* yoki *said*." },
       { k: 'fix', wrong: "He suggested to go by train.", a: ['He suggested going by train.', 'He suggested that we go by train.', 'He suggested that we should go by train.'], why: "**suggest** + -ing." },
       { k: 'order', uz: "U mendan qayerda ishlashimni so'radi.", words: ['He', 'asked', 'me', 'where', 'I', 'worked.'], extra: ['did', 'work'], why: "Ko'chirma savolda oddiy tartib." },
-      { k: 'translate', uz: "U kechikmaslikka va'da berdi.", a: ["He promised not to be late.", "She promised not to be late."], why: "**promise not to** + fe'l." },
+      { k: 'translate', uz: "U kechikmaslikka va'da berdi.", a: ["He promised not to be late.", "She promised not to be late.", "He promised that he would not be late.", "He promised he wouldn't be late.", "She promised that she would not be late.", "She promised she wouldn't be late."], why: "**promise not to** + fe'l." },
     ],
   },
   {
@@ -49,7 +49,7 @@ export const drills: Drill[] = [
     exercises: [
       { k: 'listen', say: "Heavy rain has caused floods in the town.", opts: ['Heavy rain has caused floods in the town.', 'Heavy snow has closed the town.', 'Heavy traffic has caused delays in the town.', 'A storm has hit the town.'], a: 0, why: "Yomg'ir va toshqin haqida." },
       { k: 'listen', say: "According to the police, the road is closed.", opts: ['According to the police, the road is closed.', 'According to the radio, the road is open.', 'According to the mayor, the road is closed.', 'According to the police, the road is busy.'], a: 0, why: "Manba — politsiya." },
-      { k: 'dictation', say: "The mayor said that everybody was safe.", a: ['The mayor said that everybody was safe.', 'The mayor said everybody was safe.'], uz: "Mer hamma xavfsiz ekanini aytdi.", why: "*is safe* → **was safe**." },
+      { k: 'dictation', say: "The mayor said that everybody was safe.", a: ['The mayor said that everybody was safe.', 'The mayor said everybody was safe.'], uz: "Shahar hokimi hamma xavfsiz ekanini aytdi.", why: "*is safe* → **was safe**." },
       { k: 'choice', q: "Eshiting: *She warned people not to drive through the water.* U odamlarni nimaga ogohlantirdi?", say: "She warned people not to drive through the water.", opts: ["Suv orqali mashinada o'tmaslikka", "Uyda qolishga", "Qayiqda suzishga", "Politsiyaga qo'ng'iroq qilishga"], a: 0, why: "**warned people not to drive**." },
       { k: 'listen', say: "They promised that the rain would stop by morning.", opts: ['They promised that the rain would stop by morning.', 'They promised that the rain will stop by morning.', 'They asked if the rain would stop by morning.', 'They said that the rain had stopped by morning.'], a: 0, why: "**would stop** — ko'chirma gap." },
       { k: 'dictation', say: "Meanwhile, the trains are running again.", a: ['Meanwhile, the trains are running again.', 'Meanwhile the trains are running again.'], uz: "Shu orada poyezdlar yana yurmoqda.", why: "**Meanwhile** — shu orada." },
@@ -57,7 +57,7 @@ export const drills: Drill[] = [
       { k: 'listen', say: "The council announced that a new library would open.", opts: ['The council announced that a new library would open.', 'The council announced that a new library had opened.', 'The council asked if a new library would open.', 'The council denied opening a new library.'], a: 0, why: "**announced that…would open**." },
       { k: 'dictation', say: "He admitted breaking the window.", a: ['He admitted breaking the window.'], uz: "U derazani sindirganini tan oldi.", why: "**admit** + -ing." },
       { k: 'choice', q: "Eshiting: *By the time we arrived, the shop had closed.* Qaysi biri oldin bo'ldi?", say: "By the time we arrived, the shop had closed.", opts: ["Do'kon yopildi", "Biz yetib keldik", "Ikkalasi bir vaqtda", "Do'kon ochildi"], a: 0, why: "Past Perfect oldin bo'lgan ishni bildiradi." },
-      { k: 'tf', q: "O'qing: *The mayor told reporters that the road was open.* — Mer yo'l yopiq dedi.", a: false, why: "Mer yo'l **ochiq** dedi." },
+      { k: 'tf', q: "O'qing: *The mayor told reporters that the road was open.* — Hokim yo'l yopiq dedi.", a: false, why: "Hokim yo'l **ochiq** dedi." },
     ],
   },
   {
@@ -75,7 +75,7 @@ export const drills: Drill[] = [
       { k: 'fill', q: "— What did he ask you?  — He asked me ___ I had finished. (if)", a: ['if', 'whether'], why: "Ha/yo'q savol → **if / whether**." },
       { k: 'choice', q: "— I'm afraid this phone is faulty. Could I have a refund?", opts: ["— I'm sorry about that. Do you have the receipt?", "— Yes, I'm afraid.", "— Faulty is a refund.", "— You are faulty."], a: 0, why: "Mijozga muloyim javob." },
       { k: 'choice', q: "— Guess what! I met the mayor yesterday.", opts: ['— No way! What did he say?', '— I will meet.', '— The mayor is yesterday.', '— Yes, I do.'], a: 0, why: "Hayron qolish va savol berish." },
-      { k: 'order', uz: "Menga nima deganini bilasanmi?", words: ['Do', 'you', 'know', 'what', 'she', 'told', 'me?'], extra: ['did', 'tell'], why: "Ichki savolda oddiy tartib." },
+      { k: 'order', uz: "Politsiyachi guvohdan nima ko'rganini so'radi.", words: ['The', 'officer', 'asked', 'the', 'witness', 'what', 'she', 'had', 'seen.'], extra: ['did', 'been'], why: "Ko'chirma savolda oddiy tartib: **what she had seen**." },
       { k: 'fix', wrong: "The guard said me to wait.", a: ['The guard told me to wait.'], hint: "said me emas", why: "**told me to wait**." },
       { k: 'translate', uz: "Kengash va'da berdi, soliqlar oshmaydi.", a: ['The council promised that taxes would not go up.', 'The council promised that taxes would not rise.', 'The council promised that taxes wouldn\'t go up.', 'The council promised that taxes wouldn\'t rise.', 'The council promised that it would not raise taxes.', 'The council promised that it wouldn\'t raise taxes.', 'The council promised not to raise taxes.', 'The council promised not to raise the taxes.'], why: "*will* → **would**; yoki **promised not to**." },
     ],

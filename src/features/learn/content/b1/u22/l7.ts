@@ -158,7 +158,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I am writing ___ your advert for a sales assistant.", a: ["regarding", "concerning", "about"], why: "**regarding** — ... haqida." },
     { k: "fill", q: "Please do not ___ to contact me.", a: ["hesitate"], why: "**Please do not hesitate to contact me**." },
     { k: "fill", q: "We apologise for any ___.", a: ["inconvenience"], why: "**apologise for the inconvenience**." },
-    { k: "order", uz: "Iltimos, ma'lumotni yuborsangiz bo'ladimi?", words: ["Could", "you", "please", "send", "me", "the", "information?"], extra: ["can", "sending"], why: "**Could you please send me…?**" },
+    { k: "order", uz: "Iltimos, ma'lumotni yuborsangiz bo'ladimi?", words: ["Could", "you", "please", "send", "me", "the", "information?"], extra: ["sent", "sending"], why: "**Could you please send me…?**" },
     { k: "fix", wrong: "I want to ask about the price of the course.", a: ["I would like to enquire about the price of the course.", "I would like to ask about the price of the course.", "I am writing to enquire about the price of the course."], hint: "Rasmiyroq qiling", why: "**I want → I would like**." },
     { k: "tf", q: "Rasmiy xatda qisqartmalar (*I'd, can't*) ishlatilmaydi.", a: true, why: "**I would, cannot** deb yoziladi." },
     { k: "listen", say: "Please find attached a copy of my certificate.", opts: ["Please find attached a copy of my certificate.", "Please find attached a copy of my CV.", "I have attached a copy of my certificate.", "Please send a copy of my certificate."], a: 0 },
