@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getPlanEntitlement, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, purchaseLink } from './plans';
+import { getPlanEntitlement, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, planTotalUzs, purchaseLink } from './plans';
 
 describe('unified subscription entitlements', () => {
   it('offers only Learn (go) and IELTS (plus) as paid plans', () => {
@@ -37,6 +37,20 @@ describe('unified subscription entitlements', () => {
     expect(planPrice('go', 'month')).toMatchObject({ usd: '4', uzs: '49 000' });
     expect(planPrice('go', 'half-year')).toMatchObject({ months: 6, usd: '21.60', uzs: '264 600', perMonthUzs: '44 100', saveUzs: '29 400' });
     expect(planPrice('plus', 'half-year')).toMatchObject({ usd: '70.20', uzs: '696 600', perMonthUzs: '116 100' });
+  });
+
+  it('gives 5% off for 3 months paid in advance', () => {
+    expect(planPrice('go', 'quarter')).toMatchObject({ months: 3, uzs: '139 650', perMonthUzs: '46 550', saveUzs: '7 350' });
+    expect(planPrice('plus', 'quarter')).toMatchObject({ uzs: '367 650', saveUzs: '19 350' });
+  });
+
+  it('charges whole so\'m that match the displayed price', () => {
+    expect(planTotalUzs('go', 'month')).toBe(49000);
+    expect(planTotalUzs('go', 'quarter')).toBe(139650);
+    expect(planTotalUzs('go', 'half-year')).toBe(264600);
+    expect(planTotalUzs('plus', 'month')).toBe(129000);
+    expect(planTotalUzs('plus', 'quarter')).toBe(367650);
+    expect(planTotalUzs('plus', 'half-year')).toBe(696600);
   });
 
   it('pre-fills the payment message with the plan, period and price', () => {

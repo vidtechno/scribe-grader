@@ -59,31 +59,40 @@ export function getPlanEntitlement(value?: string | null) {
   return PLAN_ENTITLEMENTS[normalizePlanSlug(value)];
 }
 
-export type Billing = 'month' | 'half-year';
-/** Paying for 6 months in advance gives 10% off. */
+export type Billing = 'month' | 'quarter' | 'half-year';
+/** Paying 3 months in advance gives 5% off, 6 months gives 10% off. */
+export const QUARTER_DISCOUNT = 0.05;
 export const HALF_YEAR_DISCOUNT = 0.1;
+export const BILLING_MONTHS: Record<Billing, 1 | 3 | 6> = { month: 1, quarter: 3, 'half-year': 6 };
+export const BILLING_DISCOUNT: Record<Billing, number> = { month: 0, quarter: QUARTER_DISCOUNT, 'half-year': HALF_YEAR_DISCOUNT };
+export const BILLING_LABEL: Record<Billing, string> = { month: '1 oy', quarter: '3 oy', 'half-year': '6 oy' };
 export const HALF_YEAR_MONTHS = 6;
 
 const toNumber = (value: string) => Number(value.replace(/\D/g, '')) || 0;
 export const formatUzs = (value: number) => String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 const formatUsd = (value: number) => (Number.isInteger(value) ? String(value) : value.toFixed(2));
 
+/** Whole so'm charged for a plan and period. The server computes the same number; this one is only for display. */
+export function planTotalUzs(value: string | null | undefined, billing: Billing): number {
+  const uzs = toNumber(getPlanEntitlement(value).priceUzs);
+  return Math.round(uzs * BILLING_MONTHS[billing] * (1 - BILLING_DISCOUNT[billing]));
+}
+
 /** Price of a plan for the chosen billing period: total, per-month equivalent and saving. */
 export function planPrice(value: string | null | undefined, billing: Billing) {
   const p = getPlanEntitlement(value);
   const usd = Number(p.priceUsd) || 0;
   const uzs = toNumber(p.priceUzs);
-  if (billing === 'month') {
-    return { months: 1, usd: formatUsd(usd), uzs: formatUzs(uzs), perMonthUsd: formatUsd(usd), perMonthUzs: formatUzs(uzs), saveUzs: '0' };
-  }
-  const factor = HALF_YEAR_MONTHS * (1 - HALF_YEAR_DISCOUNT);
+  const months = BILLING_MONTHS[billing];
+  const discount = BILLING_DISCOUNT[billing];
+  const factor = months * (1 - discount);
   return {
-    months: HALF_YEAR_MONTHS,
+    months,
     usd: formatUsd(Math.round(usd * factor * 100) / 100),
     uzs: formatUzs(uzs * factor),
-    perMonthUsd: formatUsd(Math.round(usd * (1 - HALF_YEAR_DISCOUNT) * 100) / 100),
-    perMonthUzs: formatUzs(uzs * (1 - HALF_YEAR_DISCOUNT)),
-    saveUzs: formatUzs(uzs * HALF_YEAR_MONTHS * HALF_YEAR_DISCOUNT),
+    perMonthUsd: formatUsd(Math.round(usd * (1 - discount) * 100) / 100),
+    perMonthUzs: formatUzs(uzs * (1 - discount)),
+    saveUzs: formatUzs(uzs * months * discount),
   };
 }
 
@@ -91,7 +100,7 @@ export function planPrice(value: string | null | undefined, billing: Billing) {
 export function purchaseLink(value: string | null | undefined, billing: Billing, publicId?: string | null) {
   const p = getPlanEntitlement(value);
   const price = planPrice(value, billing);
-  const period = billing === 'month' ? '1 oy' : `${HALF_YEAR_MONTHS} oy (-10%)`;
+  const period = billing === 'month' ? '1 oy' : `${BILLING_MONTHS[billing]} oy (-${Math.round(BILLING_DISCOUNT[billing] * 100)}%)`;
   const id = publicId ? ` Mening ID: #${publicId}.` : '';
   const text = `Salom! Men "${p.name}" tarifini ${period} uchun sotib olmoqchiman: $${price.usd} yoki ${price.uzs} so'm.${id}`;
   return `https://t.me/scorify_support?text=${encodeURIComponent(text)}`;
