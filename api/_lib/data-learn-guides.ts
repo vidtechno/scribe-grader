@@ -1,3 +1,5 @@
+import { GUIDES_A } from './data-learn-guides-a.js';
+import { GUIDES_B } from './data-learn-guides-b.js';
 // Uzbek grammar guides for the public SEO section /ingliz-tili-qoidalari. Each guide explains one topic for Uzbek
 // speakers, points out the typical traps caused by Uzbek, and leads to the matching interactive lesson.
 export type GuideSection = { h2: string; p?: string[]; list?: string[]; table?: { head: string[]; rows: string[][] }; ex?: [en: string, uz: string][] };
@@ -264,3 +266,5 @@ export const GUIDES: Guide[] = [
     lesson: [`beginner`, `wh-questions`], related: [`present-simple`, `to-be-am-is-are`],
   },
 ];
+
+GUIDES.push(...GUIDES_A, ...GUIDES_B);

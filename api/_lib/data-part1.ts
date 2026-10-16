@@ -1,3 +1,4 @@
+import { PART1_NEW } from './data-part1-new.js';
 import type { Part1Topic } from './types.js';
 
 import { PART1_MORE } from './data-part1-more.js';
@@ -185,4 +186,4 @@ const PART1_CORE: Part1Topic[] = [
   },
 ];
 
-export const PART1: Part1Topic[] = [...PART1_CORE, ...PART1_MORE];
+export const PART1: Part1Topic[] = [...PART1_CORE, ...PART1_MORE, ...PART1_NEW];

@@ -1,3 +1,4 @@
+import { VOCAB_NEW } from './data-vocab-new.js';
 import type { VocabPage } from './types.js';
 
 const item = (word: string, meaning: string, example: string) => ({ word, meaning, example });
@@ -140,3 +141,5 @@ export const VOCAB: VocabPage[] = [
     tips: ["Do not start every sentence with a connector; vary sentence beginnings.", "Check the punctuation: “however” usually has a comma after it.", "Choose the connector for the logic, not for the sound of it."],
   },
 ];
+
+VOCAB.push(...VOCAB_NEW);

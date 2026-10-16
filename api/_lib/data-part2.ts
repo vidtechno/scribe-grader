@@ -1,3 +1,4 @@
+import { CUE_NEW } from './data-part2-new.js';
 import type { CueCard } from './types.js';
 
 import { CUE_MORE } from './data-part2-more.js';
@@ -325,4 +326,4 @@ const CUE_CORE: CueCard[] = [
   },
 ];
 
-export const CUE_CARDS: CueCard[] = [...CUE_CORE, ...CUE_MORE];
+export const CUE_CARDS: CueCard[] = [...CUE_CORE, ...CUE_MORE, ...CUE_NEW];

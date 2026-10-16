@@ -1,3 +1,5 @@
+import { WORDS_A } from './data-learn-words-a.js';
+import { WORDS_B } from './data-learn-words-b.js';
 // Uzbek topic word lists for the public SEO section /inglizcha-sozlar: English word, IPA, Uzbek meaning.
 export type WordTopic = {
   slug: string; level: 'beginner' | 'elementary' | 'pre-intermediate' | 'intermediate';
@@ -154,3 +156,5 @@ export const WORD_TOPICS: WordTopic[] = [
     lesson: [`beginner`, `countries-nationalities-jobs`], related: [`salomlashish-iboralari`, `kasblar`],
   },
 ];
+
+WORD_TOPICS.push(...WORDS_A, ...WORDS_B);

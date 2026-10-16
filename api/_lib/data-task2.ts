@@ -1,3 +1,4 @@
+import { TASK2_NEW } from './data-task2-new.js';
 import type { Task2Question } from './types.js';
 
 import { TASK2_MORE } from './data-task2-more.js';
@@ -350,4 +351,4 @@ const TASK2_CORE: Task2Question[] = [
   },
 ];
 
-export const TASK2: Task2Question[] = [...TASK2_CORE, ...TASK2_MORE];
+export const TASK2: Task2Question[] = [...TASK2_CORE, ...TASK2_MORE, ...TASK2_NEW];
