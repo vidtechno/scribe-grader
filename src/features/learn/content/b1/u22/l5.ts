@@ -134,7 +134,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "employer", uz: "ish beruvchi", ipa: "ɪmˈplɔɪ.ər", pos: "noun", ex: "My employer offers free English lessons.", exUz: "Ish beruvchim bepul ingliz tili darslarini taklif qiladi." },
+    { en: 'supervisor', uz: "bevosita rahbar, nazoratchi", ipa: 'ˈsuː.pə.vaɪ.zə', pos: 'noun', ex: "My supervisor checks my work every Friday.", exUz: "Rahbarim ishimni har juma tekshiradi." },
     { en: "employee", uz: "xodim, ishchi", ipa: "ɪmˈplɔɪ.iː", pos: "noun", ex: "The company has about two hundred employees.", exUz: "Kompaniyada taxminan ikki yuz xodim bor." },
     { en: "promotion", uz: "lavozimga ko'tarilish", ipa: "prəˈməʊ.ʃən", pos: "noun", ex: "He worked hard and got a promotion.", exUz: "U qattiq ishladi va lavozimga ko'tarildi." },
     { en: "wage", uz: "ish haqi (soatbay yoki haftalik)", ipa: "weɪdʒ", pos: "noun", ex: "The minimum wage went up this year.", exUz: "Eng kam ish haqi bu yil oshdi." },

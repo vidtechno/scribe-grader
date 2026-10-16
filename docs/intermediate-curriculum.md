@@ -7,7 +7,7 @@ Bu fayl `scripts/build-beginner-curriculum.ts` bilan koddagi haqiqiy kontentdan 
 - Darslar: **90** (to'liq 48, mikro-dars 42); turlari: Dars 60, Hayotiy vaziyat 12, Ko'nikma 12, Takror 6
 - O'yin va mavzu testlari (mashq): **66**
 - Mavzu testlari: **6**, yakuniy imtihon: **1** (jami faoliyat: **163**)
-- Noyob yangi so'zlar: **507**
+- Noyob yangi so'zlar: **696**
 - Yakuniy imtihon: 20 savol, banki 100 ta (grammar 28, vocabulary 20, reading 16, listening 18, writing 18), jami 70% va har bir ko'nikmada 50%.
 
 ## Baholash zanjiri

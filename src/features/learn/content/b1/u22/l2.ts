@@ -110,10 +110,10 @@ const lesson: Lesson = {
     { en: "reschedule", uz: "boshqa vaqtga ko'chirmoq", ipa: "ˌriːˈʃed.juːl", pos: "verb", ex: "We have to reschedule the meeting to next week.", exUz: "Uchrashuvni kelasi haftaga ko'chirishimiz kerak." },
     { en: "reminder", uz: "eslatma", ipa: "rɪˈmaɪn.dər", pos: "noun", ex: "I set a reminder so I won't forget the call.", exUz: "Qo'ng'iroqni unutmaslik uchun eslatma qo'ydim." },
     { en: "install", uz: "o'rnatmoq", ipa: "ɪnˈstɔːl", pos: "verb", ex: "You need to install the app first.", exUz: "Avval ilovani o'rnatishingiz kerak." },
-    { en: "itinerary", uz: "sayohat rejasi, marshrut", ipa: "aɪˈtɪn.ər.ər.i", pos: "noun", ex: "The itinerary says we arrive in Rome at noon.", exUz: "Sayohat rejasiga ko'ra, biz Rimga tushda yetib boramiz." },
+    { en: 'agenda', uz: "kun tartibi", ipa: 'əˈdʒen.də', pos: 'noun', ex: "What is on the agenda for the meeting?", exUz: "Yig'ilish kun tartibida nima bor?" },
     { en: "launch", uz: "ishga tushirmoq", ipa: "lɔːntʃ", pos: "verb", ex: "The company is going to launch a new product.", exUz: "Kompaniya yangi mahsulotni ishga tushirmoqchi." },
     { en: "venue", uz: "tadbir o'tkaziladigan joy", ipa: "ˈven.juː", pos: "noun", ex: "The venue for the party is a small hotel.", exUz: "Ziyofat o'tkaziladigan joy kichik mehmonxona." },
-    { en: "agenda", uz: "kun tartibi", ipa: "əˈdʒen.də", pos: "noun", ex: "The agenda for tomorrow's meeting has five points.", exUz: "Ertangi yig'ilishning kun tartibida beshta band bor." },
+    { en: 'tolerate', uz: "chidamoq, toqat qilmoq", ipa: 'ˈtɒl.ə.reɪt', pos: 'verb', ex: "I can't tolerate noise when I'm studying.", exUz: "O'qiyotganimda shovqinga toqat qila olmayman." },
     { en: "call off", uz: "bekor qilmoq", ipa: "kɔːl ɒf", pos: "phrasal verb", ex: "They are going to call off the match because of the rain.", exUz: "Yomg'ir tufayli ular o'yinni bekor qilishmoqchi." },
   ],
   practice: [

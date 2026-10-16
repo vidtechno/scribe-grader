@@ -157,7 +157,7 @@ const lesson: Lesson = {
     { en: "side effect", uz: "yon ta'sir", ipa: "ˈsaɪd ɪˌfekt", pos: "noun", ex: "The medicine has a few side effects.", exUz: "Bu dori bir necha yon ta'sirga ega." },
     { en: "weigh up", uz: "taqqoslab ko'rmoq, o'ylab ko'rmoq", ipa: "ˌweɪ ˈʌp", pos: "phrasal verb", ex: "You should weigh up the options carefully.", exUz: "Variantlarni yaxshilab o'ylab ko'rishingiz kerak." },
     { en: "long-term", uz: "uzoq muddatli", ipa: "ˌlɒŋˈtɜːm", pos: "adj", ex: "Learning a language is a long-term project.", exUz: "Til o'rganish — uzoq muddatli loyiha." },
-    { en: "outcome", uz: "natija, yakun", ipa: "ˈaʊt.kʌm", pos: "noun", ex: "We were happy with the outcome of the meeting.", exUz: "Uchrashuv natijasidan xursand bo'ldik." },
+    { en: 'recover', uz: "tuzalmoq, o'ziga kelmoq", ipa: 'rɪˈkʌv.ə', pos: 'verb', ex: "He is slowly recovering from the flu.", exUz: "U gripp kasalidan sekin tuzalib bormoqda." },
     { en: "outweigh", uz: "ustun kelmoq", ipa: "ˌaʊtˈweɪ", pos: "verb", ex: "In this case, the benefits outweigh the costs.", exUz: "Bu holatda foyda xarajatdan ustun." },
     { en: "overall", uz: "umuman olganda", ipa: "ˌəʊ.vərˈɔːl", pos: "adv", ex: "Overall, the course was very useful.", exUz: "Umuman olganda, kurs juda foydali bo'ldi." },
   ],

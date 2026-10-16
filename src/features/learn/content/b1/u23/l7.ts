@@ -127,7 +127,7 @@ const lesson: Lesson = {
   words: [
     { en: "paragraph", uz: "abzats", ipa: "ˈpær.ə.ɡrɑːf", pos: "noun", ex: "Each paragraph has one main idea.", exUz: "Har bir abzatsda bitta asosiy fikr bor." },
     { en: "introduction", uz: "kirish", ipa: "ˌɪn.trəˈdʌk.ʃən", pos: "noun", ex: "Write a short introduction first.", exUz: "Avval qisqa kirish yozing." },
-    { en: "outline", uz: "reja, qisqa tuzilma; reja tuzmoq", ipa: "ˈaʊt.laɪn", pos: "noun", ex: "Write an outline before you start the essay.", exUz: "Esseni boshlashdan oldin reja tuzing." },
+    { en: 'underline', uz: "alohida ta'kidlamoq", ipa: 'ˌʌn.dəˈlaɪn', pos: 'verb', ex: "The writer underlines three main problems.", exUz: "Muallif uchta asosiy muammoni alohida ta'kidlaydi." },
     { en: "topic sentence", uz: "abzatsning bosh gapi", ipa: "ˈtɒp.ɪk ˌsen.təns", pos: "noun", ex: "The topic sentence tells us what the paragraph is about.", exUz: "Bosh gap abzats nima haqida ekanini aytadi." },
     { en: "balanced", uz: "muvozanatli, xolis", ipa: "ˈbæl.ənst", pos: "adj", ex: "A balanced essay shows both sides.", exUz: "Xolis esse ikkala tomonni ko'rsatadi." },
     { en: "formal", uz: "rasmiy", ipa: "ˈfɔː.məl", pos: "adj", ex: "Use formal language in an essay.", exUz: "Esseda rasmiy tildan foydalaning." },

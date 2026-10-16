@@ -153,7 +153,7 @@ const lesson: Lesson = {
     { en: "resist", uz: "o'zini tiymoq, qarshilik qilmoq", ipa: "rɪˈzɪst", pos: "verb", ex: "I can't resist eating chocolate in the evening.", exUz: "Kechqurun shokolad yeyishdan o'zimni tiya olmayman." },
     { en: "propose", uz: "taklif qilmoq, niyat qilmoq", ipa: "prəˈpəʊz", pos: "verb", ex: "She proposed meeting at the station.", exUz: "U vokzalda uchrashishni taklif qildi." },
     { en: "postpone", uz: "keyinga qoldirmoq", ipa: "pəʊstˈpəʊn", pos: "verb", ex: "They postponed the meeting until Friday.", exUz: "Ular yig'ilishni juma kuniga qoldirdilar." },
-    { en: "urge", uz: "qistamoq, ishontirib turib so'ramoq", ipa: "ɜːdʒ", pos: "verb", ex: "The doctor urged him to rest for a week.", exUz: "Shifokor unga bir hafta dam olishni qat'iy maslahat berdi." },
+    { en: 'persuade', uz: "ko'ndirmoq", ipa: 'pəˈsweɪd', pos: 'verb', ex: "She persuaded him to apply for the job.", exUz: "U uni ishga ariza topshirishga ko'ndirdi." },
     { en: "keep on", uz: "davom ettirmoq, to'xtamasdan qilmoq", ipa: "kiːp ɒn", pos: "phrasal verb", ex: "She kept on talking even though nobody was listening.", exUz: "U hech kim tinglamasa ham gapirishda davom etdi." },
   ],
   practice: [

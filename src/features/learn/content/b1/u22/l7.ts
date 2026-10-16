@@ -123,8 +123,8 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "enclose", uz: "ilova qilmoq (xat bilan birga)", ipa: "ɪnˈkləʊz", pos: "verb", ex: "I enclose a copy of my certificate.", exUz: "Sertifikatimning nusxasini ilova qilyapman." },
-    { en: "acknowledge", uz: "qabul qilinganini tasdiqlamoq", ipa: "əkˈnɒl.ɪdʒ", pos: "verb", ex: "Please acknowledge receipt of this email.", exUz: "Iltimos, ushbu xat olinganini tasdiqlang." },
-    { en: "regarding", uz: "... haqida, ... munosabati bilan", ipa: "rɪˈɡɑː.dɪŋ", pos: "preposition", ex: "I am writing regarding your advert.", exUz: "E'loningiz munosabati bilan yozyapman." },
+    { en: 'regarding', uz: "...ga oid, ...ga taalluqli", ipa: 'rɪˈɡɑː.dɪŋ', pos: 'prep', ex: "I am writing regarding your advertisement.", exUz: "Men sizning e'loningizga oid yozyapman." },
+    { en: 'reluctant', uz: "istaksiz, ikkilangan", ipa: 'rɪˈlʌk.tənt', pos: 'adj', ex: "She was reluctant to speak in public.", exUz: "U ommaviy joyda gapirishga istaksiz edi." },
     { en: "inconvenience", uz: "noqulaylik", ipa: "ˌɪn.kənˈviː.ni.əns", pos: "noun", ex: "We apologise for the inconvenience.", exUz: "Noqulaylik uchun uzr so'raymiz." },
     { en: "forward", uz: "jo'natmoq (olingan xatni)", ipa: "ˈfɔː.wəd", pos: "verb", ex: "Could you forward the message to the manager?", exUz: "Xabarni menejerga jo'nata olasizmi?" },
     { en: "appreciate", uz: "qadrlamoq, minnatdor bo'lmoq", ipa: "əˈpriː.ʃi.eɪt", pos: "verb", ex: "I really appreciate your help.", exUz: "Yordamingizni juda qadrlayman." },

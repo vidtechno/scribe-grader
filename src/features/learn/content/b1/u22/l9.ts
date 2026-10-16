@@ -73,8 +73,8 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'ambitious', uz: 'shuhratparast, intiluvchan', ipa: 'æmˈbɪʃ.əs', pos: 'adj', ex: 'He is an ambitious young engineer.', exUz: 'U intiluvchan yosh muhandis.' },
-    { en: 'enthusiastic', uz: 'ishtiyoqli, g\'ayratli', ipa: 'ɪnˌθjuː.ziˈæs.tɪk', pos: 'adj', ex: 'She is enthusiastic about learning new things.', exUz: 'U yangi narsalarni o\'rganishga ishtiyoqli.' },
+    { en: 'enthusiastic', uz: "ishtiyoqli, g'ayratli", ipa: 'ɪnˌθjuː.ziˈæs.tɪk', pos: 'adj', ex: "He is an enthusiastic young engineer.", exUz: "U ishtiyoqli yosh muhandis." },
+    { en: 'awkward', uz: "noqulay", ipa: 'ˈɔː.kwəd', pos: 'adj', ex: "There was an awkward silence after his joke.", exUz: "Uning hazilidan keyin noqulay jimlik cho'kdi." },
     { en: 'teamwork', uz: 'jamoaviy ish, hamkorlik', ipa: 'ˈtiːm.wɜːk', pos: 'noun', ex: 'Good teamwork helped us finish the project early.', exUz: 'Yaxshi hamkorlik loyihani erta tugatishga yordam berdi.' },
     { en: 'motivated', uz: 'ishtiyoqli, g\'ayratli', ipa: 'ˈməʊ.tɪ.veɪ.tɪd', pos: 'adj', ex: 'She is a motivated student.', exUz: "U ishtiyoqli talaba." },
     { en: 'adaptable', uz: 'moslashuvchan', ipa: 'əˈdæp.tə.bəl', pos: 'adj', ex: 'I am adaptable and I learn quickly.', exUz: 'Men moslashuvchanman va tez o\'rganaman.' },
