@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ExternalLink, GraduationCap, Mic, PenLine, Target } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Check, CreditCard, GraduationCap, Mic, PenLine, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planPrice, purchaseLink } from '@/lib/plans';
+import { PayDialog } from '@/components/PayDialog';
+import { useAuth } from '@/hooks/useAuth';
+import { usePaymentSettings } from '@/hooks/usePaymentSettings';
+import { BILLING_DISCOUNT, BILLING_LABEL, formatUzs, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planPrice, planTotalUzs } from '@/lib/plans';
 
 export interface PlanRow {
   slug: string;
@@ -22,6 +26,15 @@ const TAGLINE: Record<string, string> = {
 /** Learn and IELTS side by side, with a 1 month / 6 months (-10%) switch. Used on the landing page and in the pricing dialog. */
 export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; currentPlan?: string; publicId?: string | null }) {
   const [billing, setBilling] = useState<Billing>('month');
+  const [paying, setPaying] = useState<string | null>(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { testPriceUzs } = usePaymentSettings();
+  const payAmount = (slug: string) => testPriceUzs ?? planTotalUzs(slug, billing);
+  const choose = (slug: string) => {
+    if (!user) { navigate('/auth'); return; }
+    setPaying(slug);
+  };
   return (
     <div>
       <div className="max-w-4xl mx-auto mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm flex items-start gap-3">
@@ -33,11 +46,11 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
       </div>
       <div className="flex justify-center mb-6">
         <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border" role="tablist" aria-label="To'lov davri">
-          {([['month', '1 oy'], ['half-year', '6 oy']] as const).map(([id, label]) => (
+          {(['month', 'quarter', 'half-year'] as const).map((id) => (
             <button key={id} type="button" role="tab" aria-selected={billing === id} onClick={() => setBilling(id)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${billing === id ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
-              {label}
-              {id === 'half-year' && <span className="text-[10px] font-bold rounded-full bg-emerald-500 text-white px-1.5 py-0.5">-10%</span>}
+              {BILLING_LABEL[id]}
+              {BILLING_DISCOUNT[id] > 0 && <span className="text-[10px] font-bold rounded-full bg-emerald-500 text-white px-1.5 py-0.5">-{Math.round(BILLING_DISCOUNT[id] * 100)}%</span>}
             </button>
           ))}
         </div>
@@ -65,10 +78,10 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
               <div className="mb-4">
                 <div className="flex items-baseline gap-1.5">
                   <span className="text-4xl font-bold text-primary">{price.uzs}</span>
-                  <span className="text-sm text-muted-foreground">so'm {billing === 'month' ? '/ oy' : '/ 6 oy'}</span>
+                  <span className="text-sm text-muted-foreground">so'm {billing === 'month' ? '/ oy' : `/ ${BILLING_LABEL[billing]}`}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-0.5">≈ ${price.usd}{billing === 'half-year' ? ` · ${price.perMonthUzs} so'm / oy` : ''}</p>
-                {billing === 'half-year' && <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">Tejaysiz: {price.saveUzs} so'm</p>}
+                <p className="text-xs text-muted-foreground mt-0.5">≈ ${price.usd}{billing !== 'month' ? ` · ${price.perMonthUzs} so'm / oy` : ''}</p>
+                {billing !== 'month' && <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">Tejaysiz: {price.saveUzs} so'm</p>}
               </div>
               <p className={`text-xs font-semibold rounded-lg px-3 py-2 mb-4 ${ielts ? 'bg-secondary text-muted-foreground' : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'}`}>
                 {ielts ? "Sinov yo'q — avval Learn ni bepul sinab ko'ring" : `Yangi hisoblar uchun ${LEARN_TRIAL_DAYS} kun bepul`}
@@ -83,18 +96,22 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
                 {e.features.map((f) => <li key={f} className="flex items-start gap-2 text-sm"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" /><span>{f}</span></li>)}
               </ul>
               <Button variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto" disabled={isCurrent && billing === 'month'}
-                onClick={() => window.open(purchaseLink(plan.slug, billing, publicId), '_blank')}>
-                <ExternalLink className="h-4 w-4" />
-                {isCurrent && billing === 'month' ? 'Joriy tarif' : `${e.name} ni tanlash${billing === 'half-year' ? ' · 6 oy' : ''}`}
+                onClick={() => choose(plan.slug)}>
+                <CreditCard className="h-4 w-4" />
+                {isCurrent && billing === 'month' ? 'Joriy tarif' : `${e.name} ni sotib olish${billing !== 'month' ? ` · ${BILLING_LABEL[billing]}` : ''}`}
               </Button>
             </motion.div>
           );
         })}
       </div>
       <p className="text-xs text-muted-foreground text-center mt-6">
-        To'lov Telegram orqali: <span className="text-primary font-semibold">@scorify_support</span>. Tasdiqlangach tarif yoqiladi va
-        {billing === 'month' ? ' 30 kun amal qiladi' : ' 6 oy amal qiladi; IELTS oylik limitlari har 30 kunda yangilanadi'}.
+        Click yoki Payme orqali to'lang: tarif to'lovdan keyin avtomatik yoqiladi va {billing === 'month' ? '30 kun' : billing === 'quarter' ? '3 oy' : '6 oy'} amal qiladi
+        {billing === 'month' ? '' : '; IELTS oylik limitlari har 30 kunda yangilanadi'}. Savol bo'lsa: <span className="text-primary font-semibold">@scorify_support</span>.
       </p>
+      {testPriceUzs !== null && (
+        <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">Sinov rejimi: hozir har bir tarif {formatUzs(testPriceUzs)} so'm turadi.</p>
+      )}
+      {paying && <PayDialog open onOpenChange={(v) => { if (!v) setPaying(null); }} plan={paying} billing={billing} amountUzs={payAmount(paying)} testMode={testPriceUzs !== null} />}
     </div>
   );
 }

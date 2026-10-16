@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
@@ -16,6 +16,7 @@ import { LearnHero } from '@/components/LearnHero';
 import { UsageBar } from '@/components/PracticeCard';
 import { SEOHead } from '@/components/SEOHead';
 import { DashboardLearn } from '@/components/DashboardLearn';
+import { PaymentReturn } from '@/components/PaymentReturn';
 
 type Activity = { kind: 'essay' | 'speaking'; id: string; title: string; score: number | null; at: Date };
 
@@ -45,6 +46,7 @@ export default function Dashboard() {
 
   // Fresh profile and plan once per visit (counters change on other pages).
   useEffect(() => { void refreshProfile(); void refreshSub(); }, [refreshProfile, refreshSub]);
+  const onPaid = useCallback(() => { void refreshSub(); void refreshProfile(); }, [refreshSub, refreshProfile]);
 
   // Live-refresh the plan when an admin (or the referral program) changes it.
   useEffect(() => {
@@ -79,6 +81,7 @@ export default function Dashboard() {
       <SEOHead title="Dashboard" description="Continue your English course, practise IELTS Writing and Speaking and track your progress." path="/dashboard" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
+        <PaymentReturn onPaid={onPaid} />
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-6">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">Welcome back, <span className="gradient-text">{firstName}</span></h1>

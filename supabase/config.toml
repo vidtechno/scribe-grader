@@ -7,3 +7,7 @@ verify_jwt = false
 # Sign-in with Telegram runs before the visitor has a session; signed-in actions check the JWT in code.
 [functions.telegram-auth]
 verify_jwt = false
+
+# Checkout.uz calls the webhook without a Supabase JWT; the function checks a secret token and re-verifies with Checkout.
+[functions.checkout-webhook]
+verify_jwt = false
