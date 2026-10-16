@@ -37,7 +37,7 @@ export const drills: Drill[] = [
       { k: 'fix', wrong: "She won't probably pass the test.", a: ["She probably won't pass the test.", 'She will probably not pass the test.'], why: "**probably won't**." },
       { k: 'choice', q: 'Which means you think it will not happen?', opts: ['I doubt she will agree.', 'She will definitely agree.', 'She might agree.', 'She is likely to agree.'], a: 0, why: "**I doubt** — shubha." },
       { k: 'order', uz: "U ehtimol kelasi yil ishini o'zgartiradi.", words: ['He', 'will', 'probably', 'change', 'jobs', 'next', 'year.'], extra: ['unlikely', 'to'], alt: [['Next', 'year', 'he', 'will', 'probably', 'change', 'jobs.']], why: "will + **probably**." },
-      { k: 'translate', uz: "Yangi qurilmalar hayotimizni osonlashtirishi mumkin.", uz: "Yangi qurilmalar hayotimizni osonlashtirishi ehtimoli bor.", a: ['New devices are likely to make our lives easier.', 'New devices are likely to make life easier.', 'New devices are likely to make our lives more convenient.'], why: "**be likely to**." },
+      { k: 'translate', uz: "Yangi qurilmalar hayotimizni osonlashtirishi ehtimoli bor.", a: ['New devices are likely to make our lives easier.', 'New devices are likely to make life easier.', 'New devices are likely to make our lives more convenient.'], why: "**be likely to**." },
     ],
   },
   {
