@@ -134,15 +134,15 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "achieve", uz: "erishmoq, qo'lga kiritmoq", ipa: "əˈtʃiːv", pos: "verb", ex: "She has achieved all her goals this year.", exUz: "U bu yil barcha maqsadlariga erishdi." },
+    { en: "accomplish", uz: "bajarmoq, uddalamoq", ipa: "əˈkʌm.plɪʃ", pos: "verb", ex: "She has accomplished more than she expected this year.", exUz: "U bu yil o'zi kutganidan ko'proq narsani uddaladi." },
     { en: "succeed", uz: "muvaffaqiyat qozonmoq", ipa: "səkˈsiːd", pos: "verb", ex: "He has finally succeeded in passing his driving test.", exUz: "U nihoyat haydovchilik imtihonidan o'tishga muvaffaq bo'ldi." },
-    { en: "fail", uz: "yiqilmoq (imtihonda), muvaffaqiyatsizlikka uchramoq", ipa: "feɪl", pos: "verb", ex: "I have failed this exam twice.", exUz: "Men bu imtihondan ikki marta yiqilganman." },
+    { en: "determination", uz: "qat'iyat, irodaning mustahkamligi", ipa: "dɪˌtɜː.mɪˈneɪ.ʃən", pos: "noun", ex: "Her determination has helped her finish the marathon.", exUz: "Uning qat'iyati marafonni tugatishiga yordam berdi." },
     { en: "challenge", uz: "qiyin sinov, qiyinchilik", ipa: "ˈtʃæl.ɪndʒ", pos: "noun", ex: "Learning a new language is a big challenge.", exUz: "Yangi til o'rganish katta sinov." },
     { en: "competition", uz: "musobaqa, tanlov", ipa: "ˌkɒm.pəˈtɪʃ.ən", pos: "noun", ex: "She has entered a photography competition.", exUz: "U fotosurat tanloviga qatnashish uchun yozildi." },
     { en: "award", uz: "mukofot, sovrin", ipa: "əˈwɔːd", pos: "noun", ex: "The film has won three awards.", exUz: "Film uchta mukofot yutdi." },
     { en: "volunteer", uz: "ko'ngilli (kishi); ko'ngilli bo'lmoq", ipa: "ˌvɒl.ənˈtɪər", pos: "noun", ex: "I have worked as a volunteer at a hospital.", exUz: "Men kasalxonada ko'ngilli bo'lib ishlaganman." },
     { en: "proud", uz: "faxrlangan, g'ururlangan", ipa: "praʊd", pos: "adj", ex: "My parents are proud of me.", exUz: "Ota-onam men bilan faxrlanishadi." },
-    { en: "skill", uz: "malaka, ko'nikma", ipa: "skɪl", pos: "noun", ex: "She has developed many useful skills.", exUz: "U ko'p foydali ko'nikmalarni rivojlantirdi." },
+    { en: "effort", uz: "harakat, sa'y", ipa: "ˈef.ət", pos: "noun", ex: "He has made a great effort to improve his English.", exUz: "U ingliz tilini yaxshilash uchun katta harakat qildi." },
     { en: "take part in", uz: "qatnashmoq", ipa: "teɪk pɑːt ɪn", pos: "phrase", ex: "Have you ever taken part in a race?", exUz: "Hech poygada qatnashganmisiz?" },
   ],
   practice: [

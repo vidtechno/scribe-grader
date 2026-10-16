@@ -58,11 +58,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'realise', uz: 'anglab yetmoq', ipa: 'ˈrɪə.laɪz', pos: 'verb', ex: "I've just realised that I forgot my phone.", exUz: "Men hozirgina telefonimni unutganimni angladim." },
-    { en: 'recently', uz: "yaqinda, so'nggi paytlarda", ipa: 'ˈriː.sənt.li', pos: 'adv', ex: "I've been very busy recently.", exUz: "So'nggi paytlarda juda bandman." },
-    { en: 'cancel', uz: 'bekor qilmoq', ipa: 'ˈkæn.səl', pos: 'verb', ex: "They've cancelled the meeting.", exUz: "Ular uchrashuvni bekor qilishdi." },
-    { en: 'invite', uz: 'taklif qilmoq', ipa: 'ɪnˈvaɪt', pos: 'verb', ex: "She's invited us to her wedding.", exUz: "U bizni to'yiga taklif qildi." },
-    { en: 'lose', uz: "yo'qotmoq", ipa: 'luːz', pos: 'verb', ex: "I've lost my wallet again.", exUz: "Men hamyonimni yana yo'qotib qo'ydim." },
+    { en: 'run out of', uz: 'tugab qolmoq', ipa: 'rʌn aʊt ɒv', pos: 'phrase', ex: 'We\'ve just run out of milk, so I\'m going to the shop.', exUz: 'Sutimiz hozirgina tugab qoldi, shuning uchun do\'konga ketyapman.' },
+    { en: 'turn up', uz: 'kelib qolmoq, paydo bo\'lmoq', ipa: 'tɜːn ʌp', pos: 'phrasal verb', ex: 'Has Tom turned up yet? The meeting started ten minutes ago.', exUz: 'Tom hali kelmadimi? Yig\'ilish o\'n daqiqa oldin boshlandi.' },
+    { en: 'get over', uz: 'tuzalmoq, o\'zini tutib olmoq', ipa: 'ɡet ˈəʊ.vər', pos: 'phrasal verb', ex: 'I haven\'t got over my cold yet.', exUz: 'Men shamollashdan hali tuzalganim yo\'q.' },
+    { en: 'register', uz: 'ro\'yxatdan o\'tmoq', ipa: 'ˈredʒ.ɪ.stər', pos: 'verb', ex: 'Have you registered for the course yet?', exUz: 'Kursga ro\'yxatdan o\'tdingizmi?' },
+    { en: 'work on', uz: 'ustida ishlamoq', ipa: 'wɜːk ɒn', pos: 'phrasal verb', ex: 'She has already worked on the report this morning.', exUz: 'U bugun ertalab hisobot ustida allaqachon ishladi.' },
   ],
   practice: [
     { k: 'match', pairs: [['just', 'hozirgina'], ['already', 'allaqachon'], ['yet', 'hali (inkor, savol)'], ['still', 'hali ham'], ['recently', "yaqinda"]] },

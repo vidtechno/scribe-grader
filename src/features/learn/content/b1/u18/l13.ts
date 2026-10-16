@@ -52,8 +52,8 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'lately', uz: "so'nggi paytlarda", ipa: 'ˈleɪt.li', pos: 'adv', ex: "I haven't slept well lately.", exUz: "So'nggi paytlarda yaxshi uxlamayapman." },
-    { en: 'so far', uz: 'hozircha, hozirgacha', ipa: 'səʊ fɑː', pos: 'phrase', ex: "So far, the course has been great.", exUz: "Hozircha kurs juda zo'r bo'ldi." },
+    { en: 'ever since', uz: 'o\'shandan beri', ipa: 'ˌev.ə ˈsɪns', pos: 'phrase', ex: 'I\'ve lived in London ever since I left university.', exUz: 'Universitetni tugatganimdan beri Londonda yashayman.' },
+    { en: 'not any more', uz: 'endi emas', ipa: 'nɒt ˈen.i mɔːr', pos: 'phrase', ex: 'I haven\'t played football for years, so I don\'t play any more.', exUz: 'Men yillardan beri futbol o\'ynamaganman, endi o\'ynamayman.' },
     { en: 'these days', uz: 'hozirgi kunlarda', ipa: 'ðiːz deɪz', pos: 'phrase', ex: "These days, most people shop online.", exUz: "Hozirgi kunlarda ko'pchilik internetdan xarid qiladi." },
     { en: 'all my life', uz: "butun umr bo'yi", ipa: 'ɔːl maɪ laɪf', pos: 'phrase', ex: "I've lived in this street all my life.", exUz: "Men butun umrim shu ko'chada yashaganman." },
     { en: 'over the years', uz: "yillar davomida", ipa: 'ˈəʊ.və ðə jɪəz', pos: 'phrase', ex: "Over the years, the town has changed a lot.", exUz: "Yillar davomida shahar juda o'zgardi." },

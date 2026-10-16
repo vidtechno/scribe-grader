@@ -67,9 +67,9 @@ const lesson: Lesson = {
   words: [
     { en: 'catch up', uz: "yangiliklarni almashmoq", ipa: 'kætʃ ʌp', pos: 'phrasal verb', ex: "Let's meet and catch up.", exUz: "Uchrashib, yangiliklarni almashaylik." },
     { en: 'ages', uz: "uzoq vaqt (so'zlashuv)", ipa: 'ˈeɪ.dʒɪz', pos: 'noun', ex: "I haven't seen him for ages.", exUz: "Men uni ancha vaqtdan beri ko'rmadim." },
-    { en: 'meet up', uz: "uchrashmoq (kelishib)", ipa: 'miːt ʌp', pos: 'phrasal verb', ex: "We meet up every Sunday.", exUz: "Biz har yakshanba uchrashamiz." },
+    { en: 'bump into', uz: 'tasodifan uchrashib qolmoq', ipa: 'bʌmp ˈɪn.tuː', pos: 'phrasal verb', ex: 'I bumped into Karim at the station yesterday.', exUz: 'Kecha bekatda tasodifan Karimga duch keldim.' },
     { en: 'congratulations', uz: 'tabriklayman', ipa: 'kənˌɡrætʃ.əˈleɪ.ʃənz', pos: 'noun', ex: "Congratulations on your new job!", exUz: "Yangi ishingiz bilan tabriklayman!" },
-    { en: 'news', uz: 'yangilik', ipa: 'njuːz', pos: 'noun', ex: "I've got some good news.", exUz: "Menda yaxshi yangilik bor." },
+    { en: 'pass on', uz: 'yetkazmoq, aytib qo\'ymoq', ipa: 'pɑːs ɒn', pos: 'phrasal verb', ex: 'Please pass on my best wishes to your parents.', exUz: 'Iltimos, ota-onangizga mening yaxshi tilaklarimni yetkazing.' },
   ],
   practice: [
     { k: 'match', pairs: [['catch up', 'yangiliklarni almashmoq'], ['ages', 'uzoq vaqt'], ['meet up', 'uchrashmoq'], ['congratulations', 'tabriklayman'], ['news', 'yangilik']] },

@@ -52,11 +52,11 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'by the way', uz: 'aytgancha', ipa: 'baɪ ðə weɪ', pos: 'phrase', ex: "By the way, did you get my message?", exUz: "Aytgancha, xabarimni oldingmi?" },
-    { en: 'anyway', uz: 'xullas, baribir', ipa: 'ˈen.i.weɪ', pos: 'adv', ex: "Anyway, let's talk about something else.", exUz: "Xullas, boshqa narsa haqida gaplashaylik." },
-    { en: 'look forward to', uz: 'intiqlik bilan kutmoq', ipa: 'lʊk ˈfɔː.wəd tuː', pos: 'phrasal verb', ex: "I'm looking forward to the holiday.", exUz: "Men ta'tilni intiqlik bilan kutyapman." },
-    { en: 'miss', uz: "sog'inmoq", ipa: 'mɪs', pos: 'verb', ex: "I really miss my old friends.", exUz: "Men eski do'stlarimni juda sog'indim." },
-    { en: 'happen', uz: "sodir bo'lmoq", ipa: 'ˈhæp.ən', pos: 'verb', ex: "A lot has happened this year.", exUz: "Bu yil ko'p narsa bo'ldi." },
+    { en: 'get in touch', uz: 'bog\'lanmoq, aloqaga chiqmoq', ipa: 'ɡet ɪn tʌtʃ', pos: 'phrase', ex: 'Please get in touch when you arrive in London.', exUz: 'Londonga yetib kelganingizda, iltimos, bog\'laning.' },
+    { en: 'all the best', uz: 'hammasi yaxshi bo\'lsin (xat oxirida)', ipa: 'ɔːl ðə best', pos: 'phrase', ex: 'All the best with your new job!', exUz: 'Yangi ishingizda omad tilayman!' },
+    { en: 'give my love to', uz: 'salom aytmoq (yaqin odamga)', ipa: 'ɡɪv maɪ lʌv tuː', pos: 'phrase', ex: 'Give my love to your family.', exUz: 'Oilangizga mening salomimni ayting.' },
+    { en: 'last time', uz: 'oxirgi marta', ipa: 'lɑːst taɪm', pos: 'phrase', ex: 'The last time I saw you was at Sara\'s wedding.', exUz: 'Sizni oxirgi marta Saraning to\'yida ko\'rgandim.' },
+    { en: 'reunion', uz: 'uchrashuv (eski do\'stlar yig\'ini)', ipa: 'riːˈjuː.ni.ən', pos: 'noun', ex: 'We are planning a school reunion for next summer.', exUz: 'Biz kelasi yozga maktab do\'stlari uchrashuvini rejalashtiryapmiz.' },
   ],
   practice: [
     { k: 'match', pairs: [['by the way', 'aytgancha'], ['anyway', 'xullas'], ['look forward to', 'intiqlik bilan kutmoq'], ['miss', "sog'inmoq"], ['happen', "sodir bo'lmoq"]] },

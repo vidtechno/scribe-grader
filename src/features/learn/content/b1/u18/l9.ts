@@ -61,10 +61,10 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'originally', uz: 'asli, dastlab', ipa: 'əˈrɪdʒ.ən.əl.i', pos: 'adv', ex: "He's originally from Tashkent.", exUz: "U asli Toshkentlik." },
-    { en: 'grow up', uz: "katta bo'lmoq (voyaga yetmoq)", ipa: 'ɡrəʊ ʌp', pos: 'phrasal verb', ex: "I grew up in a small village.", exUz: "Men kichik qishloqda katta bo'lganman." },
-    { en: 'hometown', uz: "tug'ilgan shahar", ipa: 'ˈhəʊm.taʊn', pos: 'noun', ex: "My hometown is famous for its markets.", exUz: "Mening tug'ilgan shahrim bozorlari bilan mashhur." },
-    { en: 'abroad', uz: 'chet elda', ipa: 'əˈbrɔːd', pos: 'adv', ex: "She has studied abroad for two years.", exUz: "U ikki yildan beri chet elda o'qiyapti." },
-    { en: 'keep in touch', uz: "aloqada bo'lmoq", ipa: 'kiːp ɪn tʌtʃ', pos: 'phrase', ex: "Let's keep in touch by email.", exUz: "Email orqali aloqada bo'laylik." },
+    { en: 'be raised', uz: 'tarbiyalanib o\'smoq', ipa: 'bi reɪzd', pos: 'phrase', ex: 'I was raised in a small village near Samarkand.', exUz: 'Men Samarqand yaqinidagi kichik qishloqda o\'sganman.' },
+    { en: 'accent', uz: 'talaffuz, shevasi', ipa: 'ˈæk.sənt', pos: 'noun', ex: 'You have a lovely accent. Where are you from?', exUz: 'Sizning talaffuzingiz juda yoqimli. Qayerdansiz?' },
+    { en: 'immigrant', uz: 'muhojir', ipa: 'ˈɪm.ɪ.ɡrənt', pos: 'noun', ex: 'My uncle is an immigrant and has lived in Canada for ten years.', exUz: 'Amakim muhojir va o\'n yildan beri Kanadada yashaydi.' },
+    { en: 'roots', uz: 'ildizlar, kelib chiqish', ipa: 'ruːts', pos: 'noun', ex: 'I travel a lot, but my roots are in Tashkent.', exUz: 'Men ko\'p sayohat qilaman, lekin ildizlarim Toshkentda.' },
   ],
   practice: [
     { k: 'match', pairs: [['originally', 'asli, dastlab'], ['grow up', "katta bo'lmoq"], ['hometown', "tug'ilgan shahar"], ['abroad', 'chet elda'], ['keep in touch', "aloqada bo'lmoq"]] },
