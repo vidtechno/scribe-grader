@@ -19,8 +19,8 @@ describe('Google and Telegram authentication', () => {
 
   it('offers Telegram sign-in without passwords and hides Google while it is switched off', () => {
     mount();
-    expect(GOOGLE_AUTH_ENABLED).toBe(false);
-    expect(screen.queryByRole('button', { name: /Continue with Google/ })).not.toBeInTheDocument();
+    expect(GOOGLE_AUTH_ENABLED).toBe(true);
+    expect(screen.getByRole('button', { name: /Continue with Google/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Continue with Telegram/ })).toBeInTheDocument();
     expect(screen.queryByLabelText(/Password/)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/Age/)).not.toBeInTheDocument();

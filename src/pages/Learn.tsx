@@ -1,3 +1,4 @@
+import { TelegramConnectModal } from '@/components/TelegramConnectCard';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -38,6 +39,7 @@ export default function Learn() {
     <div className="min-h-screen bg-background pb-28 md:pb-12">
       <SEOHead title="Ingliz tilini o'rganish" description="Ingliz tilini noldan o'rganing: darslar, mashqlar, testlar va talaffuz." path="/learn" noindex />
       <Navbar />
+      <TelegramConnectModal />
       <main className="pt-24 px-4 sm:px-6 max-w-5xl mx-auto">
         {isLoading ? <div className="grid place-items-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
           : error ? <p className="text-center py-24 text-muted-foreground">O'rganish bo'limini yuklab bo'lmadi. Sahifani yangilang.</p>

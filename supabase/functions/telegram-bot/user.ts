@@ -14,8 +14,8 @@ import { dailySet, quizOptions, WORDS } from "./content.ts";
 
 // ---------------------------------------------------------------- start & menu
 
-/** Google sign-in is switched off for now (the code stays): set to true to bring it back in the bot as well. */
-const GOOGLE_AUTH_ENABLED = false;
+/** Google sign-in switch for the bot (matches the website). */
+const GOOGLE_AUTH_ENABLED = true;
 
 /** One-tap Telegram account (and, when enabled, Google on the website; the referral code travels along). */
 function signupKeyboard(ctx: Ctx): InlineKeyboard {

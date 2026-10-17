@@ -9,8 +9,8 @@ import { safeReturnTo } from '@/lib/returnTo';
 import { isTelegramWebApp } from '@/lib/telegram';
 import { TelegramLoginButton } from '@/components/TelegramLoginButton';
 
-/** Google sign-in is switched off for now (the code stays): set to true to bring the button back. */
-export const GOOGLE_AUTH_ENABLED = false;
+/** Google sign-in switch: set to false to hide the button without removing the code. */
+export const GOOGLE_AUTH_ENABLED = true;
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);

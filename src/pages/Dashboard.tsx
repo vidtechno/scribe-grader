@@ -1,3 +1,4 @@
+import { TelegramConnectModal } from '@/components/TelegramConnectCard';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
@@ -89,6 +90,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background overflow-x-hidden pb-24 md:pb-0">
       <SEOHead title="Dashboard" description="Continue your English course, practise IELTS Writing and Speaking and track your progress." path="/dashboard" noindex />
       <Navbar />
+      <TelegramConnectModal />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
         <PaymentReturn onPaid={onPaid} />
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-6">
