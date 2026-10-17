@@ -48,7 +48,7 @@ const FAQ: { q: string; a: string }[] = [
   { q: "IELTS Writing, Speaking, Reading va Listening ham bormi?", a: "Ha, IELTS ning to'rttala qismi bor. Writing va Speaking javoblaringiz AI bilan baholanadi (Writing oyiga 50 ta, Speaking oyiga 30 ta), Reading va Listening bo'yicha 5 tadan to'liq test CHEKSIZ ochiladi, shuningdek mock testlar bor. Sinab ko'rish uchun yangi hisobga 1 ta Writing, 1 ta Speaking baholash va 3 tadan Reading hamda Listening testi bepul." },
   { q: "IELTS Reading va Listening testlari qanday?", a: "Reading: 3 passage, 40 savol, 60 daqiqa. Listening: 4 section, 40 savol, audio bilan (imtihon rejimida har bir yozuv bir marta eshittiriladi). Har bir test boshqa mavzuda; oxirida taxminiy band, savol turlari bo'yicha aniqlik va har bir javob tahlili chiqadi." },
   { q: "Yordam kerak bo'lsa kimga yozaman?", a: "Saytdagi «Yordam» tugmasi Telegramda @scorify_support ga olib boradi: to'lov, darsdagi xato yoki savol bo'yicha yozing. Foydalanuvchi ID raqamingiz avtomatik qo'shiladi." },
-  { q: "Ro'yxatdan qanday o'taman?", a: "Google yoki Telegram orqali bir bosishda. Telegram bot orqali kirsangiz, eslatmalar va do'stlarni taklif qilish ham shu yerda bo'ladi." },
+  { q: "Ro'yxatdan qanday o'taman?", a: "Telegram orqali bir bosishda. Telegram bot orqali kirsangiz, eslatmalar va do'stlarni taklif qilish ham shu yerda bo'ladi." },
 ];
 
 export default function Index() {
@@ -160,7 +160,7 @@ export default function Index() {
             {!user && (
               <p className="mt-4 text-sm text-muted-foreground flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-1">
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Karta kerak emas</span>
-                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Google yoki Telegram bilan kirish</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Telegram bilan bir bosishda kirish</span>
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Umuman bilmasangiz ham bo'ladi</span>
               </p>
             )}
