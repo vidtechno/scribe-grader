@@ -3,6 +3,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Bell, ExternalLink, Loader2, Unlink, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { isTelegramWebApp } from '@/lib/telegram';
 import { Switch } from '@/components/ui/switch';
 import { useAuth } from '@/hooks/useAuth';
 import { telegramAuth, type TelegramStatus } from '@/lib/telegram';
@@ -212,5 +214,64 @@ export function TelegramNudge() {
       <Button size="sm" variant="outline" disabled={busy} onClick={() => void connect()}>{url ? 'Qayta ochish' : 'Ulash'}</Button>
       <button type="button" aria-label="Yopish" onClick={dismiss} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
     </div>
+  );
+}
+
+const MODAL_KEY = 'scorify:tg-connect-modal-until';
+const MODAL_PAUSE_MS = 3 * 24 * 3600_000;
+
+/** Pop-up for signed-in people whose account is not linked to the bot (mostly Google sign-ups): why it helps, one tap to connect. */
+export function TelegramConnectModal() {
+  const { user } = useAuth();
+  const { data } = useTelegramStatus();
+  const { connect, url, busy } = useConnect();
+  const [open, setOpen] = useState(false);
+
+  const eligible = !!user && !!data && !data.linked && !isTelegramWebApp();
+  useEffect(() => {
+    if (!eligible) { setOpen(false); return; }
+    let until = 0;
+    try { until = Number(localStorage.getItem(MODAL_KEY) ?? 0); } catch { /* storage unavailable */ }
+    if (Date.now() < until) return;
+    const t = setTimeout(() => setOpen(true), 1500);
+    return () => clearTimeout(t);
+  }, [eligible]);
+
+  // Linked while the dialog is open (the bot confirmed): close it.
+  useEffect(() => { if (data?.linked) setOpen(false); }, [data?.linked]);
+
+  const later = () => {
+    try { localStorage.setItem(MODAL_KEY, String(Date.now() + MODAL_PAUSE_MS)); } catch { /* storage unavailable */ }
+    setOpen(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={(v) => { if (!v) later(); }}>
+      <DialogContent className="max-w-md">
+        <DialogHeader className="items-center text-center">
+          <span className="mb-1 grid h-14 w-14 place-items-center rounded-2xl bg-primary/10"><TelegramIcon className="h-8 w-8" /></span>
+          <DialogTitle>Telegram'ni ulang</DialogTitle>
+          <DialogDescription>Bir bosishda ulanadi — va o'rganish ancha yengillashadi.</DialogDescription>
+        </DialogHeader>
+        <ul className="space-y-2.5 text-sm">
+          <li className="flex gap-2.5"><span>🔔</span><span><b>Dars eslatmalari</b> — streak uzilib qolmaydi</span></li>
+          <li className="flex gap-2.5"><span>📊</span><span><b>Natijalar botda</b> — Writing, Speaking va testlar bahosi darrov keladi</span></li>
+          <li className="flex gap-2.5"><span>🎓</span><span><b>Darslar va lug'at</b> — botdan ham, telefondan ham davom eting</span></li>
+          <li className="flex gap-2.5"><span>🎁</span><span><b>Referal</b> — do'st taklif qilib pul ishlang</span></li>
+        </ul>
+        <div className="mt-2 flex flex-col gap-2">
+          <Button variant="glow" className="gap-2" disabled={busy} onClick={() => void connect()}>
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <TelegramIcon className="h-4 w-4" />} Telegram'ni ulash
+          </Button>
+          {url && (
+            <p className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Botda <b>Start</b> tugmasini bosing.
+              <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary underline">Qayta ochish</a>
+            </p>
+          )}
+          <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={later}>Keyinroq</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

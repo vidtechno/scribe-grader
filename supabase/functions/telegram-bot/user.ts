@@ -14,8 +14,8 @@ import { dailySet, quizOptions, WORDS } from "./content.ts";
 
 // ---------------------------------------------------------------- start & menu
 
-/** Google sign-in is switched off for now (the code stays): set to true to bring it back in the bot as well. */
-const GOOGLE_AUTH_ENABLED = false;
+/** Google sign-in switch for the bot (matches the website). */
+const GOOGLE_AUTH_ENABLED = true;
 
 /** One-tap Telegram account (and, when enabled, Google on the website; the referral code travels along). */
 function signupKeyboard(ctx: Ctx): InlineKeyboard {
@@ -635,7 +635,7 @@ export async function showInvite(ctx: Ctx) {
     "<b>Qanday ishlaydi:</b>",
     quote([
       "1️⃣ Havolangizni do'stingizga yuboring.",
-      "2️⃣ U havola orqali botga kirib ro'yxatdan o'tadi — shu zahoti referal hisoblanadi.",
+      "2️⃣ U havola orqali botga kirib ro'yxatdan o'tadi (Telegram yoki Google) — shu zahoti referal hisoblanadi.",
       `3️⃣ U <b>7 kunlik bepul davrdan keyin</b> istalgan pullik tarifni sotib olsa, balansingizga <b>${som(r.reward)}</b> qo'shiladi.`,
       `4️⃣ Balans <b>${som(r.min_withdraw)}</b> ga yetganda yechib olasiz.`,
     ].join("\n")),
