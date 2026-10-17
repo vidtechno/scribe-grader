@@ -108,6 +108,7 @@ create or replace function public.device_sessions_sweep() returns int language s
   ), b as (
     delete from auth.sessions s
     where s.created_at < now() - interval '15 minutes'
+      and coalesce(s.refreshed_at, s.updated_at, s.created_at) > now() - interval '2 hours'
       and (select enforce_after from public.device_policy where id) < now()
       and not exists (select 1 from public.device_sessions d where d.session_id = s.id) returning s.id
   )
