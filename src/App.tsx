@@ -5,6 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { DevicesProvider, useDevices } from "@/hooks/useDevices";
 import { usePresence } from "@/hooks/usePresence";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { BottomNav } from "@/components/BottomNav";
@@ -39,6 +40,7 @@ const LearnUnitTest = lazy(() => import("./pages/LearnUnitTest"));
 const LearnDrill = lazy(() => import("./pages/LearnDrill"));
 const LearnPlacement = lazy(() => import("./pages/LearnPlacement"));
 const LearnLevelCheck = lazy(() => import("./pages/LearnLevelCheck"));
+const DeviceLimit = lazy(() => import("./pages/DeviceLimit"));
 const Support = lazy(() => import("./pages/Support"));
 const LearnLevelTest = lazy(() => import("./pages/LearnLevelTest"));
 const Practice = lazy(() => import("./pages/Practice"));
@@ -62,6 +64,7 @@ function ScrollToTop() {
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const devices = useDevices();
   const location = useLocation();
   if (loading) return <LoadingScreen />;
   if (!user) {
@@ -69,6 +72,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     if (isTelegramWebApp()) return <Navigate to={`/tg?next=${encodeURIComponent(miniAppPath(location.pathname + location.search))}`} replace />;
     return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname))}`} replace />;
   }
+  if (devices.status === 'checking') return <LoadingScreen />;
+  if (devices.status === 'pending') return <DeviceLimit />;
   return <>{children}</>;
 }
 
@@ -163,7 +168,9 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
+            <DevicesProvider>
             <AppRoutes />
+            </DevicesProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
