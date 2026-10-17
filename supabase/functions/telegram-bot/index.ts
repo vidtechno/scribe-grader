@@ -3,9 +3,9 @@
 //   POST {"drain":true}                       → deliver queued notifications (called by pg_net / pg_cron)
 //   GET  ?setup=<bot token>                   → register webhook, commands and menu button (run once after deploy)
 import { serviceClient } from "../_shared/quota.ts";
-import { adminIds, botToken, initBotToken, safeEqual, tg, type TelegramUser, webAppUrl, webhookSecret } from "../_shared/telegram.ts";
+import { adminIds, botToken, initBotToken, safeEqual, tg, type TelegramUser, webhookSecret } from "../_shared/telegram.ts";
 import { isSiteAdmin, upsertTelegramAccount } from "../_shared/telegram-accounts.ts";
-import { BTN, type Ctx, LEGACY_BTN, send, setState } from "./ui.ts";
+import { BTN, type Ctx, LEGACY_BTN, mainKeyboard, send, setState } from "./ui.ts";
 import * as user from "./user.ts";
 import { adminCallback, adminInput, showAdmin } from "./admin.ts";
 import { drain } from "./notify.ts";
@@ -39,10 +39,8 @@ async function buildCtx(from: TelegramUser, chatId: number): Promise<Ctx> {
 
 const MENU: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   [BTN.learn]: user.showLearn,
-  [BTN.writing]: user.showWriting,
-  [BTN.speaking]: user.showSpeaking,
+  [BTN.ielts]: user.showIelts,
   [BTN.dictionary]: user.showDictionary,
-  [BTN.articles]: user.showArticles,
   [BTN.cabinet]: user.showCabinet,
   [BTN.referral]: user.showInvite,
   [BTN.start]: (c) => user.showStart(c),
@@ -51,6 +49,9 @@ const MENU: Record<string, (ctx: Ctx) => Promise<unknown>> = {
 
 /** Buttons of older keyboards: still answered, and the new keyboard is sent along. */
 const LEGACY: Record<string, (ctx: Ctx) => Promise<unknown>> = {
+  [LEGACY_BTN.writing]: user.showWriting,
+  [LEGACY_BTN.speaking]: user.showSpeaking,
+  [LEGACY_BTN.articles]: user.showArticles,
   [LEGACY_BTN.stats]: user.showStats,
   [LEGACY_BTN.results]: user.showStats,
   [LEGACY_BTN.results2]: user.showStats,
@@ -70,6 +71,7 @@ const LEGACY: Record<string, (ctx: Ctx) => Promise<unknown>> = {
 const COMMANDS: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   menu: (c) => user.showMenu(c),
   learn: user.showLearn,
+  ielts: user.showIelts,
   referral: user.showInvite,
   dictionary: user.showDictionary,
   writing: user.showWriting,
@@ -117,7 +119,7 @@ async function onMessage(msg: Message) {
     if (ctx.account.state) await setState(ctx, null);
     if (text === BTN.admin) return ctx.isAdmin ? showAdmin(ctx) : user.showMenu(ctx);
     if (LEGACY[text]) {
-      await user.showMenu(ctx, "✨ <b>Menyu yangilandi</b> — endi hammasi ixchamroq.\n<i>Natijalar, maqsad, tarif va boshqalar «👤 Kabinet» ichida.</i>");
+      await user.showMenu(ctx, "✨ <b>Menyu yangilandi</b> — endi 5 ta asosiy tugma.\n<i>Writing, Speaking, Reading va Listening — «🎯 IELTS» ichida; natijalar, tarif va maqolalar — «👤 Kabinet» ichida.</i>");
       return LEGACY[text](ctx);
     }
     return MENU[text](ctx);
@@ -129,11 +131,11 @@ async function onMessage(msg: Message) {
     if (ctx.account.state.awaiting === "exam_date" && text) return user.examDateInput(ctx, text);
   }
 
-  await send(ctx.chatId,
-    "✍️ Esse va 🎤 speaking javoblari ilova ichida topshiriladi — u yerda sun'iy intellekt ularni baholaydi, natijani esa shu yerga yuboraman.\n\n" +
-    "Boshqa bo'limlar pastdagi menyuda 👇",
-    { inline_keyboard: [[{ text: "✍️ Writing", web_app: { url: webAppUrl("/writing") } },
-      { text: "🎤 Speaking", web_app: { url: webAppUrl("/speaking") } }]] });
+  // Free text that is not part of any dialog: point to the menu instead of leaving the person without an answer.
+  await send(ctx.chatId, ctx.account.user_id
+    ? "Bu xabarni tushunmadim 🙈 Pastdagi menyudan bo'lim tanlang — darslar, IELTS, lug'at yoki kabinet 👇"
+    : "Boshlash uchun pastdagi tugmani bosing 👇",
+  mainKeyboard(ctx));
 }
 
 async function onCallback(q: CallbackQuery) {
@@ -163,6 +165,7 @@ async function onCallback(q: CallbackQuery) {
           settings: user.showSettings, help: user.showHelp, open: user.openApp, register: user.register, linkinfo: user.linkInfo,
           cab: user.showCabinet, blog: user.showArticles, start: (c) => user.showStart(c), test: user.showDailyTest,
           writing: user.showWriting, speaking: user.showSpeaking, learn: user.showLearn, dict: user.showDictionary,
+          ielts: user.showIelts,
         };
         if (parts[1] === "register") ctx.messageId = undefined;
         if (map[parts[1]]) await map[parts[1]](ctx);

@@ -25,15 +25,11 @@ export const app = (text: string, path: string): Button => ({ text, web_app: { u
 /** Opens any page of scorify.uz inside Telegram without signing in (blog pages are public). */
 export const page = (text: string, url: string): Button => ({ text, web_app: { url } });
 
-/** Main keyboard: practice first, everything else lives in the cabinet. */
+/** Main keyboard: five buttons. Learn first; IELTS, dictionary, cabinet and referral; everything else lives inside them. */
 export const BTN = {
   learn: "🎓 Ingliz tili darslari",
-  writing: "✍️ Writing",
-  speaking: "🎤 Speaking",
+  ielts: "🎯 IELTS",
   dictionary: "📚 Lug'at",
-  dailyTest: "📝 Kunlik test",
-  quiz: "🧠 So'z testi",
-  articles: "📖 Foydali maqolalar",
   cabinet: "👤 Kabinet",
   referral: "🎁 Referal",
   start: "🚀 Boshlash",
@@ -43,6 +39,9 @@ export const BTN = {
 
 /** Labels of earlier keyboards. People who still have them keep working buttons. */
 export const LEGACY_BTN = {
+  writing: "✍️ Writing",
+  speaking: "🎤 Speaking",
+  articles: "📖 Foydali maqolalar",
   stats: "📊 Statistika",
   results: "📝 Natijalarim",
   results2: "📊 Natijalarim",
@@ -63,14 +62,12 @@ export function mainKeyboard(ctx: Ctx) {
   const rows: { text: string }[][] = ctx.account.user_id
     ? [
       [{ text: BTN.learn }],
-      [{ text: BTN.dictionary }, { text: BTN.referral }],
-      [{ text: BTN.cabinet }, { text: BTN.articles }],
-      [{ text: BTN.writing }, { text: BTN.speaking }],
+      [{ text: BTN.ielts }, { text: BTN.dictionary }],
+      [{ text: BTN.cabinet }, { text: BTN.referral }],
     ]
     : [
       [{ text: BTN.learn }],
-      [{ text: BTN.start }, { text: BTN.dictionary }],
-      [{ text: BTN.articles }, { text: BTN.help }],
+      [{ text: BTN.start }, { text: BTN.help }],
     ];
   if (ctx.isAdmin) rows.push([{ text: BTN.admin }]);
   return { keyboard: rows, resize_keyboard: true, is_persistent: true, input_field_placeholder: "Bo'limni tanlang 👇" };
