@@ -9,6 +9,8 @@ export interface MockTestSummary {
   task1_band: number | null;
   task2_band: number | null;
   speaking_band: number | null;
+  listening_band?: number | null;
+  reading_band?: number | null;
   created_at: string;
   completed_at: string | null;
 }
@@ -60,19 +62,16 @@ export function MockTestHistoryCard({ mt }: { mt: MockTestSummary }) {
           </div>
         </div>
         {isCompleted && (
-          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-            <div className="bg-secondary/30 rounded-lg py-1.5">
-              <p className="text-[10px] text-muted-foreground">Task 1</p>
-              <p className="text-sm font-semibold">{mt.task1_band ?? '—'}</p>
-            </div>
-            <div className="bg-secondary/30 rounded-lg py-1.5">
-              <p className="text-[10px] text-muted-foreground">Task 2</p>
-              <p className="text-sm font-semibold">{mt.task2_band ?? '—'}</p>
-            </div>
-            <div className="bg-secondary/30 rounded-lg py-1.5">
-              <p className="text-[10px] text-muted-foreground">Speaking</p>
-              <p className="text-sm font-semibold">{mt.speaking_band ?? '—'}</p>
-            </div>
+          <div className={`mt-3 grid gap-2 text-center ${mt.listening_band != null ? 'grid-cols-5' : 'grid-cols-3'}`}>
+            {([
+              ...(mt.listening_band != null ? [['Listening', mt.listening_band], ['Reading', mt.reading_band ?? null]] as const : []),
+              ['Task 1', mt.task1_band], ['Task 2', mt.task2_band], ['Speaking', mt.speaking_band],
+            ] as const).map(([label, value]) => (
+              <div key={label} className="bg-secondary/30 rounded-lg py-1.5">
+                <p className="text-[10px] text-muted-foreground">{label}</p>
+                <p className="text-sm font-semibold">{value ?? '—'}</p>
+              </div>
+            ))}
           </div>
         )}
       </div>

@@ -7,11 +7,12 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { Award, FileText, Mic, ClipboardList, CheckCircle2, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-function ScoreCard({ label, score }: { label: string; score: number | null }) {
+function ScoreCard({ label, score, sub }: { label: string; score: number | null; sub?: string }) {
   return (
     <div className="glass-card p-4 text-center">
       <p className="text-xs text-muted-foreground mb-1">{label}</p>
       <p className="text-2xl font-bold text-primary">{score ?? '—'}</p>
+      {sub && <p className="text-[10px] text-muted-foreground mt-0.5">{sub}</p>}
     </div>
   );
 }
@@ -80,7 +81,9 @@ export default function MockTestResult() {
           <p className="text-xs text-muted-foreground">Completed mock test</p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div className={`grid grid-cols-2 gap-3 mb-6 ${mt.listening_band != null ? 'sm:grid-cols-3 lg:grid-cols-6' : 'sm:grid-cols-4'}`}>
+          {mt.listening_band != null && <ScoreCard label="Listening" score={mt.listening_band} sub={mt.listening_total ? `${mt.listening_correct}/${mt.listening_total} correct` : undefined} />}
+          {mt.listening_band != null && <ScoreCard label="Reading" score={mt.reading_band} sub={mt.reading_total ? `${mt.reading_correct}/${mt.reading_total} correct` : undefined} />}
           <ScoreCard label="Task 1" score={mt.task1_band} />
           <ScoreCard label="Task 2" score={mt.task2_band} />
           <ScoreCard label="Speaking" score={mt.speaking_band} />

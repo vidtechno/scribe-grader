@@ -5,13 +5,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, BookOpen, GraduationCap, ChevronDown, ClipboardList, Target, Trophy } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, BookOpen, Headphones, GraduationCap, ChevronDown, ClipboardList, Target, Trophy } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 import { useSubscription } from '@/hooks/useSubscription';
 
 /** Pages that belong to the IELTS Practice section. */
-const PRACTICE_PATHS = /^\/(practice|writing|exam|speaking|speaking-history|speaking-result|essays|result|drafts|mock-test|grammar-test|vocabulary)(\/|$)/;
+const PRACTICE_PATHS = /^\/(practice|reading|listening|writing|exam|speaking|speaking-history|speaking-result|essays|result|drafts|mock-test|grammar-test|vocabulary)(\/|$)/;
 
 const PricingModal = lazy(() => import('@/components/PricingModal').then(m => ({ default: m.PricingModal })));
 
@@ -85,6 +85,8 @@ export function Navbar() {
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem asChild><Link to="/writing" className="gap-2 cursor-pointer"><PenTool className="h-4 w-4" />Writing</Link></DropdownMenuItem>
                     <DropdownMenuItem asChild><Link to="/speaking" className="gap-2 cursor-pointer"><Mic className="h-4 w-4" />Speaking</Link></DropdownMenuItem>
+                    <DropdownMenuItem asChild><Link to="/reading" className="gap-2 cursor-pointer"><BookOpen className="h-4 w-4" />Reading</Link></DropdownMenuItem>
+                    <DropdownMenuItem asChild><Link to="/listening" className="gap-2 cursor-pointer"><Headphones className="h-4 w-4" />Listening</Link></DropdownMenuItem>
                     <DropdownMenuItem asChild><Link to="/mock-test" className="gap-2 cursor-pointer"><ClipboardList className="h-4 w-4" />Full Mock Test</Link></DropdownMenuItem>
                     <DropdownMenuItem asChild><Link to="/grammar-test" className="gap-2 cursor-pointer"><BrainCircuit className="h-4 w-4" />Daily Grammar</Link></DropdownMenuItem>
                     <DropdownMenuSeparator />

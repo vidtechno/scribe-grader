@@ -15,6 +15,8 @@ import { flatten, score, type Answer } from '@/features/ielts/score';
 import { GroupView } from '@/features/ielts/components/GroupView';
 import { ResultPanel } from '@/features/ielts/components/ResultPanel';
 import { saveAttempt } from '@/features/ielts/useAttempts';
+import { saveMockSection, useMockId } from '@/features/ielts/mock';
+import { toast } from 'sonner';
 
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
@@ -55,6 +57,8 @@ export default function ListeningTestPage() {
   const { id = '' } = useParams<{ id: string }>();
   const { isIelts } = useSubscription();
   const navigate = useNavigate();
+  const mockId = useMockId();
+  const autoStarted = useRef(false);
   const meta = LISTENING_TESTS.find((t) => t.id === id);
   const [test, setTest] = useState<ListeningTest | null | undefined>(undefined);
   const [stage, setStage] = useState<'intro' | 'run' | 'done'>('intro');
@@ -81,13 +85,29 @@ export default function ListeningTestPage() {
     saved.current = true;
     const r = score(test.sections, answers);
     void saveAttempt({ skill: 'listening', testId: test.id, mode: 'full', part: null, correct: r.correct, total: r.total, band: bandFor('listening', r.correct, r.total), byKind: r.byKind, seconds: (Date.now() - startedAt.current) / 1000 });
-  }, [test, answers]);
+    if (mockId) {
+      void saveMockSection(mockId, 'listening', test.id, { correct: r.correct, total: r.total, band: bandFor('listening', r.correct, r.total), byKind: r.byKind }).then((ok) => {
+        if (!ok) toast.error('Could not save your Listening result. Open the mock test again to continue.');
+        navigate(`/mock-test/exam/${mockId}`, { replace: true });
+      });
+    }
+  }, [test, answers, mockId, navigate]);
+
+  // In a mock test the exam starts at once, in exam mode (each recording plays once).
+  useEffect(() => {
+    if (mockId && test && stage === 'intro' && !autoStarted.current && (!meta || meta.free || isIelts)) {
+      autoStarted.current = true;
+      setExam(true); setAnswers({}); setPlayed([false, false, false, false]); setSection(0); saved.current = false; startedAt.current = Date.now(); setStage('run');
+    }
+  }, [mockId, test, stage, meta, isIelts]);
 
   if (test === undefined) return <LoadingScreen />;
   if (!test || !meta) return <div className="min-h-screen grid place-items-center"><Link to="/listening"><Button variant="outline">Test not found</Button></Link></div>;
 
   const all = flatten(test.sections);
   const answered = (n: number) => answers[n] !== undefined && answers[n] !== '';
+
+  if (stage === 'done' && mockId) return <LoadingScreen />;
 
   if (stage === 'done') {
     const parts = test.sections.map((s) => ({
@@ -156,7 +176,7 @@ export default function ListeningTestPage() {
       <SEOHead title={test.title} description="IELTS Listening practice test." path={`/listening/${test.id}`} noindex />
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-3xl mx-auto px-3 py-2 flex items-center gap-3">
-          <button type="button" onClick={() => { if (confirm('Leave the test? Your answers will be lost.')) navigate('/listening'); }} className="text-muted-foreground hover:text-foreground" aria-label="Leave test"><ArrowLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => { if (confirm('Leave the test? Your answers will be lost.')) navigate(mockId ? `/mock-test/exam/${mockId}` : '/listening'); }} className="text-muted-foreground hover:text-foreground" aria-label="Leave test"><ArrowLeft className="h-5 w-5" /></button>
           <div className="min-w-0 flex-1"><p className="text-sm font-semibold truncate">{test.title}</p><p className="text-xs text-muted-foreground">{exam ? 'Exam mode' : 'Practice mode'} · Section {section + 1} of 4</p></div>
           <Button size="sm" variant="glow" onClick={() => { const un = all.length - Object.keys(answers).filter((k) => answered(Number(k))).length; if (un === 0 || confirm(`${un} question(s) unanswered. Finish the test?`)) finish(); }}>Finish</Button>
         </div>

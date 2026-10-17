@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { BookA, GraduationCap, LayoutDashboard, Target, User as UserIcon } from 'lucide-react';
+import { GraduationCap, LayoutDashboard, Newspaper, Target, User as UserIcon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
-/** Pages of the IELTS Practice section (Writing, Speaking, Mock tests, Daily Grammar and their history). */
+/** Pages of the IELTS section (Writing, Speaking, Reading, Listening, Mock tests, Daily Grammar and their history). */
 const PRACTICE = /^\/(practice|reading|listening|writing|speaking|speaking-history|speaking-result|essays|result|drafts|mock-test|grammar-test|vocabulary)(\/|$)/;
 
 export function BottomNav() {
@@ -13,14 +13,14 @@ export function BottomNav() {
   if (!user || location.pathname === '/exam' || location.pathname.startsWith('/mock-test/exam/')
     || location.pathname.startsWith('/learn/lesson/') || location.pathname.startsWith('/learn/test/') || location.pathname === '/learn/placement') return null;
   const path = location.pathname;
-  const onWords = path === '/learn' && new URLSearchParams(location.search).get('tab') === 'words';
-  const onLearn = path.startsWith('/learn') && !onWords;
+  const onLearn = path.startsWith('/learn');
 
   return <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-area-bottom" aria-label="Main navigation">
     <div className="mx-3 mb-3 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/60 shadow-lg shadow-black/10">
       <div className="flex items-end justify-around h-16 px-2">
         <NavItem icon={LayoutDashboard} label="Home" active={path === '/dashboard'} onClick={() => navigate('/dashboard')} />
-        <NavItem icon={BookA} label="Words" active={onWords} onClick={() => navigate('/learn?tab=words')} />
+        {/* The blog is a server-rendered page outside the app router, so it opens with a normal link. */}
+        <NavItem icon={Newspaper} label="Blog" active={false} onClick={() => window.location.assign('/blog')} />
         <button type="button" onClick={() => navigate('/learn')} aria-label="English course" aria-current={onLearn ? 'page' : undefined}
           className="relative -mt-6 flex-1 flex flex-col items-center justify-center text-primary">
           <span className={`w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background transition-transform active:scale-95 ${onLearn ? 'scale-105' : ''}`}>
@@ -28,7 +28,7 @@ export function BottomNav() {
           </span>
           <span className="text-[10px] font-semibold mt-1 whitespace-nowrap">Learn</span>
         </button>
-        <NavItem icon={Target} label="Practice" active={PRACTICE.test(path)} onClick={() => navigate('/practice')} />
+        <NavItem icon={Target} label="IELTS" active={PRACTICE.test(path)} onClick={() => navigate('/practice')} />
         <NavItem icon={UserIcon} label="Profile" active={path === '/profile'} onClick={() => navigate('/profile')} />
       </div>
     </div>
