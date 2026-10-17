@@ -120,6 +120,11 @@ serve(async (req) => {
       return json(req, { error: "Mock test is incomplete" }, 400);
     }
 
+    // Mock tests created with Listening and Reading must have both sections saved (they are scored in the browser).
+    if (mt.listening_test_id && (mt.listening_band == null || mt.reading_band == null)) {
+      return json(req, { error: "Listening and Reading must be finished first" }, 400);
+    }
+
     // Only one invocation can claim a submitted test. The request body never
     // controls the user ID or a row changed with service-role privileges.
     const { data: claim, error: claimError } = await admin.from("mock_tests")
@@ -181,9 +186,12 @@ serve(async (req) => {
     // Writing weight: Task 2 counts twice as much as Task 1
     const writingBand = (t1Band && t2Band) ? (t1Band + t2Band * 2) / 3 : (t2Band || t1Band);
     const spBand = speaking?.overallBand ?? 0;
-    const overall = spBand && writingBand
-      ? Math.round(((writingBand + spBand) / 2) * 2) / 2
-      : (writingBand || spBand);
+    // Overall band: the average of the skills that were taken (Listening, Reading, Writing, Speaking), rounded the IELTS way:
+    // .25 goes up to the next half band and .75 up to the next whole band.
+    const skillBands = [mt.listening_band, mt.reading_band, writingBand, spBand].map(Number).filter((b) => Number.isFinite(b) && b > 0);
+    const avg = skillBands.length ? skillBands.reduce((a, b) => a + b, 0) / skillBands.length : 0;
+    const whole = Math.floor(avg), frac = avg - whole;
+    const overall = skillBands.length ? (frac < 0.25 ? whole : frac < 0.75 ? whole + 0.5 : whole + 1) : 0;
 
     const grammarErrors =
       (Array.isArray(task1?.errorCorrections) ? task1.errorCorrections.filter((e: unknown) => isRecord(e) && e.type === "error").length : 0) +

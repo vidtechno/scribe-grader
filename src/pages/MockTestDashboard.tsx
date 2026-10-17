@@ -12,6 +12,8 @@ import { motion } from 'framer-motion';
 import { ClipboardList, Sparkles, Award, TrendingUp, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { PricingModal } from '@/components/PricingModal';
+import { LISTENING_TESTS, READING_TESTS } from '@/features/ielts/registry';
+import { pickMockTests } from '@/features/ielts/mock';
 
 export default function MockTestDashboard() {
   const { user } = useAuth();
@@ -28,7 +30,7 @@ export default function MockTestDashboard() {
     const load = async () => {
       const { data } = await supabase
         .from('mock_tests')
-        .select('id,status,overall_band,task1_band,task2_band,speaking_band,created_at,completed_at,grammar_errors_count,lexical_errors_count')
+        .select('id,status,overall_band,task1_band,task2_band,speaking_band,listening_band,reading_band,listening_test_id,reading_test_id,created_at,completed_at,grammar_errors_count,lexical_errors_count')
         .order('created_at', { ascending: false });
       if (!cancelled) {
         setTests((data as any) || []);
@@ -63,9 +65,13 @@ export default function MockTestDashboard() {
     }
     if (mockRemaining <= 0) { setShowPricing(true); return; }
     setCreating(true);
+    const chosen = pickMockTests(
+      tests.map((t: any) => t.listening_test_id), tests.map((t: any) => t.reading_test_id),
+      LISTENING_TESTS.map((t) => t.id), READING_TESTS.map((t) => t.id),
+    );
     const { data, error } = await supabase
       .from('mock_tests')
-      .insert({ user_id: user.id, status: 'in_progress', current_step: 'task1' })
+      .insert({ user_id: user.id, status: 'in_progress', current_step: 'listening', listening_test_id: chosen.listening, reading_test_id: chosen.reading } as any)
       .select()
       .single();
     setCreating(false);
@@ -88,7 +94,7 @@ export default function MockTestDashboard() {
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold mb-1">Mock Test Simulator</h1>
-                <p className="text-sm text-muted-foreground">Full IELTS exam: Writing Task 1 + Task 2 + Speaking Parts 1–3</p>
+                <p className="text-sm text-muted-foreground">Full IELTS exam: Listening + Reading + Writing Task 1 and 2 + Speaking Parts 1–3. Scored with an overall band.</p>
               </div>
             </div>
             <Button variant="glow" size="lg" onClick={startTest} disabled={creating || loading || quotaLoading} className="gap-2 w-full sm:w-auto">

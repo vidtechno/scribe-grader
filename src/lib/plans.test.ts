@@ -22,10 +22,10 @@ describe('unified subscription entitlements', () => {
     });
   });
 
-  it('defines IELTS: 129 000 so\'m, 50 Writing and 30 Speaking a month', () => {
+  it('defines IELTS: 129 000 so\'m, 50 Writing, 30 Speaking and 6 mock tests a month', () => {
     expect(PLAN_ENTITLEMENTS.plus).toMatchObject({
       name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
-      personal: { writing: 50, speaking: 30, mockTests: 3 },
+      personal: { writing: 50, speaking: 30, mockTests: 6 },
       practice: { reading: null, listening: null },
     });
     expect(PLAN_ENTITLEMENTS.plus.features.join(' ')).toMatch(/Reading: CHEKSIZ.*Listening: CHEKSIZ/s);

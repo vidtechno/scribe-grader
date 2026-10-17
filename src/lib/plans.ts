@@ -51,7 +51,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
   },
   plus: {
     slug: 'plus', name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
-    personal: { writing: 50, speaking: 30, mockTests: 3 },
+    personal: { writing: 50, speaking: 30, mockTests: 6 },
     practice: { reading: null, listening: null },
     features: [
       "Learn dagi hamma narsa: 350 dan ortiq dars va daraja imtihonlari",
@@ -59,7 +59,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
       "IELTS Listening: CHEKSIZ. 5 ta to'liq test (4 section, 40 savol), audio va transkript bilan",
       "IELTS Writing: har oy 50 ta AI baholash, 4 ta rasmiy mezon bo'yicha band va tuzatishlar",
       "IELTS Speaking: har oy 30 ta AI baholash, ravonlik, grammatika, lug'at va talaffuz tahlili",
-      "Har oy 3 ta to'liq Mock test: imtihon vaqti bilan",
+      "Har oy 6 ta to'liq Mock test: Listening, Reading, Writing va Speaking, imtihon vaqti bilan",
       "Batafsil izohli AI baholash va xatolar tahlili",
     ],
   },

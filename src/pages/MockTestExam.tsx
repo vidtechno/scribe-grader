@@ -9,16 +9,20 @@ import { SpeechRecorder } from '@/components/SpeechRecorder';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { getRandomTopic } from '@/lib/topics';
 import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
-import { Clock, FileText, Send, Mic, ArrowRight, Loader2 } from 'lucide-react';
+import { Clock, FileText, Send, Mic, ArrowRight, Loader2, BookOpen, Headphones } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { audioExtension } from '@/lib/audio';
 import { functionError } from '@/lib/function-errors';
 
-type Step = 'task1' | 'task2' | 'speaking_p1' | 'speaking_p2' | 'speaking_p3' | 'done';
+type Step = 'listening' | 'reading' | 'task1' | 'task2' | 'speaking_p1' | 'speaking_p2' | 'speaking_p3' | 'done';
 
-const STEP_ORDER: Step[] = ['task1', 'task2', 'speaking_p1', 'speaking_p2', 'speaking_p3', 'done'];
+/** New mock tests start with Listening and Reading; mock tests created earlier have no such sections. */
+const STEP_ORDER_FULL: Step[] = ['listening', 'reading', 'task1', 'task2', 'speaking_p1', 'speaking_p2', 'speaking_p3', 'done'];
+const STEP_ORDER_LEGACY: Step[] = ['task1', 'task2', 'speaking_p1', 'speaking_p2', 'speaking_p3', 'done'];
 const STEP_LABELS: Record<Step, string> = {
+  listening: 'Listening',
+  reading: 'Reading',
   task1: 'Writing Task 1',
   task2: 'Writing Task 2',
   speaking_p1: 'Speaking · Part 1',
@@ -88,9 +92,10 @@ export default function MockTestExam() {
 
   const wordCount = essay.trim().split(/\s+/).filter(Boolean).length;
 
+  const stepOrder = mt?.listening_test_id ? STEP_ORDER_FULL : STEP_ORDER_LEGACY;
   const advance = (current: Step): Step => {
-    const i = STEP_ORDER.indexOf(current);
-    return STEP_ORDER[Math.min(i + 1, STEP_ORDER.length - 1)];
+    const i = stepOrder.indexOf(current);
+    return stepOrder[Math.min(i + 1, stepOrder.length - 1)];
   };
 
   const completeWritingStep = useCallback(async () => {
@@ -158,8 +163,8 @@ export default function MockTestExam() {
 
   if (!mt) return <LoadingScreen />;
 
-  const stepIndex = STEP_ORDER.indexOf(step);
-  const totalSteps = 5;
+  const stepIndex = Math.max(0, stepOrder.indexOf(step));
+  const totalSteps = stepOrder.length - 1;
   const progressPct = (stepIndex / totalSteps) * 100;
 
   return (
@@ -176,6 +181,28 @@ export default function MockTestExam() {
             <div className="h-full bg-primary transition-all" style={{ width: `${progressPct}%` }} />
           </div>
         </div>
+
+        {(step === 'listening' || step === 'reading') && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} key={step} className="glass-card p-6 sm:p-8">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+              {step === 'listening' ? <Headphones className="h-6 w-6 text-primary" /> : <BookOpen className="h-6 w-6 text-primary" />}
+            </div>
+            <h2 className="text-xl font-bold mb-2">{step === 'listening' ? 'Section 1: Listening' : 'Section 2: Reading'}</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              {step === 'listening'
+                ? 'Four recordings, 40 questions. Each recording plays once, like in the real exam. Use headphones and sit somewhere quiet. Scored automatically.'
+                : 'Three passages, 40 questions, 60 minutes. Answer every question: wrong answers do not lose marks. Scored automatically.'}
+            </p>
+            <ul className="text-sm space-y-1.5 mb-6 list-disc pl-5 text-muted-foreground">
+              <li>The timer and audio start as soon as you press the button.</li>
+              <li>When you finish, your result is saved and you come back here for the next section.</li>
+              <li>Your mock test stays open: you can leave and continue later.</li>
+            </ul>
+            <Button variant="glow" size="lg" className="gap-2" onClick={() => navigate(`/${step}/${step === 'listening' ? mt.listening_test_id : mt.reading_test_id}?mock=${mt.id}`)}>
+              <ArrowRight className="h-4 w-4" />{step === 'listening' ? 'Start Listening' : 'Start Reading'}
+            </Button>
+          </motion.div>
+        )}
 
         {(step === 'task1' || step === 'task2') && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} key={step}>

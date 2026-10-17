@@ -16,6 +16,8 @@ import { flatten, score, type Answer } from '@/features/ielts/score';
 import { GroupView } from '@/features/ielts/components/GroupView';
 import { ResultPanel } from '@/features/ielts/components/ResultPanel';
 import { saveAttempt } from '@/features/ielts/useAttempts';
+import { saveMockSection, useMockId } from '@/features/ielts/mock';
+import { toast } from 'sonner';
 
 const FULL_SECONDS = 60 * 60;
 const PART_SECONDS = 20 * 60;
@@ -26,6 +28,8 @@ export default function ReadingTestPage() {
   const { user } = useAuth();
   const { isIelts } = useSubscription();
   const navigate = useNavigate();
+  const mockId = useMockId();
+  const autoStarted = useRef(false);
   const meta = READING_TESTS.find((t) => t.id === id);
   const [test, setTest] = useState<ReadingTest | null | undefined>(undefined);
   const [stage, setStage] = useState<'intro' | 'run' | 'done'>('intro');
@@ -62,7 +66,14 @@ export default function ReadingTestPage() {
     const sub = mode.kind === 'full' ? answers : Object.fromEntries(Object.entries(answers).map(([k, v]) => [Number(k) - (starts[mode.part]?.[0] ?? 1) + 1, v]));
     const r = score(scored, sub);
     void saveAttempt({ skill: 'reading', testId: test.id, mode: mode.kind, part: mode.kind === 'part' ? mode.part : null, correct: r.correct, total: r.total, band: bandFor('reading', r.correct, r.total), byKind: r.byKind, seconds: (Date.now() - startedAt.current) / 1000 });
-  }, [test, mode, answers, starts]);
+    if (mockId) {
+      // Part of a full mock test: keep the result in the mock and go back to it.
+      void saveMockSection(mockId, 'reading', test.id, { correct: r.correct, total: r.total, band: bandFor('reading', r.correct, r.total), byKind: r.byKind }).then((ok) => {
+        if (!ok) toast.error('Could not save your Reading result. Open the mock test again to continue.');
+        navigate(`/mock-test/exam/${mockId}`, { replace: true });
+      });
+    }
+  }, [test, mode, answers, starts, mockId, navigate]);
 
   useEffect(() => {
     if (stage !== 'run') return;
@@ -71,17 +82,21 @@ export default function ReadingTestPage() {
   }, [stage]);
   useEffect(() => { if (stage === 'run' && left <= 0) finish(); }, [left, stage, finish]);
 
-  if (test === undefined) return <LoadingScreen />;
-  if (!test || !meta) return <div className="min-h-screen grid place-items-center"><Link to="/reading"><Button variant="outline">Test not found</Button></Link></div>;
-
-  const begin = (kind: 'full' | 'part', p = 0) => {
+  const begin = useCallback((kind: 'full' | 'part', p = 0) => {
     setMode({ kind, part: p });
     setPart(p); setAnswers({}); setPane('text'); setFlags(new Set()); setMarks(new Set()); setMarking(false); saved.current = false;
     setLeft(kind === 'full' ? FULL_SECONDS : PART_SECONDS);
     startedAt.current = Date.now();
     setStage('run');
     window.scrollTo(0, 0);
-  };
+  }, []);
+  // In a mock test the exam starts at once: there is no intro and no choice of a single passage.
+  useEffect(() => {
+    if (mockId && test && stage === 'intro' && !autoStarted.current && (!meta || meta.free || isIelts)) { autoStarted.current = true; begin('full'); }
+  }, [mockId, test, stage, meta, isIelts, begin]);
+
+  if (test === undefined) return <LoadingScreen />;
+  if (!test || !meta) return <div className="min-h-screen grid place-items-center"><Link to="/reading"><Button variant="outline">Test not found</Button></Link></div>;
 
   const shown = mode.kind === 'full' ? test.passages : [test.passages[mode.part]];
   const all = flatten(test.passages);
@@ -93,6 +108,8 @@ export default function ReadingTestPage() {
     setPane('questions');
     window.setTimeout(() => document.getElementById(`q-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60);
   };
+
+  if (stage === 'done' && mockId) return <LoadingScreen />;
 
   if (stage === 'done') {
     // Single-passage practice is scored on that passage only.
@@ -163,7 +180,7 @@ export default function ReadingTestPage() {
       <SEOHead title={test.title} description="IELTS Academic Reading practice test." path={`/reading/${test.id}`} noindex />
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-7xl mx-auto px-3 py-2 flex items-center gap-3">
-          <button type="button" onClick={() => { if (confirm('Leave the test? Your answers will be lost.')) navigate('/reading'); }} className="text-muted-foreground hover:text-foreground" aria-label="Leave test"><ArrowLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => { if (confirm('Leave the test? Your answers will be lost.')) navigate(mockId ? `/mock-test/exam/${mockId}` : '/reading'); }} className="text-muted-foreground hover:text-foreground" aria-label="Leave test"><ArrowLeft className="h-5 w-5" /></button>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold truncate">{test.title}</p>
             <p className="text-xs text-muted-foreground">{mode.kind === 'full' ? `Passage ${part + 1} of 3` : `Passage ${mode.part + 1}`}</p>
