@@ -64,7 +64,7 @@ ${ctaBox('Try the practice yourself', 'Write an essay or record a speaking answe
   return page({
     title: 'IELTS Blog: Guides, Sample Answers and Practice Topics | Scorify.uz',
     description: 'Free IELTS Writing and Speaking guides, sample answers, vocabulary and practice topics in English and Uzbek from Scorify.uz.',
-    path: '/blog', body, robots: filtered ? 'noindex, follow' : undefined,
+    path: '/blog', bottomNav: 'blog', body, robots: filtered ? 'noindex, follow' : undefined,
     alternates: [{ lang: 'x-default', path: '/blog' }],
     jsonLd: [{ '@context': 'https://schema.org', '@type': 'Blog', name: 'Scorify IELTS Blog', url: `${SITE}/blog`, publisher: { '@type': 'Organization', name: 'Scorify.uz', logo: `${SITE}/logo.png` } }, breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])],
   });
@@ -96,7 +96,7 @@ ${post.cover_image_url ? `<img class="post-cover" src="${esc(post.cover_image_ur
 ${related.length ? `<section class="section"><div class="wrap"><h2>Keep reading</h2><div class="grid">${related.map(card).join('')}</div></div></section>` : ''}
 ${track}`;
   return page({
-    title: `${title} | Scorify.uz`, description, path, body, lang: post.lang, ogType: 'article', ogImage: post.cover_image_url || undefined,
+    title: `${title} | Scorify.uz`, description, path, bottomNav: 'blog', body, lang: post.lang, ogType: 'article', ogImage: post.cover_image_url || undefined,
     publishedTime: post.published_at, modifiedTime: post.updated_at, alternates,
     jsonLd: [{
       '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, description, inLanguage: post.lang, mainEntityOfPage: `${SITE}${path}`,

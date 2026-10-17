@@ -11,7 +11,7 @@ export function slugify(input: string): string {
 
 export type PageOptions = {
   title: string; description: string; path: string; body: string; lang?: string; robots?: string; ogImage?: string; ogType?: string;
-  jsonLd?: unknown[]; alternates?: { lang: string; path: string }[]; head?: string; publishedTime?: string; modifiedTime?: string;
+  bottomNav?: 'blog'; jsonLd?: unknown[]; alternates?: { lang: string; path: string }[]; head?: string; publishedTime?: string; modifiedTime?: string;
 };
 
 const NAV = [
@@ -47,6 +47,25 @@ export function fitTitle(title: string): string {
   return core.length + BRAND_SUFFIX.length <= 62 ? title : core;
 }
 
+
+const ICON = (d: string) => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+/**
+ * The phone bottom bar of the app (Home, Blog, Learn, IELTS, Profile) for server-rendered pages. It stays hidden until a script
+ * finds a signed-in Supabase session in this browser, like the app's own bar, and it is only shown on narrow screens.
+ */
+function bottomNav(active: string): string {
+  const items: [string, string, string, string][] = [
+    ['dashboard', '/dashboard', 'Home', ICON('<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>')],
+    ['blog', '/blog', 'Blog', ICON('<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"/>')],
+    ['learn', '/learn', 'Learn', ICON('<path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>')],
+    ['ielts', '/practice', 'IELTS', ICON('<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>')],
+    ['profile', '/profile', 'Profile', ICON('<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>')],
+  ];
+  return `<nav class="bnav" id="bnav" aria-label="Main navigation"><div class="bnav-in">${items.map(([k, h, l, i]) =>
+    `<a href="${h}"${k === active ? ' class="on" aria-current="page"' : ''}${k === 'learn' ? ' data-learn' : ''}>${i}<span>${l}</span></a>`).join('')}</div></nav>
+<script>(function(){try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&/^sb-.+-auth-token$/.test(k)&&localStorage.getItem(k).indexOf('access_token')>-1){document.getElementById('bnav').className+=' show';document.body.className+=' has-bnav';break}}}catch(e){}})()</script>`;
+}
+
 export function page(o: PageOptions): string {
   o = { ...o, title: fitTitle(o.title) };
   const uz = o.lang === 'uz';
@@ -67,7 +86,7 @@ ${(o.alternates || []).map(a => `<link rel="alternate" hreflang="${esc(a.lang)}"
 <meta property="og:url" content="${esc(url)}"><meta property="og:image" content="${esc(og)}">
 ${o.publishedTime ? `<meta property="article:published_time" content="${esc(o.publishedTime)}">` : ''}${o.modifiedTime ? `<meta property="article:modified_time" content="${esc(o.modifiedTime)}">` : ''}
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(o.title)}"><meta name="twitter:description" content="${esc(o.description)}"><meta name="twitter:image" content="${esc(og)}">
-<link rel="stylesheet" href="/site.css?v=1">
+<link rel="stylesheet" href="/site.css?v=2">
 ${(o.jsonLd || []).map(jsonLdScript).join('\n')}
 ${o.head || ''}
 <script defer data-website-id="dfid_2f7mA21xdCYfavtY5a4n6" data-domain="scorify.uz" src="https://datafa.st/js/script.js"></script>
@@ -82,6 +101,7 @@ ${o.body}
 <div><h4>Resources</h4><a href="/blog">Blog &amp; guides</a><a href="/ielts-vocabulary">Vocabulary by topic</a><a href="/ielts-reading-practice">Reading practice</a><a href="/ielts-listening-practice">Listening practice</a><a href="/ielts-band-score-calculator">Band score calculator</a><a href="/sitemap">Site map</a><a href="/blog/rss.xml">RSS feed</a></div>
 </div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS is a registered trademark of its owners; Scorify.uz is not affiliated with IELTS.</p>`}</div>
 </footer>
+${o.bottomNav ? bottomNav(o.bottomNav) : ''}
 </body></html>`;
 }
 
