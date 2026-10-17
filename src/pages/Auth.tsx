@@ -38,7 +38,7 @@ export default function Auth() {
         <div className="text-center mb-8">
           <img src="/logo-128.webp" alt="Scorify" className="w-16 h-16 object-contain mx-auto mb-4" />
           <h1 className="text-3xl font-bold">Welcome to Scorify.uz</h1>
-          <p className="text-muted-foreground mt-2">Sign in with Telegram or Google to start practising IELTS Writing and Speaking.</p>
+          <p className="text-muted-foreground mt-2">Sign in with Telegram to start practising IELTS Writing and Speaking.</p>
         </div>
 
         <div className="glass-card p-8">
@@ -57,7 +57,7 @@ export default function Auth() {
             {loading ? 'Redirecting…' : 'Continue with Google'}
           </Button></>}
           <p className="mt-4 text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">
-            <ShieldCheck className="h-3.5 w-3.5" /> No password needed. We only receive your name (and email for Google).
+            <ShieldCheck className="h-3.5 w-3.5" /> No password needed. We only receive your Telegram name.
           </p>
         </div>
 

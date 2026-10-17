@@ -17,7 +17,7 @@ describe('Google and Telegram authentication', () => {
   beforeEach(() => { vi.clearAllMocks(); localStorage.clear(); sessionStorage.clear(); });
   afterEach(() => { cleanup(); });
 
-  it('offers Telegram and Google sign-in without passwords', () => {
+  it('offers Telegram sign-in without passwords and hides Google while it is switched off', () => {
     mount();
     expect(GOOGLE_AUTH_ENABLED).toBe(true);
     expect(screen.getByRole('button', { name: /Continue with Google/ })).toBeInTheDocument();

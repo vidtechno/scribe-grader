@@ -635,7 +635,7 @@ export async function showInvite(ctx: Ctx) {
     "<b>Qanday ishlaydi:</b>",
     quote([
       "1️⃣ Havolangizni do'stingizga yuboring.",
-      "2️⃣ U havola orqali botga kirib ro'yxatdan o'tadi (Telegram yoki Google) — shu zahoti referal hisoblanadi.",
+      "2️⃣ U havola orqali botga kirib ro'yxatdan o'tadi — shu zahoti referal hisoblanadi.",
       `3️⃣ U <b>7 kunlik bepul davrdan keyin</b> istalgan pullik tarifni sotib olsa, balansingizga <b>${som(r.reward)}</b> qo'shiladi.`,
       `4️⃣ Balans <b>${som(r.min_withdraw)}</b> ga yetganda yechib olasiz.`,
     ].join("\n")),
