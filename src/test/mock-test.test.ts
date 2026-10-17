@@ -1,9 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pickMockTests } from '@/features/ielts/mock';
 import { LISTENING_TESTS, READING_TESTS } from '@/features/ielts/registry';
 import { PLAN_ENTITLEMENTS } from '@/lib/plans';
+
+vi.mock('@/integrations/supabase/client', () => ({ supabase: { rpc: vi.fn(async () => ({ error: null })) } }));
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), 'utf8');
 
@@ -40,6 +42,7 @@ describe('full mock test with Listening and Reading', () => {
     const round = (a: number) => { const w = Math.floor(a), f = a - w; return f < 0.25 ? w : f < 0.75 ? w + 0.5 : w + 1; };
     expect(round((6.5 + 6 + 6.5 + 7) / 4)).toBe(6.5);
     expect(round((7 + 7 + 7 + 6) / 4)).toBe(7);
-    expect(round((6 + 6 + 6 + 6.5) / 4)).toBe(6.5);
+    expect(round((6 + 6 + 6 + 6.5) / 4)).toBe(6);
+    expect(round((6 + 6 + 6.5 + 6.5) / 4)).toBe(6.5);
   });
 });
