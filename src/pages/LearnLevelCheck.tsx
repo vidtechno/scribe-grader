@@ -168,7 +168,7 @@ export default function LearnLevelCheck() {
       </ul>
       {error && <p className="text-sm text-destructive mb-3">{error}</p>}
       <Button size="lg" variant="glow" className="w-full" disabled={busy} onClick={begin}>{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Testni boshlash'}</Button>
-      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate(upgrade ? '/learn' : '/learn?pick=1')}><ArrowLeft className="h-4 w-4" />{upgrade ? 'Orqaga' : "Testsiz, darajani o'zim tanlayman"}</Button>
+      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate(upgrade ? '/learn' : '/learn')}><ArrowLeft className="h-4 w-4" />{upgrade ? 'Orqaga' : "Testsiz, darajani o'zim tanlayman"}</Button>
     </div>,
   );
 }
