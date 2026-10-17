@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, Navigate, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   BookA, Check, CheckCircle2, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, X, Zap,
@@ -9,7 +9,7 @@ import { Navbar } from '@/components/Navbar';
 import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ALL_LESSONS, LEVELS, PLACEMENT, TRIAL_DAYS, levelOf, loadUnit } from '@/features/learn/course';
+import { ALL_LESSONS, COURSE_UNITS, LEVELS, PLACEMENT, TRIAL_DAYS, levelOf, loadUnit } from '@/features/learn/course';
 import {
   callLearning, courseMap, learningErrorMessage, learningStats, placementPending, trialDaysLeft, useLearningState, useRefreshLearning,
   type LearningState,
@@ -33,7 +33,6 @@ const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts
 
 export default function Learn() {
   const { data: state, isLoading, error } = useLearningState();
-  const picking = new URLSearchParams(useLocation().search).get('pick') === '1';
 
   return (
     <div className="min-h-screen bg-background pb-28 md:pb-12">
@@ -42,12 +41,24 @@ export default function Learn() {
       <main className="pt-24 px-4 sm:px-6 max-w-5xl mx-auto">
         {isLoading ? <div className="grid place-items-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
           : error ? <p className="text-center py-24 text-muted-foreground">O'rganish bo'limini yuklab bo'lmadi. Sahifani yangilang.</p>
-            : !state?.profile ? (picking ? <LevelPicker access={state?.access} /> : <Navigate to="/learn/start" replace />)
+            : !state?.profile ? <LevelPicker access={state?.access} />
               : <CourseHome state={state} />}
       </main>
     </div>
   );
 }
+
+/** Who each level is for, in a sentence the learner can compare with their own English. */
+const LEVEL_FOR: Partial<Record<LevelId, string>> = {
+  beginner: "Alifbo, tovushlar va birinchi gaplar. Ingliz tilini umuman bilmasangiz, shu yerdan boshlang.",
+  a1: "O'zingiz haqingizda gapirish, oddiy suhbat, asosiy zamonlar. Alifbo va oddiy gaplarni bilsangiz.",
+  a2: "O'tmish va kelajak haqida gapirish, taqqoslash, maslahat. Kundalik mavzularda oddiy gaplasha olsangiz.",
+  b1: "Fikr bildirish, hikoya qilish, shart gaplar, majhul nisbat. Ko'p narsani tushunib, o'zingizni ifodalay olsangiz.",
+};
+const levelSize = (level: LevelId) => {
+  const units = COURSE_UNITS.filter((u) => u.level === level);
+  return { units: units.length, lessons: units.reduce((n, u) => n + u.lessons.length, 0) };
+};
 
 function LevelPicker({ access }: { access?: LearningState['access'] }) {
   const refresh = useRefreshLearning();
@@ -56,10 +67,10 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
   const start = async (level: LevelId) => {
     setBusy(level);
     try {
-      await callLearning('learning_start', { _level: level });
+      // The learner starts at the level they picked; no test is required (the level check below is optional).
+      await callLearning('learning_start_chosen', { _level: level });
       await refresh();
-      if (level === 'beginner') toast.success("Kurs boshlandi! Birinchi dars sizni kutmoqda.");
-      else navigate('/learn/placement'); // every level above Beginner starts with a placement test
+      toast.success(`${levelOf(level).title} darajasi boshlandi! Birinchi dars sizni kutmoqda.`);
     } catch (e) {
       toast.error(learningErrorMessage(e));
     } finally { setBusy(null); }
@@ -76,7 +87,8 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
         </p>
         <p className="text-sm mt-3 font-medium">{paid ? 'Kurs tarifingizga kiritilgan.' : `Free tarifda ${TRIAL_DAYS} kun bepul, keyin Learn yoki IELTS.`}</p>
       </motion.div>
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Darajangizni tanlang</h2>
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-1">Darajangizni tanlang</h2>
+      <p className="text-sm text-muted-foreground mb-3">Istagan darajadan boshlashingiz mumkin: test shart emas. Keyinroq yuqoriroq darajaga qisqa test bilan o'tasiz.</p>
       <div className="grid sm:grid-cols-2 gap-3">
         {LEVELS.map((l, i) => (
           <motion.button key={l.id} type="button" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
@@ -90,13 +102,18 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
               <span className="flex items-center gap-2 font-bold text-lg">{l.title}
                 {!l.available && <span className="text-[10px] uppercase tracking-wide rounded-full bg-secondary px-2 py-0.5 text-muted-foreground font-semibold">Tez orada</span>}
               </span>
-              <span className="block text-sm text-muted-foreground mt-0.5">{l.text}</span>
+              <span className="block text-sm text-muted-foreground mt-0.5">{LEVEL_FOR[l.id] ?? l.text}</span>
+              {l.available && levelSize(l.id).lessons > 0 && <span className="block text-xs text-muted-foreground/80 mt-1">{levelSize(l.id).units} bosqich · {levelSize(l.id).lessons} dars</span>}
               {l.available && <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">{busy === l.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}Shu darajadan boshlash</span>}
             </span>
           </motion.button>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground text-center mt-6">Aniq bilmasangiz — Beginner'dan boshlang: dastlabki darslar tez o'tadi, lekin talaffuz va asosiy grammatikadagi bo'shliqlarni yopadi. Elementary yoki Pre-Intermediate'ni tanlasangiz, avval oldingi darajadan 20 ta savollik daraja testidan o'tasiz (70% kerak, 2 ta urinish); o'tmasangiz, Beginner'dan boshlaysiz.</p>
+      <div className="mt-6 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-5 text-center">
+        <p className="font-semibold mb-1">Darajangizni bilmaysizmi?</p>
+        <p className="text-sm text-muted-foreground mb-3">15 ta savolli qisqa daraja testidan o'ting: u sizga mos darajani aytadi va shu yerdan boshlaysiz.</p>
+        <Button variant="outline" className="gap-2" onClick={() => navigate('/learn/start')}><Compass className="h-4 w-4" />Daraja testidan o'tish</Button>
+      </div>
     </div>
   );
 }
