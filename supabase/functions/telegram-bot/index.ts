@@ -11,6 +11,7 @@ import { adminCallback, adminInput, showAdmin } from "./admin.ts";
 import { drain } from "./notify.ts";
 import { setupBot } from "./setup.ts";
 import { allow, dismiss } from "./guard.ts";
+import { isSubscribed, showGate } from "./subscription.ts";
 
 declare const EdgeRuntime: { waitUntil(p: Promise<unknown>): void } | undefined;
 
@@ -214,6 +215,23 @@ async function onCallback(q: CallbackQuery) {
   }
 }
 
+/** "✅ Obuna bo'ldim": re-checks the channel and opens the menu, or asks to follow first. */
+async function onSubscriptionCheck(q: CallbackQuery) {
+  if (!q.message || q.message.chat.type !== "private") return dismiss(q.id);
+  if (!(await isSubscribed(q.from.id, true))) {
+    return void await tg("answerCallbackQuery", {
+      callback_query_id: q.id, text: "Hali obuna bo'lmadingiz 🙂 Kanalga o'tib «Obuna bo'lish»ni bosing.", show_alert: true,
+    }).catch(() => {});
+  }
+  await dismiss(q.id, "Rahmat! 🎉");
+  await tg("editMessageText", {
+    chat_id: q.message.chat.id, message_id: q.message.message_id, parse_mode: "HTML",
+    text: "🎉 <b>Rahmat, obuna tasdiqlandi!</b>\nEndi hamma imkoniyatlar ochiq.",
+  }).catch(() => {});
+  const ctx = await buildCtx(q.from, q.message.chat.id);
+  if (!ctx.account.is_banned) await user.showMenu(ctx);
+}
+
 async function onUpdate(update: Update) {
   // Flood protection first: nothing below runs for a sender who is pressing too fast or is blocked.
   const msg = update.message, cq = update.callback_query;
@@ -223,6 +241,24 @@ async function onUpdate(update: Update) {
     const v = await allow(db, from, chat.id, !!cq);
     if (!v.pass) {
       if (cq) await dismiss(cq.id, v.toast);
+      return;
+    }
+  }
+  // Required channel: everyone except admins follows @scorify_uz first. Website sign-in confirmations stay open.
+  if (from && chat?.type === "private" && !from.is_bot) {
+    const payload = /^\/start(?:@\w+)?\s+(\S+)/i.exec(msg?.text?.trim() ?? "")?.[1] ?? "";
+    const data = cq?.data ?? "";
+    if (data === "sub:check") return onSubscriptionCheck(cq!);
+    const exempt = data.startsWith("lg:") || payload.startsWith("login_") || payload.startsWith("link_");
+    if (!exempt && !(await isSubscribed(from.id))) {
+      if (cq) await dismiss(cq.id, "Avval kanalga obuna bo'ling 👇");
+      // A friend's referral link must survive the detour through the channel.
+      const ref = /^ref_([A-Za-z0-9]{4,16})$/.exec(payload)?.[1];
+      if (ref) {
+        const account = await upsertTelegramAccount(db, from);
+        if (!account.user_id) await db.from("telegram_accounts").update({ pending_ref: ref.toUpperCase() }).eq("telegram_id", from.id);
+      }
+      await showGate(chat.id);
       return;
     }
   }
