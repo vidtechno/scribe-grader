@@ -14,6 +14,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { audioExtension } from '@/lib/audio';
 import { functionError } from '@/lib/function-errors';
+import { useT } from '@/i18n';
 
 type Step = 'listening' | 'reading' | 'task1' | 'task2' | 'speaking_p1' | 'speaking_p2' | 'speaking_p3' | 'done';
 
@@ -21,14 +22,14 @@ type Step = 'listening' | 'reading' | 'task1' | 'task2' | 'speaking_p1' | 'speak
 const STEP_ORDER_FULL: Step[] = ['listening', 'reading', 'task1', 'task2', 'speaking_p1', 'speaking_p2', 'speaking_p3', 'done'];
 const STEP_ORDER_LEGACY: Step[] = ['task1', 'task2', 'speaking_p1', 'speaking_p2', 'speaking_p3', 'done'];
 const STEP_LABELS: Record<Step, string> = {
-  listening: 'Listening',
-  reading: 'Reading',
-  task1: 'Writing Task 1',
-  task2: 'Writing Task 2',
-  speaking_p1: 'Speaking · Part 1',
-  speaking_p2: 'Speaking · Part 2',
-  speaking_p3: 'Speaking · Part 3',
-  done: 'Submit',
+  listening: 'mock.step.listening',
+  reading: 'mock.step.reading',
+  task1: 'mock.step.task1',
+  task2: 'mock.step.task2',
+  speaking_p1: 'mock.step.speaking_p1',
+  speaking_p2: 'mock.step.speaking_p2',
+  speaking_p3: 'mock.step.speaking_p3',
+  done: 'mock.step.done',
 };
 const WRITING_LIMIT: Record<'task1' | 'task2', number> = { task1: 20 * 60, task2: 40 * 60 };
 const WRITING_MIN: Record<'task1' | 'task2', number> = { task1: 150, task2: 250 };
@@ -38,6 +39,7 @@ const SPEAKING_MAX: Record<'speaking_p1' | 'speaking_p2' | 'speaking_p3', number
 
 export default function MockTestExam() {
   const { id } = useParams<{ id: string }>();
+  const { t } = useT();
   const navigate = useNavigate();
   const { user, refreshProfile } = useAuth();
   const [mt, setMt] = useState<any>(null);
@@ -54,8 +56,8 @@ export default function MockTestExam() {
     initRef.current = true;
     (async () => {
       const { data, error } = await supabase.from('mock_tests').select('*').eq('id', id).single();
-      if (error || !data) { toast.error('Mock test not found'); navigate('/mock-test'); return; }
-      if (data.user_id !== user.id) { toast.error('Access denied'); navigate('/mock-test'); return; }
+      if (error || !data) { toast.error(t('mock.exam.notFound')); navigate('/mock-test'); return; }
+      if (data.user_id !== user.id) { toast.error(t('mock.exam.denied')); navigate('/mock-test'); return; }
       if (data.status !== 'in_progress') {
         navigate(data.status === 'completed' ? `/mock-test/result/${id}` : `/mock-test/thank-you/${id}`);
         return;
@@ -107,13 +109,13 @@ export default function MockTestExam() {
       : { task2_essay: essay, task2_word_count: wordCount, current_step: next };
     const { error } = await supabase.from('mock_tests').update(payload).eq('id', mt.id);
     setUploading(false);
-    if (error) { toast.error('Failed to save'); return; }
-    toast.success(`${STEP_LABELS[step]} saved`);
+    if (error) { toast.error(t('mock.exam.saveFail')); return; }
+    toast.success(t('mock.exam.saved', { step: t(STEP_LABELS[step]) }));
     setMt({ ...mt, ...payload });
     setStep(next);
     setEssay('');
     if (next === 'task2') setTimeLeft(WRITING_LIMIT.task2);
-  }, [mt, step, essay, wordCount]);
+  }, [mt, step, essay, wordCount, t]);
 
   const handleAudioComplete = useCallback(async (blob: Blob) => {
     if (!mt || !user) return;
@@ -129,15 +131,15 @@ export default function MockTestExam() {
       const patch: any = { [col]: path, current_step: next };
       const { error } = await supabase.from('mock_tests').update(patch).eq('id', mt.id);
       if (error) throw error;
-      toast.success(`${STEP_LABELS[step]} saved`);
+      toast.success(t('mock.exam.saved', { step: t(STEP_LABELS[step]) }));
       setMt({ ...mt, ...patch });
       setStep(next);
     } catch (e: any) {
-      toast.error(e.message || 'Upload failed');
+      toast.error(e.message || t('mock.exam.uploadFail'));
     } finally {
       setUploading(false);
     }
-  }, [mt, user, step]);
+  }, [mt, user, step, t]);
 
   const handleFinalSubmit = useCallback(async () => {
     if (!mt) return;
@@ -150,16 +152,16 @@ export default function MockTestExam() {
       if (saveError) throw saveError;
 
       const { error: gradeError } = await supabase.functions.invoke('process-mock-test', { body: { mockTestId: mt.id } });
-      if (gradeError) throw await functionError(gradeError, 'Mock test grading failed. Your answers are saved.');
+      if (gradeError) throw await functionError(gradeError, t('mock.exam.gradeFail'));
 
       await refreshProfile();
       navigate(`/mock-test/thank-you/${mt.id}`);
     } catch (e: any) {
-      toast.error(e.message || 'Submit failed');
+      toast.error(e.message || t('mock.exam.submitFail'));
     } finally {
       setSubmitting(false);
     }
-  }, [mt, user, navigate, refreshProfile]);
+  }, [mt, user, navigate, refreshProfile, t]);
 
   if (!mt) return <LoadingScreen />;
 
@@ -174,8 +176,8 @@ export default function MockTestExam() {
         {/* Stepper */}
         <div className="mb-6">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-            <span>Step {Math.min(stepIndex + 1, totalSteps)} of {totalSteps}</span>
-            <span className="font-semibold text-foreground">{STEP_LABELS[step]}</span>
+            <span>{t('mock.exam.stepOf', { n: Math.min(stepIndex + 1, totalSteps), total: totalSteps })}</span>
+            <span className="font-semibold text-foreground">{t(STEP_LABELS[step])}</span>
           </div>
           <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
             <div className="h-full bg-primary transition-all" style={{ width: `${progressPct}%` }} />
@@ -187,19 +189,17 @@ export default function MockTestExam() {
             <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
               {step === 'listening' ? <Headphones className="h-6 w-6 text-primary" /> : <BookOpen className="h-6 w-6 text-primary" />}
             </div>
-            <h2 className="text-xl font-bold mb-2">{step === 'listening' ? 'Section 1: Listening' : 'Section 2: Reading'}</h2>
+            <h2 className="text-xl font-bold mb-2">{step === 'listening' ? t('mock.exam.sec1') : t('mock.exam.sec2')}</h2>
             <p className="text-sm text-muted-foreground mb-4">
-              {step === 'listening'
-                ? 'Four recordings, 40 questions. Each recording plays once, like in the real exam. Use headphones and sit somewhere quiet. Scored automatically.'
-                : 'Three passages, 40 questions, 60 minutes. Answer every question: wrong answers do not lose marks. Scored automatically.'}
+              {step === 'listening' ? t('mock.exam.listeningText') : t('mock.exam.readingText')}
             </p>
             <ul className="text-sm space-y-1.5 mb-6 list-disc pl-5 text-muted-foreground">
-              <li>The timer and audio start as soon as you press the button.</li>
-              <li>When you finish, your result is saved and you come back here for the next section.</li>
-              <li>Your mock test stays open: you can leave and continue later.</li>
+              <li>{t('mock.exam.rule1')}</li>
+              <li>{t('mock.exam.rule2')}</li>
+              <li>{t('mock.exam.rule3')}</li>
             </ul>
             <Button variant="glow" size="lg" className="gap-2" onClick={() => navigate(`/${step}/${step === 'listening' ? mt.listening_test_id : mt.reading_test_id}?mock=${mt.id}`)}>
-              <ArrowRight className="h-4 w-4" />{step === 'listening' ? 'Start Listening' : 'Start Reading'}
+              <ArrowRight className="h-4 w-4" />{step === 'listening' ? t('mock.exam.startListening') : t('mock.exam.startReading')}
             </Button>
           </motion.div>
         )}
@@ -208,22 +208,22 @@ export default function MockTestExam() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} key={step}>
             <div className="glass-card p-5 mb-4">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Topic</span>
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t('mock.exam.topic')}</span>
                 <span className="flex items-center gap-1.5 font-mono text-sm font-bold bg-secondary/50 px-2.5 py-1 rounded">
                   <Clock className="h-3.5 w-3.5" /> {formatTime(timeLeft)}
                 </span>
               </div>
               <p className="text-sm leading-relaxed">{step === 'task1' ? mt.task1_topic : mt.task2_topic}</p>
               <div className="mt-3 text-xs text-muted-foreground flex items-center gap-3">
-                <span className="flex items-center gap-1"><FileText className="h-3 w-3" /> Min {WRITING_MIN[step]} words</span>
-                <span className={wordCount >= WRITING_MIN[step] ? 'text-green-600 font-medium' : ''}>{wordCount} written</span>
+                <span className="flex items-center gap-1"><FileText className="h-3 w-3" /> {t('mock.exam.minWords', { n: WRITING_MIN[step] })}</span>
+                <span className={wordCount >= WRITING_MIN[step] ? 'text-green-600 font-medium' : ''}>{t('mock.exam.written', { n: wordCount })}</span>
               </div>
             </div>
 
             <Textarea
               value={essay}
               onChange={(e) => setEssay(e.target.value)}
-              placeholder="Start writing your response..."
+              placeholder={t('mock.exam.placeholder')}
               className="min-h-[400px] text-base leading-relaxed"
               autoFocus
             />
@@ -236,7 +236,7 @@ export default function MockTestExam() {
                 className="gap-2"
               >
                 {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
-                Save & Continue
+                {t('mock.exam.saveContinue')}
               </Button>
             </div>
           </motion.div>
@@ -249,13 +249,13 @@ export default function MockTestExam() {
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Mic className="h-4 w-4 text-primary" />
                 </div>
-                <span className="font-semibold text-sm">{STEP_LABELS[step]}</span>
+                <span className="font-semibold text-sm">{t(STEP_LABELS[step])}</span>
               </div>
               <p className="text-sm leading-relaxed">
                 {step === 'speaking_p1' ? mt.speaking_p1_topic : step === 'speaking_p2' ? mt.speaking_p2_topic : mt.speaking_p3_topic}
               </p>
               <p className="mt-3 text-xs text-muted-foreground">
-                Max {SPEAKING_MAX[step]} seconds. Recording auto-saves when you stop.
+                {t('mock.exam.maxSeconds', { n: SPEAKING_MAX[step] })}
               </p>
             </div>
             <SpeechRecorder
@@ -269,16 +269,15 @@ export default function MockTestExam() {
         {step === 'done' && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-8 text-center">
             <Send className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-xl font-bold mb-2">Ready to Submit</h2>
+            <h2 className="text-xl font-bold mb-2">{t('mock.exam.readyTitle')}</h2>
             <p className="text-sm text-muted-foreground mb-6">
-              You've completed all tasks. Submit to send your responses for AI evaluation.
-              Credits are deducted only when you press <b>Start Evaluation</b>.
+              {t('mock.exam.readyText1')} {t('mock.exam.readyText2a')} <b>{t('mock.exam.startEval')}</b>{t('mock.exam.readyText2b')}
             </p>
             <Button onClick={handleFinalSubmit} disabled={submitting} variant="glow" size="lg" className="gap-2">
               {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              Start Evaluation
+              {t('mock.exam.startEval')}
               <span className="ml-2 text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary-foreground/20">
-                Uses 1 Mock Test from your plan
+                {t('mock.exam.uses')}
               </span>
             </Button>
           </motion.div>

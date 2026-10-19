@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Mic, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useT } from '@/i18n';
 
 /**
  * Pre-flight microphone check. Requests mic permission, samples audio for
@@ -8,6 +9,7 @@ import { Button } from '@/components/ui/button';
  * threshold. Prevents users spending credits on silent recordings.
  */
 export function AudioQualityCheck({ onPass }: { onPass: () => void }) {
+  const { t } = useT();
   const [state, setState] = useState<'idle' | 'checking' | 'ok' | 'silent' | 'denied'>('idle');
   const [level, setLevel] = useState(0);
   const rafRef = useRef<number | null>(null);
@@ -61,10 +63,10 @@ export function AudioQualityCheck({ onPass }: { onPass: () => void }) {
     <div className="glass-card p-5 mb-4 text-center">
       <div className="flex items-center justify-center gap-2 mb-2">
         <Mic className="h-4 w-4 text-primary" />
-        <p className="text-sm font-semibold">Microphone Check</p>
+        <p className="text-sm font-semibold">{t('audio.mic.title')}</p>
       </div>
       <p className="text-xs text-muted-foreground mb-4">
-        Say a few words to make sure we can hear you before you spend credits.
+        {t('audio.mic.intro')}
       </p>
 
       <div className="h-2 w-full bg-secondary rounded-full overflow-hidden mb-4">
@@ -73,32 +75,32 @@ export function AudioQualityCheck({ onPass }: { onPass: () => void }) {
 
       {state === 'idle' && (
         <Button size="sm" variant="outline" onClick={runCheck} className="gap-2">
-          <Mic className="h-4 w-4" /> Run Mic Test
+          <Mic className="h-4 w-4" /> {t('audio.mic.run')}
         </Button>
       )}
       {state === 'checking' && (
         <div className="text-xs text-muted-foreground inline-flex items-center gap-1">
-          <Loader2 className="h-3 w-3 animate-spin" /> Listening for 3 seconds…
+          <Loader2 className="h-3 w-3 animate-spin" /> {t('audio.mic.listening')}
         </div>
       )}
       {state === 'ok' && (
         <div className="text-xs text-emerald-600 inline-flex items-center gap-1 font-medium">
-          <CheckCircle2 className="h-3 w-3" /> Mic works great — you're ready to record.
+          <CheckCircle2 className="h-3 w-3" /> {t('audio.mic.ok')}
         </div>
       )}
       {state === 'silent' && (
         <div className="space-y-2">
           <div className="text-xs text-amber-600 inline-flex items-center gap-1 font-medium">
-            <AlertTriangle className="h-3 w-3" /> We couldn't detect your voice.
+            <AlertTriangle className="h-3 w-3" /> {t('audio.mic.silent')}
           </div>
           <div>
-            <Button size="sm" variant="outline" onClick={runCheck}>Try again</Button>
+            <Button size="sm" variant="outline" onClick={runCheck}>{t('audio.mic.retry')}</Button>
           </div>
         </div>
       )}
       {state === 'denied' && (
         <div className="text-xs text-destructive inline-flex items-center gap-1 font-medium">
-          <AlertTriangle className="h-3 w-3" /> Microphone permission denied. Enable it in your browser settings.
+          <AlertTriangle className="h-3 w-3" /> {t('audio.mic.denied')}
         </div>
       )}
     </div>

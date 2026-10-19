@@ -20,9 +20,9 @@ describe('blog post list cache', () => {
     const c = await listPosts();
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(a.some(p => p.slug === 'from-db')).toBe(true);
-    expect(b.length).toBe(19);
+    expect(b.length).toBe(30);
     expect((await listPosts(5)).length).toBe(5);
-    expect(c.length).toBe(19);
+    expect(c.length).toBe(38);
     expect(c.some(p => p.slug === 'ielts-linking-words-and-how-to-use-them')).toBe(true);
   });
 

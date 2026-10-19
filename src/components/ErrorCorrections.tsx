@@ -1,3 +1,4 @@
+import { useT } from '@/i18n';
 import { AlertTriangle, CheckCircle2, ArrowUp, Info } from 'lucide-react';
 
 interface ErrorCorrection {
@@ -13,11 +14,12 @@ interface ErrorCorrectionsProps {
 }
 
 export function ErrorCorrections({ corrections, limitCount }: ErrorCorrectionsProps) {
+  const { t } = useT();
   if (!corrections || corrections.length === 0) {
     return (
       <div className="text-center py-6 text-muted-foreground">
         <CheckCircle2 className="h-10 w-10 mx-auto mb-2 text-primary opacity-60" />
-        <p className="text-sm">No errors found. Great job!</p>
+        <p className="text-sm">{t('ec.none')}</p>
       </div>
     );
   }
@@ -32,7 +34,7 @@ export function ErrorCorrections({ corrections, limitCount }: ErrorCorrectionsPr
       {errors.length > 0 && (
         <div className="space-y-3">
           <h4 className="text-sm font-semibold flex items-center gap-2 text-destructive">
-            <AlertTriangle className="h-4 w-4" /> Errors Found ({errors.length})
+            <AlertTriangle className="h-4 w-4" /> {t('ec.errors', { n: errors.length })}
           </h4>
           {errors.map((correction, index) => (
             <div key={`err-${index}`} className="rounded-lg border border-destructive/20 bg-destructive/5 p-4">
@@ -63,7 +65,7 @@ export function ErrorCorrections({ corrections, limitCount }: ErrorCorrectionsPr
       {improvements.length > 0 && (
         <div className="space-y-3">
           <h4 className="text-sm font-semibold flex items-center gap-2 text-emerald-500">
-            <ArrowUp className="h-4 w-4" /> High-Band Improvements ({improvements.length})
+            <ArrowUp className="h-4 w-4" /> {t('ec.improvements', { n: improvements.length })}
           </h4>
           {improvements.map((correction, index) => (
             <div key={`imp-${index}`} className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-4">
@@ -92,7 +94,7 @@ export function ErrorCorrections({ corrections, limitCount }: ErrorCorrectionsPr
 
       {limitCount && corrections.length > limitCount && (
         <p className="text-xs text-muted-foreground text-center">
-          Showing {limitCount} of {corrections.length} corrections
+          {t('ec.showing', { n: limitCount, total: corrections.length })}
         </p>
       )}
     </div>

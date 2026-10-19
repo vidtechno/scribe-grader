@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Loader2, RotateCcw, Star, Zap } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
 import { ALL_LESSONS, LESSON_PASS_PERCENT, drillIds, lessonOfDrill, loadDrill } from '@/features/learn/course';
@@ -12,12 +13,13 @@ import { ReviewNav } from '@/features/learn/components/ReviewNav';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { MistakeReview, TestShell } from '@/features/learn/components/TestShell';
-import { DRILL_GAME, DRILL_REVIEW_OF, GAMES } from '@/features/learn/games';
+import { DRILL_GAME, DRILL_REVIEW_OF } from '@/features/learn/games';
 
 interface Saved { passed: boolean; stars: number; xp: number; first: boolean }
 
 /** A practice game after a hard lesson: exercises only, one try each, 70% to pass. Required before the next lesson. */
 export default function LearnDrill() {
+  const { t, lang } = useT();
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const { data: state, isLoading } = useLearningState();
@@ -34,7 +36,7 @@ export default function LearnDrill() {
   const sending = useRef(false);
   const lessonId = lessonOfDrill(id);
   const game = DRILL_GAME[id];
-  const gameLabel = game ? GAMES[game].label : 'Mashq';
+  const gameLabel = game ? t(`learn.game.${game}.label`) : t('learn.drill.practice');
   const reviewOf = (DRILL_REVIEW_OF[id] ?? []).map((l) => ALL_LESSONS.find((x) => x.id === l)).filter(Boolean) as typeof ALL_LESSONS;
   const lesson = ALL_LESSONS.find((l) => l.id === lessonId);
   const audioTexts = useMemo(() => (drill ? drill.exercises.flatMap(exerciseAudioTexts) : null), [drill]);
@@ -51,7 +53,7 @@ export default function LearnDrill() {
     callLearning<Saved>('learning_complete_drill', {
       _drill: id, _score: answers.filter(Boolean).length, _total: total, _seconds: Math.round((Date.now() - startedAt.current) / 1000),
     }).then(async (r) => { setSaved(r); await refresh(); })
-      .catch((e) => setError(learningErrorMessage(e)))
+      .catch((e) => setError(learningErrorMessage(e, lang)))
       .finally(() => { sending.current = false; });
   }, [done, saved, drill, id, answers, total, refresh]);
 
@@ -73,17 +75,17 @@ export default function LearnDrill() {
       <TestShell title={gameLabel}>
         <div className="text-center py-8">
           <Zap className={`h-14 w-14 mx-auto mb-3 ${passed ? 'text-amber-500' : 'text-muted-foreground'}`} />
-          <h1 className="text-2xl font-extrabold mb-1">{passed ? (game === 'mastery' ? 'Mavzu o\'zlashtirildi!' : game === 'mini-boss' ? 'Mini-boss yengildi!' : 'Tugadi!') : "Yana bir urinib ko'ring"}</h1>
+          <h1 className="text-2xl font-extrabold mb-1">{passed ? (game === 'mastery' ? t('learn.drill.mastered') : game === 'mini-boss' ? t('learn.drill.bossBeaten') : t('learn.drill.finished')) : t('learn.drill.tryAgain')}</h1>
           <p className="text-muted-foreground mb-3">{score} / {total} · {pct}%{saved?.first && saved.xp ? ` · +${saved.xp} XP` : ''}</p>
           <div className="flex justify-center gap-1 mb-5">
             {[1, 2, 3].map((n) => <Star key={n} className={`h-7 w-7 ${n <= (saved?.stars ?? (pct >= 90 ? 3 : pct >= 80 ? 2 : passed ? 1 : 0)) ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
           </div>
-          {!passed && <p className="text-sm text-muted-foreground mb-5">Davom etish uchun kamida {LESSON_PASS_PERCENT}% kerak. Xatolaringizni ko'rib chiqing — butun mavzuni qaytadan o'qish shart emas.</p>}
+          {!passed && <p className="text-sm text-muted-foreground mb-5">{t('learn.drill.needPct', { pct: LESSON_PASS_PERCENT })}</p>}
           {reviewOf.length > 0 && pct < 80 && (
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-left text-sm mb-5">
-              <p className="font-semibold mb-1.5">Qaysi darslarni takrorlash foydali</p>
+              <p className="font-semibold mb-1.5">{t('learn.drill.reviewWhich')}</p>
               <ul className="space-y-1">{reviewOf.map((l) => <li key={l.id}><Link className="text-primary underline underline-offset-2" to={`/learn/lesson/${l.id}`}>{l.titleUz}</Link></li>)}</ul>
-              <p className="text-xs text-muted-foreground mt-2">Xatolaringiz qaysi mavzudan ekanini quyidagi ro'yxatdan ko'ring, so'ng shu darsni qayta ochib, mashqni takrorlang.</p>
+              <p className="text-xs text-muted-foreground mt-2">{t('learn.drill.reviewHint')}</p>
             </div>
           )}
           {error && <p className="text-sm text-destructive mb-3">{error}</p>}
@@ -91,12 +93,12 @@ export default function LearnDrill() {
           <div className="space-y-2.5">
             {passed ? (
               nextDrillId
-                ? <Button size="lg" variant="glow" className="w-full" disabled={!saved && !error} onClick={() => navigate(`/learn/drill/${nextDrillId}`)}>Keyingi mashq</Button>
-                : <Button size="lg" variant="glow" className="w-full" disabled={!saved && !error} onClick={() => navigate('/learn')}>Davom etish</Button>
+                ? <Button size="lg" variant="glow" className="w-full" disabled={!saved && !error} onClick={() => navigate(`/learn/drill/${nextDrillId}`)}>{t('learn.drill.next')}</Button>
+                : <Button size="lg" variant="glow" className="w-full" disabled={!saved && !error} onClick={() => navigate('/learn')}>{t('learn.drill.continue')}</Button>
             ) : (
-              <Button size="lg" variant="glow" className="w-full gap-2" onClick={retry}><RotateCcw className="h-4 w-4" />Qayta urinish</Button>
+              <Button size="lg" variant="glow" className="w-full gap-2" onClick={retry}><RotateCcw className="h-4 w-4" />{t('learn.drill.retry')}</Button>
             )}
-            <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Yo'l xaritasiga</Button>
+            <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />{t('learn.drill.toMap')}</Button>
           </div>
         </div>
       </TestShell>
@@ -107,7 +109,7 @@ export default function LearnDrill() {
     <TestShell title={gameLabel}>
       <SEOHead title={`${gameLabel}: ${drill.titleUz}`} path={`/learn/drill/${id}`} noindex />
       <div className="mb-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary flex items-center gap-1.5"><Zap className="h-3.5 w-3.5" />{game ? `${game === 'mastery' || game === 'mini-boss' ? '' : "O'yin · "}${gameLabel}` : 'Mashq'} · {lesson.titleUz}</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary flex items-center gap-1.5"><Zap className="h-3.5 w-3.5" />{game ? `${game === 'mastery' || game === 'mini-boss' ? '' : t('learn.drill.gamePrefix')}${gameLabel}` : t('learn.drill.practice')} · {lesson.titleUz}</p>
         <h1 className="text-xl font-extrabold">{drill.titleUz}</h1>
         <p className="text-sm text-muted-foreground">{drill.goal}</p>
         <div className="h-2 rounded-full bg-secondary overflow-hidden mt-3"><div className="h-full bg-primary transition-all" style={{ width: `${(i / total) * 100}%` }} /></div>

@@ -14,7 +14,7 @@ export const WORD_TOPICS: WordTopic[] = [
   {
     slug: 'sonlar-1-100', level: 'beginner',
     h1: `Ingliz tilida sonlar: 1 dan 100 gacha`,
-    metaTitle: `Ingliz tilida sonlar 1 dan 100 gacha: o'qilishi va talaffuzi (o'zbekcha)`,
+    metaTitle: `1 dan 100 gacha sonlar ingliz tilida: o'qilishi va talaffuzi`,
     metaDesc: `Inglizcha sonlar 1 dan 100 gacha, talaffuz transkripsiyasi va o'zbekcha izoh. Teen va ty sonlarining farqi, yosh, telefon raqami va narxni aytish. Jadval va misollar.`,
     intro: `Sonlarni bilish yosh, narx, vaqt va telefon raqamini aytish uchun kerak. Asosiy 20 ta sonni yodlasangiz, qolganlarini qoida bo'yicha tuzasiz: o'nliklar (twenty, thirty...) + birlik (one, two...).`,
     words: [[`zero`,`/ˈzɪərəʊ/`,`nol`],[`one`,`/wʌn/`,`bir`],[`two`,`/tuː/`,`ikki`],[`three`,`/θriː/`,`uch`],[`four`,`/fɔː/`,`to'rt`],[`five`,`/faɪv/`,`besh`],[`six`,`/sɪks/`,`olti`],[`seven`,`/ˈsevn/`,`yetti`],[`eight`,`/eɪt/`,`sakkiz`],[`nine`,`/naɪn/`,`to'qqiz`],[`ten`,`/ten/`,`o'n`],[`eleven`,`/ɪˈlevn/`,`o'n bir`],[`twelve`,`/twelv/`,`o'n ikki`],[`thirteen`,`/ˌθɜːˈtiːn/`,`o'n uch`],[`fourteen`,`/ˌfɔːˈtiːn/`,`o'n to'rt`],[`fifteen`,`/ˌfɪfˈtiːn/`,`o'n besh`],[`sixteen`,`/ˌsɪksˈtiːn/`,`o'n olti`],[`seventeen`,`/ˌsevnˈtiːn/`,`o'n yetti`],[`eighteen`,`/ˌeɪˈtiːn/`,`o'n sakkiz`],[`nineteen`,`/ˌnaɪnˈtiːn/`,`o'n to'qqiz`],[`twenty`,`/ˈtwenti/`,`yigirma`],[`thirty`,`/ˈθɜːti/`,`o'ttiz`],[`forty`,`/ˈfɔːti/`,`qirq`],[`fifty`,`/ˈfɪfti/`,`ellik`],[`sixty`,`/ˈsɪksti/`,`oltmish`],[`seventy`,`/ˈsevnti/`,`yetmish`],[`eighty`,`/ˈeɪti/`,`sakson`],[`ninety`,`/ˈnaɪnti/`,`to'qson`],[`one hundred`,`/wʌn ˈhʌndrəd/`,`yuz`]],
@@ -26,7 +26,7 @@ export const WORD_TOPICS: WordTopic[] = [
   {
     slug: 'hafta-kunlari-va-oylar', level: 'beginner',
     h1: `Ingliz tilida hafta kunlari va oylar`,
-    metaTitle: `Hafta kunlari va oylar inglizcha: talaffuz, tarjima`,
+    metaTitle: `Hafta kunlari ingliz tilida: dushanba – Monday, juma – Friday`,
     metaDesc: `Hafta kunlari ingliz tilida: dushanba Monday, seshanba Tuesday, juma Friday... va 12 oy (yanvardan dekabrgacha, oktyabr October). Talaffuz, o'zbekcha tarjima, on/in predloglari va sana aytish.`,
     intro: `Hafta kunlari va oylar ingliz tilida har doim bosh harf bilan yoziladi. Ularni bilsangiz, uchrashuv belgilash, jadval tuzish va sanani aytish osonlashadi.`,
     words: [[`Monday`,`/ˈmʌndeɪ/`,`dushanba`],[`Tuesday`,`/ˈtjuːzdeɪ/`,`seshanba`],[`Wednesday`,`/ˈwenzdeɪ/`,`chorshanba`],[`Thursday`,`/ˈθɜːzdeɪ/`,`payshanba`],[`Friday`,`/ˈfraɪdeɪ/`,`juma`],[`Saturday`,`/ˈsætədeɪ/`,`shanba`],[`Sunday`,`/ˈsʌndeɪ/`,`yakshanba`],[`January`,`/ˈdʒænjuəri/`,`yanvar`],[`February`,`/ˈfebruəri/`,`fevral`],[`March`,`/mɑːtʃ/`,`mart`],[`April`,`/ˈeɪprəl/`,`aprel`],[`May`,`/meɪ/`,`may`],[`June`,`/dʒuːn/`,`iyun`],[`July`,`/dʒuˈlaɪ/`,`iyul`],[`August`,`/ˈɔːɡəst/`,`avgust`],[`September`,`/sepˈtembə/`,`sentyabr`],[`October`,`/ɒkˈtəʊbə/`,`oktyabr`],[`November`,`/nəʊˈvembə/`,`noyabr`],[`December`,`/dɪˈsembə/`,`dekabr`],[`weekend`,`/ˌwiːkˈend/`,`dam olish kunlari`],[`today`,`/təˈdeɪ/`,`bugun`],[`tomorrow`,`/təˈmɒrəʊ/`,`ertaga`],[`yesterday`,`/ˈjestədeɪ/`,`kecha`]],
@@ -38,7 +38,7 @@ export const WORD_TOPICS: WordTopic[] = [
   {
     slug: 'ranglar', level: 'beginner',
     h1: `Ranglar ingliz tilida: asosiy ranglar va tarjimasi`,
-    metaTitle: `Inglizcha ranglar nomi: 20 ta rang talaffuzi va tarjimasi (o'zbekcha)`,
+    metaTitle: `Ranglar ingliz tilida: 20 ta rang nomi va talaffuzi`,
     metaDesc: `Ranglarning inglizcha nomlari: red, blue, green, yellow va boshqalar. Transkripsiya, o'zbekcha tarjima, qorong'i va och ranglar (dark, light) va gap ichida ishlatish.`,
     intro: `Ranglar sifat bo'lib, otdan oldin keladi: a red car (qizil mashina). Ingliz tilida sifat ko'plik shaklini olmaydi: two red cars.`,
     words: [[`red`,`/red/`,`qizil`],[`blue`,`/bluː/`,`ko'k`],[`green`,`/ɡriːn/`,`yashil`],[`yellow`,`/ˈjeləʊ/`,`sariq`],[`orange`,`/ˈɒrɪndʒ/`,`to'q sariq`],[`purple`,`/ˈpɜːpl/`,`binafsha`],[`pink`,`/pɪŋk/`,`pushti`],[`brown`,`/braʊn/`,`jigarrang`],[`black`,`/blæk/`,`qora`],[`white`,`/waɪt/`,`oq`],[`grey`,`/ɡreɪ/`,`kulrang`],[`gold`,`/ɡəʊld/`,`oltin rang`],[`silver`,`/ˈsɪlvə/`,`kumush rang`],[`dark`,`/dɑːk/`,`to'q`],[`light`,`/laɪt/`,`och`],[`colour`,`/ˈkʌlə/`,`rang`]],
@@ -50,7 +50,7 @@ export const WORD_TOPICS: WordTopic[] = [
   {
     slug: 'oila-azolari', level: 'beginner',
     h1: `Oila a'zolari ingliz tilida: family`,
-    metaTitle: `Oila a'zolari inglizcha: ota, ona, aka, opa va boshqalar (talaffuzi bilan)`,
+    metaTitle: `Oila a'zolari ingliz tilida: ota, ona, aka, opa (talaffuz)`,
     metaDesc: `Ingliz tilida oila a'zolari nomi: mother, father, brother, sister, grandmother va boshqalar. Talaffuz, o'zbekcha tarjima, aka-uka, opa-singil farqi va gap misollari.`,
     intro: `Ingliz tilida «aka» va «uka» uchun bitta so'z (brother), «opa» va «singil» uchun ham bitta so'z (sister) bor. Katta-kichikni aytish kerak bo'lsa, older va younger qo'shiladi.`,
     words: [[`family`,`/ˈfæməli/`,`oila`],[`parents`,`/ˈpeərənts/`,`ota-ona`],[`mother`,`/ˈmʌðə/`,`ona`],[`father`,`/ˈfɑːðə/`,`ota`],[`mum / mom`,`/mʌm/`,`oyi (ona)`],[`dad`,`/dæd/`,`dada (ota)`],[`brother`,`/ˈbrʌðə/`,`aka, uka`],[`sister`,`/ˈsɪstə/`,`opa, singil`],[`son`,`/sʌn/`,`o'g'il`],[`daughter`,`/ˈdɔːtə/`,`qiz`],[`husband`,`/ˈhʌzbənd/`,`er`],[`wife`,`/waɪf/`,`xotin`],[`grandfather`,`/ˈɡrænfɑːðə/`,`bobo`],[`grandmother`,`/ˈɡrænmʌðə/`,`buvi`],[`uncle`,`/ˈʌŋkl/`,`amaki, tog'a`],[`aunt`,`/ɑːnt/`,`xola, amma`],[`cousin`,`/ˈkʌzn/`,`amakivachcha, tog'avachcha`],[`nephew`,`/ˈnefjuː/`,`jiyan (o'g'il)`],[`niece`,`/niːs/`,`jiyan (qiz)`],[`baby`,`/ˈbeɪbi/`,`chaqaloq`]],

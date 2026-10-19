@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Clock, Flame, RotateCcw, Star, Trophy, Zap } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { LESSON_COMPLETE_PERCENT, drillIds } from '@/features/learn/course';
 import type { Lesson, Word } from '@/features/learn/types';
@@ -22,6 +23,7 @@ export function Result({ lesson, fresh, score, total, seconds, next, unitLast, u
   lesson: Lesson; fresh: Word[]; score: number; total: number; seconds: number; next: { id: string; title: string; titleUz: string; unitId: string } | null;
   unitLast: boolean; unitId: string; events: () => ReviewEvent[]; onSaved: () => void; onRetry: () => void;
 }) {
+  const { t, lang } = useT();
   const navigate = useNavigate();
   const [saved, setSaved] = useState<Saved | null>(null);
   const [error, setError] = useState('');
@@ -36,7 +38,7 @@ export function Result({ lesson, fresh, score, total, seconds, next, unitLast, u
       _lesson: lesson.id, _score: score, _total: total, _seconds: seconds,
       _next_id: next && next.unitId === unitId ? next.id : null,
       _next_title: next && next.unitId === unitId ? `${next.titleUz}` : null,
-    }).then((r) => { setSaved(r); onSaved(); void recordReview(events()).catch(() => {}); }).catch((e) => setError(learningErrorMessage(e)));
+    }).then((r) => { setSaved(r); onSaved(); void recordReview(events()).catch(() => {}); }).catch((e) => setError(learningErrorMessage(e, lang)));
   }, [lesson.id, score, total, seconds, next, unitId, onSaved]);
 
   const stars = saved?.stars ?? (pct >= 90 ? 3 : pct >= 80 ? 2 : pct >= 70 ? 1 : 0);
@@ -53,32 +55,32 @@ export function Result({ lesson, fresh, score, total, seconds, next, unitLast, u
           </motion.span>
         ))}
       </div>
-      <h2 className="text-2xl font-extrabold mb-1">{passed ? 'Dars tugatildi!' : 'Yana bir urinish kerak'}</h2>
+      <h2 className="text-2xl font-extrabold mb-1">{passed ? t('learn.result.done') : t('learn.result.again')}</h2>
       <p className="text-muted-foreground mb-5">
-        {passed ? `Dars natijasi: ${score} / ${total} (${pct}%) — birinchi urinishdagi to'g'ri javoblar` : `Natija ${score} / ${total} (${pct}%). Darsni hisoblash uchun kamida ${LESSON_COMPLETE_PERCENT}% kerak — mashqni yana bir bor ishlab chiqing.`}
+        {passed ? t('learn.result.scorePassed', { score, total, pct }) : t('learn.result.scoreFailed', { score, total, pct, need: LESSON_COMPLETE_PERCENT })}
       </p>
       <div className="grid grid-cols-3 gap-2.5 mb-6">
         <Stat icon={Zap} label="XP" value={saved ? `+${saved.xp}` : '…'} />
-        <Stat icon={Flame} label="Streak" value={saved ? `${saved.streak} kun` : '…'} />
-        <Stat icon={Clock} label="Vaqt" value={`${Math.max(1, Math.round(seconds / 60))} daq`} />
+        <Stat icon={Flame} label="Streak" value={saved ? t('learn.home.streakDays', { n: saved.streak }) : '…'} />
+        <Stat icon={Clock} label={t('learn.result.time')} value={t('learn.result.minutes', { n: Math.max(1, Math.round(seconds / 60)) })} />
       </div>
       {error && <p className="text-sm text-destructive mb-4">{error}</p>}
       {saved && passed && saved.first && <TelegramNudge />}
       {saved && (!!saved.goal_bonus || !!saved.comeback_bonus || !!saved.new_achievements?.length) && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-left text-sm mb-4 space-y-1.5">
-          {saved.goal_reached && <p>🎯 Kunlik maqsad bajarildi{saved.goal_bonus ? ` · +${saved.goal_bonus} XP` : ''}</p>}
-          {!!saved.comeback_bonus && <p>👋 Qaytganingiz yaxshi bo'ldi · +{saved.comeback_bonus} XP</p>}
-          {saved.new_achievements?.map((k) => { const a = achievementInfo(k); return <p key={k}>{a.icon} Yangi yutuq: <b>{a.title}</b></p>; })}
+          {saved.goal_reached && <p>🎯 {t('learn.result.goalDone')}{saved.goal_bonus ? ` · +${saved.goal_bonus} XP` : ''}</p>}
+          {!!saved.comeback_bonus && <p>👋 {t('learn.result.comeback')} · +{saved.comeback_bonus} XP</p>}
+          {saved.new_achievements?.map((k) => { const a = achievementInfo(k, lang); return <p key={k}>{a.icon} {t('learn.result.achievement')} <b>{a.title}</b></p>; })}
         </div>
       )}
 
       <div className="glass-card p-5 text-left mb-4">
-        <p className="font-semibold mb-2.5">📌 Bugun o'rgandingiz</p>
+        <p className="font-semibold mb-2.5">📌 {t('learn.result.learnedToday')}</p>
         <ul className="space-y-2">{lesson.summary.map((s, i) => <li key={i} className="text-sm flex gap-2 leading-relaxed"><span className="text-primary">•</span><Md text={s} /></li>)}</ul>
       </div>
       {fresh.length > 0 && <div className="glass-card p-5 text-left mb-4">
-        <p className="font-semibold mb-1">🧠 Yodlang: {fresh.length} ta yangi so'z</p>
-        <p className="text-xs text-muted-foreground mb-3">Ularni o'zim sizga to'g'ri vaqtda qayta ko'rsataman — shunda uzoq xotiraga o'tadi.</p>
+        <p className="font-semibold mb-1">🧠 {t('learn.result.memorize', { n: fresh.length })}</p>
+        <p className="text-xs text-muted-foreground mb-3">{t('learn.result.memorizeHint')}</p>
         <div className="grid sm:grid-cols-2 gap-2">
           {fresh.map((w) => (
             <div key={w.en} className="flex items-center gap-2 rounded-lg bg-secondary/40 px-2.5 py-1.5 text-sm">
@@ -88,22 +90,22 @@ export function Result({ lesson, fresh, score, total, seconds, next, unitLast, u
         </div>
       </div>}
       {lesson.homework && (
-        <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-left text-sm mb-6"><p className="font-semibold mb-1">🏠 Mustaqil mashq</p><Md text={lesson.homework} /></div>
+        <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-left text-sm mb-6"><p className="font-semibold mb-1">🏠 {t('learn.result.homework')}</p><Md text={lesson.homework} /></div>
       )}
 
       <div className="space-y-2.5">
         {passed ? (
           drillIds(lesson.id).length ? (
-            <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate(`/learn/drill/${drillIds(lesson.id)[0]}`)}><Zap className="h-4 w-4" />Mashqqa o'tish ({drillIds(lesson.id).length} ta)</Button>
+            <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate(`/learn/drill/${drillIds(lesson.id)[0]}`)}><Zap className="h-4 w-4" />{t('learn.result.toDrills', { n: drillIds(lesson.id).length })}</Button>
           ) : unitLast ? (
-            <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/test/${unitId}`)}>Bosqich testiga o'tish</Button>
+            <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/test/${unitId}`)}>{t('learn.result.toUnitTest')}</Button>
           ) : next ? (
-            <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/lesson/${next.id}`)}>Keyingi dars: {next.titleUz}</Button>
+            <Button size="lg" variant="glow" className="w-full" onClick={() => navigate(`/learn/lesson/${next.id}`)}>{t('learn.result.nextLesson', { title: next.titleUz })}</Button>
           ) : null
         ) : (
-          <Button size="lg" variant="glow" className="w-full gap-2" onClick={onRetry}><RotateCcw className="h-4 w-4" />Mashqni qayta ishlash</Button>
+          <Button size="lg" variant="glow" className="w-full gap-2" onClick={onRetry}><RotateCcw className="h-4 w-4" />{t('learn.result.redo')}</Button>
         )}
-        <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Yo'l xaritasiga</Button>
+        <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />{t('learn.unitTest.toMap')}</Button>
       </div>
     </div>
   );

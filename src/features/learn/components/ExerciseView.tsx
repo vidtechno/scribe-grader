@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, CheckCircle2, Flag, Lightbulb, Loader2, Mic, RotateCcw, Square, X, XCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { callLearning } from '../api';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import type { Exercise } from '../types';
 import { checkFix, checkOrder, checkTyped, judgeSpeech, shuffle, speechQualityHint, type SpeechJudgement, type SpeechQuality } from '../check';
@@ -20,19 +21,20 @@ export type ExerciseMode = 'practice' | 'quiz' | 'inline' | 'test';
 interface Feedback { correct: boolean; expected?: string; note?: string }
 
 const TITLES: Record<Exercise['k'], string> = {
-  choice: "To'g'ri javobni tanlang",
-  listen: 'Tinglang va tanlang',
-  fill: "Bo'sh joyni to'ldiring",
-  order: "So'zlardan gap tuzing",
-  translate: 'Inglizchaga tarjima qiling',
-  match: 'Juftliklarni toping',
-  tf: "To'g'ri yoki noto'g'ri?",
-  speak: 'Tinglang va ovoz chiqarib takrorlang',
-  dictation: 'Eshiting va yozing',
-  fix: 'Xatoni toping va to\'g\'rilang',
+  choice: 'learn.ex.title.choice',
+  listen: 'learn.ex.title.listen',
+  fill: 'learn.ex.title.fill',
+  order: 'learn.ex.title.order',
+  translate: 'learn.ex.title.translate',
+  match: 'learn.ex.title.match',
+  tf: 'learn.ex.title.tf',
+  speak: 'learn.ex.title.speak',
+  dictation: 'learn.ex.title.dictation',
+  fix: 'learn.ex.title.fix',
 };
 
 export function ExerciseView({ ex, mode, onDone }: { ex: Exercise; mode: ExerciseMode; onDone: (correct: boolean) => void }) {
+  const { t } = useT();
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const answered = feedback !== null;
 
@@ -48,7 +50,7 @@ export function ExerciseView({ ex, mode, onDone }: { ex: Exercise; mode: Exercis
   return (
     <div className={mode === 'inline' ? 'rounded-2xl border border-primary/20 bg-primary/[0.03] p-4' : ''}>
       <p className={`font-semibold text-muted-foreground uppercase tracking-wide ${mode === 'inline' ? 'text-[11px] mb-2' : 'text-xs mb-3'}`}>
-        {mode === 'inline' ? "⚡ O'zingizni tekshiring" : TITLES[ex.k]}
+        {mode === 'inline' ? t('learn.ex.selfCheck') : t(TITLES[ex.k])}
       </p>
       <Body ex={ex} answered={answered} mode={mode} finish={finish} />
       {feedback && mode !== 'test' && (
@@ -59,10 +61,11 @@ export function ExerciseView({ ex, mode, onDone }: { ex: Exercise; mode: Exercis
 }
 
 function Body({ ex, answered, mode, finish }: { ex: Exercise; answered: boolean; mode: ExerciseMode; finish: (fb: Feedback) => void }) {
+  const { t } = useT();
   switch (ex.k) {
     case 'choice': return <Choice prompt={<Md text={ex.q} />} say={ex.say} opts={ex.opts} a={ex.a} answered={answered} mode={mode} finish={finish} />;
     case 'listen': return <Choice prompt={null} say={ex.say} listen opts={ex.opts} a={ex.a} answered={answered} mode={mode} finish={finish} />;
-    case 'tf': return <Choice prompt={<Md text={ex.q} />} opts={["To'g'ri", "Noto'g'ri"]} a={ex.a ? 0 : 1} answered={answered} mode={mode} finish={finish} />;
+    case 'tf': return <Choice prompt={<Md text={ex.q} />} opts={[t('learn.ex.true'), t('learn.ex.false')]} a={ex.a ? 0 : 1} answered={answered} mode={mode} finish={finish} />;
     case 'fill': return <Fill ex={ex} answered={answered} finish={finish} />;
     case 'translate': return <Translate ex={ex} answered={answered} finish={finish} />;
     case 'order': return <Order ex={ex} answered={answered} finish={finish} />;
@@ -77,6 +80,7 @@ function Choice({ prompt, say, listen, opts, a, answered, mode, finish }: {
   prompt: React.ReactNode; say?: string; listen?: boolean; opts: string[]; a: number; answered: boolean; mode: ExerciseMode;
   finish: (fb: Feedback) => void;
 }) {
+  const { t } = useT();
   const [picked, setPicked] = useState<number | null>(null);
   const [reveal, setReveal] = useState(false);
   useEffect(() => { setReveal(false); if (listen && say) void speak(say); }, [listen, say]);
@@ -94,7 +98,7 @@ function Choice({ prompt, say, listen, opts, a, answered, mode, finish }: {
           {/* Some phones play no sound at all: the learner must still be able to continue. */}
           {reveal
             ? <p className="text-sm rounded-lg bg-secondary px-3 py-1.5">«{say}»</p>
-            : <button type="button" onClick={() => setReveal(true)} className="text-xs text-muted-foreground underline underline-offset-2 hover:text-primary">Ovoz eshitilmayaptimi? Matnni ko'rsatish</button>}
+            : <button type="button" onClick={() => setReveal(true)} className="text-xs text-muted-foreground underline underline-offset-2 hover:text-primary">{t('learn.ex.noSound')}</button>}
         </div>
       ) : (
         prompt && <div className="text-lg sm:text-xl font-medium mb-4 flex items-start gap-3 leading-snug">{say && <SpeakButton text={say} size="md" slow />}<span className="flex-1">{prompt}</span></div>
@@ -120,7 +124,7 @@ function Choice({ prompt, say, listen, opts, a, answered, mode, finish }: {
       </div>
       {mode === 'test' && (
         <Button className="w-full mt-4" size="lg" disabled={picked === null || answered}
-          onClick={() => picked !== null && finish({ correct: picked === a })}>Javobni tasdiqlash</Button>
+          onClick={() => picked !== null && finish({ correct: picked === a })}>{t('learn.ex.confirm')}</Button>
       )}
     </div>
   );
@@ -138,12 +142,13 @@ function TextAnswer({ value, onChange, onSubmit, disabled, placeholder, autoFocu
 }
 
 function Fill({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fill' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const { t } = useT();
   const [value, setValue] = useState('');
   const [helps, setHelps] = useState(0);
   const [before, after] = ex.q.split('___');
   const submit = () => {
     const r = checkTyped(value, ex.a);
-    finish({ correct: r.correct, expected: r.expected, note: r.typo ? `Imloga e'tibor bering: to'g'ri yozilishi — "${r.expected}"` : undefined });
+    finish({ correct: r.correct, expected: r.expected, note: r.typo ? t('learn.ex.typoSpelling', { expected: r.expected }) : undefined });
   };
   return (
     <div>
@@ -154,42 +159,45 @@ function Fill({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fill' }>; 
         {speakable(ex.q) && <SpeakButton text={ex.q.replace('___', '…')} />}
       </div>
       {ex.uz && <p className="text-sm text-muted-foreground mb-4">🇺🇿 {ex.uz}</p>}
-      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="Javobni yozing…" />
+      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder={t('learn.ex.typeAnswer')} />
       {helps > 0 && !answered && (
-        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 break-words whitespace-pre-line">💡 {fillHint(ex.a[0], ex.hint, helps)}</p>
+        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 break-words whitespace-pre-line">💡 {fillHint(t, ex.a[0], ex.hint, helps)}</p>
       )}
       <div className="flex flex-wrap items-center gap-2 mt-3">
         {!answered && helps < 2 && (
           <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}>
-            <Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}
+            <Lightbulb className="h-4 w-4" />{helps === 0 ? t('learn.lesson.help') : t('learn.ex.moreHelp')}
           </Button>
         )}
         {!answered && helps >= 2 && <ShowAnswer onClick={() => finish({ correct: false, expected: ex.a[0] })} />}
-        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
+        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>{t('learn.ex.check')}</Button>
       </div>
     </div>
   );
 }
 
+type T = (key: string, vars?: Record<string, string | number>) => string;
+
 /** Step 1: the teacher's hint (or the size of the answer), step 2: the first letters. Never the answer itself. */
-function fillHint(answer: string, hint: string | undefined, step: number): string {
+function fillHint(t: T, answer: string, hint: string | undefined, step: number): string {
   const words = answer.split(/\s+/).filter(Boolean);
-  if (step === 1) return hint ?? `Javob ${words.length === 1 ? `${answer.length} harfdan iborat` : `${words.length} ta so'zdan iborat`}, "${answer[0]}" bilan boshlanadi.`;
+  if (step === 1) return hint ?? (words.length === 1 ? t('learn.ex.hintFillOne', { n: answer.length, first: answer[0] }) : t('learn.ex.hintFillMany', { n: words.length, first: answer[0] }));
   return `${hint ? `${hint}\n` : ''}${words.map((w) => w[0] + '_'.repeat(Math.max(w.length - 1, 1))).join(' ')}`;
 }
 
 /** Showing the answer is always possible so nobody is stuck, but it takes an extra tap and counts as a mistake. */
 function ShowAnswer({ onClick }: { onClick: () => void }) {
+  const { t } = useT();
   const [sure, setSure] = useState(false);
   return sure
-    ? <Button type="button" variant="outline" size="sm" onClick={onClick}>Ha, javobni ko'rsat (xato hisoblanadi)</Button>
-    : <Button type="button" variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setSure(true)}>Javobni bilmayman</Button>;
+    ? <Button type="button" variant="outline" size="sm" onClick={onClick}>{t('learn.ex.showSure')}</Button>
+    : <Button type="button" variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setSure(true)}>{t('learn.ex.dontKnow')}</Button>;
 }
 
 /** Partial help for a translation: never the full answer. Step 1 sizes it up, 2 shows first letters, 3 opens the first half. */
-function translateHint(answer: string, step: number): string {
+function translateHint(t: T, answer: string, step: number): string {
   const words = answer.replace(/[.!?]+$/, '').split(/\s+/).filter(Boolean);
-  if (step === 1) return `Javob ${words.length} ta so'zdan iborat. Birinchi so'z: ${words[0][0]}…`;
+  if (step === 1) return t('learn.ex.hintTranslate', { n: words.length, first: words[0][0] });
   const mask = (w: string, keep: number) => w.slice(0, keep) + '_'.repeat(Math.max(w.length - keep, 1));
   if (step === 2) return words.map((w) => mask(w, 1)).join(' ');
   const open = Math.max(1, Math.floor(words.length / 2));
@@ -197,39 +205,41 @@ function translateHint(answer: string, step: number): string {
 }
 
 function Translate({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'translate' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const { t } = useT();
   const [value, setValue] = useState('');
   const [helps, setHelps] = useState(0);
   const submit = () => {
     const r = checkTyped(value, ex.a);
-    finish({ correct: r.correct, expected: r.expected, note: r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
+    finish({ correct: r.correct, expected: r.expected, note: r.typo ? t('learn.ex.typo', { expected: r.expected }) : undefined });
   };
   return (
     <div>
       <p className="text-xl font-semibold mb-4">🇺🇿 {ex.uz}</p>
-      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="Inglizcha yozing…" />
+      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder={t('learn.ex.typeEnglish')} />
       {helps > 0 && !answered && (
-        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 font-mono break-words">💡 {translateHint(ex.a[0], helps)}</p>
+        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 font-mono break-words">💡 {translateHint(t, ex.a[0], helps)}</p>
       )}
       <div className="flex flex-wrap items-center gap-2 mt-3">
         {!answered && helps < 3 && (
           <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}>
-            <Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}
+            <Lightbulb className="h-4 w-4" />{helps === 0 ? t('learn.lesson.help') : t('learn.ex.moreHelp')}
           </Button>
         )}
         {!answered && helps >= 3 && <ShowAnswer onClick={() => finish({ correct: false, expected: ex.a[0] })} />}
-        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
+        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>{t('learn.ex.check')}</Button>
       </div>
     </div>
   );
 }
 
 function Dictation({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'dictation' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const { t } = useT();
   const [value, setValue] = useState('');
   const [reveal, setReveal] = useState(false);
   useEffect(() => { void speak(ex.say); }, [ex.say]);
   const submit = () => {
     const r = checkTyped(value, ex.a ?? [ex.say]);
-    finish({ correct: r.correct, expected: r.expected, note: r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
+    finish({ correct: r.correct, expected: r.expected, note: r.typo ? t('learn.ex.typo', { expected: r.expected }) : undefined });
   };
   return (
     <div>
@@ -237,56 +247,58 @@ function Dictation({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'dicta
         <SpeakButton text={ex.say} size="lg" slow />
         {reveal
           ? <p className="text-sm rounded-lg bg-secondary px-3 py-1.5">«{ex.say}»</p>
-          : <button type="button" onClick={() => setReveal(true)} className="text-xs text-muted-foreground underline underline-offset-2 hover:text-primary">Ovoz eshitilmayaptimi? Matnni ko'rsatish</button>}
+          : <button type="button" onClick={() => setReveal(true)} className="text-xs text-muted-foreground underline underline-offset-2 hover:text-primary">{t('learn.ex.noSound')}</button>}
       </div>
-      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="Eshitganingizni yozing…" />
+      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder={t('learn.ex.typeHeard')} />
       {ex.uz && answered && <p className="text-sm text-muted-foreground mt-2">🇺🇿 {ex.uz}</p>}
-      <div className="flex justify-end mt-3"><Button disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button></div>
+      <div className="flex justify-end mt-3"><Button disabled={!value.trim() || answered} onClick={submit}>{t('learn.ex.check')}</Button></div>
     </div>
   );
 }
 
 /** Help for a sentence with a mistake: where the mistake is, then the first letters of the fix. Never the answer itself. */
-function fixHint(wrong: string, answer: string, hint: string | undefined, step: number): string {
+function fixHint(t: T, wrong: string, answer: string, hint: string | undefined, step: number): string {
   const w = wrong.split(/\s+/);
   const a = answer.split(/\s+/);
   let at = w.findIndex((x, i) => x.toLowerCase() !== (a[i] ?? '').toLowerCase());
   if (at < 0) at = w.length - 1;
-  if (step === 1) return hint ?? `Xato ${at + 1}-so'z atrofida: "${w[at]}". Gapni qayta o'qing.`;
+  if (step === 1) return hint ?? t('learn.ex.hintFix', { n: at + 1, word: w[at] });
   return `${hint ? `${hint}\n` : ''}${a.map((x) => x[0] + '_'.repeat(Math.max(x.length - 1, 1))).join(' ')}`;
 }
 
 function Fix({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'fix' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const { t } = useT();
   // The wrong sentence is already in the box: the learner edits it instead of typing everything again.
   const [value, setValue] = useState(ex.wrong);
   const [helps, setHelps] = useState(0);
   const submit = () => {
     const r = checkFix(value, ex.wrong, ex.a);
     const untouched = r.untouched;
-    finish({ correct: r.correct, expected: r.expected, note: untouched ? "Gap o'zgarmagan: xatoni topib to'g'rilashingiz kerak edi." : r.typo ? `Imloga e'tibor bering: "${r.expected}"` : undefined });
+    finish({ correct: r.correct, expected: r.expected, note: untouched ? t('learn.ex.untouched') : r.typo ? t('learn.ex.typo', { expected: r.expected }) : undefined });
   };
   return (
     <div>
-      <p className="text-xs text-muted-foreground mb-1.5">Bu gapda bitta xato bor:</p>
+      <p className="text-xs text-muted-foreground mb-1.5">{t('learn.ex.oneMistake')}</p>
       <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-lg font-medium mb-3 line-through decoration-destructive/40">{ex.wrong}</p>
-      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder="To'g'ri gapni yozing…" autoFocus={false} />
+      <TextAnswer value={value} onChange={setValue} onSubmit={submit} disabled={answered} placeholder={t('learn.ex.typeCorrect')} autoFocus={false} />
       {helps > 0 && !answered && (
-        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 break-words whitespace-pre-line">💡 {fixHint(ex.wrong, ex.a[0], ex.hint, helps)}</p>
+        <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 break-words whitespace-pre-line">💡 {fixHint(t, ex.wrong, ex.a[0], ex.hint, helps)}</p>
       )}
       <div className="flex flex-wrap items-center gap-2 mt-3">
         {!answered && helps < 2 && (
           <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}>
-            <Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}
+            <Lightbulb className="h-4 w-4" />{helps === 0 ? t('learn.lesson.help') : t('learn.ex.moreHelp')}
           </Button>
         )}
         {!answered && helps >= 2 && <ShowAnswer onClick={() => finish({ correct: false, expected: ex.a[0] })} />}
-        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>Tekshirish</Button>
+        <Button className="ml-auto" disabled={!value.trim() || answered} onClick={submit}>{t('learn.ex.check')}</Button>
       </div>
     </div>
   );
 }
 
 function Order({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'order' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const { t: tr } = useT();
   const tiles = useMemo(() => shuffle([...ex.words, ...(ex.extra ?? [])].map((w, i) => ({ w, i }))), [ex]);
   const [built, setBuilt] = useState<number[]>([]);
   const used = new Set(built);
@@ -298,7 +310,7 @@ function Order({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'order' }>
     <div>
       <p className="text-lg font-semibold mb-4">🇺🇿 {ex.uz}</p>
       <div className="min-h-[64px] rounded-xl border-2 border-dashed border-border p-2.5 flex flex-wrap gap-2 mb-4 bg-secondary/20">
-        {built.length === 0 && <span className="text-sm text-muted-foreground self-center px-2">So'zlarni tartib bilan bosing…</span>}
+        {built.length === 0 && <span className="text-sm text-muted-foreground self-center px-2">{tr('learn.ex.tapWords')}</span>}
         {built.map((i) => (
           <button key={i} type="button" disabled={answered} onClick={() => setBuilt(built.filter((x) => x !== i))}
             className="rounded-lg border-2 border-primary/40 bg-card px-3 py-2 font-medium shadow-sm">{tiles.find((t) => t.i === i)!.w}</button>
@@ -311,14 +323,15 @@ function Order({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'order' }>
         ))}
       </div>
       <div className="flex items-center mt-4 gap-2">
-        <Button type="button" variant="ghost" size="sm" disabled={answered || !built.length} onClick={() => setBuilt([])} className="gap-1.5"><RotateCcw className="h-4 w-4" />Tozalash</Button>
-        <Button className="ml-auto" disabled={answered || !built.length} onClick={submit}>Tekshirish</Button>
+        <Button type="button" variant="ghost" size="sm" disabled={answered || !built.length} onClick={() => setBuilt([])} className="gap-1.5"><RotateCcw className="h-4 w-4" />{tr('learn.ex.clear')}</Button>
+        <Button className="ml-auto" disabled={answered || !built.length} onClick={submit}>{tr('learn.ex.check')}</Button>
       </div>
     </div>
   );
 }
 
 function Match({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'match' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const { t } = useT();
   const left = useMemo(() => shuffle(ex.pairs.map((p, i) => ({ text: p[0], i }))), [ex]);
   const right = useMemo(() => shuffle(ex.pairs.map((p, i) => ({ text: p[1], i }))), [ex]);
   // The learner may start from either column: the first tap picks, the tap in the other column checks the pair.
@@ -335,7 +348,7 @@ function Match({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'match' }>
       setMatched(next);
       setSelected(null);
       if (next.size === ex.pairs.length) {
-        finish({ correct: mistakes.current <= 1, note: mistakes.current ? `${mistakes.current} ta xato bilan` : undefined });
+        finish({ correct: mistakes.current <= 1, note: mistakes.current ? t('learn.ex.matchMistakes', { n: mistakes.current }) : undefined });
       }
     } else {
       mistakes.current++;
@@ -359,15 +372,15 @@ function Match({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'match' }>
     <div className="grid grid-cols-2 gap-2.5">
       {column('l', left)}
       {column('r', right)}
-      {selected === null && matched.size === 0 && <p className="col-span-2 text-xs text-muted-foreground text-center">Istalgan tomondan boshlang: bittasini bosing, keyin mosini toping</p>}
+      {selected === null && matched.size === 0 && <p className="col-span-2 text-xs text-muted-foreground text-center">{t('learn.ex.matchHint')}</p>}
     </div>
   );
 }
 
 const SPEAK_NOTES: Record<string, string> = {
-  great: "Aniq eshitildi! 👏",
-  good: "Yaxshi, tushunarli aytdingiz! 👍",
-  close: "Tushunarli — mashq qilishda davom eting.",
+  great: 'learn.ex.speakGreat',
+  good: 'learn.ex.speakGood',
+  close: 'learn.ex.speakClose',
 };
 
 /**
@@ -376,6 +389,7 @@ const SPEAK_NOTES: Record<string, string> = {
  * the pronunciation is perfect or wrong, and a few honest tries are always enough to move on.
  */
 function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>; answered: boolean; finish: (fb: Feedback) => void }) {
+  const { t, lang } = useT();
   const cloud = useMemo(() => canRecord(), []);
   const browser = useMemo(() => speechRecognitionSupported(), []);
   const [phase, setPhase] = useState<'idle' | 'recording' | 'working'>('idle');
@@ -395,9 +409,9 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
     setTries(n);
     setHeard(text);
     setVerdict(j);
-    setHint(speechQualityHint(text, quality, j.passed));
-    if (j.passed) finish({ correct: true, note: SPEAK_NOTES[j.level] });
-    else if (n >= 3) finish({ correct: true, note: "Mashq sifatida hisoblandi — davom etamiz. Keyinroq yana urinib ko'ring." });
+    setHint(speechQualityHint(text, quality, j.passed, lang));
+    if (j.passed) finish({ correct: true, note: SPEAK_NOTES[j.level] ? t(SPEAK_NOTES[j.level]) : undefined });
+    else if (n >= 3) finish({ correct: true, note: t('learn.ex.speakCounted') });
   };
 
   const stopAndSend = async () => {
@@ -407,12 +421,12 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
     setPhase('working');
     try {
       const { blob } = await r.stop();
-      const t = await transcribeClip(blob);
-      judge(t.transcript, t.quality);
+      const clip = await transcribeClip(blob);
+      judge(clip.transcript, clip.quality);
     } catch {
       // The voice service is unavailable: use the browser's recogniser next time (or the self-check button).
       setCloudWorks(false);
-      setHint("Ovoz xizmatiga ulanib bo'lmadi. Qayta urinib ko'ring.");
+      setHint(t('learn.ex.speakService'));
     } finally { setPhase('idle'); }
   };
 
@@ -424,7 +438,7 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
         recording.current = await startRecording(9000, setLevel, () => void stopAndSend());
         setPhase('recording');
       } catch {
-        setHint("Mikrofonga ruxsat berilmadi. Brauzer sozlamalarida mikrofonni yoqing.");
+        setHint(t('learn.ex.speakMic'));
         setCloudWorks(false);
       }
       return;
@@ -446,7 +460,7 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
           <Button type="button" size="lg" variant={phase === 'recording' ? 'destructive' : 'glow'} disabled={answered || phase === 'working'}
             onClick={() => (phase === 'recording' && recording.current ? void stopAndSend() : void start())} className="gap-2 rounded-full px-6">
             {phase === 'working' ? <Loader2 className="h-5 w-5 animate-spin" /> : phase === 'recording' ? <Square className="h-4 w-4 fill-current" /> : <Mic className="h-5 w-5" />}
-            {phase === 'working' ? 'Tinglayapman…' : phase === 'recording' ? (cloudWorks ? "Tugatish uchun bosing" : 'Gapiring…') : tries ? 'Yana urinib ko\'rish' : 'Mikrofonni bosing va ayting'}
+            {phase === 'working' ? t('learn.ex.speakListening') : phase === 'recording' ? (cloudWorks ? t('learn.ex.speakTapStop') : t('learn.ex.speakSpeak')) : tries ? t('learn.ex.speakAgain') : t('learn.ex.speakTapSay')}
           </Button>
           {phase === 'recording' && cloudWorks && (
             <div className="mx-auto mt-3 h-1.5 w-40 rounded-full bg-secondary overflow-hidden" aria-hidden>
@@ -455,23 +469,23 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
           )}
           {heard !== null && !answered && (
             <div className="mt-4 text-sm space-y-1">
-              <p className="text-muted-foreground">Eshitildi: <span className="font-semibold text-foreground">"{heard || '—'}"</span></p>
-              {verdict && verdict.missing.length > 0 && !hint && <p className="text-amber-700 dark:text-amber-300">Yana bir bor ayting: <b>{verdict.missing.join(', ')}</b></p>}
-              {!verdict?.missing.length && !hint && <p className="text-amber-700 dark:text-amber-300">Yana bir bor urinib ko'ring — biroz sekinroq va aniqroq.</p>}
+              <p className="text-muted-foreground">{t('learn.ex.heard')} <span className="font-semibold text-foreground">"{heard || '—'}"</span></p>
+              {verdict && verdict.missing.length > 0 && !hint && <p className="text-amber-700 dark:text-amber-300">{t('learn.ex.sayAgain')} <b>{verdict.missing.join(', ')}</b></p>}
+              {!verdict?.missing.length && !hint && <p className="text-amber-700 dark:text-amber-300">{t('learn.ex.trySlower')}</p>}
             </div>
           )}
           {hint && !answered && <p className="mt-3 text-sm text-amber-700 dark:text-amber-300 max-w-sm mx-auto">{hint}</p>}
           {!answered && (
             <button type="button" className={`block mx-auto mt-4 text-xs underline ${tries >= 2 ? 'text-foreground font-medium' : 'text-muted-foreground'}`} onClick={() => finish({ correct: true })}>
-              Hozir gapira olmayman — o'tkazib yuborish
+              {t('learn.ex.speakSkip')}
             </button>
           )}
-          <p className="text-[11px] text-muted-foreground mt-3 max-w-xs mx-auto">Bu — gapingiz tanildimi-yo'qmi tekshiruvi, talaffuz bahosi emas. Aksent muammo emas.</p>
+          <p className="text-[11px] text-muted-foreground mt-3 max-w-xs mx-auto">{t('learn.ex.speakNote')}</p>
         </>
       ) : (
         <>
-          <p className="text-sm text-muted-foreground mb-3">Ovoz chiqarib 2–3 marta takrorlang.</p>
-          <Button type="button" disabled={answered} onClick={() => finish({ correct: true })} className="gap-2"><Check className="h-4 w-4" />Takrorladim</Button>
+          <p className="text-sm text-muted-foreground mb-3">{t('learn.ex.repeatAloud')}</p>
+          <Button type="button" disabled={answered} onClick={() => finish({ correct: true })} className="gap-2"><Check className="h-4 w-4" />{t('learn.ex.repeated')}</Button>
         </>
       )}
     </div>
@@ -480,24 +494,26 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
 
 /** Lets a learner tell us the question or its answer looks wrong. Admins see the reports in the Ta'lim tab. */
 function ReportButton({ ex }: { ex: Exercise }) {
+  const { t } = useT();
   const [state, setState] = useState<'idle' | 'sending' | 'sent'>('idle');
   const send = async () => {
     setState('sending');
     try {
       await callLearning('learning_report_content', { _page: window.location.pathname, _exercise: ex, _note: null });
       setState('sent');
-      toast.success("Rahmat! Xabaringiz adminga yuborildi.");
-    } catch { setState('idle'); toast.error("Yuborib bo'lmadi. Keyinroq urinib ko'ring."); }
+      toast.success(t('learn.ex.reportThanks'));
+    } catch { setState('idle'); toast.error(t('learn.ex.reportFail')); }
   };
-  if (state === 'sent') return <p className="mt-2 text-xs text-muted-foreground">Xabar yuborildi. Rahmat!</p>;
+  if (state === 'sent') return <p className="mt-2 text-xs text-muted-foreground">{t('learn.ex.reportSent')}</p>;
   return (
     <button type="button" onClick={() => void send()} disabled={state === 'sending'} className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive underline-offset-2 hover:underline">
-      <Flag className="h-3 w-3" />Xato topdim
+      <Flag className="h-3 w-3" />{t('learn.ex.reportBtn')}
     </button>
   );
 }
 
 function FeedbackPanel({ feedback, why, ex, inline, onContinue }: { feedback: Feedback; why?: string; ex: Exercise; inline: boolean; onContinue: () => void }) {
+  const { t } = useT();
   const ref = useRef<HTMLButtonElement>(null);
   useEffect(() => { ref.current?.focus(); }, []);
   const good = feedback.correct;
@@ -509,15 +525,15 @@ function FeedbackPanel({ feedback, why, ex, inline, onContinue }: { feedback: Fe
         </span>
         <div className="flex-1 min-w-0 text-sm">
           <p className={`font-bold text-base ${good ? 'text-emerald-700 dark:text-emerald-300' : 'text-destructive'}`}>
-            {good ? ['Barakalla!', "To'g'ri!", 'Ajoyib!', 'Zo\'r!'][Math.floor(Math.random() * 4)] : "Noto'g'ri"}
+            {good ? t(`learn.ex.cheer${Math.floor(Math.random() * 4)}`) : t('learn.ex.wrong')}
           </p>
-          {!good && feedback.expected && <p className="mt-0.5">To'g'ri javob: <span className="font-semibold">{feedback.expected}</span></p>}
+          {!good && feedback.expected && <p className="mt-0.5">{t('learn.ex.correctAnswer')} <span className="font-semibold">{feedback.expected}</span></p>}
           {feedback.note && <p className="mt-0.5">{feedback.note}</p>}
           {why && <p className="mt-1.5 text-muted-foreground"><Md text={why} /></p>}
           {!inline && <ReportButton ex={ex} />}
         </div>
       </div>
-      {!inline && <Button ref={ref} className="w-full mt-3" variant={good ? 'glow' : 'default'} onClick={onContinue}>Davom etish</Button>}
+      {!inline && <Button ref={ref} className="w-full mt-3" variant={good ? 'glow' : 'default'} onClick={onContinue}>{t('learn.ex.continue')}</Button>}
     </div>
   );
 }

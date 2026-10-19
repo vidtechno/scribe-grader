@@ -11,13 +11,14 @@ import { COURSE_BASE, courseUrls } from './_lib/course-pages.js';
 import { learnUrls } from './_lib/learn-pages.js';
 import { PRACTICE_URLS } from './_lib/practice-pages.js';
 
-type Url = { path: string; priority: string; changefreq: string; lastmod?: string };
+type Url = { path: string; priority: string; changefreq: string; lastmod?: string; alternates?: { lang: string; path: string }[] };
 /** Bump when the static or programmatic content changes meaningfully. */
 const CONTENT_UPDATED = '2026-10-17';
 
 export default async function handler(_req: IncomingMessage, res: ServerResponse & { statusCode: number }) {
   const urls: Url[] = [
-    { path: '/', priority: '1.0', changefreq: 'weekly', lastmod: CONTENT_UPDATED },
+    { path: '/', priority: '1.0', changefreq: 'weekly', lastmod: CONTENT_UPDATED, alternates: [{ lang: 'en', path: '/' }, { lang: 'uz', path: '/uz' }, { lang: 'x-default', path: '/' }] },
+    { path: '/uz', priority: '1.0', changefreq: 'weekly', lastmod: CONTENT_UPDATED, alternates: [{ lang: 'en', path: '/' }, { lang: 'uz', path: '/uz' }, { lang: 'x-default', path: '/' }] },
     { path: '/ielts-writing-task-1', priority: '0.9', changefreq: 'monthly', lastmod: CONTENT_UPDATED },
     { path: '/ielts-writing-task-2', priority: '0.9', changefreq: 'monthly', lastmod: CONTENT_UPDATED },
     { path: '/ielts-speaking-practice', priority: '0.9', changefreq: 'monthly', lastmod: CONTENT_UPDATED },
@@ -40,9 +41,16 @@ export default async function handler(_req: IncomingMessage, res: ServerResponse
     ...CUE_CARDS.map(c => ({ path: `/ielts-speaking-part-2/${c.slug}`, priority: '0.7', changefreq: 'monthly', lastmod: CONTENT_UPDATED })),
   ];
   try {
-    for (const p of await listPosts()) urls.push({ path: `/blog/${p.slug}`, priority: '0.8', changefreq: 'monthly', lastmod: p.updated_at.slice(0, 10) });
+    const posts = await listPosts();
+    for (const p of posts) {
+      const alt = p.alt_slug ? posts.find(x => x.slug === p.alt_slug) : undefined;
+      urls.push({
+        path: `/blog/${p.slug}`, priority: '0.8', changefreq: 'monthly', lastmod: p.updated_at.slice(0, 10),
+        alternates: alt ? [{ lang: p.lang, path: `/blog/${p.slug}` }, { lang: alt.lang, path: `/blog/${alt.slug}` }, { lang: 'x-default', path: `/blog/${p.lang === 'en' ? p.slug : alt.slug}` }] : undefined,
+      });
+    }
   } catch (e) { console.error('sitemap: posts unavailable', e); }
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u =>
-    `  <url><loc>${esc(SITE + u.path)}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}<changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`).join('\n')}\n</urlset>`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.map(u =>
+    `  <url><loc>${esc(SITE + u.path)}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}<changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority>${(u.alternates || []).map(a => `<xhtml:link rel="alternate" hreflang="${a.lang}" href="${esc(SITE + a.path)}"/>`).join('')}</url>`).join('\n')}\n</urlset>`;
   send(res, 200, xml, 'application/xml; charset=utf-8', 'public, s-maxage=3600, stale-while-revalidate=86400');
 }

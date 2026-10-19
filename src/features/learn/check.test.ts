@@ -120,8 +120,8 @@ describe('judgeSpeech (lenient speaking practice)', () => {
     expect(judgeSpeech('', 'hello').level).toBe('retry');
   });
   it('gives recording advice only when it did not pass', () => {
-    expect(speechQualityHint('', { noSpeechProbability: 0.9, duration: 1 }, false)).toMatch(/eshitilmadi/);
-    expect(speechQualityHint('mumble', { avgLogprob: -1.6 }, false)).toMatch(/sifati past/);
+    expect(speechQualityHint('', { noSpeechProbability: 0.9, duration: 1 }, false, 'uz')).toMatch(/eshitilmadi/);
+    expect(speechQualityHint('mumble', { avgLogprob: -1.6 }, false, 'uz')).toMatch(/sifati past/);
     expect(speechQualityHint('hello', { avgLogprob: -1.6 }, true)).toBeNull();
   });
 });

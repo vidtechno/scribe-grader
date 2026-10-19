@@ -17,8 +17,8 @@ describe('match exercise', () => {
     fireEvent.click(screen.getByText('apple'));
     fireEvent.click(screen.getByText('kitob'));
     fireEvent.click(screen.getByText('book'));
-    expect(screen.getByText(/Davom etish/i)).toBeTruthy();
-    expect(screen.queryByText(/xato bilan/)).toBeNull();
+    expect(screen.getByText(/Continue/i)).toBeTruthy();
+    expect(screen.queryByText(/mistakes/)).toBeNull();
   });
   it('still accepts English first', () => {
     render(<ExerciseView ex={ex} mode="practice" onDone={vi.fn()} />);
@@ -26,7 +26,7 @@ describe('match exercise', () => {
     fireEvent.click(screen.getByText('olma'));
     fireEvent.click(screen.getByText('book'));
     fireEvent.click(screen.getByText('kitob'));
-    expect(screen.getByText(/Davom etish/i)).toBeTruthy();
+    expect(screen.getByText(/Continue/i)).toBeTruthy();
   });
 });
 
@@ -35,14 +35,14 @@ describe('fill help', () => {
   it('helps step by step and only then offers the answer, which counts as a mistake', () => {
     const done = vi.fn();
     render(<ExerciseView ex={ex} mode="practice" onDone={done} />);
-    expect(screen.queryByText(/Javobni bilmayman/)).toBeNull();
-    fireEvent.click(screen.getByText('Yordam'));
-    expect(screen.getByText(/2 harfdan iborat/)).toBeTruthy();
-    fireEvent.click(screen.getByText('Yana yordam'));
+    expect(screen.queryByText(/I don't know the answer/)).toBeNull();
+    fireEvent.click(screen.getByText('Help'));
+    expect(screen.getByText(/2 letters long/)).toBeTruthy();
+    fireEvent.click(screen.getByText('More help'));
     expect(screen.getByText(/i_/)).toBeTruthy();
-    fireEvent.click(screen.getByText('Javobni bilmayman'));
-    fireEvent.click(screen.getByText(/Ha, javobni ko'rsat/));
-    fireEvent.click(screen.getByText(/Davom etish/i));
+    fireEvent.click(screen.getByText("I don't know the answer"));
+    fireEvent.click(screen.getByText(/Yes, show the answer/));
+    fireEvent.click(screen.getByText(/Continue/i));
     expect(done).toHaveBeenCalledWith(false);
   });
 });

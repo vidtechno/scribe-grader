@@ -22,27 +22,30 @@ import {
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { uz as uzLocale } from 'date-fns/locale';
+import { useT } from '@/i18n';
 import { audioExtension } from '@/lib/audio';
 import { functionError } from '@/lib/function-errors';
 
 const GRADING_STEPS = [
-  { label: 'Transcribing your audio...', icon: Mic, duration: 4000 },
-  { label: 'Analyzing your speech...', icon: Brain, duration: 3000 },
-  { label: 'Evaluating band score...', icon: BarChart3, duration: 3000 },
+  { label: 'spk.step1', icon: Mic, duration: 4000 },
+  { label: 'spk.step2', icon: Brain, duration: 3000 },
+  { label: 'spk.step3', icon: BarChart3, duration: 3000 },
 ];
 
 type PartType = 'part1' | 'part2' | 'part3';
 
 const PART_INFO: Record<PartType, { label: string; name: string; time: number; desc: string; real: string; tips: string[] }> = {
-  part1: { label: 'Part 1', name: 'Interview', time: 60, desc: 'Answer four short questions about yourself and everyday topics.', real: '4–5 min in the real exam',
-    tips: ['Answer in 2–3 sentences, not one word.', 'Give a reason or a short example.', 'Speak naturally; do not memorise answers.'] },
-  part2: { label: 'Part 2', name: 'Long turn', time: 120, desc: 'Speak for 1–2 minutes on a cue card. You get one minute to prepare.', real: '1–2 min talk after 1 min of preparation',
-    tips: ['Cover every bullet point in order.', 'Use past, present and future where it fits.', 'Keep going until time is up: add feelings and details.'] },
-  part3: { label: 'Part 3', name: 'Discussion', time: 120, desc: 'Discuss bigger ideas linked to a topic: opinions, reasons, comparisons.', real: '4–5 min in the real exam',
-    tips: ['Give an opinion, then a reason, then an example.', 'Compare past and present, or different groups.', 'It is fine to say "That depends…" and explain.'] },
+  part1: { label: 'Part 1', name: 'spk.p1.name', time: 60, desc: 'spk.p1.desc', real: 'spk.p1.real',
+    tips: ['spk.p1.tip1', 'spk.p1.tip2', 'spk.p1.tip3'] },
+  part2: { label: 'Part 2', name: 'spk.p2.name', time: 120, desc: 'spk.p2.desc', real: 'spk.p2.real',
+    tips: ['spk.p2.tip1', 'spk.p2.tip2', 'spk.p2.tip3'] },
+  part3: { label: 'Part 3', name: 'spk.p3.name', time: 120, desc: 'spk.p3.desc', real: 'spk.p3.real',
+    tips: ['spk.p3.tip1', 'spk.p3.tip2', 'spk.p3.tip3'] },
 };
 
 export default function Speaking() {
+  const { t, lang } = useT();
   const navigate = useNavigate();
   const { user, profile, refreshProfile } = useAuth();
   const { subscription, planType, speakingRemaining, refresh: refreshSub } = useSubscription();
@@ -87,8 +90,8 @@ export default function Speaking() {
   }, [started, micReady, selectedPart]);
   useEffect(() => {
     if (prepLeft === null || prepLeft <= 0) return;
-    const t = window.setTimeout(() => setPrepLeft((v) => (v === null ? v : v - 1)), 1000);
-    return () => window.clearTimeout(t);
+    const timer = window.setTimeout(() => setPrepLeft((v) => (v === null ? v : v - 1)), 1000);
+    return () => window.clearTimeout(timer);
   }, [prepLeft]);
 
   useEffect(() => {
@@ -122,7 +125,7 @@ export default function Speaking() {
     if (processingRef.current) return;
     if (!user) return;
     if (!canAttempt) {
-      toast.error("You have used all your Speaking evaluations for this plan.");
+      toast.error(t('spk.allUsed'));
       setShowPricing(true);
       return;
     }
@@ -142,7 +145,7 @@ export default function Speaking() {
     if (pendingError || !pendingRow) {
       processingRef.current = false;
       setIsProcessing(false);
-      toast.error('Your recording could not be saved. Please try again.');
+      toast.error(t('spk.saveFailed'));
       return;
     }
 
@@ -160,7 +163,7 @@ export default function Speaking() {
         .from('speaking-audio')
         .upload(audioFileName, blob, { contentType: blob.type });
 
-      if (uploadError) throw new Error('Audio upload failed');
+      if (uploadError) throw new Error(t('spk.uploadFailed'));
 
       // 2. Transcribe
       const formData = new FormData();
@@ -170,7 +173,7 @@ export default function Speaking() {
         .invoke('transcribe-audio', { body: formData });
 
       if (transcribeError || !transcribeData?.transcript) {
-        throw await functionError(transcribeError, 'Transcription failed');
+        throw await functionError(transcribeError, t('spk.transcribeFailed'));
       }
 
       const transcript = transcribeData.transcript;
@@ -183,7 +186,7 @@ export default function Speaking() {
         });
 
       if (gradeError || !gradeData) {
-        throw await functionError(gradeError, 'Grading failed');
+        throw await functionError(gradeError, t('spk.gradeFailed'));
       }
 
       // 4. Update the pending row with final grade
@@ -204,14 +207,14 @@ export default function Speaking() {
       await refreshSub();
 
       stepTimers.forEach(clearTimeout);
-      toast.success('Speaking graded!');
+      toast.success(t('spk.graded'));
       navigate(`/speaking-result/${attempt.id}`);
     } catch (err: any) {
       console.error('Speaking processing error:', err);
       if (pendingRow) {
         await supabase.from('speaking_attempts').update({ status: 'failed', error_message: err.message }).eq('id', pendingRow.id);
       }
-      toast.error(err.message || 'Something went wrong');
+      toast.error(err.message || t('spk.wrong'));
       stepTimers.forEach(clearTimeout);
     } finally {
       processingRef.current = false;
@@ -222,7 +225,7 @@ export default function Speaking() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Speaking Practice" description="Practice IELTS Speaking with AI-powered feedback and scoring." path="/speaking" noindex />
+      <SEOHead title={t('spk.seoTitle')} description={t('spk.seoDesc')} path="/speaking" noindex />
       <Navbar />
 
       {/* Grading Overlay */}
@@ -249,7 +252,7 @@ export default function Speaking() {
                         isActive ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> :
                         <Icon className="h-5 w-5 text-muted-foreground" />}
                       <span className={`text-sm ${isDone ? 'text-primary' : isActive ? 'font-medium' : 'text-muted-foreground'}`}>
-                        {step.label}
+                        {t(step.label)}
                       </span>
                     </motion.div>
                   );
@@ -263,25 +266,25 @@ export default function Speaking() {
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="text-center mb-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">IELTS Speaking</p>
-            <h1 className="text-2xl sm:text-3xl font-bold mb-3">Speaking practice</h1>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">{t('spk.kicker')}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3">{t('spk.title')}</h1>
             <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground flex-wrap">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 font-medium">{speakingRemaining} evaluations left</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 font-medium">{t('spk.left', { n: speakingRemaining })}</span>
               <Link to="/speaking-history" className="inline-flex items-center gap-1 text-primary hover:underline">
-                <History className="h-3.5 w-3.5" /> History ({totalAttempts})
+                <History className="h-3.5 w-3.5" /> {t('spk.history', { n: totalAttempts })}
               </Link>
             </div>
           </div>
 
           {/* Part selector */}
           {!started && (
-            <div className="grid grid-cols-3 gap-3 mb-6" role="tablist" aria-label="Speaking part">
+            <div className="grid grid-cols-3 gap-3 mb-6" role="tablist" aria-label={t('spk.partAria')}>
               {(Object.entries(PART_INFO) as [PartType, typeof PART_INFO[PartType]][]).map(([key, info]) => (
                 <button key={key} role="tab" aria-selected={selectedPart === key} onClick={() => changePart(key)}
                   className={`p-3 sm:p-4 rounded-2xl border text-left transition-all ${selectedPart === key ? 'border-primary bg-primary/5 ring-1 ring-primary/40' : 'border-border bg-card hover:border-primary/40'}`}>
                   <p className={`text-xs font-semibold ${selectedPart === key ? 'text-primary' : 'text-muted-foreground'}`}>{info.label}</p>
-                  <p className="font-bold text-sm sm:text-base">{info.name}</p>
-                  <p className="text-[11px] text-muted-foreground mt-1 hidden sm:block">{info.real}</p>
+                  <p className="font-bold text-sm sm:text-base">{t(info.name)}</p>
+                  <p className="text-[11px] text-muted-foreground mt-1 hidden sm:block">{t(info.real)}</p>
                 </button>
               ))}
             </div>
@@ -289,42 +292,42 @@ export default function Speaking() {
 
           {/* Chosen topic, drawn like the real card */}
           <div className="mb-6">
-            <TopicCard option={useCustomTopic ? undefined : option} custom={useCustomTopic ? (customTopic.trim() || 'Type your own topic below…') : undefined} seconds={PART_INFO[selectedPart].time} />
+            <TopicCard option={useCustomTopic ? undefined : option} custom={useCustomTopic ? (customTopic.trim() || t('spk.customPh')) : undefined} seconds={PART_INFO[selectedPart].time} />
             {!started && (
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                <p className="text-xs text-muted-foreground">{PART_INFO[selectedPart].desc}</p>
+                <p className="text-xs text-muted-foreground">{t(PART_INFO[selectedPart].desc)}</p>
                 <Button variant="ghost" size="sm" onClick={() => setUseCustomTopic(!useCustomTopic)} className="gap-1 text-xs">
-                  <PenLine className="h-3 w-3" />{useCustomTopic ? 'Choose from the topic list' : 'Use my own topic'}
+                  <PenLine className="h-3 w-3" />{useCustomTopic ? t('spk.fromList') : t('spk.ownTopic')}
                 </Button>
               </div>
             )}
             {!started && useCustomTopic && (
-              <Input className="mt-3" placeholder={`Type your own ${PART_INFO[selectedPart].label} topic...`} value={customTopic} onChange={(e) => setCustomTopic(e.target.value)} />
+              <Input className="mt-3" placeholder={t('spk.ownPh', { part: PART_INFO[selectedPart].label })} value={customTopic} onChange={(e) => setCustomTopic(e.target.value)} />
             )}
           </div>
 
           {!started && !useCustomTopic && (
             <div className="glass-card p-4 sm:p-5 mb-6">
-              <h2 className="font-semibold text-sm mb-3">Choose a topic</h2>
-              <TopicPicker part={selectedPart} selectedId={option.id} onSelect={(t) => { setOption(t); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+              <h2 className="font-semibold text-sm mb-3">{t('spk.chooseTopic')}</h2>
+              <TopicPicker part={selectedPart} selectedId={option.id} onSelect={(o) => { setOption(o); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
             </div>
           )}
 
           {!started && (
-            <ul className="grid sm:grid-cols-3 gap-2 mb-6 text-xs text-muted-foreground" aria-label="Tips">
-              {PART_INFO[selectedPart].tips.map((t, i) => <li key={i} className="rounded-xl bg-secondary/40 p-3 flex gap-2"><span className="text-primary font-bold">{i + 1}</span>{t}</li>)}
+            <ul className="grid sm:grid-cols-3 gap-2 mb-6 text-xs text-muted-foreground" aria-label={t('spk.tips')}>
+              {PART_INFO[selectedPart].tips.map((tip, i) => <li key={i} className="rounded-xl bg-secondary/40 p-3 flex gap-2"><span className="text-primary font-bold">{i + 1}</span>{t(tip)}</li>)}
             </ul>
           )}
 
           {!canAttempt ? (
             <div className="glass-card p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
-              <p className="font-semibold mb-1">Speaking limit reached</p>
+              <p className="font-semibold mb-1">{t('spk.limit')}</p>
               <p className="text-sm text-muted-foreground mb-4">
-                You have used all Speaking evaluations for your current plan. Upgrade to continue practicing.
+                {t('spk.limitDesc')}
               </p>
               <Button variant="glow" onClick={() => setShowPricing(true)} className="gap-2">
-                <Crown className="h-4 w-4" /> Upgrade Plan
+                <Crown className="h-4 w-4" /> {t('spk.upgrade')}
               </Button>
             </div>
           ) : !started ? (
@@ -334,35 +337,35 @@ export default function Speaking() {
                 size="lg"
                 onClick={() => {
                   if (!canAttempt) { setShowPricing(true); return; }
-                  if (useCustomTopic && !customTopic.trim()) { toast.error('Please enter your topic'); return; }
+                  if (useCustomTopic && !customTopic.trim()) { toast.error(t('spk.enterTopic')); return; }
                   setStarted(true);
                 }}
                 className="gap-2"
               >
-                <Mic className="h-5 w-5" /> Start Speaking
+                <Mic className="h-5 w-5" /> {t('spk.start')}
               </Button>
             </div>
           ) : !micReady ? (
             <AudioQualityCheck onPass={() => setMicReady(true)} />
           ) : needsPrep ? (
             <div className="glass-card p-6 text-center space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Preparation time</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">{t('spk.prepTime')}</p>
               <p className="text-5xl font-bold tabular-nums">{String(Math.floor((prepLeft ?? 60) / 60)).padStart(2, '0')}:{String((prepLeft ?? 60) % 60).padStart(2, '0')}</p>
-              <p className="text-sm text-muted-foreground">Think about each bullet point. Write key words if you like (notes are not saved).</p>
-              <textarea className="w-full min-h-[96px] rounded-xl border border-border bg-background p-3 text-sm" placeholder="Your notes…" aria-label="Preparation notes" />
-              <Button variant="glow" className="gap-2" onClick={() => setPrepLeft(0)}><Mic className="h-4 w-4" />I am ready, start recording</Button>
+              <p className="text-sm text-muted-foreground">{t('spk.prepHint')}</p>
+              <textarea className="w-full min-h-[96px] rounded-xl border border-border bg-background p-3 text-sm" placeholder={t('spk.notesPh')} aria-label={t('spk.notesAria')} />
+              <Button variant="glow" className="gap-2" onClick={() => setPrepLeft(0)}><Mic className="h-4 w-4" />{t('spk.ready')}</Button>
             </div>
           ) : pending ? (
             <div className="glass-card p-6 space-y-5">
               <div className="text-center">
-                <p className="font-semibold mb-1">Review your recording</p>
+                <p className="font-semibold mb-1">{t('spk.review')}</p>
                 <p className="text-sm text-muted-foreground">
-                  Listen to your answer first. Send it to the AI only if you are happy with it.
+                  {t('spk.reviewDesc')}
                 </p>
               </div>
               <AudioPlayer src={pending.url} />
               <p className="text-xs text-center text-muted-foreground">
-                Length: {Math.floor(pending.duration / 60)}:{(pending.duration % 60).toString().padStart(2, '0')}
+                {t('spk.length', { time: `${Math.floor(pending.duration / 60)}:${(pending.duration % 60).toString().padStart(2, '0')}` })}
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button
@@ -371,14 +374,14 @@ export default function Speaking() {
                   disabled={isProcessing}
                   onClick={() => handleRecordingComplete(pending.blob, pending.duration)}
                 >
-                  <Sparkles className="h-4 w-4" /> Evaluate with AI
+                  <Sparkles className="h-4 w-4" /> {t('spk.evaluate')}
                 </Button>
                 <Button variant="outline" className="flex-1 gap-2" disabled={isProcessing} onClick={discardRecording}>
-                  <RefreshCw className="h-4 w-4" /> Discard & re-record
+                  <RefreshCw className="h-4 w-4" /> {t('spk.discard')}
                 </Button>
               </div>
               <p className="text-[11px] text-center text-muted-foreground">
-                Your Speaking quota is deducted only when you press "Evaluate with AI".
+                {t('spk.quotaNote')}
               </p>
             </div>
           ) : (
@@ -389,7 +392,7 @@ export default function Speaking() {
                 maxDuration={PART_INFO[selectedPart].time}
               />
               <p className="text-[11px] text-center text-muted-foreground mt-3">
-                After you stop, you can listen to your recording before sending it for evaluation.
+                {t('spk.afterStop')}
               </p>
             </>
           )}
@@ -400,12 +403,12 @@ export default function Speaking() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <History className="h-5 w-5 text-primary" />
-              <h3 className="text-base sm:text-lg font-semibold">Recent attempts</h3>
+              <h3 className="text-base sm:text-lg font-semibold">{t('spk.recent')}</h3>
             </div>
             {totalAttempts > 5 && (
               <Link to="/speaking-history">
                 <Button variant="ghost" size="sm" className="gap-1 text-primary">
-                  View all <ChevronRight className="h-4 w-4" />
+                  {t('wr.viewAll')} <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
             )}
@@ -413,7 +416,7 @@ export default function Speaking() {
           {recent.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <Mic className="h-10 w-10 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No speaking attempts yet.</p>
+              <p className="text-sm">{t('spk.noAttempts')}</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -437,7 +440,7 @@ export default function Speaking() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                         <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary uppercase">{a.part}</span>
-                        <span className="text-[10px] text-muted-foreground">{format(new Date(a.created_at), 'MMM d')}</span>
+                        <span className="text-[10px] text-muted-foreground">{format(new Date(a.created_at), 'MMM d', lang === 'uz' ? { locale: uzLocale } : undefined)}</span>
                       </div>
                       <p className="text-xs sm:text-sm truncate text-muted-foreground">{a.topic}</p>
                     </div>

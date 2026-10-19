@@ -18,14 +18,16 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useT } from '@/i18n';
 
 const GRADING_STEPS = [
-  { label: 'Analyzing your essay...', icon: Brain, duration: 3000 },
-  { label: 'Checking grammar & vocabulary...', icon: CheckCircle2, duration: 3000 },
-  { label: 'Evaluating band score...', icon: BarChart3, duration: 4000 },
+  { label: 'ex.step1', icon: Brain, duration: 3000 },
+  { label: 'ex.step2', icon: CheckCircle2, duration: 3000 },
+  { label: 'ex.step3', icon: BarChart3, duration: 4000 },
 ];
 
 export default function Exam() {
+  const { t } = useT();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { profile, refreshProfile } = useAuth();
@@ -61,7 +63,7 @@ export default function Exam() {
     supabase.from('essays').select('id,task_type,topic,essay_text').eq('id', draftId)
       .eq('user_id', profile.user_id).eq('status', 'draft').single().then(({ data, error }) => {
         if (cancelled) return;
-        if (error || !data) { toast.error('This draft is unavailable.'); return; }
+        if (error || !data) { toast.error(t('ex.draftUnavailable')); return; }
         setDraft(data);
         setEssay(data.essay_text);
         setCustomTopic(data.topic);
@@ -69,6 +71,7 @@ export default function Exam() {
         setTimeLeft(data.task_type === 'Task 1' ? 20 * 60 : 40 * 60);
       });
     return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draftId, profile?.user_id]);
 
   useEffect(() => {
@@ -105,17 +108,17 @@ export default function Exam() {
 
   const regenerateTopic = () => {
     setTopic(getRandomTopic(taskType));
-    toast.success('New topic generated!');
+    toast.success(t('ex.newTopicDone'));
   };
 
   const handleSubmit = useCallback(async () => {
     if (submittingRef.current) return;
-    if (!profile) { toast.error('Please sign in'); return; }
+    if (!profile) { toast.error(t('ex.signIn')); return; }
     if (writingRemaining <= 0) {
-      toast.error('You have used all your Writing evaluations for this plan.');
+      toast.error(t('ex.allUsed'));
       setShowPricing(true); return;
     }
-    if (!isWordCountValid) { toast.error(`Please write at least ${minWords} words`); return; }
+    if (!isWordCountValid) { toast.error(t('ex.minWordsErr', { n: minWords })); return; }
 
     submittingRef.current = true;
     setIsSubmitting(true);
@@ -130,14 +133,14 @@ export default function Exam() {
       const { data: pendingRow, error: pendingError } = await (draft
         ? supabase.from('essays').update(pending).eq('id', draft.id).eq('status', 'draft')
         : supabase.from('essays').insert(pending)).select().single();
-      if (pendingError || !pendingRow) throw new Error('Your essay could not be saved. Please try again.');
+      if (pendingError || !pendingRow) throw new Error(t('ex.saveFailed'));
 
       const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
         body: { essay, taskType, topic: topicText }
       });
       if (gradeError) {
         if (pendingRow) await supabase.from('essays').update({ status: 'failed', error_message: gradeError.message }).eq('id', pendingRow.id);
-        throw await functionError(gradeError, 'Failed to grade essay. Please try again.');
+        throw await functionError(gradeError, t('ex.gradeFailed'));
       }
       const { data: essayData, error: essayError } = await supabase.from('essays')
         .update({ score: gradeResult.overallBand, feedback: gradeResult, status: 'completed' })
@@ -146,16 +149,16 @@ export default function Exam() {
 
       await refreshProfile();
       await refreshSub();
-      toast.success('Essay submitted and graded!');
+      toast.success(t('ex.graded'));
       navigate(`/result/${essayData.id}`);
     } catch (error: unknown) {
       console.error('Submit error:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to grade essay. Please try again.');
+      toast.error(error instanceof Error ? error.message : t('ex.gradeFailed'));
     } finally {
       setIsSubmitting(false);
       submittingRef.current = false;
     }
-  }, [essay, taskType, activeTopic, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, refreshSub, draft]);
+  }, [essay, taskType, activeTopic, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, refreshSub, draft, t]);
 
   useEffect(() => {
     if (examStarted && timeLeft === 0) {
@@ -166,7 +169,7 @@ export default function Exam() {
 
   const saveDraft = useCallback(async () => {
     if (!profile) return;
-    if (!essay.trim()) { toast.error('Nothing to save'); return; }
+    if (!essay.trim()) { toast.error(t('ex.nothingToSave')); return; }
     const payload = {
       user_id: profile.user_id, task_type: taskType, topic: activeTopic,
       essay_text: essay, word_count: wordCount, status: 'draft'
@@ -174,14 +177,14 @@ export default function Exam() {
     const { data, error } = await (draft
       ? supabase.from('essays').update(payload).eq('id', draft.id).eq('status', 'draft')
       : supabase.from('essays').insert(payload)).select('id,task_type').single();
-    if (error) { toast.error('Failed to save draft'); return; }
+    if (error) { toast.error(t('ex.draftFailed')); return; }
     setDraft(data);
-    toast.success('Draft saved — resume from History');
-  }, [profile, taskType, essay, wordCount, activeTopic, draft]);
+    toast.success(t('ex.draftSaved'));
+  }, [profile, taskType, essay, wordCount, activeTopic, draft, t]);
 
   const startExam = () => {
     if (writingRemaining <= 0) { setShowPricing(true); return; }
-    if (useCustomTopic && !customTopic.trim()) { toast.error("Please enter a topic"); return; }
+    if (useCustomTopic && !customTopic.trim()) { toast.error(t('ex.enterTopic')); return; }
     setExamStarted(true);
   };
 
@@ -206,24 +209,24 @@ export default function Exam() {
                 className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <FileText className="h-8 w-8 text-primary" />
               </motion.div>
-              <h1 className="text-3xl font-bold mb-2">{taskType} Writing Exam</h1>
+              <h1 className="text-3xl font-bold mb-2">{t('ex.examTitle', { task: taskType })}</h1>
               <p className="text-muted-foreground mb-6">
-                You have {taskType === 'Task 1' ? '20' : '40'} minutes. Write at least {minWords} words.
+                {t('ex.intro', { min: taskType === 'Task 1' ? 20 : 40, n: minWords })}
               </p>
               <div className="bg-secondary/30 rounded-lg p-4 mb-4 text-left">
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-sm text-muted-foreground">
-                    {useCustomTopic ? "Your topic:" : "Topic:"}
+                    {useCustomTopic ? t('ex.yourTopic') : t('ex.topic')}
                   </p>
                   <Button variant="ghost" size="sm" className="gap-2 text-xs" 
                     onClick={() => setUseCustomTopic(!useCustomTopic)}>
                     <PenLine className="h-3 w-3" />
-                    {useCustomTopic ? "Use random topics" : "Enter my own topic"}
+                    {useCustomTopic ? t('ex.useRandom') : t('ex.ownTopic')}
                   </Button>
                 </div>
                 {useCustomTopic ? (
                   <Input
-                    placeholder="Enter your topic here..."
+                    placeholder={t('ex.topicPh')}
                     value={customTopic}
                     onChange={(e) => setCustomTopic(e.target.value)}
                     className="bg-background/50"
@@ -232,21 +235,21 @@ export default function Exam() {
                   <>
                     <p className="text-sm">{topic.prompt}</p>
                     <Button variant="ghost" size="sm" className="mt-3 gap-2" onClick={regenerateTopic}>
-                      <RefreshCw className="h-4 w-4" /> New topic
+                      <RefreshCw className="h-4 w-4" /> {t('ex.newTopic')}
                     </Button>
                   </>
                 )}
               </div>
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-8">
-                <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {taskType === 'Task 1' ? '20' : '40'} min</span>
-                <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> {minWords}+ words</span>
+                <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {t('ex.minShort', { min: taskType === 'Task 1' ? 20 : 40 })}</span>
+                <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> {t('ex.wordsPlus', { n: minWords })}</span>
               </div>
               <Button variant="glow" size="xl" onClick={startExam} className="gap-2" disabled={writingRemaining <= 0}>
-                <Sparkles className="h-5 w-5" /> Start Exam
+                <Sparkles className="h-5 w-5" /> {t('ex.start')}
               </Button>
               <p className="text-xs text-muted-foreground mt-3">
-                Writing evaluations remaining: <span className="font-semibold text-primary">{writingRemaining}</span>
-                {writingRemaining <= 0 && ' — upgrade your plan to continue.'}
+                {t('ex.remaining')} <span className="font-semibold text-primary">{writingRemaining}</span>
+                {writingRemaining <= 0 && ` — ${t('ex.upgradeToContinue')}`}
               </p>
             </div>
           </motion.div>
@@ -293,12 +296,12 @@ export default function Exam() {
                       ) : (
                         <StepIcon className="h-5 w-5" />
                       )}
-                      {step.label}
+                      {t(step.label)}
                     </motion.div>
                   );
                 })}
               </div>
-              <p className="text-xs text-muted-foreground mt-6">Please don't close this page...</p>
+              <p className="text-xs text-muted-foreground mt-6">{t('ex.dontClose')}</p>
             </motion.div>
           </motion.div>
         )}
@@ -307,7 +310,7 @@ export default function Exam() {
       {/* IELTS-style top bar */}
       <div className="bg-[#2c3e50] text-white px-4 py-2 flex items-center justify-between flex-wrap gap-2 z-50">
         <div className="flex items-center gap-3">
-          <span className="font-semibold text-sm">{taskType} — Writing</span>
+          <span className="font-semibold text-sm">{t('ex.topbar', { task: taskType })}</span>
           <span className="text-xs text-gray-300">Scorify.uz</span>
         </div>
         <div className="flex items-center gap-4">
@@ -315,7 +318,7 @@ export default function Exam() {
             <Clock className="h-4 w-4" /> {formatTime(timeLeft)}
           </span>
           <span className={`text-sm font-medium ${isWordCountValid ? 'text-green-400' : 'text-gray-300'}`}>
-            {wordCount} / {minWords} words
+            {t('ex.wordProgress', { n: wordCount, min: minWords })}
           </span>
         </div>
       </div>
@@ -338,11 +341,11 @@ export default function Exam() {
               className="flex items-center gap-2 px-4 py-2 bg-[#34495e] text-white text-sm w-full"
             >
               {showTopicPanel ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
-              {showTopicPanel ? 'Hide Topic' : 'Show Topic'}
+              {showTopicPanel ? t('ex.hideTopic') : t('ex.showTopic')}
             </button>
             {showTopicPanel && (
               <div className="bg-white border-b border-gray-300 p-4 max-h-[40vh] overflow-y-auto">
-                <h2 className="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">Question</h2>
+                <h2 className="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">{t('ex.question')}</h2>
                 <p className="text-sm text-gray-800 leading-relaxed">{activeTopic}</p>
               </div>
             )}
@@ -350,7 +353,7 @@ export default function Exam() {
         ) : (
           <div className="w-[400px] min-w-[350px] bg-white border-r border-gray-300 flex flex-col">
             <div className="bg-[#ecf0f1] border-b border-gray-300 px-4 py-2">
-              <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">Question</h2>
+              <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">{t('ex.question')}</h2>
             </div>
             <div className="p-5 flex-1 overflow-y-auto">
               <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">{activeTopic}</p>
@@ -361,17 +364,17 @@ export default function Exam() {
         {/* Writing Area */}
         <div className="flex-1 flex flex-col bg-white">
           <div className="bg-[#ecf0f1] border-b border-gray-300 px-4 py-2 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">Your Response</h2>
+            <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">{t('ex.response')}</h2>
             {!isWordCountValid && wordCount > 0 && (
               <span className="text-xs text-yellow-600 flex items-center gap-1">
                 <AlertCircle className="h-3 w-3" />
-                {minWords - wordCount} more words needed
+                {t('ex.moreNeeded', { n: minWords - wordCount })}
               </span>
             )}
           </div>
           <div className="flex-1 p-0">
             <Textarea 
-              placeholder="Start writing your essay here..."
+              placeholder={t('ex.essayPh')}
               value={essay}
               onChange={(e) => setEssay(e.target.value)}
               className="h-full min-h-[300px] lg:min-h-0 resize-none border-none rounded-none focus-visible:ring-0 text-base leading-[1.8] text-gray-900 placeholder:text-gray-400 p-5"
@@ -384,7 +387,7 @@ export default function Exam() {
           <div className="border-t border-gray-300 bg-[#ecf0f1] px-4 py-3 flex items-center justify-between safe-area-bottom">
             <div className="flex items-center gap-3 text-sm text-gray-600">
               <span className={isWordCountValid ? 'text-green-600 font-medium' : ''}>
-                {wordCount} / {minWords} words
+                {t('ex.wordProgress', { n: wordCount, min: minWords })}
               </span>
               <span className={`${getTimeColor()} font-mono font-medium`}>
                 {formatTime(timeLeft)}
@@ -397,7 +400,7 @@ export default function Exam() {
                 disabled={isSubmitting}
                 className="gap-2"
               >
-                Save Draft
+                {t('ex.saveDraft')}
               </Button>
               <Button
                 onClick={handleSubmit}
@@ -405,7 +408,7 @@ export default function Exam() {
                 className="gap-2 bg-green-600 hover:bg-green-700 text-white border-0 px-6"
               >
                 {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                Start Evaluation
+                {t('ex.startEval')}
               </Button>
             </div>
           </div>

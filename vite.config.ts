@@ -1,6 +1,8 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import fs from "fs";
+import { toUzbek } from "./landing-meta.mjs";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -16,6 +18,18 @@ export default defineConfig(({ mode }) => {
   },
   plugins: [
     react(),
+    {
+      // The Uzbek landing page (/uz) is the same app with its own head and no-JavaScript content, so search engines can index it.
+      name: "uzbek-landing-page",
+      apply: "build" as const,
+      closeBundle() {
+        const dist = path.resolve(process.cwd(), "dist");
+        const index = path.join(dist, "index.html");
+        if (!fs.existsSync(index)) return;
+        fs.mkdirSync(path.join(dist, "uz"), { recursive: true });
+        fs.writeFileSync(path.join(dist, "uz", "index.html"), toUzbek(fs.readFileSync(index, "utf8")));
+      },
+    },
     {
       // Open the connection to the backend while the JS is still downloading.
       name: "preconnect-supabase",

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AlertTriangle, BookOpen, CheckCircle2, Eye, EyeOff, Info, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { useT } from '@/i18n';
 import type { Block, SceneVoice } from '../types';
 import { dialogVoices } from '../dialog-voices';
 import { voiceText } from '../scene/scene';
@@ -131,6 +132,7 @@ export function BlockView({ block, onCheck, voices = false }: { block: Block; on
 
 /** A short English passage: read it, listen to it, then check the translation if needed. */
 function ReadingText({ title, en, uz, voice }: { title?: string; en: string; uz: string; voice?: SceneVoice }) {
+  const { t } = useT();
   const [showUz, setShowUz] = useState(false);
   return (
     <div className="rounded-2xl border border-primary/25 bg-primary/[0.04] p-4">
@@ -145,7 +147,7 @@ function ReadingText({ title, en, uz, voice }: { title?: string; en: string; uz:
       <button type="button" onClick={() => setShowUz((v) => !v)}
         className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
         {showUz ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-        {showUz ? 'Tarjimani yashirish' : "Tarjimasini ko'rish"}
+        {showUz ? t('learn.block.hideTranslation') : t('learn.flash.showTranslation')}
       </button>
       {showUz && (
         <div className="mt-2 space-y-1.5 text-sm text-muted-foreground border-t border-border pt-2">

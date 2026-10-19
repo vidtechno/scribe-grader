@@ -85,37 +85,37 @@ async function playThrough(lesson: Lesson, firstWrong = false) {
   localStorage.clear();
   saved.length = 0;
   render(<MemoryRouter><SceneRunner lesson={lesson} unitTitle="1-bosqich" next={null} unitLast={false} unitId="u1" known={new Set()} onSaved={() => {}} /></MemoryRouter>);
-  fireEvent.click(screen.getByText('Suhbatni boshlash'));
+  fireEvent.click(screen.getByText('Start the conversation'));
   for (const [i, step] of scene.steps.entries()) {
     if (step.k === 'say') { await screen.findAllByText(step.en, {}, { timeout: 4000 }); continue; }
-    if (step.k === 'note') { fireEvent.click(await screen.findByText('Tushunarli', {}, { timeout: 4000 })); continue; }
+    if (step.k === 'note') { fireEvent.click(await screen.findByText('Got it', {}, { timeout: 4000 })); continue; }
     if (!isTask(step)) continue;
-    await screen.findByText('Sizning navbatingiz', {}, { timeout: 4000 });
+    await screen.findByText('Your turn', {}, { timeout: 4000 });
     if (step.k === 'pick') {
       const wrong = step.opts.find((o) => !o.ok);
       const failHere = firstWrong && !!wrong && i === scene.steps.findIndex(isTask);
       if (failHere) {
         fireEvent.click(screen.getByText(wrong!.en));
-        await screen.findByText("Keling, birga ko'ramiz");
+        await screen.findByText("Let's look at it together");
       }
       fireEvent.click(screen.getByText(step.opts.find((o) => o.ok)!.en));
       if (failHere && step.drill) {
         // after a miss, one short reinforcing exercise comes before the conversation goes on
-        await screen.findByText(/Mustahkamlash/);
+        await screen.findByText(/Reinforcement/);
         if (step.drill.k === 'choice') fireEvent.click(screen.getByText(step.drill.opts[step.drill.a]));
-        fireEvent.click(await screen.findByText(/Davom etish/));
+        fireEvent.click(await screen.findByText(/Continue/));
       }
     } else if (step.k === 'build') {
       for (const w of step.words) fireEvent.click([...document.querySelectorAll<HTMLButtonElement>('button[data-pool]')].find((el) => el.textContent === w && !el.disabled)!);
-      fireEvent.click(screen.getByText('Tekshirish'));
+      fireEvent.click(screen.getByText('Check'));
     } else {
-      fireEvent.change(screen.getByLabelText('Javobingiz'), { target: { value: step.a[0] } });
-      fireEvent.click(screen.getByText('Tekshirish'));
+      fireEvent.change(screen.getByLabelText('Your answer'), { target: { value: step.a[0] } });
+      fireEvent.click(screen.getByText('Check'));
     }
-    await waitFor(() => expect(screen.queryByText('Sizning navbatingiz')).toBeNull(), { timeout: 4000 });
+    await waitFor(() => expect(screen.queryByText('Your turn')).toBeNull(), { timeout: 4000 });
   }
-  fireEvent.click(await screen.findByText("Natijani ko'rish", {}, { timeout: 4000 }));
-  await screen.findByText(/Dars tugatildi/, {}, { timeout: 4000 });
+  fireEvent.click(await screen.findByText('See the result', {}, { timeout: 4000 }));
+  await screen.findByText(/Lesson complete/, {}, { timeout: 4000 });
   cleanup();
 }
 

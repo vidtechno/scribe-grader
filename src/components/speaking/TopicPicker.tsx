@@ -4,10 +4,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { topicOptions, randomTopic, type PartKey, type TopicOption } from '@/lib/speakingTopics';
+import { useT } from '@/i18n';
 import { TOPIC_CATEGORIES, type TopicCategory } from '@/lib/speakingBank.types';
 
 /** Browse the topic bank by category, search it, or let chance pick. */
 export function TopicPicker({ part, selectedId, onSelect }: { part: PartKey; selectedId?: string; onSelect: (t: TopicOption) => void }) {
+  const { t: tr } = useT();
   const [category, setCategory] = useState<TopicCategory | 'All'>('All');
   const [query, setQuery] = useState('');
   const all = topicOptions(part);
@@ -22,32 +24,32 @@ export function TopicPicker({ part, selectedId, onSelect }: { part: PartKey; sel
       <div className="flex gap-2 mb-3">
         <div className="relative flex-1">
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={`Search ${all.length} topics…`} className="pl-9" aria-label="Search topics" />
+          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={tr('sp.searchPh', { n: all.length })} className="pl-9" aria-label={tr('sp.searchAria')} />
         </div>
         <Button type="button" variant="outline" className="gap-2 shrink-0" onClick={() => onSelect(randomTopic(part, category, selectedId))}>
-          <Shuffle className="h-4 w-4" /><span className="hidden sm:inline">Surprise me</span>
+          <Shuffle className="h-4 w-4" /><span className="hidden sm:inline">{tr('sp.surprise')}</span>
         </Button>
       </div>
-      <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-1 px-1" role="tablist" aria-label="Topic categories">
+      <div className="flex gap-1.5 overflow-x-auto pb-2 -mx-1 px-1" role="tablist" aria-label={tr('sp.catsAria')}>
         {(['All', ...present] as const).map((c) => (
           <button key={c} type="button" role="tab" aria-selected={category === c} onClick={() => setCategory(c)}
             className={cn('shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-colors', category === c ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:border-primary/50')}>
-            {c}
+            {tr(`sp.cat.${c}`)}
           </button>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground my-2">{shown.length} topic{shown.length === 1 ? '' : 's'}</p>
+      <p className="text-xs text-muted-foreground my-2">{tr(shown.length === 1 ? 'sp.topicOne' : 'sp.topicMany', { n: shown.length })}</p>
       <ul className="grid sm:grid-cols-2 gap-2 max-h-[26rem] overflow-y-auto pr-1">
         {shown.map((t) => (
           <li key={t.id}>
             <button type="button" onClick={() => onSelect(t)} aria-pressed={selectedId === t.id}
               className={cn('w-full text-left rounded-xl border p-3 transition-all h-full', selectedId === t.id ? 'border-primary bg-primary/5 ring-1 ring-primary/40' : 'border-border bg-card hover:border-primary/40')}>
-              <span className="block text-[10px] uppercase tracking-wide text-muted-foreground">{t.category}</span>
+              <span className="block text-[10px] uppercase tracking-wide text-muted-foreground">{tr(`sp.cat.${t.category}`)}</span>
               <span className="block text-sm font-medium leading-snug">{t.label}</span>
             </button>
           </li>
         ))}
-        {shown.length === 0 && <li className="col-span-full text-sm text-muted-foreground py-6 text-center flex items-center justify-center gap-2"><RefreshCw className="h-4 w-4" />No topic matches. Try another word.</li>}
+        {shown.length === 0 && <li className="col-span-full text-sm text-muted-foreground py-6 text-center flex items-center justify-center gap-2"><RefreshCw className="h-4 w-4" />{tr('sp.noMatch')}</li>}
       </ul>
     </div>
   );

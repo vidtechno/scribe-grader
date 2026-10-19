@@ -1,3 +1,5 @@
+import { translate, type Lang } from '@/i18n';
+
 /** Titles and icons of the achievements the database awards (keys match `learning_check_achievements`). */
 export interface AchievementInfo { key: string; icon: string; title: string; hint: string }
 
@@ -24,5 +26,9 @@ export const ACHIEVEMENTS: AchievementInfo[] = [
   { key: 'ielts_speaking', icon: '🎙️', title: 'IELTS Speaking', hint: 'Birinchi Speaking mashqini bajaring' },
 ];
 
-export const achievementInfo = (key: string): AchievementInfo =>
-  ACHIEVEMENTS.find((a) => a.key === key) ?? { key, icon: '🎖️', title: key, hint: '' };
+/** `ACHIEVEMENTS` holds the Uzbek source text; this returns the title and hint in the interface language. */
+export const achievementInfo = (key: string, lang: Lang = 'en'): AchievementInfo => {
+  const a = ACHIEVEMENTS.find((x) => x.key === key);
+  if (!a) return { key, icon: '🎖️', title: key, hint: '' };
+  return { ...a, title: translate(lang, `learn.ach.${key}.title`), hint: translate(lang, `learn.ach.${key}.hint`) };
+};

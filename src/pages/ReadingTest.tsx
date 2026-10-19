@@ -9,7 +9,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
 import { cn } from '@/lib/utils';
-import { DIFFICULTY_HINT, READING_TESTS, loadReadingTest } from '@/features/ielts/registry';
+import { READING_TESTS, loadReadingTest } from '@/features/ielts/registry';
 import type { ReadingTest } from '@/features/ielts/types';
 import { bandFor } from '@/features/ielts/bands';
 import { flatten, score, type Answer } from '@/features/ielts/score';
@@ -18,6 +18,7 @@ import { ResultPanel } from '@/features/ielts/components/ResultPanel';
 import { saveAttempt } from '@/features/ielts/useAttempts';
 import { saveMockSection, useMockId } from '@/features/ielts/mock';
 import { toast } from 'sonner';
+import { useT } from '@/i18n';
 
 const FULL_SECONDS = 60 * 60;
 const PART_SECONDS = 20 * 60;
@@ -25,6 +26,7 @@ const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${St
 
 export default function ReadingTestPage() {
   const { id = '' } = useParams<{ id: string }>();
+  const { t: tr } = useT();
   const { user } = useAuth();
   const { isIelts } = useSubscription();
   const navigate = useNavigate();
@@ -69,11 +71,11 @@ export default function ReadingTestPage() {
     if (mockId) {
       // Part of a full mock test: keep the result in the mock and go back to it.
       void saveMockSection(mockId, 'reading', test.id, { correct: r.correct, total: r.total, band: bandFor('reading', r.correct, r.total), byKind: r.byKind }).then((ok) => {
-        if (!ok) toast.error('Could not save your Reading result. Open the mock test again to continue.');
+        if (!ok) toast.error(tr('ielts.reading.saveFail'));
         navigate(`/mock-test/exam/${mockId}`, { replace: true });
       });
     }
-  }, [test, mode, answers, starts, mockId, navigate]);
+  }, [test, mode, answers, starts, mockId, navigate, tr]);
 
   useEffect(() => {
     if (stage !== 'run') return;
@@ -96,7 +98,7 @@ export default function ReadingTestPage() {
   }, [mockId, test, stage, meta, isIelts, begin]);
 
   if (test === undefined) return <LoadingScreen />;
-  if (!test || !meta) return <div className="min-h-screen grid place-items-center"><Link to="/reading"><Button variant="outline">Test not found</Button></Link></div>;
+  if (!test || !meta) return <div className="min-h-screen grid place-items-center"><Link to="/reading"><Button variant="outline">{tr('ielts.notFound')}</Button></Link></div>;
 
   const shown = mode.kind === 'full' ? test.passages : [test.passages[mode.part]];
   const all = flatten(test.passages);
@@ -119,7 +121,7 @@ export default function ReadingTestPage() {
     const r = score(parts, sub);
     return (
       <div className="min-h-screen bg-background pb-24 md:pb-0">
-        <SEOHead title={`${test.title} result`} description="IELTS Reading practice result." path={`/reading/${test.id}`} noindex />
+        <SEOHead title={`${test.title} ${tr('ielts.seo.resultSuffix')}`} description={tr('ielts.seo.readingResult')} path={`/reading/${test.id}`} noindex />
         <Navbar />
         <main className="pt-24 pb-12 px-4 max-w-4xl mx-auto">
           <ResultPanel skill="reading" parts={parts} answers={sub} band={bandFor('reading', r.correct, r.total)} onRetry={() => setStage('intro')} backTo="/reading" />
@@ -131,34 +133,34 @@ export default function ReadingTestPage() {
   if (stage === 'intro') {
     return (
       <div className="min-h-screen bg-background pb-24 md:pb-0">
-        <SEOHead title={test.title} description="IELTS Academic Reading practice test." path={`/reading/${test.id}`} noindex />
+        <SEOHead title={test.title} description={tr('ielts.seo.readingTest')} path={`/reading/${test.id}`} noindex />
         <Navbar />
         <main className="pt-24 pb-12 px-4 max-w-2xl mx-auto">
-          <Link to="/reading" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6"><ArrowLeft className="h-4 w-4" />All reading tests</Link>
+          <Link to="/reading" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6"><ArrowLeft className="h-4 w-4" />{tr('ielts.reading.all')}</Link>
           <div className="glass-card p-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">{test.title} · {meta.difficulty} <span className="normal-case tracking-normal text-muted-foreground">({DIFFICULTY_HINT[meta.difficulty]})</span></p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">{test.title} · {tr(`ielts.diff.${meta.difficulty}`)} <span className="normal-case tracking-normal text-muted-foreground">({tr(`ielts.hint.${meta.difficulty}`)})</span></p>
             <h1 className="text-2xl font-bold mb-2">{meta.name}</h1>
             <p className="text-sm text-muted-foreground mb-4">{meta.blurb}</p>
-            <ul className="mb-5 space-y-1.5 text-sm">{test.passages.map((p, i) => <li key={i} className="flex gap-2"><span className="text-primary font-semibold shrink-0">Passage {i + 1}</span><span className="text-muted-foreground">{p.title}</span></li>)}</ul>
+            <ul className="mb-5 space-y-1.5 text-sm">{test.passages.map((p, i) => <li key={i} className="flex gap-2"><span className="text-primary font-semibold shrink-0">{tr('ielts.passageN', { n: i + 1 })}</span><span className="text-muted-foreground">{p.title}</span></li>)}</ul>
             <ul className="text-sm space-y-1.5 mb-6 list-disc pl-5">
-              <li>3 passages, 40 questions, 60 minutes — like the real IELTS Academic Reading.</li>
-              <li>No penalty for wrong answers: answer every question.</li>
-              <li>At the end you get an estimated band and a review of each answer.</li>
+              <li>{tr('ielts.reading.rule1')}</li>
+              <li>{tr('ielts.reading.rule2')}</li>
+              <li>{tr('ielts.reading.rule3')}</li>
             </ul>
             {locked ? (
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-4 text-sm">
-                <p className="flex items-center gap-2 font-semibold mb-1"><Lock className="h-4 w-4" />IELTS plan</p>
-                <p className="text-muted-foreground mb-3">Tests 1–3 are free. Tests 4–5 come with the IELTS plan: unlimited Reading practice, all tests, no limits.</p>
-                <Button variant="glow" onClick={() => setShowPricing(true)}>See plans</Button>
+                <p className="flex items-center gap-2 font-semibold mb-1"><Lock className="h-4 w-4" />{tr('ielts.lock.title')}</p>
+                <p className="text-muted-foreground mb-3">{tr('ielts.reading.lockText')}</p>
+                <Button variant="glow" onClick={() => setShowPricing(true)}>{tr('ielts.lock.seePlans')}</Button>
               </div>
             ) : (
               <div className="space-y-3">
-                <Button variant="glow" className="w-full gap-2" onClick={() => begin('full')}><Clock className="h-4 w-4" />Full test · 60 min</Button>
-                <p className="text-xs text-muted-foreground text-center">or practise one passage (20 min)</p>
+                <Button variant="glow" className="w-full gap-2" onClick={() => begin('full')}><Clock className="h-4 w-4" />{tr('ielts.reading.fullBtn')}</Button>
+                <p className="text-xs text-muted-foreground text-center">{tr('ielts.reading.orPart')}</p>
                 <div className="grid grid-cols-3 gap-2">
                   {test.passages.map((p, i) => (
                     <Button key={i} variant="outline" className="h-auto py-2 flex-col" onClick={() => begin('part', i)}>
-                      <span className="text-xs text-muted-foreground">Passage {i + 1}</span>
+                      <span className="text-xs text-muted-foreground">{tr('ielts.passageN', { n: i + 1 })}</span>
                       <span className="text-xs font-semibold line-clamp-2 whitespace-normal">{p.title}</span>
                     </Button>
                   ))}
@@ -177,27 +179,27 @@ export default function ReadingTestPage() {
   // Question labels in single-passage mode keep the real numbers (e.g. 14-26) for consistency with the full test.
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <SEOHead title={test.title} description="IELTS Academic Reading practice test." path={`/reading/${test.id}`} noindex />
+      <SEOHead title={test.title} description={tr('ielts.seo.readingTest')} path={`/reading/${test.id}`} noindex />
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-7xl mx-auto px-3 py-2 flex items-center gap-3">
-          <button type="button" onClick={() => { if (confirm('Leave the test? Your answers will be lost.')) navigate(mockId ? `/mock-test/exam/${mockId}` : '/reading'); }} className="text-muted-foreground hover:text-foreground" aria-label="Leave test"><ArrowLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => { if (confirm(tr('ielts.confirm.leave'))) navigate(mockId ? `/mock-test/exam/${mockId}` : '/reading'); }} className="text-muted-foreground hover:text-foreground" aria-label={tr('ielts.leave')}><ArrowLeft className="h-5 w-5" /></button>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold truncate">{test.title}</p>
-            <p className="text-xs text-muted-foreground">{mode.kind === 'full' ? `Passage ${part + 1} of 3` : `Passage ${mode.part + 1}`}</p>
+            <p className="text-xs text-muted-foreground">{mode.kind === 'full' ? tr('ielts.reading.passageOf', { n: part + 1 }) : tr('ielts.passageN', { n: mode.part + 1 })}</p>
           </div>
-          <span className={cn('font-mono text-sm font-semibold tabular-nums px-2 py-1 rounded-md', left < 300 ? 'bg-destructive/10 text-destructive' : 'bg-secondary')} aria-label="Time left"><Clock className="inline h-3.5 w-3.5 mr-1" />{mmss(Math.max(0, left))}</span>
-          <Button size="sm" variant="glow" onClick={() => { const un = shown.reduce((s, p) => s + p.groups.reduce((a, g) => a + g.items.length, 0), 0) - Object.keys(answers).filter((k) => answered(Number(k))).length; if (un === 0 || confirm(`${un} question(s) unanswered. Finish the test?`)) finish(); }}>Finish</Button>
+          <span className={cn('font-mono text-sm font-semibold tabular-nums px-2 py-1 rounded-md', left < 300 ? 'bg-destructive/10 text-destructive' : 'bg-secondary')} aria-label={tr('ielts.timeLeft')}><Clock className="inline h-3.5 w-3.5 mr-1" />{mmss(Math.max(0, left))}</span>
+          <Button size="sm" variant="glow" onClick={() => { const un = shown.reduce((s, p) => s + p.groups.reduce((a, g) => a + g.items.length, 0), 0) - Object.keys(answers).filter((k) => answered(Number(k))).length; if (un === 0 || confirm(tr('ielts.confirm.unanswered', { n: un }))) finish(); }}>{tr('ielts.finish')}</Button>
         </div>
         {mode.kind === 'full' && (
           <div className="max-w-7xl mx-auto px-3 pb-2 flex gap-2">
             {test.passages.map((_, i) => (
-              <button key={i} type="button" onClick={() => setPart(i)} className={cn('px-3 py-1 rounded-md text-xs font-semibold border', part === i ? 'bg-primary text-primary-foreground border-primary' : 'border-border')}>Passage {i + 1}</button>
+              <button key={i} type="button" onClick={() => setPart(i)} className={cn('px-3 py-1 rounded-md text-xs font-semibold border', part === i ? 'bg-primary text-primary-foreground border-primary' : 'border-border')}>{tr('ielts.passageN', { n: i + 1 })}</button>
             ))}
           </div>
         )}
         <div className="lg:hidden max-w-7xl mx-auto px-3 pb-2 flex gap-2">
           {(['text', 'questions'] as const).map((p) => (
-            <button key={p} type="button" onClick={() => setPane(p)} className={cn('flex-1 py-1.5 rounded-md text-xs font-semibold border', pane === p ? 'bg-secondary border-primary/40' : 'border-border')}>{p === 'text' ? 'Passage' : 'Questions'}</button>
+            <button key={p} type="button" onClick={() => setPane(p)} className={cn('flex-1 py-1.5 rounded-md text-xs font-semibold border', pane === p ? 'bg-secondary border-primary/40' : 'border-border')}>{p === 'text' ? tr('ielts.reading.passage') : tr('ielts.q.questions')}</button>
           ))}
         </div>
       </header>
@@ -209,19 +211,19 @@ export default function ReadingTestPage() {
           <div className="flex items-center gap-2 mb-3 sticky top-0 z-10 bg-background/90 backdrop-blur py-1">
             <button type="button" onClick={() => setMarking((m) => !m)} aria-pressed={marking}
               className={cn('inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold', marking ? 'bg-yellow-300/70 border-yellow-500 text-foreground' : 'border-border text-muted-foreground')}>
-              <Highlighter className="h-3.5 w-3.5" />{marking ? 'Tap a sentence to highlight' : 'Highlighter'}
+              <Highlighter className="h-3.5 w-3.5" />{marking ? tr('ielts.reading.tapHighlight') : tr('ielts.reading.highlighter')}
             </button>
-            {marks.size > 0 && <button type="button" onClick={() => setMarks(new Set())} className="text-xs text-muted-foreground hover:text-foreground">Clear</button>}
-            <span className="ml-auto inline-flex items-center gap-1" aria-label="Text size">
-              <button type="button" aria-label="Smaller text" disabled={size === 0} onClick={() => setSize((v) => Math.max(0, v - 1))} className="p-1.5 rounded-md border border-border disabled:opacity-40"><Minus className="h-3.5 w-3.5" /></button>
-              <button type="button" aria-label="Larger text" disabled={size === 2} onClick={() => setSize((v) => Math.min(2, v + 1))} className="p-1.5 rounded-md border border-border disabled:opacity-40"><Plus className="h-3.5 w-3.5" /></button>
+            {marks.size > 0 && <button type="button" onClick={() => setMarks(new Set())} className="text-xs text-muted-foreground hover:text-foreground">{tr('ielts.reading.clear')}</button>}
+            <span className="ml-auto inline-flex items-center gap-1" aria-label={tr('ielts.reading.textSize')}>
+              <button type="button" aria-label={tr('ielts.reading.smaller')} disabled={size === 0} onClick={() => setSize((v) => Math.max(0, v - 1))} className="p-1.5 rounded-md border border-border disabled:opacity-40"><Minus className="h-3.5 w-3.5" /></button>
+              <button type="button" aria-label={tr('ielts.reading.larger')} disabled={size === 2} onClick={() => setSize((v) => Math.min(2, v + 1))} className="p-1.5 rounded-md border border-border disabled:opacity-40"><Plus className="h-3.5 w-3.5" /></button>
             </span>
           </div>
           <div className={cn('space-y-3 leading-relaxed', ['text-sm', 'text-[15px]', 'text-[17px]'][size])}>
-            {passage.paragraphs.map((t, i) => (
+            {passage.paragraphs.map((para, i) => (
               <p key={i}>
                 {passage.labelled && <span className="font-bold mr-2">{String.fromCharCode(65 + i)}</span>}
-                {(t.match(/[^.!?]+[.!?]+["”’')\]]*\s*|[^.!?]+$/g) ?? [t]).map((sentence, k) => {
+                {(para.match(/[^.!?]+[.!?]+["”’')\]]*\s*|[^.!?]+$/g) ?? [para]).map((sentence, k) => {
                   const key = `${part}:${i}:${k}`;
                   return <span key={k} onClick={marking ? () => setMarks((m) => { const n = new Set(m); if (n.has(key)) n.delete(key); else n.add(key); return n; }) : undefined}
                     className={cn(marks.has(key) && 'bg-yellow-300/60 dark:bg-yellow-500/40 rounded-sm', marking && 'cursor-pointer hover:bg-yellow-200/60')}>{sentence}</span>;
@@ -237,10 +239,10 @@ export default function ReadingTestPage() {
         </section>
       </main>
 
-      <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border px-2 py-2 overflow-x-auto" aria-label="Question navigator">
+      <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border px-2 py-2 overflow-x-auto" aria-label={tr('ielts.navigator')}>
         <div className="flex gap-1 max-w-7xl mx-auto min-w-max">
           {all.filter((q) => mode.kind === 'full' || q.part === mode.part).map((q) => (
-            <button key={q.number} type="button" onClick={() => jump(q.number)} aria-label={`Question ${q.number}${answered(q.number) ? ', answered' : ''}${flags.has(q.number) ? ', marked for review' : ''}`}
+            <button key={q.number} type="button" onClick={() => jump(q.number)} aria-label={`${tr('ielts.q.questionN', { n: q.number })}${answered(q.number) ? tr('ielts.answeredSuffix') : ''}${flags.has(q.number) ? tr('ielts.markedSuffix') : ''}`}
               className={cn('h-7 min-w-7 px-1 rounded text-[11px] font-semibold border', answered(q.number) ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground', q.part === part && !answered(q.number) && 'border-primary/50', flags.has(q.number) && 'ring-2 ring-amber-400')}>
               {q.number}
             </button>

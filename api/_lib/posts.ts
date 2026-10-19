@@ -1,5 +1,25 @@
 import { SUPABASE_KEY, SUPABASE_URL } from './shell.js';
-import { STATIC_POSTS } from './data-blog-new.js';
+import { STATIC_POSTS as GUIDES } from './data-blog-new.js';
+import { TRANSLATED_POSTS } from './data-blog-i18n.js';
+
+const STATIC_POSTS: Post[] = [...GUIDES, ...TRANSLATED_POSTS];
+
+/** Articles written separately in each language that cover the same topic (the rest are linked by `alt_slug` on the translation). */
+const KNOWN_PAIRS: [string, string][] = [
+  ['ielts-band-score-explained', 'ielts-band-ball-qanday-hisoblanadi'],
+  ['ielts-writing-task-1-how-to-describe-a-graph', 'ielts-writing-task-1-qanday-yoziladi'],
+  ['ielts-writing-task-2-essay-structure', 'ielts-writing-task-2-qanday-yoziladi'],
+  ['ielts-reading-true-false-not-given-strategy', 'ielts-reading-true-false-not-given-qanday-yechiladi'],
+  ['ielts-listening-12-tips-and-common-traps', 'ielts-listening-uchun-12-maslahat'],
+];
+
+/** Makes language links two-way: if B says it is the translation of A, A links to B. */
+function linkPairs<T extends { slug: string; alt_slug: string | null }>(rows: T[]): T[] {
+  const alt = new Map<string, string>();
+  for (const [a, b] of KNOWN_PAIRS) { alt.set(a, b); alt.set(b, a); }
+  for (const r of rows) if (r.alt_slug) { if (!alt.has(r.slug)) alt.set(r.slug, r.alt_slug); if (!alt.has(r.alt_slug)) alt.set(r.alt_slug, r.slug); }
+  return rows.map(r => (alt.has(r.slug) && alt.get(r.slug) !== r.alt_slug ? { ...r, alt_slug: alt.get(r.slug)! } : r));
+}
 
 export type Post = {
   id: string; slug: string; lang: string; title: string; excerpt: string | null; content_html: string; cover_image_url: string | null; cover_alt: string | null;
@@ -21,7 +41,10 @@ const summary = ({ content_html: _c, seo_title: _t, seo_description: _d, ...rest
 /** Guides that ship with the site (see data-blog-new.ts). Posts written in the admin editor with the same slug win. */
 export const getPost = async (slug: string): Promise<Post | null> => {
   const fromDb = await rest<Post[]>(`blog_posts?select=*&slug=eq.${encodeURIComponent(slug)}&limit=1`).then(r => r[0] || null).catch(() => null);
-  return fromDb ?? STATIC_POSTS.find(p => p.slug === slug) ?? null;
+  const post = fromDb ?? STATIC_POSTS.find(p => p.slug === slug) ?? null;
+  if (!post) return null;
+  const all = await listPosts().catch(() => []);
+  return all.find(p => p.slug === slug)?.alt_slug && !post.alt_slug ? { ...post, alt_slug: all.find(p => p.slug === slug)!.alt_slug } : post;
 };
 /**
  * The list is read on almost every public page (the "study guides" block) and by crawlers all day, so it is kept in
@@ -45,6 +68,6 @@ export const listPosts = async (limit = 500): Promise<ListItem[]> => {
   }
   const fromDb = listCache.rows;
   const have = new Set(fromDb.map(p => p.slug));
-  return [...fromDb, ...STATIC_POSTS.filter(p => !have.has(p.slug)).map(summary)]
+  return linkPairs([...fromDb, ...STATIC_POSTS.filter(p => !have.has(p.slug)).map(summary)])
     .sort((a, b) => +new Date(b.published_at) - +new Date(a.published_at)).slice(0, limit);
 };

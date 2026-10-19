@@ -5,8 +5,9 @@ import { Check, CreditCard, GraduationCap, Mic, PenLine, Target } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import { PayDialog } from '@/components/PayDialog';
 import { useAuth } from '@/hooks/useAuth';
+import { useT } from '@/i18n';
 import { usePaymentSettings } from '@/hooks/usePaymentSettings';
-import { BILLING_DISCOUNT, BILLING_LABEL, formatUzs, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planPrice, planTotalUzs } from '@/lib/plans';
+import { BILLING_DISCOUNT, billingLabel, formatUzs, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice, planTotalUzs } from '@/lib/plans';
 
 export interface PlanRow {
   slug: string;
@@ -18,13 +19,11 @@ export interface PlanRow {
   mock_test_limit: number;
 }
 
-const TAGLINE: Record<string, string> = {
-  go: "Ingliz tilini bosqichma-bosqich o'rganing",
-  plus: "Ingliz tili va IELTS ga tayyorlanish",
-};
+const TAGLINE: Record<string, string> = { go: 'plans.tagline.go', plus: 'plans.tagline.plus' };
 
 /** Learn and IELTS side by side, with a 1 month / 6 months (-10%) switch. Used on the landing page and in the pricing dialog. */
 export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; currentPlan?: string; publicId?: string | null }) {
+  const { t, lang } = useT();
   const [billing, setBilling] = useState<Billing>('month');
   const [paying, setPaying] = useState<string | null>(null);
   const { user } = useAuth();
@@ -40,16 +39,15 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
       <div className="max-w-4xl mx-auto mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm flex items-start gap-3">
         <GraduationCap className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
         <p>
-          <strong>Har bir yangi hisobga {LEARN_TRIAL_DAYS} kun Learn bepul</strong> — barcha darslar va moslashuvchan tizim —
-          shuningdek 1 ta Writing, 1 ta Speaking baholash va 3 tadan IELTS Reading hamda Listening testi. Keyin Learn yoki IELTS ni tanlaysiz.
+          <strong>{t('plans.trial.strong', { days: LEARN_TRIAL_DAYS })}</strong> {t('plans.trial.rest')}
         </p>
       </div>
       <div className="flex justify-center mb-6">
-        <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border" role="tablist" aria-label="To'lov davri">
+        <div className="inline-flex p-1 rounded-xl bg-secondary/70 border border-border" role="tablist" aria-label={t('plans.billingPeriod')}>
           {(['month', 'quarter', 'half-year'] as const).map((id) => (
             <button key={id} type="button" role="tab" aria-selected={billing === id} onClick={() => setBilling(id)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${billing === id ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
-              {BILLING_LABEL[id]}
+              {billingLabel(lang, id)}
               {BILLING_DISCOUNT[id] > 0 && <span className="text-[10px] font-bold rounded-full bg-emerald-500 text-white px-1.5 py-0.5">-{Math.round(BILLING_DISCOUNT[id] * 100)}%</span>}
             </button>
           ))}
@@ -72,44 +70,44 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
                 <span className={`w-10 h-10 rounded-xl grid place-items-center ${ielts ? 'bg-primary text-primary-foreground' : 'bg-primary/10 text-primary'}`}><Icon className="h-5 w-5" /></span>
                 <div>
                   <h3 className="text-xl font-bold leading-tight">{e.name}</h3>
-                  <p className="text-xs text-muted-foreground">{TAGLINE[plan.slug]}</p>
+                  <p className="text-xs text-muted-foreground">{TAGLINE[plan.slug] ? t(TAGLINE[plan.slug]) : ''}</p>
                 </div>
               </div>
               <div className="mb-4">
                 <div className="flex items-baseline gap-1.5">
                   <span className="text-4xl font-bold text-primary">{price.uzs}</span>
-                  <span className="text-sm text-muted-foreground">so'm {billing === 'month' ? '/ oy' : `/ ${BILLING_LABEL[billing]}`}</span>
+                  <span className="text-sm text-muted-foreground">{billing === 'month' ? t('plans.price.month') : t('plans.price.period', { period: billingLabel(lang, billing) })}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-0.5">≈ ${price.usd}{billing !== 'month' ? ` · ${price.perMonthUzs} so'm / oy` : ''}</p>
-                {billing !== 'month' && <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">Tejaysiz: {price.saveUzs} so'm</p>}
+                <p className="text-xs text-muted-foreground mt-0.5">≈ ${price.usd}{billing !== 'month' ? t('plans.perMonth', { uzs: price.perMonthUzs }) : ''}</p>
+                {billing !== 'month' && <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">{t('plans.save', { amount: price.saveUzs })}</p>}
               </div>
               <p className={`text-xs font-semibold rounded-lg px-3 py-2 mb-4 ${ielts ? 'bg-secondary text-muted-foreground' : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'}`}>
-                {ielts ? "Sinov yo'q — avval Learn ni bepul sinab ko'ring" : `Yangi hisoblar uchun ${LEARN_TRIAL_DAYS} kun bepul`}
+                {ielts ? t('plans.noTrial') : t('plans.trialDays', { days: LEARN_TRIAL_DAYS })}
               </p>
               {ielts && (
                 <div className="grid grid-cols-2 gap-2 mb-4">
-                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><PenLine className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.writing}</p><p className="text-[11px] text-muted-foreground mt-1">Writing / oy</p></div>
-                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><Mic className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.speaking}</p><p className="text-[11px] text-muted-foreground mt-1">Speaking / oy</p></div>
+                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><PenLine className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.writing}</p><p className="text-[11px] text-muted-foreground mt-1">{t('plans.writingPerMonth')}</p></div>
+                  <div className="rounded-xl bg-background/70 border border-border p-3 text-center"><Mic className="h-4 w-4 text-primary mx-auto mb-1" /><p className="text-xl font-bold leading-none">{e.personal.speaking}</p><p className="text-[11px] text-muted-foreground mt-1">{t('plans.speakingPerMonth')}</p></div>
                 </div>
               )}
               <ul className="space-y-2 mb-6 flex-1">
-                {e.features.map((f) => <li key={f} className="flex items-start gap-2 text-sm"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" /><span>{f}</span></li>)}
+                {planFeatures(plan.slug, lang).map((f) => <li key={f} className="flex items-start gap-2 text-sm"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" /><span>{f}</span></li>)}
               </ul>
               <Button variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto" disabled={isCurrent && billing === 'month'}
                 onClick={() => choose(plan.slug)}>
                 <CreditCard className="h-4 w-4" />
-                {isCurrent && billing === 'month' ? 'Joriy tarif' : `${e.name} ni sotib olish${billing !== 'month' ? ` · ${BILLING_LABEL[billing]}` : ''}`}
+                {isCurrent && billing === 'month' ? t('plans.current') : `${t('plans.buy', { name: e.name })}${billing !== 'month' ? ` · ${billingLabel(lang, billing)}` : ''}`}
               </Button>
             </motion.div>
           );
         })}
       </div>
       <p className="text-xs text-muted-foreground text-center mt-6">
-        Click yoki Payme orqali to'lang: tarif to'lovdan keyin avtomatik yoqiladi va {billing === 'month' ? '30 kun' : billing === 'quarter' ? '3 oy' : '6 oy'} amal qiladi
-        {billing === 'month' ? '' : '; IELTS oylik limitlari har 30 kunda yangilanadi'}. Savol bo'lsa: <span className="text-primary font-semibold">@scorify_support</span>.
+        {t('plans.footer.a', { period: t(`plans.valid.${billing}`) })}
+        {billing === 'month' ? '' : t('plans.footer.renew')}. {t('plans.footer.b')} <span className="text-primary font-semibold">@scorify_support</span>.
       </p>
       {testPriceUzs !== null && (
-        <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">Sinov rejimi: hozir har bir tarif {formatUzs(testPriceUzs)} so'm turadi.</p>
+        <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">{t('plans.testMode', { amount: formatUzs(testPriceUzs) })}</p>
       )}
       {paying && <PayDialog open onOpenChange={(v) => { if (!v) setPaying(null); }} plan={paying} billing={billing} amountUzs={payAmount(paying)} testMode={testPriceUzs !== null} />}
     </div>

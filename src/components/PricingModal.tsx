@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { PlanCards } from '@/components/PlanCards';
+import { useT } from '@/i18n';
 import { useAuth } from '@/hooks/useAuth';
 import { Crown } from 'lucide-react';
 import { loadActivePlans } from '@/lib/cached-plans';
@@ -28,6 +29,7 @@ interface PricingModalProps {
 export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalProps) {
   const [plans, setPlans] = useState<Plan[]>([]);
   const { profile } = useAuth();
+  const { t } = useT();
 
   useEffect(() => {
     if (!open) return;
@@ -48,10 +50,10 @@ export function PricingModal({ open, onOpenChange, currentPlan }: PricingModalPr
       <DialogContent className="glass-card border-border max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl text-center flex items-center justify-center gap-2">
-            <Crown className="h-6 w-6 text-primary" /> Choose Your Plan
+            <Crown className="h-6 w-6 text-primary" /> {t('pricingModal.title')}
           </DialogTitle>
           <DialogDescription className="text-center">
-            Learn is for the English course. IELTS adds AI-graded Writing and Speaking. Pay for 6 months and save 10%.
+            {t('pricingModal.desc')}
           </DialogDescription>
         </DialogHeader>
 

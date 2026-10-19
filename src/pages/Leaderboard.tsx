@@ -5,6 +5,7 @@ import { Crown, Flame, Medal, Search, Trophy, Users, Zap } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
+import { useT } from '@/i18n';
 import { Avatar, FollowButton, levelLabel } from '@/features/social/components';
 import { useLeaderboard } from '@/features/social/api';
 
@@ -19,6 +20,7 @@ function RankBadge({ rank }: { rank: number }) {
 }
 
 export default function Leaderboard() {
+  const { t } = useT();
   const [scope, setScope] = useState<Scope>('global');
   const [period, setPeriod] = useState<Period>('week');
   const { data, isLoading, isError } = useLeaderboard(scope, period);
@@ -26,7 +28,7 @@ export default function Leaderboard() {
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-0">
-      <SEOHead title="Reyting" description="Haftalik va umumiy XP reytingi." path="/leaderboard" noindex />
+      <SEOHead title={t('lb.seoTitle')} description={t('lb.seoDesc')} path="/leaderboard" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
@@ -34,22 +36,22 @@ export default function Leaderboard() {
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-yellow-400/10 grid place-items-center"><Trophy className="h-6 w-6 text-yellow-400" /></div>
               <div>
-                <h1 className="text-2xl font-bold">Reyting</h1>
-                <p className="text-sm text-muted-foreground">Kim muntazam o'qiyapti — XP bo'yicha</p>
+                <h1 className="text-2xl font-bold">{t('lb.title')}</h1>
+                <p className="text-sm text-muted-foreground">{t('lb.subtitle')}</p>
               </div>
             </div>
-            <Link to="/profile#people"><Button variant="outline" size="sm" className="gap-1.5"><Search className="h-4 w-4" />Do'stlar</Button></Link>
+            <Link to="/profile#people"><Button variant="outline" size="sm" className="gap-1.5"><Search className="h-4 w-4" />{t('lb.friends')}</Button></Link>
           </div>
 
           <div className="flex flex-wrap gap-2 mb-4">
             <div className="inline-flex rounded-lg border border-border p-0.5">
-              {([['week', 'Shu hafta'], ['all', 'Hamma vaqt']] as const).map(([id, label]) => (
+              {([['week', t('lb.week')], ['all', t('lb.all')]] as const).map(([id, label]) => (
                 <button key={id} type="button" onClick={() => setPeriod(id)}
                   className={`px-3 py-1.5 text-sm rounded-md ${period === id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>{label}</button>
               ))}
             </div>
             <div className="inline-flex rounded-lg border border-border p-0.5">
-              {([['global', 'Hamma'], ['friends', "Do'stlarim"]] as const).map(([id, label]) => (
+              {([['global', t('lb.everyone')], ['friends', t('lb.myFriends')]] as const).map(([id, label]) => (
                 <button key={id} type="button" onClick={() => setScope(id)}
                   className={`px-3 py-1.5 text-sm rounded-md ${scope === id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>{label}</button>
               ))}
@@ -58,25 +60,25 @@ export default function Leaderboard() {
 
           {data?.me && (
             <div className="rounded-xl border border-primary/30 bg-primary/5 p-3 mb-4 flex items-center justify-between text-sm">
-              <span className="font-semibold">Sizning o'rningiz: #{data.me.rank}</span>
+              <span className="font-semibold">{t('lb.myRank', { n: data.me.rank })}</span>
               <span className="inline-flex items-center gap-1 text-primary font-semibold"><Zap className="h-4 w-4" />{data.me.xp} XP</span>
             </div>
           )}
           {data?.me_hidden && (
-            <p className="text-xs text-muted-foreground mb-4">Siz reytingda ko'rinmaysiz. Profil → Maxfiylik bo'limida yoqishingiz mumkin.</p>
+            <p className="text-xs text-muted-foreground mb-4">{t('lb.hidden')}</p>
           )}
         </motion.div>
 
         {isLoading ? (
           <div className="space-y-2">{[1, 2, 3, 4, 5].map((i) => <div key={i} className="h-16 bg-secondary/50 rounded-xl animate-pulse" />)}</div>
         ) : isError ? (
-          <p className="text-center py-12 text-muted-foreground">Reytingni yuklab bo'lmadi. Keyinroq urinib ko'ring.</p>
+          <p className="text-center py-12 text-muted-foreground">{t('lb.error')}</p>
         ) : rows.length === 0 ? (
           <div className="text-center py-14 text-muted-foreground">
             {scope === 'friends' ? <Users className="h-14 w-14 mx-auto mb-3 opacity-30" /> : <Crown className="h-14 w-14 mx-auto mb-3 opacity-30" />}
-            <p className="text-lg font-medium">{scope === 'friends' ? "Hali do'stlar yo'q" : period === 'week' ? "Bu hafta hali hech kim o'qimadi" : "Hali reyting yo'q"}</p>
-            <p className="text-sm mt-1">{scope === 'friends' ? "Odamlarga obuna bo'ling — ularning natijalari shu yerda chiqadi." : "Bitta dars — va siz birinchisiz!"}</p>
-            {scope === 'friends' && <Link to="/profile#people"><Button className="mt-4">Odamlarni topish</Button></Link>}
+            <p className="text-lg font-medium">{scope === 'friends' ? t('lb.noFriends') : period === 'week' ? t('lb.noOneWeek') : t('lb.noRanking')}</p>
+            <p className="text-sm mt-1">{scope === 'friends' ? t('lb.followHint') : t('lb.firstHint')}</p>
+            {scope === 'friends' && <Link to="/profile#people"><Button className="mt-4">{t('lb.findPeople')}</Button></Link>}
           </div>
         ) : (
           <div className="space-y-2">
@@ -87,9 +89,9 @@ export default function Leaderboard() {
                 <Link to={`/u/${r.username ?? r.public_id}`} className="flex flex-1 min-w-0 items-center gap-3">
                   <Avatar name={r.name} avatar={r.avatar} />
                   <span className="min-w-0">
-                    <span className="block truncate font-semibold text-sm">{r.username ? `@${r.username}` : r.name}{r.is_me && ' (siz)'}</span>
+                    <span className="block truncate font-semibold text-sm">{r.username ? `@${r.username}` : r.name}{r.is_me && t('lb.you')}</span>
                     <span className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span>{levelLabel(r.level)}</span>
+                      <span>{levelLabel(r.level, t)}</span>
                       {r.streak > 0 && <span className="inline-flex items-center gap-0.5 text-orange-500"><Flame className="h-3 w-3" />{r.streak}</span>}
                     </span>
                   </span>
@@ -100,7 +102,7 @@ export default function Leaderboard() {
             ))}
           </div>
         )}
-        <p className="text-xs text-muted-foreground mt-6 text-center">IELTS Writing va Speaking natijalaringiz ham XP beradi — lekin eng ko'p XP muntazam o'qishdan keladi.</p>
+        <p className="text-xs text-muted-foreground mt-6 text-center">{t('lb.footer')}</p>
       </main>
     </div>
   );

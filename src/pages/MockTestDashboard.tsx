@@ -14,8 +14,10 @@ import { toast } from 'sonner';
 import { PricingModal } from '@/components/PricingModal';
 import { LISTENING_TESTS, READING_TESTS } from '@/features/ielts/registry';
 import { pickMockTests } from '@/features/ielts/mock';
+import { useT } from '@/i18n';
 
 export default function MockTestDashboard() {
+  const { t: tr } = useT();
   const { user } = useAuth();
   const { mockRemaining, loading: quotaLoading, planType } = useSubscription();
   const navigate = useNavigate();
@@ -51,10 +53,10 @@ export default function MockTestDashboard() {
   const completed = tests.filter(t => t.status === 'completed');
   const avg = completed.length > 0
     ? (completed.reduce((a, t) => a + (t.overall_band || 0), 0) / completed.length).toFixed(1)
-    : 'N/A';
-  const best = completed.length > 0 ? Math.max(...completed.map(t => t.overall_band || 0)) : 'N/A';
+    : tr('mock.dash.na');
+  const best = completed.length > 0 ? Math.max(...completed.map(t => t.overall_band || 0)) : tr('mock.dash.na');
   const inProgressTest = tests.find(t => t.status === 'in_progress');
-  const startLabel = inProgressTest ? 'Resume Mock Test' : mockRemaining > 0 ? 'Start New Mock Test' : 'Upgrade for Mock Tests';
+  const startLabel = inProgressTest ? tr('mock.dash.resume') : mockRemaining > 0 ? tr('mock.dash.start') : tr('mock.dash.upgrade');
 
   const startTest = async () => {
     if (!user || loading || quotaLoading || creating) return;
@@ -75,13 +77,13 @@ export default function MockTestDashboard() {
       .select()
       .single();
     setCreating(false);
-    if (error || !data) { toast.error('Failed to start mock test'); return; }
+    if (error || !data) { toast.error(tr('mock.dash.startFail')); return; }
     navigate(`/mock-test/exam/${data.id}`);
   };
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Mock Test Simulator" description="Take full IELTS mock tests and track your band trend over time." path="/mock-test" noindex />
+      <SEOHead title={tr('mock.dash.seoTitle')} description={tr('mock.dash.seoDesc')} path="/mock-test" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -93,8 +95,8 @@ export default function MockTestDashboard() {
                 <ClipboardList className="h-7 w-7 text-primary" />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold mb-1">Mock Test Simulator</h1>
-                <p className="text-sm text-muted-foreground">Full IELTS exam: Listening + Reading + Writing Task 1 and 2 + Speaking Parts 1–3. Scored with an overall band.</p>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-1">{tr('mock.dash.seoTitle')}</h1>
+                <p className="text-sm text-muted-foreground">{tr('mock.dash.intro')}</p>
               </div>
             </div>
             <Button variant="glow" size="lg" onClick={startTest} disabled={creating || loading || quotaLoading} className="gap-2 w-full sm:w-auto">
@@ -106,10 +108,10 @@ export default function MockTestDashboard() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { icon: ClipboardList, value: tests.length, label: 'Total Tests' },
-            { icon: Award, value: completed.length, label: 'Completed' },
-            { icon: TrendingUp, value: avg, label: 'Avg Band' },
-            { icon: Sparkles, value: best, label: 'Best Band' },
+            { icon: ClipboardList, value: tests.length, label: tr('mock.dash.total') },
+            { icon: Award, value: completed.length, label: tr('mock.dash.completed') },
+            { icon: TrendingUp, value: avg, label: tr('mock.dash.avg') },
+            { icon: Sparkles, value: best, label: tr('mock.dash.best') },
           ].map(s => (
             <div key={s.label} className="glass-card p-3 sm:p-4 flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -125,22 +127,22 @@ export default function MockTestDashboard() {
 
         <div className="glass-card p-6 mb-8">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-primary" /> Band Score Trend
+            <TrendingUp className="h-5 w-5 text-primary" /> {tr('mock.dash.trend')}
           </h2>
           <BandTrendChart data={completed} />
         </div>
 
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Past Mock Tests</h2>
+          <h2 className="text-lg font-semibold">{tr('mock.dash.past')}</h2>
         </div>
 
         {loading ? (
-          <div className="text-center text-muted-foreground py-8">Loading…</div>
+          <div className="text-center text-muted-foreground py-8">{tr('mock.dash.loading')}</div>
         ) : tests.length === 0 ? (
           <div className="glass-card p-8 text-center">
             <AlertCircle className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-            <p className="font-semibold mb-1">No mock tests yet</p>
-            <p className="text-sm text-muted-foreground mb-4">Take your first full mock test to track your progress.</p>
+            <p className="font-semibold mb-1">{tr('mock.dash.empty')}</p>
+            <p className="text-sm text-muted-foreground mb-4">{tr('mock.dash.emptyText')}</p>
             <Button variant="glow" onClick={startTest} disabled={creating || loading || quotaLoading} className="gap-2">
               <Sparkles className="h-4 w-4" /> {startLabel}
             </Button>

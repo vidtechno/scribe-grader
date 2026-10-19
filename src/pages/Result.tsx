@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
+import { uz as uzLocale } from 'date-fns/locale';
+import { useT } from '@/i18n';
 
 interface ErrorCorrectionItem {
   original: string;
@@ -67,6 +69,7 @@ interface Essay {
 
 export default function Result() {
   const { id } = useParams<{ id: string }>();
+  const { t, lang } = useT();
   const [essay, setEssay] = useState<Essay | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -90,8 +93,8 @@ export default function Result() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Essay not found</h1>
-          <Link to="/dashboard"><Button>Back to Dashboard</Button></Link>
+          <h1 className="text-2xl font-bold mb-4">{t('rs.notFound')}</h1>
+          <Link to="/dashboard"><Button>{t('rs.backDash')}</Button></Link>
         </div>
       </div>
     );
@@ -99,10 +102,10 @@ export default function Result() {
 
   const feedback = essay.feedback;
   const chartData = feedback ? [
-    { subject: 'Task', score: feedback.taskAchievement.score, fullMark: 9 },
-    { subject: 'Coherence', score: feedback.coherenceCohesion.score, fullMark: 9 },
-    { subject: 'Lexical', score: feedback.lexicalResource.score, fullMark: 9 },
-    { subject: 'Grammar', score: feedback.grammaticalRange.score, fullMark: 9 },
+    { subject: t('rs.radarTask'), score: feedback.taskAchievement.score, fullMark: 9 },
+    { subject: t('rs.radarCoh'), score: feedback.coherenceCohesion.score, fullMark: 9 },
+    { subject: t('rs.radarLex'), score: feedback.lexicalResource.score, fullMark: 9 },
+    { subject: t('rs.radarGram'), score: feedback.grammaticalRange.score, fullMark: 9 },
   ] : [];
 
   const getScoreColor = (score: number) => {
@@ -119,12 +122,12 @@ export default function Result() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Essay Results" description="View your IELTS essay evaluation results and detailed feedback." path={`/result/${id}`} noindex />
+      <SEOHead title={t('rs.seoTitle')} description={t('rs.seoDesc')} path={`/result/${id}`} noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
           <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="h-4 w-4" /> {t('rs.backDash')}
           </Link>
         </div>
 
@@ -133,13 +136,13 @@ export default function Result() {
           <div>
             <div className="flex items-center gap-3 mb-2 flex-wrap">
               <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm">{essay.task_type}</span>
-              <span className="text-sm text-muted-foreground">{format(new Date(essay.created_at), 'MMMM d, yyyy')}</span>
+              <span className="text-sm text-muted-foreground">{format(new Date(essay.created_at), 'MMMM d, yyyy', lang === 'uz' ? { locale: uzLocale } : undefined)}</span>
             </div>
-            <h1 className="text-2xl font-bold">Essay Evaluation Results</h1>
+            <h1 className="text-2xl font-bold">{t('rs.heading')}</h1>
           </div>
           {essay.score !== null && (
             <div className="glass-card px-8 py-4 text-center glow-effect">
-              <p className="text-sm text-muted-foreground mb-1">Overall Band</p>
+              <p className="text-sm text-muted-foreground mb-1">{t('rs.overall')}</p>
               <p className={`text-5xl font-bold ${getScoreColor(essay.score)}`}>{essay.score}</p>
             </div>
           )}
@@ -151,7 +154,7 @@ export default function Result() {
             <div className="grid lg:grid-cols-2 gap-8 mb-8">
               <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Target className="h-5 w-5 text-primary" /> Score Breakdown
+                  <Target className="h-5 w-5 text-primary" /> {t('rs.breakdown')}
                 </h2>
                 <div className="h-64 sm:h-72">
                   <ResponsiveContainer width="100%" height="100%">
@@ -159,7 +162,7 @@ export default function Result() {
                       <PolarGrid stroke="hsl(var(--border))" />
                       <PolarAngleAxis dataKey="subject" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
                       <PolarRadiusAxis domain={[0, 9]} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
-                      <Radar name="Score" dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} strokeWidth={2} />
+                      <Radar name={t('rs.score')} dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} strokeWidth={2} />
                     </RadarChart>
                   </ResponsiveContainer>
                 </div>
@@ -167,14 +170,14 @@ export default function Result() {
 
               <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Award className="h-5 w-5 text-primary" /> Detailed Scores
+                  <Award className="h-5 w-5 text-primary" /> {t('rs.detailedScores')}
                 </h2>
                 <div className="space-y-4">
                   {[
-                    { label: 'Task Achievement', score: feedback.taskAchievement.score },
-                    { label: 'Coherence & Cohesion', score: feedback.coherenceCohesion.score },
-                    { label: 'Lexical Resource', score: feedback.lexicalResource.score },
-                    { label: 'Grammatical Range', score: feedback.grammaticalRange.score },
+                    { label: t('rs.crit.ta'), score: feedback.taskAchievement.score },
+                    { label: t('rs.crit.cc'), score: feedback.coherenceCohesion.score },
+                    { label: t('rs.crit.lr'), score: feedback.lexicalResource.score },
+                    { label: t('rs.crit.gra'), score: feedback.grammaticalRange.score },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">{item.label}</span>
@@ -193,7 +196,7 @@ export default function Result() {
             {/* Error Corrections */}
             <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.25s' }}>
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-destructive" /> Error Corrections & Improvements
+                <AlertTriangle className="h-5 w-5 text-destructive" /> {t('rs.errorsTitle')}
               </h2>
               <ErrorCorrections corrections={feedback.errorCorrections || []} />
             </div>
@@ -203,15 +206,15 @@ export default function Result() {
               <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.27s' }}>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <BookA className="h-5 w-5 text-primary" /> 
-                  Topic-Specific Vocabulary
+                  {t('rs.vocabTitle')}
                 </h2>
-                <p className="text-xs text-muted-foreground mb-4">Academic words for your essay topic with synonyms</p>
+                <p className="text-xs text-muted-foreground mb-4">{t('rs.vocabDesc')}</p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {feedback.vocabularyAnalysis.map((item, i) => (
                     <div key={i} className="rounded-lg border border-border bg-secondary/20 p-3">
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-mono text-sm font-medium text-destructive">"{item.word}"</span>
-                        <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">used {item.count}x</span>
+                        <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">{t('rs.used', { n: item.count })}</span>
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {item.suggestions.map((s, j) => (
@@ -229,9 +232,9 @@ export default function Result() {
               <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.29s' }}>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <Link2 className="h-5 w-5 text-primary" /> 
-                  Visual Coherence Map
+                  {t('rs.cohTitle')}
                 </h2>
-                <p className="text-xs text-muted-foreground mb-4">Paragraph transitions and linking words analysis</p>
+                <p className="text-xs text-muted-foreground mb-4">{t('rs.cohDesc')}</p>
                 <div className="space-y-3">
                   {feedback.coherenceCheck.map((item, i) => {
                     const statusColors = {
@@ -248,10 +251,10 @@ export default function Result() {
                       <div key={i} className={`rounded-lg border p-3 ${statusColors[item.status]}`}>
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm font-medium">{item.location}</span>
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${statusBadge[item.status]}`}>{item.status}</span>
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${statusBadge[item.status]}`}>{t(`rs.status.${item.status}`)}</span>
                         </div>
                         {item.suggestion && item.status !== 'strong' && (
-                          <p className="text-xs text-muted-foreground italic">Suggestion: {item.suggestion}</p>
+                          <p className="text-xs text-muted-foreground italic">{t('rs.suggestion')} {item.suggestion}</p>
                         )}
                       </div>
                     );
@@ -264,17 +267,17 @@ export default function Result() {
             {feedback.sentenceComplexity && feedback.sentenceComplexity.length > 0 && (
               <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.31s' }}>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Layers className="h-5 w-5 text-primary" /> Sentence Complexity Map
+                  <Layers className="h-5 w-5 text-primary" /> {t('rs.sentTitle')}
                 </h2>
                 <div className="flex items-center gap-3 mb-4 flex-wrap">
-                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-blue-200 dark:bg-blue-800"></span> Simple</span>
-                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-yellow-200 dark:bg-yellow-800"></span> Compound</span>
-                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-green-200 dark:bg-green-800"></span> Complex</span>
+                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-blue-200 dark:bg-blue-800"></span> {t('rs.simple')}</span>
+                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-yellow-200 dark:bg-yellow-800"></span> {t('rs.compound')}</span>
+                  <span className="flex items-center gap-1.5 text-xs"><span className="w-3 h-3 rounded bg-green-200 dark:bg-green-800"></span> {t('rs.complex')}</span>
                 </div>
                 <div className="space-y-2 max-h-[400px] overflow-y-auto">
                   {feedback.sentenceComplexity.map((item, i) => (
                     <div key={i} className={`text-xs px-3 py-2 rounded ${sentenceColors[item.type]}`}>
-                      <span className="font-medium capitalize mr-2">[{item.type}]</span>
+                      <span className="font-medium capitalize mr-2">[{t(`rs.sent.${item.type}`)}]</span>
                       {item.sentence}
                     </div>
                   ))}
@@ -288,15 +291,15 @@ export default function Result() {
                     <div className="mt-4 grid grid-cols-3 gap-3 text-center">
                       <div className="p-2 rounded bg-blue-50 dark:bg-blue-950/30">
                         <p className="text-lg font-bold text-blue-600">{Math.round((simple/total)*100)}%</p>
-                        <p className="text-xs text-muted-foreground">Simple</p>
+                        <p className="text-xs text-muted-foreground">{t('rs.simple')}</p>
                       </div>
                       <div className="p-2 rounded bg-yellow-50 dark:bg-yellow-950/30">
                         <p className="text-lg font-bold text-yellow-600">{Math.round((compound/total)*100)}%</p>
-                        <p className="text-xs text-muted-foreground">Compound</p>
+                        <p className="text-xs text-muted-foreground">{t('rs.compound')}</p>
                       </div>
                       <div className="p-2 rounded bg-green-50 dark:bg-green-950/30">
                         <p className="text-lg font-bold text-green-600">{Math.round((complex/total)*100)}%</p>
-                        <p className="text-xs text-muted-foreground">Complex</p>
+                        <p className="text-xs text-muted-foreground">{t('rs.complex')}</p>
                       </div>
                     </div>
                   );
@@ -308,7 +311,7 @@ export default function Result() {
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-primary" /> Strengths
+                  <CheckCircle className="h-5 w-5 text-primary" /> {t('rs.strengths')}
                 </h2>
                 <ul className="space-y-3">
                   {feedback.strengths.map((strength, index) => (
@@ -324,7 +327,7 @@ export default function Result() {
 
               <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-primary" /> Areas for Improvement
+                  <MessageSquare className="h-5 w-5 text-primary" /> {t('rs.improve')}
                 </h2>
                 <ul className="space-y-3">
                   {feedback.suggestions.map((suggestion, index) => (
@@ -342,14 +345,14 @@ export default function Result() {
             {/* Detailed Feedback */}
             <div className="glass-card p-6 mb-8 animate-fade-in" style={{ animationDelay: '0.5s' }}>
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <BookOpen className="h-5 w-5 text-primary" /> Detailed Feedback
+                <BookOpen className="h-5 w-5 text-primary" /> {t('rs.detailedFeedback')}
               </h2>
               <div className="space-y-6">
                 {[
-                  { title: 'Task Achievement', content: feedback.taskAchievement.feedback },
-                  { title: 'Coherence & Cohesion', content: feedback.coherenceCohesion.feedback },
-                  { title: 'Lexical Resource', content: feedback.lexicalResource.feedback },
-                  { title: 'Grammatical Range & Accuracy', content: feedback.grammaticalRange.feedback },
+                  { title: t('rs.crit.ta'), content: feedback.taskAchievement.feedback },
+                  { title: t('rs.crit.cc'), content: feedback.coherenceCohesion.feedback },
+                  { title: t('rs.crit.lr'), content: feedback.lexicalResource.feedback },
+                  { title: t('rs.crit.gra2'), content: feedback.grammaticalRange.feedback },
                 ].map((section) => (
                   <div key={section.title} className="pb-4 border-b border-border last:border-0 last:pb-0">
                     <h3 className="font-medium mb-2">{section.title}</h3>
@@ -365,9 +368,9 @@ export default function Result() {
         <div className="glass-card p-6 animate-fade-in" style={{ animationDelay: '0.6s' }}>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold flex items-center gap-2">
-              <FileText className="h-5 w-5 text-primary" /> Your Essay
+              <FileText className="h-5 w-5 text-primary" /> {t('rs.yourEssay')}
             </h2>
-            <span className="text-sm text-muted-foreground">{essay.word_count} words</span>
+            <span className="text-sm text-muted-foreground">{t('wr.words', { n: essay.word_count })}</span>
           </div>
           <div className="p-4 bg-secondary/30 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4 italic">{essay.topic}</p>

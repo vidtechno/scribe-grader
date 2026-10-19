@@ -6,6 +6,8 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { SEOHead } from '@/components/SEOHead';
 import { ArrowLeft, PenLine, Mic, ChevronRight, FileText } from 'lucide-react';
 import { format } from 'date-fns';
+import { uz } from 'date-fns/locale';
+import { useT } from '@/i18n';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -18,6 +20,8 @@ interface SpeakingDraft {
 type Draft = EssayDraft | SpeakingDraft;
 
 export default function Drafts() {
+  const { t, lang } = useT();
+  const dfl = lang === 'uz' ? { locale: uz } : undefined;
   const { user } = useAuth();
   const [essays, setEssays] = useState<EssayDraft[]>([]);
   const [speaking, setSpeaking] = useState<SpeakingDraft[]>([]);
@@ -56,35 +60,35 @@ export default function Drafts() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="My Drafts" description="Resume your saved IELTS writing and speaking drafts." path="/drafts" noindex />
+      <SEOHead title={t('drafts.seoTitle')} description={t('drafts.seoDesc')} path="/drafts" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+          <ArrowLeft className="h-4 w-4" /> {t('essays.back')}
         </Link>
 
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">Drafts</h1>
-          <p className="text-muted-foreground text-sm">Resume unfinished writing and speaking practice</p>
+          <h1 className="text-2xl font-bold">{t('drafts.title')}</h1>
+          <p className="text-muted-foreground text-sm">{t('drafts.subtitle')}</p>
         </div>
 
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           {([
-            { k: 'all', label: `All (${essays.length + speaking.length})` },
-            { k: 'essays', label: `Writing (${essays.length})` },
-            { k: 'speaking', label: `Speaking (${speaking.length})` },
-          ] as const).map(t => (
-            <button key={t.k} onClick={() => setTab(t.k)}
+            { k: 'all', label: t('drafts.tabAll', { n: essays.length + speaking.length }) },
+            { k: 'essays', label: t('drafts.tabWriting', { n: essays.length }) },
+            { k: 'speaking', label: t('drafts.tabSpeaking', { n: speaking.length }) },
+          ] as const).map(tb => (
+            <button key={tb.k} onClick={() => setTab(tb.k)}
               className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${
-                tab === t.k ? 'bg-primary text-primary-foreground border-primary' : 'bg-secondary/40 border-border text-muted-foreground hover:text-foreground'
-              }`}>{t.label}</button>
+                tab === tb.k ? 'bg-primary text-primary-foreground border-primary' : 'bg-secondary/40 border-border text-muted-foreground hover:text-foreground'
+              }`}>{tb.label}</button>
           ))}
         </div>
 
         {items.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
             <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
-            <p>No drafts saved yet.</p>
+            <p>{t('drafts.none')}</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -97,11 +101,11 @@ export default function Drafts() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <span className={`text-xs font-medium px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${isEssay ? 'bg-primary/10 text-primary' : 'bg-accent/15 text-accent-foreground'}`}>
-                          {isEssay ? <><PenLine className="h-3 w-3" /> {(d as EssayDraft).task_type}</> : <><Mic className="h-3 w-3" /> Speaking{(d as SpeakingDraft).part ? ` · Part ${(d as SpeakingDraft).part}` : ''}</>}
+                          {isEssay ? <><PenLine className="h-3 w-3" /> {(d as EssayDraft).task_type}</> : <><Mic className="h-3 w-3" /> Speaking{(d as SpeakingDraft).part ? ` · ${t('drafts.part', { n: (d as SpeakingDraft).part as number })}` : ''}</>}
                         </span>
-                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 inline-flex items-center gap-1"><PenLine className="h-3 w-3" /> Draft</span>
-                        <span className="text-xs text-muted-foreground">{format(new Date(d.created_at), 'MMM d, yyyy · HH:mm')}</span>
-                        {isEssay && <span className="text-xs text-muted-foreground">{(d as EssayDraft).word_count} words</span>}
+                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 inline-flex items-center gap-1"><PenLine className="h-3 w-3" /> {t('essays.draft')}</span>
+                        <span className="text-xs text-muted-foreground">{format(new Date(d.created_at), 'MMM d, yyyy · HH:mm', dfl)}</span>
+                        {isEssay && <span className="text-xs text-muted-foreground">{t('essays.words', { n: (d as EssayDraft).word_count })}</span>}
                       </div>
                       <p className="text-sm truncate text-muted-foreground">{(isEssay ? (d as EssayDraft).topic : (d as SpeakingDraft).topic) || '—'}</p>
                     </div>

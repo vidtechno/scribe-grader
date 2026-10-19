@@ -1,3 +1,4 @@
+import { translate, type Lang } from '@/i18n';
 import type { GameKind } from './types';
 
 /** The practice games and checks, in the learner's language. Each is built from the existing exercise kinds. */
@@ -14,6 +15,10 @@ export const GAMES: Record<GameKind, { label: string; hint: string }> = {
   'mini-boss': { label: 'Mini-boss', hint: "Butun mavzu bo'yicha yakuniy sinov" },
   'mastery': { label: 'Mavzu testi', hint: "Mavzuni o'zlashtirganingizni tekshiring" },
 };
+
+/** Game name and hint in the interface language (the GAMES table above is the Uzbek source text). */
+export const gameLabel = (g: GameKind, lang: Lang = 'en') => translate(lang, `learn.game.${g}.label`);
+export const gameHint = (g: GameKind, lang: Lang = 'en') => translate(lang, `learn.game.${g}.hint`);
 
 /** What every drill is: its game or check. (A drill's own content is only exercises.) */
 export const DRILL_GAME: Record<string, GameKind> = {

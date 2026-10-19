@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { READING_TESTS, LISTENING_TESTS } from '@/features/ielts/registry';
-import { FREE_PRACTICE_TESTS, getPlanEntitlement, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, planTotalUzs, purchaseLink } from './plans';
+import { billingLabel, FREE_PRACTICE_TESTS, getPlanEntitlement, planFeatures, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, planTotalUzs, purchaseLink } from './plans';
 
 describe('unified subscription entitlements', () => {
   it('offers only Learn (go) and IELTS (plus) as paid plans', () => {
@@ -28,7 +28,8 @@ describe('unified subscription entitlements', () => {
       personal: { writing: 50, speaking: 30, mockTests: 6 },
       practice: { reading: null, listening: null },
     });
-    expect(PLAN_ENTITLEMENTS.plus.features.join(' ')).toMatch(/Reading: CHEKSIZ.*Listening: CHEKSIZ/s);
+    expect(planFeatures('plus', 'en').join(' ')).toMatch(/Reading: UNLIMITED.*Listening: UNLIMITED/s);
+    expect(planFeatures('plus', 'uz').join(' ')).toMatch(/Reading: CHEKSIZ.*Listening: CHEKSIZ/s);
   });
 
   it('never grants paid owner quotas to unknown or legacy client plan names', () => {
@@ -69,5 +70,20 @@ describe('unified subscription entitlements', () => {
     expect(text).toContain('6 oy (-10%)');
     expect(text).toContain("696 600 so'm");
     expect(text).toContain('#AB12');
+  });
+
+  it('labels billing periods in both languages', () => {
+    expect(billingLabel('en', 'quarter')).toBe('3 months');
+    expect(billingLabel('uz', 'half-year')).toBe('6 oy');
+  });
+
+  it('has a feature text for every plan in both languages', () => {
+    for (const slug of ['free', 'go', 'plus']) {
+      for (const lang of ['en', 'uz'] as const) {
+        const list = planFeatures(slug, lang);
+        expect(list.length).toBeGreaterThan(0);
+        expect(list.every((f) => !f.startsWith('plans.') && !f.includes('{'))).toBe(true);
+      }
+    }
   });
 });

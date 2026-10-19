@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { translate, type Lang } from '@/i18n';
 
 interface ErrorCorrectionItem {
   original: string;
@@ -28,7 +29,8 @@ interface EssayData {
   created_at: string;
 }
 
-export function generateResultPdf(essay: EssayData) {
+export function generateResultPdf(essay: EssayData, lang: Lang = 'en') {
+  const t = (key: string, vars?: Record<string, string | number>) => translate(lang, key, vars);
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const margin = 20;
@@ -66,12 +68,12 @@ export function generateResultPdf(essay: EssayData) {
   doc.setTextColor(148, 163, 184);
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
-  doc.text('AI-Powered IELTS Writing Evaluation', margin, 26);
+  doc.text(t('pdf.tagline'), margin, 26);
   
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.text('Essay Evaluation Report', margin, 38);
+  doc.text(t('pdf.report'), margin, 38);
   
   // Overall score badge on right
   if (essay.score !== null) {
@@ -82,7 +84,7 @@ export function generateResultPdf(essay: EssayData) {
     doc.setFont('helvetica', 'bold');
     doc.text(String(essay.score), pageWidth - margin - 15, 27, { align: 'center' });
     doc.setFontSize(7);
-    doc.text('BAND', pageWidth - margin - 15, 34, { align: 'center' });
+    doc.text(t('pdf.band'), pageWidth - margin - 15, 34, { align: 'center' });
   }
 
   y = 55;
@@ -91,27 +93,27 @@ export function generateResultPdf(essay: EssayData) {
   doc.setTextColor(100, 116, 139);
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
-  const dateStr = new Date(essay.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  doc.text(`${essay.task_type}  |  ${dateStr}  |  ${essay.word_count} words`, margin, y);
+  const dateStr = new Date(essay.created_at).toLocaleDateString(lang === 'uz' ? 'uz-UZ' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  doc.text(`${essay.task_type}  |  ${dateStr}  |  ${t('wr.words', { n: essay.word_count })}`, margin, y);
   y += 10;
 
   const feedback = essay.feedback;
 
   if (feedback) {
     // Criteria Scores Table
-    drawSectionTitle('Score Breakdown');
+    drawSectionTitle(t('rs.breakdown'));
     
     const criteria = [
-      ['Task Achievement', String(feedback.taskAchievement.score)],
-      ['Coherence & Cohesion', String(feedback.coherenceCohesion.score)],
-      ['Lexical Resource', String(feedback.lexicalResource.score)],
-      ['Grammatical Range & Accuracy', String(feedback.grammaticalRange.score)],
-      ['Overall Band Score', String(feedback.overallBand)],
+      [t('rs.crit.ta'), String(feedback.taskAchievement.score)],
+      [t('rs.crit.cc'), String(feedback.coherenceCohesion.score)],
+      [t('rs.crit.lr'), String(feedback.lexicalResource.score)],
+      [t('rs.crit.gra2'), String(feedback.grammaticalRange.score)],
+      [t('pdf.overallBand'), String(feedback.overallBand)],
     ];
 
     (doc as any).autoTable({
       startY: y,
-      head: [['Criterion', 'Score']],
+      head: [[t('pdf.criterion'), t('rs.score')]],
       body: criteria,
       margin: { left: margin, right: margin },
       styles: { fontSize: 10, cellPadding: 4 },
@@ -122,13 +124,13 @@ export function generateResultPdf(essay: EssayData) {
     y = (doc as any).lastAutoTable.finalY + 10;
 
     // Detailed Feedback
-    drawSectionTitle('Detailed Feedback');
+    drawSectionTitle(t('rs.detailedFeedback'));
 
     const feedbackSections = [
-      { title: 'Task Achievement', text: feedback.taskAchievement.feedback },
-      { title: 'Coherence & Cohesion', text: feedback.coherenceCohesion.feedback },
-      { title: 'Lexical Resource', text: feedback.lexicalResource.feedback },
-      { title: 'Grammatical Range & Accuracy', text: feedback.grammaticalRange.feedback },
+      { title: t('rs.crit.ta'), text: feedback.taskAchievement.feedback },
+      { title: t('rs.crit.cc'), text: feedback.coherenceCohesion.feedback },
+      { title: t('rs.crit.lr'), text: feedback.lexicalResource.feedback },
+      { title: t('rs.crit.gra2'), text: feedback.grammaticalRange.feedback },
     ];
 
     feedbackSections.forEach((section) => {
@@ -149,7 +151,7 @@ export function generateResultPdf(essay: EssayData) {
 
     // Strengths
     if (feedback.strengths?.length) {
-      drawSectionTitle('Strengths');
+      drawSectionTitle(t('rs.strengths'));
       feedback.strengths.forEach((s, i) => {
         addPageIfNeeded(12);
         doc.setFontSize(9);
@@ -165,7 +167,7 @@ export function generateResultPdf(essay: EssayData) {
 
     // Suggestions
     if (feedback.suggestions?.length) {
-      drawSectionTitle('Areas for Improvement');
+      drawSectionTitle(t('rs.improve'));
       feedback.suggestions.forEach((s, i) => {
         addPageIfNeeded(12);
         doc.setFontSize(9);
@@ -181,12 +183,12 @@ export function generateResultPdf(essay: EssayData) {
 
     // Error Corrections
     if (feedback.errorCorrections?.length) {
-      drawSectionTitle('Error Corrections');
+      drawSectionTitle(t('pdf.errorCorrections'));
       
       const errData = feedback.errorCorrections.map(e => [e.original, e.corrected, e.explanation]);
       (doc as any).autoTable({
         startY: y,
-        head: [['Original (Error)', 'Corrected', 'Explanation']],
+        head: [[t('pdf.original'), t('pdf.corrected'), t('pdf.explanation')]],
         body: errData,
         margin: { left: margin, right: margin },
         styles: { fontSize: 8, cellPadding: 3 },
@@ -202,7 +204,7 @@ export function generateResultPdf(essay: EssayData) {
   }
 
   // Topic
-  drawSectionTitle('Topic');
+  drawSectionTitle(t('pdf.topic'));
   doc.setFontSize(9);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(100, 116, 139);
@@ -212,7 +214,7 @@ export function generateResultPdf(essay: EssayData) {
   y += topicLines.length * 4 + 8;
 
   // Original Essay
-  drawSectionTitle('Your Essay');
+  drawSectionTitle(t('rs.yourEssay'));
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(51, 65, 85);
@@ -233,8 +235,8 @@ export function generateResultPdf(essay: EssayData) {
     doc.rect(0, pageH - 15, pageWidth, 15, 'F');
     doc.setFontSize(7);
     doc.setTextColor(148, 163, 184);
-    doc.text('Generated by Scorify.uz — AI-Powered IELTS Writing Practice', margin, pageH - 6);
-    doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin, pageH - 6, { align: 'right' });
+    doc.text(t('pdf.footer'), margin, pageH - 6);
+    doc.text(t('pdf.page', { i, total: totalPages }), pageWidth - margin, pageH - 6, { align: 'right' });
   }
 
   doc.save(`Scorify_Report_${essay.task_type.replace(' ', '')}_Band${essay.score || 'NA'}.pdf`);

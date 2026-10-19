@@ -1,4 +1,8 @@
+import { translate, type Lang } from '@/i18n';
+
 export type PlanSlug = 'free' | 'go' | 'plus';
+
+type PlanFeature = { key: string; vars?: Record<string, number> };
 
 export type PlanEntitlement = {
   slug: PlanSlug;
@@ -10,8 +14,8 @@ export type PlanEntitlement = {
   personal: { writing: number; speaking: number; mockTests: number };
   /** IELTS Reading and Listening practice tests that are open: a number of tests, or null for every test, unlimited. */
   practice: { reading: number | null; listening: number | null };
-  /** What the plan includes, shown on pricing cards. */
-  features: string[];
+  /** What the plan includes, shown on pricing cards: message keys (see `planFeatures`). */
+  features: PlanFeature[];
 };
 
 /** Reading and Listening tests 1 to 3 are open to everyone (see `free` in the IELTS registry). */
@@ -27,11 +31,11 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     personal: { writing: 1, speaking: 1, mockTests: 0 },
     practice: { reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS },
     features: [
-      "To'liq Learn kursi 7 kun",
-      '1 ta Writing baholash',
-      '1 ta Speaking baholash',
-      `${FREE_PRACTICE_TESTS} ta IELTS Reading testi`,
-      `${FREE_PRACTICE_TESTS} ta IELTS Listening testi`,
+      { key: 'plans.free.f1', vars: { days: 7 } },
+      { key: 'plans.free.f2' },
+      { key: 'plans.free.f3' },
+      { key: 'plans.free.f4', vars: { n: FREE_PRACTICE_TESTS } },
+      { key: 'plans.free.f5', vars: { n: FREE_PRACTICE_TESTS } },
     ],
   },
   go: {
@@ -39,14 +43,14 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     personal: { writing: 0, speaking: 0, mockTests: 0 },
     practice: { reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS },
     features: [
-      "Noldan Intermediate (B1) gacha 350 dan ortiq dars: o'zbekcha tushuntirish va talaffuz audiosi",
-      "Real hayotiy ovozli suhbatlar: kafe, yo'l so'rash, mehmonxona",
-      "Mashq o'yinlari, bosqich testlari va daraja imtihoni",
-      "Aqlli lug'at takrori: so'zlar unutilishidan oldin qaytadi",
-      'Grammatika takrori va xatolar daftari',
-      "Streak, XP, reyting va do'stlar: o'qish odatini qurasiz",
-      "Telegram eslatmalari: bir kun ham o'tkazib yubormaysiz",
-      `IELTS Reading va Listening: ${FREE_PRACTICE_TESTS} tadan test ochiq`,
+      { key: 'plans.go.f1' },
+      { key: 'plans.go.f2' },
+      { key: 'plans.go.f3' },
+      { key: 'plans.go.f4' },
+      { key: 'plans.go.f5' },
+      { key: 'plans.go.f6' },
+      { key: 'plans.go.f7' },
+      { key: 'plans.go.f8', vars: { n: FREE_PRACTICE_TESTS } },
     ],
   },
   plus: {
@@ -54,13 +58,13 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     personal: { writing: 50, speaking: 30, mockTests: 6 },
     practice: { reading: null, listening: null },
     features: [
-      "Learn dagi hamma narsa: 350 dan ortiq dars va daraja imtihonlari",
-      "IELTS Reading: CHEKSIZ. 5 ta to'liq test (3 passage, 40 savol, 60 daqiqa), band va har bir javob tahlili",
-      "IELTS Listening: CHEKSIZ. 5 ta to'liq test (4 section, 40 savol), audio va transkript bilan",
-      "IELTS Writing: har oy 50 ta AI baholash, 4 ta rasmiy mezon bo'yicha band va tuzatishlar",
-      "IELTS Speaking: har oy 30 ta AI baholash, ravonlik, grammatika, lug'at va talaffuz tahlili",
-      "Har oy 6 ta to'liq Mock test: Listening, Reading, Writing va Speaking, imtihon vaqti bilan",
-      "Batafsil izohli AI baholash va xatolar tahlili",
+      { key: 'plans.plus.f1' },
+      { key: 'plans.plus.f2' },
+      { key: 'plans.plus.f3' },
+      { key: 'plans.plus.f4' },
+      { key: 'plans.plus.f5' },
+      { key: 'plans.plus.f6' },
+      { key: 'plans.plus.f7' },
     ],
   },
 };
@@ -84,7 +88,14 @@ export const QUARTER_DISCOUNT = 0.05;
 export const HALF_YEAR_DISCOUNT = 0.1;
 export const BILLING_MONTHS: Record<Billing, 1 | 3 | 6> = { month: 1, quarter: 3, 'half-year': 6 };
 export const BILLING_DISCOUNT: Record<Billing, number> = { month: 0, quarter: QUARTER_DISCOUNT, 'half-year': HALF_YEAR_DISCOUNT };
+/** Uzbek labels, kept for components that have not been translated yet; use `billingLabel(lang, billing)`. */
 export const BILLING_LABEL: Record<Billing, string> = { month: '1 oy', quarter: '3 oy', 'half-year': '6 oy' };
+export const billingLabel = (lang: Lang, billing: Billing) => translate(lang, `plans.billing.${billing}`);
+
+/** The plan's feature list in the chosen language. */
+export function planFeatures(value: string | null | undefined, lang: Lang): string[] {
+  return getPlanEntitlement(value).features.map((f) => translate(lang, f.key, f.vars));
+}
 export const HALF_YEAR_MONTHS = 6;
 
 const toNumber = (value: string) => Number(value.replace(/\D/g, '')) || 0;

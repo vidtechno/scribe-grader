@@ -30,18 +30,18 @@ async function walk(label: string) {
   const qc = new QueryClient();
   render(<QueryClientProvider client={qc}><MemoryRouter initialEntries={['/learn/lesson/u2-l1']}><Routes><Route path="/learn/lesson/:id" element={<LearnLesson />} /></Routes></MemoryRouter></QueryClientProvider>);
   const click = async (re: RegExp) => { const b = await screen.findByRole('button', { name: re }); fireEvent.click(b); };
-  await click(/Darsni boshlash/);
+  await click(/Start the lesson/);
   for (let guard = 0; guard < 400; guard++) {
     await new Promise((r) => setTimeout(r, 5));
     const text = document.body.textContent ?? '';
-    if (text.includes('Dars tugatildi') || text.includes('Yana bir urinish')) break;
+    if (text.includes('Lesson complete') || text.includes('One more try needed')) break;
     const enabled = screen.queryAllByRole('button').filter((b) => !(b as HTMLButtonElement).disabled);
-    const nav = enabled.find((b) => /^(Keyingi|So'zlarga o'tish|Mashqqa o'tish|Boshlash|Testni boshlash|Davom|Mashqni boshlash|Eslab qolganingizni|Qo'shimcha so'zlar)/.test(b.textContent ?? ''));
+    const nav = enabled.find((b) => /^(Next|Go to the words|Go to practice|Start|Continue|Check what you remember|Extra words)/.test(b.textContent ?? ''));
     const btn = nav ?? enabled.find((b) => b.textContent === 'ANSWER');
     if (btn) { fireEvent.click(btn); continue; }
     break;
   }
-  expect(document.body.textContent).toContain('Dars tugatildi');
+  expect(document.body.textContent).toContain('Lesson complete');
   cleanup();
 }
 

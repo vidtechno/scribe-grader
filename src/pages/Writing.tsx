@@ -13,6 +13,8 @@ import {
   History, Loader2, AlertCircle, PenLine, Crown, Sparkles, ArrowRight
 } from 'lucide-react';
 import { format } from 'date-fns';
+import { uz as uzLocale } from 'date-fns/locale';
+import { useT } from '@/i18n';
 
 interface Essay {
   id: string;
@@ -26,6 +28,7 @@ interface Essay {
 
 export default function Writing() {
   const { user } = useAuth();
+  const { t, lang } = useT();
   const navigate = useNavigate();
   const { planType, writingLimit, writingUsed, writingRemaining } = useSubscription() as any;
   const [essays, setEssays] = useState<Essay[]>([]);
@@ -70,7 +73,7 @@ export default function Writing() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Writing Practice" description="Practice IELTS Writing Task 1 and Task 2 with instant AI feedback." path="/writing" noindex />
+      <SEOHead title={t('wr.seoTitle')} description={t('wr.seoDesc')} path="/writing" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
@@ -79,8 +82,8 @@ export default function Writing() {
               <PenTool className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">Writing Practice</h1>
-              <p className="text-sm text-muted-foreground">Choose a task, write, and get an AI band score instantly.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold">{t('wr.title')}</h1>
+              <p className="text-sm text-muted-foreground">{t('wr.subtitle')}</p>
             </div>
           </div>
         </motion.div>
@@ -88,10 +91,10 @@ export default function Writing() {
         {/* Stats strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           {[
-            { icon: FileText, label: 'Total essays', value: essays.length },
-            { icon: Award, label: 'Average band', value: avg },
-            { icon: Target, label: 'Best band', value: best },
-            { icon: PenLine, label: 'Drafts', value: draftCount },
+            { icon: FileText, label: t('wr.totalEssays'), value: essays.length },
+            { icon: Award, label: t('wr.avgBand'), value: avg },
+            { icon: Target, label: t('wr.bestBand'), value: best },
+            { icon: PenLine, label: t('wr.drafts'), value: draftCount },
           ].map(s => (
             <div key={s.label} className="glass-card-hover p-3 sm:p-4 flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -110,15 +113,15 @@ export default function Writing() {
           <div className="flex items-center gap-2 text-sm">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="font-medium">{remaining}</span>
-            <span className="text-muted-foreground">writing evaluations left on your plan</span>
+            <span className="text-muted-foreground">{t('wr.evalsLeft')}</span>
           </div>
           <Button size="sm" variant="outline" className="gap-1" onClick={() => setShowPricing(true)}>
-            <Crown className="h-4 w-4" /> {planType === 'free' ? 'Upgrade' : 'Change plan'}
+            <Crown className="h-4 w-4" /> {planType === 'free' ? t('wr.upgrade') : t('wr.changePlan')}
           </Button>
         </div>
 
         {/* Task chooser */}
-        <h2 className="text-lg sm:text-xl font-semibold mb-3">Choose a Task</h2>
+        <h2 className="text-lg sm:text-xl font-semibold mb-3">{t('wr.chooseTask')}</h2>
         <div className="grid sm:grid-cols-2 gap-4 mb-8">
           <button onClick={() => openTask(1)} className="glass-card-hover p-6 text-left group relative overflow-hidden">
             <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
@@ -126,10 +129,10 @@ export default function Writing() {
               <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-3">
                 <BarChart3 className="h-5 w-5 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-1">Task 1 — 20 minutes</h3>
-              <p className="text-sm text-muted-foreground mb-4">Describe a chart, graph, map or process in at least 150 words.</p>
+              <h3 className="text-lg font-semibold mb-1">{t('wr.task1Title')}</h3>
+              <p className="text-sm text-muted-foreground mb-4">{t('wr.task1Desc')}</p>
               <span className="inline-flex items-center gap-1 text-sm text-primary font-medium">
-                Start Task 1 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                {t('wr.startTask1')} <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
           </button>
@@ -139,10 +142,10 @@ export default function Writing() {
               <div className="w-11 h-11 rounded-xl bg-accent/15 flex items-center justify-center mb-3">
                 <PenTool className="h-5 w-5 text-accent-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-1">Task 2 — 40 minutes</h3>
-              <p className="text-sm text-muted-foreground mb-4">Write an opinion or discussion essay of at least 250 words.</p>
+              <h3 className="text-lg font-semibold mb-1">{t('wr.task2Title')}</h3>
+              <p className="text-sm text-muted-foreground mb-4">{t('wr.task2Desc')}</p>
               <span className="inline-flex items-center gap-1 text-sm text-accent-foreground font-medium">
-                Start Task 2 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                {t('wr.startTask2')} <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
           </button>
@@ -153,12 +156,12 @@ export default function Writing() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <History className="h-5 w-5 text-primary" />
-              <h2 className="text-base sm:text-lg font-semibold">Recent essays</h2>
+              <h2 className="text-base sm:text-lg font-semibold">{t('wr.recent')}</h2>
             </div>
             {essays.length > 5 && (
               <Link to="/essays">
                 <Button variant="ghost" size="sm" className="gap-1 text-primary">
-                  View all <ChevronRight className="h-4 w-4" />
+                  {t('wr.viewAll')} <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
             )}
@@ -168,7 +171,7 @@ export default function Writing() {
           ) : recent.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <FileText className="h-10 w-10 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No essays yet. Start with Task 1 or Task 2 above.</p>
+              <p className="text-sm">{t('wr.noEssays')}</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -193,8 +196,8 @@ export default function Writing() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                         <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">{e.task_type}</span>
-                        <span className="text-[10px] text-muted-foreground">{format(new Date(e.created_at), 'MMM d')}</span>
-                        <span className="text-[10px] text-muted-foreground inline-flex items-center gap-1"><Clock className="h-3 w-3" />{e.word_count} words</span>
+                        <span className="text-[10px] text-muted-foreground">{format(new Date(e.created_at), 'MMM d', lang === 'uz' ? { locale: uzLocale } : undefined)}</span>
+                        <span className="text-[10px] text-muted-foreground inline-flex items-center gap-1"><Clock className="h-3 w-3" />{t('wr.words', { n: e.word_count })}</span>
                       </div>
                       <p className="text-xs sm:text-sm truncate text-muted-foreground">{e.topic}</p>
                     </div>

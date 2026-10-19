@@ -1,8 +1,10 @@
 import { Flame } from 'lucide-react';
+import { useT } from '@/i18n';
 import type { LearningState } from '../api';
 
 /** The first thing on the Learn page: today's goal as a ring and the current streak as a big flame. */
 export function GoalStreak({ state }: { state: LearningState }) {
+  const { t } = useT();
   const goal = Math.max(1, state.goal?.daily_goal_xp ?? 30);
   const today = state.goal?.today_xp ?? 0;
   const pct = Math.min(1, today / goal);
@@ -10,11 +12,11 @@ export function GoalStreak({ state }: { state: LearningState }) {
   const streak = info?.current ?? state.streak ?? 0;
   const done = today >= goal;
   const R = 34, C = 2 * Math.PI * R;
-  const note = done ? "Bugungi maqsad bajarildi. Barakalla!"
-    : info?.at_risk ? `Streak ${streak} kun xavfda: bugun bitta dars qiling`
-      : today > 0 ? `Maqsadga ${goal - today} XP qoldi` : "Bugun hali dars qilmadingiz";
+  const note = done ? t('learn.goal.done')
+    : info?.at_risk ? t('learn.goal.atRisk', { n: streak })
+      : today > 0 ? t('learn.goal.left', { n: goal - today }) : t('learn.goal.none');
   return (
-    <section aria-label="Kunlik maqsad va streak" className="rounded-2xl border border-border bg-card p-4 mb-4 flex items-center gap-5">
+    <section aria-label={t('learn.goal.label')} className="rounded-2xl border border-border bg-card p-4 mb-4 flex items-center gap-5">
       <div className="relative w-[88px] h-[88px] shrink-0">
         <svg viewBox="0 0 88 88" className="w-full h-full -rotate-90" aria-hidden>
           <circle cx="44" cy="44" r={R} fill="none" stroke="hsl(var(--secondary))" strokeWidth="9" />
@@ -26,13 +28,13 @@ export function GoalStreak({ state }: { state: LearningState }) {
         </div>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bugungi maqsad</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('learn.goal.today')}</p>
         <p className="font-bold text-lg leading-snug">{note}</p>
       </div>
-      <div className="text-center shrink-0" title="Ketma-ket o'qigan kunlar">
+      <div className="text-center shrink-0" title={t('learn.goal.streakTitle')}>
         <Flame className={`h-10 w-10 mx-auto ${streak > 0 ? 'text-orange-500 fill-orange-400' : 'text-muted-foreground'}`} />
         <p className="text-2xl font-extrabold leading-none mt-0.5">{streak}</p>
-        <p className="text-[11px] text-muted-foreground">kun streak</p>
+        <p className="text-[11px] text-muted-foreground">{t('learn.continue.streak')}</p>
       </div>
     </section>
   );

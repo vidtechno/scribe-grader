@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Lock, Play } from 'lucide-react';
+import { useT } from '@/i18n';
 import type { PlanStep } from '../plan';
 
 /** The next few steps of the course. The first one is a link; the rest wait their turn. */
 export function NextSteps({ steps, dark = false }: { steps: PlanStep[]; dark?: boolean }) {
+  const { t } = useT();
   if (!steps.length) return null;
   const muted = dark ? 'text-white/70' : 'text-muted-foreground';
   return (
-    <ol className="space-y-1.5" aria-label="Keyingi qadamlar">
+    <ol className="space-y-1.5" aria-label={t('learn.next.steps')}>
       {steps.map((s, i) => {
         const body = (
           <>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock, Compass, Flame, GraduationCap, Lock, Play, Target, Zap } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { courseMap, learningStats, placementPending, trialDaysLeft, useLearningState } from '@/features/learn/api';
 import { ALL_LESSONS, COURSE_UNITS, levelOf, unitNo } from '@/features/learn/course';
@@ -8,6 +9,7 @@ import { NextSteps } from '@/features/learn/components/NextSteps';
 
 /** The dashboard's main card: where the learner is in the English course and the one button that continues it. */
 export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
+  const { t, lang } = useT();
   const { data: state, isLoading } = useLearningState();
   const shell = 'relative overflow-hidden rounded-3xl p-5 sm:p-7 text-white bg-gradient-to-br from-primary via-rose-500 to-orange-400 shadow-xl shadow-primary/20';
   const bubbles = (
@@ -26,11 +28,11 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
         <div className="relative flex flex-col sm:flex-row sm:items-center gap-4">
           <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><GraduationCap className="h-7 w-7" /></span>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest opacity-90">Learn English</p>
-            <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">Ingliz tilini noldan o'rganing</h2>
-            <p className="text-sm opacity-90 mt-1">Darslar, talaffuz, mashqlar va testlar. Free tarifda 7 kun bepul, keyin Learn yoki IELTS.</p>
+            <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{t('learnhero.kicker')}</p>
+            <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">{t('learnhero.title')}</h2>
+            <p className="text-sm opacity-90 mt-1">{t('learnhero.desc')}</p>
           </div>
-          <Link to="/learn"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">Boshlash<ArrowRight className="h-4 w-4" /></Button></Link>
+          <Link to="/learn"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">{t('learnhero.start')}<ArrowRight className="h-4 w-4" /></Button></Link>
         </div>
       </div>
     );
@@ -44,18 +46,18 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
           <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><Compass className="h-7 w-7" /></span>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{levelOf(state.profile.placement_target).title} · {levelOf(state.profile.placement_target).cefr}</p>
-            <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">Daraja testi sizni kutmoqda</h2>
-            <p className="text-sm opacity-90 mt-1">Oldingi darajalardan 20 ta savol. 70% topsangiz, to'g'ridan-to'g'ri {levelOf(state.profile.placement_target).title}'dan boshlaysiz.</p>
+            <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">{t('learnhero.placement.title')}</h2>
+            <p className="text-sm opacity-90 mt-1">{t('learnhero.placement.desc', { level: levelOf(state.profile.placement_target).title })}</p>
           </div>
-          <Link to="/learn/placement"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">Testni boshlash<ArrowRight className="h-4 w-4" /></Button></Link>
+          <Link to="/learn/placement"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">{t('learnhero.placement.start')}<ArrowRight className="h-4 w-4" /></Button></Link>
         </div>
       </div>
     );
   }
 
-  const plan = learningPlan(state, 4);
+  const plan = learningPlan(state, 4, lang);
   const map = plan.map;
-  const stats = learningStats(state);
+  const stats = learningStats(state, lang);
   const daysLeft = trialDaysLeft(state.access);
   const locked = !state.access.allowed;
   const level = levelOf(state.profile.level);
@@ -63,20 +65,20 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
   const todayXp = state.goal?.today_xp ?? 0;
   const info = state.streak_info;
   const goalText = todayXp >= goal
-    ? `Bugungi maqsad bajarildi: ${todayXp}/${goal} XP. Barakalla!`
+    ? t('learnhero.goal.done', { xp: todayXp, goal })
     : todayXp > 0
-      ? `Bugungi maqsad: ${todayXp}/${goal} XP — oz qoldi`
-      : info?.broken ? "Streak uzildi, lekin yangisini bugun boshlash mumkin"
-      : info?.at_risk ? `Streak ${info.current} kun — ${info.days_left <= 1 ? 'bugun oxirgi kun, bir dars qiling' : 'bir dars qilsangiz, davom etadi'}`
-      : `Bugungi maqsad: ${goal} XP (~${Math.max(5, Math.round(goal / 3))} daqiqa)`;
+      ? t('learnhero.goal.some', { xp: todayXp, goal })
+      : info?.broken ? t('learnhero.goal.broken')
+      : info?.at_risk ? t(info.days_left <= 1 ? 'learnhero.goal.riskLast' : 'learnhero.goal.risk', { n: info.current })
+      : t('learnhero.goal.default', { goal, min: Math.max(5, Math.round(goal / 3)) });
   const pct = map.total ? Math.round((map.doneCount / map.total) * 100) : 0;
   const drillTitle = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.titleUz : null;
   const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
-  const heading = locked ? "Bepul davr tugadi" : map.nextDrill ? `Mashq: ${drillTitle}` : map.nextLesson ? map.nextLesson.titleUz : map.pendingTest ? 'Bosqich testi tayyor' : "Hozircha mavjud darslar tugadi";
+  const heading = locked ? t('learnhero.locked') : map.nextDrill ? t('learnhero.drill', { title: drillTitle ?? '' }) : map.nextLesson ? map.nextLesson.titleUz : map.pendingTest ? t('learnhero.testReady') : t('learnhero.allDone');
   const topic = COURSE_UNITS.find((u) => u.id === (map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.unitId : map.nextLesson?.unitId ?? map.pendingTest?.id));
   const last = [...state.progress].filter((p) => p.completed_at).sort((a, b) => (b.completed_at! > a.completed_at! ? 1 : -1))
     .map((p) => ALL_LESSONS.find((l) => l.id === p.lesson_id)).find(Boolean);
-  const kicker = locked ? 'Natijalaringiz saqlangan' : map.nextDrill ? 'Keyingi dars ochilishi uchun mashq' : map.nextLesson ? (stats.todayDone ? 'Yana bitta dars?' : 'Keyingi dars') : 'Bosqich testi';
+  const kicker = locked ? t('learnhero.k.saved') : map.nextDrill ? t('learnhero.k.drill') : map.nextLesson ? (stats.todayDone ? t('learnhero.k.another') : t('learnhero.k.next')) : t('learnhero.k.test');
 
   return (
     <div className={shell}>
@@ -84,18 +86,18 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
       <div className="relative">
         <div className="flex flex-wrap items-center gap-2 mb-3 text-xs font-semibold">
           <span className="rounded-full bg-white/20 px-2.5 py-1">{level.title} · {level.cefr === 'Noldan' ? '0' : level.cefr}</span>
-          <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Flame className="h-3.5 w-3.5" />{info?.current ?? state.streak} kun</span>
+          <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Flame className="h-3.5 w-3.5" />{t('learnhero.days', { n: info?.current ?? state.streak })}</span>
           <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Zap className="h-3.5 w-3.5" />{state.profile.xp} XP</span>
-          {daysLeft !== null && <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />Bepul: {daysLeft} kun</span>}
+          {daysLeft !== null && <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{t('learnhero.freeLeft', { n: daysLeft })}</span>}
         </div>
         <div className="flex flex-col sm:flex-row sm:items-end gap-4">
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{kicker}</p>
             <h2 className="text-xl sm:text-2xl font-extrabold leading-tight mt-0.5">{heading}</h2>
-            {!locked && topic && <p className="text-xs opacity-90 mt-1">{unitNo(topic)}-mavzu: {topic.titleUz}{last ? ` · oxirgi tugatilgan: ${last.titleUz}` : ''}</p>}
+            {!locked && topic && <p className="text-xs opacity-90 mt-1">{t('learnhero.topic', { n: unitNo(topic), title: topic.titleUz })}{last ? t('learnhero.last', { title: last.titleUz }) : ''}</p>}
             <div className="mt-3 flex items-center gap-3">
               <div className="h-2.5 flex-1 rounded-full bg-white/25 overflow-hidden"><div className="h-full rounded-full bg-white transition-all" style={{ width: `${pct}%` }} /></div>
-              <span className="text-xs font-semibold whitespace-nowrap">{map.doneCount}/{map.total} dars</span>
+              <span className="text-xs font-semibold whitespace-nowrap">{t('learnhero.lessonsDone', { done: map.doneCount, total: map.total })}</span>
             </div>
             <p className="text-xs opacity-90 mt-2 flex items-center gap-1.5">
               <Target className="h-3.5 w-3.5" />{goalText}
@@ -103,17 +105,17 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
             {!locked && plan.steps.length > 1 && (
               <div className="mt-3 -mx-2 hidden sm:block"><NextSteps steps={plan.steps} dark /></div>
             )}
-            <Link to="/learn" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold underline underline-offset-2 opacity-90 hover:opacity-100">Barcha mavzular va {level.title}: {plan.levelDone}/{plan.levelTotal} dars<ArrowRight className="h-3 w-3" /></Link>
+            <Link to="/learn" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold underline underline-offset-2 opacity-90 hover:opacity-100">{t('learnhero.allTopics', { level: level.title, done: plan.levelDone, total: plan.levelTotal })}<ArrowRight className="h-3 w-3" /></Link>
           </div>
           {locked ? (
             <Button size="lg" onClick={onUpgrade} className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Lock className="h-4 w-4" />Learn / IELTS</Button>
           ) : (
             <Link to={continueTo} className="sm:shrink-0">
-              <Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{map.nextLesson ? 'Davom etish' : 'Ochish'}</Button>
+              <Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{map.nextLesson ? t('learnhero.continue') : t('learnhero.open')}</Button>
             </Link>
           )}
         </div>
-        <div className="mt-5 flex items-stretch gap-1.5 h-10" aria-label="Oxirgi 7 kun">
+        <div className="mt-5 flex items-stretch gap-1.5 h-10" aria-label={t('learnhero.last7')}>
           {(() => {
             const maxXp = Math.max(20, ...stats.week.map((d) => d.xp));
             return stats.week.map((d) => (

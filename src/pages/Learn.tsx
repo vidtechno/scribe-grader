@@ -1,3 +1,4 @@
+import { useT } from '@/i18n';
 import { TelegramConnectModal } from '@/components/TelegramConnectCard';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -34,15 +35,16 @@ const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts
 
 export default function Learn() {
   const { data: state, isLoading, error } = useLearningState();
+  const { t } = useT();
 
   return (
     <div className="min-h-screen bg-background pb-28 md:pb-12">
-      <SEOHead title="Ingliz tilini o'rganish" description="Ingliz tilini noldan o'rganing: darslar, mashqlar, testlar va talaffuz." path="/learn" noindex />
+      <SEOHead title={t('learn.home.seoTitle')} description={t('learn.home.seoDesc')} path="/learn" noindex />
       <Navbar />
       <TelegramConnectModal />
       <main className="pt-24 px-4 sm:px-6 max-w-5xl mx-auto">
         {isLoading ? <div className="grid place-items-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
-          : error ? <p className="text-center py-24 text-muted-foreground">O'rganish bo'limini yuklab bo'lmadi. Sahifani yangilang.</p>
+          : error ? <p className="text-center py-24 text-muted-foreground">{t('learn.home.loadError')}</p>
             : !state?.profile ? <LevelPicker access={state?.access} />
               : <CourseHome state={state} />}
       </main>
@@ -52,10 +54,10 @@ export default function Learn() {
 
 /** Who each level is for, in a sentence the learner can compare with their own English. */
 const LEVEL_FOR: Partial<Record<LevelId, string>> = {
-  beginner: "Alifbo, tovushlar va birinchi gaplar. Ingliz tilini umuman bilmasangiz, shu yerdan boshlang.",
-  a1: "O'zingiz haqingizda gapirish, oddiy suhbat, asosiy zamonlar. Alifbo va oddiy gaplarni bilsangiz.",
-  a2: "O'tmish va kelajak haqida gapirish, taqqoslash, maslahat. Kundalik mavzularda oddiy gaplasha olsangiz.",
-  b1: "Fikr bildirish, hikoya qilish, shart gaplar, majhul nisbat. Ko'p narsani tushunib, o'zingizni ifodalay olsangiz.",
+  beginner: 'learn.levelFor.beginner',
+  a1: 'learn.levelFor.a1',
+  a2: 'learn.levelFor.a2',
+  b1: 'learn.levelFor.b1',
 };
 const levelSize = (level: LevelId) => {
   const units = COURSE_UNITS.filter((u) => u.level === level);
@@ -63,6 +65,7 @@ const levelSize = (level: LevelId) => {
 };
 
 function LevelPicker({ access }: { access?: LearningState['access'] }) {
+  const { t, lang } = useT();
   const refresh = useRefreshLearning();
   const navigate = useNavigate();
   const [busy, setBusy] = useState<LevelId | null>(null);
@@ -72,25 +75,24 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
       // The learner starts at the level they picked; no test is required (the level check below is optional).
       await callLearning('learning_start_chosen', { _level: level });
       await refresh();
-      toast.success(`${levelOf(level).title} darajasi boshlandi! Birinchi dars sizni kutmoqda.`);
+      toast.success(t('learn.home.levelStarted', { level: levelOf(level).title }));
     } catch (e) {
-      toast.error(learningErrorMessage(e));
+      toast.error(learningErrorMessage(e, lang));
     } finally { setBusy(null); }
   };
   const paid = access?.reason === 'paid';
   return (
     <div className="max-w-3xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
-        <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary text-xs font-semibold px-3 py-1 mb-4"><GraduationCap className="h-4 w-4" />Yangi: ingliz tili kursi</span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold mb-3">Ingliz tilini <span className="gradient-text">noldan</span> o'rganing</h1>
+        <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary text-xs font-semibold px-3 py-1 mb-4"><GraduationCap className="h-4 w-4" />{t('learn.home.badge')}</span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold mb-3">{t('learn.home.heroA')} <span className="gradient-text">{t('learn.home.heroB')}</span> {t('learn.home.heroC')}</h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Har bir dars: mavzuni sodda tushuntirish, talaffuz, yangi so'zlar (5–7 ta, natijangizga qarab), mashqlar va test. Eski so'zlar va xatolar esa o'z vaqtida qaytib turadi. Har bosqich oxirida imtihon —
-          bilmasdan oldinga o'tib ketmaysiz.
+          {t('learn.home.heroText')}
         </p>
-        <p className="text-sm mt-3 font-medium">{paid ? 'Kurs tarifingizga kiritilgan.' : `Free tarifda ${TRIAL_DAYS} kun bepul, keyin Learn yoki IELTS.`}</p>
+        <p className="text-sm mt-3 font-medium">{paid ? t('learn.home.included') : t('learn.home.freeTrial', { days: TRIAL_DAYS })}</p>
       </motion.div>
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-1">Darajangizni tanlang</h2>
-      <p className="text-sm text-muted-foreground mb-3">Istagan darajadan boshlashingiz mumkin: test shart emas. Keyinroq yuqoriroq darajaga qisqa test bilan o'tasiz.</p>
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-1">{t('learn.home.pickLevel')}</h2>
+      <p className="text-sm text-muted-foreground mb-3">{t('learn.home.pickLevelHint')}</p>
       <div className="grid sm:grid-cols-2 gap-3">
         {LEVELS.map((l, i) => (
           <motion.button key={l.id} type="button" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
@@ -102,25 +104,26 @@ function LevelPicker({ access }: { access?: LearningState['access'] }) {
             </span>
             <span className="min-w-0 flex-1">
               <span className="flex items-center gap-2 font-bold text-lg">{l.title}
-                {!l.available && <span className="text-[10px] uppercase tracking-wide rounded-full bg-secondary px-2 py-0.5 text-muted-foreground font-semibold">Tez orada</span>}
+                {!l.available && <span className="text-[10px] uppercase tracking-wide rounded-full bg-secondary px-2 py-0.5 text-muted-foreground font-semibold">{t('learn.home.soon')}</span>}
               </span>
-              <span className="block text-sm text-muted-foreground mt-0.5">{LEVEL_FOR[l.id] ?? l.text}</span>
-              {l.available && levelSize(l.id).lessons > 0 && <span className="block text-xs text-muted-foreground/80 mt-1">{levelSize(l.id).units} bosqich · {levelSize(l.id).lessons} dars</span>}
-              {l.available && <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">{busy === l.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}Shu darajadan boshlash</span>}
+              <span className="block text-sm text-muted-foreground mt-0.5">{LEVEL_FOR[l.id] ? t(LEVEL_FOR[l.id]!) : l.text}</span>
+              {l.available && levelSize(l.id).lessons > 0 && <span className="block text-xs text-muted-foreground/80 mt-1">{t('learn.home.levelSize', { units: levelSize(l.id).units, lessons: levelSize(l.id).lessons })}</span>}
+              {l.available && <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">{busy === l.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}{t('learn.home.startHere')}</span>}
             </span>
           </motion.button>
         ))}
       </div>
       <div className="mt-6 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-5 text-center">
-        <p className="font-semibold mb-1">Darajangizni bilmaysizmi?</p>
-        <p className="text-sm text-muted-foreground mb-3">15 ta savolli qisqa daraja testidan o'ting: u sizga mos darajani aytadi va shu yerdan boshlaysiz.</p>
-        <Button variant="outline" className="gap-2" onClick={() => navigate('/learn/start')}><Compass className="h-4 w-4" />Daraja testidan o'tish</Button>
+        <p className="font-semibold mb-1">{t('learn.home.unsure')}</p>
+        <p className="text-sm text-muted-foreground mb-3">{t('learn.home.unsureHint')}</p>
+        <Button variant="outline" className="gap-2" onClick={() => navigate('/learn/start')}><Compass className="h-4 w-4" />{t('learn.home.takeTest')}</Button>
       </div>
     </div>
   );
 }
 
 function CourseHome({ state }: { state: LearningState }) {
+  const { t, lang } = useT();
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const tab: 'map' | 'words' = params.get('tab') === 'words' ? 'words' : 'map';
@@ -128,7 +131,7 @@ function CourseHome({ state }: { state: LearningState }) {
   const [levelTab, setLevelTab] = useState<LevelId | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
   const map = useMemo(() => courseMap(state), [state]);
-  const stats = useMemo(() => learningStats(state), [state]);
+  const stats = useMemo(() => learningStats(state, lang), [state, lang]);
   const daysLeft = trialDaysLeft(state.access);
   const locked = !state.access.allowed;
   const maxXp = Math.max(20, ...stats.week.map((d) => d.xp));
@@ -141,19 +144,19 @@ function CourseHome({ state }: { state: LearningState }) {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-3 mb-3">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).title} · {levelOf(startLevel).cefr}dan boshlagan</p>
-          <h1 className="text-2xl sm:text-3xl font-extrabold">Ingliz tili kursi</h1>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).cefr === 'Noldan' ? t('learn.home.startedScratch', { level: levelOf(startLevel).title }) : t('learn.home.startedAt', { level: levelOf(startLevel).title, cefr: levelOf(startLevel).cefr })}</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold">{t('learn.home.courseTitle')}</h1>
         </div>
-        <Link to="/dashboard" className="inline-flex items-center gap-1.5 rounded-full border border-border text-sm font-medium px-3.5 py-2 hover:border-primary hover:text-primary transition-colors sm:order-last">Bosh sahifa</Link>
+        <Link to="/dashboard" className="inline-flex items-center gap-1.5 rounded-full border border-border text-sm font-medium px-3.5 py-2 hover:border-primary hover:text-primary transition-colors sm:order-last">{t('learn.home.dashboard')}</Link>
         <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3.5 py-2 hover:bg-amber-500/20 transition-colors sm:order-last">
-          <Trophy className="h-4 w-4" />Reyting
+          <Trophy className="h-4 w-4" />{t('learn.home.leaderboard')}
         </Link>
       </div>
 
       {daysLeft !== null && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 mb-3 text-sm flex items-center gap-2">
           <Clock className="h-5 w-5 text-amber-600 shrink-0" />
-          <span className="flex-1">Bepul davr: <b>{daysLeft} kun</b> qoldi. Undan keyin kurs Learn va IELTS tariflarida davom etadi.</span>
+          <span className="flex-1">{t('learn.home.trialA')} <b>{t('learn.home.trialDays', { days: daysLeft })}</b> {t('learn.home.trialB')}</span>
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
@@ -162,15 +165,15 @@ function CourseHome({ state }: { state: LearningState }) {
       <SkipIntroBanner state={state} />
 
       {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4" aria-label="Statistika">
-        <StatCard icon={Flame} tone="text-orange-500" label="Streak" value={`${state.streak} kun`} hint={stats.todayDone ? 'Bugungi reja bajarildi ✓' : 'Bugun hali dars qilinmadi'} />
-        <StatCard icon={Zap} tone="text-amber-500" label="Jami XP" value={String(state.profile?.xp ?? 0)} hint={`${stats.activeDays} faol kun`} />
-        <StatCard icon={Trophy} tone="text-primary" label="Darslar" value={`${map.doneCount} / ${map.total}`} hint={`${map.unitsPassed} / ${map.unitsTotal} bosqich testi`} />
-        <StatCard icon={BookA} tone="text-emerald-500" label="So'zlar" value={String(map.wordCount)} hint={stats.accuracy !== null ? `Aniqlik ${stats.accuracy}% · ${stats.minutes} daq` : 'Birinchi darsdan boshlang'} />
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4" aria-label={t('learn.home.stats')}>
+        <StatCard icon={Flame} tone="text-orange-500" label="Streak" value={t('learn.home.streakDays', { n: state.streak })} hint={stats.todayDone ? t('learn.home.todayDone') : t('learn.home.todayNotDone')} />
+        <StatCard icon={Zap} tone="text-amber-500" label="Jami XP" value={String(state.profile?.xp ?? 0)} hint={t('learn.home.activeDays', { n: stats.activeDays })} />
+        <StatCard icon={Trophy} tone="text-primary" label={t('learn.home.lessons')} value={`${map.doneCount} / ${map.total}`} hint={t('learn.home.unitTests', { done: map.unitsPassed, total: map.unitsTotal })} />
+        <StatCard icon={BookA} tone="text-emerald-500" label={t('learn.home.words')} value={String(map.wordCount)} hint={stats.accuracy !== null ? t('learn.home.accuracy', { pct: stats.accuracy, min: stats.minutes }) : t('learn.home.startFirst')} />
       </section>
 
       <div className="flex gap-2 mb-4 p-1 rounded-xl bg-secondary/60 w-fit">
-        {([['map', 'Mavzular'], ['words', "Lug'atim"]] as const).map(([id, label]) => (
+        {([['map', t('learn.home.tabTopics')], ['words', t('learn.home.tabWords')]] as const).map(([id, label]) => (
           <button key={id} type="button" onClick={() => setTab(id)}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${tab === id ? 'bg-card shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>{label}</button>
         ))}
@@ -179,7 +182,7 @@ function CourseHome({ state }: { state: LearningState }) {
       {tab === 'map' ? (
         <>
           {shownLevels.length > 1 && (
-            <div className="flex gap-2 mb-6 overflow-x-auto" role="tablist" aria-label="Daraja">
+            <div className="flex gap-2 mb-6 overflow-x-auto" role="tablist" aria-label={t('learn.home.level')}>
               {shownLevels.map((l) => (
                 <button key={l.id} type="button" role="tab" aria-selected={level === l.id} onClick={() => setLevelTab(l.id)}
                   className={`px-4 py-2 rounded-full text-sm font-semibold border whitespace-nowrap transition-colors ${level === l.id ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground'}`}>
@@ -188,11 +191,11 @@ function CourseHome({ state }: { state: LearningState }) {
               ))}
             </div>
           )}
-          <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast("Bu qism hali yopiq — avvalgi darslar va bosqich testini tugating."))} />
-          <section className="glass-card p-4 mt-6" aria-label="Haftalik faollik">
+          <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} />
+          <section className="glass-card p-4 mt-6" aria-label={t('learn.home.weekly')}>
         <div className="flex items-center justify-between mb-3">
-          <p className="text-sm font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-primary" />Shu hafta</p>
-          <p className="text-xs text-muted-foreground">Kuniga kamida 1 dars — eng yaxshi natija beradigan odat</p>
+          <p className="text-sm font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-primary" />{t('learn.home.thisWeek')}</p>
+          <p className="text-xs text-muted-foreground">{t('learn.home.weekHint')}</p>
         </div>
         <div className="flex items-end gap-2 h-24">
           {stats.week.map((d) => (
@@ -215,6 +218,7 @@ function CourseHome({ state }: { state: LearningState }) {
 
 /** Shown while a placement test is waiting: take it, or start from Beginner. */
 function PlacementGate({ target, attemptsLeft }: { target: LevelId; attemptsLeft: number }) {
+  const { t, lang } = useT();
   const lv = levelOf(target);
   const navigate = useNavigate();
   const refresh = useRefreshLearning();
@@ -224,22 +228,21 @@ function PlacementGate({ target, attemptsLeft }: { target: LevelId; attemptsLeft
     try {
       await callLearning('learning_skip_placement');
       await refresh();
-      toast.success("Beginner kursi boshlandi. Birinchi dars sizni kutmoqda.");
+      toast.success(t('learn.home.beginnerStarted'));
     } catch (e) {
-      toast.error(learningErrorMessage(e));
+      toast.error(learningErrorMessage(e, lang));
     } finally { setBusy(false); }
   };
   return (
     <div className="max-w-xl mx-auto text-center py-6">
       <span className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft grid place-items-center"><Compass className="h-8 w-8 text-primary-foreground" /></span>
       <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">{lv.title} · {lv.cefr}</p>
-      <h1 className="text-2xl sm:text-3xl font-extrabold mb-3">Avval daraja testi</h1>
+      <h1 className="text-2xl sm:text-3xl font-extrabold mb-3">{t('learn.home.placementTitle')}</h1>
       <p className="text-muted-foreground mb-5">
-        Oldingi darajalardan {PLACEMENT.questions} ta savol. Kamida {PLACEMENT.passPercent}% to'g'ri javob bersangiz, to'g'ridan-to'g'ri {lv.title} darslariga o'tasiz.
-        {' '}{attemptsLeft} ta urinish qoldi; o'tolmasangiz, Beginner'dan boshlaysiz.
+        {t('learn.home.placementText', { questions: PLACEMENT.questions, pct: PLACEMENT.passPercent, level: lv.title, left: attemptsLeft })}
       </p>
-      <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate('/learn/placement')}><Play className="h-4 w-4 fill-current" />Testni boshlash</Button>
-      <Button variant="ghost" className="w-full mt-2" disabled={busy} onClick={() => void skip()}>Testsiz, Beginner'dan boshlash</Button>
+      <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate('/learn/placement')}><Play className="h-4 w-4 fill-current" />{t('learn.home.startTest')}</Button>
+      <Button variant="ghost" className="w-full mt-2" disabled={busy} onClick={() => void skip()}>{t('learn.home.skipTest')}</Button>
     </div>
   );
 }
@@ -255,6 +258,7 @@ function StatCard({ icon: Icon, tone, label, value, hint }: { icon: typeof Flame
 }
 
 function WordBook({ state, locked }: { state: LearningState; locked: boolean }) {
+  const { t, lang } = useT();
   const refresh = useRefreshLearning();
   const [groups, setGroups] = useState<{ lessonId: string; title: string; words: Word[] }[] | null>(null);
   const [query, setQuery] = useState('');
@@ -273,7 +277,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
 
   if (!groups) return <div className="grid place-items-center py-16"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>;
   const all = groups.flatMap((g) => g.words);
-  if (!all.length) return <p className="text-center text-muted-foreground py-16">Bu yerda tugatgan darslaringizdagi so'zlar to'planadi. Birinchi darsni tugating!</p>;
+  if (!all.length) return <p className="text-center text-muted-foreground py-16">{t('learn.home.noWords')}</p>;
 
   const q = query.trim().toLowerCase();
   const filtered = groups.map((g) => ({ ...g, words: g.words.filter((w) => !q || w.en.toLowerCase().includes(q) || w.uz.toLowerCase().includes(q)) })).filter((g) => g.words.length);
@@ -284,7 +288,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
     try {
       const pool = all.map((w) => ({ en: w.en, uz: w.uz }));
       const due = queue && (queue.words.length || queue.mistakes.length || queue.grammar.length)
-        ? await loadSession(queue, { max: 10, extraPool: pool, allowSpeak: true }) : [];
+        ? await loadSession(queue, { max: 10, extraPool: pool, allowSpeak: true, lang }) : [];
       if (due.length) { setDrill(due.map((item) => ({ ex: item.ex, item }))); return; }
       const picked = shuffle(all).slice(0, 10);
       setDrill(picked.map((w, i) => {
@@ -292,7 +296,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
         if (i % 3 === 0) return { ex: { k: 'translate', uz: w.uz, a: [w.en], why: `**${w.en}** — ${w.uz}` } as Exercise };
         const opts = shuffle([w.en, ...others.map((o) => o.en)]);
         return { ex: i % 3 === 1 ? { k: 'listen', say: w.en, opts, a: opts.indexOf(w.en) } as Exercise
-          : { k: 'choice', q: `"**${w.uz}**" inglizcha qanday?`, opts, a: opts.indexOf(w.en) } as Exercise };
+          : { k: 'choice', q: t('learn.home.howToSay', { word: w.uz }), opts, a: opts.indexOf(w.en) } as Exercise };
       }));
     } finally { setPreparing(false); }
   };
@@ -304,24 +308,24 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
       <div className="flex flex-wrap gap-3 items-center mb-5">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="So'z qidirish…" className="pl-9" />
+          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('learn.home.search')} className="pl-9" />
         </div>
         <Button variant="glow" className="gap-2" disabled={locked || preparing || all.length < 4} onClick={() => void startDrill()}>
           {preparing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-          {dueCount > 0 ? `Takrorlash (${Math.min(dueCount, 10)})` : "So'zlarni takrorlash"}
+          {dueCount > 0 ? t('learn.home.reviewN', { n: Math.min(dueCount, 10) }) : t('learn.home.reviewWords')}
         </Button>
         <Button variant="outline" className="gap-2" disabled={locked || all.length < 8} onClick={() => setSpeed(true)}>
-          <Zap className="h-4 w-4 text-amber-500" />Tezkor raund
+          <Zap className="h-4 w-4 text-amber-500" />{t('learn.home.speedRound')}
         </Button>
       </div>
       {stats && (
         <div className="grid grid-cols-3 gap-2 mb-4 text-center">
-          <div className="glass-card py-2.5"><p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{stats.mastered}</p><p className="text-[11px] text-muted-foreground">mustahkam</p></div>
-          <div className="glass-card py-2.5"><p className="text-lg font-bold text-primary">{stats.learning + stats.new}</p><p className="text-[11px] text-muted-foreground">o'rganilmoqda</p></div>
-          <div className="glass-card py-2.5"><p className="text-lg font-bold">{dueCount}</p><p className="text-[11px] text-muted-foreground">takrorni kutmoqda</p></div>
+          <div className="glass-card py-2.5"><p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{stats.mastered}</p><p className="text-[11px] text-muted-foreground">{t('learn.home.mastered')}</p></div>
+          <div className="glass-card py-2.5"><p className="text-lg font-bold text-primary">{stats.learning + stats.new}</p><p className="text-[11px] text-muted-foreground">{t('learn.home.learning')}</p></div>
+          <div className="glass-card py-2.5"><p className="text-lg font-bold">{dueCount}</p><p className="text-[11px] text-muted-foreground">{t('learn.home.due')}</p></div>
         </div>
       )}
-      <p className="text-sm text-muted-foreground mb-4">{all.length} ta so'z. Qiyin so'zlar tez-tez, yaxshi bilganlaringiz kamroq qaytadi — vaqti kelganda tizim o'zi eslatadi.</p>
+      <p className="text-sm text-muted-foreground mb-4">{t('learn.home.wordsHint', { n: all.length })}</p>
       <div className="space-y-5">
         {filtered.map((g) => (
           <div key={g.lessonId}>
@@ -349,6 +353,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
 interface DrillItem { ex: Exercise; item?: SessionItem }
 
 function WordDrill({ items: drillItems, onClose, onFinished }: { items: DrillItem[]; onClose: () => void; onFinished: () => void }) {
+  const { t, lang } = useT();
   const items = useMemo(() => drillItems.map((d) => d.ex), [drillItems]);
   const results = useMemo<{ item: SessionItem; correct: boolean }[]>(() => [], []);
   const [i, setI] = useState(0);
@@ -362,21 +367,21 @@ function WordDrill({ items: drillItems, onClose, onFinished }: { items: DrillIte
       if (results.length) await recordReview(sessionEvents(results), true);
       else await callLearning('learning_log_practice', { _correct: score, _answered: items.length, _seconds: Math.round((Date.now() - startedAt) / 1000) });
       onFinished();
-    } catch (e) { toast.error(learningErrorMessage(e)); }
+    } catch (e) { toast.error(learningErrorMessage(e, lang)); }
   };
   return (
     <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur overflow-y-auto">
       <div className="max-w-xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
-          <button type="button" onClick={onClose} aria-label="Yopish" className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
+          <button type="button" onClick={onClose} aria-label={t('learn.common.close')} className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
           <div className="h-2.5 flex-1 rounded-full bg-secondary overflow-hidden"><div className="h-full bg-primary transition-all" style={{ width: `${(Math.min(i, items.length) / items.length) * 100}%` }} /></div>
         </div>
         {finished ? (
           <div className="text-center py-10">
             <CheckCircle2 className="h-14 w-14 text-emerald-500 mx-auto mb-3" />
             <h2 className="text-2xl font-bold mb-1">{correct} / {items.length}</h2>
-            <p className="text-muted-foreground mb-6">{correct >= items.length * 0.8 ? "Ajoyib! So'zlar yaxshi esda qolgan." : "Xato qilgan so'zlaringizni yana bir bor ko'zdan kechiring."}</p>
-            <Button onClick={onClose} className="gap-2"><Check className="h-4 w-4" />Tayyor</Button>
+            <p className="text-muted-foreground mb-6">{correct >= items.length * 0.8 ? t('learn.home.drillGood') : t('learn.home.drillBad')}</p>
+            <Button onClick={onClose} className="gap-2"><Check className="h-4 w-4" />{t('learn.home.done')}</Button>
           </div>
         ) : (
           <ExerciseView key={i} ex={items[i]} mode="practice" onDone={(c) => {

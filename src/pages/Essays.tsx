@@ -7,6 +7,8 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { SEOHead } from '@/components/SEOHead';
 import { ArrowLeft, FileText, ChevronRight, ChevronLeft, Loader2, AlertCircle, PenLine } from 'lucide-react';
 import { format } from 'date-fns';
+import { uz } from 'date-fns/locale';
+import { useT } from '@/i18n';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -24,6 +26,8 @@ interface Essay {
 const PAGE_SIZE = 10;
 
 export default function Essays() {
+  const { t, lang } = useT();
+  const dfl = lang === 'uz' ? { locale: uz } : undefined;
   const { user } = useAuth();
   const [essays, setEssays] = useState<Essay[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,32 +83,32 @@ export default function Essays() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="My Essays" description="View all your IELTS practice essays and scores." path="/essays" noindex />
+      <SEOHead title={t('essays.seoTitle')} description={t('essays.seoDesc')} path="/essays" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+          <ArrowLeft className="h-4 w-4" /> {t('essays.back')}
         </Link>
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold">All Essays</h1>
-            <p className="text-muted-foreground text-sm">{essays.length} essays total</p>
+            <h1 className="text-2xl font-bold">{t('essays.title')}</h1>
+            <p className="text-muted-foreground text-sm">{t('essays.total', { n: essays.length })}</p>
           </div>
         </div>
 
         {/* Tabs */}
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           {([
-            { k: 'all', label: `All (${essays.length})` },
-            { k: 'processing', label: `Processing (${procCount})` },
-            { k: 'drafts', label: `Drafts (${draftCount})` },
-          ] as const).map(t => (
-            <button key={t.k} onClick={() => { setTab(t.k); setCurrentPage(1); }}
+            { k: 'all', label: t('essays.tabAll', { n: essays.length }) },
+            { k: 'processing', label: t('essays.tabProcessing', { n: procCount }) },
+            { k: 'drafts', label: t('essays.tabDrafts', { n: draftCount }) },
+          ] as const).map(tb => (
+            <button key={tb.k} onClick={() => { setTab(tb.k); setCurrentPage(1); }}
               className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${
-                tab === t.k ? 'bg-primary text-primary-foreground border-primary' : 'bg-secondary/40 border-border text-muted-foreground hover:text-foreground'
+                tab === tb.k ? 'bg-primary text-primary-foreground border-primary' : 'bg-secondary/40 border-border text-muted-foreground hover:text-foreground'
               }`}>
-              {t.label}
+              {tb.label}
             </button>
           ))}
         </div>
@@ -132,11 +136,11 @@ export default function Essays() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">{essay.task_type}</span>
-                      <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy · HH:mm')}</span>
-                      <span className="text-xs text-muted-foreground">{essay.word_count} words</span>
-                      {isProcessing && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-600 inline-flex items-center gap-1"><Loader2 className="h-3 w-3 animate-spin" /> Processing…</span>}
-                      {isDraft && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 inline-flex items-center gap-1"><PenLine className="h-3 w-3" /> Draft</span>}
-                      {isFailed && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-destructive/15 text-destructive inline-flex items-center gap-1"><AlertCircle className="h-3 w-3" /> Failed</span>}
+                      <span className="text-xs text-muted-foreground">{format(new Date(essay.created_at), 'MMM d, yyyy · HH:mm', dfl)}</span>
+                      <span className="text-xs text-muted-foreground">{t('essays.words', { n: essay.word_count })}</span>
+                      {isProcessing && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-600 inline-flex items-center gap-1"><Loader2 className="h-3 w-3 animate-spin" /> {t('essays.processing')}</span>}
+                      {isDraft && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 inline-flex items-center gap-1"><PenLine className="h-3 w-3" /> {t('essays.draft')}</span>}
+                      {isFailed && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-destructive/15 text-destructive inline-flex items-center gap-1"><AlertCircle className="h-3 w-3" /> {t('essays.failed')}</span>}
                     </div>
                     <p className="text-sm truncate text-muted-foreground">{essay.topic}</p>
                   </div>
@@ -157,9 +161,9 @@ export default function Essays() {
         ) : (
           <div className="text-center py-16 text-muted-foreground">
             <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
-            <p>No essays yet. Start your first exam!</p>
+            <p>{t('essays.none')}</p>
             <Link to="/exam?task=2" className="mt-4 inline-block">
-              <Button variant="glow">Start Writing</Button>
+              <Button variant="glow">{t('essays.start')}</Button>
             </Link>
           </div>
         )}

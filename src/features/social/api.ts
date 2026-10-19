@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
 import { callLearning } from '@/features/learn/api';
+import { translate, type Lang } from '@/i18n';
 
 export interface SocialCard {
   public_id: string; username?: string | null; avatar?: string | null; name: string; level: string | null;
@@ -20,11 +21,11 @@ export interface PublicProfile {
 export interface LeaderRow { rank: number; public_id: string; username?: string | null; avatar?: string | null; name: string; xp: number; level: string | null; streak: number; is_me: boolean; is_following: boolean }
 export interface Leaderboard { scope: string; period: string; total: number; rows: LeaderRow[]; me: { rank: number; xp: number } | null; me_hidden: boolean }
 
-export function socialErrorMessage(e: unknown): string {
+export function socialErrorMessage(e: unknown, lang: Lang = 'en'): string {
   const msg = e instanceof Error ? e.message : String(e);
-  if (msg.includes('follow_limit')) return "Juda ko'p odamga obuna bo'lgansiz (300 tagacha).";
-  if (msg.includes('not_found')) return 'Foydalanuvchi topilmadi.';
-  return "Bajarib bo'lmadi. Keyinroq qayta urinib ko'ring.";
+  if (msg.includes('follow_limit')) return translate(lang, 'social.errFollowLimit');
+  if (msg.includes('not_found')) return translate(lang, 'social.errNotFound');
+  return translate(lang, 'social.errGeneric');
 }
 
 export function useLeaderboard(scope: 'global' | 'friends', period: 'week' | 'all') {

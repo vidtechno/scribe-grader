@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { CheckCircle2, Timer, X, XCircle, Zap } from 'lucide-react';
 import { toast } from 'sonner';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { callLearning, learningErrorMessage } from '../api';
 import { shuffle } from '../check';
@@ -21,6 +22,7 @@ function makeQuestion(w: Word, pool: Word[], index: number): Question {
 
 /** 60 seconds, as many words as possible. Wrong answers cost nothing but time; the round is a game, not a test. */
 export function SpeedRound({ words, onClose, onFinished }: { words: Word[]; onClose: () => void; onFinished: () => void }) {
+  const { t: tr, lang } = useT();
   const order = useMemo(() => shuffle(words), [words]);
   const [i, setI] = useState(0);
   const [right, setRight] = useState(0);
@@ -45,7 +47,7 @@ export function SpeedRound({ words, onClose, onFinished }: { words: Word[]; onCl
     if (answered < 1) return;
     callLearning('learning_log_practice', { _correct: right, _answered: Math.min(answered, 50), _seconds: DURATION })
       .then(onFinished)
-      .catch((e) => toast.error(learningErrorMessage(e)));
+      .catch((e) => toast.error(learningErrorMessage(e, lang)));
   }, [over, saved, right, wrong, onFinished]);
 
   const answer = (opt: string) => {
@@ -65,7 +67,7 @@ export function SpeedRound({ words, onClose, onFinished }: { words: Word[]; onCl
     <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur overflow-y-auto">
       <div className="max-w-xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
-          <button type="button" onClick={onClose} aria-label="Yopish" className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
+          <button type="button" onClick={onClose} aria-label={tr('learn.common.close')} className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
           <div className="h-2.5 flex-1 rounded-full bg-secondary overflow-hidden"><div className="h-full bg-amber-500 transition-all duration-1000 ease-linear" style={{ width: `${(Math.max(left, 0) / DURATION) * 100}%` }} /></div>
           <span className="flex items-center gap-1 text-sm font-bold tabular-nums"><Timer className="h-4 w-4" />{Math.max(left, 0)}</span>
         </div>
@@ -73,12 +75,12 @@ export function SpeedRound({ words, onClose, onFinished }: { words: Word[]; onCl
         {over ? (
           <div className="text-center py-10">
             <Zap className="h-14 w-14 text-amber-500 mx-auto mb-3" />
-            <h2 className="text-3xl font-extrabold mb-1">{right} ta so'z</h2>
-            <p className="text-muted-foreground mb-1">60 soniyada {right} ta to'g'ri, {wrong} ta xato.</p>
-            <p className="text-sm text-muted-foreground mb-6">{right > best && right > 0 ? "🎉 Yangi rekord!" : best > 0 ? `Eng yaxshi natijangiz: ${best}` : ''}</p>
+            <h2 className="text-3xl font-extrabold mb-1">{tr('learn.speed.words', { n: right })}</h2>
+            <p className="text-muted-foreground mb-1">{tr('learn.speed.summary', { right, wrong })}</p>
+            <p className="text-sm text-muted-foreground mb-6">{right > best && right > 0 ? tr('learn.speed.record') : best > 0 ? tr('learn.speed.best', { n: best }) : ''}</p>
             <div className="flex gap-3 justify-center">
-              <Button variant="outline" onClick={onClose}>Yopish</Button>
-              <Button variant="glow" onClick={() => { startedAt.current = Date.now(); setI(0); setRight(0); setWrong(0); setLeft(DURATION); setSaved(false); }} className="gap-2"><Zap className="h-4 w-4" />Yana bir bor</Button>
+              <Button variant="outline" onClick={onClose}>{tr('learn.common.close')}</Button>
+              <Button variant="glow" onClick={() => { startedAt.current = Date.now(); setI(0); setRight(0); setWrong(0); setLeft(DURATION); setSaved(false); }} className="gap-2"><Zap className="h-4 w-4" />{tr('learn.speed.again')}</Button>
             </div>
           </div>
         ) : (

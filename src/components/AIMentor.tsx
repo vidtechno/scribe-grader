@@ -11,6 +11,7 @@ import {
   Check, Crown, ChevronLeft, Bot, User, Sparkles, Lock, Coins
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useT } from '@/i18n';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Chat {
@@ -32,6 +33,7 @@ interface AIMentorProps {
 }
 
 export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps = {}) {
+  const { t } = useT();
   const { user } = useAuth();
   const { subscription, isPremium } = useSubscription();
   const planType = subscription?.plan_type || 'free';
@@ -142,7 +144,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
       .insert({ user_id: user.id, title: 'New Chat' })
       .select()
       .single();
-    if (error) { toast.error('Failed to create chat'); return; }
+    if (error) { toast.error(t('mentor.newChatFail')); return; }
     const chat = data as any as Chat;
     setChats(prev => [chat, ...prev]);
     setActiveChat(chat);
@@ -157,7 +159,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
       setActiveChat(null);
       setMessages([]);
     }
-    toast.success('Chat deleted');
+    toast.success(t('mentor.deleted'));
   };
 
   const renameChat = async (chatId: string) => {
@@ -171,7 +173,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
   const sendMessage = async () => {
     if (!input.trim() || sending || !user) return;
     if (dailyUsage.used >= dailyUsage.limit) {
-      toast.error(`Daily limit reached (${dailyUsage.limit} messages)`);
+      toast.error(t('mentor.dailyLimit', { limit: dailyUsage.limit }));
       return;
     }
 
@@ -182,7 +184,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
         .from('mentor_chats')
         .insert({ user_id: user.id, title: input.trim().slice(0, 40) })
         .select().single();
-      if (error) { toast.error('Failed to create chat'); return; }
+      if (error) { toast.error(t('mentor.newChatFail')); return; }
       const chat = data as any as Chat;
       setChats(prev => [chat, ...prev]);
       setActiveChat(chat);
@@ -234,7 +236,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
         setActiveChat(prev => prev ? { ...prev, title: autoTitle } : null);
       }
     } catch (err: any) {
-      toast.error(err.message || 'Failed to get response');
+      toast.error(err.message || t('mentor.respFail'));
     } finally {
       setSending(false);
     }
@@ -258,6 +260,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={() => setIsOpen(true)}
+            aria-label={t('mentor.open')}
             className="fixed bottom-24 md:bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 flex items-center justify-center hover:scale-110 transition-transform"
           >
             <Bot className="h-6 w-6" />
@@ -277,20 +280,20 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
             <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
               <div className="flex items-center gap-2">
                 {(activeChat || showHistory) && (
-                  <button onClick={() => { setActiveChat(null); setShowHistory(false); setMessages([]); }} className="hover:opacity-80">
+                  <button onClick={() => { setActiveChat(null); setShowHistory(false); setMessages([]); }} className="hover:opacity-80" aria-label={t('mentor.back')}>
                     <ChevronLeft className="h-5 w-5" />
                   </button>
                 )}
                 <Bot className="h-5 w-5" />
                 <span className="font-semibold text-sm">
-                  {activeChat ? activeChat.title : 'AI Mentor'}
+                  {activeChat ? activeChat.title : t('mentor.title')}
                 </span>
               </div>
               <div className="flex items-center gap-1">
                 {!isFree && (
                   <span className="text-xs opacity-80 mr-2">{dailyUsage.used}/{dailyUsage.limit}</span>
                 )}
-                <button onClick={() => setIsOpen(false)} className="hover:opacity-80 p-1">
+                <button onClick={() => setIsOpen(false)} className="hover:opacity-80 p-1" aria-label={t('mentor.close')}>
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -300,34 +303,29 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
               <div className="flex-1 flex items-center justify-center p-6 text-center">
                 <div>
                   <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold text-lg mb-2">Unlock AI Mentor</h3>
+                  <h3 className="font-bold text-lg mb-2">{t('mentor.unlock')}</h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    AI Mentor is included with Learn and IELTS. Upgrade to unlock personalized IELTS coaching with 10 messages every day.
+                    {t('mentor.unlockText')}
                   </p>
                   <Button variant="glow" size="sm" onClick={() => { setShowPricing(true); setIsOpen(false); }}>
-                    <Coins className="h-4 w-4 mr-1" /> View Plans
+                    <Coins className="h-4 w-4 mr-1" /> {t('mentor.viewPlans')}
                   </Button>
                 </div>
               </div>
             ) : !activeChat && !showHistory ? (
               <div className="flex-1 flex flex-col p-4 gap-3">
                 <p className="text-sm text-muted-foreground text-center mb-2">
-                  Your personal IELTS writing coach 🎓
+                  {t('mentor.coach')}
                 </p>
                 <Button onClick={createNewChat} className="gap-2 w-full" variant="glow">
-                  <Plus className="h-4 w-4" /> New Conversation
+                  <Plus className="h-4 w-4" /> {t('mentor.new')}
                 </Button>
                 <Button onClick={() => setShowHistory(true)} variant="outline" className="gap-2 w-full">
-                  <MessageCircle className="h-4 w-4" /> Chat History
+                  <MessageCircle className="h-4 w-4" /> {t('mentor.history')}
                 </Button>
                 <div className="mt-4 space-y-2">
-                  <p className="text-xs text-muted-foreground font-medium">Quick Actions:</p>
-                  {[
-                    'How can I improve my Task 2 score? 📈',
-                    'Give me a daily homework assignment 📝',
-                    'What are my most common mistakes? 🔍',
-                    'Tips for time management in IELTS ⏰',
-                  ].map(q => (
+                  <p className="text-xs text-muted-foreground font-medium">{t('mentor.quick')}</p>
+                  {['mentor.q1', 'mentor.q2', 'mentor.q3', 'mentor.q4'].map(qk => t(qk)).map(q => (
                     <button
                       key={q}
                       onClick={async () => {
@@ -344,7 +342,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
             ) : showHistory ? (
               <ScrollArea className="flex-1 p-3">
                 {chats.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-8">No conversations yet</p>
+                  <p className="text-sm text-muted-foreground text-center py-8">{t('mentor.none')}</p>
                 ) : (
                   <div className="space-y-1">
                     {chats.map(chat => (
@@ -370,10 +368,10 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
                               {chat.title}
                             </button>
                             <div className="hidden group-hover:flex items-center gap-0.5">
-                              <button onClick={() => { setEditingChatId(chat.id); setEditTitle(chat.title); }} className="p-1 text-muted-foreground hover:text-foreground">
+                              <button onClick={() => { setEditingChatId(chat.id); setEditTitle(chat.title); }} className="p-1 text-muted-foreground hover:text-foreground" aria-label={t('mentor.rename')}>
                                 <Edit3 className="h-3 w-3" />
                               </button>
-                              <button onClick={() => deleteChat(chat.id)} className="p-1 text-muted-foreground hover:text-destructive">
+                              <button onClick={() => deleteChat(chat.id)} className="p-1 text-muted-foreground hover:text-destructive" aria-label={t('mentor.delete')}>
                                 <Trash2 className="h-3 w-3" />
                               </button>
                             </div>
@@ -390,7 +388,7 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
                   {messages.length === 0 && (
                     <div className="text-center py-8">
                       <Bot className="h-10 w-10 text-primary mx-auto mb-3 opacity-60" />
-                      <p className="text-sm text-muted-foreground">Hi! 👋 I'm your IELTS Writing Mentor.<br />Ask me anything about IELTS writing!</p>
+                      <p className="text-sm text-muted-foreground">{t('mentor.hello')}<br />{t('mentor.helloAsk')}</p>
                     </div>
                   )}
                   {messages.map((msg) => (
@@ -434,17 +432,17 @@ export function AIMentor({ externalOpen, onExternalOpenChange }: AIMentorProps =
                     <Input
                       value={input}
                       onChange={e => setInput(e.target.value)}
-                      placeholder="Ask your IELTS mentor..."
+                      placeholder={t('mentor.placeholder')}
                       className="flex-1 text-sm"
                       disabled={sending}
                     />
-                    <Button type="submit" size="icon" disabled={sending || !input.trim()} className="shrink-0">
+                    <Button type="submit" size="icon" aria-label={t('mentor.send')} disabled={sending || !input.trim()} className="shrink-0">
                       {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                     </Button>
                   </form>
                   {dailyUsage.used >= dailyUsage.limit && (
                     <p className="text-xs text-destructive mt-2 text-center">
-                      Daily message limit reached ({dailyUsage.limit}). Come back tomorrow!
+                      {t('mentor.limitNote', { limit: dailyUsage.limit })}
                     </p>
                   )}
                 </div>

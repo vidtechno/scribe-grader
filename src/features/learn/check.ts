@@ -1,5 +1,7 @@
 // Answer checking for typed and built answers. Kept forgiving about case, punctuation and apostrophes,
 // strict about the words themselves, with one small typo allowed in longer answers.
+import { translate, type Lang } from '@/i18n';
+
 
 export function normalize(value: string): string {
   return value
@@ -171,14 +173,14 @@ export function judgeSpeech(heard: string, target: string): SpeechJudgement {
 export interface SpeechQuality { duration?: number | null; avgLogprob?: number | null; noSpeechProbability?: number | null }
 
 /** Plain-language advice when the recording itself was the problem (nothing heard, too quiet or noisy). */
-export function speechQualityHint(heard: string, q: SpeechQuality | null | undefined, passed: boolean): string | null {
+export function speechQualityHint(heard: string, q: SpeechQuality | null | undefined, passed: boolean, lang: Lang = 'en'): string | null {
   if (passed) return null;
   const silent = (q?.noSpeechProbability ?? 0) > 0.6 || (q?.duration ?? 1) < 0.5;
   if (!heard.trim()) {
     return silent
-      ? "Ovoz deyarli eshitilmadi. Telefonni og'zingizga yaqinroq tuting va bosganingizdan keyin darrov gapiring."
-      : "Hech narsa tanib bo'lmadi. Tinchroq joyda, aniq va biroz sekinroq ayting.";
+      ? translate(lang, 'learn.hint.silent')
+      : translate(lang, 'learn.hint.nothing');
   }
-  if ((q?.avgLogprob ?? 0) < -1) return "Yozuv sifati past ko'rinadi (shovqin yoki uzoqlik). Mikrofonga yaqinroq va tinchroq joyda urinib ko'ring.";
+  if ((q?.avgLogprob ?? 0) < -1) return translate(lang, 'learn.hint.lowQuality');
   return null;
 }

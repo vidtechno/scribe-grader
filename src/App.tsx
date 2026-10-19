@@ -5,6 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { LanguageProvider } from "@/i18n";
 import { DevicesProvider, useDevices } from "@/hooks/useDevices";
 import { usePresence } from "@/hooks/usePresence";
 import { LoadingScreen } from "@/components/LoadingScreen";
@@ -112,6 +113,7 @@ function AppRoutes() {
       <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
+        <Route path="/uz" element={<PublicRoute><Index /></PublicRoute>} />
         <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/tg" element={<TelegramApp />} />
@@ -167,11 +169,13 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <LanguageProvider>
           <AuthProvider>
             <DevicesProvider>
             <AppRoutes />
             </DevicesProvider>
           </AuthProvider>
+          </LanguageProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
