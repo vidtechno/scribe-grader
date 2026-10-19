@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Check, ChevronRight, Languages, LifeBuoy, Lightbulb, MessageCircle, RotateCcw, Sparkles as SparklesIcon, Volume2, X } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { ExerciseView } from '../components/ExerciseView';
 import { Md } from '../components/Md';
@@ -11,7 +12,7 @@ import { lessonEvents, type Outcome } from '../engine/engine';
 import { normalize, shuffle } from '../check';
 import { speak } from '../speech';
 import type { Lesson, Scene } from '../types';
-import { MiniAvatar, SceneArt, Sparkles, PLACE_THEME } from './SceneArt';
+import { MiniAvatar, SceneArt, Sparkles } from './SceneArt';
 import { isTask, judgeReply, modelReply, otherVoice, replyHint, scoredSteps, stepExercise, voiceText, type TaskStep, type Verdict } from './scene';
 
 type Log =
@@ -51,6 +52,7 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
   lesson: Lesson; unitTitle: string; next: { id: string; title: string; titleUz: string; unitId: string } | null;
   unitLast: boolean; unitId: string; known: Set<string>; onSaved: () => void;
 }) {
+  const { t: tr } = useT();
   const scene = lesson.scene!;
   const navigate = useNavigate();
   const still = useReducedMotion();
@@ -113,7 +115,7 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
   const finish = () => { writeSaved(lesson.id, null); setPhase('result'); };
   const score = Object.values(results).filter(Boolean).length;
   const outcomes = (): Outcome[] => scene.steps.flatMap((s, i) => (isTask(s) && i in results ? [{ ex: stepExercise(s, contextBefore(scene, i)), section: 'q' as const, index: i, correct: results[i], own: true }] : []));
-  const exit = () => { if (phase === 'intro' || phase === 'result' || window.confirm('Chiqasizmi? Shu joygacha saqlanadi, keyin davom ettirasiz.')) navigate('/learn'); };
+  const exit = () => { if (phase === 'intro' || phase === 'result' || window.confirm(tr('learn.scene.confirmExit'))) navigate('/learn'); };
   const toggleUz = () => { const v = !showUz; setShowUz(v); try { localStorage.setItem('scene:uz', v ? '1' : '0'); } catch { /* ignore */ } };
 
   const step = scene.steps[cursor];
@@ -124,18 +126,18 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
     <div className="min-h-screen bg-background">
       <header className="fixed top-0 inset-x-0 z-40 bg-background/90 backdrop-blur border-b border-border">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
-          <button type="button" onClick={exit} aria-label="Chiqish" className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
+          <button type="button" onClick={exit} aria-label={tr('learn.lesson.exit')} className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
           <div className="flex-1">
             <div className="h-2.5 rounded-full bg-secondary overflow-hidden">
               <motion.div className="h-full rounded-full bg-gradient-to-r from-primary to-brand-red-soft" animate={{ width: `${phase === 'result' || phase === 'outro' ? 100 : phase === 'intro' ? 0 : Math.round((cursor / scene.steps.length) * 100)}%` }} transition={{ duration: 0.4 }} />
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1 truncate">Real hayot · {lesson.titleUz.replace(/^Real hayot:\s*/, '')}</p>
+            <p className="text-[11px] text-muted-foreground mt-1 truncate">{tr('learn.scene.realLife')} · {lesson.titleUz.replace(/^Real hayot:\s*/, '')}</p>
           </div>
           {phase === 'play' && (
-            <button type="button" onClick={toggleUz} aria-pressed={showUz} title="Tarjimani ko'rsatish / yashirish"
+            <button type="button" onClick={toggleUz} aria-pressed={showUz} title={tr('learn.scene.toggleUz')}
               className={`h-9 px-2.5 rounded-full border text-xs font-semibold inline-flex items-center gap-1.5 ${showUz ? 'border-primary/50 bg-primary/10 text-primary' : 'border-border text-muted-foreground'}`}><Languages className="h-4 w-4" />UZ</button>
           )}
-          <Link to="/support" target="_blank" aria-label="Yordam" className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:border-primary/50"><LifeBuoy className="h-4 w-4 text-primary" /><span className="hidden min-[460px]:inline">Yordam</span></Link>
+          <Link to="/support" target="_blank" aria-label={tr('learn.lesson.help')} className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:border-primary/50"><LifeBuoy className="h-4 w-4 text-primary" /><span className="hidden min-[460px]:inline">{tr('learn.lesson.help')}</span></Link>
         </div>
       </header>
 
@@ -149,7 +151,7 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
                 <MiniAvatar place={scene.place} emoji={partner.emoji} speaking={speaking} />
                 <div className="min-w-0">
                   <p className="font-bold leading-tight truncate">{partner.name}</p>
-                  <p className="text-xs text-muted-foreground truncate">{partner.role} · {PLACE_THEME[scene.place].label}</p>
+                  <p className="text-xs text-muted-foreground truncate">{partner.role} · {tr(`learn.place.${scene.place}`)}</p>
                 </div>
               </div>
             </div>
@@ -166,9 +168,9 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
         {phase === 'outro' && (
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="text-center">
             <SceneArt place={scene.place} emoji={partner.emoji} celebrate height="h-56" />
-            <h2 className="text-2xl font-extrabold mt-6 mb-2">Vaziyat tugadi! 🎉</h2>
+            <h2 className="text-2xl font-extrabold mt-6 mb-2">{tr('learn.scene.over')}</h2>
             <div className="text-muted-foreground mb-6 leading-relaxed"><Md text={scene.outro} /></div>
-            <Button size="lg" variant="glow" className="w-full" onClick={finish}>Natijani ko'rish</Button>
+            <Button size="lg" variant="glow" className="w-full" onClick={finish}>{tr('learn.scene.seeResult')}</Button>
           </motion.div>
         )}
 
@@ -183,7 +185,7 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
       {(task || waitingNote) && (
         <div className="fixed bottom-0 inset-x-0 z-30 border-t border-border bg-background shadow-[0_-10px_28px_-14px_rgba(0,0,0,0.3)] safe-area-bottom">
           <div className="max-w-2xl mx-auto px-4 py-4 max-h-[60vh] overflow-y-auto">
-            {waitingNote && <Button size="lg" className="w-full gap-2" onClick={() => setCursor(cursor + 1)}>Tushunarli <ChevronRight className="h-4 w-4" /></Button>}
+            {waitingNote && <Button size="lg" className="w-full gap-2" onClick={() => setCursor(cursor + 1)}>{tr('learn.scene.gotIt')} <ChevronRight className="h-4 w-4" /></Button>}
             {task && <TaskPanel key={`${run}-${cursor}`} step={task} voiceFor={me} onDone={(first, line) => taskDone(task, cursor, first, line)} />}
           </div>
         </div>
@@ -195,10 +197,11 @@ export function SceneRunner({ lesson, unitTitle, next, unitLast, unitId, known, 
 // ------------------------------------------------------------------------------------------------ chat pieces
 
 function TypingDots({ emoji }: { emoji: string }) {
+  const { t: tr } = useT();
   return (
     <div className="flex items-end gap-2">
       <span className="grid h-9 w-9 place-items-center rounded-full bg-card border border-border text-xl shrink-0">{emoji}</span>
-      <div className="rounded-2xl rounded-bl-md border border-border bg-card px-4 py-3 flex gap-1.5" aria-label="Yozmoqda">
+      <div className="rounded-2xl rounded-bl-md border border-border bg-card px-4 py-3 flex gap-1.5" aria-label={tr('learn.scene.typing')}>
         {[0, 1, 2].map((i) => <motion.span key={i} className="h-2 w-2 rounded-full bg-muted-foreground/60" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.7, repeat: Infinity, delay: i * 0.15 }} />)}
       </div>
     </div>
@@ -206,12 +209,13 @@ function TypingDots({ emoji }: { emoji: string }) {
 }
 
 function Bubble({ item, scene, showUz }: { item: Log; scene: Scene; showUz: boolean }) {
+  const { t: tr } = useT();
   const me = otherVoice(scene.partner.voice);
   const enter = { initial: { opacity: 0, y: 14, scale: 0.97 }, animate: { opacity: 1, y: 0, scale: 1 }, transition: { type: 'spring' as const, stiffness: 320, damping: 26 } };
   if (item.t === 'note') {
     return (
       <motion.li {...enter} className="rounded-2xl border border-sky-500/30 bg-sky-500/10 p-4">
-        <p className="text-sm font-semibold mb-1 flex items-center gap-2 text-sky-700 dark:text-sky-300"><Lightbulb className="h-4 w-4" />{item.title ?? 'Yangi ibora'}</p>
+        <p className="text-sm font-semibold mb-1 flex items-center gap-2 text-sky-700 dark:text-sky-300"><Lightbulb className="h-4 w-4" />{item.title ?? tr('learn.scene.newPhrase')}</p>
         <div className="text-[15px] leading-relaxed"><Md text={item.md} /></div>
       </motion.li>
     );
@@ -233,10 +237,10 @@ function Bubble({ item, scene, showUz }: { item: Log; scene: Scene; showUz: bool
       <div className="max-w-[82%] rounded-2xl rounded-br-md bg-primary text-primary-foreground px-4 py-2.5 shadow-sm">
         <div className="flex items-start gap-2">
           <p className="text-[17px] font-medium leading-snug flex-1">{item.en}</p>
-          <button type="button" aria-label="Tinglash" onClick={() => void speak(voiceText(me, item.model))} className="h-7 w-7 rounded-full grid place-items-center bg-white/20 hover:bg-white/30 shrink-0"><Volume2 className="h-4 w-4" /></button>
+          <button type="button" aria-label={tr('learn.shell.listen')} onClick={() => void speak(voiceText(me, item.model))} className="h-7 w-7 rounded-full grid place-items-center bg-white/20 hover:bg-white/30 shrink-0"><Volume2 className="h-4 w-4" /></button>
         </div>
       </div>
-      {differs && <p className="text-xs text-muted-foreground mt-1 mr-1">Namuna: <b>{item.model}</b></p>}
+      {differs && <p className="text-xs text-muted-foreground mt-1 mr-1">{tr('learn.scene.model')} <b>{item.model}</b></p>}
     </motion.li>
   );
 }
@@ -244,32 +248,33 @@ function Bubble({ item, scene, showUz }: { item: Log; scene: Scene; showUz: bool
 function Intro({ lesson, scene, unitTitle, total, resumeAt, onStart }: {
   lesson: Lesson; scene: Scene; unitTitle: string; total: number; resumeAt: number | null; onStart: (resume: boolean) => void;
 }) {
+  const { t: tr } = useT();
   const minutes = Math.max(3, Math.round(scene.steps.length / 2.5));
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
       <SceneArt place={scene.place} emoji={scene.partner.emoji} speaking />
-      <p className="text-xs font-semibold uppercase tracking-widest text-primary mt-5 mb-1">Real hayotiy vaziyat · {unitTitle}</p>
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary mt-5 mb-1">{tr('learn.scene.situationKicker')} · {unitTitle}</p>
       <h1 className="text-3xl font-extrabold mb-1">{lesson.titleUz}</h1>
       <p className="text-muted-foreground mb-5">{lesson.title}</p>
       <div className="glass-card p-5 mb-4">
-        <p className="text-sm font-semibold mb-1.5 flex items-center gap-2"><MessageCircle className="h-4 w-4 text-primary" />Vaziyat</p>
+        <p className="text-sm font-semibold mb-1.5 flex items-center gap-2"><MessageCircle className="h-4 w-4 text-primary" />{tr('learn.scene.situation')}</p>
         <div className="text-[15px] leading-relaxed"><Md text={scene.intro} /></div>
         <div className="mt-3 flex items-center gap-3 rounded-xl bg-secondary/50 p-3">
           <span className="grid h-11 w-11 place-items-center rounded-full bg-card text-2xl border border-border">{scene.partner.emoji}</span>
-          <div className="text-sm"><b>{scene.partner.name}</b> · {scene.partner.role}<br /><span className="text-muted-foreground">Suhbatdosh o'z ovozida gapiradi: ovoz yoqilgan bo'lsin 🔊</span></div>
+          <div className="text-sm"><b>{scene.partner.name}</b> · {scene.partner.role}<br /><span className="text-muted-foreground">{tr('learn.scene.voiceNote')}</span></div>
         </div>
       </div>
       <div className="glass-card p-5 mb-5">
-        <p className="text-sm font-semibold mb-1.5 flex items-center gap-2"><SparklesIcon className="h-4 w-4 text-primary" />Maqsad</p>
+        <p className="text-sm font-semibold mb-1.5 flex items-center gap-2"><SparklesIcon className="h-4 w-4 text-primary" />{tr('learn.scene.goal')}</p>
         <div className="text-[15px] leading-relaxed"><Md text={lesson.goal} /></div>
-        <p className="text-xs text-muted-foreground mt-3">{total} ta javob · taxminan {minutes} daqiqa · xato qilsangiz sababini tushuntiramiz va qayta urinasiz.</p>
+        <p className="text-xs text-muted-foreground mt-3">{tr('learn.scene.meta', { total, minutes })}</p>
       </div>
       {resumeAt !== null ? (
         <div className="space-y-2.5">
-          <Button size="lg" variant="glow" className="w-full text-base" onClick={() => onStart(true)}>Davom ettirish</Button>
-          <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => onStart(false)}><RotateCcw className="h-4 w-4" />Boshidan boshlash</Button>
+          <Button size="lg" variant="glow" className="w-full text-base" onClick={() => onStart(true)}>{tr('learn.scene.resume')}</Button>
+          <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => onStart(false)}><RotateCcw className="h-4 w-4" />{tr('learn.scene.restart')}</Button>
         </div>
-      ) : <Button size="lg" variant="glow" className="w-full text-base" onClick={() => onStart(false)}>Suhbatni boshlash</Button>}
+      ) : <Button size="lg" variant="glow" className="w-full text-base" onClick={() => onStart(false)}>{tr('learn.scene.start')}</Button>}
     </motion.div>
   );
 }
@@ -277,16 +282,18 @@ function Intro({ lesson, scene, unitTitle, total, resumeAt, onStart }: {
 // ------------------------------------------------------------------------------------------------ the learner's turn
 
 function WhyCard({ why, answer, voice, typo }: { why?: string; answer?: string; voice: 'emma' | 'george'; typo?: boolean }) {
+  const { t: tr } = useT();
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3.5 text-sm" role="status">
-      <p className="font-semibold mb-1 flex items-center gap-1.5 text-amber-700 dark:text-amber-300"><Lightbulb className="h-4 w-4" />{typo ? "Imloga e'tibor bering" : "Keling, birga ko'ramiz"}</p>
+      <p className="font-semibold mb-1 flex items-center gap-1.5 text-amber-700 dark:text-amber-300"><Lightbulb className="h-4 w-4" />{typo ? tr('learn.scene.mindSpelling') : tr('learn.scene.letsSee')}</p>
       {why && <div className="leading-relaxed"><Md text={why} /></div>}
-      {answer && <p className="mt-2 flex items-center gap-2 flex-wrap">To'g'ri javob: <b>«{answer}»</b><SpeakButton text={voiceText(voice, answer)} /></p>}
+      {answer && <p className="mt-2 flex items-center gap-2 flex-wrap">{tr('learn.ex.correctAnswer')} <b>«{answer}»</b><SpeakButton text={voiceText(voice, answer)} /></p>}
     </motion.div>
   );
 }
 
 function TaskPanel({ step, voiceFor, onDone }: { step: TaskStep; voiceFor: 'emma' | 'george'; onDone: (firstTry: boolean, line: string) => void }) {
+  const { t: tr } = useT();
   const [fails, setFails] = useState(0);
   const [why, setWhy] = useState<string | undefined>();
   const [typo, setTypo] = useState(false);
@@ -300,13 +307,13 @@ function TaskPanel({ step, voiceFor, onDone }: { step: TaskStep; voiceFor: 'emma
     if (fails > 0 && step.drill) { setDrill(true); return; }
     setTimeout(() => onDone(firstTry, line), 650);
   };
-  const fail = (reason?: string) => { setFails((n) => n + 1); setWhy(reason ?? step.why ?? 'Yana bir bor urinib ko‘ring.'); };
+  const fail = (reason?: string) => { setFails((n) => n + 1); setWhy(reason ?? step.why ?? tr('learn.scene.tryOnceMore')); };
   const reveal = modelReply(step);
 
   if (drill && ok !== null && step.drill) {
     return (
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">Mustahkamlash · bitta qisqa mashq</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">{tr('learn.scene.reinforce')}</p>
         <ExerciseView ex={step.drill} mode="practice" onDone={() => onDone(false, ok)} />
       </div>
     );
@@ -315,11 +322,11 @@ function TaskPanel({ step, voiceFor, onDone }: { step: TaskStep; voiceFor: 'emma
   return (
     <div className="relative">
       {ok !== null && <Sparkles />}
-      <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-1.5 flex items-center gap-1.5"><MessageCircle className="h-3.5 w-3.5" />Sizning navbatingiz</p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-1.5 flex items-center gap-1.5"><MessageCircle className="h-3.5 w-3.5" />{tr('learn.scene.yourTurn')}</p>
       <div className="text-[15px] font-medium mb-3 leading-snug"><Md text={step.ask} /></div>
       {ok === null && fails > 0 && <div className="mb-3 -mt-1"><WhyCard why={why} answer={fails >= 2 ? reveal : undefined} voice={voiceFor} key={fails} /></div>}
       {ok !== null ? (
-        <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 px-4 py-3 font-semibold flex items-center gap-2"><Check className="h-5 w-5" />{firstTry ? 'Ajoyib!' : "Endi to'g'ri!"} {ok}</motion.p>
+        <motion.p initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 px-4 py-3 font-semibold flex items-center gap-2"><Check className="h-5 w-5" />{firstTry ? tr('learn.ex.cheer2') : tr('learn.scene.nowRight')} {ok}</motion.p>
       ) : step.k === 'pick' ? (
         <PickInput step={step} fails={fails} onWrong={fail} onRight={(en) => succeed(en)} />
       ) : step.k === 'build' ? (
@@ -328,9 +335,9 @@ function TaskPanel({ step, voiceFor, onDone }: { step: TaskStep; voiceFor: 'emma
         <TypeInput step={step} onCheck={(v, line) => (v.correct ? succeed(line, v.typo) : fail(v.why))} />
       )}
       {ok === null && fails >= 2 && step.k !== 'pick' && (
-        <button type="button" className="mt-3 text-xs text-muted-foreground underline underline-offset-2" onClick={() => succeed(reveal)}>Javobni ko'rsat va davom et</button>
+        <button type="button" className="mt-3 text-xs text-muted-foreground underline underline-offset-2" onClick={() => succeed(reveal)}>{tr('learn.scene.showAnswer')}</button>
       )}
-      {ok !== null && typo && <p className="text-xs text-muted-foreground mt-2">Imloga e'tibor bering: to'g'ri yozilishi «{reveal}».</p>}
+      {ok !== null && typo && <p className="text-xs text-muted-foreground mt-2">{tr('learn.scene.spellingIs', { answer: reveal })}</p>}
     </div>
   );
 }
@@ -360,6 +367,7 @@ function PickInput({ step, fails, onWrong, onRight }: { step: Extract<TaskStep, 
 }
 
 function TypeInput({ step, onCheck }: { step: Extract<TaskStep, { k: 'type' | 'fill' }>; onCheck: (v: Verdict, line: string) => void }) {
+  const { t: tr, lang } = useT();
   const [value, setValue] = useState('');
   const [helps, setHelps] = useState(0);
   const [before, after] = step.k === 'fill' ? step.q.split('___') : ['', ''];
@@ -377,18 +385,19 @@ function TypeInput({ step, onCheck }: { step: Extract<TaskStep, { k: 'type' | 'f
         </p>
       )}
       <input value={value} onChange={(e) => setValue(e.target.value)} autoFocus autoCapitalize="off" autoCorrect="off" spellCheck={false}
-        onKeyDown={(e) => { if (e.key === 'Enter') submit(); }} placeholder={step.k === 'fill' ? "Yetishmayotgan so'zni yozing…" : 'Inglizcha yozing…'} aria-label="Javobingiz"
+        onKeyDown={(e) => { if (e.key === 'Enter') submit(); }} placeholder={step.k === 'fill' ? tr('learn.scene.typeMissing') : tr('learn.ex.typeEnglish')} aria-label={tr('learn.scene.yourAnswer')}
         className="w-full rounded-xl border-2 border-border bg-card px-4 py-3 text-lg outline-none focus:border-primary" />
-      {helps > 0 && <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 whitespace-pre-line break-words">💡 {replyHint(step, helps)}</p>}
+      {helps > 0 && <p className="text-sm mt-2 text-amber-700 dark:text-amber-300 bg-amber-500/10 rounded-lg p-2.5 whitespace-pre-line break-words">💡 {replyHint(step, helps, lang)}</p>}
       <div className="flex items-center gap-2 mt-3">
-        {helps < 2 && <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}><Lightbulb className="h-4 w-4" />{helps === 0 ? 'Yordam' : 'Yana yordam'}</Button>}
-        <Button className="ml-auto" disabled={!value.trim()} onClick={submit}>Tekshirish</Button>
+        {helps < 2 && <Button type="button" variant="ghost" size="sm" className="gap-1.5" onClick={() => setHelps(helps + 1)}><Lightbulb className="h-4 w-4" />{helps === 0 ? tr('learn.lesson.help') : tr('learn.ex.moreHelp')}</Button>}
+        <Button className="ml-auto" disabled={!value.trim()} onClick={submit}>{tr('learn.ex.check')}</Button>
       </div>
     </div>
   );
 }
 
 function BuildInput({ step, onCheck }: { step: Extract<TaskStep, { k: 'build' }>; onCheck: (v: Verdict) => void }) {
+  const { t: tr } = useT();
   const tiles = useMemo(() => shuffle([...step.words, ...(step.extra ?? [])].map((w, i) => ({ w, i }))), [step]);
   const [built, setBuilt] = useState<number[]>([]);
   const used = new Set(built);
@@ -396,15 +405,15 @@ function BuildInput({ step, onCheck }: { step: Extract<TaskStep, { k: 'build' }>
   return (
     <div>
       <div className="min-h-[56px] rounded-xl border-2 border-dashed border-border p-2 flex flex-wrap gap-2 mb-3 bg-secondary/20">
-        {built.length === 0 && <span className="text-sm text-muted-foreground self-center px-2">So'zlarni tartib bilan bosing…</span>}
+        {built.length === 0 && <span className="text-sm text-muted-foreground self-center px-2">{tr('learn.ex.tapWords')}</span>}
         {built.map((i) => <button key={i} type="button" onClick={() => setBuilt(built.filter((x) => x !== i))} className="rounded-lg border-2 border-primary/40 bg-card px-3 py-1.5 font-medium shadow-sm">{word(i)}</button>)}
       </div>
       <div className="flex flex-wrap gap-2">
         {tiles.map((t) => <button key={t.i} type="button" data-pool disabled={used.has(t.i)} onClick={() => setBuilt([...built, t.i])} className={`rounded-lg border-2 px-3 py-1.5 font-medium ${used.has(t.i) ? 'opacity-30 border-border' : 'border-border bg-card hover:border-primary/60'}`}>{t.w}</button>)}
       </div>
       <div className="flex items-center gap-2 mt-3">
-        <Button type="button" variant="ghost" size="sm" disabled={!built.length} onClick={() => setBuilt([])} className="gap-1.5"><RotateCcw className="h-4 w-4" />Tozalash</Button>
-        <Button className="ml-auto" disabled={!built.length} onClick={() => onCheck(judgeReply(step, built.map(word).join(' ')))}>Tekshirish</Button>
+        <Button type="button" variant="ghost" size="sm" disabled={!built.length} onClick={() => setBuilt([])} className="gap-1.5"><RotateCcw className="h-4 w-4" />{tr('learn.ex.clear')}</Button>
+        <Button className="ml-auto" disabled={!built.length} onClick={() => onCheck(judgeReply(step, built.map(word).join(' ')))}>{tr('learn.ex.check')}</Button>
       </div>
     </div>
   );

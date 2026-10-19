@@ -1,3 +1,4 @@
+import { translate, type Lang } from '@/i18n';
 import { checkOrder, checkTyped, normalize } from '../check';
 import type { Exercise, Lesson, Scene, SceneMistake, SceneStep, SceneVoice } from '../types';
 
@@ -108,10 +109,10 @@ export function stepExercise(step: TaskStep, context: string): Exercise {
 }
 
 /** First letters of the reply: help that does not give the answer away. */
-export function replyHint(step: Extract<TaskStep, { k: 'type' | 'fill' }>, level: number): string {
+export function replyHint(step: Extract<TaskStep, { k: 'type' | 'fill' }>, level: number, lang: Lang = 'en'): string {
   const answer = step.a[0];
   const words = answer.replace(/[.!?]+$/, '').split(/\s+/).filter(Boolean);
-  if (level === 1) return step.hint ?? `Javob ${words.length} ta so'zdan iborat, "${words[0]}" bilan boshlanadi.`;
+  if (level === 1) return step.hint ?? translate(lang, 'learn.scene.hintWords', { n: words.length, first: words[0] });
   return `${step.hint ? `${step.hint}\n` : ''}${words.map((w) => w[0] + '_'.repeat(Math.max(w.length - 1, 1))).join(' ')}`;
 }
 
