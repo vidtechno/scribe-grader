@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Award, Loader2, Mic, PartyPopper, RotateCcw, Trophy } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
@@ -19,29 +20,29 @@ import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { MistakeReview, TestShell } from '@/features/learn/components/TestShell';
 
 const SKILLS: { id: ExamSkill; label: string; per: number }[] = [
-  { id: 'grammar', label: 'Grammatika', per: 4 },
-  { id: 'vocabulary', label: "Lug'at", per: 4 },
-  { id: 'reading', label: "O'qish", per: 4 },
-  { id: 'listening', label: 'Tinglash', per: 4 },
-  { id: 'writing', label: 'Yozish va gap tuzish', per: 4 },
+  { id: 'grammar', label: 'learn.exam.grammar', per: 4 },
+  { id: 'vocabulary', label: 'learn.exam.vocabulary', per: 4 },
+  { id: 'reading', label: 'learn.exam.reading', per: 4 },
+  { id: 'listening', label: 'learn.exam.listening', per: 4 },
+  { id: 'writing', label: 'learn.exam.writing', per: 4 },
 ];
 /** Every skill needs at least this share, so a strong skill cannot hide a weak one. */
 const SKILL_MIN_PERCENT = 50;
 
 interface ExamConfig {
   level: LevelId; title: string; cefr: string; bank: ExamItem[]; speaking: Exercise[];
-  /** Said on the result card when the exam is passed. */
+  /** Message key said on the result card when the exam is passed. */
   ready: string;
 }
 const CONFIGS: Record<string, ExamConfig> = {
   beginner: { level: 'beginner', title: 'Beginner', cefr: 'A1', bank: BEGINNER_EXAM, speaking: BEGINNER_SPEAKING,
-    ready: "Elementary darajasiga tayyorsiz: sodda gaplar tuzish, savol berish va o'tgan, hozirgi zamonda oddiy suhbat qilish ko'nikmalarini ko'rsatdingiz." },
+    ready: 'learn.exam.ready.beginner' },
   a1: { level: 'a1', title: 'Elementary', cefr: 'A1+', bank: ELEMENTARY_EXAM, speaking: ELEMENTARY_SPEAKING,
-    ready: "Pre-Intermediate darajasiga tayyorsiz: kundalik vaziyatlarda gaplashish, o'tgan va kelasi zamon, tajriba haqida gapirish ko'nikmalarini ko'rsatdingiz." },
+    ready: 'learn.exam.ready.a1' },
   a2: { level: 'a2', title: 'Pre-Intermediate', cefr: 'A2', bank: PREINTERMEDIATE_EXAM, speaking: PREINTERMEDIATE_SPEAKING,
-    ready: "A2 darajasini tugatdingiz: o'tgan, hozirgi va kelasi zamonda erkin gaplashish, taqqoslash, maslahat berish, tajriba haqida so'zlash va oddiy xat yozish ko'nikmalarini ko'rsatdingiz." },
+    ready: 'learn.exam.ready.a2' },
   b1: { level: 'b1', title: 'Intermediate', cefr: 'B1', bank: INTERMEDIATE_EXAM, speaking: INTERMEDIATE_SPEAKING,
-    ready: "B1 darajasini tugatdingiz: tajriba va voqealarni hikoya qilish, fikr bildirish va asoslash, shart gaplar, majhul nisbat va ko'chirma gap, rasmiy xat va qisqa taqdimot ko'nikmalarini ko'rsatdingiz. Upper-Intermediate (B2) tez orada ochiladi." },
+    ready: 'learn.exam.ready.b1' },
 };
 
 interface Outcome { passed: boolean; advanced: boolean; next_level: string | null; xp: number }
@@ -57,6 +58,7 @@ export const PreIntermediateExam = () => <LevelExam config={CONFIGS.a2} />;
 export const IntermediateExam = () => <LevelExam config={CONFIGS.b1} />;
 
 function LevelExam({ config }: { config: ExamConfig }) {
+  const { t: tr, lang } = useT();
   const SPEAKING = config.speaking;
   const navigate = useNavigate();
   const { data: state, isLoading } = useLearningState();
@@ -76,7 +78,7 @@ function LevelExam({ config }: { config: ExamConfig }) {
   const firstNext = nextLevel?.available ? ALL_LESSONS.find((l) => l.level === nextLevel.id) : undefined;
 
   const shell = (children: React.ReactNode, props: { progress?: number; onExit?: () => void } = {}) => (
-    <TestShell title={`${config.title} yakuniy imtihoni`} path={path} {...props}>{children}</TestShell>
+    <TestShell title={tr('learn.exam.title', { level: config.title })} path={path} {...props}>{children}</TestShell>
   );
   if (isLoading) return shell(<div className="grid place-items-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>);
   if (!state?.profile) return <Navigate to="/learn" replace />;
@@ -104,7 +106,7 @@ function LevelExam({ config }: { config: ExamConfig }) {
       });
       setOutcome(r);
       await refresh();
-    } catch (e) { setError(learningErrorMessage(e)); }
+    } catch (e) { setError(learningErrorMessage(e, lang)); }
   };
 
   if (outcome && items && questions) {
@@ -121,16 +123,16 @@ function LevelExam({ config }: { config: ExamConfig }) {
             className={`mx-auto mb-4 w-24 h-24 rounded-[30px] grid place-items-center ${outcome.passed ? 'bg-gradient-to-br from-emerald-400 to-teal-500' : 'bg-gradient-to-br from-slate-400 to-slate-500'}`}>
             {outcome.passed ? <PartyPopper className="h-11 w-11 text-white" /> : <Trophy className="h-11 w-11 text-white" />}
           </motion.div>
-          <h1 className="text-2xl font-extrabold mb-1">{outcome.passed ? `${config.title} tugallandi!` : "Bu safar o'tmadi"}</h1>
-          <p className="text-muted-foreground mb-5">Natija: {score} / {items.length} ({pct}%). O'tish uchun jami {LEVEL_TEST.passPercent}% va har bir ko'nikmada kamida {SKILL_MIN_PERCENT}% kerak.</p>
+          <h1 className="text-2xl font-extrabold mb-1">{outcome.passed ? tr('learn.exam.completed', { level: config.title }) : tr('learn.unitTest.failed')}</h1>
+          <p className="text-muted-foreground mb-5">{tr('learn.exam.result', { score, total: items.length, pct, need: LEVEL_TEST.passPercent, skill: SKILL_MIN_PERCENT })}</p>
         </div>
 
         <div className="glass-card p-4 mb-4">
-          <p className="font-semibold mb-3">Ko'nikmalar bo'yicha</p>
+          <p className="font-semibold mb-3">{tr('learn.exam.bySkill')}</p>
           <ul className="space-y-2.5">
             {skills.map((s) => (
               <li key={s.id}>
-                <div className="flex justify-between text-sm mb-1"><span>{s.label}</span><span className={s.pct < SKILL_MIN_PERCENT ? 'text-destructive font-semibold' : 'text-muted-foreground'}>{s.right} / {s.total}</span></div>
+                <div className="flex justify-between text-sm mb-1"><span>{tr(s.label)}</span><span className={s.pct < SKILL_MIN_PERCENT ? 'text-destructive font-semibold' : 'text-muted-foreground'}>{s.right} / {s.total}</span></div>
                 <div className="h-2 rounded-full bg-secondary overflow-hidden"><div className={`h-full rounded-full ${s.pct < SKILL_MIN_PERCENT ? 'bg-destructive' : s.pct >= 75 ? 'bg-emerald-500' : 'bg-amber-500'}`} style={{ width: `${s.pct}%` }} /></div>
               </li>
             ))}
@@ -139,34 +141,34 @@ function LevelExam({ config }: { config: ExamConfig }) {
 
         {!outcome.passed && weakSkills.length > 0 && pct >= LEVEL_TEST.passPercent && (
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm mb-4">
-            Umumiy natija yetarli, lekin <b>{weakSkills.map((s) => s.label).join(', ')}</b> bo'yicha {SKILL_MIN_PERCENT}% ga yetmadi. Shu ko'nikmani mustahkamlab, qayta topshiring.
+            {tr('learn.exam.weakA')} <b>{weakSkills.map((s) => tr(s.label)).join(', ')}</b> {tr('learn.exam.weakB', { pct: SKILL_MIN_PERCENT })}
           </div>
         )}
         {outcome.passed && (
           <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm mb-4">
-            {config.ready}
-            {missedTopics.length > 0 && " Quyidagi mavzularni vaqti-vaqti bilan takrorlab turing."}
+            {tr(config.ready)}
+            {missedTopics.length > 0 && ` ${tr('learn.exam.revisit')}`}
           </div>
         )}
         {missedTopics.length > 0 && (
           <div className="glass-card p-4 mb-4 text-sm">
-            <p className="font-semibold mb-1.5">Qaysi darslarni takrorlash foydali</p>
+            <p className="font-semibold mb-1.5">{tr('learn.drill.reviewWhich')}</p>
             <ul className="space-y-1">{missedTopics.slice(0, 8).map((l) => <li key={l.id}><Link className="text-primary underline underline-offset-2" to={`/learn/lesson/${l.id}`}>{l.titleUz}</Link></li>)}</ul>
           </div>
         )}
 
         <div className="glass-card p-4 mb-4">
-          <p className="font-semibold flex items-center gap-2 mb-1"><Mic className="h-4 w-4 text-primary" />Gapirish amaliyoti (baholanmaydi)</p>
-          <p className="text-sm text-muted-foreground mb-3">Uchta gapni ovoz chiqarib ayting — keyingi darajada gapirishga tayyorlanish uchun.</p>
-          {speaking ? <SpeakingPractice items={SPEAKING} /> : <Button variant="outline" onClick={() => setSpeaking(true)}>Boshlash</Button>}
+          <p className="font-semibold flex items-center gap-2 mb-1"><Mic className="h-4 w-4 text-primary" />{tr('learn.exam.speakingTitle')}</p>
+          <p className="text-sm text-muted-foreground mb-3">{tr('learn.exam.speakingText')}</p>
+          {speaking ? <SpeakingPractice items={SPEAKING} /> : <Button variant="outline" onClick={() => setSpeaking(true)}>{tr('learn.lesson.begin')}</Button>}
         </div>
 
         <MistakeReview questions={questions} answers={answers} />
         <div className="space-y-2.5 mt-6">
-          {outcome.passed && <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => setCertificate(true)}><Award className="h-4 w-4" />Sertifikatni olish</Button>}
-          {!outcome.passed && <Button size="lg" variant="glow" className="w-full gap-2" onClick={start}><RotateCcw className="h-4 w-4" />Qayta urinish</Button>}
+          {outcome.passed && <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => setCertificate(true)}><Award className="h-4 w-4" />{tr('learn.exam.getCertificate')}</Button>}
+          {!outcome.passed && <Button size="lg" variant="glow" className="w-full gap-2" onClick={start}><RotateCcw className="h-4 w-4" />{tr('learn.unitTest.retry')}</Button>}
           <Button size="lg" variant={outcome.passed ? 'glow' : 'outline'} className="w-full" onClick={() => navigate('/learn')}>
-            {outcome.passed && outcome.advanced && nextLevel ? `${nextLevel.title} darslariga o'tish` : 'Kursga qaytish'}
+            {outcome.passed && outcome.advanced && nextLevel ? tr('learn.check.toLessons', { level: nextLevel.title }) : tr('learn.exam.backToCourse')}
           </Button>
         </div>
         {certificate && <CertificateDialog levelId={config.level} onClose={() => setCertificate(false)} />}
@@ -178,8 +180,8 @@ function LevelExam({ config }: { config: ExamConfig }) {
     const skill = SKILLS.find((s) => s.id === items[i].skill)!;
     return shell(
       <>
-        <p className="text-xs text-muted-foreground mb-1">Savol {i + 1} / {items.length} · javoblar oxirida ko'rsatiladi</p>
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-4">{skill.label}</p>
+        <p className="text-xs text-muted-foreground mb-1">{tr('learn.unitTest.question', { n: i + 1, total: items.length })}</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-4">{tr(skill.label)}</p>
         <ExerciseView key={i} ex={questions[i]} mode="test" onDone={(c) => {
           const all = [...answers, c];
           setAnswers(all);
@@ -187,32 +189,33 @@ function LevelExam({ config }: { config: ExamConfig }) {
         }} />
         {error && <p className="text-sm text-destructive mt-4">{error}</p>}
       </>,
-      { progress: i / items.length, onExit: () => { if (window.confirm('Imtihondan chiqasizmi? Bu urinish hisoblanmaydi.')) navigate('/learn'); } },
+      { progress: i / items.length, onExit: () => { if (window.confirm(tr('learn.exam.confirmExit'))) navigate('/learn'); } },
     );
   }
 
   return shell(
     <div className="py-6">
       <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-2">{config.title} · {config.cefr}</p>
-      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Trophy className="h-8 w-8 text-primary" />{config.title} yakuniy imtihoni</h1>
-      <p className="text-muted-foreground mb-5">Barcha darslarni o'tmasdan ham topshirishingiz mumkin. Savollar darslardagi misollardan emas, yangi vaziyatlardan olinadi.</p>
+      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Trophy className="h-8 w-8 text-primary" />{tr('learn.exam.title', { level: config.title })}</h1>
+      <p className="text-muted-foreground mb-5">{tr('learn.exam.intro')}</p>
       <ul className="glass-card p-5 space-y-2.5 text-sm mb-6">
-        <li>📝 <b>{LEVEL_TEST.questions} ta savol</b>: grammatika, lug'at, o'qish, tinglash, yozish (har biridan 4 ta)</li>
-        <li>🎯 O'tish: jami kamida <b>{LEVEL_TEST.passPercent}%</b> va <b>har bir ko'nikmada kamida {SKILL_MIN_PERCENT}%</b></li>
-        <li>📊 Oxirida har bir ko'nikma bo'yicha natija va takrorlash kerak bo'lgan darslar ko'rsatiladi</li>
-        <li>🎤 Keyin baholanmaydigan gapirish amaliyoti</li>
-        <li>🔁 Urinishlar soni cheklanmagan, savollar har safar yangi tanlanadi</li>
-        <li>🔊 Tinglash savollari bor — quloqchin yoki ovoz yoqilgan bo'lsin</li>
+        <li>📝 <b>{tr('learn.unitTest.ruleQ', { n: LEVEL_TEST.questions })}</b>: {tr('learn.exam.ruleSkills')}</li>
+        <li>🎯 {tr('learn.exam.rulePassA')} <b>{LEVEL_TEST.passPercent}%</b> {tr('learn.exam.rulePassAnd')} <b>{tr('learn.exam.rulePassB', { pct: SKILL_MIN_PERCENT })}</b></li>
+        <li>📊 {tr('learn.exam.ruleReport')}</li>
+        <li>🎤 {tr('learn.exam.ruleSpeaking')}</li>
+        <li>🔁 {tr('learn.exam.ruleAttempts')}</li>
+        <li>🔊 {tr('learn.level.ruleAudio')}</li>
       </ul>
       {error && <p className="text-sm text-destructive mb-3">{error}</p>}
-      <Button size="lg" variant="glow" className="w-full" onClick={start}>Imtihonni boshlash</Button>
-      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Orqaga</Button>
+      <Button size="lg" variant="glow" className="w-full" onClick={start}>{tr('learn.exam.start')}</Button>
+      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />{tr('learn.lesson.back')}</Button>
     </div>,
   );
 }
 
 function SpeakingPractice({ items }: { items: Exercise[] }) {
+  const { t: tr } = useT();
   const [n, setN] = useState(0);
-  if (n >= items.length) return <p className="text-sm text-emerald-600 font-medium">Barakalla! Gapirish amaliyoti tugadi.</p>;
+  if (n >= items.length) return <p className="text-sm text-emerald-600 font-medium">{tr('learn.exam.speakingDone')}</p>;
   return <ExerciseView key={n} ex={items[n]} mode="practice" onDone={() => setN(n + 1)} />;
 }

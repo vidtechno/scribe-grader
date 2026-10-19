@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Award, Loader2, PartyPopper, RotateCcw, Trophy } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
@@ -24,6 +25,7 @@ export default function LearnLevelTest() {
 }
 
 function GenericLevelTest() {
+  const { t, lang } = useT();
   const navigate = useNavigate();
   const { level: param } = useParams();
   const level = LEVELS.find((l) => l.id === param && l.available)?.id as LevelId | undefined;
@@ -42,13 +44,13 @@ function GenericLevelTest() {
 
   useEffect(() => {
     if (!level) return;
-    Promise.all(unitsOf(level).map((u) => loadUnit(u.id))).then(setUnits).catch(() => setError('Test yuklanmadi. Sahifani yangilang.'));
+    Promise.all(unitsOf(level).map((u) => loadUnit(u.id))).then(setUnits).catch(() => setError(t('learn.placement.loadError')));
   }, [level]);
 
   if (!level) return <Navigate to="/learn" replace />;
   const title = levelOf(level).title;
   const shell = (children: React.ReactNode, props: { progress?: number; onExit?: () => void } = {}) => (
-    <TestShell title={`${title} yakuniy testi`} path={path} {...props}>{children}</TestShell>
+    <TestShell title={t('learn.level.title', { level: title })} path={path} {...props}>{children}</TestShell>
   );
   if (isLoading || (!units && !error)) return shell(<div className="grid place-items-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>);
   if (!state?.profile) return <Navigate to="/learn" replace />;
@@ -64,7 +66,7 @@ function GenericLevelTest() {
       });
       setOutcome(r);
       await refresh();
-    } catch (e) { setError(learningErrorMessage(e)); }
+    } catch (e) { setError(learningErrorMessage(e, lang)); }
   };
 
   if (outcome && questions) {
@@ -77,27 +79,27 @@ function GenericLevelTest() {
           {outcome.passed ? <PartyPopper className="h-11 w-11 text-white" /> : <Trophy className="h-11 w-11 text-white" />}
         </motion.div>
         <h1 className="text-2xl font-extrabold mb-1">
-          {outcome.passed ? (outcome.advanced && nextLevel ? `${nextLevel.title}'ga o'tdingiz!` : `${title} tugallandi!`) : "Bu safar o'tmadi"}
+          {outcome.passed ? (outcome.advanced && nextLevel ? t('learn.level.moved', { level: nextLevel.title }) : t('learn.exam.completed', { level: title })) : t('learn.unitTest.failed')}
         </h1>
-        <p className="text-muted-foreground mb-5">Natija: {score} / {questions.length} ({pct}%). O'tish uchun {LEVEL_TEST.passPercent}% kerak.</p>
+        <p className="text-muted-foreground mb-5">{t('learn.unitTest.result', { score, total: questions.length, pct, need: LEVEL_TEST.passPercent })}</p>
         {outcome.passed && outcome.next_soon && nextLevel && (
-          <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm mb-5">{nextLevel.title} darajasi tez orada ochiladi. Hozircha takrorlash orqali bilimingizni mustahkamlang.</div>
+          <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm mb-5">{t('learn.level.soon', { level: nextLevel.title })}</div>
         )}
         {!outcome.passed && (
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-left mb-5">
-            Xatolarni ko'rib chiqing — keyin testni istagancha qayta topshirishingiz mumkin.
+            {t('learn.level.reviewMistakes')}
           </div>
         )}
         <MistakeReview questions={questions} answers={answers} />
         <div className="space-y-2.5 mt-6">
           {outcome.passed && (
-            <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => setCertificate(true)}><Award className="h-4 w-4" />Sertifikatni olish</Button>
+            <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => setCertificate(true)}><Award className="h-4 w-4" />{t('learn.exam.getCertificate')}</Button>
           )}
           {!outcome.passed && (
-            <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => { setOutcome(null); setQuestions(null); setAnswers([]); setI(0); }}><RotateCcw className="h-4 w-4" />Qayta urinish</Button>
+            <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => { setOutcome(null); setQuestions(null); setAnswers([]); setI(0); }}><RotateCcw className="h-4 w-4" />{t('learn.unitTest.retry')}</Button>
           )}
           <Button size="lg" variant={outcome.passed ? 'glow' : 'outline'} className="w-full" onClick={() => navigate('/learn')}>
-            {outcome.passed && outcome.advanced && nextLevel ? `${nextLevel.title} darslariga o'tish` : "Kursga qaytish"}
+            {outcome.passed && outcome.advanced && nextLevel ? t('learn.check.toLessons', { level: nextLevel.title }) : t('learn.exam.backToCourse')}
           </Button>
         </div>
         {certificate && <CertificateDialog levelId={level} onClose={() => setCertificate(false)} />}
@@ -108,7 +110,7 @@ function GenericLevelTest() {
   if (questions) {
     return shell(
       <>
-        <p className="text-xs text-muted-foreground mb-4">Savol {i + 1} / {questions.length} · javoblar oxirida ko'rsatiladi</p>
+        <p className="text-xs text-muted-foreground mb-4">{t('learn.unitTest.question', { n: i + 1, total: questions.length })}</p>
         <ExerciseView key={i} ex={questions[i]} mode="test" onDone={(c) => {
           const all = [...answers, c];
           setAnswers(all);
@@ -116,28 +118,28 @@ function GenericLevelTest() {
         }} />
         {error && <p className="text-sm text-destructive mt-4">{error}</p>}
       </>,
-      { progress: i / questions.length, onExit: () => { if (window.confirm('Testdan chiqasizmi? Bu urinish hisoblanmaydi.')) navigate('/learn'); } },
+      { progress: i / questions.length, onExit: () => { if (window.confirm(t('learn.unitTest.confirmExit'))) navigate('/learn'); } },
     );
   }
 
   return shell(
     <div className="py-6">
       <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-2">{title} · {levelOf(level).cefr}</p>
-      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Trophy className="h-8 w-8 text-primary" />{title} yakuniy testi</h1>
+      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Trophy className="h-8 w-8 text-primary" />{t('learn.level.title', { level: title })}</h1>
       <p className="text-muted-foreground mb-5">
         {nextLevel?.available
-          ? `Barcha ${title} darslarini o'tmasdan ham testni topshirishingiz mumkin. O'tsangiz, ${nextLevel.title} darslari ochiladi.`
-          : `Bilimingizni sinab ko'ring. ${nextLevel ? `${nextLevel.title} ochilganda shu test sizni keyingi darajaga olib o'tadi.` : ''}`}
+          ? t('learn.level.introNext', { level: title, next: nextLevel.title })
+          : `${t('learn.level.introTry')} ${nextLevel ? t('learn.level.introLater', { next: nextLevel.title }) : ''}`}
       </p>
       <ul className="glass-card p-5 space-y-2.5 text-sm mb-6">
-        <li>📝 <b>{LEVEL_TEST.questions} ta savol</b> — {title}ning barcha bosqichlaridan</li>
-        <li>🎯 O'tish uchun kamida <b>{LEVEL_TEST.passPercent}%</b> ({Math.ceil(LEVEL_TEST.questions * LEVEL_TEST.passPercent / 100)} ta to'g'ri javob)</li>
-        <li>🔁 Urinishlar soni cheklanmagan</li>
-        <li>🔊 Eshitish savollari bor — quloqchin yoki ovoz yoqilgan bo'lsin</li>
+        <li>📝 <b>{t('learn.unitTest.ruleQ', { n: LEVEL_TEST.questions })}</b> {t('learn.level.ruleQRest', { level: title })}</li>
+        <li>🎯 {t('learn.unitTest.rulePassA')} <b>{LEVEL_TEST.passPercent}%</b> {t('learn.placement.correctCount', { n: Math.ceil(LEVEL_TEST.questions * LEVEL_TEST.passPercent / 100) })}</li>
+        <li>🔁 {t('learn.level.ruleUnlimited')}</li>
+        <li>🔊 {t('learn.level.ruleAudio')}</li>
       </ul>
       {error && <p className="text-sm text-destructive mb-3">{error}</p>}
-      <Button size="lg" variant="glow" className="w-full" disabled={!units} onClick={() => units && setQuestions(placementQuestions(units, LEVEL_TEST.questions))}>Testni boshlash</Button>
-      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Orqaga</Button>
+      <Button size="lg" variant="glow" className="w-full" disabled={!units} onClick={() => units && setQuestions(placementQuestions(units, LEVEL_TEST.questions))}>{t('learn.unitTest.start')}</Button>
+      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />{t('learn.lesson.back')}</Button>
     </div>,
   );
 }
