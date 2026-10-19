@@ -13,7 +13,7 @@ import { PRACTICE_URLS } from './_lib/practice-pages.js';
 
 type Url = { path: string; priority: string; changefreq: string; lastmod?: string; alternates?: { lang: string; path: string }[] };
 /** Bump when the static or programmatic content changes meaningfully. */
-const CONTENT_UPDATED = '2026-10-17';
+const CONTENT_UPDATED = '2026-10-19';
 
 export default async function handler(_req: IncomingMessage, res: ServerResponse & { statusCode: number }) {
   const urls: Url[] = [
