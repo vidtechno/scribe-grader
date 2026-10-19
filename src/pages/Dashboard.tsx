@@ -2,6 +2,8 @@ import { TelegramConnectModal } from '@/components/TelegramConnectCard';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
+import { uz } from 'date-fns/locale';
+import { useT } from '@/i18n';
 import { motion } from 'framer-motion';
 import {
   ArrowRight, Award, BookOpen, Headphones, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Trophy, Users, LifeBuoy } from 'lucide-react';
@@ -27,6 +29,8 @@ const fadeUp = {
 };
 
 export default function Dashboard() {
+  const { t, lang } = useT();
+  const dfl = lang === 'uz' ? { locale: uz } : undefined;
   const { user, profile, refreshProfile } = useAuth();
   const { planType, planName, writingLimit, writingUsed, speakingLimit, speakingUsed, mockLimit, mockUsed, entitlement,
     expiresAt, daysRemaining, isExpired, isIelts, refresh: refreshSub } = useSubscription();
@@ -49,10 +53,10 @@ export default function Dashboard() {
     const scored = essays.filter(x => x.status !== 'draft' && x.score !== null);
     if (scored.length < 2) return null;
     const [latest, previous] = [scored[0].score as number, scored[1].score as number];
-    return latest > previous ? `Your latest essay improved from Band ${previous} to ${latest}. Keep building vocabulary variety.`
-      : latest < previous ? `Your latest score (${latest}) dipped from ${previous}. Plan for a few minutes before writing; structure is key.`
-      : `You are consistent at Band ${latest}. Try more complex sentence structures to break through.`;
-  }, [essays]);
+    return latest > previous ? t('dash.tipUp', { prev: previous, latest })
+      : latest < previous ? t('dash.tipDown', { prev: previous, latest })
+      : t('dash.tipSame', { latest });
+  }, [essays, t]);
 
   // Fresh profile and plan once per visit (counters change on other pages).
   useEffect(() => { void refreshProfile(); void refreshSub(); }, [refreshProfile, refreshSub]);
@@ -84,19 +88,19 @@ export default function Dashboard() {
   ].sort((a, b) => +b.at - +a.at).slice(0, 6), [essays, speaking]);
 
   const meta = user?.user_metadata as { full_name?: string; name?: string } | undefined;
-  const firstName = (profile?.full_name || meta?.full_name || meta?.name || user?.email?.split('@')[0] || 'there').split(' ')[0];
+  const firstName = (profile?.full_name || meta?.full_name || meta?.name || user?.email?.split('@')[0] || t('dash.there')).split(' ')[0];
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden pb-24 md:pb-0">
-      <SEOHead title="Dashboard" description="Continue your English course, practise IELTS Writing and Speaking and track your progress." path="/dashboard" noindex />
+      <SEOHead title={t('dash.seoTitle')} description={t('dash.seoDesc')} path="/dashboard" noindex />
       <Navbar />
       <TelegramConnectModal />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
         <PaymentReturn onPaid={onPaid} />
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-6">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold">Welcome back, <span className="gradient-text">{firstName}</span></h1>
-            <p className="text-muted-foreground text-sm sm:text-base">Keep your learning streak going: one lesson a day changes your English.</p>
+            <h1 className="text-2xl sm:text-3xl font-bold">{t('dash.welcome')} <span className="gradient-text">{firstName}</span></h1>
+            <p className="text-muted-foreground text-sm sm:text-base">{t('dash.subtitle')}</p>
           </div>
           <SubscriptionBadge planType={planType} planName={planName} size="md" />
         </motion.div>
@@ -105,37 +109,37 @@ export default function Dashboard() {
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mb-6">
           <LearnHero onUpgrade={() => setShowPricing(true)} />
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 font-semibold px-3.5 py-1.5 hover:bg-amber-500/20 transition-colors"><Trophy className="h-4 w-4" />Reyting</Link>
-            <Link to="/profile#people" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Users className="h-4 w-4" />Do'stlar</Link>
+            <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 font-semibold px-3.5 py-1.5 hover:bg-amber-500/20 transition-colors"><Trophy className="h-4 w-4" />{t('dash.leaderboard')}</Link>
+            <Link to="/profile#people" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Users className="h-4 w-4" />{t('dash.friends')}</Link>
           </div>
         </motion.div>
 
         {/* IELTS practice: one step down, always one tap away */}
-        <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={2} className="mb-6" aria-label="IELTS practice">
+        <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={2} className="mb-6" aria-label={t('dash.ieltsPractice')}>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">IELTS practice</h2>
-            <Link to="/practice" className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:underline">All practice<ChevronRight className="h-3.5 w-3.5" /></Link>
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">{t('dash.ieltsPractice')}</h2>
+            <Link to="/practice" className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:underline">{t('nav.allPractice')}<ChevronRight className="h-3.5 w-3.5" /></Link>
           </div>
           {!isIelts && (
             <div className="mb-3 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
               <Sparkles className="h-4 w-4 text-primary shrink-0" />
-              <p className="flex-1 min-w-[14rem]"><b>New: IELTS Reading and Listening.</b> <span className="text-muted-foreground">5 full tests each (40 questions, estimated band, answer review). Tests 1–3 are free; the IELTS plan makes them all unlimited.</span></p>
-              <Button size="sm" variant="outline" onClick={() => setShowPricing(true)}>See IELTS plan</Button>
+              <p className="flex-1 min-w-[14rem]"><b>{t('dash.newBanner')}</b> <span className="text-muted-foreground">{t('dash.newBannerText')}</span></p>
+              <Button size="sm" variant="outline" onClick={() => setShowPricing(true)}>{t('dash.seeIeltsPlan')}</Button>
             </div>
           )}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
               { icon: PenTool, title: 'Writing', left: writingLimit - writingUsed, onClick: () => openWriting(2) },
               { icon: Mic, title: 'Speaking', left: speakingLimit - speakingUsed, onClick: openSpeaking },
-              { icon: BookOpen, title: 'Reading', note: isIelts ? '5 tests · unlimited' : '3 of 5 tests free', isNew: true, onClick: () => navigate('/reading') },
-              { icon: Headphones, title: 'Listening', note: isIelts ? '5 tests · unlimited' : '3 of 5 tests free', isNew: true, onClick: () => navigate('/listening') },
-              { icon: ClipboardList, title: 'Mock Test', left: mockLimit - mockUsed, onClick: () => navigate('/mock-test') },
-            ].map((t) => (
-              <button key={t.title} type="button" onClick={t.onClick} className="group glass-card-hover p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 text-left">
-                <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><t.icon className="h-5 w-5" /></span>
+              { icon: BookOpen, title: 'Reading', note: isIelts ? t('dash.fiveUnlimited') : t('dash.threeFree'), isNew: true, onClick: () => navigate('/reading') },
+              { icon: Headphones, title: 'Listening', note: isIelts ? t('dash.fiveUnlimited') : t('dash.threeFree'), isNew: true, onClick: () => navigate('/listening') },
+              { icon: ClipboardList, title: t('dash.mock'), left: mockLimit - mockUsed, onClick: () => navigate('/mock-test') },
+            ].map((it) => (
+              <button key={it.title} type="button" onClick={it.onClick} className="group glass-card-hover p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 text-left">
+                <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><it.icon className="h-5 w-5" /></span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-semibold text-sm">{t.title}{'isNew' in t && t.isNew && <span className="ml-1.5 align-middle text-[9px] font-bold uppercase rounded-full bg-primary text-primary-foreground px-1.5 py-0.5">New</span>}</span>
-                  <span className="block text-xs text-muted-foreground">{'note' in t ? t.note : `${Math.max(0, t.left)} left`}</span>
+                  <span className="block font-semibold text-sm">{it.title}{'isNew' in it && it.isNew && <span className="ml-1.5 align-middle text-[9px] font-bold uppercase rounded-full bg-primary text-primary-foreground px-1.5 py-0.5">{t('dash.new')}</span>}</span>
+                  <span className="block text-xs text-muted-foreground">{'note' in it ? it.note : t('dash.left', { n: Math.max(0, it.left) })}</span>
                 </span>
                 <ArrowRight className="hidden sm:block h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
               </button>
@@ -156,18 +160,18 @@ export default function Dashboard() {
           </div>
 
           <aside className="space-y-4">
-            <section className="glass-card p-5" aria-label="Your plan">
+            <section className="glass-card p-5" aria-label={t('dash.yourPlan')}>
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs text-muted-foreground">Your plan</p>
+                  <p className="text-xs text-muted-foreground">{t('dash.yourPlan')}</p>
                   <p className="text-lg font-bold flex items-center gap-2"><Crown className="h-5 w-5 text-primary" />{planName}</p>
-                  {expiresAt && <p className={`text-xs mt-0.5 ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>{isExpired ? 'Expired' : `${daysRemaining} days left`}</p>}
-                  {planType !== 'free' && <p className="text-xs text-muted-foreground">${entitlement.priceUsd}/month · {entitlement.priceUzs} so'm</p>}
+                  {expiresAt && <p className={`text-xs mt-0.5 ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>{isExpired ? t('dash.expired') : t('dash.daysLeft', { n: daysRemaining })}</p>}
+                  {planType !== 'free' && <p className="text-xs text-muted-foreground">{t('dash.priceLine', { usd: entitlement.priceUsd, uzs: entitlement.priceUzs })}</p>}
                 </div>
-                <Button variant={planType === 'free' ? 'glow' : 'outline'} size="sm" onClick={() => setShowPricing(true)}>{planType === 'free' ? 'Upgrade' : 'Change'}</Button>
+                <Button variant={planType === 'free' ? 'glow' : 'outline'} size="sm" onClick={() => setShowPricing(true)}>{planType === 'free' ? t('dash.upgrade') : t('dash.change')}</Button>
               </div>
               <div className="mt-4 space-y-3 text-sm">
-                {[['Writing', writingUsed, writingLimit], ['Speaking', speakingUsed, speakingLimit], ['Mock tests', mockUsed, mockLimit]].map(([label, used, limit]) => (
+                {[['Writing', writingUsed, writingLimit], ['Speaking', speakingUsed, speakingLimit], [t('dash.mocks'), mockUsed, mockLimit]].map(([label, used, limit]) => (
                   <div key={label as string}>
                     <div className="flex justify-between text-xs mb-1"><span className="font-medium">{label}</span><span className="text-muted-foreground">{used}/{limit}</span></div>
                     <UsageBar used={used as number} limit={limit as number} />
@@ -177,26 +181,26 @@ export default function Dashboard() {
                   const Ico = Icon as typeof BookOpen;
                   return (
                     <Link key={label as string} to={to as string} className="flex items-center justify-between text-xs rounded-lg bg-secondary/40 hover:bg-secondary/70 px-3 py-2 transition-colors">
-                      <span className="inline-flex items-center gap-2 font-medium"><Ico className="h-3.5 w-3.5 text-primary" />{label as string} tests</span>
-                      <span className={isIelts ? 'font-semibold text-primary' : 'text-muted-foreground'}>{isIelts ? 'Unlimited' : '3 of 5 open'}</span>
+                      <span className="inline-flex items-center gap-2 font-medium"><Ico className="h-3.5 w-3.5 text-primary" />{t('dash.skillTests', { skill: label as string })}</span>
+                      <span className={isIelts ? 'font-semibold text-primary' : 'text-muted-foreground'}>{isIelts ? t('dash.unlimited') : t('dash.threeOpen')}</span>
                     </Link>
                   );
                 })}
               </div>
-              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">Learn — 49 000 so'm/month: the full English course. IELTS — 129 000 so'm/month: Learn plus unlimited Reading and Listening, 50 Writing and 30 Speaking evaluations.</p>}
-              {planType === 'go' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">IELTS — 129 000 so'm/month: all 5 Reading and 5 Listening tests unlimited, plus 50 Writing and 30 Speaking evaluations and mock tests.</p>}
+              {planType === 'free' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">{t('dash.learnPlanInfo')}</p>}
+              {planType === 'go' && <p className="mt-4 text-xs text-primary bg-primary/5 border border-primary/20 rounded-lg p-3">{t('dash.ieltsPlanInfo')}</p>}
             </section>
           </aside>
         </div>
 
         {/* 3. More practice */}
-        <section className="mb-6" aria-label="Explore">
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Explore</h2>
+        <section className="mb-6" aria-label={t('dash.explore')}>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('dash.explore')}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
-              { to: '/grammar-test', icon: BrainCircuit, title: 'Daily Grammar', text: 'A short test based on your recent mistakes' },
-              { to: '/support', icon: LifeBuoy, title: 'Yordam', text: "Telegramda yozing: to'lov, xato, savol" },
-              { to: '/drafts', icon: PenLine, title: 'Drafts', text: draftsCount ? `${draftsCount} unfinished ${draftsCount === 1 ? 'item' : 'items'}` : 'No unfinished work' },
+              { to: '/grammar-test', icon: BrainCircuit, title: t('nav.grammar'), text: t('dash.grammarText') },
+              { to: '/support', icon: LifeBuoy, title: t('dash.support'), text: t('dash.supportText') },
+              { to: '/drafts', icon: PenLine, title: t('dash.drafts'), text: draftsCount ? t(draftsCount === 1 ? 'dash.draftsOne' : 'dash.draftsMany', { n: draftsCount }) : t('dash.draftsNone') },
             ].map(i => (
               <Link key={i.to} to={i.to} className="group glass-card-hover p-4 flex items-center gap-3">
                 <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><i.icon className="h-5 w-5" /></span>
@@ -207,17 +211,17 @@ export default function Dashboard() {
             {/* The blog is a separate (server-rendered) site section, so it is a plain link. */}
             <a href="/blog" className="group glass-card-hover p-4 flex items-center gap-3">
               <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><BookOpen className="h-5 w-5" /></span>
-              <span className="min-w-0 flex-1"><span className="block font-semibold text-sm">Blog</span><span className="block text-xs text-muted-foreground truncate">IELTS tips, samples and study plans</span></span>
+              <span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{t('dash.blog')}</span><span className="block text-xs text-muted-foreground truncate">{t('dash.blogText')}</span></span>
               <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
             </a>
           </div>
         </section>
 
         {/* 4. Recent activity */}
-        <section className="glass-card p-5 sm:p-6" aria-label="Recent activity">
+        <section className="glass-card p-5 sm:p-6" aria-label={t('dash.recent')}>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Recent activity</h2>
-            <Link to="/leaderboard" className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"><Award className="h-3.5 w-3.5" />Leaderboard</Link>
+            <h2 className="text-lg font-semibold">{t('dash.recent')}</h2>
+            <Link to="/leaderboard" className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"><Award className="h-3.5 w-3.5" />{t('dash.leaderboard')}</Link>
           </div>
           {activity.length ? (
             <ul className="divide-y divide-border/60">
@@ -228,16 +232,16 @@ export default function Dashboard() {
                       {a.kind === 'essay' ? <PenTool className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-medium truncate">{a.title || (a.kind === 'essay' ? 'Writing practice' : 'Speaking practice')}</span>
-                      <span className="block text-xs text-muted-foreground" title={format(a.at, 'PPpp')}>{a.kind === 'essay' ? 'Writing' : 'Speaking'} · {formatDistanceToNow(a.at, { addSuffix: true })}</span>
+                      <span className="block text-sm font-medium truncate">{a.title || (a.kind === 'essay' ? t('dash.writingPractice') : t('dash.speakingPractice'))}</span>
+                      <span className="block text-xs text-muted-foreground" title={format(a.at, 'PPpp', dfl)}>{a.kind === 'essay' ? 'Writing' : 'Speaking'} · {formatDistanceToNow(a.at, { addSuffix: true, ...dfl })}</span>
                     </span>
-                    <span className="text-sm font-bold text-primary shrink-0">{a.score != null ? `Band ${a.score}` : 'Pending'}</span>
+                    <span className="text-sm font-bold text-primary shrink-0">{a.score != null ? t('dash.band', { n: a.score }) : t('dash.pending')}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground py-6 text-center">Nothing yet. Your IELTS Writing and Speaking results will appear here.</p>
+            <p className="text-sm text-muted-foreground py-6 text-center">{t('dash.nothingYet')}</p>
           )}
         </section>
       </main>

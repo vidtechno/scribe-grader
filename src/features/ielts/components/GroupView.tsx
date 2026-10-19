@@ -1,5 +1,6 @@
 import { CheckCircle2, Flag, XCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useT } from '@/i18n';
 import type { QuestionGroup } from '../types';
 import { correctText, optionLabel, type Answer } from '../score';
 
@@ -21,12 +22,13 @@ interface Props {
 const TF: Record<string, string> = { true: 'TRUE', false: 'FALSE', 'not-given': 'NOT GIVEN', yes: 'YES', no: 'NO' };
 
 export function GroupView({ group, start, answers, onAnswer, review, onFocus, flags, onFlag }: Props) {
+  const { t } = useT();
   const first = start;
   const last = start + group.items.length - 1;
   const set = (n: number, v: Answer) => onAnswer?.(n, v);
   return (
-    <section className="mb-6" aria-label={`Questions ${first} to ${last}`}>
-      <h3 className="font-semibold text-sm">Questions {first}{last > first ? `–${last}` : ''}</h3>
+    <section className="mb-6" aria-label={t('ielts.q.rangeAria', { first, last })}>
+      <h3 className="font-semibold text-sm">{t('ielts.q.questions')} {first}{last > first ? `–${last}` : ''}</h3>
       <p className="text-sm text-muted-foreground mb-3 whitespace-pre-line">{group.instruction}</p>
       {group.kind === 'match' && (
         <ul className="mb-3 rounded-lg border border-border bg-secondary/30 p-3 text-sm space-y-1">
@@ -47,13 +49,13 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus, fl
                 <span className="mt-0.5 inline-flex h-6 min-w-6 px-1 items-center justify-center rounded-md bg-primary/10 text-primary text-xs font-bold shrink-0">{n}</span>
                 <div className="flex-1 min-w-0 text-sm">
                   {group.kind === 'fill' ? (
-                    <FillLine q={item.q} value={typeof value === 'string' ? value : ''} disabled={!!review} onChange={(v) => set(n, v)} onFocus={() => onFocus?.(n)} label={`Answer ${n}`} />
+                    <FillLine q={item.q} value={typeof value === 'string' ? value : ''} disabled={!!review} onChange={(v) => set(n, v)} onFocus={() => onFocus?.(n)} label={t('ielts.q.answerN', { n })} />
                   ) : (
                     <p className="mb-2">{item.q}</p>
                   )}
 
                   {(group.kind === 'tfng' || group.kind === 'ynng') && (
-                    <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={`Question ${n}`}>
+                    <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={t('ielts.q.questionN', { n })}>
                       {(group.kind === 'tfng' ? ['true', 'false', 'not-given'] : ['yes', 'no', 'not-given']).map((o) => (
                         <button key={o} type="button" role="radio" aria-checked={value === o} disabled={!!review}
                           onClick={() => { set(n, value === o ? undefined : o); onFocus?.(n); }}
@@ -65,7 +67,7 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus, fl
                   )}
 
                   {group.kind === 'mcq' && (
-                    <div className="space-y-1.5" role="radiogroup" aria-label={`Question ${n}`}>
+                    <div className="space-y-1.5" role="radiogroup" aria-label={t('ielts.q.questionN', { n })}>
                       {(item as { options: string[] }).options.map((o, k) => (
                         <button key={k} type="button" role="radio" aria-checked={value === k} disabled={!!review}
                           onClick={() => { set(n, value === k ? undefined : k); onFocus?.(n); }}
@@ -77,10 +79,10 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus, fl
                   )}
 
                   {group.kind === 'match' && (
-                    <select aria-label={`Question ${n}`} disabled={!!review} value={typeof value === 'number' ? String(value) : ''}
+                    <select aria-label={t('ielts.q.questionN', { n })} disabled={!!review} value={typeof value === 'number' ? String(value) : ''}
                       onChange={(e) => { set(n, e.target.value === '' ? undefined : Number(e.target.value)); onFocus?.(n); }}
                       className="rounded-lg border border-border bg-background px-3 py-2 text-sm min-w-[8rem]">
-                      <option value="">Choose…</option>
+                      <option value="">{t('ielts.q.choose')}</option>
                       {group.options.map((_, k) => <option key={k} value={k}>{optionLabel(group.instruction, k)}</option>)}
                     </select>
                   )}
@@ -89,15 +91,15 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus, fl
                     <div className="mt-2 text-xs space-y-1">
                       <p className={cn('flex items-center gap-1 font-semibold', r.correct ? 'text-primary' : 'text-destructive')}>
                         {r.correct ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-                        {r.correct ? 'Correct' : <>Correct answer: <span className="text-foreground">{correctText({ number: n, group, index: i, part: 0 })}</span></>}
+                        {r.correct ? t('ielts.q.correct') : <>{t('ielts.q.correctAnswer')} <span className="text-foreground">{correctText({ number: n, group, index: i, part: 0 })}</span></>}
                       </p>
-                      {!r.correct && <p className="text-muted-foreground">Your answer: {value === undefined || value === '' ? '—' : describe(group, value)}</p>}
+                      {!r.correct && <p className="text-muted-foreground">{t('ielts.q.yourAnswer')} {value === undefined || value === '' ? '—' : describe(group, value)}</p>}
                       <p className="text-muted-foreground">{item.why}</p>
                     </div>
                   )}
                 </div>
                 {onFlag && !review && (
-                  <button type="button" onClick={() => onFlag(n)} aria-pressed={flags?.has(n)} aria-label={flags?.has(n) ? `Unmark question ${n}` : `Mark question ${n} for review`}
+                  <button type="button" onClick={() => onFlag(n)} aria-pressed={flags?.has(n)} aria-label={flags?.has(n) ? t('ielts.q.unmark', { n }) : t('ielts.q.mark', { n })}
                     className={cn('mt-0.5 shrink-0 rounded-md p-1.5 transition-colors', flags?.has(n) ? 'text-amber-500 bg-amber-500/10' : 'text-muted-foreground/50 hover:text-amber-500')}>
                     <Flag className="h-4 w-4" />
                   </button>

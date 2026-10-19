@@ -8,11 +8,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { safeReturnTo } from '@/lib/returnTo';
 import { isTelegramWebApp } from '@/lib/telegram';
 import { TelegramLoginButton } from '@/components/TelegramLoginButton';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useT } from '@/i18n';
 
 /** Google sign-in switch: set to false to hide the button without removing the code. */
 export const GOOGLE_AUTH_ENABLED = true;
 
 export default function Auth() {
+  const { t } = useT();
   const [loading, setLoading] = useState(false);
   const next = safeReturnTo(new URLSearchParams(window.location.search).get('next'));
   if (next !== '/dashboard') sessionStorage.setItem('scorify:returnTo', next);
@@ -34,11 +37,13 @@ export default function Auth() {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
       </div>
 
+      <div className="fixed top-3 right-3 z-10"><LanguageSwitcher /></div>
+
       <div className="w-full max-w-md relative animate-fade-in">
         <div className="text-center mb-8">
           <img src="/logo-128.webp" alt="Scorify" className="w-16 h-16 object-contain mx-auto mb-4" />
-          <h1 className="text-3xl font-bold">Welcome to Scorify.uz</h1>
-          <p className="text-muted-foreground mt-2">Sign in with Telegram to start practising IELTS Writing and Speaking.</p>
+          <h1 className="text-3xl font-bold">{t('auth.welcome')}</h1>
+          <p className="text-muted-foreground mt-2">{t('auth.subtitle')}</p>
         </div>
 
         <div className="glass-card p-8">
@@ -54,19 +59,19 @@ export default function Auth() {
                 <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
               </svg>
             )}
-            {loading ? 'Redirecting…' : 'Continue with Google'}
+            {loading ? t('auth.redirecting') : t('auth.google')}
           </Button></>}
           <p className="mt-4 text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">
-            <ShieldCheck className="h-3.5 w-3.5" /> No password needed. We only receive your Telegram name.
+            <ShieldCheck className="h-3.5 w-3.5" /> {t('auth.noPassword')}
           </p>
         </div>
 
         <div className="mt-6 grid gap-2 text-sm text-muted-foreground">
-          <p className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary" /> A free Writing evaluation with full feedback</p>
-          <p className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary" /> A free Speaking evaluation</p>
-          <p className="flex items-center gap-2"><BookOpen className="h-4 w-4 text-primary" /> 3 free IELTS Reading tests</p>
-          <p className="flex items-center gap-2"><Headphones className="h-4 w-4 text-primary" /> 3 free IELTS Listening tests</p>
-          <p className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> Band scores with clear, examiner-style feedback</p>
+          <p className="flex items-center gap-2"><PenLine className="h-4 w-4 text-primary" /> {t('auth.perk.writing')}</p>
+          <p className="flex items-center gap-2"><Mic className="h-4 w-4 text-primary" /> {t('auth.perk.speaking')}</p>
+          <p className="flex items-center gap-2"><BookOpen className="h-4 w-4 text-primary" /> {t('auth.perk.reading')}</p>
+          <p className="flex items-center gap-2"><Headphones className="h-4 w-4 text-primary" /> {t('auth.perk.listening')}</p>
+          <p className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> {t('auth.perk.bands')}</p>
         </div>
       </div>
     </div>

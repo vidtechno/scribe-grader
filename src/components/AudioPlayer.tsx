@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Play, Pause, RotateCcw, Rewind, FastForward } from 'lucide-react';
+import { useT } from '@/i18n';
 
 interface AudioPlayerProps {
   src: string;
@@ -16,6 +17,7 @@ function formatTime(seconds: number) {
 }
 
 export function AudioPlayer({ src, className = '' }: AudioPlayerProps) {
+  const { t } = useT();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -102,7 +104,7 @@ export function AudioPlayer({ src, className = '' }: AudioPlayerProps) {
           className="h-10 w-10 rounded-full shrink-0"
           onClick={togglePlay}
           disabled={!isReady}
-          aria-label={isPlaying ? 'Pause' : 'Play'}
+          aria-label={isPlaying ? t('audio.pause') : t('audio.play')}
         >
           {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
         </Button>
@@ -132,7 +134,7 @@ export function AudioPlayer({ src, className = '' }: AudioPlayerProps) {
           onClick={() => skip(-10)}
           disabled={!isReady}
         >
-          <Rewind className="h-3.5 w-3.5" /> -10s
+          <Rewind className="h-3.5 w-3.5" /> {t('audio.back10')}
         </Button>
         <Button
           type="button"
@@ -142,7 +144,7 @@ export function AudioPlayer({ src, className = '' }: AudioPlayerProps) {
           onClick={restart}
           disabled={!isReady}
         >
-          <RotateCcw className="h-3.5 w-3.5" /> Replay
+          <RotateCcw className="h-3.5 w-3.5" /> {t('audio.replay')}
         </Button>
         <Button
           type="button"
@@ -152,7 +154,7 @@ export function AudioPlayer({ src, className = '' }: AudioPlayerProps) {
           onClick={() => skip(10)}
           disabled={!isReady}
         >
-          <FastForward className="h-3.5 w-3.5" /> +10s
+          <FastForward className="h-3.5 w-3.5" /> {t('audio.fwd10')}
         </Button>
       </div>
     </div>

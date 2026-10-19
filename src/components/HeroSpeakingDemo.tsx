@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { AudioPlayer } from '@/components/AudioPlayer';
 import { Mic, Square, RotateCcw, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useT } from '@/i18n';
 import { toast } from 'sonner';
 
 const MAX_SECONDS = 20;
@@ -11,6 +12,7 @@ const MAX_SECONDS = 20;
 const DEMO_PROMPT = 'Describe a place you enjoy visiting and explain why you like it.';
 
 export function HeroSpeakingDemo() {
+  const { t } = useT();
   const [recording, setRecording] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -59,7 +61,7 @@ export function HeroSpeakingDemo() {
         });
       }, 1000);
     } catch {
-      toast.error('Microphone access denied. Please allow your microphone to try the demo.');
+      toast.error(t('demo.micDenied'));
     }
   };
 
@@ -77,11 +79,11 @@ export function HeroSpeakingDemo() {
             <Mic className="h-4 w-4 text-brand-red" />
           </div>
           <div>
-            <p className="text-sm font-semibold">Try Speaking — 20s demo</p>
-            <p className="text-[11px] text-muted-foreground">Record & listen back. No account needed.</p>
+            <p className="text-sm font-semibold">{t('demo.title')}</p>
+            <p className="text-[11px] text-muted-foreground">{t('demo.sub')}</p>
           </div>
         </div>
-        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary">Free</span>
+        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-primary/10 text-primary">{t('demo.free')}</span>
       </div>
 
       <p className="text-xs text-muted-foreground italic mb-4 leading-relaxed">“{DEMO_PROMPT}”</p>
@@ -102,7 +104,7 @@ export function HeroSpeakingDemo() {
             0:{seconds.toString().padStart(2, '0')} <span className="text-muted-foreground font-normal">/ 0:{MAX_SECONDS}</span>
           </div>
           <Button onClick={stop} variant="destructive" className="w-full gap-2">
-            <Square className="h-4 w-4" /> Stop recording
+            <Square className="h-4 w-4" /> {t('demo.stop')}
           </Button>
         </div>
       ) : audioUrl ? (
@@ -110,18 +112,18 @@ export function HeroSpeakingDemo() {
           <AudioPlayer src={audioUrl} />
           <div className="flex gap-2">
             <Button onClick={reset} variant="outline" className="flex-1 gap-2">
-              <RotateCcw className="h-4 w-4" /> Re-record
+              <RotateCcw className="h-4 w-4" /> {t('demo.rerecord')}
             </Button>
             <Link to="/auth" className="flex-1">
               <Button variant="glow" className="w-full gap-2">
-                <Sparkles className="h-4 w-4" /> Get AI band score
+                <Sparkles className="h-4 w-4" /> {t('demo.getScore')}
               </Button>
             </Link>
           </div>
         </div>
       ) : (
         <Button onClick={start} variant="glow" className="w-full gap-2">
-          <Mic className="h-4 w-4" /> Start demo recording
+          <Mic className="h-4 w-4" /> {t('demo.start')}
         </Button>
       )}
     </div>

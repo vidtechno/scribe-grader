@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { translate, type Lang } from '@/i18n';
 import { ALL_LESSONS, COURSE_UNITS, NEW_DRILL_IDS, drillIds } from './course';
 
 export interface LessonProgress {
@@ -160,7 +161,7 @@ export function courseMap(state: LearningState | undefined) {
   };
 }
 
-export function learningStats(state: LearningState | undefined) {
+export function learningStats(state: LearningState | undefined, lang: Lang = 'en') {
   const activity = state?.activity ?? [];
   const answered = activity.reduce((s, a) => s + a.answered, 0);
   const correct = activity.reduce((s, a) => s + a.correct, 0);
@@ -171,7 +172,7 @@ export function learningStats(state: LearningState | undefined) {
     const d = new Date(today);
     d.setUTCDate(d.getUTCDate() - (6 - i));
     const key = d.toISOString().slice(0, 10);
-    return { day: key, xp: byDay.get(key)?.xp ?? 0, label: ['Ya', 'Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh'][d.getUTCDay()] };
+    return { day: key, xp: byDay.get(key)?.xp ?? 0, label: translate(lang, `learn.day.${d.getUTCDay()}`) };
   });
   return {
     accuracy: answered ? Math.round((correct / answered) * 100) : null,
@@ -191,9 +192,9 @@ export function trialDaysLeft(access: LearningAccess | undefined): number | null
   return Math.max(0, Math.ceil((new Date(access.trial_ends_at).getTime() - Date.now()) / 86_400_000));
 }
 
-export function learningErrorMessage(e: unknown): string {
+export function learningErrorMessage(e: unknown, lang: Lang = 'en'): string {
   const msg = e instanceof Error ? e.message : String(e);
-  if (msg.includes('learning_locked')) return "Bepul 7 kunlik muddat tugadi. Davom etish uchun Learn yoki IELTS tarifini oling.";
-  if (msg.includes('learning_not_started')) return "Avval darajangizni tanlang.";
-  return "Saqlab bo'lmadi. Internetni tekshirib, qayta urinib ko'ring.";
+  if (msg.includes('learning_locked')) return translate(lang, 'learn.err.locked');
+  if (msg.includes('learning_not_started')) return translate(lang, 'learn.err.notStarted');
+  return translate(lang, 'learn.err.save');
 }

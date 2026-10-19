@@ -24,6 +24,10 @@
   ],
   "rewrites": [
     {
+      "source": "/uz",
+      "destination": "/uz/index.html"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },

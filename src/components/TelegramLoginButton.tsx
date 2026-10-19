@@ -3,6 +3,8 @@ import { Loader2, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useT } from '@/i18n';
+import { Rich } from '@/i18n/rich';
 import { signInWithTokenHash, telegramAuth } from '@/lib/telegram';
 
 type LoginStart = { code: string; secret: string; url: string; expires_in: number };
@@ -19,6 +21,7 @@ export function TelegramIcon({ className = 'h-5 w-5' }: { className?: string }) 
 
 /** "Continue with Telegram": the user confirms the sign-in in the Scorify bot and this page picks it up. */
 export function TelegramLoginButton({ disabled }: { disabled?: boolean }) {
+  const { t } = useT();
   const [open, setOpen] = useState(false);
   const [request, setRequest] = useState<LoginStart | null>(null);
   const [starting, setStarting] = useState(false);
@@ -34,7 +37,7 @@ export function TelegramLoginButton({ disabled }: { disabled?: boolean }) {
     try {
       setRequest(await telegramAuth<LoginStart>({ action: 'login_start' }));
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Telegram sign-in is unavailable');
+      toast.error(e instanceof Error ? e.message : t('tgLogin.unavailable'));
       setOpen(false);
     } finally {
       setStarting(false);
@@ -57,14 +60,14 @@ export function TelegramLoginButton({ disabled }: { disabled?: boolean }) {
           try {
             await signInWithTokenHash(r.token_hash); // AuthRoute redirects once the session is stored.
           } catch (e) {
-            toast.error(e instanceof Error ? e.message : 'Sign-in failed');
+            toast.error(e instanceof Error ? e.message : t('tgLogin.failed'));
             setFinishing(false);
             setOpen(false);
           }
           return;
         }
-        if (r.status === 'rejected') { toast.error('Sign-in was declined in Telegram.'); setOpen(false); return; }
-        if (r.status === 'banned') { toast.error('This Telegram account is blocked.'); setOpen(false); return; }
+        if (r.status === 'rejected') { toast.error(t('tgLogin.declined')); setOpen(false); return; }
+        if (r.status === 'banned') { toast.error(t('tgLogin.banned')); setOpen(false); return; }
         if (r.status === 'expired' || r.status === 'used' || r.status === 'not_found') { setExpired(true); return; }
       } catch { /* Network hiccup: keep polling until the link expires. */ }
       timer = setTimeout(poll, 2000);
@@ -76,29 +79,29 @@ export function TelegramLoginButton({ disabled }: { disabled?: boolean }) {
   return (
     <>
       <Button type="button" variant="outline" className="w-full h-12 gap-3 text-base font-semibold" disabled={disabled} onClick={() => void start()}>
-        <TelegramIcon /> Continue with Telegram
+        <TelegramIcon /> {t('tgLogin.continue')}
       </Button>
       <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) active.current = false; }}>
         <DialogContent className="glass-card max-w-sm text-center">
           <DialogHeader>
-            <DialogTitle className="flex items-center justify-center gap-2"><TelegramIcon className="h-6 w-6" /> Sign in with Telegram</DialogTitle>
-            <DialogDescription>Open the Scorify bot, press <b>Start</b> and then <b>Confirm</b>. This page signs you in automatically.</DialogDescription>
+            <DialogTitle className="flex items-center justify-center gap-2"><TelegramIcon className="h-6 w-6" /> {t('tgLogin.title')}</DialogTitle>
+            <DialogDescription><Rich text={t('tgLogin.desc')} /></DialogDescription>
           </DialogHeader>
           {starting && <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary" />}
           {request && !expired && (
             <div className="space-y-4">
               <a href={request.url} target="_blank" rel="noopener noreferrer" className="block">
-                <Button variant="glow" className="w-full h-12 gap-2 text-base"><Send className="h-5 w-5" /> Open Telegram</Button>
+                <Button variant="glow" className="w-full h-12 gap-2 text-base"><Send className="h-5 w-5" /> {t('tgLogin.open')}</Button>
               </a>
               <p className="text-xs text-muted-foreground flex items-center justify-center gap-2">
-                {finishing ? <>Signing you in…</> : <><Loader2 className="h-3.5 w-3.5 animate-spin" /> Waiting for confirmation in Telegram</>}
+                {finishing ? <>{t('tgLogin.signingIn')}</> : <><Loader2 className="h-3.5 w-3.5 animate-spin" /> {t('tgLogin.waiting')}</>}
               </p>
             </div>
           )}
           {expired && (
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">This sign-in link has expired.</p>
-              <Button variant="outline" onClick={() => void start()}>Get a new link</Button>
+              <p className="text-sm text-muted-foreground">{t('tgLogin.expired')}</p>
+              <Button variant="outline" onClick={() => void start()}>{t('tgLogin.newLink')}</Button>
             </div>
           )}
         </DialogContent>

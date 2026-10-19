@@ -1,12 +1,15 @@
+import { currentLang, translate } from '@/i18n';
+
 export function authErrorMessage(error: { message: string; code?: string }): string {
+  const lang = currentLang();
   if (error.code === 'over_email_send_rate_limit' || /email rate limit exceeded/i.test(error.message)) {
-    return 'Confirmation emails are temporarily unavailable. Please wait before trying again. If this continues, contact Scorify support.';
+    return translate(lang, 'authErr.rateLimit');
   }
   if (error.code === 'email_not_confirmed' || /email not confirmed/i.test(error.message)) {
-    return 'Please confirm your email before signing in. Check your inbox and spam folder.';
+    return translate(lang, 'authErr.notConfirmed');
   }
   if (error.code === 'invalid_credentials' || /invalid login credentials/i.test(error.message)) {
-    return 'Invalid email or password.';
+    return translate(lang, 'authErr.invalid');
   }
   return error.message;
 }

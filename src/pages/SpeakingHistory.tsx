@@ -7,6 +7,8 @@ import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Mic, ChevronRight, Clock, ChevronLeft, Loader2, AlertCircle, PenLine } from 'lucide-react';
 import { format } from 'date-fns';
+import { uz as uzLocale } from 'date-fns/locale';
+import { useT } from '@/i18n';
 
 interface Attempt {
   id: string;
@@ -21,6 +23,7 @@ interface Attempt {
 
 export default function SpeakingHistory() {
   const { user } = useAuth();
+  const { t, lang } = useT();
   const [items, setItems] = useState<Attempt[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -63,34 +66,34 @@ export default function SpeakingHistory() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <SEOHead title="Speaking History" description="Review every IELTS Speaking attempt you have recorded on Scorify.uz, with band scores, examiner feedback and practice dates." path="/speaking-history" noindex />
+      <SEOHead title={t('sh.seoTitle')} description={t('sh.seoDesc')} path="/speaking-history" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
         <Link to="/dashboard" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+          <ArrowLeft className="h-4 w-4" /> {t('rs.backDash')}
         </Link>
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
             <Mic className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Speaking History</h1>
-            <p className="text-sm text-muted-foreground">{items.length} total attempt{items.length === 1 ? '' : 's'}</p>
+            <h1 className="text-2xl font-bold">{t('sh.title')}</h1>
+            <p className="text-sm text-muted-foreground">{t(items.length === 1 ? 'sh.totalOne' : 'sh.totalMany', { n: items.length })}</p>
           </div>
         </div>
 
         {/* Tabs */}
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           {([
-            { k: 'all', label: `All (${items.length})` },
-            { k: 'processing', label: `Processing (${procCount})` },
-            { k: 'drafts', label: `Drafts (${draftCount})` },
-          ] as const).map(t => (
-            <button key={t.k} onClick={() => { setTab(t.k); setPage(1); }}
+            { k: 'all', label: t('sh.tabAll', { n: items.length }) },
+            { k: 'processing', label: t('sh.tabProc', { n: procCount }) },
+            { k: 'drafts', label: t('sh.tabDrafts', { n: draftCount }) },
+          ] as const).map(tb => (
+            <button key={tb.k} onClick={() => { setTab(tb.k); setPage(1); }}
               className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${
-                tab === t.k ? 'bg-primary text-primary-foreground border-primary' : 'bg-secondary/40 border-border text-muted-foreground hover:text-foreground'
+                tab === tb.k ? 'bg-primary text-primary-foreground border-primary' : 'bg-secondary/40 border-border text-muted-foreground hover:text-foreground'
               }`}>
-              {t.label}
+              {tb.label}
             </button>
           ))}
         </div>
@@ -101,9 +104,9 @@ export default function SpeakingHistory() {
           <div className="glass-card p-10 text-center">
             <Mic className="h-12 w-12 mx-auto mb-3 opacity-40" />
             <p className="text-muted-foreground mb-4">
-              {tab === 'drafts' ? 'No drafts saved' : tab === 'processing' ? 'Nothing is processing right now' : 'No speaking attempts yet'}
+              {tab === 'drafts' ? t('sh.noDrafts') : tab === 'processing' ? t('sh.noProc') : t('spk.noAttempts')}
             </p>
-            <Link to="/speaking"><Button variant="glow">Start your first attempt</Button></Link>
+            <Link to="/speaking"><Button variant="glow">{t('sh.first')}</Button></Link>
           </div>
         ) : (
           <>
@@ -130,10 +133,10 @@ export default function SpeakingHistory() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary uppercase">{a.part}</span>
-                    <span className="text-[10px] text-muted-foreground">{format(new Date(a.created_at), 'MMM d, yyyy')}</span>
-                    {isProcessing && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-600">Processing…</span>}
-                    {isDraft && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600">Draft</span>}
-                    {isFailed && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-destructive/15 text-destructive">Failed</span>}
+                    <span className="text-[10px] text-muted-foreground">{format(new Date(a.created_at), 'MMM d, yyyy', lang === 'uz' ? { locale: uzLocale } : undefined)}</span>
+                    {isProcessing && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-600">{t('sh.processing')}</span>}
+                    {isDraft && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600">{t('sh.draft')}</span>}
+                    {isFailed && <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-destructive/15 text-destructive">{t('sh.failed')}</span>}
                     <span className="text-[10px] text-muted-foreground inline-flex items-center gap-1">
                       <Clock className="h-3 w-3" /> {Math.floor(a.duration_seconds/60)}:{(a.duration_seconds%60).toString().padStart(2,'0')}
                     </span>
@@ -148,14 +151,14 @@ export default function SpeakingHistory() {
             <div className="flex items-center justify-between mt-6">
               <Button variant="outline" size="sm" disabled={currentPage === 1}
                 onClick={() => setPage(p => Math.max(1, p - 1))} className="gap-1">
-                <ChevronLeft className="h-4 w-4" /> Previous
+                <ChevronLeft className="h-4 w-4" /> {t('sh.prev')}
               </Button>
               <span className="text-sm text-muted-foreground">
-                Page {currentPage} of {totalPages}
+                {t('sh.page', { n: currentPage, total: totalPages })}
               </span>
               <Button variant="outline" size="sm" disabled={currentPage === totalPages}
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))} className="gap-1">
-                Next <ChevronRight className="h-4 w-4" />
+                {t('sh.next')} <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           )}

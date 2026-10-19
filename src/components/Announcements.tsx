@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useT } from '@/i18n';
 import { useAuth } from '@/hooks/useAuth';
 import { X, Megaphone } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -14,6 +15,7 @@ interface Announcement {
 
 export function Announcements() {
   const { user } = useAuth();
+  const { t } = useT();
   const [alerts, setAlerts] = useState<Announcement[]>([]);
   const [modal, setModal] = useState<Announcement | null>(null);
   const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
@@ -82,7 +84,7 @@ export function Announcements() {
             <span className="font-medium truncate">{alert.title}</span>
             {alert.content && <span className="hidden sm:inline text-primary-foreground/80">— {alert.content}</span>}
           </div>
-          <button onClick={() => dismissAnnouncement(alert.id)} className="hover:opacity-80 flex-shrink-0">
+          <button onClick={() => dismissAnnouncement(alert.id)} aria-label={t('ann.dismiss')} className="hover:opacity-80 flex-shrink-0">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -100,7 +102,7 @@ export function Announcements() {
           <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
             {modal?.content}
           </p>
-          <Button onClick={dismissModal} className="w-full mt-2">Got it</Button>
+          <Button onClick={dismissModal} className="w-full mt-2">{t('ann.gotIt')}</Button>
         </DialogContent>
       </Dialog>
     </>

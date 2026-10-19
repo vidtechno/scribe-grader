@@ -4,6 +4,7 @@ import { Loader2, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { currentLang, translate, useT } from '@/i18n';
 import { loadTelegramWebApp, markTelegramWebApp, miniAppPath, signInWithTokenHash, telegramAuth } from '@/lib/telegram';
 
 /** Bot deep-link sections (`startapp` / start_param) mapped to app pages. */
@@ -18,6 +19,7 @@ const START_PARAM_PATHS: Record<string, string> = {
  */
 export default function TelegramApp() {
   const navigate = useNavigate();
+  const { t } = useT();
   const { user } = useAuth();
   const [status, setStatus] = useState<'working' | 'outside' | 'error'>('working');
   const [message, setMessage] = useState('');
@@ -52,7 +54,7 @@ export default function TelegramApp() {
         if (!cancelled) setTarget({ path, userId: result.user_id });
       } catch (e) {
         if (cancelled) return;
-        setMessage(e instanceof Error ? e.message : 'Sign-in failed');
+        setMessage(e instanceof Error ? e.message : translate(currentLang(), 'tgApp.failed'));
         setStatus('error');
       }
     })();
@@ -70,22 +72,22 @@ export default function TelegramApp() {
         <div className="space-y-3">
           <img src="/logo-128.webp" alt="Scorify" className="w-14 h-14 mx-auto" />
           <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary" />
-          <p className="text-sm text-muted-foreground">Signing you in with Telegram…</p>
+          <p className="text-sm text-muted-foreground">{t('tgApp.working')}</p>
         </div>
       )}
       {status === 'outside' && (
         <div className="max-w-sm space-y-4">
           <Send className="h-10 w-10 mx-auto text-primary" />
-          <h1 className="text-xl font-bold">Open Scorify from Telegram</h1>
-          <p className="text-sm text-muted-foreground">This page signs you in automatically when it is opened from the Scorify bot. In a browser, sign in on the login page.</p>
-          <Button variant="glow" onClick={() => navigate('/auth', { replace: true })}>Go to sign in</Button>
+          <h1 className="text-xl font-bold">{t('tgApp.outsideTitle')}</h1>
+          <p className="text-sm text-muted-foreground">{t('tgApp.outsideText')}</p>
+          <Button variant="glow" onClick={() => navigate('/auth', { replace: true })}>{t('tgApp.goSignIn')}</Button>
         </div>
       )}
       {status === 'error' && (
         <div className="max-w-sm space-y-4">
-          <h1 className="text-xl font-bold">Could not sign you in</h1>
+          <h1 className="text-xl font-bold">{t('tgApp.errorTitle')}</h1>
           <p className="text-sm text-muted-foreground">{message}</p>
-          <Button variant="glow" onClick={() => window.location.reload()}>Try again</Button>
+          <Button variant="glow" onClick={() => window.location.reload()}>{t('tgApp.retry')}</Button>
         </div>
       )}
     </div>

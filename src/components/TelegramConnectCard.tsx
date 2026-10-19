@@ -9,6 +9,8 @@ import { Switch } from '@/components/ui/switch';
 import { useAuth } from '@/hooks/useAuth';
 import { telegramAuth, type TelegramStatus } from '@/lib/telegram';
 import { TelegramIcon } from '@/components/TelegramLoginButton';
+import { useT } from '@/i18n';
+import { Rich } from '@/i18n/rich';
 
 export function useTelegramStatus() {
   const { user } = useAuth();
@@ -25,6 +27,7 @@ export function useTelegramStatus() {
 function useConnect() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
+  const { t } = useT();
   const [url, setUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval>>();
@@ -50,11 +53,11 @@ function useConnect() {
           clearInterval(timer.current);
           setUrl(null);
           queryClient.setQueryData(['telegram-status', user?.id], s);
-          toast.success('Telegram connected. Your results will arrive in the bot.');
+          toast.success(t('tgCard.connectedToast'));
         }
       }, 3000);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Could not connect Telegram');
+      toast.error(e instanceof Error ? e.message : t('tgCard.connectFail'));
     } finally {
       setBusy(false);
     }
@@ -63,14 +66,15 @@ function useConnect() {
 }
 
 const SETTINGS = [
-  { key: 'notify_results', label: 'Results', hint: 'Writing, Speaking and Mock Test scores' },
-  { key: 'notify_reminders', label: 'Reminders', hint: 'Practice reminders, plan expiry, weekly report' },
-  { key: 'notify_news', label: 'News', hint: 'Announcements from Scorify' },
+  { key: 'notify_results', label: 'tgCard.set.results', hint: 'tgCard.set.resultsHint' },
+  { key: 'notify_reminders', label: 'tgCard.set.reminders', hint: 'tgCard.set.remindersHint' },
+  { key: 'notify_news', label: 'tgCard.set.news', hint: 'tgCard.set.newsHint' },
 ] as const;
 
 /** Profile card: connect Telegram, choose notifications, disconnect. */
 export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boolean }) {
   const { user } = useAuth();
+  const { t } = useT();
   const queryClient = useQueryClient();
   const { data, isLoading, isError } = useTelegramStatus();
   const { connect, url, busy } = useConnect();
@@ -91,7 +95,7 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
       queryClient.setQueryData<TelegramStatus>(['telegram-status', user?.id], (old) =>
         old?.account ? { ...old, account: { ...old.account, [key]: value } } : old);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Could not save');
+      toast.error(e instanceof Error ? e.message : t('tgCard.saveFail'));
     } finally {
       setSaving(null);
     }
@@ -104,20 +108,20 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
       queryClient.setQueryData<TelegramStatus>(['telegram-status', user?.id], (old) =>
         old?.account ? { ...old, account: { ...old.account, reminder_mode: mode } } : old);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Could not save');
+      toast.error(e instanceof Error ? e.message : t('tgCard.saveFail'));
     } finally {
       setSaving(null);
     }
   };
 
   const disconnect = async () => {
-    if (!window.confirm('Disconnect Telegram? Results will no longer be sent to the bot.')) return;
+    if (!window.confirm(t('tgCard.confirmDisconnect'))) return;
     try {
       await telegramAuth({ action: 'unlink' });
       await queryClient.invalidateQueries({ queryKey: ['telegram-status', user?.id] });
-      toast.success('Telegram disconnected');
+      toast.success(t('tgCard.disconnected'));
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Could not disconnect');
+      toast.error(e instanceof Error ? e.message : t('tgCard.disconnectFail'));
     }
   };
 
@@ -127,18 +131,18 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
       {isLoading ? (
         <div className="h-16 grid place-items-center"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>
       ) : isError || !data ? (
-        <p className="text-sm text-muted-foreground">Telegram is not available right now.</p>
+        <p className="text-sm text-muted-foreground">{t('tgCard.unavailable')}</p>
       ) : data.linked && data.account ? (
         <>
           <p className="text-sm text-muted-foreground mb-4">
-            Connected{data.account.username ? <> as <b>@{data.account.username}</b></> : null}. Your results, plan updates and reminders arrive in the Scorify bot.
+            {data.account.username ? <Rich text={t('tgCard.connectedAs', { name: data.account.username })} /> : t('tgCard.connected')}
           </p>
           <div className="grid sm:grid-cols-3 gap-3 mb-4">
             {SETTINGS.map((s) => (
               <label key={s.key} className="glass-card-hover p-3 flex items-start justify-between gap-3 cursor-pointer">
                 <span>
-                  <span className="text-sm font-medium flex items-center gap-1.5"><Bell className="h-3.5 w-3.5 text-primary" /> {s.label}</span>
-                  <span className="block text-[11px] text-muted-foreground mt-0.5">{s.hint}</span>
+                  <span className="text-sm font-medium flex items-center gap-1.5"><Bell className="h-3.5 w-3.5 text-primary" /> {t(s.label)}</span>
+                  <span className="block text-[11px] text-muted-foreground mt-0.5">{t(s.hint)}</span>
                 </span>
                 <Switch checked={data.account![s.key]} disabled={saving === s.key} onCheckedChange={(v) => void update(s.key, v)} />
               </label>
@@ -146,24 +150,24 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
           </div>
           {data.account.notify_reminders && (
             <div className="mb-4">
-              <p className="text-sm font-medium mb-1.5">Study reminders</p>
+              <p className="text-sm font-medium mb-1.5">{t('tgCard.reminders')}</p>
               <div className="inline-flex rounded-lg border border-border p-0.5">
-                {([['normal', 'Normal', 'morning, afternoon, evening'], ['light', 'Light', 'evening only'], ['off', 'Off', 'no study reminders']] as const).map(([mode, label, hint]) => (
-                  <button key={mode} type="button" title={hint} disabled={saving === 'reminder_mode'}
+                {(['normal', 'light', 'off'] as const).map((mode) => (
+                  <button key={mode} type="button" title={t(`tgCard.mode.${mode}Hint`)} disabled={saving === 'reminder_mode'}
                     onClick={() => void updateMode(mode)}
-                    className={`px-3 py-1.5 text-sm rounded-md ${(data.account!.reminder_mode ?? 'normal') === mode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>{label}</button>
+                    className={`px-3 py-1.5 text-sm rounded-md ${(data.account!.reminder_mode ?? 'normal') === mode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>{t(`tgCard.mode.${mode}`)}</button>
                 ))}
               </div>
-              <p className="text-[11px] text-muted-foreground mt-1.5">If you stop studying for a while, reminders get rarer and then stop on their own.</p>
+              <p className="text-[11px] text-muted-foreground mt-1.5">{t('tgCard.rarer')}</p>
             </div>
           )}
           <div className="flex flex-wrap gap-2">
             <a href={data.bot_url} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm" className="gap-2"><ExternalLink className="h-4 w-4" /> Open the bot</Button>
+              <Button variant="outline" size="sm" className="gap-2"><ExternalLink className="h-4 w-4" /> {t('tgCard.openBot')}</Button>
             </a>
             {!data.telegram_only && (
               <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground" onClick={() => void disconnect()}>
-                <Unlink className="h-4 w-4" /> Disconnect
+                <Unlink className="h-4 w-4" /> {t('tgCard.disconnect')}
               </Button>
             )}
           </div>
@@ -171,16 +175,16 @@ export function TelegramConnectCard({ autoConnect = false }: { autoConnect?: boo
       ) : (
         <>
           <p className="text-sm text-muted-foreground mb-4">
-            Connect Telegram to get your band scores the moment they are ready, track goals and your plan, and sign in with one tap.
+            {t('tgCard.pitch')}
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Button variant="glow" className="gap-2" disabled={busy} onClick={() => void connect()}>
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <TelegramIcon className="h-4 w-4" />} Connect Telegram
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <TelegramIcon className="h-4 w-4" />} {t('tgCard.connect')}
             </Button>
             {url && (
               <span className="text-xs text-muted-foreground flex items-center gap-2">
-                <Loader2 className="h-3.5 w-3.5 animate-spin" /> Press <b>Start</b> in the bot.
-                <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary underline">Open again</a>
+                <Loader2 className="h-3.5 w-3.5 animate-spin" /> <Rich text={t('tgCard.pressStart')} />
+                <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary underline">{t('tgCard.openAgain')}</a>
               </span>
             )}
           </div>
@@ -194,6 +198,7 @@ const NUDGE_KEY = 'scorify:tg-learn-nudge-dismissed';
 
 /** One quiet line after a finished lesson for learners who signed in without Telegram: what they get, one tap to connect. */
 export function TelegramNudge() {
+  const { t } = useT();
   const { data } = useTelegramStatus();
   const { connect, url, busy } = useConnect();
   const [hidden, setHidden] = useState(() => {
@@ -208,11 +213,10 @@ export function TelegramNudge() {
     <div className="mb-4 flex items-center gap-3 rounded-xl border border-border bg-secondary/30 px-3.5 py-3 text-left">
       <TelegramIcon className="h-5 w-5 shrink-0" />
       <p className="flex-1 text-[13px] leading-snug">
-        {url ? "Botda Start tugmasini bosing — ulanish tugaydi."
-          : <>Telegram'ni ulang: <b>dars eslatmalari</b>, natijalar va o'sishingiz — hammasi botda.</>}
+        {url ? t('tgNudge.waiting') : <Rich text={t('tgNudge.pitch')} />}
       </p>
-      <Button size="sm" variant="outline" disabled={busy} onClick={() => void connect()}>{url ? 'Qayta ochish' : 'Ulash'}</Button>
-      <button type="button" aria-label="Yopish" onClick={dismiss} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
+      <Button size="sm" variant="outline" disabled={busy} onClick={() => void connect()}>{url ? t('tgNudge.again') : t('tgNudge.connect')}</Button>
+      <button type="button" aria-label={t('tgNudge.close')} onClick={dismiss} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
     </div>
   );
 }
@@ -222,6 +226,7 @@ const MODAL_PAUSE_MS = 3 * 24 * 3600_000;
 
 /** Pop-up for signed-in people whose account is not linked to the bot (mostly Google sign-ups): why it helps, one tap to connect. */
 export function TelegramConnectModal() {
+  const { t } = useT();
   const { user } = useAuth();
   const { data } = useTelegramStatus();
   const { connect, url, busy } = useConnect();
@@ -250,26 +255,26 @@ export function TelegramConnectModal() {
       <DialogContent className="max-w-md">
         <DialogHeader className="items-center text-center">
           <span className="mb-1 grid h-14 w-14 place-items-center rounded-2xl bg-primary/10"><TelegramIcon className="h-8 w-8" /></span>
-          <DialogTitle>Telegram'ni ulang</DialogTitle>
-          <DialogDescription>Bir bosishda ulanadi — va o'rganish ancha yengillashadi.</DialogDescription>
+          <DialogTitle>{t('tgModal.title')}</DialogTitle>
+          <DialogDescription>{t('tgModal.desc')}</DialogDescription>
         </DialogHeader>
         <ul className="space-y-2.5 text-sm">
-          <li className="flex gap-2.5"><span>🔔</span><span><b>Dars eslatmalari</b> — streak uzilib qolmaydi</span></li>
-          <li className="flex gap-2.5"><span>📊</span><span><b>Natijalar botda</b> — Writing, Speaking va testlar bahosi darrov keladi</span></li>
-          <li className="flex gap-2.5"><span>🎓</span><span><b>Darslar va lug'at</b> — botdan ham, telefondan ham davom eting</span></li>
-          <li className="flex gap-2.5"><span>🎁</span><span><b>Referal</b> — do'st taklif qilib pul ishlang</span></li>
+          <li className="flex gap-2.5"><span>🔔</span><span><Rich text={t('tgModal.b1')} /></span></li>
+          <li className="flex gap-2.5"><span>📊</span><span><Rich text={t('tgModal.b2')} /></span></li>
+          <li className="flex gap-2.5"><span>🎓</span><span><Rich text={t('tgModal.b3')} /></span></li>
+          <li className="flex gap-2.5"><span>🎁</span><span><Rich text={t('tgModal.b4')} /></span></li>
         </ul>
         <div className="mt-2 flex flex-col gap-2">
           <Button variant="glow" className="gap-2" disabled={busy} onClick={() => void connect()}>
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <TelegramIcon className="h-4 w-4" />} Telegram'ni ulash
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <TelegramIcon className="h-4 w-4" />} {t('tgModal.connect')}
           </Button>
           {url && (
             <p className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Botda <b>Start</b> tugmasini bosing.
-              <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary underline">Qayta ochish</a>
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> <Rich text={t('tgModal.pressStart')} />
+              <a href={url} target="_blank" rel="noopener noreferrer" className="text-primary underline">{t('tgModal.again')}</a>
             </p>
           )}
-          <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={later}>Keyinroq</Button>
+          <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={later}>{t('tgModal.later')}</Button>
         </div>
       </DialogContent>
     </Dialog>

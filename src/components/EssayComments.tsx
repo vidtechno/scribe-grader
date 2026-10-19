@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { MessageSquare, Send, Trash2, Loader2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { uz as uzLocale } from 'date-fns/locale';
+import { useT } from '@/i18n';
 import { toast } from 'sonner';
 
 interface Comment {
@@ -20,6 +22,7 @@ interface Props { essayId: string }
 
 export function EssayComments({ essayId }: Props) {
   const { user } = useAuth();
+  const { t, lang } = useT();
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [input, setInput] = useState('');
@@ -41,12 +44,12 @@ export function EssayComments({ essayId }: Props) {
         .select('user_id, full_name, email')
         .in('user_id', userIds);
       (profs as any[] || []).forEach(p => {
-        names[p.user_id] = p.full_name || p.email?.split('@')[0] || 'User';
+        names[p.user_id] = p.full_name || p.email?.split('@')[0] || t('cm.user');
       });
     }
-    setComments(list.map(c => ({ ...c, author_name: names[c.user_id] || 'User' })));
+    setComments(list.map(c => ({ ...c, author_name: names[c.user_id] || t('cm.user') })));
     setLoading(false);
-  }, [essayId]);
+  }, [essayId, t]);
 
   useEffect(() => { fetchComments(); }, [fetchComments]);
 
@@ -58,21 +61,21 @@ export function EssayComments({ essayId }: Props) {
       .from('essay_comments')
       .insert({ essay_id: essayId, user_id: user.id, content: input.trim() });
     setPosting(false);
-    if (error) { toast.error('Failed to post comment'); return; }
+    if (error) { toast.error(t('cm.postFailed')); return; }
     setInput('');
     fetchComments();
   };
 
   const remove = async (id: string) => {
     const { error } = await supabase.from('essay_comments').delete().eq('id', id);
-    if (error) { toast.error('Failed to delete'); return; }
+    if (error) { toast.error(t('cm.deleteFailed')); return; }
     setComments(prev => prev.filter(c => c.id !== id));
   };
 
   return (
     <div className="glass-card p-6 mt-8 animate-fade-in">
       <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <MessageSquare className="h-5 w-5 text-primary" /> Comments ({comments.length})
+        <MessageSquare className="h-5 w-5 text-primary" /> {t('cm.title', { n: comments.length })}
       </h2>
 
       {user ? (
@@ -80,25 +83,25 @@ export function EssayComments({ essayId }: Props) {
           <Textarea
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Share feedback or ask a question…"
+            placeholder={t('cm.placeholder')}
             rows={2}
             maxLength={2000}
           />
           <div className="flex justify-end">
             <Button type="submit" size="sm" disabled={posting || !input.trim()} className="gap-2">
               {posting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              Post
+              {t('cm.post')}
             </Button>
           </div>
         </form>
       ) : (
-        <p className="text-sm text-muted-foreground mb-6">Sign in to leave a comment.</p>
+        <p className="text-sm text-muted-foreground mb-6">{t('cm.signIn')}</p>
       )}
 
       {loading ? (
         <div className="text-center py-6 text-muted-foreground"><Loader2 className="h-5 w-5 animate-spin mx-auto" /></div>
       ) : comments.length === 0 ? (
-        <p className="text-sm text-muted-foreground text-center py-6">No comments yet — be the first.</p>
+        <p className="text-sm text-muted-foreground text-center py-6">{t('cm.none')}</p>
       ) : (
         <div className="space-y-3">
           {comments.map(c => (
@@ -107,7 +110,7 @@ export function EssayComments({ essayId }: Props) {
                 <span className="text-sm font-medium">{c.author_name}</span>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-muted-foreground">
-                    {formatDistanceToNow(new Date(c.created_at), { addSuffix: true })}
+                    {formatDistanceToNow(new Date(c.created_at), { addSuffix: true, ...(lang === 'uz' ? { locale: uzLocale } : {}) })}
                   </span>
                   {user?.id === c.user_id && (
                     <button onClick={() => remove(c.id)} className="text-muted-foreground hover:text-destructive">

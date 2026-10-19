@@ -1,4 +1,7 @@
+import { useT } from '@/i18n';
+
 export function LoadingScreen() {
+  const { t } = useT();
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center">
@@ -6,7 +9,7 @@ export function LoadingScreen() {
           <div className="absolute inset-0 blur-xl bg-primary/20 rounded-full animate-pulse"></div>
           <img src="/logo-128.webp" alt="" className="w-16 h-16 object-contain relative animate-pulse" />
         </div>
-        <p className="mt-4 text-sm font-medium text-muted-foreground">Loading Scorify…</p>
+        <p className="mt-4 text-sm font-medium text-muted-foreground">{t('loading.text')}</p>
       </div>
     </div>
   );

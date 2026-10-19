@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { currentLang, translate } from '@/i18n';
 import { registerDevice, revokeDevice, type DeviceSession } from '@/lib/device';
 
 type Status = 'checking' | 'active' | 'pending';
@@ -33,7 +34,7 @@ export function DevicesProvider({ children }: { children: React.ReactNode }) {
     if (state.status === 'revoked') {
       if (loggedOut.current) return;
       loggedOut.current = true;
-      toast.info('Bu qurilma akkauntdan chiqarib yuborildi. Qayta kiring.');
+      toast.info(translate(currentLang(), 'dev.revoked'));
       await supabase.auth.signOut({ scope: 'local' }).catch(() => {});
       await signOut().catch(() => {});
       return;

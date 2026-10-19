@@ -1,3 +1,4 @@
+import { translate, type Lang } from '@/i18n';
 import { LOGO_DATA_URI } from './certificate-logo';
 
 export interface CertificateData {
@@ -13,6 +14,8 @@ export interface CertificateData {
   date: Date;
   /** Number issued by the server (learning_issue_certificate), e.g. "SC-BEG-K7M2Q9XA". */
   number: string;
+  /** Language of the printed text (the interface language); English when omitted. */
+  lang?: Lang;
 }
 
 /** CEFR label printed on the certificate (the course UI says "Noldan" for Beginner). */
@@ -27,7 +30,9 @@ export const formatCertDate = (d: Date) => `${String(d.getDate()).padStart(2, '0
 export function certificateSvg(c: CertificateData): string {
   const name = esc(c.name.trim().slice(0, 48));
   const nameSize = name.length > 30 ? 52 : name.length > 22 ? 62 : 74;
-  const result = typeof c.percent === 'number' ? `Yakuniy test natijasi: ${Math.round(c.percent)}%` : '';
+  const lang = c.lang ?? 'en';
+  const tr = (key: string) => translate(lang, key);
+  const result = typeof c.percent === 'number' ? `${tr('learn.cert.result')} ${Math.round(c.percent)}%` : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${CERT_W}" height="${CERT_H}" viewBox="0 0 ${CERT_W} ${CERT_H}">
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf5"/><stop offset="1" stop-color="#fff1f2"/></linearGradient>
@@ -40,18 +45,18 @@ export function certificateSvg(c: CertificateData): string {
 <circle cx="150" cy="${CERT_H - 150}" r="150" fill="#e11d48" fill-opacity=".05"/>
 <image href="${LOGO_DATA_URI}" x="${CERT_W / 2 - 46}" y="96" width="92" height="92"/>
 <text x="${CERT_W / 2}" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="6" fill="#be123c">SCORIFY.UZ</text>
-<text x="${CERT_W / 2}" y="330" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="82" font-weight="700" letter-spacing="10" fill="#1f2937">SERTIFIKAT</text>
-<text x="${CERT_W / 2}" y="394" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#6b7280">Ushbu sertifikat egasi</text>
+<text x="${CERT_W / 2}" y="330" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="82" font-weight="700" letter-spacing="10" fill="#1f2937">${esc(tr('learn.cert.title'))}</text>
+<text x="${CERT_W / 2}" y="394" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#6b7280">${esc(tr('learn.cert.owner'))}</text>
 <text x="${CERT_W / 2}" y="${490}" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="${nameSize}" font-style="italic" font-weight="700" fill="#be123c">${name}</text>
 <line x1="${CERT_W / 2 - 330}" y1="516" x2="${CERT_W / 2 + 330}" y2="516" stroke="#e11d48" stroke-opacity=".45" stroke-width="2"/>
-<text x="${CERT_W / 2}" y="578" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="27" fill="#4b5563">Scorify.uz ingliz tili kursining</text>
+<text x="${CERT_W / 2}" y="578" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="27" fill="#4b5563">${esc(tr('learn.cert.courseTop'))}</text>
 <text x="${CERT_W / 2}" y="668" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="72" font-weight="800" fill="#1f2937">${esc(c.levelTitle)} <tspan fill="#e11d48">· ${esc(c.cefr)}</tspan></text>
-<text x="${CERT_W / 2}" y="722" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="27" fill="#4b5563">darajasini muvaffaqiyatli tugatganini tasdiqlaydi</text>
+<text x="${CERT_W / 2}" y="722" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="27" fill="#4b5563">${esc(tr('learn.cert.courseBottom'))}</text>
 ${result ? `<text x="${CERT_W / 2}" y="776" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#059669">${result}</text>` : ''}
 <g font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#6b7280">
-  <text x="130" y="${CERT_H - 118}">Sana</text>
+  <text x="130" y="${CERT_H - 118}">${esc(tr('learn.cert.date'))}</text>
   <text x="130" y="${CERT_H - 84}" font-size="30" font-weight="700" fill="#1f2937">${formatCertDate(c.date)}</text>
-  <text x="${CERT_W - 130}" y="${CERT_H - 118}" text-anchor="end">Sertifikat raqami</text>
+  <text x="${CERT_W - 130}" y="${CERT_H - 118}" text-anchor="end">${esc(tr('learn.cert.number'))}</text>
   <text x="${CERT_W - 130}" y="${CERT_H - 84}" text-anchor="end" font-size="30" font-weight="700" fill="#1f2937">${esc(c.number)}</text>
 </g>
 <g transform="translate(${CERT_W / 2}, ${CERT_H - 148})">

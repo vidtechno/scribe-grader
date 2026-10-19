@@ -1,6 +1,7 @@
+import { translate, type Lang } from '@/i18n';
 import { courseMap, type LearningState } from './api';
 import { ALL_LESSONS, COURSE_UNITS, drillIds } from './course';
-import { DRILL_GAME, GAMES } from './games';
+import { DRILL_GAME, gameLabel } from './games';
 
 export interface PlanStep {
   id: string;
@@ -14,13 +15,14 @@ export interface PlanStep {
   open: boolean;
 }
 
-const LESSON_LABEL: Record<string, string> = { situation: 'Hayotiy vaziyat', scene: 'Real hayot: suhbat', review: 'Takror', skill: "Ko'nikma" };
+const LESSON_LABEL: Record<string, string> = { situation: 'learn.plan.situation', scene: 'learn.plan.scene', review: 'learn.plan.review', skill: 'learn.plan.skill' };
 
 /**
  * What the learner does next: the next few steps of the course in the order the course map opens them (lessons, their
  * games and the unit test), plus progress numbers. Used by the dashboard and the course page so both say the same thing.
  */
-export function learningPlan(state: LearningState | undefined, count = 4) {
+export function learningPlan(state: LearningState | undefined, count = 4, lang: Lang = 'en') {
+  const t = (key: string, vars?: Record<string, string | number>) => translate(lang, key, vars);
   const map = courseMap(state);
   const startUnit = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.unitId : map.nextLesson?.unitId ?? map.pendingTest?.id;
   const startIndex = Math.max(0, COURSE_UNITS.findIndex((u) => u.id === startUnit));
@@ -29,20 +31,20 @@ export function learningPlan(state: LearningState | undefined, count = 4) {
     for (const l of unit.lessons) {
       const lessonDone = map.lessonState.get(l.id) === 'done';
       if (!lessonDone && map.lessonState.get(l.id) !== 'open') {
-        steps.push({ id: l.id, kind: 'lesson', to: `/learn/lesson/${l.id}`, title: l.titleUz, label: LESSON_LABEL[l.kind ?? ''] ?? 'Dars', unitId: unit.id, open: false });
+        steps.push({ id: l.id, kind: 'lesson', to: `/learn/lesson/${l.id}`, title: l.titleUz, label: t(LESSON_LABEL[l.kind ?? ''] ?? 'learn.plan.lesson'), unitId: unit.id, open: false });
       }
       for (const d of drillIds(l.id)) {
         const st = map.drillState.get(d);
         if (st === 'done' || st === 'open') continue;
         const g = DRILL_GAME[d];
-        steps.push({ id: d, kind: 'drill', to: `/learn/drill/${d}`, title: g ? GAMES[g].label : "Mashq o'yini", label: g === 'mastery' ? 'Mavzu testi' : g === 'mini-boss' ? 'Mini-boss' : `O'yin · ${l.titleUz}`, unitId: unit.id, open: false });
+        steps.push({ id: d, kind: 'drill', to: `/learn/drill/${d}`, title: g ? gameLabel(g, lang) : t('learn.plan.drillGame'), label: g === 'mastery' ? t('learn.plan.topicTest') : g === 'mini-boss' ? 'Mini-boss' : t('learn.plan.game', { title: l.titleUz }), unitId: unit.id, open: false });
       }
       if (steps.length >= count) break;
     }
     if (steps.length >= count) break;
     const t = map.unitTest.get(unit.id);
     if (t && t !== 'passed') {
-      steps.push({ id: `test-${unit.id}`, kind: 'test', to: `/learn/test/${unit.id}`, title: `${unit.titleUz.split(':')[0]}: bosqich testi`, label: 'Bosqich testi', unitId: unit.id, open: false });
+      steps.push({ id: `test-${unit.id}`, kind: 'test', to: `/learn/test/${unit.id}`, title: t('learn.plan.unitTestTitle', { title: unit.titleUz.split(':')[0] }), label: t('learn.plan.unitTest'), unitId: unit.id, open: false });
       if (steps.length >= count) break;
     }
     if (t !== 'passed') break; // later units open only after this unit's test

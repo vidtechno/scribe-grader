@@ -1,17 +1,19 @@
 import { Clock, Mic, PenLine } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { TopicOption } from '@/lib/speakingTopics';
+import { useT } from '@/i18n';
 
-const PART_NAME = { part1: 'Part 1 · Interview', part2: 'Part 2 · Long turn', part3: 'Part 3 · Discussion' } as const;
+const PART_NAME = { part1: 'sp.partName1', part2: 'sp.partName2', part3: 'sp.partName3' } as const;
 
 /** The selected topic, drawn like the card the examiner hands over (Part 2) or the list of questions (Parts 1 and 3). */
 export function TopicCard({ option, custom, seconds, compact }: { option?: TopicOption; custom?: string; seconds: number; compact?: boolean }) {
+  const { t } = useT();
   const part = option?.part ?? 'part2';
   return (
     <div className={cn('rounded-2xl border-2 border-foreground/80 bg-card shadow-[4px_4px_0_0_hsl(var(--foreground)/0.12)]', compact ? 'p-4' : 'p-5 sm:p-6')}>
       <div className="flex items-center justify-between gap-3 mb-3">
-        <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary"><Mic className="h-3.5 w-3.5" />{custom ? 'Your own topic' : PART_NAME[part]}</span>
-        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground"><Clock className="h-3.5 w-3.5" />up to {seconds >= 120 ? `${seconds / 60} min` : `${seconds} s`}</span>
+        <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary"><Mic className="h-3.5 w-3.5" />{custom ? t('sp.ownTopic') : t(PART_NAME[part])}</span>
+        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground"><Clock className="h-3.5 w-3.5" />{t('sp.upTo', { time: seconds >= 120 ? t('sp.minutes', { n: seconds / 60 }) : t('sp.seconds', { n: seconds }) })}</span>
       </div>
       {custom ? (
         <p className="text-base font-semibold flex items-start gap-2"><PenLine className="h-4 w-4 mt-1 shrink-0 text-muted-foreground" />{custom}</p>

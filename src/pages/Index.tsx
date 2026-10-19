@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useT } from '@/i18n';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
@@ -24,6 +25,7 @@ const stagger = { visible: { transition: { staggerChildren: 0.08 } } };
 
 /** Mobile-only call to action that appears once a visitor has scrolled past the hero. */
 function StickyCta() {
+  const { t } = useT();
   const [show, setShow] = useState(false);
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 520);
@@ -34,25 +36,16 @@ function StickyCta() {
   if (!show) return null;
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-background/95 backdrop-blur border-t border-border safe-area-bottom">
-      <Link to="/auth"><Button variant="glow" size="lg" className="w-full gap-2">7 kun bepul boshlash <ChevronRight className="h-5 w-5" /></Button></Link>
+      <Link to="/auth"><Button variant="glow" size="lg" className="w-full gap-2">{t('landing.cta.start')} <ChevronRight className="h-5 w-5" /></Button></Link>
     </div>
   );
 }
 
-const FAQ: { q: string; a: string }[] = [
-  { q: "Ingliz tilini umuman bilmasam ham boshlay olamanmi?", a: "Ha. Kurs alifbo va tovushlardan boshlanadi (Beginner), keyin Elementary (A1), Pre-Intermediate (A2) va Intermediate (B1) davom etadi, keyingi darajalar bosqichma-bosqich qo'shiladi. Darslar o'zbek tilida tushuntiriladi." },
-  { q: "Bir kunda qancha vaqt kerak?", a: "Qisqa dars 5–12 daqiqa, to'liq dars 15–25 daqiqa. Kuniga 10–30 daqiqa yetadi; kunlik maqsadni o'zingiz belgilaysiz, streak esa har kuni o'qisangiz o'sib boradi." },
-  { q: "Qaysi darajadan boshlashni qanday bilaman?", a: "Birinchi kirganingizda 15 ta savolli daraja testi sizga mos darajani aytadi. Yoki darajani o'zingiz tanlaysiz. Agar osonroq darajani tanlab qo'ygan bo'lsangiz, tezkor test topshirib yuqoriga o'tishingiz mumkin." },
-  { q: "7 kunlik bepul davrda nima bor?", a: "Har bir yangi hisobga 7 kun Learn to'liq ochiq: barcha darslar, talaffuz, lug'at va takrorlash tizimi. Karta kerak emas." },
-  { q: "Narxi qancha va qanday to'layman?", a: "Learn — oyiga 49 000 so'm, IELTS — oyiga 129 000 so'm. 3 oyga birdan to'lasangiz 5%, 6 oyga 10% chegirma. To'lov Click yoki Payme orqali saytning o'zida amalga oshadi va tarif to'lovdan keyin avtomatik yoqiladi." },
-  { q: "IELTS Writing, Speaking, Reading va Listening ham bormi?", a: "Ha, IELTS ning to'rttala qismi bor. Writing va Speaking javoblaringiz AI bilan baholanadi (Writing oyiga 50 ta, Speaking oyiga 30 ta), Reading va Listening bo'yicha 5 tadan to'liq test CHEKSIZ ochiladi, shuningdek mock testlar bor. Sinab ko'rish uchun yangi hisobga 1 ta Writing, 1 ta Speaking baholash va 3 tadan Reading hamda Listening testi bepul." },
-  { q: "IELTS Reading va Listening testlari qanday?", a: "Reading: 3 passage, 40 savol, 60 daqiqa. Listening: 4 section, 40 savol, audio bilan (imtihon rejimida har bir yozuv bir marta eshittiriladi). Har bir test boshqa mavzuda; oxirida taxminiy band, savol turlari bo'yicha aniqlik va har bir javob tahlili chiqadi." },
-  { q: "Yordam kerak bo'lsa kimga yozaman?", a: "Saytdagi «Yordam» tugmasi Telegramda @scorify_support ga olib boradi: to'lov, darsdagi xato yoki savol bo'yicha yozing. Foydalanuvchi ID raqamingiz avtomatik qo'shiladi." },
-  { q: "Ro'yxatdan qanday o'taman?", a: "Telegram orqali bir bosishda. Telegram bot orqali kirsangiz, eslatmalar va do'stlarni taklif qilish ham shu yerda bo'ladi." },
-];
+const FAQ_COUNT = 9;
 
 export default function Index() {
   const { user } = useAuth();
+  const { t, lang } = useT();
   const [subPlans, setSubPlans] = useState<Tables<'subscription_plans'>[]>([]);
 
   useEffect(() => {
@@ -71,52 +64,56 @@ export default function Index() {
   }), []);
 
   const steps = [
-    { icon: BookOpen, title: 'Tushuntirish', text: "Mavzu sodda o'zbek tilida, misollar va «to'g'ri / noto'g'ri» taqqoslash bilan." },
-    { icon: Headphones, title: 'Eshiting va takrorlang', text: "Har bir so'z va gapning talaffuzi bor. Ovoz chiqarib takrorlaysiz." },
-    { icon: PenLine, title: 'Mashq', text: "Tanlash, bo'sh joy, gap tuzish, tarjima, xatoni topish, diktant va gapirish mashqlari. Qiynalsangiz, yordam bor." },
-    { icon: Trophy, title: 'Test va natija', text: "Dars oxirida 3 ta tezkor savol, so'ng mashq o'yinlari, bosqich testi va daraja imtihoni. XP va streak yig'asiz." },
-  ];
+    { icon: BookOpen, k: 'explain' },
+    { icon: Headphones, k: 'listen' },
+    { icon: PenLine, k: 'practice' },
+    { icon: Trophy, k: 'test' },
+  ].map(x => ({ icon: x.icon, title: t(`landing.step.${x.k}.title`), text: t(`landing.step.${x.k}.text`) }));
 
   const features = [
-    { icon: Volume2, title: 'Talaffuz har so\'zda', text: "Audio va ovoz chiqarib takrorlash. Gapirishni birinchi darsdan boshlaysiz." },
-    { icon: Repeat, title: "Aqlli takrorlash", text: "Qiyin so'zlar tez-tez, yaxshi bilganlaringiz kamroq qaytadi. Unutishga yo'l qo'ymaydi." },
-    { icon: Flame, title: 'Streak va kunlik maqsad', text: "Har kuni o'qing, ketma-ket kunlaringizni saqlang va XP to'plang." },
-    { icon: Languages, title: "Shaxsiy lug'at", text: "O'rgangan so'zlaringiz bir joyda: qidirish, tinglash va takrorlash." },
-    { icon: Trophy, title: 'Reyting va do\'stlar', text: "Do'stlaringizni kuzating, reytingda raqobatlashing, profilingizni bezang." },
-    { icon: Target, title: 'Daraja testi', text: "Kirishda 15 ta savol sizga mos darajani aniqlaydi. Adashib osonini tanlasangiz, tezkor test bilan yuqoriga o'tasiz." },
-    { icon: Zap, title: "Mashq o'yinlari", text: "Qiyin mavzulardan keyin qisqa o'yinlar: so'z juftlari, gap tuzish, tinglash, tezlik va mavzu testi." },
-    { icon: MessagesSquare, title: 'Real hayotiy suhbatlar', text: "Kafe, yo'l so'rash, mehmonxona va boshqa vaziyatlarda ovozli suhbat: xato qilsangiz, sababini o'zbekcha tushuntiramiz." },
-    { icon: Send, title: 'Telegram eslatmalar', text: "Bot sizga o'qishni eslatadi va natijangizni yuboradi. Xohlasangiz, o'chirib qo'yasiz." },
-  ];
+    { icon: Volume2, k: 'pron' },
+    { icon: Repeat, k: 'srs' },
+    { icon: Flame, k: 'streak' },
+    { icon: Languages, k: 'vocab' },
+    { icon: Trophy, k: 'rank' },
+    { icon: Target, k: 'placement' },
+    { icon: Zap, k: 'games' },
+    { icon: MessagesSquare, k: 'dialogues' },
+    { icon: Send, k: 'telegram' },
+  ].map(x => ({ icon: x.icon, title: t(`landing.feat.${x.k}.title`), text: t(`landing.feat.${x.k}.text`) }));
 
   const levels = [
-    { title: 'Beginner', tag: 'Noldan', exam: true, units: counts.beginnerUnits, lessons: counts.beginnerLessons, text: "Alifbo, tovushlar, salomlashish, sonlar va birinchi so'zlar.", tone: 'from-rose-500 to-orange-400' },
-    { title: 'Elementary', tag: 'A1', exam: true, units: counts.a1Units, lessons: counts.a1Lessons, text: "O'zingiz haqingizda gapirish, kundalik suhbat va asosiy zamonlar.", tone: 'from-indigo-500 to-blue-400' },
-    { title: 'Pre-Intermediate', tag: 'A2', exam: true, units: counts.a2Units, lessons: counts.a2Lessons, text: "O'tmish va kelajak haqida gapirish, taqqoslash, maslahat va iltimoslar, ish, pul va sayohat.", tone: 'from-emerald-500 to-teal-400' },
-    { title: 'Intermediate', tag: 'B1', exam: true, units: counts.b1Units, lessons: counts.b1Lessons, text: "Tajriba va hikoyalar, shart gaplar, majhul nisbat, ko'chirma gap, ish va texnologiya, munozara.", tone: 'from-violet-500 to-purple-400' },
-  ];
+    { title: 'Beginner', tag: t('landing.level.zero'), k: 'beginner', exam: true, units: counts.beginnerUnits, lessons: counts.beginnerLessons, tone: 'from-rose-500 to-orange-400' },
+    { title: 'Elementary', tag: 'A1', k: 'a1', exam: true, units: counts.a1Units, lessons: counts.a1Lessons, tone: 'from-indigo-500 to-blue-400' },
+    { title: 'Pre-Intermediate', tag: 'A2', k: 'a2', exam: true, units: counts.a2Units, lessons: counts.a2Lessons, tone: 'from-emerald-500 to-teal-400' },
+    { title: 'Intermediate', tag: 'B1', k: 'b1', exam: true, units: counts.b1Units, lessons: counts.b1Lessons, tone: 'from-violet-500 to-purple-400' },
+  ].map(l => ({ ...l, text: t(`landing.level.${l.k}.text`) }));
+
+  const faq = Array.from({ length: FAQ_COUNT }, (_, i) => ({ q: t(`landing.faq.${i + 1}.q`), a: t(`landing.faq.${i + 1}.a`) }));
+  const base = lang === 'uz' ? '/uz' : '/';
 
   const landingJsonLd = [
     {
-      '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Scorify.uz', url: 'https://www.scorify.uz/',
-      applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'uz',
-      description: "Ingliz tilini noldan o'rganish: darslar, talaffuz, lug'at, mashqlar va testlar. IELTS Writing, Speaking, Reading va Listening ham bor.",
-      featureList: ["Ingliz tili kursi (Beginner, Elementary, Pre-Intermediate va Intermediate)", "Real hayotiy ovozli suhbatlar (kafe, yo'l so'rash, mehmonxona)", "Daraja testi va tezkor yuqoriga o'tish testi", "Talaffuz audio va gapirish mashqlari", "Mashq o'yinlari, bosqich testlari va sertifikat", "Aqlli takrorlash va shaxsiy lug'at", 'IELTS Writing, Speaking, Reading va Listening'],
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS', description: "7 kun bepul, keyin Learn 49 000 so'm/oy" },
+      '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Scorify.uz', url: `https://www.scorify.uz${base}`,
+      applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: lang,
+      description: t('landing.ld.desc'),
+      featureList: [1, 2, 3, 4, 5, 6, 7].map(i => t(`landing.ld.feat.${i}`)),
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS', description: t('landing.ld.offer') },
     },
     {
       '@context': 'https://schema.org', '@type': 'FAQPage',
-      mainEntity: FAQ.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+      mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
     },
   ];
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEOHead
-        title="Scorify.uz — Ingliz tili darslari: noldan o'rganing, 7 kun bepul"
+        title={t('landing.seo.title')}
         exactTitle
-        description="Scorify.uz: ingliz tilini noldan o'rganing. Bepul ingliz tili darslari: o'zbekcha tushuntirish, talaffuz audiosi, lug'at, mashqlar va testlar. 7 kun bepul. IELTS Writing, Speaking, Reading va Listening ham bor."
-        path="/"
+        description={t('landing.seo.desc')}
+        path={base}
+        alternates={{ en: '/', uz: '/uz' }}
         jsonLd={landingJsonLd}
       />
       <Navbar />
@@ -132,44 +129,44 @@ export default function Index() {
           <div className="text-center lg:text-left">
             <motion.div initial={false} animate={{ opacity: 1, y: 0 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-semibold tracking-wide mb-7">
-              <GraduationCap className="h-4 w-4" /> Ingliz tili kursi · noldan boshlab
+              <GraduationCap className="h-4 w-4" /> {t('landing.hero.badge')}
             </motion.div>
 
             <motion.h1 initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-[1.1] tracking-tight">
-              Ingliz tilini noldan o'rganing — <span className="gradient-text">har kuni 10 daqiqada</span>
+              {t('landing.hero.h1a')} <span className="gradient-text">{t('landing.hero.h1b')}</span>
             </motion.h1>
 
             <motion.p initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-9 leading-relaxed">
-              Qisqa darslar, har bir so'zning talaffuzi, aqlli takrorlash va testlar. Hammasi telefoningizda, o'zbek tilida tushuntirish bilan.
+              {t('landing.hero.sub')}
             </motion.p>
 
             <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               {user ? (
-                <Link to="/learn"><Button variant="glow" size="xl" className="gap-2">Darsni davom ettirish <ChevronRight className="h-5 w-5" /></Button></Link>
+                <Link to="/learn"><Button variant="glow" size="xl" className="gap-2">{t('landing.hero.continue')} <ChevronRight className="h-5 w-5" /></Button></Link>
               ) : (
                 <>
-                  <Link to="/auth"><Button variant="glow" size="xl" className="gap-2 group">7 kun bepul boshlash<ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></Button></Link>
-                  <a href="#course"><Button variant="glass" size="xl">Kursni ko'rish</Button></a>
+                  <Link to="/auth"><Button variant="glow" size="xl" className="gap-2 group">{t('landing.cta.start')}<ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></Button></Link>
+                  <a href="#course"><Button variant="glass" size="xl">{t('landing.hero.viewCourse')}</Button></a>
                 </>
               )}
             </motion.div>
 
             {!user && (
               <p className="mt-4 text-sm text-muted-foreground flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-1">
-                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Karta kerak emas</span>
-                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Telegram bilan bir bosishda kirish</span>
-                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />Umuman bilmasangiz ham bo'ladi</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />{t('landing.hero.noCard')}</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />{t('landing.hero.telegram')}</span>
+                <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />{t('landing.hero.anyLevel')}</span>
               </p>
             )}
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="grid grid-cols-3 gap-3 mt-10">
               {[
-                { icon: Clock, value: '5–25 daqiqa', label: 'bitta dars' },
-                { icon: Volume2, value: 'Talaffuz', label: 'har so\'zda' },
-                { icon: Flame, value: 'Streak', label: 'kunlik odat' },
+                { icon: Clock, value: t('landing.stat.time.v'), label: t('landing.stat.time.l') },
+                { icon: Volume2, value: t('landing.stat.pron.v'), label: t('landing.stat.pron.l') },
+                { icon: Flame, value: t('landing.stat.streak.v'), label: t('landing.stat.streak.l') },
               ].map(s => (
                 <div key={s.value} className="p-3 sm:p-4 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 text-left">
                   <s.icon className="h-5 w-5 mb-2 text-primary" />
@@ -187,14 +184,14 @@ export default function Index() {
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-rose-500 to-orange-400 grid place-items-center"><BookOpen className="h-4 w-4 text-white" /></div>
-                    <div><p className="text-sm font-semibold">Dars 4 · Sanaladigan otlar</p><p className="text-[11px] text-muted-foreground">Elementary · A1</p></div>
+                    <div><p className="text-sm font-semibold">{t('landing.preview.lesson')}</p><p className="text-[11px] text-muted-foreground">Elementary · A1</p></div>
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-orange-500/10 text-orange-600 flex items-center gap-1"><Flame className="h-3 w-3" />5 kun</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-orange-500/10 text-orange-600 flex items-center gap-1"><Flame className="h-3 w-3" />{t('landing.preview.streak')}</span>
                 </div>
                 <div className="h-2 w-full bg-muted rounded-full overflow-hidden mb-5">
                   <motion.div initial={{ width: 0 }} animate={{ width: '68%' }} transition={{ delay: 0.6, duration: 1.1 }} className="h-full rounded-full bg-gradient-to-r from-primary to-orange-400" />
                 </div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">To'g'ri javobni tanlang</p>
+                <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{t('landing.preview.pick')}</p>
                 <p className="text-lg font-semibold mb-3 flex items-center gap-2">We don't have ___ butter. <span className="w-7 h-7 rounded-full bg-primary/10 grid place-items-center"><Volume2 className="h-3.5 w-3.5 text-primary" /></span></p>
                 <div className="grid grid-cols-2 gap-2">
                   {['many', 'much', 'a', 'a lot'].map((o, i) => (
@@ -204,20 +201,20 @@ export default function Index() {
                     </div>
                   ))}
                 </div>
-                <p className="mt-3 text-xs rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-3 py-2"><b>butter</b> — sanalmaydi, inkor gap → <b>much</b>.</p>
+                <p className="mt-3 text-xs rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-3 py-2"><b>butter</b> {t('landing.preview.hint')} <b>much</b>.</p>
               </div>
               <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
                 className="absolute -top-5 right-0 sm:-right-6 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-amber-500 grid place-items-center"><Zap className="h-5 w-5 text-white" /></div>
-                  <div><div className="text-xs font-bold">+30 XP</div><div className="text-[10px] text-muted-foreground">Dars tugatildi</div></div>
+                  <div><div className="text-xs font-bold">+30 XP</div><div className="text-[10px] text-muted-foreground">{t('landing.preview.done')}</div></div>
                 </div>
               </motion.div>
               <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
                 className="absolute -bottom-12 left-0 sm:-left-8 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-primary/10 grid place-items-center"><Mic className="h-4 w-4 text-primary" /></div>
-                  <div><div className="text-xs font-bold">Talaffuz mashqi</div><div className="text-[10px] text-muted-foreground">Ovoz chiqarib takrorlang</div></div>
+                  <div><div className="text-xs font-bold">{t('landing.preview.pronTitle')}</div><div className="text-[10px] text-muted-foreground">{t('landing.preview.pronSub')}</div></div>
                 </div>
               </motion.div>
             </motion.div>
@@ -229,8 +226,8 @@ export default function Index() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} className="text-center mb-14">
-            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">Bitta dars <span className="gradient-text">qanday o'tadi?</span></motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Har bir dars bir xil, tushunarli yo'ldan boradi, shuning uchun nima qilishni o'ylab o'tirmaysiz.</motion.p>
+            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.how.h2a')} <span className="gradient-text">{t('landing.how.h2b')}</span></motion.h2>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.how.sub')}</motion.p>
           </motion.div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {steps.map((s, i) => (
@@ -249,8 +246,8 @@ export default function Index() {
       <section id="course" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">Alifbodan <span className="gradient-text">birinchi suhbatgacha</span></motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Kurs bosqichma-bosqich: har bosqich oxirida test, Beginner, Elementary, Pre-Intermediate va Intermediate oxirida ko'nikmalar imtihoni va sertifikat. Boshlanishda xato daraja tanlagan bo'lsangiz ham, tezkor testdan o'tib oldinga siljish mumkin.</motion.p>
+            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.course.h2a')} <span className="gradient-text">{t('landing.course.h2b')}</span></motion.h2>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.course.sub')}</motion.p>
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
             {levels.map(l => (
@@ -258,11 +255,11 @@ export default function Index() {
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{l.tag}</p>
                 <h3 className="text-2xl font-extrabold mb-2">{l.title}</h3>
                 <p className="text-sm opacity-95 mb-4">{l.text}</p>
-                <div className="flex gap-4 text-sm font-semibold"><span>{l.units} bosqich</span><span>{l.lessons} dars</span><span className="flex items-center gap-1"><ClipboardCheck className="h-4 w-4" />{l.exam ? 'Imtihon' : 'Bosqich testlari'}</span></div>
+                <div className="flex gap-4 text-sm font-semibold"><span>{t('landing.level.units', { n: l.units })}</span><span>{t('landing.level.lessons', { n: l.lessons })}</span><span className="flex items-center gap-1"><ClipboardCheck className="h-4 w-4" />{l.exam ? t('landing.level.exam') : t('landing.level.unitTests')}</span></div>
               </div>
             ))}
           </div>
-          <p className="text-center text-sm text-muted-foreground">Keyingi darajalar (Intermediate va undan yuqori) tez orada qo'shiladi. <a className="text-primary underline underline-offset-2" href="/ingliz-tili-darslari">Barcha darslar ro'yxati</a></p>
+          <p className="text-center text-sm text-muted-foreground">{t('landing.course.soon')} <a className="text-primary underline underline-offset-2" href="/ingliz-tili-darslari">{t('landing.course.all')}</a></p>
         </div>
       </section>
 
@@ -270,8 +267,8 @@ export default function Index() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-14">
-            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">O'rganishni <span className="gradient-text">odatga aylantiradi</span></motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Eng muhimi — har kuni o'qish. Shuning uchun Scorify sizni motivatsiya qiladi va unutishga yo'l qo'ymaydi.</motion.p>
+            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.feat.h2a')} <span className="gradient-text">{t('landing.feat.h2b')}</span></motion.h2>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.feat.sub')}</motion.p>
           </motion.div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((f, i) => (
@@ -284,7 +281,7 @@ export default function Index() {
           </motion.div>
           <div className="mt-8 max-w-3xl mx-auto glass-card p-5 flex items-start gap-3 border-l-4 border-l-primary">
             <Gift className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-            <p className="text-sm text-muted-foreground leading-relaxed"><b className="text-foreground">Do'stlaringizni taklif qiling.</b> Do'stingiz ro'yxatdan o'tib, sinov davridan keyin pullik tarif olsa, sizga 10 000 so'm referal balansiga qo'shiladi. Telegram botda 🎁 Referal tugmasidan havolangizni oling.</p>
+            <p className="text-sm text-muted-foreground leading-relaxed"><b className="text-foreground">{t('landing.ref.title')}</b> {t('landing.ref.text')}</p>
           </div>
         </div>
       </section>
@@ -293,19 +290,19 @@ export default function Index() {
       <section className="py-20 px-4 sm:px-6 lg:px-8" id="ielts">
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-            <motion.div variants={fadeUp} custom={0} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-xs font-medium mb-4"><Target className="h-3.5 w-3.5" /> IELTS ga tayyorlanyapsizmi?</motion.div>
-            <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">IELTS ning <span className="gradient-text">to'rttala qismi</span>: Writing, Speaking, Reading, Listening</motion.h2>
-            <motion.p variants={fadeUp} custom={2} className="text-muted-foreground max-w-2xl mx-auto">Ingliz tilini o'rganish bilan birga IELTS ga tayyorlaning: Writing va Speaking javoblaringizni AI tekshiradi, Reading va Listening bo'yicha esa 5 tadan to'liq test sizni kutadi. Hammasi taxminiy band, mezonlar bo'yicha ball va aniq tuzatishlar bilan.</motion.p>
+            <motion.div variants={fadeUp} custom={0} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-xs font-medium mb-4"><Target className="h-3.5 w-3.5" /> {t('landing.ielts.badge')}</motion.div>
+            <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.ielts.h2a')} <span className="gradient-text">{t('landing.ielts.h2b')}</span>{t('landing.ielts.h2c')}</motion.h2>
+            <motion.p variants={fadeUp} custom={2} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.ielts.sub')}</motion.p>
           </motion.div>
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-4">
               {[
-                { icon: PenLine, title: 'Writing Task 1 va Task 2', text: "Esse yozing, 4 ta rasmiy mezon bo'yicha taxminiy band va tuzatishlarni oling." },
-                { icon: Mic, title: 'Speaking Part 1–3', text: "Brauzerda yozib oling, matnga aylantirilgan javobingizni ko'ring, ravonlik, grammatika, lug'at va talaffuz bahosini oling." },
-                { icon: BookOpen, title: 'Yangi: IELTS Reading', text: "5 ta to'liq test: 3 passage, 40 savol, 60 daqiqa. Barcha savol turlari, taxminiy band va har bir javob tahlili. IELTS tarifida cheksiz." },
-                { icon: Headphones, title: 'Yangi: IELTS Listening', text: "5 ta to'liq test: 4 section, 40 savol, audio va transkript bilan. Imtihon rejimida yozuv bir marta eshittiriladi. IELTS tarifida cheksiz." },
-                { icon: Clock, title: 'Mock testlar', text: "Imtihon vaqti bilan to'liq mashq: Writing va Speaking, oxirida umumiy hisobot." },
-              ].map(f => (
+                { icon: PenLine, k: 'writing' },
+                { icon: Mic, k: 'speaking' },
+                { icon: BookOpen, k: 'reading' },
+                { icon: Headphones, k: 'listening' },
+                { icon: Clock, k: 'mock' },
+              ].map(x => ({ icon: x.icon, title: t(`landing.ielts.${x.k}.title`), text: t(`landing.ielts.${x.k}.text`) })).map(f => (
                 <div key={f.title} className="glass-card p-5 flex items-start gap-4">
                   <div className="w-11 h-11 rounded-xl bg-primary/10 grid place-items-center shrink-0"><f.icon className="h-5 w-5 text-primary" /></div>
                   <div><h3 className="font-semibold mb-1">{f.title}</h3><p className="text-sm text-muted-foreground">{f.text}</p></div>
@@ -317,7 +314,7 @@ export default function Index() {
                 <Link to={user ? '/reading' : '/auth'}><Button variant="outline" className="gap-2"><BookOpen className="h-4 w-4" />Reading</Button></Link>
                 <Link to={user ? '/listening' : '/auth'}><Button variant="outline" className="gap-2"><Headphones className="h-4 w-4" />Listening</Button></Link>
               </div>
-              <p className="text-xs text-muted-foreground">Yangi hisobga 1 ta Writing, 1 ta Speaking baholash va 3 tadan Reading hamda Listening testi sovg'a. Baholar taxminiy, rasmiy IELTS natijasi emas.</p>
+              <p className="text-xs text-muted-foreground">{t('landing.ielts.gift')}</p>
             </div>
             <HeroSpeakingDemo />
           </div>
@@ -328,8 +325,8 @@ export default function Index() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20" id="pricing">
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">Oddiy <span className="gradient-text">narxlar</span></motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">Learn — ingliz tili kursi, kuniga taxminan 1 600 so'm. IELTS — kursga qo'shimcha: cheksiz Reading va Listening, oyiga 50 ta Writing va 30 ta Speaking AI baholash, mock testlar. 3 oyga 5%, 6 oyga 10% chegirma.</motion.p>
+            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.pricing.h2a')} <span className="gradient-text">{t('landing.pricing.h2b')}</span></motion.h2>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.pricing.sub')}</motion.p>
           </motion.div>
           <PlanCards plans={subPlans} />
         </div>
@@ -338,19 +335,19 @@ export default function Index() {
       {/* Free material: internal links for readers and search engines */}
       <section className="py-16 px-4 sm:px-6 lg:px-8" id="free-material">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-center">Bepul <span className="gradient-text">qo'llanmalar va mashqlar</span></h2>
-          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">Ro'yxatdan o'tmasdan ham foydali materiallarni o'qing, so'ng darslarni bepul boshlang.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-center">{t('landing.free.h2a')} <span className="gradient-text">{t('landing.free.h2b')}</span></h2>
+          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">{t('landing.free.sub')}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { href: '/inglizcha-sozlar', title: "Inglizcha so'zlar", text: "Hayvonlar, ranglar, oila, hafta kunlari va boshqa mavzular: talaffuz va tarjima bilan." },
-              { href: '/ingliz-tili-qoidalari', title: 'Ingliz tili qoidalari', text: "Zamonlar, artikllar, shart gaplar va majhul nisbat o'zbek tilida." },
-              { href: '/ielts-speaking-part-2', title: 'IELTS Speaking namunalari', text: "Part 1, 2 va 3 savollari band 7 namuna javoblar bilan." },
-              { href: '/ielts-writing-task-2-questions', title: 'IELTS Writing namunalari', text: "Task 1 va Task 2 savollari, reja va namuna insholar." },
-              { href: '/ielts-reading-practice', title: 'IELTS Reading mashqi', text: "Savol turlari, band jadvali va bepul testlar." },
-              { href: '/ielts-listening-practice', title: 'IELTS Listening mashqi', text: "4 ta section, maslahatlar va band jadvali." },
-              { href: '/ielts-band-score-calculator', title: 'IELTS band kalkulyatori', text: "Umumiy ballingizni rasmiy yaxlitlash qoidasi bilan hisoblang." },
-              { href: '/blog', title: 'Blog va qo\'llanmalar', text: "Ingliz tilini o'rganish va IELTS ga tayyorlanish bo'yicha maqolalar." },
-            ].map(l => (
+              { href: '/inglizcha-sozlar', k: 'words' },
+              { href: '/ingliz-tili-qoidalari', k: 'rules' },
+              { href: '/ielts-speaking-part-2', k: 'speaking' },
+              { href: '/ielts-writing-task-2-questions', k: 'writing' },
+              { href: '/ielts-reading-practice', k: 'reading' },
+              { href: '/ielts-listening-practice', k: 'listening' },
+              { href: '/ielts-band-score-calculator', k: 'band' },
+              { href: '/blog', k: 'blog' },
+            ].map(x => ({ href: x.href, title: t(`landing.link.${x.k}.title`), text: t(`landing.link.${x.k}.text`) })).map(l => (
               <a key={l.href} href={l.href} className="glass-card-hover p-5 block">
                 <h3 className="font-semibold mb-1">{l.title}</h3>
                 <p className="text-sm text-muted-foreground">{l.text}</p>
@@ -363,9 +360,9 @@ export default function Index() {
       {/* FAQ */}
       <section className="py-20 px-4 sm:px-6 lg:px-8" id="faq">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10">Ko'p so'raladigan <span className="gradient-text">savollar</span></h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10">{t('landing.faq.h2a')} <span className="gradient-text">{t('landing.faq.h2b')}</span></h2>
           <div className="space-y-3">
-            {FAQ.map(f => (
+            {faq.map(f => (
               <details key={f.q} className="glass-card p-5 group">
                 <summary className="font-semibold cursor-pointer list-none flex items-center justify-between gap-3">{f.q}<ChevronRight className="h-4 w-4 shrink-0 transition-transform group-open:rotate-90 text-primary" /></summary>
                 <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{f.a}</p>
@@ -382,9 +379,9 @@ export default function Index() {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
             <div className="relative">
               <Sparkles className="h-11 w-11 text-primary mx-auto mb-4" />
-              <h2 className="text-3xl font-bold mb-4">Bugun birinchi darsni boshlang</h2>
-              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">Qisqa dars 5–12 daqiqa. 7 kun bepul, karta kerak emas.</p>
-              <Link to={user ? '/learn' : '/auth'}><Button variant="glow" size="xl" className="gap-2">{user ? "Darslarga o'tish" : "Bepul boshlash"} <ChevronRight className="h-5 w-5" /></Button></Link>
+              <h2 className="text-3xl font-bold mb-4">{t('landing.final.title')}</h2>
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">{t('landing.final.sub')}</p>
+              <Link to={user ? '/learn' : '/auth'}><Button variant="glow" size="xl" className="gap-2">{user ? t('landing.final.goLearn') : t('landing.final.startFree')} <ChevronRight className="h-5 w-5" /></Button></Link>
             </div>
           </div>
         </div>
@@ -392,15 +389,15 @@ export default function Index() {
 
       <section className="py-14 px-4 sm:px-6 border-t border-border" aria-labelledby="free-guides-heading">
         <div className="max-w-6xl mx-auto">
-          <h2 id="free-guides-heading" className="text-2xl font-bold mb-3">Bepul IELTS qo'llanmalari</h2>
-          <p className="text-muted-foreground mb-7 max-w-2xl">IELTS Writing, Speaking, Reading va Listening formatini o'rganing va bitta foydali ko'nikmani mashq qiling.</p>
+          <h2 id="free-guides-heading" className="text-2xl font-bold mb-3">{t('landing.guides.title')}</h2>
+          <p className="text-muted-foreground mb-7 max-w-2xl">{t('landing.guides.sub')}</p>
           <div className="grid md:grid-cols-3 gap-4">
-            <a href="/ielts-writing-task-2-questions" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Task 2 savollar va namunalar</h3><p className="text-sm text-muted-foreground">Esse savollari va namunaviy javoblar.</p></a>
-            <a href="/ielts-speaking-part-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Speaking Part 2 kartochkalari</h3><p className="text-sm text-muted-foreground">Mashhur «Describe a…» mavzulari.</p></a>
-            <a href="/blog" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">Scorify blogi</h3><p className="text-sm text-muted-foreground">Ingliz tili va IELTS bo'yicha foydali maqolalar (o'zbek va ingliz tillarida).</p></a>
-            <a href="/ielts-writing-task-1" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Writing Task 1</h3><p className="text-sm text-muted-foreground">Asosiy xususiyatlarni topish va ko'rib chiqish yozish.</p></a>
-            <a href="/ielts-writing-task-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Writing Task 2</h3><p className="text-sm text-muted-foreground">Fikrni aniq ifodalash va rivojlantirish.</p></a>
-            <a href="/ielts-speaking-practice" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">IELTS Speaking mashqi</h3><p className="text-sm text-muted-foreground">Part 1–3 savollarini sinab ko'ring.</p></a>
+            <a href="/ielts-writing-task-2-questions" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">{t('landing.guide.g1.title')}</h3><p className="text-sm text-muted-foreground">{t('landing.guide.g1.text')}</p></a>
+            <a href="/ielts-speaking-part-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">{t('landing.guide.g2.title')}</h3><p className="text-sm text-muted-foreground">{t('landing.guide.g2.text')}</p></a>
+            <a href="/blog" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">{t('landing.guide.g3.title')}</h3><p className="text-sm text-muted-foreground">{t('landing.guide.g3.text')}</p></a>
+            <a href="/ielts-writing-task-1" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">{t('landing.guide.g4.title')}</h3><p className="text-sm text-muted-foreground">{t('landing.guide.g4.text')}</p></a>
+            <a href="/ielts-writing-task-2" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">{t('landing.guide.g5.title')}</h3><p className="text-sm text-muted-foreground">{t('landing.guide.g5.text')}</p></a>
+            <a href="/ielts-speaking-practice" className="glass-card-hover p-5 block"><h3 className="font-semibold text-lg mb-2">{t('landing.guide.g6.title')}</h3><p className="text-sm text-muted-foreground">{t('landing.guide.g6.text')}</p></a>
           </div>
         </div>
       </section>
@@ -413,26 +410,26 @@ export default function Index() {
               <img src="/logo-128.webp" alt="Scorify" className="h-8 w-8 object-contain" />
               <span className="font-bold">Scorify<span className="text-primary">.uz</span></span>
             </div>
-            <p className="text-muted-foreground">Ingliz tilini noldan o'rganish. IELTS Writing, Speaking, Reading va Listening ham bor.</p>
+            <p className="text-muted-foreground">{t('landing.footer.tag')}</p>
           </div>
-          <div className="space-y-2"><p className="font-semibold">Kurs</p>
+          <div className="space-y-2"><p className="font-semibold">{t('landing.footer.course')}</p>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/beginner">Beginner</a>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/elementary">Elementary (A1)</a>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/intermediate">Intermediate (B1)</a>
-            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari">Barcha darslar</a>
-            <a className="block text-muted-foreground hover:text-primary" href="#pricing">Narxlar</a></div>
+            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari">{t('landing.footer.allLessons')}</a>
+            <a className="block text-muted-foreground hover:text-primary" href="#pricing">{t('landing.footer.pricing')}</a></div>
           <div className="space-y-2"><p className="font-semibold">IELTS</p>
             <a className="block text-muted-foreground hover:text-primary" href="/ielts-writing-task-2">Writing Task 2</a>
-            <a className="block text-muted-foreground hover:text-primary" href="/ielts-speaking-practice">Speaking mashqi</a>
-            <a className="block text-muted-foreground hover:text-primary" href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
-          <div className="space-y-2"><p className="font-semibold">Aloqa</p>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-speaking-practice">{t('landing.footer.speakingPractice')}</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ielts-band-score-calculator">{t('landing.footer.bandCalc')}</a></div>
+          <div className="space-y-2"><p className="font-semibold">{t('landing.footer.contact')}</p>
             <a className="block text-muted-foreground hover:text-primary" href="/blog">Blog</a>
-            <a className="block text-muted-foreground hover:text-primary" href="/support">Yordam</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/support">{t('landing.footer.help')}</a>
             <a className="block text-muted-foreground hover:text-primary" href="https://t.me/scorify_support" rel="noopener noreferrer">Telegram: @scorify_support</a>
-            <a className="block text-muted-foreground hover:text-primary" href="#faq">Savol-javob</a></div>
+            <a className="block text-muted-foreground hover:text-primary" href="#faq">{t('landing.footer.faq')}</a></div>
         </div>
-        <p className="max-w-6xl mx-auto mt-8 text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. IELTS baholari taxminiy bo'lib, rasmiy imtihon natijasi emas.</p>
+        <p className="max-w-6xl mx-auto mt-8 text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. {t('landing.footer.disclaimer')}</p>
       </footer>
 
       {!user && <StickyCta />}

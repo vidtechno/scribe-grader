@@ -9,8 +9,10 @@ import { toast } from 'sonner';
 import { useSubscription } from '@/hooks/useSubscription';
 import { PricingModal } from '@/components/PricingModal';
 import { functionError } from '@/lib/function-errors';
+import { useT } from '@/i18n';
 
 export default function MockTestThankYou() {
+  const { t } = useT();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [status, setStatus] = useState<string>('submitted');
@@ -57,14 +59,14 @@ export default function MockTestThankYou() {
       const { data, error } = await supabase.from('mock_tests')
         .update({ status: 'submitted' }).eq('id', id).eq('status', 'failed')
         .select('id').maybeSingle();
-      if (error || !data) throw new Error('Could not retry this mock test.');
+      if (error || !data) throw new Error(t('mock.thanks.retryFail'));
       setStatus('submitted');
       const result = await supabase.functions.invoke('process-mock-test', { body: { mockTestId: id } });
-      if (result.error) throw await functionError(result.error, 'Mock test grading failed.');
+      if (result.error) throw await functionError(result.error, t('mock.thanks.gradeFail'));
       await refreshSubscription();
       navigate(`/mock-test/result/${id}`, { replace: true });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Mock test grading failed.');
+      toast.error(error instanceof Error ? error.message : t('mock.thanks.gradeFail'));
       const { data } = await supabase.from('mock_tests').select('status').eq('id', id).maybeSingle();
       if (data) setStatus(data.status);
     } finally { setRetrying(false); }
@@ -78,31 +80,30 @@ export default function MockTestThankYou() {
           {failed ? (
             <>
               <AlertCircle className="h-14 w-14 text-destructive mx-auto mb-4" />
-              <h1 className="text-2xl font-bold mb-2">Grading Failed</h1>
+              <h1 className="text-2xl font-bold mb-2">{t('mock.thanks.failedTitle')}</h1>
               <p className="text-sm text-muted-foreground mb-6">
-                Something went wrong while evaluating your test. Please try again or contact support.
+                {t('mock.thanks.failedText')}
               </p>
               <Button onClick={retryGrading} disabled={retrying} className="mb-4 w-full">
-                {retrying ? 'Retrying grading…' : mockRemaining > 0 ? 'Retry grading' : 'Upgrade to retry'}
+                {retrying ? t('mock.thanks.retrying') : mockRemaining > 0 ? t('mock.thanks.retry') : t('mock.thanks.upgrade')}
               </Button>
             </>
           ) : (
             <>
               <CheckCircle2 className="h-14 w-14 text-emerald-500 mx-auto mb-4" />
-              <h1 className="text-2xl font-bold mb-2">Your Mock Test is Submitted</h1>
+              <h1 className="text-2xl font-bold mb-2">{t('mock.thanks.title')}</h1>
               <p className="text-sm text-muted-foreground mb-6">
-                Results will be ready in <span className="font-medium text-foreground">5–10 minutes</span>.
-                You'll be redirected automatically when grading completes.
+                {t('mock.thanks.readyIn')} <span className="font-medium text-foreground">{t('mock.thanks.minutes')}</span>. {t('mock.thanks.redirect')}
               </p>
               <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-6">
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                <span>Status: {status === 'grading' ? 'Grading…' : 'Pending evaluation…'}</span>
+                <span>{t('mock.thanks.status')} {status === 'grading' ? t('mock.thanks.grading') : t('mock.thanks.pending')}</span>
               </div>
             </>
           )}
           <Link to="/mock-test">
             <Button variant="outline" className="gap-2">
-              <ClipboardList className="h-4 w-4" /> Back to Mock Tests
+              <ClipboardList className="h-4 w-4" /> {t('mock.back')}
             </Button>
           </Link>
         </motion.div>

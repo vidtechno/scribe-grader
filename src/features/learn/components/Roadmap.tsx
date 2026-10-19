@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Award, BookOpen, Check, ChevronDown, Compass, Drama, Gamepad2, Headphones, Lock, MessageCircle, Play, RefreshCw, Rocket, Trophy } from 'lucide-react';
+import { useT } from '@/i18n';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { LEVEL_TEST, LEVELS, PARTIAL_LEVELS, drillIds, levelOf, unitNo, unitsOf } from '../course';
@@ -9,7 +10,7 @@ import type { LevelId, LessonMeta } from '../types';
 import type { DrillState, LearningState, NodeState } from '../api';
 import { courseMap } from '../api';
 import { UNIT_EXTRAS } from '../unit-extras';
-import { DRILL_GAME, GAMES } from '../games';
+import { DRILL_GAME } from '../games';
 import { UnitGuide } from './UnitGuide';
 import { CertificateDialog } from './CertificateDialog';
 
@@ -17,11 +18,11 @@ type Status = 'done' | 'current' | 'review' | 'locked';
 
 /** Icon and wording per kind of step, so a row says what it is without a pile of badges. */
 const KIND: Record<string, { icon: typeof BookOpen; label: string }> = {
-  grammar: { icon: BookOpen, label: 'Dars' },
-  situation: { icon: MessageCircle, label: 'Hayotiy vaziyat' },
-  skill: { icon: Headphones, label: "Ko'nikma: tinglash, gapirish, o'qish, yozish" },
-  review: { icon: RefreshCw, label: 'Takror' },
-  scene: { icon: Drama, label: 'Real hayot: suhbat, ovozli' },
+  grammar: { icon: BookOpen, label: 'learn.road.kindLesson' },
+  situation: { icon: MessageCircle, label: 'learn.road.kindSituation' },
+  skill: { icon: Headphones, label: 'learn.road.kindSkill' },
+  review: { icon: RefreshCw, label: 'learn.road.kindReview' },
+  scene: { icon: Drama, label: 'learn.road.kindScene' },
 };
 
 /**
@@ -29,6 +30,7 @@ const KIND: Record<string, { icon: typeof BookOpen; label: string }> = {
  * other with a line between them. The topic you are on is open; finished topics show a tick; locked topics wait.
  */
 export function Roadmap({ state, level, onLocked }: { state: LearningState; level: LevelId; onLocked: () => void }) {
+  const { t: tr, lang } = useT();
   const navigate = useNavigate();
   const map = courseMap(state);
   const stars = new Map([...state.progress.map((p) => [p.lesson_id, p.stars] as const), ...(state.drills ?? []).map((d) => [d.drill_id, d.stars] as const)]);
@@ -65,24 +67,24 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
   return (
     <div className="space-y-5">
       {/* Level up: always visible, above the topics */}
-      <section className="rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-brand-red-soft/10 p-4" aria-label="Daraja testi">
+      <section className="rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-brand-red-soft/10 p-4" aria-label={tr('learn.road.levelTest')}>
         <div className="flex items-start gap-3">
           <span className="w-11 h-11 rounded-2xl bg-primary text-primary-foreground grid place-items-center shrink-0"><Rocket className="h-5 w-5" /></span>
           <div className="min-w-0 flex-1">
-            <h2 className="font-bold leading-snug">{canQuickUp ? `${levelOf(level).title} sizga oson bo'lsa, ${nextLevel!.title}'ga sakrang` : `${levelOf(level).title} yakuniy imtihoni`}</h2>
+            <h2 className="font-bold leading-snug">{canQuickUp ? tr('learn.road.jump', { level: levelOf(level).title, next: nextLevel!.title }) : tr('learn.road.finalExam', { level: levelOf(level).title })}</h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {canQuickUp ? "Qisqa test: 15 savol, taxminan 4 daqiqa, 75% kerak. Eski darslar yopilmaydi." : `${LEVEL_TEST.questions} ta savol, ${LEVEL_TEST.passPercent}% kerak. Barcha darslarni tugatmasdan ham topshirsa bo'ladi.`}
-              {levelTest && !levelTest.passed_at ? ` Eng yaxshi natija ${Math.round((levelTest.best_score / levelTest.best_total) * 100)}%.` : ''}
+              {canQuickUp ? tr('learn.road.quickInfo') : tr('learn.road.examInfo', { n: LEVEL_TEST.questions, pct: LEVEL_TEST.passPercent })}
+              {levelTest && !levelTest.passed_at ? ` ${tr('learn.road.best', { pct: Math.round((levelTest.best_score / levelTest.best_total) * 100) })}` : ''}
             </p>
           </div>
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
-          {canQuickUp && <button type="button" onClick={() => navigate(`/learn/upgrade/${nextLevel!.id}`)} className="rounded-full bg-primary text-primary-foreground text-sm font-semibold px-4 py-2 hover:opacity-90 transition-opacity">{nextLevel!.title}'ga o'tish testi</button>}
+          {canQuickUp && <button type="button" onClick={() => navigate(`/learn/upgrade/${nextLevel!.id}`)} className="rounded-full bg-primary text-primary-foreground text-sm font-semibold px-4 py-2 hover:opacity-90 transition-opacity">{tr('learn.road.upgradeTest', { next: nextLevel!.title })}</button>}
           <button type="button" onClick={() => navigate(`/learn/level-test/${level}`)} className="rounded-full border border-primary/40 text-sm font-semibold px-4 py-2 hover:bg-primary/10 transition-colors inline-flex items-center gap-1.5">
-            {levelTest?.passed_at ? <Check className="h-4 w-4 text-emerald-500" /> : <Trophy className="h-4 w-4" />}Yakuniy imtihon{levelTest?.passed_at ? ' · topshirilgan' : ''}
+            {levelTest?.passed_at ? <Check className="h-4 w-4 text-emerald-500" /> : <Trophy className="h-4 w-4" />}{tr('learn.road.exam')}{levelTest?.passed_at ? ` · ${tr('learn.road.passedSuffix')}` : ''}
           </button>
           {levelTest?.passed_at && (
-            <button type="button" onClick={() => setCertificate(true)} className="rounded-full border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-sm font-semibold px-4 py-2 hover:bg-emerald-500/10 transition-colors inline-flex items-center gap-1.5"><Award className="h-4 w-4" />Sertifikat</button>
+            <button type="button" onClick={() => setCertificate(true)} className="rounded-full border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-sm font-semibold px-4 py-2 hover:bg-emerald-500/10 transition-colors inline-flex items-center gap-1.5"><Award className="h-4 w-4" />{tr('learn.road.certificate')}</button>
           )}
         </div>
       </section>
@@ -108,12 +110,12 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                 <button type="button" aria-expanded={open} onClick={() => setOpenUnit(open ? '' : unit.id)} className="w-full text-left p-4 flex items-center gap-3">
                   <span className="min-w-0 flex-1">
                     <span className={`block text-[11px] font-semibold uppercase tracking-wider ${status === 'current' ? 'text-primary' : 'text-muted-foreground'}`}>
-                      {status === 'done' ? 'Tugallangan' : status === 'current' ? 'Hozir shu yerda' : status === 'review' ? 'Takrorlash uchun ochiq' : 'Hali yopiq'}
+                      {status === 'done' ? tr('learn.road.statusDone') : status === 'current' ? tr('learn.road.statusCurrent') : status === 'review' ? tr('learn.road.statusReview') : tr('learn.road.statusLocked')}
                     </span>
-                    <span className="block font-bold leading-snug">{unitNo(unit)}-mavzu. {unit.titleUz}</span>
+                    <span className="block font-bold leading-snug">{tr('learn.road.unitName', { n: unitNo(unit), title: unit.titleUz })}</span>
                     <span className="mt-1.5 flex items-center gap-2">
                       <span className="h-1.5 w-24 rounded-full bg-secondary overflow-hidden"><span className="block h-full rounded-full bg-primary" style={{ width: `${pct}%` }} /></span>
-                      <span className="text-xs text-muted-foreground">{doneCount} / {unit.lessons.length} dars</span>
+                      <span className="text-xs text-muted-foreground">{tr('learn.road.lessonsCount', { done: doneCount, total: unit.lessons.length })}</span>
                     </span>
                   </span>
                   <ChevronDown className={`h-5 w-5 text-muted-foreground shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
@@ -122,7 +124,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                   <div className="px-3 pb-3 sm:px-4 sm:pb-4">
                     {unit.learns?.length ? (
                       <details className="mb-3 text-sm group">
-                        <summary className="cursor-pointer text-primary font-medium list-none flex items-center gap-1.5"><Compass className="h-4 w-4" />Bu mavzuda nimalar o'rganiladi</summary>
+                        <summary className="cursor-pointer text-primary font-medium list-none flex items-center gap-1.5"><Compass className="h-4 w-4" />{tr('learn.road.whatYouLearn')}</summary>
                         <ul className="mt-2 space-y-1 text-muted-foreground">{unit.learns.map((x) => <li key={x} className="flex gap-2"><Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />{x}</li>)}</ul>
                       </details>
                     ) : null}
@@ -144,10 +146,10 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                             {testState === 'passed' ? <Check className="h-4 w-4" strokeWidth={3} /> : testState === 'locked' ? <Lock className="h-3.5 w-3.5" /> : <Trophy className="h-4 w-4" />}
                           </span>
                           <span className="min-w-0 flex-1">
-                            <span className="block text-sm font-semibold">Mavzu yakuniy testi</span>
+                            <span className="block text-sm font-semibold">{tr('learn.road.unitTest')}</span>
                             <span className="block text-xs text-muted-foreground">
-                              {testState === 'cooldown' && t?.locked_until ? `${new Date(t.locked_until).toLocaleString('uz-UZ', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })} da ochiladi`
-                                : testState === 'passed' ? "O'tildi" : testState === 'open' ? 'Topshirishga tayyor' : testState === 'optional' ? "Mavzuni bilsangiz, testdan o'tib keyingisiga o'tishingiz mumkin" : 'Darslar tugagach ochiladi'}
+                              {testState === 'cooldown' && t?.locked_until ? tr('learn.road.opensAt', { date: new Date(t.locked_until).toLocaleString(lang === 'uz' ? 'uz-UZ' : 'en-US', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) })
+                                : testState === 'passed' ? tr('learn.road.testPassed') : testState === 'open' ? tr('learn.road.testReady') : testState === 'optional' ? tr('learn.road.testOptional') : tr('learn.road.testLocked')}
                             </span>
                           </span>
                         </button>
@@ -155,7 +157,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                     </ul>
                     {UNIT_EXTRAS[unit.id] && status !== 'locked' && (
                       <button type="button" onClick={() => setGuideUnit(unit.id)} className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
-                        <Compass className="h-3.5 w-3.5" />Qo'llanma: xatolar, madaniyat, mini-loyiha
+                        <Compass className="h-3.5 w-3.5" />{tr('learn.road.guide')}
                       </button>
                     )}
                   </div>
@@ -168,14 +170,14 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
 
       {PARTIAL_LEVELS[level] && (
         <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4 text-sm text-center text-muted-foreground">
-          <p className="font-semibold text-foreground mb-0.5">{levelOf(level).title} davomi tez orada</p>
+          <p className="font-semibold text-foreground mb-0.5">{tr('learn.road.moreSoon', { level: levelOf(level).title })}</p>
           <p>{PARTIAL_LEVELS[level]}</p>
         </div>
       )}
 
       {LEVELS.some((l) => !l.available) && (
-        <section aria-label="Keyingi darajalar">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-2">Tez orada</h2>
+        <section aria-label={tr('learn.road.nextLevels')}>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-2">{tr('learn.home.soon')}</h2>
           <div className="flex flex-wrap gap-2">
             {LEVELS.filter((l) => !l.available).map((l) => (
               <span key={l.id} className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-sm text-muted-foreground"><Lock className="h-3.5 w-3.5" />{l.title}</span>
@@ -191,6 +193,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
 const stateStyle = (state: NodeState | DrillState) => state === 'done' ? 'bg-emerald-500 text-white' : state === 'current' ? 'bg-primary text-primary-foreground' : state === 'open' ? 'border-2 border-primary/40 text-primary' : 'bg-secondary text-muted-foreground';
 
 function LessonRow({ lesson, number, state, stars, onOpen }: { lesson: LessonMeta; number: number; state: NodeState; stars: number; onOpen: () => void }) {
+  const { t } = useT();
   const kind = KIND[lesson.kind ?? 'grammar'];
   const Icon = kind.icon;
   const scene = lesson.kind === 'scene';
@@ -201,15 +204,16 @@ function LessonRow({ lesson, number, state, stars, onOpen }: { lesson: LessonMet
       </span>
       <span className="min-w-0 flex-1">
         <span className={`block text-sm leading-snug ${state === 'current' ? 'font-bold' : 'font-semibold'}`}>{lesson.titleUz}</span>
-        <span className="flex items-center gap-1 text-[11px] text-muted-foreground"><Icon className="h-3 w-3" />{kind.label}</span>
+        <span className="flex items-center gap-1 text-[11px] text-muted-foreground"><Icon className="h-3 w-3" />{t(kind.label)}</span>
       </span>
       {state === 'done' && stars > 0 && <span className="text-[11px] text-amber-500 font-semibold shrink-0">{'★'.repeat(stars)}</span>}
-      {state === 'current' && <span className="shrink-0 rounded-full bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1">Boshlash</span>}
+      {state === 'current' && <span className="shrink-0 rounded-full bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1">{t('learn.road.start')}</span>}
     </button>
   );
 }
 
 function GameRow({ id, state, stars, onOpen }: { id: string; state: DrillState; stars: number; onOpen: () => void }) {
+  const { t } = useT();
   const g = DRILL_GAME[id];
   const checkpoint = g === 'mastery' || g === 'mini-boss';
   const Icon = checkpoint ? Trophy : Gamepad2;
@@ -219,11 +223,11 @@ function GameRow({ id, state, stars, onOpen }: { id: string; state: DrillState; 
         {state === 'done' ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : state === 'locked' ? <Lock className="h-3 w-3" /> : <Icon className="h-3.5 w-3.5" />}
       </span>
       <span className="min-w-0 flex-1">
-        <span className={`block text-sm leading-snug ${state === 'current' ? 'font-bold' : 'font-medium'}`}>{g ? GAMES[g].label : "Mashq o'yini"}</span>
-        <span className="block text-[11px] text-muted-foreground">{g === 'mastery' ? 'Mavzu testi: bilimni tekshirish' : g === 'mini-boss' ? 'Mini-boss: butun bosqich bo\'yicha' : "O'yin: o'rganganingizni mustahkamlash"}</span>
+        <span className={`block text-sm leading-snug ${state === 'current' ? 'font-bold' : 'font-medium'}`}>{g ? t(`learn.game.${g}.label`) : t('learn.plan.drillGame')}</span>
+        <span className="block text-[11px] text-muted-foreground">{g === 'mastery' ? t('learn.road.gameMastery') : g === 'mini-boss' ? t('learn.road.gameBoss') : t('learn.road.gameGame')}</span>
       </span>
       {state === 'done' && stars > 0 && <span className="text-[11px] text-amber-500 font-semibold shrink-0">{'★'.repeat(stars)}</span>}
-      {state === 'current' && <span className="shrink-0 rounded-full bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1">Boshlash</span>}
+      {state === 'current' && <span className="shrink-0 rounded-full bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1">{t('learn.road.start')}</span>}
     </button>
   );
 }

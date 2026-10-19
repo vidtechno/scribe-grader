@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { recordingMimeType } from '@/lib/audio';
 import { toast } from 'sonner';
+import { useT } from '@/i18n';
 
 interface SpeechRecorderProps {
   onRecordingComplete: (blob: Blob, duration: number) => void;
@@ -12,6 +13,7 @@ interface SpeechRecorderProps {
 }
 
 export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxDuration = 180 }: SpeechRecorderProps) {
+  const { t } = useT();
   const [isRecording, setIsRecording] = useState(false);
   const [duration, setDuration] = useState(0);
   const [audioLevels, setAudioLevels] = useState<number[]>(new Array(20).fill(0));
@@ -32,7 +34,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
     if (timerRef.current) clearInterval(timerRef.current);
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach(t => t.stop());
+      streamRef.current.getTracks().forEach(tr => tr.stop());
     }
     setIsRecording(false);
   }, []);
@@ -61,7 +63,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
     setStarting(true);
     try {
       if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') {
-        throw new Error('Recording is unavailable in this browser. Please use a current browser over HTTPS.');
+        throw new Error(t('rec.unavailable'));
       }
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
@@ -88,7 +90,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
         const blob = new Blob(chunksRef.current, { type: mediaRecorder.mimeType.split(';')[0] });
         const elapsed = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000));
         if (blob.size) onRecordingComplete(blob, elapsed);
-        else toast.error('The recording was empty. Please record again.');
+        else toast.error(t('rec.empty'));
         setDuration(0);
         audioCtx.close();
       };
@@ -115,7 +117,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
     } catch (error) {
       streamRef.current?.getTracks().forEach(track => track.stop());
       void audioContextRef.current?.close().catch(() => {});
-      toast.error(error instanceof Error ? error.message : 'Microphone access is required for speaking practice.');
+      toast.error(error instanceof Error ? error.message : t('rec.micRequired'));
     } finally {
       setStarting(false);
     }
@@ -154,7 +156,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
         {isProcessing && (
           <div className="flex items-center gap-2 text-muted-foreground">
             <Loader2 className="h-5 w-5 animate-spin" />
-            <span className="text-sm">Processing...</span>
+            <span className="text-sm">{t('rec.processing')}</span>
           </div>
         )}
       </div>
@@ -163,7 +165,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
       {isRecording && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
           <p className="text-3xl font-mono font-bold tabular-nums">{formatTime(duration)}</p>
-          <p className="text-xs text-muted-foreground mt-1">Max {formatTime(maxDuration)}</p>
+          <p className="text-xs text-muted-foreground mt-1">{t('rec.max', { time: formatTime(maxDuration) })}</p>
         </motion.div>
       )}
 
@@ -176,7 +178,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
             variant="destructive"
             className="rounded-full w-20 h-20 p-0"
             disabled={isProcessing}
-            aria-label="Stop recording"
+            aria-label={t('rec.stopAria')}
           >
             <Square className="h-8 w-8" />
           </Button>
@@ -187,7 +189,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
             variant="glow"
             className="rounded-full w-20 h-20 p-0"
             disabled={isProcessing || starting}
-            aria-label="Start recording"
+            aria-label={t('rec.startAria')}
           >
             <Mic className="h-8 w-8" />
           </Button>
@@ -195,7 +197,7 @@ export function SpeechRecorder({ onRecordingComplete, isProcessing = false, maxD
       </motion.div>
 
       <p className="text-sm text-muted-foreground text-center">
-        {isRecording ? 'Tap to stop recording' : isProcessing ? 'Analyzing your response...' : 'Tap to start recording'}
+        {isRecording ? t('rec.tapStop') : isProcessing ? t('rec.analyzing') : t('rec.tapStart')}
       </p>
     </div>
   );

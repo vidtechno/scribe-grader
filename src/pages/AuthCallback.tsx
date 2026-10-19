@@ -5,9 +5,11 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { safeReturnTo } from '@/lib/returnTo';
+import { translate, currentLang, useT } from '@/i18n';
 
 export default function AuthCallback() {
   const navigate = useNavigate();
+  const { t } = useT();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function AuthCallback() {
         if (disposed) return;
         if (error) throw error;
         if (data.session) {
-          toast.success('Signed in successfully');
+          toast.success(translate(currentLang(), 'authCb.success'));
           finish();
           return;
         }
@@ -62,10 +64,10 @@ export default function AuthCallback() {
         unsubscribe = () => sub.subscription.unsubscribe();
         timeout = setTimeout(() => {
           sub.subscription.unsubscribe();
-          if (!disposed && !completed) setError('We could not complete the sign-in. Please try again.');
+          if (!disposed && !completed) setError(translate(currentLang(), 'authCb.timeout'));
         }, 6000);
       } catch (e) {
-        if (!disposed) setError(e instanceof Error ? e.message : 'Authentication failed');
+        if (!disposed) setError(e instanceof Error ? e.message : translate(currentLang(), 'authCb.failedGeneric'));
       }
     };
 
@@ -77,10 +79,10 @@ export default function AuthCallback() {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-background">
         <div className="glass-card p-8 max-w-md w-full text-center space-y-4">
-          <h1 className="text-xl font-bold">Sign-in failed</h1>
+          <h1 className="text-xl font-bold">{t('authCb.failedTitle')}</h1>
           <p className="text-sm text-muted-foreground break-words">{error}</p>
           <Button className="w-full" onClick={() => navigate('/auth', { replace: true })}>
-            Back to sign in
+            {t('authCb.back')}
           </Button>
         </div>
       </div>

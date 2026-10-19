@@ -1,0 +1,33 @@
+// English course: practice game page.
+export default {
+  en: {
+    'learn.drill.practice': 'Practice',
+    'learn.drill.mastered': 'Topic mastered!',
+    'learn.drill.bossBeaten': 'Mini-boss defeated!',
+    'learn.drill.finished': 'Finished!',
+    'learn.drill.tryAgain': 'Try once more',
+    'learn.drill.needPct': 'You need at least {pct}% to continue. Look through your mistakes — you do not have to read the whole topic again.',
+    'learn.drill.reviewWhich': 'Which lessons are worth reviewing',
+    'learn.drill.reviewHint': 'See which topic your mistakes come from in the list below, then reopen that lesson and repeat the exercise.',
+    'learn.drill.next': 'Next exercise',
+    'learn.drill.continue': 'Continue',
+    'learn.drill.retry': 'Try again',
+    'learn.drill.toMap': 'To the roadmap',
+    'learn.drill.gamePrefix': 'Game · ',
+  },
+  uz: {
+    'learn.drill.practice': 'Mashq',
+    'learn.drill.mastered': "Mavzu o'zlashtirildi!",
+    'learn.drill.bossBeaten': 'Mini-boss yengildi!',
+    'learn.drill.finished': 'Tugadi!',
+    'learn.drill.tryAgain': "Yana bir urinib ko'ring",
+    'learn.drill.needPct': "Davom etish uchun kamida {pct}% kerak. Xatolaringizni ko'rib chiqing — butun mavzuni qaytadan o'qish shart emas.",
+    'learn.drill.reviewWhich': 'Qaysi darslarni takrorlash foydali',
+    'learn.drill.reviewHint': "Xatolaringiz qaysi mavzudan ekanini quyidagi ro'yxatdan ko'ring, so'ng shu darsni qayta ochib, mashqni takrorlang.",
+    'learn.drill.next': 'Keyingi mashq',
+    'learn.drill.continue': 'Davom etish',
+    'learn.drill.retry': 'Qayta urinish',
+    'learn.drill.toMap': "Yo'l xaritasiga",
+    'learn.drill.gamePrefix': "O'yin · ",
+  },
+};

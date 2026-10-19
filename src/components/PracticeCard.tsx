@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import { useT } from '@/i18n';
 
 export function UsageBar({ used, limit }: { used: number; limit: number }) {
   const pct = limit > 0 ? Math.min(100, (used / limit) * 100) : 0;
@@ -12,6 +13,7 @@ export function UsageBar({ used, limit }: { used: number; limit: number }) {
 export function PracticeCard({ icon: Icon, title, text, left, limit, used, last, average, tone, children }: {
   icon: LucideIcon; title: string; text: string; left: number; limit: number; used: number; last: string; average: string; tone: 'primary' | 'accent'; children: React.ReactNode;
 }) {
+  const { t } = useT();
   const tint = tone === 'primary' ? 'bg-primary/10 text-primary' : 'bg-accent/15 text-accent';
   return (
     <div className="glass-card p-5 sm:p-6 flex flex-col">
@@ -25,13 +27,13 @@ export function PracticeCard({ icon: Icon, title, text, left, limit, used, last,
         </div>
         <div className="text-right shrink-0">
           <p className="text-2xl font-bold leading-none">{left}</p>
-          <p className="text-[11px] text-muted-foreground">left this month</p>
+          <p className="text-[11px] text-muted-foreground">{t('practice.leftMonth')}</p>
         </div>
       </div>
       <div className="mt-4"><UsageBar used={used} limit={limit} /></div>
       <div className="mt-4 grid grid-cols-2 gap-3 text-center">
-        <div className="rounded-xl bg-secondary/40 py-2"><p className="text-lg font-bold">{last}</p><p className="text-[11px] text-muted-foreground">Latest band</p></div>
-        <div className="rounded-xl bg-secondary/40 py-2"><p className="text-lg font-bold">{average}</p><p className="text-[11px] text-muted-foreground">Average band</p></div>
+        <div className="rounded-xl bg-secondary/40 py-2"><p className="text-lg font-bold">{last}</p><p className="text-[11px] text-muted-foreground">{t('practice.latest')}</p></div>
+        <div className="rounded-xl bg-secondary/40 py-2"><p className="text-lg font-bold">{average}</p><p className="text-[11px] text-muted-foreground">{t('practice.average')}</p></div>
       </div>
       <div className="mt-5 flex flex-wrap gap-2">{children}</div>
     </div>

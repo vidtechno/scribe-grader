@@ -1,4 +1,5 @@
 import { Coins } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 
 interface BlurredContentProps {
@@ -8,6 +9,7 @@ interface BlurredContentProps {
 }
 
 export function BlurredContent({ text, visibleWords = 8, onUpgrade }: BlurredContentProps) {
+  const { t } = useT();
   const words = text.split(' ');
   const visible = words.slice(0, visibleWords).join(' ');
   const hasMore = words.length > visibleWords;
@@ -27,7 +29,7 @@ export function BlurredContent({ text, visibleWords = 8, onUpgrade }: BlurredCon
       <div className="absolute inset-0 top-6 flex items-center justify-center bg-gradient-to-t from-card/90 to-transparent rounded-lg">
         <Button variant="outline" size="sm" className="gap-2 border-primary/30 text-primary" onClick={onUpgrade}>
           <Coins className="h-3.5 w-3.5" />
-          Get credits to unlock
+          {t('bc.unlock')}
         </Button>
       </div>
     </div>
