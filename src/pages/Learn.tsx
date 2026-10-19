@@ -258,7 +258,7 @@ function StatCard({ icon: Icon, tone, label, value, hint }: { icon: typeof Flame
 }
 
 function WordBook({ state, locked }: { state: LearningState; locked: boolean }) {
-  const { t } = useT();
+  const { t, lang } = useT();
   const refresh = useRefreshLearning();
   const [groups, setGroups] = useState<{ lessonId: string; title: string; words: Word[] }[] | null>(null);
   const [query, setQuery] = useState('');
@@ -288,7 +288,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
     try {
       const pool = all.map((w) => ({ en: w.en, uz: w.uz }));
       const due = queue && (queue.words.length || queue.mistakes.length || queue.grammar.length)
-        ? await loadSession(queue, { max: 10, extraPool: pool, allowSpeak: true }) : [];
+        ? await loadSession(queue, { max: 10, extraPool: pool, allowSpeak: true, lang }) : [];
       if (due.length) { setDrill(due.map((item) => ({ ex: item.ex, item }))); return; }
       const picked = shuffle(all).slice(0, 10);
       setDrill(picked.map((w, i) => {

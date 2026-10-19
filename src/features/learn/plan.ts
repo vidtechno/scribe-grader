@@ -22,7 +22,7 @@ const LESSON_LABEL: Record<string, string> = { situation: 'learn.plan.situation'
  * games and the unit test), plus progress numbers. Used by the dashboard and the course page so both say the same thing.
  */
 export function learningPlan(state: LearningState | undefined, count = 4, lang: Lang = 'en') {
-  const t = (key: string, vars?: Record<string, string | number>) => translate(lang, key, vars);
+  const tr = (key: string, vars?: Record<string, string | number>) => translate(lang, key, vars);
   const map = courseMap(state);
   const startUnit = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.unitId : map.nextLesson?.unitId ?? map.pendingTest?.id;
   const startIndex = Math.max(0, COURSE_UNITS.findIndex((u) => u.id === startUnit));
@@ -31,20 +31,20 @@ export function learningPlan(state: LearningState | undefined, count = 4, lang: 
     for (const l of unit.lessons) {
       const lessonDone = map.lessonState.get(l.id) === 'done';
       if (!lessonDone && map.lessonState.get(l.id) !== 'open') {
-        steps.push({ id: l.id, kind: 'lesson', to: `/learn/lesson/${l.id}`, title: l.titleUz, label: t(LESSON_LABEL[l.kind ?? ''] ?? 'learn.plan.lesson'), unitId: unit.id, open: false });
+        steps.push({ id: l.id, kind: 'lesson', to: `/learn/lesson/${l.id}`, title: l.titleUz, label: tr(LESSON_LABEL[l.kind ?? ''] ?? 'learn.plan.lesson'), unitId: unit.id, open: false });
       }
       for (const d of drillIds(l.id)) {
         const st = map.drillState.get(d);
         if (st === 'done' || st === 'open') continue;
         const g = DRILL_GAME[d];
-        steps.push({ id: d, kind: 'drill', to: `/learn/drill/${d}`, title: g ? gameLabel(g, lang) : t('learn.plan.drillGame'), label: g === 'mastery' ? t('learn.plan.topicTest') : g === 'mini-boss' ? 'Mini-boss' : t('learn.plan.game', { title: l.titleUz }), unitId: unit.id, open: false });
+        steps.push({ id: d, kind: 'drill', to: `/learn/drill/${d}`, title: g ? gameLabel(g, lang) : tr('learn.plan.drillGame'), label: g === 'mastery' ? tr('learn.plan.topicTest') : g === 'mini-boss' ? 'Mini-boss' : tr('learn.plan.game', { title: l.titleUz }), unitId: unit.id, open: false });
       }
       if (steps.length >= count) break;
     }
     if (steps.length >= count) break;
     const t = map.unitTest.get(unit.id);
     if (t && t !== 'passed') {
-      steps.push({ id: `test-${unit.id}`, kind: 'test', to: `/learn/test/${unit.id}`, title: t('learn.plan.unitTestTitle', { title: unit.titleUz.split(':')[0] }), label: t('learn.plan.unitTest'), unitId: unit.id, open: false });
+      steps.push({ id: `test-${unit.id}`, kind: 'test', to: `/learn/test/${unit.id}`, title: tr('learn.plan.unitTestTitle', { title: unit.titleUz.split(':')[0] }), label: tr('learn.plan.unitTest'), unitId: unit.id, open: false });
       if (steps.length >= count) break;
     }
     if (t !== 'passed') break; // later units open only after this unit's test

@@ -1,3 +1,4 @@
+import { translate, type Lang } from '@/i18n';
 import type { Exercise, Lesson, Word } from './types';
 import { shuffle } from './check';
 
@@ -32,7 +33,7 @@ export function reviewQuestions(previous: Lesson, count = 3, random = Math.rando
 }
 
 /** Unit test: questions from every lesson's quiz plus word questions, shuffled. */
-export function unitTestQuestions(all: Lesson[], total = 20, random = Math.random): Exercise[] {
+export function unitTestQuestions(all: Lesson[], total = 20, random = Math.random, lang: Lang = 'en'): Exercise[] {
   // Real-life scenes have no quiz or words of their own: they do not take a share of the questions.
   const lessons = all.filter((l) => !l.scene);
   const perLesson = Math.max(1, Math.floor((total - 4) / lessons.length));
@@ -45,7 +46,7 @@ export function unitTestQuestions(all: Lesson[], total = 20, random = Math.rando
       return { k: 'listen', say: w.en, opts, a: opts.indexOf(w.en) };
     }
     const opts = shuffle([w.uz, ...others.map((o) => o.uz)], random);
-    return { k: 'choice', q: `**${w.en}** so'zining ma'nosi qaysi?`, opts, a: opts.indexOf(w.uz) };
+    return { k: 'choice', q: translate(lang, 'learn.q.meaning', { word: w.en }), opts, a: opts.indexOf(w.uz) };
   });
   return shuffle([...fromLessons, ...wordQs], random).slice(0, total);
 }

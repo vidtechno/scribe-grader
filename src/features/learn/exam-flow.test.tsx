@@ -23,25 +23,25 @@ import { BeginnerExam, ElementaryExam, IntermediateExam, PreIntermediateExam } f
 async function run(pattern: (n: number) => boolean, Exam: () => JSX.Element = BeginnerExam) {
   submitted.calls = []; submitted.pattern = pattern; submitted.n = 0;
   render(<MemoryRouter><Exam /></MemoryRouter>);
-  fireEvent.click(await screen.findByRole('button', { name: /Imtihonni boshlash/ }));
+  fireEvent.click(await screen.findByRole('button', { name: /Start the exam/ }));
   for (let n = 0; n < 20; n++) fireEvent.click(await screen.findByRole('button', { name: 'ANSWER' }));
-  await screen.findByText(/Ko'nikmalar bo'yicha/);
+  await screen.findByText(/By skill/);
 }
 
 it('the Beginner exam asks 20 questions, shows every skill and passes a perfect run', async () => {
   await run(() => true);
   expect(submitted.calls).toHaveLength(1);
   expect(submitted.calls[0].args).toMatchObject({ _level: 'beginner', _score: 20, _total: 20 });
-  expect(document.body.textContent).toContain('Beginner tugallandi');
-  for (const label of ['Grammatika', "Lug'at", "O'qish", 'Tinglash', 'Yozish']) expect(document.body.textContent).toContain(label);
+  expect(document.body.textContent).toContain('Beginner complete!');
+  for (const label of ['Grammar', 'Vocabulary', 'Reading', 'Listening', 'Writing']) expect(document.body.textContent).toContain(label);
   cleanup();
 });
 
 it('a failing run is reported as not passed and lists lessons to revisit', async () => {
   await run(() => false);
   expect(submitted.calls[0].args).toMatchObject({ _score: 0, _total: 20 });
-  expect(document.body.textContent).toContain("Bu safar o'tmadi");
-  expect(document.body.textContent).toContain('Qaysi darslarni takrorlash foydali');
+  expect(document.body.textContent).toContain('Not this time');
+  expect(document.body.textContent).toContain('Which lessons are worth reviewing');
   cleanup();
 });
 
@@ -50,28 +50,28 @@ it('a weak skill keeps the exam below the pass mark even when the total is high'
   await run((n) => !(n >= 8 && n < 12));
   const sent = submitted.calls[0].args._score as number;
   expect(sent).toBeLessThan(14);
-  expect(document.body.textContent).toContain("O'qish");
-  expect(document.body.textContent).toContain("ga yetmadi");
+  expect(document.body.textContent).toContain('Reading');
+  expect(document.body.textContent).toContain('did not reach');
   cleanup();
 });
 
 it('the Elementary exam sends level a1 and passes a perfect run', async () => {
   await run(() => true, ElementaryExam);
   expect(submitted.calls[0].args).toMatchObject({ _level: 'a1', _score: 20, _total: 20 });
-  expect(document.body.textContent).toContain('Elementary tugallandi');
+  expect(document.body.textContent).toContain('Elementary complete!');
   cleanup();
 });
 
 it('the Pre-Intermediate exam sends level a2 and passes a perfect run', async () => {
   await run(() => true, PreIntermediateExam);
   expect(submitted.calls[0].args).toMatchObject({ _level: 'a2', _score: 20, _total: 20 });
-  expect(document.body.textContent).toContain('Pre-Intermediate tugallandi');
+  expect(document.body.textContent).toContain('Pre-Intermediate complete!');
   cleanup();
 });
 
 it('the Intermediate exam sends level b1 and passes a perfect run', async () => {
   await run(() => true, IntermediateExam);
   expect(submitted.calls[0].args).toMatchObject({ _level: 'b1', _score: 20, _total: 20 });
-  expect(document.body.textContent).toContain('Intermediate tugallandi');
+  expect(document.body.textContent).toContain('Intermediate complete!');
   cleanup();
 });

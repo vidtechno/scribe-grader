@@ -31,7 +31,7 @@ export function ContinueCard({ state, locked = false }: { state: LearningState; 
         <div className="min-w-0 flex-1">
           {unit ? (
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-              {levelOf(unit.level).title} · {t('learn.road.unitName', { n: unitNo(unit), title: unit.titleUz })}
+              {levelOf(unit.level).title} · {t('learn.continue.unit', { n: unitNo(unit), title: unit.titleUz })}
             </p>
           ) : <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(state.profile?.level).title}</p>}
           <h2 className="text-lg sm:text-xl font-extrabold mt-1 leading-snug">{target ? target.title : t('learn.continue.allDone')}</h2>

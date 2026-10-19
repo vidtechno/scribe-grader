@@ -389,7 +389,7 @@ const SPEAK_NOTES: Record<string, string> = {
  * the pronunciation is perfect or wrong, and a few honest tries are always enough to move on.
  */
 function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>; answered: boolean; finish: (fb: Feedback) => void }) {
-  const { t } = useT();
+  const { t, lang } = useT();
   const cloud = useMemo(() => canRecord(), []);
   const browser = useMemo(() => speechRecognitionSupported(), []);
   const [phase, setPhase] = useState<'idle' | 'recording' | 'working'>('idle');
@@ -409,7 +409,7 @@ function Speak({ ex, answered, finish }: { ex: Extract<Exercise, { k: 'speak' }>
     setTries(n);
     setHeard(text);
     setVerdict(j);
-    setHint(speechQualityHint(text, quality, j.passed));
+    setHint(speechQualityHint(text, quality, j.passed, lang));
     if (j.passed) finish({ correct: true, note: SPEAK_NOTES[j.level] ? t(SPEAK_NOTES[j.level]) : undefined });
     else if (n >= 3) finish({ correct: true, note: t('learn.ex.speakCounted') });
   };

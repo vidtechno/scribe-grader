@@ -135,7 +135,7 @@ export default function LearnUnitTest() {
               </p>
             )}
             <p className="text-sm mb-4">{t('learn.unitTest.attemptsLeft')} <b>{attemptsLeft}</b></p>
-            <Button size="lg" variant="glow" className="w-full" onClick={() => setQuestions(unitTestQuestions(lessons, UNIT_TEST.questions))}>{t('learn.unitTest.start')}</Button>
+            <Button size="lg" variant="glow" className="w-full" onClick={() => setQuestions(unitTestQuestions(lessons, UNIT_TEST.questions, Math.random, lang))}>{t('learn.unitTest.start')}</Button>
           </>
         )}
         <Button variant="ghost" className="w-full mt-3 gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />{t('learn.unitTest.toMap')}</Button>

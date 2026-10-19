@@ -9,7 +9,7 @@ import { NextSteps } from '@/features/learn/components/NextSteps';
 
 /** The dashboard's main card: where the learner is in the English course and the one button that continues it. */
 export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
-  const { t } = useT();
+  const { t, lang } = useT();
   const { data: state, isLoading } = useLearningState();
   const shell = 'relative overflow-hidden rounded-3xl p-5 sm:p-7 text-white bg-gradient-to-br from-primary via-rose-500 to-orange-400 shadow-xl shadow-primary/20';
   const bubbles = (
@@ -55,9 +55,9 @@ export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
     );
   }
 
-  const plan = learningPlan(state, 4);
+  const plan = learningPlan(state, 4, lang);
   const map = plan.map;
-  const stats = learningStats(state);
+  const stats = learningStats(state, lang);
   const daysLeft = trialDaysLeft(state.access);
   const locked = !state.access.allowed;
   const level = levelOf(state.profile.level);

@@ -30,8 +30,8 @@ export function levelLabel(level: string | null | undefined, t: (key: string) =>
 }
 
 /** Achievement title and hint in the current language (the data file holds the Uzbek texts). */
-export function achievementText(key: string, t: (key: string) => string): AchievementInfo {
-  const info = achievementInfo(key);
+export function achievementText(key: string, t: (key: string) => string, lang: 'en' | 'uz' = 'en'): AchievementInfo {
+  const info = achievementInfo(key, lang);
   if (!ACHIEVEMENTS.some((a) => a.key === key)) return info;
   return { ...info, title: t(`social.ach.${key}`), hint: t(`social.ach.${key}.hint`) };
 }

@@ -39,7 +39,7 @@ const PHASES: { id: Phase; label: string; weight: number }[] = [
 ];
 
 export default function LearnLesson() {
-  const { t } = useT();
+  const { t, lang } = useT();
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const { data: state, isLoading: stateLoading } = useLearningState();
@@ -68,7 +68,7 @@ export default function LearnLesson() {
     if (!content || queueQuery.isLoading || warmup) return;
     if (!queue) { setWarmup([]); return; }
     const pool = content.lesson.words.map((w) => ({ en: w.en, uz: w.uz }));
-    loadSession(queue, { extraPool: pool, allowSpeak: false }).then(setWarmup).catch(() => setWarmup([]));
+    loadSession(queue, { extraPool: pool, allowSpeak: false, lang }).then(setWarmup).catch(() => setWarmup([]));
   }, [content, queue, queueQuery.isLoading, warmup]);
   const meta = ALL_LESSONS.find((l) => l.id === id);
   // The lesson's audio loads into memory once and is freed when the next lesson opens, so every tap plays at once.

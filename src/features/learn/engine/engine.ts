@@ -1,6 +1,7 @@
 // Scorify Learning Engine, client side. The lesson content stays as written; this module decides which words are
 // new in a lesson, what comes back from earlier lessons, and what to tell the database afterwards (see
 // supabase/migrations/20261015000000_learning_engine.sql for the scheduling).
+import { translate, type Lang } from '@/i18n';
 import { shuffle } from '../check';
 import type { Block, Exercise, Lesson, Word } from '../types';
 
@@ -70,7 +71,7 @@ function distractors(pool: Pair[], key: 'en' | 'uz', correct: string, random: ()
 }
 
 /** One exercise for a word. Easier kinds for shaky words, sentences and typing as the word gets stronger. */
-export function wordExercise(w: QueueWord, pool: Pair[], random = Math.random, allowSpeak = false): Exercise | null {
+export function wordExercise(w: QueueWord, pool: Pair[], random = Math.random, allowSpeak = false, lang: Lang = 'en'): Exercise | null {
   const why = `**${w.en}** — ${w.uz}`;
   const sentence = w.ex?.trim();
   const re = formRe(w.en);
@@ -82,7 +83,7 @@ export function wordExercise(w: QueueWord, pool: Pair[], random = Math.random, a
     const others = distractors(pool, answerKey, w[answerKey], random);
     if (!others) return null;
     const opts = shuffle([w[answerKey], ...others], random);
-    const q = prompt === 'en' ? `**${w.en}** so'zining ma'nosi qaysi?` : `"**${w.uz}**" inglizcha qanday?`;
+    const q = prompt === 'en' ? translate(lang, 'learn.q.meaning', { word: w.en }) : translate(lang, 'learn.home.howToSay', { word: w.uz });
     return { k: 'choice', q, say: prompt === 'en' ? w.en : undefined, opts, a: opts.indexOf(w[answerKey]), why };
   };
 
@@ -138,7 +139,7 @@ export interface SessionItem { id: string; ex: Exercise; ref: SessionRef }
  */
 export function buildSession(
   queue: ReviewQueue, extraPool: Pair[], grammar: { topic: string; ex: Exercise }[],
-  opts: { max?: number; random?: () => number; allowSpeak?: boolean } = {},
+  opts: { max?: number; random?: () => number; allowSpeak?: boolean; lang?: Lang } = {},
 ): SessionItem[] {
   const random = opts.random ?? Math.random;
   const max = opts.max ?? 7;
@@ -149,7 +150,7 @@ export function buildSession(
   const introduced = queue.words.filter((w) => w.introduced).slice(0, 4);
   const seenOnly = queue.words.filter((w) => !w.introduced).slice(0, 2);
   for (const w of [...introduced, ...seenOnly]) {
-    const ex = wordExercise(w, pool.filter((p) => p.uz), random, speakLeft > 0);
+    const ex = wordExercise(w, pool.filter((p) => p.uz), random, speakLeft > 0, opts.lang);
     if (!ex) continue;
     if (ex.k === 'speak') speakLeft--;
     items.push({ id: `w:${w.word}`, ex, ref: { type: 'w', row: w } });

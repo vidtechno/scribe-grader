@@ -1,3 +1,4 @@
+import type { Lang } from '@/i18n';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/hooks/useAuth';
 import { callLearning } from '../api';
@@ -24,7 +25,7 @@ export function recordReview(events: ReviewEvent[], award = false) {
 }
 
 /** Builds the mixed review session for the open queue; grammar topics are loaded from the course content. */
-export async function loadSession(queue: ReviewQueue, opts: { max?: number; allowSpeak?: boolean; extraPool?: { en: string; uz: string }[] } = {}): Promise<SessionItem[]> {
+export async function loadSession(queue: ReviewQueue, opts: { max?: number; allowSpeak?: boolean; extraPool?: { en: string; uz: string }[]; lang?: Lang } = {}): Promise<SessionItem[]> {
   const grammar: { topic: string; ex: SessionItem['ex'] }[] = [];
   await Promise.all(queue.grammar.slice(0, 2).map(async (g) => {
     try {
