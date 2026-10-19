@@ -13,3 +13,9 @@
 2. App pages (Dashboard, Profile, Learn UI, IELTS, Writing/Speaking, Mock) — texts moved to `src/i18n/messages/*.ts`; lesson content stays Uzbek.
 3. Blog in both languages (schema, translations of all posts, switcher, hreflang, sitemap, RSS).
 4. SEO polish: titles/descriptions for pages with impressions but few clicks, structured data, internal links.
+
+## Status
+- Done: foundation, shell, landing + `/uz`, plans, Dashboard, Profile, Learn UI, IELTS pages, Writing/Speaking, auth/support, blog (19 translations, every article has a counterpart; `alt_slug` + `KNOWN_PAIRS` in `api/_lib/posts.ts`; hreflang in pages and sitemap).
+- Guards: `src/i18n/i18n.test.ts` (same keys/placeholders in both languages), `src/i18n/keys.test.ts` (every literal key used in code exists), `src/test/blog-i18n.test.ts` (every article is paired both ways).
+- Not translated on purpose: admin panel, lesson content (Uzbek explanations), IELTS exam material, AI feedback text from the backend.
+- Translations were written by AI and are not reviewed by a native speaker.
