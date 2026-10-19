@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Compass, Loader2, PartyPopper, RotateCcw, Trophy } from 'lucide-react';
+import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { exerciseAudioTexts } from '@/features/learn/audio-plan';
 import { useLessonAudio } from '@/features/learn/useLessonAudio';
@@ -20,6 +21,7 @@ import { TestShell } from '@/features/learn/components/TestShell';
  *  - /learn/upgrade/:level: a learner who started too low moves up with a short test.
  */
 export default function LearnLevelCheck() {
+  const { t, lang } = useT();
   const { level: param } = useParams();
   const upgrade = !!param;
   const target = LEVELS.find((l) => l.id === param && l.available)?.id as LevelId | undefined;
@@ -38,7 +40,7 @@ export default function LearnLevelCheck() {
   useLessonAudio(audioTexts, `check-${param ?? 'start'}-${items ? 'q' : ''}`);
 
   const shell = (children: React.ReactNode, props: { progress?: number; onExit?: () => void } = {}) => (
-    <TestShell title={upgrade ? `${levelOf(target).title}'ga o'tish testi` : 'Daraja testi'} path={path} {...props}>{children}</TestShell>
+    <TestShell title={upgrade ? t('learn.check.upgradeTitle', { level: levelOf(target).title }) : t('learn.placement.title')} path={path} {...props}>{children}</TestShell>
   );
 
   const begin = async () => {
@@ -46,7 +48,7 @@ export default function LearnLevelCheck() {
     try {
       setItems(upgrade && target ? await buildUpgradeCheck(target) : await buildStartCheck());
       setAnswers([]); setI(0); setUpgraded(null); setPhase('test');
-    } catch { setError("Test yuklanmadi. Internetni tekshirib, qayta urinib ko'ring."); }
+    } catch { setError(t('learn.check.loadError')); }
     finally { setBusy(false); }
   };
 
@@ -70,7 +72,7 @@ export default function LearnLevelCheck() {
       });
       setUpgraded(r.advanced || r.passed);
       await refresh();
-    } catch (e) { setError(learningErrorMessage(e)); setUpgraded(false); }
+    } catch (e) { setError(learningErrorMessage(e, lang)); setUpgraded(false); }
   };
 
   const startAt = async (level: LevelId) => {
@@ -79,22 +81,22 @@ export default function LearnLevelCheck() {
       await callLearning('learning_start_placed', { _level: level, _score: score, _total: answers.length });
       await refresh();
       navigate('/learn', { replace: true });
-    } catch (e) { setError(learningErrorMessage(e)); setBusy(false); }
+    } catch (e) { setError(learningErrorMessage(e, lang)); setBusy(false); }
   };
 
   if (phase === 'test' && items) {
     return shell(
       <>
         <div className="flex items-center justify-between mb-4 text-xs text-muted-foreground">
-          <span>Savol {i + 1} / {items.length}</span>
-          <button type="button" className="underline underline-offset-2 hover:text-foreground" onClick={() => { const all = [...answers, false]; if (i + 1 >= items.length) void finish(all); else { setAnswers(all); setI(i + 1); } }}>Bilmayman</button>
+          <span>{t('learn.check.question', { n: i + 1, total: items.length })}</span>
+          <button type="button" className="underline underline-offset-2 hover:text-foreground" onClick={() => { const all = [...answers, false]; if (i + 1 >= items.length) void finish(all); else { setAnswers(all); setI(i + 1); } }}>{t('learn.check.dontKnow')}</button>
         </div>
         <ExerciseView key={i} ex={items[i].ex} mode="test" onDone={(c) => {
           const all = [...answers, c];
           if (i + 1 >= items.length) void finish(all); else { setAnswers(all); setI(i + 1); }
         }} />
       </>,
-      { progress: i / items.length, onExit: () => { if (window.confirm('Testdan chiqasizmi?')) navigate('/learn'); } },
+      { progress: i / items.length, onExit: () => { if (window.confirm(t('learn.check.confirmExit'))) navigate('/learn'); } },
     );
   }
 
@@ -108,14 +110,14 @@ export default function LearnLevelCheck() {
             className={`mx-auto mb-4 w-24 h-24 rounded-[30px] grid place-items-center ${passed ? 'bg-gradient-to-br from-emerald-400 to-teal-500' : 'bg-gradient-to-br from-slate-400 to-slate-500'}`}>
             {passed ? <PartyPopper className="h-11 w-11 text-white" /> : <Trophy className="h-11 w-11 text-white" />}
           </motion.div>
-          <h1 className="text-2xl font-extrabold mb-1">{upgraded === null ? 'Natija saqlanmoqda…' : passed ? `${levelOf(target).title} ochildi!` : "Bu safar o'tmadi"}</h1>
-          <p className="text-muted-foreground mb-5">Natija: {score} / {items.length} ({pct}%). O'tish uchun {UPGRADE_PASS_PERCENT}% kerak.</p>
+          <h1 className="text-2xl font-extrabold mb-1">{upgraded === null ? t('learn.check.saving') : passed ? t('learn.check.unlocked', { level: levelOf(target).title }) : t('learn.unitTest.failed')}</h1>
+          <p className="text-muted-foreground mb-5">{t('learn.unitTest.result', { score, total: items.length, pct, need: UPGRADE_PASS_PERCENT })}</p>
           {error && <p className="text-sm text-destructive mb-3">{error}</p>}
           <div className="space-y-2.5">
             {passed
-              ? <Button size="lg" variant="glow" className="w-full" onClick={() => navigate('/learn')}>{levelOf(target).title} darslariga o'tish</Button>
-              : <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => { setPhase('intro'); setItems(null); }}><RotateCcw className="h-4 w-4" />Qayta urinish</Button>}
-            <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />Kursga qaytish</Button>
+              ? <Button size="lg" variant="glow" className="w-full" onClick={() => navigate('/learn')}>{t('learn.check.toLessons', { level: levelOf(target).title })}</Button>
+              : <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => { setPhase('intro'); setItems(null); }}><RotateCcw className="h-4 w-4" />{t('learn.unitTest.retry')}</Button>}
+            <Button size="lg" variant="outline" className="w-full gap-2" onClick={() => navigate('/learn')}><ArrowLeft className="h-4 w-4" />{t('learn.check.backToCourse')}</Button>
           </div>
         </div>,
       );
@@ -126,12 +128,12 @@ export default function LearnLevelCheck() {
         <div className="text-center">
           <motion.div initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={{ type: 'spring' }}
             className="mx-auto mb-4 w-24 h-24 rounded-[30px] grid place-items-center bg-gradient-to-br from-primary to-brand-red-soft"><Compass className="h-11 w-11 text-white" /></motion.div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">Sizning darajangiz</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">{t('learn.check.yourLevel')}</p>
           <h1 className="text-3xl font-extrabold mb-1">{rec.title}</h1>
-          <p className="text-muted-foreground mb-5">{rec.text}</p>
+          <p className="text-muted-foreground mb-5">{t(`learn.levelText.${recommended}`)}</p>
         </div>
         <div className="glass-card p-4 mb-5">
-          <p className="text-sm font-semibold mb-3">Natija: {score} / {items.length}</p>
+          <p className="text-sm font-semibold mb-3">{t('learn.check.score', { score, total: items.length })}</p>
           <ul className="space-y-2.5">
             {results.map((r) => (
               <li key={r.band}>
@@ -143,9 +145,9 @@ export default function LearnLevelCheck() {
         </div>
         {error && <p className="text-sm text-destructive mb-3">{error}</p>}
         <div className="space-y-2.5">
-          <Button size="lg" variant="glow" className="w-full" disabled={busy} onClick={() => startAt(recommended)}>{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : `${rec.title}'dan boshlash`}</Button>
-          {recommended !== 'beginner' && <Button size="lg" variant="outline" className="w-full" disabled={busy} onClick={() => startAt('beginner')}>Beginner'dan boshlash (takrorlash uchun)</Button>}
-          <p className="text-xs text-muted-foreground text-center">Keyinroq darajani o'zgartirish mumkin: kursdagi "Daraja testi" kartasi orqali.</p>
+          <Button size="lg" variant="glow" className="w-full" disabled={busy} onClick={() => startAt(recommended)}>{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t('learn.check.startAt', { level: rec.title })}</Button>
+          {recommended !== 'beginner' && <Button size="lg" variant="outline" className="w-full" disabled={busy} onClick={() => startAt('beginner')}>{t('learn.check.startBeginner')}</Button>}
+          <p className="text-xs text-muted-foreground text-center">{t('learn.check.changeLater')}</p>
         </div>
       </div>,
     );
@@ -153,22 +155,22 @@ export default function LearnLevelCheck() {
 
   return shell(
     <div className="py-6">
-      <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-2">{upgrade ? 'Tez o\'tish testi' : 'Birinchi qadam'}</p>
-      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Compass className="h-8 w-8 text-primary" />{upgrade ? `${levelOf(target).title}'ga o'tish testi` : 'Darajangizni aniqlaymiz'}</h1>
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-2">{upgrade ? t('learn.check.quickKicker') : t('learn.check.firstStep')}</p>
+      <h1 className="text-3xl font-extrabold mb-3 flex items-center gap-3"><Compass className="h-8 w-8 text-primary" />{upgrade ? t('learn.check.upgradeTitle', { level: levelOf(target).title }) : t('learn.check.findLevel')}</h1>
       <p className="text-muted-foreground mb-5">
         {upgrade
-          ? `Agar ${levelOf(LEVELS[LEVELS.findIndex((l) => l.id === target) - 1]?.id).title} darslari sizga oson bo'lsa, qisqa test bilan to'g'ridan-to'g'ri ${levelOf(target).title}'ga o'ting. Hech narsa yo'qolmaydi: eski darslar ochiq qoladi.`
-          : "Bir necha qisqa savol — qaysi darajadan boshlash kerakligini topamiz. Shunda oson narsalarga vaqt sarflamaysiz va qiyin joydan ham boshlamaysiz."}
+          ? t('learn.check.upgradeText', { prev: levelOf(LEVELS[LEVELS.findIndex((l) => l.id === target) - 1]?.id).title, level: levelOf(target).title })
+          : t('learn.check.startText')}
       </p>
       <ul className="glass-card p-5 space-y-2.5 text-sm mb-6">
-        <li>📝 <b>{CHECK_SIZE} ta savol</b>, taxminan 4 daqiqa</li>
-        <li>🤔 Bilmasangiz «Bilmayman» ni bosing, taxmin qilish shart emas</li>
-        <li>{upgrade ? <>🎯 O'tish uchun kamida <b>{UPGRADE_PASS_PERCENT}%</b></> : '🎯 Oxirida darajangiz va natijalaringiz ko\'rsatiladi, boshlash joyini o\'zingiz tasdiqlaysiz'}</li>
-        <li>🔊 Eshitish savollari bor, ovoz yoqilgan bo'lsin</li>
+        <li>📝 <b>{t('learn.check.ruleQ', { n: CHECK_SIZE })}</b>{t('learn.check.ruleQRest')}</li>
+        <li>🤔 {t('learn.check.ruleDontKnow')}</li>
+        <li>{upgrade ? <>🎯 {t('learn.unitTest.rulePassA')} <b>{UPGRADE_PASS_PERCENT}%</b></> : `🎯 ${t('learn.check.ruleResult')}`}</li>
+        <li>🔊 {t('learn.check.ruleAudio')}</li>
       </ul>
       {error && <p className="text-sm text-destructive mb-3">{error}</p>}
-      <Button size="lg" variant="glow" className="w-full" disabled={busy} onClick={begin}>{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Testni boshlash'}</Button>
-      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate(upgrade ? '/learn' : '/learn')}><ArrowLeft className="h-4 w-4" />{upgrade ? 'Orqaga' : "Testsiz, darajani o'zim tanlayman"}</Button>
+      <Button size="lg" variant="glow" className="w-full" disabled={busy} onClick={begin}>{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t('learn.unitTest.start')}</Button>
+      <Button variant="ghost" className="w-full mt-2 gap-2" onClick={() => navigate(upgrade ? '/learn' : '/learn')}><ArrowLeft className="h-4 w-4" />{upgrade ? t('learn.lesson.back') : t('learn.check.pickMyself')}</Button>
     </div>,
   );
 }
