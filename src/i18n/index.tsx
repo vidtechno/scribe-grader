@@ -36,9 +36,10 @@ function read(store: Storage | undefined, key: string): Lang | null {
 /** The person's own choice wins; then the /uz landing page; then the country (Uzbekistan → Uzbek); then the browser language. */
 export function initialLang(pathname: string): Lang {
   if (typeof window === 'undefined') return 'en';
+  // The address wins: /uz is the Uzbek page even for someone who chose English before.
+  if (pathname === '/uz' || pathname.startsWith('/uz/')) return 'uz';
   const chosen = read(window.localStorage, STORE_KEY);
   if (chosen) return chosen;
-  if (pathname === '/uz' || pathname.startsWith('/uz/')) return 'uz';
   const geo = read(window.sessionStorage, GEO_KEY);
   if (geo) return geo;
   return /^uz\b/i.test(navigator.language || '') ? 'uz' : 'en';

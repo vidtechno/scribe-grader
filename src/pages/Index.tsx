@@ -231,7 +231,7 @@ export default function Index() {
           </motion.div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {steps.map((s, i) => (
-              <motion.div key={s.title} variants={fadeUp} custom={i} className="glass-card-hover p-6 relative">
+              <motion.div key={i} variants={fadeUp} custom={i} className="glass-card-hover p-6 relative">
                 <span className="absolute top-4 right-4 text-4xl font-black text-primary/10">{i + 1}</span>
                 <div className="w-12 h-12 rounded-xl bg-primary/10 grid place-items-center mb-4"><s.icon className="h-6 w-6 text-primary" /></div>
                 <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
@@ -272,7 +272,7 @@ export default function Index() {
           </motion.div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((f, i) => (
-              <motion.div key={f.title} variants={fadeUp} custom={i} whileHover={{ y: -4 }} className="glass-card-hover p-6">
+              <motion.div key={i} variants={fadeUp} custom={i} whileHover={{ y: -4 }} className="glass-card-hover p-6">
                 <div className="w-11 h-11 rounded-xl bg-primary/10 grid place-items-center mb-4"><f.icon className="h-5 w-5 text-primary" /></div>
                 <h3 className="font-semibold mb-1.5">{f.title}</h3>
                 <p className="text-sm text-muted-foreground">{f.text}</p>
