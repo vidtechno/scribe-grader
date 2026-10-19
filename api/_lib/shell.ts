@@ -36,7 +36,7 @@ const FOOTER_UZ = `<div class="cols">
 <div><h4>Scorify.uz</h4><p>Ingliz tilini noldan o'rganish: o'zbekcha tushuntirishli darslar, talaffuz, mashqlar va testlar. IELTS Writing, Speaking, Reading va Listening ham bor.</p><a class="btn" href="/auth" style="display:inline-flex">Boshlash</a></div>
 <div><h4>Kurs</h4><a href="/ingliz-tili-darslari">Barcha darslar</a><a href="/ingliz-tili-darslari/beginner">Beginner (noldan)</a><a href="/ingliz-tili-darslari/elementary">Elementary (A1)</a><a href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a><a href="/ingliz-tili-darslari/intermediate">Intermediate (B1)</a><a href="/ingliz-tili-qoidalari">Ingliz tili qoidalari</a><a href="/inglizcha-sozlar">Inglizcha so'zlar</a><a href="/learn-english-from-uzbek">Learn English (EN)</a></div>
 <div><h4>IELTS</h4><a href="/ielts-writing-task-2-questions">Writing Task 2</a><a href="/ielts-speaking-part-2">Speaking Part 2</a><a href="/ielts-vocabulary">Vocabulary</a><a href="/ielts-reading-practice">Reading practice</a><a href="/ielts-listening-practice">Listening practice</a><a href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
-<div><h4>Resurslar</h4><a href="/blog">Blog va qo'llanmalar</a><a href="/sitemap">Sayt xaritasi</a><a href="/blog/rss.xml">RSS</a></div>
+<div><h4>Resurslar</h4><a href="/blog">Blog va qo'llanmalar</a><a href="/sitemap">Sayt xaritasi</a><a href="/blog/rss.xml">RSS</a><a href="/" hreflang="en" lang="en">English version</a></div>
 </div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS tegishli egalarining ro'yxatdan o'tgan savdo belgisi; Scorify.uz u bilan bog'liq emas.</p>`;
 
 const BRAND_SUFFIX = ' | Scorify.uz';
@@ -92,13 +92,13 @@ ${o.head || ''}
 <script defer data-website-id="dfid_2f7mA21xdCYfavtY5a4n6" data-domain="scorify.uz" src="https://datafa.st/js/script.js"></script>
 </head><body>
 <header class="site"><div class="wrap"><a class="brand" href="/"><img src="/logo-128.webp" alt="" width="32" height="32">Scorify.uz</a>
-<nav class="links" aria-label="Main">${(uz ? NAV_UZ : NAV).map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}<a class="btn" href="/auth">${uz ? 'Boshlash' : 'Practise free'}</a></nav></div></header>
+<nav class="links" aria-label="Main">${(uz ? NAV_UZ : NAV).map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}${uz ? '<a href="/" hreflang="en" lang="en" class="lang-link">English</a>' : '<a href="/uz" hreflang="uz" lang="uz" class="lang-link">O‘zbekcha</a>'}<a class="btn" href="/auth">${uz ? 'Boshlash' : 'Practise free'}</a></nav></div></header>
 ${o.body}
 <footer class="site"><div class="wrap">${uz ? FOOTER_UZ : `<div class="cols">
 <div><h4>Scorify.uz</h4><p>AI-graded IELTS Writing and Speaking practice with band scores and examiner-style feedback.</p><a class="btn" href="/auth" style="display:inline-flex">Start practising</a></div>
 <div><h4>Writing</h4><a href="/ielts-writing-task-2-questions">Task 2 questions &amp; essays</a><a href="/ielts-writing-task-1-samples">Task 1 samples</a><a href="/ielts-writing-task-2">Task 2 guide</a><a href="/ielts-writing-task-1">Task 1 guide</a></div>
 <div><h4>Speaking</h4><a href="/ielts-speaking-part-1">Part 1 topics</a><a href="/ielts-speaking-part-2">Part 2 cue cards</a><a href="/ielts-speaking-part-3">Part 3 discussions</a><a href="/ielts-speaking-practice">Speaking practice</a></div>
-<div><h4>Resources</h4><a href="/blog">Blog &amp; guides</a><a href="/ielts-vocabulary">Vocabulary by topic</a><a href="/ielts-reading-practice">Reading practice</a><a href="/ielts-listening-practice">Listening practice</a><a href="/ielts-band-score-calculator">Band score calculator</a><a href="/sitemap">Site map</a><a href="/blog/rss.xml">RSS feed</a></div>
+<div><h4>Resources</h4><a href="/blog">Blog &amp; guides</a><a href="/ielts-vocabulary">Vocabulary by topic</a><a href="/ielts-reading-practice">Reading practice</a><a href="/ielts-listening-practice">Listening practice</a><a href="/ielts-band-score-calculator">Band score calculator</a><a href="/sitemap">Site map</a><a href="/blog/rss.xml">RSS feed</a><a href="/uz" hreflang="uz" lang="uz">O‘zbekcha versiya</a></div>
 </div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS is a registered trademark of its owners; Scorify.uz is not affiliated with IELTS.</p>`}</div>
 </footer>
 ${o.bottomNav ? bottomNav(o.bottomNav) : ''}
