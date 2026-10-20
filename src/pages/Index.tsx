@@ -41,7 +41,7 @@ function StickyCta() {
   );
 }
 
-const FAQ_COUNT = 12;
+const FAQ_COUNT = 13;
 
 export default function Index() {
   const { user } = useAuth();
@@ -324,6 +324,10 @@ export default function Index() {
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.course.h2a')} <span className="gradient-text">{t('landing.course.h2b')}</span></motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.course.sub')}</motion.p>
           </motion.div>
+          <div className="max-w-3xl mx-auto mb-10 glass-card p-5 flex items-start gap-3 border-l-4 border-l-primary">
+            <Languages className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+            <p className="text-sm text-muted-foreground leading-relaxed"><b className="text-foreground">{t('landing.course.uzNote.title')}.</b> {t('landing.course.uzNote.text')}</p>
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
             {levels.map(l => (
               <div key={l.title} className={`rounded-3xl p-6 text-white bg-gradient-to-br ${l.tone} shadow-lg`}>
@@ -369,29 +373,37 @@ export default function Index() {
             <motion.h2 variants={fadeUp} custom={1} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.ielts.h2a')} <span className="gradient-text">{t('landing.ielts.h2b')}</span>{t('landing.ielts.h2c')}</motion.h2>
             <motion.p variants={fadeUp} custom={2} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.ielts.sub')}</motion.p>
           </motion.div>
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div className="space-y-4">
+          <div className="grid lg:grid-cols-5 gap-6 items-stretch">
+            <div className="lg:col-span-3 grid sm:grid-cols-2 gap-4 content-start">
               {[
-                { icon: PenLine, k: 'writing' },
-                { icon: Mic, k: 'speaking' },
-                { icon: BookOpen, k: 'reading' },
-                { icon: Headphones, k: 'listening' },
-                { icon: Clock, k: 'mock' },
-              ].map(x => ({ icon: x.icon, title: t(`landing.ielts.${x.k}.title`), text: t(`landing.ielts.${x.k}.text`) })).map(f => (
-                <div key={f.title} className="glass-card p-5 flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-primary/10 grid place-items-center shrink-0"><f.icon className="h-5 w-5 text-primary" /></div>
-                  <div><h3 className="font-semibold mb-1">{f.title}</h3><p className="text-sm text-muted-foreground">{f.text}</p></div>
-                </div>
+                { icon: PenLine, k: 'writing', tone: 'from-rose-500 to-orange-400', to: '/writing', free: true },
+                { icon: Mic, k: 'speaking', tone: 'from-violet-500 to-fuchsia-500', to: '/speaking', free: true },
+                { icon: BookOpen, k: 'reading', tone: 'from-sky-500 to-cyan-400', to: '/reading', free: true },
+                { icon: Headphones, k: 'listening', tone: 'from-emerald-500 to-teal-400', to: '/listening', free: true },
+              ].map(x => (
+                <Link key={x.k} to={user ? x.to : '/auth'} className="glass-card-hover p-5 flex flex-col group">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className={`w-11 h-11 rounded-xl bg-gradient-to-br ${x.tone} grid place-items-center`}><x.icon className="h-5 w-5 text-white" /></span>
+                    <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary">{t('landing.ielts.tryFree')}</span>
+                  </div>
+                  <h3 className="font-semibold mb-1">{t(`landing.ielts.${x.k}.title`)}</h3>
+                  <p className="text-sm text-muted-foreground flex-1">{t(`landing.ielts.${x.k}.text`)}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary"><ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" /></span>
+                </Link>
               ))}
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Link to={user ? '/writing' : '/auth'}><Button variant="outline" className="gap-2"><PenLine className="h-4 w-4" />Writing</Button></Link>
-                <Link to={user ? '/speaking' : '/auth'}><Button variant="outline" className="gap-2"><Mic className="h-4 w-4" />Speaking</Button></Link>
-                <Link to={user ? '/reading' : '/auth'}><Button variant="outline" className="gap-2"><BookOpen className="h-4 w-4" />Reading</Button></Link>
-                <Link to={user ? '/listening' : '/auth'}><Button variant="outline" className="gap-2"><Headphones className="h-4 w-4" />Listening</Button></Link>
-              </div>
-              <p className="text-xs text-muted-foreground">{t('landing.ielts.gift')}</p>
+              <Link to={user ? '/mock-test' : '/auth'} className="sm:col-span-2 glass-card-hover p-5 flex items-start gap-4 group border-primary/30">
+                <span className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 grid place-items-center shrink-0"><Clock className="h-5 w-5 text-white" /></span>
+                <span className="flex-1">
+                  <span className="flex items-center gap-2 mb-1"><span className="font-semibold">{t('landing.ielts.mock.title')}</span><span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300">{t('landing.ielts.planChip')}</span></span>
+                  <span className="block text-sm text-muted-foreground">{t('landing.ielts.mock.text')}</span>
+                </span>
+                <ArrowRight className="h-5 w-5 text-primary mt-1 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
-            <HeroSpeakingDemo />
+            <div className="lg:col-span-2 flex flex-col justify-start gap-4 lg:pt-2">
+              <HeroSpeakingDemo />
+              <p className="text-xs text-muted-foreground text-center">{t('landing.ielts.gift')}</p>
+            </div>
           </div>
         </div>
       </section>
