@@ -123,6 +123,7 @@ describe('sitemap.xml', () => {
           const html = readFileSync(f, 'utf8');
           if (canonicalOf(html) !== e.loc) problems.push(`${e.path}: canonical ${canonicalOf(html)}`);
           if (/noindex/i.test(robotsOf(html))) problems.push(`${e.path}: noindex`);
+          if (/href=["']\/auth["']/.test(html)) problems.push(`${e.path}: sign-up link without next`);
         }
         continue;
       }
@@ -130,6 +131,9 @@ describe('sitemap.xml', () => {
       if (res.statusCode !== 200) { problems.push(`${e.path}: status ${res.statusCode}`); continue; }
       if (canonicalOf(res.body) !== e.loc) problems.push(`${e.path}: canonical ${canonicalOf(res.body)}`);
       if (/noindex/i.test(robotsOf(res.body))) problems.push(`${e.path}: noindex`);
+      // every sign-up link keeps the page context, and the page remembers where the visit started
+      if (/href=["']\/auth["']/.test(res.body)) problems.push(`${e.path}: sign-up link without next`);
+      if (!res.body.includes("/track.js")) problems.push(`${e.path}: no entry/CTA tracking script`);
       // hreflang in the page must equal hreflang in the sitemap
       const inPage = hreflangsOf(res.body).map(a => `${a.lang} ${a.href}`).sort();
       const inMap = e.alts.map(a => `${a.lang} ${a.href}`).sort();

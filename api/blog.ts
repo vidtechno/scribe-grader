@@ -20,13 +20,15 @@ const fmt = (iso: string, lang: string) => new Date(iso).toLocaleDateString(lang
 const plain = (html: string) => html.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
 /** Adds heading ids (for the table of contents), lazy-loads images and strips anything executable. */
-function enhance(html: string) {
+function enhance(html: string, authLink = '/auth') {
   const toc: { level: number; id: string; text: string }[] = [];
   const used = new Set<string>();
   let out = html
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/\son\w+="[^"]*"/gi, '')
-    .replace(/href="\s*javascript:[^"]*"/gi, 'href="#"');
+    .replace(/href="\s*javascript:[^"]*"/gi, 'href="#"')
+    // sign-up links written into an article keep the article's topic
+    .replace(/href="\/auth"/g, `href="${authLink}"`);
   out = out.replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/g, (_m, level: string, attrs: string, inner: string) => {
     const text = plain(inner);
     let id = slugify(text) || 'section';
@@ -160,7 +162,7 @@ export function practiceNext(post: Pick<Post, 'slug' | 'tags'>): string {
 }
 
 async function renderPost(post: Post) {
-  const { html, toc } = enhance(post.content_html);
+  const { html, toc } = enhance(post.content_html, authHref(practiceNext(post)));
   const all = await listPosts().catch(() => []);
   const related = all.filter(p => p.slug !== post.slug && p.lang === post.lang)
     .map(p => ({ p, score: p.tags.filter(t => post.tags.includes(t)).length })).sort((a, b) => b.score - a.score || +new Date(b.p.published_at) - +new Date(a.p.published_at)).slice(0, 3).map(x => x.p);

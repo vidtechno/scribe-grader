@@ -64,6 +64,6 @@ describe('navigation', () => {
     expect(page({ ...base, path: '/ielts-speaking-part-2' })).toContain('class="btn" href="/auth?next=%2Fspeaking">Practise free');
     expect(page({ ...base, path: '/ingliz-tili-qoidalari', lang: 'uz' })).toContain('class="btn" href="/auth?next=%2Flearn">Boshlash');
     expect(page({ ...base, path: '/unknown', ctaNext: '/reading' })).toContain('href="/auth?next=%2Freading"');
-    expect(page({ ...base, path: '/unknown' })).toContain('class="btn" href="/auth">');
+    expect(page({ ...base, path: '/unknown' })).toContain('class="btn" href="/auth?next=%2Fpractice">');
   });
 });

@@ -116,7 +116,7 @@ export function guideHub(): string {
 <main class="page"><div class="wrap">
 <div class="grid">${GUIDES.map(g => `<a class="card" href="${GUIDE_BASE}/${g.slug}"><div class="body"><span class="meta">${esc(LEVEL_TITLE[g.level])}</span><h3>${esc(g.h1)}</h3><p>${esc(g.intro.slice(0, 140))}…</p></div></a>`).join('')}</div>
 <section class="section"><h2>Qoidalarni mashq bilan mustahkamlang</h2><p>Qoidani o'qish yetarli emas: uni mashq qilish, so'zlarni audio bilan eshitish va xatolarni tuzatish kerak. Scorify kursida har bir qoida alohida dars, mashqlar va testlar bilan o'tiladi. <a href="${COURSE_BASE}">Barcha ingliz tili darslari</a>.</p></section>
-${ctaBox("Ingliz tilini noldan boshlang", "Beginner kursining birinchi darsi: alifbo, tovushlar va birinchi gaplar. Ro'yxatdan o'tish bir tegishda.", '/auth', 'Boshlash')}
+${ctaBox("Ingliz tilini noldan boshlang", "Beginner kursining birinchi darsi: alifbo, tovushlar va birinchi gaplar. Ro'yxatdan o'tish bir tegishda.", authHref('/learn'), 'Boshlash')}
 </div></main>`;
   return page({
     title: `Ingliz tili qoidalari o'zbek tilida: grammatika, zamonlar, misollar | Scorify.uz`,
@@ -155,7 +155,7 @@ export function wordsHub(): string {
 <main class="page"><div class="wrap">
 <div class="grid">${WORD_TOPICS.map(t => `<a class="card" href="${WORDS_BASE}/${t.slug}"><div class="body"><span class="meta">${t.words.length} so'z</span><h3>${esc(t.h1)}</h3></div></a>`).join('')}</div>
 <section class="section"><h2>So'zlarni qanday o'rganish kerak</h2><ul><li>Har kuni 5–10 ta yangi so'z, yaxshisi bir mavzudan.</li><li>So'zni transkripsiya va audio bilan birga o'rganing, faqat tarjima yetarli emas.</li><li>Har bir so'z bilan o'zingizga tegishli gap tuzing.</li><li>1, 3 va 7 kundan keyin takrorlang: aqlli takrorlash unutishni kamaytiradi.</li></ul></section>
-${ctaBox("So'zlarni audio va mashqlar bilan o'rganing", "Scorify darslarida har bir so'z talaffuzi bilan beriladi, so'ng mashq va takrorlash orqali yodda qoladi.", '/auth', 'Boshlash')}
+${ctaBox("So'zlarni audio va mashqlar bilan o'rganing", "Scorify darslarida har bir so'z talaffuzi bilan beriladi, so'ng mashq va takrorlash orqali yodda qoladi.", authHref('/learn'), 'Boshlash')}
 </div></main>`;
   return page({
     title: `Inglizcha so'zlar mavzular bo'yicha: tarjima va talaffuz bilan | Scorify.uz`,
@@ -219,7 +219,7 @@ export function englishLanding(): string {
 <section class="section"><h2>Course levels</h2><div class="grid">${COURSE.map(l => `<a class="card" href="${COURSE_BASE}/${l.slug}"><div class="body"><h3>${esc(l.title)} · ${esc(l.cefr)}</h3><p>${l.units.reduce((m, u) => m + u.lessons.length, 0)} lessons · ${l.units.length} units</p></div></a>`).join('')}</div></section>
 <section class="section"><h2>Free study material in Uzbek</h2><ul><li><a href="${GUIDE_BASE}">English grammar rules explained in Uzbek</a></li><li><a href="${WORDS_BASE}">English vocabulary by topic with Uzbek translation and pronunciation</a></li><li><a href="${COURSE_BASE}">All English lessons (in Uzbek)</a></li></ul></section>
 <section class="section"><h2>IELTS preparation</h2><p>Preparing for IELTS? Scorify.uz grades your Writing and Speaking with AI. See <a href="/ielts-writing-task-2-questions">Writing Task 2 questions</a>, <a href="/ielts-speaking-part-2">Speaking Part 2 cue cards</a>, the <a href="/ielts-band-score-calculator">band score calculator</a> and the <a href="/blog">blog</a> with study guides.</p></section>
-${ctaBox('Start learning English today', 'Create an account in one tap with Google or Telegram and open your first lesson.', '/auth', 'Start now')}
+${ctaBox('Start learning English today', 'Create an account in one tap with Google or Telegram and open your first lesson.', authHref('/learn'), 'Start now')}
 <section class="section"><h2>Frequently asked questions</h2>${faqHtml(EN_FAQ)}</section>
 </div></main>`;
   return page({

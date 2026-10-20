@@ -18,7 +18,7 @@ import { audienceForPath, type Audience } from './audience.js';
  * audience, so a Google → article → /auth → first practice path keeps the original landing page, and counts clicks on sign-up buttons.
  * No personal data is read or sent; if storage or the DataFast script is unavailable nothing happens.
  */
-const trackingScript = (audience: Audience) => `<script>(function(){try{var p=location.pathname,A=${JSON.stringify(audience)},s=sessionStorage,l=localStorage;if(!s.getItem('scorify:entry')){s.setItem('scorify:entry',p);s.setItem('scorify:entry-aud',A)}if(!l.getItem('scorify:entry'))l.setItem('scorify:entry',JSON.stringify({path:p,at:Date.now(),audience:A}));document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href^="/auth"]');if(!a)return;var w=a.closest('header')?'header':a.closest('footer')?'footer':a.closest('.cta')?'cta_box':'content';if(typeof window.datafast!=='function'){window.datafast=function(){(window.datafast.q=window.datafast.q||[]).push([].slice.call(arguments))}}window.datafast('cta_click',{location:w,target:'auth',lang:document.documentElement.lang==='uz'?'uz':'en',entry:s.getItem('scorify:entry')||p,audience:s.getItem('scorify:entry-aud')||A})})}catch(e){}})()</script>`;
+const trackingScript = (audience: Audience) => `<script defer src="/track.js?v=1" data-audience="${audience}"></script>`;
 
 export type PageOptions = {
   title: string; description: string; path: string; body: string; lang?: string; robots?: string; ogImage?: string; ogType?: string;
@@ -67,7 +67,7 @@ export function langSwitch(o: Pick<PageOptions, 'lang' | 'altLang' | 'alternates
 }
 
 const FOOTER_UZ = `<div class="cols">
-<div><h4>Scorify.uz</h4><p>Ingliz tilini noldan o'rganish: o'zbekcha tushuntirishli darslar, talaffuz, mashqlar va testlar. IELTS Writing, Speaking, Reading va Listening ham bor.</p><a class="btn" href="/auth" style="display:inline-flex">Boshlash</a></div>
+<div><h4>Scorify.uz</h4><p>Ingliz tilini noldan o'rganish: o'zbekcha tushuntirishli darslar, talaffuz, mashqlar va testlar. IELTS Writing, Speaking, Reading va Listening ham bor.</p><a class="btn" href="/auth?next=%2Flearn" style="display:inline-flex">Boshlash</a></div>
 <div><h4>Kurs</h4><a href="/ingliz-tili-darslari">Barcha darslar</a><a href="/ingliz-tili-darslari/beginner">Beginner (noldan)</a><a href="/ingliz-tili-darslari/elementary">Elementary (A1)</a><a href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a><a href="/ingliz-tili-darslari/intermediate">Intermediate (B1)</a><a href="/ingliz-tili-qoidalari">Ingliz tili qoidalari</a><a href="/inglizcha-sozlar">Inglizcha so'zlar</a><a href="/learn-english-from-uzbek">Learn English (EN)</a></div>
 <div><h4>IELTS</h4><a href="/uz/ielts">IELTS (o'zbekcha bo'lim)</a><a href="/ielts-writing-task-2-questions">Writing Task 2</a><a href="/ielts-speaking-part-2">Speaking Part 2</a><a href="/ielts-vocabulary">Vocabulary</a><a href="/ielts-reading-practice">Reading practice</a><a href="/ielts-listening-practice">Listening practice</a><a href="/ielts-band-score-calculator">Band kalkulyatori</a></div>
 <div><h4>Resurslar</h4><a href="/uz/blog">Blog va qo'llanmalar</a><a href="/sitemap">Sayt xaritasi</a><a href="/blog/rss.xml">RSS</a>__LANGSW__</div>
@@ -138,10 +138,10 @@ ${o.head || ''}
 <script defer data-website-id="dfid_2f7mA21xdCYfavtY5a4n6" data-domain="scorify.uz" src="https://datafa.st/js/script.js"></script>
 </head><body>
 <header class="site"><div class="wrap"><a class="brand" href="/"><img src="/logo-128.webp" alt="" width="32" height="32">Scorify.uz</a>
-<nav class="links" aria-label="Main">${(uz ? NAV_UZ : NAV).map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}${uz ? '' : `<a href="${NAV_SECONDARY[0]}" class="sec" title="${esc(NAV_SECONDARY[2])}">${NAV_SECONDARY[1]}</a>`}<a href="${esc(sw.href)}" hreflang="${sw.lang}" lang="${sw.lang}" class="lang-link"${sw.title ? ` title="${esc(sw.title)}"` : ''}>${sw.short}</a><a class="btn" href="${esc(authHref(o.ctaNext ?? defaultCtaNext(o.path)))}">${uz ? 'Boshlash' : 'Practise free'}</a></nav></div></header>
+<nav class="links" aria-label="Main">${(uz ? NAV_UZ : NAV).map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}${uz ? '' : `<a href="${NAV_SECONDARY[0]}" class="sec" title="${esc(NAV_SECONDARY[2])}">${NAV_SECONDARY[1]}</a>`}<a href="${esc(sw.href)}" hreflang="${sw.lang}" lang="${sw.lang}" class="lang-link"${sw.title ? ` title="${esc(sw.title)}"` : ''}>${sw.short}</a><a class="btn" href="${esc(authHref(o.ctaNext ?? defaultCtaNext(o.path) ?? (uz ? '/learn' : '/practice')))}">${uz ? 'Boshlash' : 'Practise free'}</a></nav></div></header>
 ${o.body}
 <footer class="site"><div class="wrap">${uz ? FOOTER_UZ.replace('__LANGSW__', swLink) : `<div class="cols">
-<div><h4>Scorify.uz</h4><p>AI-graded IELTS Writing and Speaking practice with band scores and examiner-style feedback.</p><a class="btn" href="/auth" style="display:inline-flex">Start practising</a></div>
+<div><h4>Scorify.uz</h4><p>AI-graded IELTS Writing and Speaking practice with band scores and examiner-style feedback.</p><a class="btn" href="/auth?next=%2Fpractice" style="display:inline-flex">Start practising</a></div>
 <div><h4>Writing</h4><a href="/ielts-writing-task-2-questions">Task 2 questions &amp; essays</a><a href="/ielts-writing-task-1-samples">Task 1 samples</a><a href="/ielts-writing-task-2">Task 2 guide</a><a href="/ielts-writing-task-1">Task 1 guide</a></div>
 <div><h4>Speaking</h4><a href="/ielts-speaking-part-1">Part 1 topics</a><a href="/ielts-speaking-part-2">Part 2 cue cards</a><a href="/ielts-speaking-part-3">Part 3 discussions</a><a href="/ielts-speaking-practice">Speaking practice</a></div>
 <div><h4>Resources</h4><a href="/ielts">IELTS hub</a><a href="/blog">Blog &amp; guides</a><a href="/ielts-vocabulary">Vocabulary by topic</a><a href="/ielts-reading-practice">Reading practice</a><a href="/ielts-listening-practice">Listening practice</a><a href="/ielts-band-score-calculator">Band score calculator</a><a href="/sitemap">Site map</a><a href="/blog/rss.xml">RSS feed</a>${swLink}<a href="/learn-english-from-uzbek">English course (taught in Uzbek)</a></div>

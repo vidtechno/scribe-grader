@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { readFileSync } from 'node:fs';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { audienceForPath, audienceForPost } from '../../api/_lib/audience';
 import { page } from '../../api/_lib/shell';
@@ -28,8 +29,10 @@ describe('server page tracking script', () => {
     const html = page({ title: 'T | Scorify.uz', description: 'd', path: '/blog/some-article', lang: 'en', audience, body: '<aside class="cta"><a id="c" href="/auth?next=%2Fwriting">Try</a></aside>' });
     document.documentElement.lang = 'en';
     document.body.innerHTML = html.slice(html.indexOf('<body>') + 6, html.indexOf('</body>'));
-    const script = document.body.querySelector('script:not([src]):last-of-type') ?? [...document.body.querySelectorAll('script')].pop()!;
-    new Function(script.textContent!).call(window); // eslint-disable-line no-new-func
+    const el = document.body.querySelector('script[src^="/track.js"]')!;
+    expect(el.getAttribute('data-audience')).toBe(audience ?? 'other');
+    Object.defineProperty(document, 'currentScript', { value: el, configurable: true });
+    new Function(readFileSync('public/track.js', 'utf8')).call(window); // eslint-disable-line no-new-func
   };
   it('stores the first page with its audience and counts the CTA click with them', () => {
     const seen: unknown[][] = [];
