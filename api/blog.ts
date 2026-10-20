@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { SITE, SUPABASE_KEY, SUPABASE_URL, authHref, breadcrumbLd, ctaBox, esc, notFoundPage, page, send, slugify } from './_lib/shell.js';
 import { getPost, listPosts, type Post } from './_lib/posts.js';
+import { TIMER_SCRIPT, needsTimerScript } from './_lib/blog-overrides.js';
 import { extractFaq } from './_lib/faq.js';
 import { SECTIONS, totalPages } from './_lib/catalog.js';
 
@@ -181,7 +182,7 @@ async function renderPost(post: Post) {
 <div class="meta"><span>${esc(post.author_name)}</span><span>${esc(fmt(post.published_at, post.lang))}</span>${post.reading_minutes ? `<span>${c.min(post.reading_minutes)}</span>` : ''}${altPost ? `<a class="tag" hreflang="${c.switchLang}" lang="${c.switchLang}" href="/blog/${esc(altPost.slug)}">${c.switchTo}</a>` : ''}${post.tags.map(t => `<a class="tag" href="${c.base}?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>
 ${post.cover_image_url ? `<img class="post-cover" src="${esc(post.cover_image_url)}" alt="${esc(post.cover_alt || post.title)}" width="1200" height="675" fetchpriority="high">` : ''}</div>
 <div class="wrap"><div class="post-layout">
-<div class="prose">${html}${ctaBox(c.ctaTitle, c.ctaText, authHref(practiceNext(post)), c.ctaLabel)}</div>
+<div class="prose">${html}${needsTimerScript(html) ? TIMER_SCRIPT : ''}${ctaBox(c.ctaTitle, c.ctaText, authHref(practiceNext(post)), c.ctaLabel)}</div>
 <aside>${toc.length > 2 ? `<nav class="toc" aria-label="${c.toc}"><strong>${c.toc}</strong><ul>${toc.map(t => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ul></nav>` : ''}</aside>
 </div></div></article>
 ${related.length ? `<section class="section"><div class="wrap"><h2>${c.more}</h2><div class="grid">${related.map(card).join('')}</div></div></section>` : ''}

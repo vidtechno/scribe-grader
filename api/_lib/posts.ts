@@ -1,6 +1,7 @@
 import { SUPABASE_KEY, SUPABASE_URL } from './shell.js';
 import { STATIC_POSTS as GUIDES } from './data-blog-new.js';
 import { TRANSLATED_POSTS } from './data-blog-i18n.js';
+import { applyOverride } from './blog-overrides.js';
 
 const STATIC_POSTS: Post[] = [...GUIDES, ...TRANSLATED_POSTS];
 
@@ -44,7 +45,9 @@ export const getPost = async (slug: string): Promise<Post | null> => {
   const post = fromDb ?? STATIC_POSTS.find(p => p.slug === slug) ?? null;
   if (!post) return null;
   const all = await listPosts().catch(() => []);
-  return all.find(p => p.slug === slug)?.alt_slug && !post.alt_slug ? { ...post, alt_slug: all.find(p => p.slug === slug)!.alt_slug } : post;
+  const linked = all.find(p => p.slug === slug)?.alt_slug && !post.alt_slug ? { ...post, alt_slug: all.find(p => p.slug === slug)!.alt_slug } : post;
+  // Edited copy that lives in code (the database is shared with production and is not rewritten).
+  return applyOverride(linked);
 };
 /**
  * The list is read on almost every public page (the "study guides" block) and by crawlers all day, so it is kept in
@@ -68,6 +71,6 @@ export const listPosts = async (limit = 500): Promise<ListItem[]> => {
   }
   const fromDb = listCache.rows;
   const have = new Set(fromDb.map(p => p.slug));
-  return linkPairs([...fromDb, ...STATIC_POSTS.filter(p => !have.has(p.slug)).map(summary)])
+  return linkPairs([...fromDb, ...STATIC_POSTS.filter(p => !have.has(p.slug)).map(summary)].map(applyOverride))
     .sort((a, b) => +new Date(b.published_at) - +new Date(a.published_at)).slice(0, limit);
 };

@@ -20,7 +20,7 @@ export const LIBRARY_MODEL = {
   intro: 'The line graph shows how many visits were made each month to three libraries in an imaginary city between 2000 and 2020, measured in thousands.',
   overview: 'Overall, visits to Riverside Library rose steadily, whereas Central Library lost visitors, so the two libraries swapped places. Hillside Library was the least busy throughout, and its figure barely changed.',
   detail1: 'In 2000, Central Library was by far the busiest, with 58 thousand visits, almost double the 30 thousand recorded at Riverside Library. The gap between them narrowed from 28 thousand in 2000 to only 6 thousand in 2010, and by 2015 Riverside was ahead with 52 thousand visits compared with 41 thousand. By 2020, Riverside had climbed to 61 thousand, while Central had fallen gradually to 36 thousand.',
-  detail2: 'Hillside Library, in contrast, stayed within a narrow range of 20 to 23 thousand visits and ranked last at every point shown.',
+  detail2: 'Hillside Library, in contrast, stayed within a narrow range of 20 to 23 thousand visits and ranked last at every point shown. Its 2020 figure of 22 thousand was only 2 thousand higher than in 2000.',
 };
 
 const COLLEGE_CHART = renderChart({
