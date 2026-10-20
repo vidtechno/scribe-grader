@@ -11,6 +11,7 @@ import { SEOHead } from '@/components/SEOHead';
 import { ALL_LESSONS, COURSE_UNITS, LESSON_CHECK_QUESTIONS, LESSON_MENTOR_ENABLED, levelOf, loadLesson } from '@/features/learn/course';
 import type { Exercise, Lesson } from '@/features/learn/types';
 import { courseMap, useLearningState, useRefreshLearning } from '@/features/learn/api';
+import { lessonEntry, startLevelForLesson } from '@/features/learn/lesson-entry';
 import { reviewQuestions, wordDrills } from '@/features/learn/practice';
 import { shuffle } from '@/features/learn/check';
 import { lessonAudioTexts } from '@/features/learn/audio-plan';
@@ -71,16 +72,42 @@ export default function LearnLesson() {
     loadSession(queue, { extraPool: pool, allowSpeak: false, lang }).then(setWarmup).catch(() => setWarmup([]));
   }, [content, queue, queueQuery.isLoading, warmup]);
   const meta = ALL_LESSONS.find((l) => l.id === id);
+  // A brand-new learner who arrives here from a public lesson page is started at this lesson's level first.
+  const [startFailed, setStartFailed] = useState(false);
+  const startedFor = useRef<string | null>(null);
+  const needsStart = !stateLoading && !!state && lessonEntry(state, id).kind === 'start';
+  useEffect(() => {
+    if (!needsStart || startedFor.current === id) return;
+    startedFor.current = id;
+    setStartFailed(false);
+    startLevelForLesson(id).then(() => refresh()).catch(() => setStartFailed(true));
+  }, [needsStart, id]);
   // The lesson's audio loads into memory once and is freed when the next lesson opens, so every tap plays at once.
   const audioTexts = useMemo(() => (content ? lessonAudioTexts(content.lesson, content.previous) : null), [content]);
   useLessonAudio(audioTexts, id);
 
   if (loadError || !meta) return <Centered><p className="mb-4">{loadError || t('learn.lesson.notFound')}</p><Link to="/learn"><Button>{t('learn.lesson.backToLessons')}</Button></Link></Centered>;
   if (stateLoading || !content || !split || (queueQuery.isLoading && !queue) || !warmup) return <Centered><Loader2 className="h-8 w-8 animate-spin text-primary" /></Centered>;
-  if (!state?.profile) return <Navigate to="/learn" replace />;
-  if (!state.access.allowed) return <Centered><LearnPaywall access={state.access} /></Centered>;
-  if (map.lessonState.get(id) === 'locked') {
-    return <Centered><p className="mb-4 max-w-sm text-center">{t('learn.lesson.locked')}</p><Link to="/learn"><Button>{t('learn.lesson.backToMap')}</Button></Link></Centered>;
+  if (!state) return <Navigate to="/learn" replace />;
+  const entry = lessonEntry(state, id);
+  if (entry.kind === 'start') {
+    if (startFailed) return <Centered><p className="mb-4 max-w-sm">{t('learn.lesson.startFailed')}</p><Link to="/learn"><Button>{t('learn.lesson.chooseLevel')}</Button></Link></Centered>;
+    return <Centered><Loader2 className="h-8 w-8 animate-spin text-primary" /></Centered>;
+  }
+  if (entry.kind === 'paywall') return <Centered><LearnPaywall access={state.access} /></Centered>;
+  if (entry.kind === 'locked') {
+    return (
+      <Centered>
+        <div className="max-w-sm space-y-4">
+          <h1 className="text-xl font-bold">{t('learn.lesson.lockedTitle')}</h1>
+          <p>{entry.next ? t('learn.lesson.lockedNext', { title: lang === 'uz' ? entry.next.titleUz : entry.next.title }) : t('learn.lesson.locked')}</p>
+          <div className="flex flex-col gap-2">
+            {entry.next && <Link to={`/learn/lesson/${entry.next.id}`}><Button className="w-full">{t('learn.lesson.goNext')}</Button></Link>}
+            <Link to="/learn"><Button variant={entry.next ? 'outline' : 'default'} className="w-full">{t('learn.lesson.backToMap')}</Button></Link>
+          </div>
+        </div>
+      </Centered>
+    );
   }
 
   const { lesson } = content;

@@ -95,7 +95,7 @@ export const drills: Drill[] = [
       { k: 'choice', q: 'I need ___ advice about hotels.', opts: ['some', 'an', 'a', 'many'], a: 0, why: "**advice** sanalmaydi." },
       { k: 'choice', q: 'We must take a taxi because ___ of the two roads goes to the village.', opts: ['Neither', 'Both', 'Every', 'All'], a: 0, why: "Ikkita, ikkalasi ham yo'q → **neither**." },
       { k: 'fill', q: 'You have been to London, ___ you?', a: ["haven't"], uz: 'Siz Londonda bo\'lgansiz, shunday emasmi?', why: "Darak **have** → **haven't you?**" },
-      { k: 'fill', q: 'Could you tell me ___ the nearest bank is?', a: ['where'], uz: 'Eng yaqin bank qayerda ekanini ayta olasizmi?', why: "Muloyim savol: **where + ega + fe\'l**." },
+      { k: 'fill', q: 'Could you tell me ___ the nearest bank is?', a: ['where'], uz: 'Eng yaqin bank qayerda ekanini ayta olasizmi?', why: "Muloyim savol: **where + ega + fe'l**." },
       { k: 'fix', wrong: 'Could you tell me how much does it cost?', a: ['Could you tell me how much it costs?'], why: "Muloyim savolda **does** yo'q: darak tartibi." },
       { k: 'fix', wrong: 'The hotel which it is next to the park is cheap.', a: ['The hotel which is next to the park is cheap.', 'The hotel that is next to the park is cheap.'], why: "Olmosh qayta qo'yilmaydi." },
       { k: 'order', uz: "Xona kichik bo'lsa-da, juda qulay edi.", words: ['Although', 'the', 'room', 'was', 'small,', 'it', 'was', 'very', 'comfortable.'], extra: ['but', 'were'], why: "**Although** bilan **but** yo'q." },

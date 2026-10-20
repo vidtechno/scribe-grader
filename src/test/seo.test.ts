@@ -31,7 +31,9 @@ describe('public search pages', () => {
     for (const path of privatePaths) {
       expect(vercel.headers.find((entry) => entry.source === path)?.headers).toContainEqual({ key: 'X-Robots-Tag', value: 'noindex, nofollow' });
     }
-    expect(read('index.html')).toContain('rel="canonical" href="https://www.scorify.uz/"');
+    // The canonical of the landing pages now comes from <SEOHead> (see seo-landing-head.test.tsx), so the template must not carry a second one.
+    expect(read('index.html')).not.toMatch(/rel="canonical"/);
+    expect(read('index.html')).toContain('<!--head-seo-->');
     expect(read('public/robots.txt')).toContain('Sitemap: https://www.scorify.uz/sitemap.xml');
   });
 

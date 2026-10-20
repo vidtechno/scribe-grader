@@ -58,3 +58,5 @@ figure.chart{margin:22px 0;padding:18px;border:1px solid var(--line);border-radi
 .bnav a[data-learn] svg{box-sizing:content-box;padding:15px;border-radius:18px;background:linear-gradient(135deg,var(--brand),#ff5a72);box-shadow:0 8px 20px rgba(232,11,45,.35),0 0 0 4px #fff}
 .bnav a[data-learn] span{color:var(--brand);margin-top:2px}
 body.has-bnav{padding-bottom:96px}}
+.links a.sec{color:#64748b;font-size:.82rem;border-left:1px solid var(--line);padding-left:14px}
+@media(max-width:1180px){.links{gap:14px}.links a.sec{display:none}}

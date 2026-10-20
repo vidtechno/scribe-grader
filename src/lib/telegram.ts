@@ -13,6 +13,7 @@ const MINI_APP_PATHS = [
   /^\/learn\/lesson\/u\d{1,2}-l\d{1,2}$/,
   /^\/learn\/test\/u\d{1,2}$/,
   /^\/learn\/placement$/,
+  /^\/learn\/(start|drill\/[A-Za-z0-9_-]+|level-test\/[A-Za-z0-9_-]+|upgrade\/[A-Za-z0-9_-]+)$/,
   new RegExp(`^/(result|speaking-result)/${UUID}$`),
   new RegExp(`^/mock-test/(result|exam|thank-you)/${UUID}$`),
 ];

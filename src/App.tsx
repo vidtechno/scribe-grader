@@ -50,6 +50,7 @@ const ReadingTestPage = lazy(() => import("./pages/ReadingTest"));
 const ListeningTestPage = lazy(() => import("./pages/ListeningTest"));
 import { safeReturnTo } from "./lib/returnTo";
 import { isTelegramWebApp, miniAppPath } from "./lib/telegram";
+import { trackOnce, setAnalyticsUser } from "@/lib/analytics";
 
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
 const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
@@ -71,7 +72,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (!user) {
     // Inside the Telegram Mini App the session is restored from Telegram, keeping the requested page.
     if (isTelegramWebApp()) return <Navigate to={`/tg?next=${encodeURIComponent(miniAppPath(location.pathname + location.search))}`} replace />;
-    return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname))}`} replace />;
+    return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname + location.search))}`} replace />;
   }
   if (devices.status === 'checking') return <LoadingScreen />;
   if (devices.status === 'pending') return <DeviceLimit />;
@@ -97,6 +98,14 @@ function AppRoutes() {
   const [mentorOpen, setMentorOpen] = useState(false);
   const { user } = useAuth();
   usePresence(user?.id);
+
+  useEffect(() => { setAnalyticsUser(user?.id); }, [user?.id]);
+
+  // A brand-new account (created in the last 10 minutes) counts once as a sign-up, with the page the visit started on.
+  useEffect(() => {
+    if (!user?.created_at || Date.now() - new Date(user.created_at).getTime() > 10 * 60_000) return;
+    trackOnce('signup_complete', user.id, { provider: String(user.app_metadata?.provider ?? 'unknown') });
+  }, [user]);
 
   // Signed-in users go to the dashboard and the course next: fetch those pages while the browser is idle.
   useEffect(() => {
