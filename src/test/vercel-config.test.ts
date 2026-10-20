@@ -57,3 +57,20 @@ describe('vercel routing', () => {
     }
   });
 });
+
+describe('security headers', () => {
+  it('every page gets the baseline hardening headers, and the CSP only restricts framing/base/object/form (not scripts)', () => {
+    const cfg = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8')) as { headers: { source: string; headers: { key: string; value: string }[] }[] };
+    const all = cfg.headers.find((h) => h.source === '/(.*)')!;
+    const get = (k: string) => all.headers.find((x) => x.key === k)?.value ?? '';
+    expect(get('X-Content-Type-Options')).toBe('nosniff');
+    expect(get('Referrer-Policy')).toBe('strict-origin-when-cross-origin');
+    expect(get('Strict-Transport-Security')).toMatch(/max-age=\d+/);
+    // the Speaking recorder needs the microphone
+    expect(get('Permissions-Policy')).toContain('microphone=(self)');
+    const csp = get('Content-Security-Policy');
+    expect(csp).toContain("frame-ancestors 'self' https://web.telegram.org");
+    expect(csp).toContain("object-src 'none'");
+    expect(csp).not.toMatch(/script-src|default-src/);
+  });
+});

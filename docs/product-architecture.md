@@ -49,3 +49,10 @@ weekly/all-time leaderboard (global or people I follow) → followers/following 
 - The IELTS daily grammar-test reminder goes only to non-learners (or learners who did a test this week).
 - Google users see one quiet line after their first finished lesson (and the Telegram card in the profile);
   Telegram sign-ins are connected automatically.
+
+## Security notes (audit of 20 Oct 2026)
+- No OpenAI/service keys are in the repository, its history or the built bundle; all AI keys are read from Supabase Edge Function secrets. The only JWT ever committed is a public `anon` key.
+- Every AI function checks the signed-in user itself (`getRequestUser`) and consumes a plan quota (`consume_quota`, `consume_mentor_message`) before calling OpenAI; inputs are size-limited. `verify_jwt` alone is not enough because the public anon key is a valid JWT.
+- `profiles` can only be updated by the owner in `age, city, full_name, phone` (column-level grants); plans, credits and roles are changed only by admin RPCs/webhooks.
+- Page-wide response headers are in `vercel.json` (nosniff, referrer policy, permissions policy, HSTS, CSP limited to framing/base/object/form). A script-restricting CSP is not enabled yet because the pages use inline scripts and third-party scripts (DataFast, Google Fonts).
+- Owner-only: turn on "Leaked password protection" in Supabase Auth settings; rotate keys if they were ever shared.
