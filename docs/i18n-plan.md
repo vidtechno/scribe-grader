@@ -3,7 +3,7 @@
 ## Decisions
 - **UI language** is a per-person setting (`src/i18n`): saved choice → `/uz` landing → country (Uzbekistan → Uzbek, via `/api/geo`) → browser language → English. The switcher (EN | UZ) is in the top bar and on the profile page. Admin panel stays Uzbek.
 - **SEO**: app pages are private (noindex), so their language does not need URLs. Indexable pages get **one URL per language** with `hreflang`:
-  - Landing: `/` (English, x-default) and `/uz` (Uzbek, generated at build: `landing-meta.mjs`, `dist/uz/index.html`).
+  - Landing: `/` (English, x-default) and `/uz` (Uzbek, generated at build: `the prerender step (scripts/prerender.mjs)`, `dist/uz/index.html`).
   - Blog: every article exists in English and Uzbek on separate URLs, linked with `hreflang`, a language switch on the page, and both in the sitemap.
   - Existing ranking pages keep their URLs (Uzbek vocabulary/course pages, English IELTS practice pages). Guides stay Uzbek.
 - Crawlers are never redirected by country: Googlebot sees the same URLs as everyone and picks the language by `hreflang`.
