@@ -57,8 +57,19 @@ const WEEKLY = [
 ];
 const LAST = "👋 Sizni ortiqcha bezovta qilmayman — bu oxirgi eslatma. Tayyor bo'lganingizda darslar shu yerda turibdi. Xohlasangiz, eslatmalarni o'chirib qo'yishingiz mumkin 🌿";
 
-/** Text of a study reminder for this slot and inactivity phase. */
-export function reminderText(slot: Slot, phase: Phase, s: LearnSummary, v: number): string {
+export interface DailyWord { en: string; uz: string; ex?: string | null }
+
+/** The learner's own words for today (due first), as a short list under the reminder. Empty when there are none. */
+export function wordsBlock(words: DailyWord[]): string {
+  const rows = words.filter((w) => w.en && w.uz).slice(0, 3);
+  if (!rows.length) return "";
+  return quote(["📝 <b>Bugungi so'zlar:</b>", ...rows.map((w) => `• <b>${esc(w.en)}</b> — ${esc(w.uz)}`)].join("\n"));
+}
+
+const BROKEN = "💔 {best} kunlik streak uzildi, lekin XP va o'rgangan so'zlaringiz joyida. Bugundan yangisini boshlaymiz!";
+
+/** Text of a study reminder for this slot and inactivity phase. `words` are shown for the daily and comeback reminders only. */
+export function reminderText(slot: Slot, phase: Phase, s: LearnSummary, v: number, words: DailyWord[] = []): string {
   const streak = s.streak_info?.current ?? s.streak ?? 0;
   const idle = s.idle_days ?? 0;
   const vars = { streak, idle };
@@ -75,6 +86,13 @@ export function reminderText(slot: Slot, phase: Phase, s: LearnSummary, v: numbe
   const extra: string[] = [];
   if (phase === "daily" && slot === "evening" && streak >= 2 && s.streak_info?.days_left === 1) {
     extra.push(hint("⏳ Bugun streak uchun oxirgi kun — XP va o'rgangan so'zlaringiz esa hech qachon yo'qolmaydi."));
+  }
+  if (phase === "comeback" && s.streak_info?.broken && (s.streak_info.best ?? 0) >= 3) {
+    extra.push(hint(fill(BROKEN, { best: s.streak_info.best })));
+  }
+  if (phase === "daily" || phase === "comeback") {
+    const block = wordsBlock(words);
+    if (block) extra.push(block);
   }
   if (phase !== "last" && s.next_lesson_title) extra.push(quote(`▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>`));
   return [line, ...extra].join("\n");

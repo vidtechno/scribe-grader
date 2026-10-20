@@ -53,3 +53,18 @@ audio-quality numbers. It needs course access, has a rate limit and does not use
 not sent to Whisper (it would bias the transcript). `judgeSpeech` compares text leniently (endings, sound-alikes, numbers,
 contractions, dropped articles, extra words) — it tells whether the phrase was understood, not that pronunciation is "correct";
 after three tries the exercise counts as practice. Without a microphone API or when the function fails, the browser recogniser is used.
+
+## Daily set ("Bugungi 5 daqiqa", `/learn/daily`)
+Three words of the day, one sentence and a mini-test of up to 8 exercises, made only from words of lessons the learner finished (at least 6).
+- **Words:** the engine's due words first (shakiest first), then a pick seeded by the date (`state.today`), so the set is the same all day.
+  Words with an example sentence are preferred; the sentence of the day is the first picked word's example.
+- **Quiz:** one exercise per word (`wordExercise`, harder kinds for stronger boxes) plus due mistakes and weak grammar topics.
+  It runs in `WordDrill` and is saved with `learning_record_review(events, award=true)`, so mastery boxes, XP and the streak behave like the
+  "Takrorlash" round. No new database tables.
+- **Done today:** a per-account, per-day flag in `localStorage` (`scorify:daily:<user>:<day>`) turns the home card green; it is a convenience, the XP/streak are the truth.
+- Code: `src/features/learn/daily.ts` (pure logic + tests), `src/pages/LearnDaily.tsx`, `components/DailyCard.tsx`, `components/WordDrill.tsx` (moved out of `Learn.tsx`).
+
+## Reminders with the learner's own words
+The daily and comeback reminders (Telegram) list up to three of the learner's own words (`telegram_learning_words`, service role only; due first,
+then the shakiest) and show a "☀️ Bugungi 5 daqiqa" button that opens `/learn/daily`. A comeback message after a broken streak of 3+ days says so and
+reminds that XP and words are kept. Weekly and last reminders are unchanged. Caps, quiet hours and the opt-out are those of the existing reminder queue.

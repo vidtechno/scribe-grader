@@ -5,7 +5,7 @@ import { app, band, bar, cb, fmtDate, hint, type InlineKeyboard, page, PLAN_LABE
 import { loadOverview, scoreStats, streakDays } from "./data.ts";
 import { resultCard } from "./results.ts";
 import { functionUrl } from "./setup.ts";
-import { type LearnSummary, type Phase, type Slot, praiseText, reminderText } from "./learn-copy.ts";
+import { type DailyWord, type LearnSummary, type Phase, type Slot, praiseText, reminderText } from "./learn-copy.ts";
 
 interface OutboxItem {
   id: number; telegram_id: number; user_id: string | null; kind: string;
@@ -124,11 +124,18 @@ async function render(db: Db, item: OutboxItem): Promise<Delivery | null> {
       if (!s.started || s.today_done || !s.access?.allowed) return null; // studied after the reminder was queued
       const slot = (["morning", "afternoon", "evening"].includes(String(p.slot)) ? p.slot : "evening") as Slot;
       const phase = (["daily", "comeback", "weekly", "last"].includes(String(p.phase)) ? p.phase : "daily") as Phase;
+      // The learner's own words for today, so the message gives something to do, not just a nudge. Best effort.
+      let words: DailyWord[] = [];
+      if (phase === "daily" || phase === "comeback") {
+        const { data: lw } = await db.rpc("telegram_learning_words", { _user: userId, _limit: 3 });
+        words = Array.isArray(lw) ? (lw as DailyWord[]) : [];
+      }
       return {
-        text: reminderText(slot, phase, s, Number(p.v ?? 0)),
+        text: reminderText(slot, phase, s, Number(p.v ?? 0), words),
         keyboard: phase === "last"
           ? [[app("▶️ Darslarga qaytish", "/learn")], [cb("🔕 Eslatmalarni o'chirish", "s:rm:off")]]
-          : [[app("▶️ Darsni boshlash", "/learn")]],
+          : words.length >= 3 ? [[app("☀️ Bugungi 5 daqiqa", "/learn/daily")], [app("▶️ Darsni boshlash", "/learn")]]
+            : [[app("▶️ Darsni boshlash", "/learn")]],
       };
     }
     case "learn_praise": {

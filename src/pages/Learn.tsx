@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  BookA, Check, CheckCircle2, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, X, Zap,
+  BookA, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Navbar } from '@/components/Navbar';
@@ -22,14 +22,12 @@ import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
 import { ContinueCard } from '@/features/learn/components/ContinueCard';
 import { GoalStreak } from '@/features/learn/components/GoalStreak';
+import { DailyCard } from '@/features/learn/components/DailyCard';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
-import { loadSession, recordReview, useReviewQueue } from '@/features/learn/engine/api';
-import { sessionEvents, type SessionItem } from '@/features/learn/engine/engine';
-import { ExerciseView } from '@/features/learn/components/ExerciseView';
+import { loadSession, useReviewQueue } from '@/features/learn/engine/api';
+import { WordDrill, type DrillItem } from '@/features/learn/components/WordDrill';
 import { shuffle } from '@/features/learn/check';
-import { exerciseAudioTexts } from '@/features/learn/audio-plan';
-import { useLessonAudio } from '@/features/learn/useLessonAudio';
 
 const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts'];
 
@@ -162,6 +160,7 @@ function CourseHome({ state }: { state: LearningState }) {
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
       {!locked && <ContinueCard state={state} />}
       {!locked && <GoalStreak state={state} />}
+      {!locked && <DailyCard state={state} wordCount={map.wordCount} />}
       <SkipIntroBanner state={state} />
 
       {/* Stats */}
@@ -346,53 +345,6 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
       </div>
       {speed && <SpeedRound words={all} onClose={() => setSpeed(false)} onFinished={() => void refresh()} />}
       {drill && <WordDrill items={drill} onClose={() => setDrill(null)} onFinished={refresh} />}
-    </div>
-  );
-}
-
-interface DrillItem { ex: Exercise; item?: SessionItem }
-
-function WordDrill({ items: drillItems, onClose, onFinished }: { items: DrillItem[]; onClose: () => void; onFinished: () => void }) {
-  const { t, lang } = useT();
-  const items = useMemo(() => drillItems.map((d) => d.ex), [drillItems]);
-  const results = useMemo<{ item: SessionItem; correct: boolean }[]>(() => [], []);
-  const [i, setI] = useState(0);
-  const [correct, setCorrect] = useState(0);
-  const [startedAt] = useState(Date.now());
-  const [finished, setFinished] = useState(false);
-  useLessonAudio(items.flatMap(exerciseAudioTexts), 'drill');
-  const finish = async (score: number) => {
-    setFinished(true);
-    try {
-      if (results.length) await recordReview(sessionEvents(results), true);
-      else await callLearning('learning_log_practice', { _correct: score, _answered: items.length, _seconds: Math.round((Date.now() - startedAt) / 1000) });
-      onFinished();
-    } catch (e) { toast.error(learningErrorMessage(e, lang)); }
-  };
-  return (
-    <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur overflow-y-auto">
-      <div className="max-w-xl mx-auto px-4 py-6">
-        <div className="flex items-center gap-3 mb-6">
-          <button type="button" onClick={onClose} aria-label={t('learn.common.close')} className="h-9 w-9 rounded-full grid place-items-center hover:bg-secondary"><X className="h-5 w-5" /></button>
-          <div className="h-2.5 flex-1 rounded-full bg-secondary overflow-hidden"><div className="h-full bg-primary transition-all" style={{ width: `${(Math.min(i, items.length) / items.length) * 100}%` }} /></div>
-        </div>
-        {finished ? (
-          <div className="text-center py-10">
-            <CheckCircle2 className="h-14 w-14 text-emerald-500 mx-auto mb-3" />
-            <h2 className="text-2xl font-bold mb-1">{correct} / {items.length}</h2>
-            <p className="text-muted-foreground mb-6">{correct >= items.length * 0.8 ? t('learn.home.drillGood') : t('learn.home.drillBad')}</p>
-            <Button onClick={onClose} className="gap-2"><Check className="h-4 w-4" />{t('learn.home.done')}</Button>
-          </div>
-        ) : (
-          <ExerciseView key={i} ex={items[i]} mode="practice" onDone={(c) => {
-            const s = correct + (c ? 1 : 0);
-            setCorrect(s);
-            const it = drillItems[i].item;
-            if (it) results.push({ item: it, correct: c });
-            if (i + 1 >= items.length) void finish(s); else setI(i + 1);
-          }} />
-        )}
-      </div>
     </div>
   );
 }
