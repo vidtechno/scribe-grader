@@ -200,8 +200,8 @@ export const SCORED_ARTICLE = `<aside class="box good" id="short-answer"><p><str
 <tbody>
 <tr><td>Task Achievement / Task Response</td><td>Task Achievement: key features selected and reported, a clear overview, accurate data</td><td>Task Response: every part of the question answered, a clear position, developed ideas</td></tr>
 <tr><td>Coherence and Cohesion</td><td colspan="2">Logical organisation, sensible paragraphing and natural linking</td></tr>
-<tr><td>Lexical Resource</td><td colspan="2">Range, precision and natural use of vocabulary</td></tr>
-<tr><td>Grammatical Range and Accuracy</td><td colspan="2">Variety and accuracy of sentence structures, punctuation and spelling</td></tr>
+<tr><td>Lexical Resource</td><td colspan="2">Range, precision and natural use of vocabulary, including spelling</td></tr>
+<tr><td>Grammatical Range and Accuracy</td><td colspan="2">Variety and accuracy of sentence structures, including punctuation</td></tr>
 </tbody>
 </table>
 <p><strong>How the two tasks combine.</strong> Task 2 carries more weight than Task 1. The commonly stated split is one third for Task 1 and two thirds for Task 2, so one extra band in Task 2 moves your Writing result roughly twice as much as one extra band in Task 1. IELTS does not publish the exact arithmetic examiners use, so treat the 1:2 ratio as a good approximation. In practice: plan about 20 minutes for Task 1 and 40 for Task 2, and do not skip Task 1. Practice material: <a href="/ielts-writing-task-1-samples">Task 1 samples</a> and <a href="/ielts-writing-task-2-questions">Task 2 questions</a>.</p>
