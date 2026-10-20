@@ -27,3 +27,10 @@ The price is always computed on the server (`internal_pay_price`): list price fr
 - An active IELTS plan cannot be replaced by a Learn payment (409). Learn to IELTS starts IELTS from now for the paid days.
 - Card numbers never touch our servers (`pay_via_card` is not used).
 - Deploying functions: `create-checkout`, `checkout-status` (JWT on), `checkout-webhook` (JWT off, see `supabase/config.toml`).
+
+## Dollar prices and Visa
+The so'm price is the main price and the only amount charged online (Click / Payme). Next to it the site shows a fixed dollar price: **Learn $4.99/month, IELTS $11.99/month**
+(`priceUsd` in `src/lib/plans.ts`; 3 and 6 months follow the same -5% / -10%: Learn $14.22 / $26.95, IELTS $34.17 / $64.75).
+There is **no automatic Visa payment**. A Visa / international-card payer is sent to the Telegram chat `@scorify_support` with a pre-filled message
+(plan, period, dollar price, so'm price, account ID) from the plan cards, the pay dialog and the bot's plan screen (`visaLink` in `src/lib/plans.ts`).
+The owner confirms the payment and switches the plan on by hand in the admin panel (`admin_set_subscription`).

@@ -10,11 +10,11 @@ describe('Mini App destinations', () => {
     expect(miniAppPath(`/result/${id}`)).toBe(`/result/${id}`);
     expect(miniAppPath(`/speaking-result/${id}`)).toBe(`/speaking-result/${id}`);
     expect(miniAppPath(`/mock-test/result/${id}`)).toBe(`/mock-test/result/${id}`);
-    for (const path of ['/learn', '/learn/lesson/u1-l1', '/learn/test/u3', '/learn/placement', '/practice', '/learn/start', '/learn/drill/u1-l2-d1', '/learn/level-test/a1', '/learn/upgrade/a2']) expect(miniAppPath(path)).toBe(path);
+    for (const path of ['/learn', '/learn/lesson/u1-l1', '/learn/test/u3', '/learn/placement', '/practice', '/learn/start', '/learn/daily', '/learn/drill/u1-l2-d1', '/learn/level-test/a1', '/learn/upgrade/a2']) expect(miniAppPath(path)).toBe(path);
   });
 
   it('falls back to the dashboard for unknown or external destinations', () => {
-    for (const value of [null, '', 'writing', '//evil.com', 'https://evil.com/x', '/\\evil.com', '/result/123', '/unknown', '/learn/lesson/x', '/learn/test/../admin'])
+    for (const value of [null, '', 'writing', '//evil.com', 'https://evil.com/x', '/\\evil.com', '/result/123', '/unknown', '/learn/lesson/x', '/learn/test/../admin', '/learn/daily/x'])
       expect(miniAppPath(value)).toBe('/dashboard');
   });
 });

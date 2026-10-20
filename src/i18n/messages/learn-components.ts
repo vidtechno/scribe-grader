@@ -116,7 +116,7 @@ export default {
     'learn.paywall.f1': 'All English lessons, step by step',
     'learn.paywall.f2': 'Adaptive learning: word and grammar review, a notebook of mistakes',
     'learn.paywall.f3': 'Unit tests, XP and streak',
-    'learn.paywall.f4': 'Learn — 49,000 UZS/month · IELTS — 129,000 UZS/month (unlimited Reading and Listening, Writing and Speaking with AI scoring)',
+    'learn.paywall.f4': 'Learn — 49,000 UZS/month ($4.99) · IELTS — 129,000 UZS/month ($11.99) (unlimited Reading and Listening, Writing and Speaking with AI scoring)',
     'learn.paywall.choose': 'Choose a plan',
     'learn.paywall.ended': 'The free period ended on {date}.',
 
@@ -305,7 +305,7 @@ export default {
     'learn.paywall.f1': 'Barcha ingliz tili darslari, bosqichma-bosqich',
     'learn.paywall.f2': "Adaptiv o'rganish: so'z va grammatika takrori, xatolar daftari",
     'learn.paywall.f3': 'Bosqich testlari, XP va streak',
-    'learn.paywall.f4': "Learn — 49 000 so'm/oy · IELTS — 129 000 so'm/oy (cheksiz Reading va Listening, Writing va Speaking AI baholash bilan)",
+    'learn.paywall.f4': "Learn — 49 000 so'm/oy ($4.99) · IELTS — 129 000 so'm/oy ($11.99) (cheksiz Reading va Listening, Writing va Speaking AI baholash bilan)",
     'learn.paywall.choose': 'Tarifni tanlash',
     'learn.paywall.ended': 'Bepul davr {date} da tugagan.',
 

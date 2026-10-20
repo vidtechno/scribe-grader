@@ -7,9 +7,9 @@ type PlanFeature = { key: string; vars?: Record<string, number> };
 export type PlanEntitlement = {
   slug: PlanSlug;
   name: string;
-  /** Primary price, shown in US dollars. */
+  /** Price in US dollars: shown next to the so'm price and charged to Visa payers (arranged in Telegram, there is no Visa autopay). */
   priceUsd: string;
-  /** Local price for payments made in Uzbekistan. */
+  /** Main price, in so'm: the amount paid online with Click or Payme. */
   priceUzs: string;
   personal: { writing: number; speaking: number; mockTests: number };
   /** IELTS Reading and Listening practice tests that are open: a number of tests, or null for every test, unlimited. */
@@ -39,7 +39,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     ],
   },
   go: {
-    slug: 'go', name: 'Learn', priceUsd: '4', priceUzs: '49 000',
+    slug: 'go', name: 'Learn', priceUsd: '4.99', priceUzs: '49 000',
     personal: { writing: 0, speaking: 0, mockTests: 0 },
     practice: { reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS },
     features: [
@@ -54,7 +54,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     ],
   },
   plus: {
-    slug: 'plus', name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
+    slug: 'plus', name: 'IELTS', priceUsd: '11.99', priceUzs: '129 000',
     personal: { writing: 50, speaking: 30, mockTests: 6 },
     practice: { reading: null, listening: null },
     features: [
@@ -126,12 +126,21 @@ export function planPrice(value: string | null | undefined, billing: Billing) {
   };
 }
 
-/** Telegram link to @scorify_support with the order pre-filled. */
-export function purchaseLink(value: string | null | undefined, billing: Billing, publicId?: string | null) {
+export const SUPPORT_CHAT = 'https://t.me/scorify_support';
+
+/**
+ * Telegram chat for paying by Visa / international card. The site has no Visa autopay, so the owner takes these orders by hand;
+ * the message names the plan, period, dollar price (and the so'm equivalent) and the account ID.
+ */
+export function visaLink(value: string | null | undefined, billing: Billing, publicId?: string | null, lang: Lang = 'uz') {
   const p = getPlanEntitlement(value);
   const price = planPrice(value, billing);
-  const period = billing === 'month' ? '1 oy' : `${BILLING_MONTHS[billing]} oy (-${Math.round(BILLING_DISCOUNT[billing] * 100)}%)`;
-  const id = publicId ? ` Mening ID: #${publicId}.` : '';
-  const text = `Salom! Men "${p.name}" tarifini ${period} uchun sotib olmoqchiman: $${price.usd} yoki ${price.uzs} so'm.${id}`;
-  return `https://t.me/scorify_support?text=${encodeURIComponent(text)}`;
+  const text = translate(lang, 'plans.visa.message', {
+    name: p.name,
+    period: billing === 'month' ? translate(lang, 'plans.visa.oneMonth') : billingLabel(lang, billing),
+    usd: price.usd,
+    uzs: price.uzs,
+    id: publicId ? ` ID: #${publicId}.` : '',
+  });
+  return `${SUPPORT_CHAT}?text=${encodeURIComponent(text)}`;
 }

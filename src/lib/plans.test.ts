@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { READING_TESTS, LISTENING_TESTS } from '@/features/ielts/registry';
-import { billingLabel, FREE_PRACTICE_TESTS, getPlanEntitlement, planFeatures, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, planTotalUzs, purchaseLink } from './plans';
+import { billingLabel, FREE_PRACTICE_TESTS, getPlanEntitlement, planFeatures, PAID_PLAN_SLUGS, PLAN_ENTITLEMENTS, planPrice, planTotalUzs, visaLink } from './plans';
 
 describe('unified subscription entitlements', () => {
   it('offers only Learn (go) and IELTS (plus) as paid plans', () => {
@@ -17,14 +17,14 @@ describe('unified subscription entitlements', () => {
 
   it('defines Learn: 49 000 so\'m, lessons only', () => {
     expect(PLAN_ENTITLEMENTS.go).toMatchObject({
-      name: 'Learn', priceUsd: '4', priceUzs: '49 000',
+      name: 'Learn', priceUsd: '4.99', priceUzs: '49 000',
       personal: { writing: 0, speaking: 0, mockTests: 0 },
     });
   });
 
   it('defines IELTS: 129 000 so\'m, 50 Writing, 30 Speaking and 6 mock tests a month', () => {
     expect(PLAN_ENTITLEMENTS.plus).toMatchObject({
-      name: 'IELTS', priceUsd: '13', priceUzs: '129 000',
+      name: 'IELTS', priceUsd: '11.99', priceUzs: '129 000',
       personal: { writing: 50, speaking: 30, mockTests: 6 },
       practice: { reading: null, listening: null },
     });
@@ -45,9 +45,9 @@ describe('unified subscription entitlements', () => {
   });
 
   it('gives 10% off for 6 months paid in advance', () => {
-    expect(planPrice('go', 'month')).toMatchObject({ usd: '4', uzs: '49 000' });
-    expect(planPrice('go', 'half-year')).toMatchObject({ months: 6, usd: '21.60', uzs: '264 600', perMonthUzs: '44 100', saveUzs: '29 400' });
-    expect(planPrice('plus', 'half-year')).toMatchObject({ usd: '70.20', uzs: '696 600', perMonthUzs: '116 100' });
+    expect(planPrice('go', 'month')).toMatchObject({ usd: '4.99', uzs: '49 000' });
+    expect(planPrice('go', 'half-year')).toMatchObject({ months: 6, usd: '26.95', uzs: '264 600', perMonthUzs: '44 100', saveUzs: '29 400' });
+    expect(planPrice('plus', 'half-year')).toMatchObject({ usd: '64.75', uzs: '696 600', perMonthUzs: '116 100' });
   });
 
   it('gives 5% off for 3 months paid in advance', () => {
@@ -64,12 +64,29 @@ describe('unified subscription entitlements', () => {
     expect(planTotalUzs('plus', 'half-year')).toBe(696600);
   });
 
-  it('pre-fills the payment message with the plan, period and price', () => {
-    const text = decodeURIComponent(purchaseLink('plus', 'half-year', 'AB12').split('text=')[1]);
+  it('shows the fixed dollar prices next to the so\'m prices', () => {
+    expect(PLAN_ENTITLEMENTS.go.priceUsd).toBe('4.99');
+    expect(PLAN_ENTITLEMENTS.plus.priceUsd).toBe('11.99');
+    expect(planPrice('go', 'quarter')).toMatchObject({ usd: '14.22', uzs: '139 650' });
+    expect(planPrice('plus', 'month')).toMatchObject({ usd: '11.99', uzs: '129 000' });
+    expect(planPrice('plus', 'quarter').usd).toBe('34.17');
+  });
+
+  it('sends Visa payers to the Telegram chat with the plan, period, dollar price and account ID', () => {
+    const link = visaLink('plus', 'half-year', 'AB12', 'uz');
+    expect(link.startsWith('https://t.me/scorify_support?text=')).toBe(true);
+    const text = decodeURIComponent(link.split('text=')[1]);
     expect(text).toContain('"IELTS"');
-    expect(text).toContain('6 oy (-10%)');
+    expect(text).toContain('6 oy');
+    expect(text).toContain('Visa');
+    expect(text).toContain('$64.75');
     expect(text).toContain("696 600 so'm");
     expect(text).toContain('#AB12');
+    const en = decodeURIComponent(visaLink('go', 'month', null, 'en').split('text=')[1]);
+    expect(en).toContain('"Learn"');
+    expect(en).toContain('1 month');
+    expect(en).toContain('$4.99');
+    expect(en).not.toContain('#');
   });
 
   it('labels billing periods in both languages', () => {

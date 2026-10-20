@@ -39,6 +39,7 @@ const Learn = lazy(() => import("./pages/Learn"));
 const LearnLesson = lazy(() => import("./pages/LearnLesson"));
 const LearnUnitTest = lazy(() => import("./pages/LearnUnitTest"));
 const LearnDrill = lazy(() => import("./pages/LearnDrill"));
+const LearnDaily = lazy(() => import("./pages/LearnDaily"));
 const LearnPlacement = lazy(() => import("./pages/LearnPlacement"));
 const LearnLevelCheck = lazy(() => import("./pages/LearnLevelCheck"));
 const DeviceLimit = lazy(() => import("./pages/DeviceLimit"));
@@ -136,6 +137,7 @@ function AppRoutes() {
         <Route path="/listening/:id" element={<ProtectedRoute><ListeningTestPage /></ProtectedRoute>} />
         <Route path="/learn" element={<ProtectedRoute><Learn /></ProtectedRoute>} />
         <Route path="/learn/lesson/:id" element={<ProtectedRoute><LearnLesson /></ProtectedRoute>} />
+        <Route path="/learn/daily" element={<ProtectedRoute><LearnDaily /></ProtectedRoute>} />
         <Route path="/learn/drill/:id" element={<ProtectedRoute><LearnDrill /></ProtectedRoute>} />
         <Route path="/learn/test/:unitId" element={<ProtectedRoute><LearnUnitTest /></ProtectedRoute>} />
         <Route path="/learn/level-test/:level" element={<ProtectedRoute><LearnLevelTest /></ProtectedRoute>} />

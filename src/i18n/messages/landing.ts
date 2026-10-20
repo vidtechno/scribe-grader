@@ -101,7 +101,7 @@ export default {
 
     'landing.pricing.h2a': 'Simple',
     'landing.pricing.h2b': 'pricing',
-    'landing.pricing.sub': 'Learn is the English course, about 1,600 UZS a day. IELTS adds to the course: unlimited Reading and Listening, 50 AI-graded Writing and 30 Speaking assessments a month, and mock tests. 5% off for 3 months, 10% off for 6 months.',
+    'landing.pricing.sub': 'Learn is the English course, about 1,600 UZS a day ($4.99 a month). IELTS adds to the course: unlimited Reading and Listening, 50 AI-graded Writing and 30 Speaking assessments a month, and mock tests. 5% off for 3 months, 10% off for 6 months.',
 
     'landing.free.h2a': 'Free',
     'landing.free.h2b': 'guides and exercises',
@@ -134,7 +134,7 @@ export default {
     'landing.faq.4.q': "What's included in the 7-day free trial?",
     'landing.faq.4.a': 'Every new account gets 7 days of full Learn access: all lessons, pronunciation, vocabulary and the review system. No card needed.',
     'landing.faq.5.q': 'How much does it cost and how do I pay?',
-    'landing.faq.5.a': 'Learn is 49,000 UZS a month and IELTS is 129,000 UZS a month. Pay 3 months at once for 5% off, or 6 months for 10% off. You pay on the site itself with Click or Payme, and the plan turns on automatically after payment.',
+    'landing.faq.5.a': 'Learn is 49,000 UZS a month ($4.99) and IELTS is 129,000 UZS a month ($11.99). Pay 3 months at once for 5% off, or 6 months for 10% off. In Uzbekistan you pay on the site with Click or Payme, and the plan turns on automatically after payment. To pay by Visa or an international card, write to us in Telegram (@scorify_support): there is no automatic Visa payment on the site, so we arrange it by hand.',
     'landing.faq.6.q': 'Is there IELTS Writing, Speaking, Reading and Listening too?',
     'landing.faq.6.a': 'Yes, all four IELTS sections. Your Writing and Speaking answers are graded by AI (50 Writing and 30 Speaking assessments a month), 5 full tests each of Reading and Listening are UNLIMITED, and there are mock tests too. To try it out, a new account gets 1 Writing and 1 Speaking assessment and 3 Reading and 3 Listening tests for free.',
     'landing.faq.7.q': 'What are the IELTS Reading and Listening tests like?',
@@ -382,7 +382,7 @@ export default {
 
     'landing.pricing.h2a': 'Oddiy',
     'landing.pricing.h2b': 'narxlar',
-    'landing.pricing.sub': "Learn — ingliz tili kursi, kuniga taxminan 1 600 so'm. IELTS — kursga qo'shimcha: cheksiz Reading va Listening, oyiga 50 ta Writing va 30 ta Speaking AI baholash, mock testlar. 3 oyga 5%, 6 oyga 10% chegirma.",
+    'landing.pricing.sub': "Learn — ingliz tili kursi, kuniga taxminan 1 600 so'm (oyiga $4.99). IELTS — kursga qo'shimcha: cheksiz Reading va Listening, oyiga 50 ta Writing va 30 ta Speaking AI baholash, mock testlar. 3 oyga 5%, 6 oyga 10% chegirma.",
 
     'landing.free.h2a': 'Bepul',
     'landing.free.h2b': "qo'llanmalar va mashqlar",
@@ -415,7 +415,7 @@ export default {
     'landing.faq.4.q': '7 kunlik bepul davrda nima bor?',
     'landing.faq.4.a': "Har bir yangi hisobga 7 kun Learn to'liq ochiq: barcha darslar, talaffuz, lug'at va takrorlash tizimi. Karta kerak emas.",
     'landing.faq.5.q': "Narxi qancha va qanday to'layman?",
-    'landing.faq.5.a': "Learn — oyiga 49 000 so'm, IELTS — oyiga 129 000 so'm. 3 oyga birdan to'lasangiz 5%, 6 oyga 10% chegirma. To'lov Click yoki Payme orqali saytning o'zida amalga oshadi va tarif to'lovdan keyin avtomatik yoqiladi.",
+    'landing.faq.5.a': "Learn — oyiga 49 000 so'm ($4.99), IELTS — oyiga 129 000 so'm ($11.99). 3 oyga birdan to'lasangiz 5%, 6 oyga 10% chegirma. To'lov Click yoki Payme orqali saytning o'zida amalga oshadi va tarif to'lovdan keyin avtomatik yoqiladi. Visa yoki xalqaro karta bilan to'lash uchun Telegramda @scorify_support ga yozing: saytda Visa orqali avtomatik to'lov yo'q, shuning uchun uni qo'lda rasmiylashtiramiz.",
     'landing.faq.6.q': 'IELTS Writing, Speaking, Reading va Listening ham bormi?',
     'landing.faq.6.a': "Ha, IELTS ning to'rttala qismi bor. Writing va Speaking javoblaringiz AI bilan baholanadi (Writing oyiga 50 ta, Speaking oyiga 30 ta), Reading va Listening bo'yicha 5 tadan to'liq test CHEKSIZ ochiladi, shuningdek mock testlar bor. Sinab ko'rish uchun yangi hisobga 1 ta Writing, 1 ta Speaking baholash va 3 tadan Reading hamda Listening testi bepul.",
     'landing.faq.7.q': 'IELTS Reading va Listening testlari qanday?',
