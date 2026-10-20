@@ -6,16 +6,16 @@ export const CONTENT_DATES = {
   "task1": "2026-10-03",
   "speakingPart1": "2026-10-16",
   "speakingPart2": "2026-10-16",
-  "speakingPart3": "2026-10-16",
+  "speakingPart3": "2026-10-20",
   "vocabulary": "2026-10-16",
   "course": "2026-10-16",
   "learnGuides": "2026-10-16",
-  "learnWords": "2026-10-19",
+  "learnWords": "2026-10-20",
   "writingTask1Guide": "2026-10-16",
   "writingTask2Guide": "2026-10-16",
   "speakingPracticeGuide": "2026-10-16",
-  "ieltsHub": null,
-  "englishLanding": null
+  "ieltsHub": "2026-10-20",
+  "englishLanding": "2026-10-20"
 } as const satisfies Record<string, string | null>;
 
 export type ContentDateKey = keyof typeof CONTENT_DATES;
