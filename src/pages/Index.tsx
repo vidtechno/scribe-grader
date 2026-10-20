@@ -14,7 +14,7 @@ import { BEGINNER_UNITS, A1_UNITS, A2_UNITS, B1_UNITS } from '@/features/learn/c
 import { motion } from 'framer-motion';
 import {
   BookOpen, Check, CheckCircle, ChevronRight, Flame, Gift, GraduationCap, Headphones, Mic, PenLine, Repeat, Send, Sparkles, Trophy, Volume2, Zap,
-  ClipboardCheck, Clock, Target, Languages, MessagesSquare,
+  ClipboardCheck, Clock, Target, Languages, MessagesSquare, CreditCard, FileQuestion, HelpCircle, Layers, ArrowRight,
 } from 'lucide-react';
 
 const fadeUp = {
@@ -41,7 +41,7 @@ function StickyCta() {
   );
 }
 
-const FAQ_COUNT = 9;
+const FAQ_COUNT = 12;
 
 export default function Index() {
   const { user } = useAuth();
@@ -62,6 +62,8 @@ export default function Index() {
     b1Units: B1_UNITS.length,
     b1Lessons: B1_UNITS.reduce((n, u) => n + u.lessons.length, 0),
   }), []);
+
+  const totalLessons = counts.beginnerLessons + counts.a1Lessons + counts.a2Lessons + counts.b1Lessons;
 
   const steps = [
     { icon: BookOpen, k: 'explain' },
@@ -133,7 +135,7 @@ export default function Index() {
             </motion.div>
 
             <motion.h1 initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-[1.1] tracking-tight">
+              className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold mb-6 leading-[1.1] tracking-tight">
               {t('landing.hero.h1a')} <span className="gradient-text">{t('landing.hero.h1b')}</span>
             </motion.h1>
 
@@ -149,7 +151,7 @@ export default function Index() {
               ) : (
                 <>
                   <Link to="/auth"><Button variant="glow" size="xl" className="gap-2 group">{t('landing.cta.start')}<ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></Button></Link>
-                  <a href="#course"><Button variant="glass" size="xl">{t('landing.hero.viewCourse')}</Button></a>
+                  <a href="#paths"><Button variant="glass" size="xl">{t('landing.hero.viewCourse')}</Button></a>
                 </>
               )}
             </motion.div>
@@ -164,9 +166,9 @@ export default function Index() {
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="grid grid-cols-3 gap-3 mt-10">
               {[
-                { icon: Clock, value: t('landing.stat.time.v'), label: t('landing.stat.time.l') },
-                { icon: Volume2, value: t('landing.stat.pron.v'), label: t('landing.stat.pron.l') },
-                { icon: Flame, value: t('landing.stat.streak.v'), label: t('landing.stat.streak.l') },
+                { icon: BookOpen, value: t('landing.stat.a.v', { n: totalLessons }), label: t('landing.stat.a.l') },
+                { icon: Volume2, value: t('landing.stat.b.v'), label: t('landing.stat.b.l') },
+                { icon: Target, value: t('landing.stat.c.v'), label: t('landing.stat.c.l') },
               ].map(s => (
                 <div key={s.value} className="p-3 sm:p-4 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 text-left">
                   <s.icon className="h-5 w-5 mb-2 text-primary" />
@@ -204,7 +206,7 @@ export default function Index() {
                 <p className="mt-3 text-xs rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-3 py-2"><b>butter</b> {t('landing.preview.hint')} <b>much</b>.</p>
               </div>
               <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                className="absolute -top-5 right-0 sm:-right-6 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
+                className="absolute -top-10 right-0 sm:-right-6 z-30 bg-card p-3 rounded-2xl shadow-xl border border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-amber-500 grid place-items-center"><Zap className="h-5 w-5 text-white" /></div>
                   <div><div className="text-xs font-bold">+30 XP</div><div className="text-[10px] text-muted-foreground">{t('landing.preview.done')}</div></div>
@@ -222,8 +224,81 @@ export default function Index() {
         </div>
       </section>
 
-      {/* How a lesson works */}
+      {/* Two paths: General English and IELTS */}
+      <section id="paths" className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
+        <div className="max-w-5xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
+            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.paths.h2a')} <span className="gradient-text">{t('landing.paths.h2b')}</span></motion.h2>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.paths.sub')}</motion.p>
+          </motion.div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { k: 'english', icon: GraduationCap, tone: 'from-rose-500 to-orange-400', to: user ? '/learn' : '/auth' },
+              { k: 'ielts', icon: Target, tone: 'from-indigo-500 to-violet-500', to: user ? '/practice' : '/auth' },
+            ].map(x => (
+              <div key={x.k} className="glass-card p-7 flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className={`w-11 h-11 rounded-xl bg-gradient-to-br ${x.tone} grid place-items-center`}><x.icon className="h-5 w-5 text-white" /></span>
+                  <span className="text-xs font-semibold uppercase tracking-widest text-primary">{t(`landing.paths.${x.k}.tag`)}</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4">{t(`landing.paths.${x.k}.title`)}</h3>
+                <ul className="space-y-2.5 mb-6 flex-1">
+                  {[1, 2, 3].map(i => <li key={i} className="flex items-start gap-2.5 text-sm"><CheckCircle className="h-4.5 w-4.5 mt-0.5 shrink-0 text-primary" /><span>{t(`landing.paths.${x.k}.p${i}`)}</span></li>)}
+                </ul>
+                <Link to={x.to}><Button variant="glow" size="lg" className="w-full gap-2">{t(`landing.paths.${x.k}.cta`)} <ArrowRight className="h-4 w-4" /></Button></Link>
+                <p className="mt-3 text-xs text-muted-foreground text-center">{t(`landing.paths.${x.k}.note`)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The problem */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
+            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.problem.h2a')} <span className="gradient-text">{t('landing.problem.h2b')}</span></motion.h2>
+            <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.problem.sub')}</motion.p>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-5 mb-8">
+            {[{ icon: HelpCircle }, { icon: Layers }, { icon: FileQuestion }].map((x, i) => (
+              <div key={i} className="glass-card p-6">
+                <div className="w-11 h-11 rounded-xl bg-destructive/10 grid place-items-center mb-4"><x.icon className="h-5 w-5 text-destructive" /></div>
+                <h3 className="font-semibold mb-1.5">{t(`landing.problem.${i + 1}.title`)}</h3>
+                <p className="text-sm text-muted-foreground">{t(`landing.problem.${i + 1}.text`)}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-lg font-semibold max-w-2xl mx-auto"><span className="gradient-text">{t('landing.problem.solution')}</span></p>
+        </div>
+      </section>
+
+      {/* Three steps to start */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
+        <div className="max-w-5xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
+            <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.steps3.h2a')} <span className="gradient-text">{t('landing.steps3.h2b')}</span></motion.h2>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-5 mb-10">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="glass-card p-6 relative">
+                <span className="w-9 h-9 rounded-full bg-primary text-primary-foreground grid place-items-center font-bold mb-4">{i}</span>
+                <h3 className="font-semibold mb-1.5">{t(`landing.steps3.${i}.title`)}</h3>
+                <p className="text-sm text-muted-foreground">{t(`landing.steps3.${i}.text`)}</p>
+              </div>
+            ))}
+          </div>
+          {!user && (
+            <div className="text-center">
+              <Link to="/auth"><Button variant="glow" size="xl" className="gap-2">{t('landing.cta.start')} <ChevronRight className="h-5 w-5" /></Button></Link>
+              <p className="mt-3 text-sm text-muted-foreground">{t('landing.hero.noCard')} · {t('landing.hero.telegram')}</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* How a lesson works */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} className="text-center mb-14">
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.how.h2a')} <span className="gradient-text">{t('landing.how.h2b')}</span></motion.h2>
@@ -329,6 +404,12 @@ export default function Index() {
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.pricing.sub')}</motion.p>
           </motion.div>
           <PlanCards plans={subPlans} />
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2"><Languages className="h-4 w-4 text-primary" />{t('landing.trust.uz')}</span>
+            <span className="inline-flex items-center gap-2"><CreditCard className="h-4 w-4 text-primary" />{t('landing.trust.pay')}</span>
+            <span className="inline-flex items-center gap-2"><Send className="h-4 w-4 text-primary" />{t('landing.trust.tg')}</span>
+          </div>
+          <p className="mt-3 text-center text-sm font-medium">{t('landing.pricing.note')}</p>
         </div>
       </section>
 
@@ -382,6 +463,7 @@ export default function Index() {
               <h2 className="text-3xl font-bold mb-4">{t('landing.final.title')}</h2>
               <p className="text-muted-foreground mb-8 max-w-xl mx-auto">{t('landing.final.sub')}</p>
               <Link to={user ? '/learn' : '/auth'}><Button variant="glow" size="xl" className="gap-2">{user ? t('landing.final.goLearn') : t('landing.final.startFree')} <ChevronRight className="h-5 w-5" /></Button></Link>
+              {!user && <p className="mt-4 text-sm text-muted-foreground">{t('landing.hero.noCard')} · {t('landing.hero.telegram')}</p>}
             </div>
           </div>
         </div>
