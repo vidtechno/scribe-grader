@@ -2,7 +2,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { translate, type Lang } from '@/i18n';
-import { ALL_LESSONS, COURSE_UNITS, NEW_DRILL_IDS, drillIds } from './course';
+import { ALL_LESSONS, COURSE_UNITS, LEVELS, NEW_DRILL_IDS, drillIds } from './course';
+import type { LevelId } from './types';
 
 export interface LessonProgress {
   lesson_id: string; best_score: number; total: number; stars: number; attempts: number; completed_at: string | null;
@@ -159,6 +160,14 @@ export function courseMap(state: LearningState | undefined) {
     unitsPassed: path.filter((u) => passed.has(u.id)).length,
     unitsTotal: path.length,
   };
+}
+
+/**
+ * Level tabs on the course page: every released level, including the ones below the learner's starting level
+ * (their lessons are all open), plus the level being shown. Levels above stay in the list too: their lessons open one by one.
+ */
+export function levelTabs(activeLevel: LevelId) {
+  return LEVELS.filter((l) => l.available || l.id === activeLevel);
 }
 
 export function learningStats(state: LearningState | undefined, lang: Lang = 'en') {

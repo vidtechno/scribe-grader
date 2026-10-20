@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ALL_LESSONS, COURSE_UNITS, LEVELS, PLACEMENT, TRIAL_DAYS, levelOf, loadUnit } from '@/features/learn/course';
 import {
-  callLearning, courseMap, learningErrorMessage, learningStats, placementPending, trialDaysLeft, useLearningState, useRefreshLearning,
+  callLearning, courseMap, learningErrorMessage, learningStats, levelTabs, placementPending, trialDaysLeft, useLearningState, useRefreshLearning,
   type LearningState,
 } from '@/features/learn/api';
 import type { Exercise, LevelId, Word } from '@/features/learn/types';
@@ -135,7 +135,9 @@ function CourseHome({ state }: { state: LearningState }) {
   const maxXp = Math.max(20, ...stats.week.map((d) => d.xp));
   const level = levelTab ?? (map.activeLevel as LevelId);
   const startLevel = state.profile?.level ?? 'beginner';
-  const shownLevels = LEVELS.filter((l) => l.available && LEVEL_ORDER.indexOf(l.id) >= LEVEL_ORDER.indexOf(startLevel as LevelId) || l.id === level);
+  // Every released level is shown: the ones below the starting level are fully open, the ones above open lesson by lesson.
+  const shownLevels = levelTabs(level);
+  const earlierLevel = LEVEL_ORDER.indexOf(level) < LEVEL_ORDER.indexOf(startLevel as LevelId);
   if (placementPending(state)) return <PlacementGate target={(state.profile?.placement_target ?? 'a1') as LevelId} attemptsLeft={Math.max(0, PLACEMENT.attempts - (state.profile?.placement_attempts ?? 0))} />;
 
   return (
@@ -190,6 +192,7 @@ function CourseHome({ state }: { state: LearningState }) {
               ))}
             </div>
           )}
+          {earlierLevel && <p className="text-sm text-muted-foreground mb-4 rounded-xl bg-secondary/60 px-3 py-2">{t('learn.home.earlierOpen')}</p>}
           <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} />
           <section className="glass-card p-4 mt-6" aria-label={t('learn.home.weekly')}>
         <div className="flex items-center justify-between mb-3">

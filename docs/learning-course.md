@@ -55,6 +55,9 @@ lessons: unlocked in order, counted as done for learners who were already past t
   also choose a level themselves (`/learn?pick=1`). Placement is saved by `learning_start_placed`.
 - **Quick upgrade test** (`/learn/upgrade/:level`): someone who picked a level that is too easy takes a 12-question
   test on the next level (75% to pass) and moves up with `learning_upgrade_level`; lower levels stay open for review.
+- **Levels below the starting level** are fully open (every lesson, drill and unit test, `courseMap`), whichever way the learner got there (picked it, placed, upgraded):
+  the course page lists every released level as a tab (`levelTabs`), so Beginner, Elementary and Pre-Intermediate stay reachable for someone at Intermediate.
+  Lessons above the starting level still open one by one. Progress counters (`doneCount`/`total`) count the path from the starting level on.
 - **Final exams**: Beginner, Elementary, Pre-Intermediate and Intermediate end with a 20-question skills exam (4 each: grammar, vocabulary, reading,
   listening, writing; an unscored speaking part). 70% overall and at least 50% in every skill; a weak skill caps the
   score below the pass mark. Passing gives a certificate. Pre-Intermediate and Intermediate dialogues use two voices (Emma and George, by the speaker's gender; `dialog-voices.ts`).

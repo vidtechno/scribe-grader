@@ -80,3 +80,50 @@ describe('courseMap with short lessons', () => {
     expect(plan.steps[0]).toMatchObject({ id: 'u3-l2-d1', kind: 'drill', open: true });
   });
 });
+
+describe('levels below the starting level', () => {
+  const at = (level: string, ...ids: string[]) => ({ ...done(...ids), profile: { ...base.profile, level } }) as LearningState;
+
+  it('a learner who started at Elementary can open every Beginner lesson, drill and unit test', async () => {
+    const { COURSE_UNITS, drillIds } = await import('./course');
+    const m = courseMap(at('a1'));
+    const beginner = COURSE_UNITS.filter((u) => u.level === 'beginner');
+    expect(beginner.length).toBeGreaterThan(0);
+    for (const u of beginner) {
+      expect(m.unitTest.get(u.id)).toBe('open');
+      for (const l of u.lessons) {
+        expect(m.lessonState.get(l.id)).toBe('open');
+        for (const d of drillIds(l.id)) expect(m.drillState.get(d)).toBe('open');
+      }
+    }
+  });
+
+  it('someone starting at Intermediate sees Beginner, Elementary and Pre-Intermediate open, and only the first Intermediate lesson as the next step', async () => {
+    const { COURSE_UNITS } = await import('./course');
+    const m = courseMap(at('b1'));
+    for (const u of COURSE_UNITS.filter((x) => x.level !== 'b1')) for (const l of u.lessons) expect(m.lessonState.get(l.id), l.id).toBe('open');
+    const b1 = COURSE_UNITS.filter((u) => u.level === 'b1').flatMap((u) => u.lessons);
+    expect(m.lessonState.get(b1[0].id)).toBe('current');
+    expect(m.lessonState.get(b1[1].id)).toBe('locked');
+  });
+
+  it('lessons above the starting level stay locked', async () => {
+    const { COURSE_UNITS } = await import('./course');
+    const m = courseMap(at('a1'));
+    const a1 = COURSE_UNITS.filter((u) => u.level === 'a1').flatMap((u) => u.lessons);
+    expect(m.lessonState.get(a1[0].id)).toBe('current');
+    const a2 = COURSE_UNITS.filter((u) => u.level === 'a2').flatMap((u) => u.lessons);
+    for (const l of a2) expect(m.lessonState.get(l.id), l.id).toBe('locked');
+  });
+
+  it('finished Beginner lessons of such a learner stay marked done', () => {
+    expect(courseMap(at('a1', 'u1-l1', 'u1-l2')).lessonState.get('u1-l1')).toBe('done');
+  });
+
+  it('the level tabs list every released level, whichever level the learner started at', async () => {
+    const { levelTabs } = await import('./api');
+    const ids = levelTabs('a1').map((l) => l.id);
+    expect(ids).toEqual(expect.arrayContaining(['beginner', 'a1', 'a2', 'b1']));
+    expect(levelTabs('b1').map((l) => l.id)).toEqual(ids);
+  });
+});
