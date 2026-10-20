@@ -1,6 +1,6 @@
 import { listeningPage, readingPage, siteMapPage } from './_lib/practice-pages.js';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { SITE, breadcrumbLd, ctaBox, esc, notFoundPage, page, send } from './_lib/shell.js';
+import { SITE, authHref, breadcrumbLd, ctaBox, esc, notFoundPage, page, send } from './_lib/shell.js';
 import { PART1 } from './_lib/data-part1.js';
 import { CUE_CARDS } from './_lib/data-part2.js';
 import { PART3 } from './_lib/data-part3.js';
@@ -9,8 +9,10 @@ import { TASK1 } from './_lib/data-task1.js';
 import { VOCAB } from './_lib/data-vocab.js';
 import { listPosts } from './_lib/posts.js';
 import { courseHub, levelBySlug, levelPage, lessonPage } from './_lib/course-pages.js';
-import { englishLanding, guideBySlug, guideHub, guidePage, topicBySlug, wordsHub, wordsPage } from './_lib/learn-pages.js';
+import { guideBySlug, guideHub, guidePage, topicBySlug, wordsHub, wordsPage } from './_lib/learn-pages.js';
 import { renderChart } from './_lib/charts.js';
+import { englishLanding } from './_lib/en-landing.js';
+import { ieltsHub, type HubLang } from './_lib/ielts-hub.js';
 import type { CueCard, Part1Topic, Task1Page, Task2Question, Vocab, VocabPage } from './_lib/types.js';
 
 const wc = (paras: string[]) => paras.join(' ').split(/\s+/).filter(Boolean).length;
@@ -19,21 +21,20 @@ const bullets = (items: string[]) => `<ul>${items.map(i => `<li>${esc(i)}</li>`)
 const faqLd = (faq: { q: string; a: string }[]) => ({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
 /** First candidate that fits the ~60 characters search results show; the last one is the fallback. */
 const pick = (...c: string[]) => c.find(x => x.length <= 60) ?? c[c.length - 1];
-/** Learn promo shown under IELTS pages: visitors who need general English are sent to the course. */
-const learnBox = () => `<aside class="box good" style="margin-top:32px"><p><b>Need stronger English first?</b> Learn English from zero to B1 with explanations in Uzbek, audio for every word and short daily lessons: <a href="/ingliz-tili-darslari">Scorify English course</a>, 7 days free. <i>Ingliz tilini o'zbek tilida, noldan o'rganing.</i></p></aside>`;
+/** Secondary note under English IELTS pages: only people who speak Uzbek need the Uzbek-taught General English course, so it is a labelled aside, not a call to action. */
+const learnBox = () => `<aside class="box" style="margin-top:32px"><p><b>Do you speak Uzbek?</b> Scorify also has a general English course (beginner to B1) with explanations in Uzbek. It is separate from IELTS preparation: <a href="/learn-english-from-uzbek">English course taught in Uzbek</a>. More IELTS practice: <a href="/ielts">IELTS hub</a>.</p></aside>`;
 const faqHtml = (faq: { q: string; a: string }[]) => faq.map(f => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
-const crumbs = (...items: [string, string?][]) => ['<a href="/">Home</a>', '<a href="/blog">Blog</a>', ...items.map(([t, h]) => (h ? `<a href="${h}">${esc(t)}</a>` : esc(t)))].join(' / ');
+const crumbs = (...items: [string, string?][]) => ['<a href="/">Home</a>', '<a href="/ielts">IELTS</a>', ...items.map(([t, h]) => (h ? `<a href="${h}">${esc(t)}</a>` : esc(t)))].join(' / ');
 const hero = (eyebrow: string, h1: string, lead: string, trail: string) => `<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb">${trail}</nav><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p></div></section>`;
 const article = (extra: object, title: string, desc: string) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, inLanguage: 'en', author: { '@type': 'Organization', name: 'Scorify.uz' }, publisher: { '@type': 'Organization', name: 'Scorify.uz', logo: { '@type': 'ImageObject', url: `${SITE}/logo.png` } }, ...extra });
 const link = (base: string, slug: string, text: string) => `<a class="card" href="${base}/${slug}"><div class="body"><h3>${esc(text)}</h3></div></a>`;
-const ld = (trail: [string, string][]) => breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }, ...trail.map(([name, path]) => ({ name, path }))]);
+const ld = (trail: [string, string][]) => breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'IELTS', path: '/ielts' }, ...trail.map(([name, path]) => ({ name, path }))]);
 
 /** Latest blog articles related to a topic tag, so every practice page promotes fresh guides. Falls back to nothing if the database is unavailable. */
 async function studyGuides(tag: 'writing' | 'speaking' | 'band score') {
   try {
     const posts = (await listPosts(60)).filter(p => p.lang === 'en' && p.tags.includes(tag)).slice(0, 3);
-    const uz = (await listPosts(60)).filter(p => p.lang === 'uz').slice(0, 1);
-    const picks = [...posts, ...uz];
+    const picks = posts;
     if (!picks.length) return '';
     return `<section class="section"><h2>Study guides</h2><div class="grid">${picks.map(p => `<a class="card" href="/blog/${esc(p.slug)}"><div class="body"><h3>${esc(p.title)}</h3>${p.excerpt ? `<p>${esc(p.excerpt)}</p>` : ''}</div></a>`).join('')}</div></section>`;
   } catch { return ''; }
@@ -62,7 +63,7 @@ function qaHub(key: 'sp1' | 'sp3') {
   const body = `${hero(`IELTS Speaking Part ${c.part}`, c.hubH1, c.hubLead, crumbs([`Speaking Part ${c.part}`]))}
 <main class="page"><div class="wrap"><div class="grid">${c.data.map(t => `<a class="card" href="${c.base}/${t.slug}"><div class="body"><h3>${esc(t.title)}</h3><p>${esc(t.intro)}</p></div></a>`).join('')}</div>
 <section class="section"><h2>How Part ${c.part} works</h2><p>${esc(c.how)}</p></section>
-<section class="section"><h2>Other Speaking parts</h2><div class="grid">${(['1', '2', '3'] as const).filter(n => n !== c.part).map(n => `<a class="card" href="/ielts-speaking-part-${n}"><div class="body"><h3>Speaking Part ${n}</h3><p>Topics, questions and sample answers.</p></div></a>`).join('')}</div></section>${ctaBox(`Practise Part ${c.part} out loud`, c.cta, '/auth', 'Practise speaking')}</div></main>`;
+<section class="section"><h2>Other Speaking parts</h2><div class="grid">${(['1', '2', '3'] as const).filter(n => n !== c.part).map(n => `<a class="card" href="/ielts-speaking-part-${n}"><div class="body"><h3>Speaking Part ${n}</h3><p>Topics, questions and sample answers.</p></div></a>`).join('')}</div></section>${ctaBox(`Practise Part ${c.part} out loud`, c.cta, authHref('/speaking'), 'Practise speaking')}</div></main>`;
   return page({ title: `${c.hubTitle} | Scorify.uz`, description: `${c.data.length} ${c.hubDesc}`, path: c.base, body, jsonLd: [ld([[`Speaking Part ${c.part}`, c.base]])] });
 }
 async function qaPage(key: 'sp1' | 'sp3', t: Part1Topic) {
@@ -76,7 +77,7 @@ async function qaPage(key: 'sp1' | 'sp3', t: Part1Topic) {
 <section class="section"><h2>Useful vocabulary</h2>${vocabList(t.vocab)}</section>
 <section class="section"><h2>Tips for this topic</h2>${bullets(t.tips)}</section>
 ${await studyGuides('speaking')}
-${ctaBox(`Answer these ${t.title.toLowerCase()} questions yourself`, 'Record your own answers and get instant feedback on fluency, grammar, vocabulary and pronunciation.', '/auth', 'Practise speaking')}
+${ctaBox(`Answer these ${t.title.toLowerCase()} questions yourself`, 'Record your own answers and get instant feedback on fluency, grammar, vocabulary and pronunciation.', authHref('/speaking'), 'Practise speaking')}
 ${learnBox()}
 <section class="section"><h2>More Part ${c.part} topics</h2><div class="grid">${others.map(o => link(c.base, o.slug, o.title)).join('')}</div></section>
 </div></main>`;
@@ -97,7 +98,7 @@ function part2Hub() {
 <section class="section"><h2>How to answer a cue card</h2><p>You get one minute to prepare and then speak for up to two minutes. Use your minute to jot down keywords for each bullet point, start with a clear opening sentence and finish with a short reflection. Talking for the full two minutes matters: stopping early limits your fluency score. For a step-by-step method, read <a href="/blog/ielts-speaking-part-2-how-to-speak-for-two-minutes">how to speak for two minutes in Part 2</a>.</p></section>
 <section class="section"><h2>IELTS Speaking Part 2: common questions</h2>${faqHtml(faq)}</section>
 <section class="section"><h2>Other Speaking parts</h2><div class="grid"><a class="card" href="/ielts-speaking-part-1"><div class="body"><h3>Speaking Part 1 topics</h3><p>Short everyday questions with model answers.</p></div></a><a class="card" href="/ielts-speaking-part-3"><div class="body"><h3>Speaking Part 3 questions</h3><p>Abstract discussion questions with developed answers.</p></div></a><a class="card" href="/ielts-speaking-practice"><div class="body"><h3>Speaking practice with AI feedback</h3><p>Record an answer and get a band estimate.</p></div></a></div></section>
-${ctaBox('Time yourself on a real cue card', 'Practise Part 2 with a timer, record your answer and get a band estimate.', '/auth', 'Practise Part 2')}</div></main>`;
+${ctaBox('Time yourself on a real cue card', 'Practise Part 2 with a timer, record your answer and get a band estimate.', authHref('/speaking'), 'Practise Part 2')}</div></main>`;
   return page({ title: `IELTS Speaking Part 2: ${CUE_CARDS.length} Cue Cards with Answers | Scorify.uz`, description: `How long is IELTS Speaking Part 2? You prepare for 1 minute and speak for 1–2 minutes. ${CUE_CARDS.length} cue cards with band 7 sample answers, vocabulary and Part 3 questions.`, path: '/ielts-speaking-part-2', body, jsonLd: [faqLd(faq), ld([['Speaking Part 2', '/ielts-speaking-part-2']])] });
 }
 async function part2Page(c: CueCard) {
@@ -113,7 +114,7 @@ async function part2Page(c: CueCard) {
 <section class="section"><h2>Tips for this cue card</h2>${bullets(c.tips)}</section>
 <section class="section"><h2>Part 3 follow-up questions</h2>${c.part3.map(x => `<div class="qa"><h3>${esc(x.q)}</h3><p><strong>Idea:</strong> ${esc(x.idea)}</p></div>`).join('')}<p>More discussion questions with full answers: <a href="/ielts-speaking-part-3">IELTS Speaking Part 3 topics</a>.</p></section>
 ${await studyGuides('speaking')}
-${ctaBox('Now record your own answer', 'Speak for two minutes and get a fluency, grammar, vocabulary and pronunciation score with feedback.', '/auth', 'Practise this topic')}
+${ctaBox('Now record your own answer', 'Speak for two minutes and get a fluency, grammar, vocabulary and pronunciation score with feedback.', authHref('/speaking'), 'Practise this topic')}
 ${learnBox()}
 <section class="section"><h2>More cue cards</h2><div class="grid">${others.map(o => link('/ielts-speaking-part-2', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
@@ -126,7 +127,7 @@ function task2Hub() {
   const body = `${hero('IELTS Writing Task 2', 'IELTS Writing Task 2 questions, outlines and band 7+ sample essays', 'Real-style essay questions grouped by topic, each with an analysis of the task, a clear plan, a full model essay and vocabulary.', crumbs(['Writing Task 2 questions']))}
 <main class="page"><div class="wrap">${cats.map(cat => `<section class="section"><h2>${esc(cat)}</h2><div class="grid">${TASK2.filter(c => c.category === cat).map(c => `<a class="card" href="/ielts-writing-task-2-questions/${c.slug}"><div class="body"><div class="meta"><span>${esc(c.type)}</span></div><h3>${esc(c.title)}</h3><p>${esc(c.question)}</p></div></a>`).join('')}</div></section>`).join('')}
 <section class="section"><h2>The five essay types</h2><ul><li><strong>Opinion:</strong> state clearly whether you agree or disagree and defend that position throughout.</li><li><strong>Discussion + opinion:</strong> explain both views fairly, then give your own.</li><li><strong>Problem and solution:</strong> describe the main problems, then suggest realistic solutions.</li><li><strong>Advantages and disadvantages:</strong> weigh both sides, then say which is stronger if asked.</li><li><strong>Two-part question:</strong> answer each question directly in its own paragraph.</li></ul></section>
-${ctaBox('Write your own essay and get a band score', 'Pick a question, write for 40 minutes and receive criterion scores and corrections from AI.', '/auth', 'Practise Writing')}</div></main>`;
+${ctaBox('Write your own essay and get a band score', 'Pick a question, write for 40 minutes and receive criterion scores and corrections from AI.', authHref('/writing'), 'Practise Writing')}</div></main>`;
   return page({ title: 'IELTS Writing Task 2 Questions, Outlines and Sample Essays | Scorify.uz', description: `${TASK2.length} IELTS Writing Task 2 questions with analysis, essay plans and full band 7+ sample answers. Practise free with AI feedback.`, path: '/ielts-writing-task-2-questions', body, jsonLd: [ld([['Writing Task 2 questions', '/ielts-writing-task-2-questions']])] });
 }
 async function task2Page(q: Task2Question) {
@@ -150,7 +151,7 @@ async function task2Page(q: Task2Question) {
 <section class="section"><h2>Useful vocabulary</h2>${vocabList(q.vocab)}</section>
 <section class="section"><h2>Common mistakes on this question</h2>${bullets(q.mistakes)}</section>
 ${await studyGuides('writing')}
-${ctaBox('Write your own answer to this question', 'Get a band score, criterion feedback and corrections on your essay in seconds.', '/auth', 'Check my essay')}
+${ctaBox('Write your own answer to this question', 'Get a band score, criterion feedback and corrections on your essay in seconds.', authHref('/writing'), 'Check my essay')}
 <section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section>
 ${learnBox()}
 <section class="section"><h2>More Task 2 questions</h2><div class="grid">${others.map(o => link('/ielts-writing-task-2-questions', o.slug, o.title)).join('')}</div></section>
@@ -164,7 +165,7 @@ function task1Hub() {
   const body = `${hero('IELTS Writing Task 1', 'IELTS Writing Task 1 samples: graphs, charts, tables and processes', 'Academic Task 1 questions with the chart, what to notice, a band 7 model report and the language you need for each chart type.', crumbs(['Writing Task 1 samples']))}
 <main class="page"><div class="wrap">${types.map(tp => `<section class="section"><h2>${esc(tp)}</h2><div class="grid">${TASK1.filter(c => c.chartType === tp).map(c => `<a class="card" href="/ielts-writing-task-1-samples/${c.slug}"><div class="body"><h3>${esc(c.title)}</h3><p>${esc(c.question)}</p></div></a>`).join('')}</div></section>`).join('')}
 <section class="section"><h2>How to write a Task 1 report</h2><ol><li><strong>Introduce:</strong> paraphrase what the chart shows in one sentence.</li><li><strong>Overview:</strong> state the two or three main trends or features without numbers.</li><li><strong>Detail paragraphs:</strong> group related information and support it with key figures.</li></ol><p>Write at least 150 words in about 20 minutes. Do not give opinions or explain reasons; describe only what the data shows.</p></section>
-${ctaBox('Describe a chart and get a band score', 'Write your Task 1 report and receive criterion scores and corrections from AI.', '/auth', 'Practise Task 1')}</div></main>`;
+${ctaBox('Describe a chart and get a band score', 'Write your Task 1 report and receive criterion scores and corrections from AI.', authHref('/writing'), 'Practise Task 1')}</div></main>`;
   return page({ title: 'IELTS Writing Task 1 Samples: Graphs, Charts, Tables | Scorify.uz', description: `${TASK1.length} IELTS Writing Task 1 questions with charts, overviews, band 7 model reports and useful language. Practise free with AI feedback.`, path: '/ielts-writing-task-1-samples', body, jsonLd: [ld([['Writing Task 1 samples', '/ielts-writing-task-1-samples']])] });
 }
 async function task1Page(t: Task1Page) {
@@ -186,7 +187,7 @@ async function task1Page(t: Task1Page) {
 <section class="section"><h2>Useful language for this chart type</h2>${vocabList(t.language)}</section>
 <section class="section"><h2>Common mistakes</h2>${bullets(t.mistakes)}</section>
 ${await studyGuides('writing')}
-${ctaBox('Write your own report and get a band score', 'Describe a chart in 20 minutes and receive criterion scores and corrections from AI.', '/auth', 'Practise Task 1')}
+${ctaBox('Write your own report and get a band score', 'Describe a chart in 20 minutes and receive criterion scores and corrections from AI.', authHref('/writing'), 'Practise Task 1')}
 <section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section>
 ${learnBox()}
 <section class="section"><h2>More Task 1 samples</h2><div class="grid">${others.map(o => link('/ielts-writing-task-1-samples', o.slug, o.title)).join('')}</div></section>
@@ -199,7 +200,7 @@ function vocabHub() {
   const body = `${hero('IELTS vocabulary', 'IELTS vocabulary by topic with meanings and examples', 'Topic word lists for Writing and Speaking. Every word comes with a short meaning and an example sentence you can adapt.', crumbs(['Vocabulary']))}
 <main class="page"><div class="wrap"><div class="grid">${VOCAB.map(v => `<a class="card" href="/ielts-vocabulary/${v.slug}"><div class="body"><h3>${esc(v.title)}</h3><p>${esc(v.intro)}</p></div></a>`).join('')}</div>
 <section class="section"><h2>How to learn vocabulary for IELTS</h2><p>Learn words in collocations (natural word partners), write one sentence of your own for each, and use the words in a Writing or Speaking practice within 24 hours. Words that are never used are quickly forgotten.</p></section>
-${ctaBox('Use the words in a real answer', 'Write or record an answer on any topic and see how your vocabulary is scored.', '/auth', 'Try Scorify free')}</div></main>`;
+${ctaBox('Use the words in a real answer', 'Write or record an answer on any topic and see how your vocabulary is scored.', authHref('/writing'), 'Try Scorify free')}</div></main>`;
   return page({ title: 'IELTS Vocabulary by Topic: Word Lists and Examples | Scorify.uz', description: `${VOCAB.length} IELTS vocabulary lists by topic with meanings and example sentences for Writing and Speaking.`, path: '/ielts-vocabulary', body, jsonLd: [ld([['Vocabulary', '/ielts-vocabulary']])] });
 }
 async function vocabPage(v: VocabPage) {
@@ -210,7 +211,7 @@ async function vocabPage(v: VocabPage) {
 ${v.groups.map(g => `<section class="section"><h2>${esc(g.head)}</h2><div class="table-scroll"><table class="data"><thead><tr><th>Word or phrase</th><th>Meaning</th><th>Example</th></tr></thead><tbody>${g.items.map(i => `<tr><th scope="row">${esc(i.word)}</th><td>${esc(i.meaning)}</td><td>${esc(i.example)}</td></tr>`).join('')}</tbody></table></div></section>`).join('')}
 <section class="section"><h2>How to use these words well</h2>${bullets(v.tips)}</section>
 ${await studyGuides('writing')}
-${ctaBox('Use these words in your own answer', 'Write an essay or record a speaking answer and see how your vocabulary is scored.', '/auth', 'Try Scorify free')}
+${ctaBox('Use these words in your own answer', 'Write an essay or record a speaking answer and see how your vocabulary is scored.', authHref('/writing'), 'Try Scorify free')}
 ${learnBox()}
 <section class="section"><h2>More vocabulary lists</h2><div class="grid">${others.map(o => link('/ielts-vocabulary', o.slug, o.title)).join('')}</div></section>
 </div></main>`;
@@ -238,7 +239,7 @@ async function calculator() {
 <section class="section"><h2>Examples of overall band calculations</h2><div class="table-scroll"><table class="data"><thead><tr><th>Listening / Reading / Writing / Speaking</th><th>Average</th><th>Overall band</th></tr></thead><tbody>${examples}</tbody></table></div></section>
 ${await studyGuides('band score')}
 <section class="section"><h2>Improve your Writing and Speaking scores</h2><p>Writing and Speaking are usually the hardest to raise without feedback. Scorify gives you an estimated band, criterion scores and corrections after every practice.</p></section>
-${ctaBox()}<section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section></div></main>`;
+${ctaBox(undefined, undefined, authHref('/writing'))}<section class="section"><h2>Frequently asked questions</h2>${faqHtml(faq)}</section></div></main>`;
   return page({ title: 'IELTS Overall Band Score Calculator (with Rounding) | Scorify.uz', description: 'Free IELTS band score calculator: enter your Listening, Reading, Writing and Speaking scores and see your overall band with the official rounding rule (6.25 → 6.5, 6.75 → 7.0).', path: '/ielts-band-score-calculator', body, jsonLd: [faqLd(faq), { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'IELTS Band Score Calculator', url: `${SITE}/ielts-band-score-calculator`, applicationCategory: 'EducationalApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }, ld([['Band score calculator', '/ielts-band-score-calculator']])] });
 }
 
@@ -271,6 +272,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse 
       case 'guide': { if (!slug) return send(res, 200, guideHub()); const g = guideBySlug(slug); return g ? send(res, 200, guidePage(g)) : missing(); }
       case 'words': { if (!slug) return send(res, 200, wordsHub()); const t = topicBySlug(slug); return t ? send(res, 200, wordsPage(t)) : missing(); }
       case 'en-learn': return send(res, 200, englishLanding());
+      case 'ielts-hub': return send(res, 200, await ieltsHub((url.searchParams.get('lang') === 'uz' ? 'uz' : 'en') as HubLang));
       default: return missing();
     }
   } catch (e) {

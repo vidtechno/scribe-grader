@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { BookOpen, Headphones, Loader2, ShieldCheck, Sparkles, Mic, PenLine } from 'lucide-react';
 import { toast } from 'sonner';
 import { authErrorMessage } from '@/lib/auth-errors';
 import { supabase } from '@/integrations/supabase/client';
-import { safeReturnTo } from '@/lib/returnTo';
+import { rememberReturnTo, safeReturnTo } from '@/lib/returnTo';
 import { isTelegramWebApp } from '@/lib/telegram';
 import { TelegramLoginButton } from '@/components/TelegramLoginButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -18,14 +18,16 @@ export default function Auth() {
   const { t } = useT();
   const [loading, setLoading] = useState(false);
   const next = safeReturnTo(new URLSearchParams(window.location.search).get('next'));
-  if (next !== '/dashboard') sessionStorage.setItem('scorify:returnTo', next);
-  else sessionStorage.removeItem('scorify:returnTo');
+  // Remember the destination for the Google round trip; no destination in the URL clears an old one.
+  useEffect(() => { rememberReturnTo(next); }, [next]);
   // Google sign-in is blocked inside Telegram's in-app browser: the Mini App signs in with Telegram instead.
   if (isTelegramWebApp()) return <Navigate to={`/tg?next=${encodeURIComponent(next)}`} replace />;
 
   const signInWithGoogle = async () => {
     setLoading(true);
-    const callback = `${window.location.origin}/auth/callback${next === '/dashboard' ? '' : `?next=${encodeURIComponent(next)}`}`;
+    // The redirect URL stays plain (it must match the one registered with the provider); /auth/callback reads the remembered destination.
+    rememberReturnTo(next);
+    const callback = `${window.location.origin}/auth/callback`;
     const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: callback } });
     if (error) { setLoading(false); toast.error(authErrorMessage(error)); }
   };

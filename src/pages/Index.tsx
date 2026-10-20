@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useT } from '@/i18n';
+import { useSuggestedLang, useT, type Lang } from '@/i18n';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
@@ -23,8 +23,29 @@ const fadeUp = {
 };
 const stagger = { visible: { transition: { staggerChildren: 0.08 } } };
 
+/**
+ * A page's language is its address. When the visitor probably prefers the other one (saved choice, browser language or country),
+ * a small hint offers the other version instead of switching anything by itself.
+ */
+function LangHint({ lang }: { lang: Lang }) {
+  const suggested = useSuggestedLang();
+  const [hidden, setHidden] = useState(false);
+  if (hidden || !suggested || suggested === lang) return null;
+  const toUz = lang === 'en';
+  return (
+    <div className="pt-16 bg-secondary/40 border-b border-border text-sm">
+      <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-center gap-3">
+        <a href={toUz ? '/uz' : '/'} hrefLang={toUz ? 'uz' : 'en'} lang={toUz ? 'uz' : 'en'} className="font-medium text-primary underline underline-offset-2">
+          {toUz ? "Bu sahifaning o'zbekcha versiyasini ochish" : 'Open the English version of this page'}
+        </a>
+        <button type="button" aria-label="Close" onClick={() => setHidden(true)} className="text-muted-foreground hover:text-foreground">×</button>
+      </div>
+    </div>
+  );
+}
+
 /** Mobile-only call to action that appears once a visitor has scrolled past the hero. */
-function StickyCta() {
+function StickyCta({ href }: { href: string }) {
   const { t } = useT();
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -36,7 +57,7 @@ function StickyCta() {
   if (!show) return null;
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-background/95 backdrop-blur border-t border-border safe-area-bottom">
-      <Link to="/auth"><Button variant="glow" size="lg" className="w-full gap-2">{t('landing.cta.start')} <ChevronRight className="h-5 w-5" /></Button></Link>
+      <Link to={href}><Button variant="glow" size="lg" className="w-full gap-2">{t('landing.cta.start')} <ChevronRight className="h-5 w-5" /></Button></Link>
     </div>
   );
 }
@@ -91,8 +112,13 @@ export default function Index() {
     { title: 'Intermediate', tag: 'B1', k: 'b1', exam: true, units: counts.b1Units, lessons: counts.b1Lessons, tone: 'from-violet-500 to-purple-400' },
   ].map(l => ({ ...l, text: t(`landing.level.${l.k}.text`) }));
 
-  const faq = Array.from({ length: FAQ_COUNT }, (_, i) => ({ q: t(`landing.faq.${i + 1}.q`), a: t(`landing.faq.${i + 1}.a`) }));
+  // The English page leads with the IELTS questions; the Uzbek page with the English course.
+  const faqOrder = lang === 'en' ? [12, 6, 7, 10, 13, 5, 11, 4, 1, 3, 2, 8, 9] : Array.from({ length: FAQ_COUNT }, (_, i) => i + 1);
+  const faq = faqOrder.map(i => ({ q: t(`landing.faq.${i}.q`), a: t(`landing.faq.${i}.a`) }));
   const base = lang === 'uz' ? '/uz' : '/';
+  // The first call to action follows the page's audience: IELTS practice on the English page, the Uzbek-taught course on the Uzbek page.
+  const startHref = lang === 'en' ? '/auth?next=%2Fpractice' : '/auth?next=%2Flearn';
+  const appHref = lang === 'en' ? '/practice' : '/learn';
 
   const landingJsonLd = [
     {
@@ -108,18 +134,8 @@ export default function Index() {
     },
   ];
 
-  return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      <SEOHead
-        title={t('landing.seo.title')}
-        exactTitle
-        description={t('landing.seo.desc')}
-        path={base}
-        alternates={{ en: '/', uz: '/uz' }}
-        jsonLd={landingJsonLd}
-      />
-      <Navbar />
-
+  const heroSection = (
+    <>
       {/* Hero */}
       <section className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -147,11 +163,11 @@ export default function Index() {
             <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               {user ? (
-                <Link to="/learn"><Button variant="glow" size="xl" className="gap-2">{t('landing.hero.continue')} <ChevronRight className="h-5 w-5" /></Button></Link>
+                <Link to={appHref}><Button variant="glow" size="xl" className="gap-2">{t('landing.hero.continue')} <ChevronRight className="h-5 w-5" /></Button></Link>
               ) : (
                 <>
-                  <Link to="/auth"><Button variant="glow" size="xl" className="gap-2 group">{t('landing.cta.start')}<ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></Button></Link>
-                  <a href="#paths"><Button variant="glass" size="xl">{t('landing.hero.viewCourse')}</Button></a>
+                  <Link to={startHref}><Button variant="glow" size="xl" className="gap-2 group">{t('landing.cta.start')}<ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></Button></Link>
+                  <a href={lang === 'en' ? '#course' : '#paths'}><Button variant="glass" size="xl">{t('landing.hero.viewCourse')}</Button></a>
                 </>
               )}
             </motion.div>
@@ -166,9 +182,17 @@ export default function Index() {
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="grid grid-cols-3 gap-3 mt-10">
               {[
-                { icon: BookOpen, value: t('landing.stat.a.v', { n: totalLessons }), label: t('landing.stat.a.l') },
-                { icon: Volume2, value: t('landing.stat.b.v'), label: t('landing.stat.b.l') },
-                { icon: Target, value: t('landing.stat.c.v'), label: t('landing.stat.c.l') },
+                ...(lang === 'en'
+                  ? [
+                    { icon: Target, value: t('landing.statIelts.1.v'), label: t('landing.statIelts.1.l') },
+                    { icon: BookOpen, value: t('landing.statIelts.2.v'), label: t('landing.statIelts.2.l') },
+                    { icon: Clock, value: t('landing.statIelts.3.v'), label: t('landing.statIelts.3.l') },
+                  ]
+                  : [
+                    { icon: BookOpen, value: t('landing.stat.a.v', { n: totalLessons }), label: t('landing.stat.a.l') },
+                    { icon: Volume2, value: t('landing.stat.b.v'), label: t('landing.stat.b.l') },
+                    { icon: Target, value: t('landing.stat.c.v'), label: t('landing.stat.c.l') },
+                  ]),
               ].map(s => (
                 <div key={s.value} className="p-3 sm:p-4 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 text-left">
                   <s.icon className="h-5 w-5 mb-2 text-primary" />
@@ -224,6 +248,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const pathsSection = (
+    <>
       {/* Two paths: General English and IELTS */}
       <section id="paths" className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
         <div className="max-w-5xl mx-auto">
@@ -233,9 +262,9 @@ export default function Index() {
           </motion.div>
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { k: 'english', icon: GraduationCap, tone: 'from-rose-500 to-orange-400', to: user ? '/learn' : '/auth' },
-              { k: 'ielts', icon: Target, tone: 'from-indigo-500 to-violet-500', to: user ? '/practice' : '/auth' },
-            ].map(x => (
+              { k: 'english', icon: GraduationCap, tone: 'from-rose-500 to-orange-400', to: user ? '/learn' : '/auth?next=%2Flearn' },
+              { k: 'ielts', icon: Target, tone: 'from-indigo-500 to-violet-500', to: user ? '/practice' : '/auth?next=%2Fpractice' },
+            ].sort((a) => (lang === 'en' ? (a.k === 'ielts' ? -1 : 1) : (a.k === 'english' ? -1 : 1))).map(x => (
               <div key={x.k} className="glass-card p-7 flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
                   <span className={`w-11 h-11 rounded-xl bg-gradient-to-br ${x.tone} grid place-items-center`}><x.icon className="h-5 w-5 text-white" /></span>
@@ -253,6 +282,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const problemSection = (
+    <>
       {/* The problem */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
@@ -273,6 +307,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const steps3Section = (
+    <>
       {/* Three steps to start */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
         <div className="max-w-5xl mx-auto">
@@ -290,13 +329,18 @@ export default function Index() {
           </div>
           {!user && (
             <div className="text-center">
-              <Link to="/auth"><Button variant="glow" size="xl" className="gap-2">{t('landing.cta.start')} <ChevronRight className="h-5 w-5" /></Button></Link>
+              <Link to={startHref}><Button variant="glow" size="xl" className="gap-2">{t('landing.cta.start')} <ChevronRight className="h-5 w-5" /></Button></Link>
               <p className="mt-3 text-sm text-muted-foreground">{t('landing.hero.noCard')} · {t('landing.hero.telegram')}</p>
             </div>
           )}
         </div>
       </section>
 
+    </>
+  );
+
+  const howSection = (
+    <>
       {/* How a lesson works */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -317,6 +361,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const courseSection = (
+    <>
       {/* Course levels */}
       <section id="course" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -342,6 +391,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const featuresSection = (
+    <>
       {/* Features */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
         <div className="max-w-6xl mx-auto">
@@ -365,6 +419,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const ieltsSection = (
+    <>
       {/* IELTS (secondary) */}
       <section className="py-20 px-4 sm:px-6 lg:px-8" id="ielts">
         <div className="max-w-6xl mx-auto">
@@ -408,6 +467,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const pricingSection = (
+    <>
       {/* Pricing */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20" id="pricing">
         <div className="max-w-6xl mx-auto">
@@ -425,6 +489,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const freeSection = (
+    <>
       {/* Free material: internal links for readers and search engines */}
       <section className="py-16 px-4 sm:px-6 lg:px-8" id="free-material">
         <div className="max-w-6xl mx-auto">
@@ -450,6 +519,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const faqSection = (
+    <>
       {/* FAQ */}
       <section className="py-20 px-4 sm:px-6 lg:px-8" id="faq">
         <div className="max-w-3xl mx-auto">
@@ -465,6 +539,11 @@ export default function Index() {
         </div>
       </section>
 
+    </>
+  );
+
+  const finalSection = (
+    <>
       {/* CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -480,6 +559,11 @@ export default function Index() {
           </div>
         </div>
       </section>
+    </>
+  );
+
+  const guidesSection = (
+    <>
 
       <section className="py-14 px-4 sm:px-6 border-t border-border" aria-labelledby="free-guides-heading">
         <div className="max-w-6xl mx-auto">
@@ -495,6 +579,32 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+    </>
+  );
+
+  return (
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <SEOHead
+        title={t('landing.seo.title')}
+        exactTitle
+        description={t('landing.seo.desc')}
+        path={base}
+        alternates={{ en: '/', uz: '/uz' }}
+        jsonLd={landingJsonLd}
+      />
+      <Navbar />
+      <LangHint lang={lang} />
+
+      {lang === 'en' ? (
+        <>
+          {heroSection}{pathsSection}{ieltsSection}{problemSection}{steps3Section}{courseSection}{featuresSection}{pricingSection}{freeSection}{faqSection}{finalSection}{guidesSection}
+        </>
+      ) : (
+        <>
+          {heroSection}{pathsSection}{problemSection}{steps3Section}{howSection}{courseSection}{featuresSection}{ieltsSection}{pricingSection}{freeSection}{faqSection}{finalSection}{guidesSection}
+        </>
+      )}
 
       {/* Footer */}
       <footer className="py-10 px-4 border-t border-border">
@@ -526,7 +636,8 @@ export default function Index() {
         <p className="max-w-6xl mx-auto mt-8 text-sm text-muted-foreground">© {new Date().getFullYear()} Scorify.uz. {t('landing.footer.disclaimer')}</p>
       </footer>
 
-      {!user && <StickyCta />}
+
+      {!user && <StickyCta href={startHref} />}
     </div>
   );
 }

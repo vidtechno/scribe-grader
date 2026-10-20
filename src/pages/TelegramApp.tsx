@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { currentLang, translate, useT } from '@/i18n';
+import { safeReturnTo } from '@/lib/returnTo';
 import { loadTelegramWebApp, markTelegramWebApp, miniAppPath, signInWithTokenHash, telegramAuth } from '@/lib/telegram';
 
 /** Bot deep-link sections (`startapp` / start_param) mapped to app pages. */
@@ -23,6 +24,8 @@ export default function TelegramApp() {
   const { user } = useAuth();
   const [status, setStatus] = useState<'working' | 'outside' | 'error'>('working');
   const [message, setMessage] = useState('');
+  // Opened outside Telegram: sign-in on the website keeps the page this link was meant for.
+  const [signInNext, setSignInNext] = useState('/dashboard');
   // Page to open and the account that must be signed in before opening it.
   const [target, setTarget] = useState<{ path: string; userId: string } | null>(null);
 
@@ -33,6 +36,7 @@ export default function TelegramApp() {
       const tg = await loadTelegramWebApp();
       if (cancelled) return;
       if (!tg?.initData) {
+        setSignInNext(safeReturnTo(new URLSearchParams(window.location.search).get('next')));
         const { data } = await supabase.auth.getSession();
         if (data.session) navigate(next, { replace: true });
         else setStatus('outside');
@@ -80,7 +84,7 @@ export default function TelegramApp() {
           <Send className="h-10 w-10 mx-auto text-primary" />
           <h1 className="text-xl font-bold">{t('tgApp.outsideTitle')}</h1>
           <p className="text-sm text-muted-foreground">{t('tgApp.outsideText')}</p>
-          <Button variant="glow" onClick={() => navigate('/auth', { replace: true })}>{t('tgApp.goSignIn')}</Button>
+          <Button variant="glow" onClick={() => navigate(signInNext === '/dashboard' ? '/auth' : `/auth?next=${encodeURIComponent(signInNext)}`, { replace: true })}>{t('tgApp.goSignIn')}</Button>
         </div>
       )}
       {status === 'error' && (

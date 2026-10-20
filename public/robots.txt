@@ -1,5 +1,13 @@
+# Public pages are open to all crawlers, including the Uzbek sections (/uz, /uz/ielts, /uz/blog).
+# Private app routes are NOT blocked here for pages that must be able to show a noindex tag;
+# only account/admin areas with no public content are disallowed.
 User-agent: *
 Allow: /
+Allow: /uz
+Allow: /uz/ielts
+Allow: /uz/blog
+Allow: /ielts
+Allow: /blog
 Disallow: /admin
 Disallow: /dashboard
 Disallow: /profile

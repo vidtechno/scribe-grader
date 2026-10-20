@@ -33,11 +33,20 @@ function read(store: Storage | undefined, key: string): Lang | null {
   } catch { return null; }
 }
 
-/** The person's own choice wins; then the /uz landing page; then the country (Uzbekistan → Uzbek); then the browser language. */
+/** The two public landing pages have a language of their own, decided only by the address. */
+export function landingLang(pathname: string): Lang | null {
+  const p = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
+  return p === '/' ? 'en' : p === '/uz' ? 'uz' : null;
+}
+
+/**
+ * Language of the app (signed-in pages, toasts): the person's own choice, then the country guess of this session, then the browser
+ * language. The public landing pages ignore all of that: `/` is English and `/uz` is Uzbek, whoever opens them.
+ */
 export function initialLang(pathname: string): Lang {
+  const fixed = landingLang(pathname) ?? (pathname.startsWith('/uz/') ? 'uz' : null);
+  if (fixed) return fixed;
   if (typeof window === 'undefined') return 'en';
-  // The address wins: /uz is the Uzbek page even for someone who chose English before.
-  if (pathname === '/uz' || pathname.startsWith('/uz/')) return 'uz';
   const chosen = read(window.localStorage, STORE_KEY);
   if (chosen) return chosen;
   const geo = read(window.sessionStorage, GEO_KEY);
@@ -60,19 +69,18 @@ const LanguageContext = createContext<LanguageContextType>({ lang: 'en', setLang
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const [lang, setLangState] = useState<Lang>(() => initialLang(pathname));
-
-  // /uz is the Uzbek landing page: opening it (a search result, a shared link) switches the site to Uzbek.
-  useEffect(() => {
-    if (pathname === '/uz') setLangState('uz');
-  }, [pathname]);
+  // `pref` is the app language. On the landing pages the address decides, without touching the saved choice.
+  const [pref, setPref] = useState<Lang>(() => initialLang(pathname));
+  const fixed = landingLang(pathname) ?? (pathname.startsWith('/uz/') ? 'uz' : null);
+  const lang: Lang = fixed ?? pref;
 
   useEffect(() => { document.documentElement.lang = lang; }, [lang]);
 
-  // First visit without a saved choice: people in Uzbekistan get Uzbek, everyone else English. Crawlers (US) keep English.
+  // First visit without a saved choice: the signed-in app starts in the language of the visitor's country (Uzbekistan → Uzbek).
+  // Public pages are never switched by this: their language is the address.
   useEffect(() => {
-    if (import.meta.env.MODE === 'test' || typeof window === 'undefined') return;
-    if (read(window.localStorage, STORE_KEY) || read(window.sessionStorage, GEO_KEY) || pathname === '/uz') return;
+    if (import.meta.env.MODE === 'test' || typeof window === 'undefined' || fixed) return;
+    if (read(window.localStorage, STORE_KEY) || read(window.sessionStorage, GEO_KEY)) return;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 2500);
     fetch('/api/geo', { cache: 'no-store', signal: controller.signal })
@@ -80,24 +88,48 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       .then((d: { country?: string } | null) => {
         const guess: Lang = d?.country === 'UZ' ? 'uz' : 'en';
         try { window.sessionStorage.setItem(GEO_KEY, guess); } catch { /* storage unavailable */ }
-        if (!read(window.localStorage, STORE_KEY)) setLangState(guess);
+        if (!read(window.localStorage, STORE_KEY)) setPref(guess);
       })
       .catch(() => {})
       .finally(() => clearTimeout(timer));
     return () => { clearTimeout(timer); controller.abort(); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fixed]);
 
   const setLang = useCallback((next: Lang) => {
     try { window.localStorage.setItem(STORE_KEY, next); } catch { /* storage unavailable */ }
-    setLangState(next);
+    setPref(next);
     // The landing page has one address per language, so search engines and shared links stay correct.
-    if (pathname === '/' && next === 'uz') navigate('/uz');
-    else if (pathname === '/uz' && next === 'en') navigate('/');
+    if (landingLang(pathname) === 'en' && next === 'uz') navigate('/uz');
+    else if (landingLang(pathname) === 'uz' && next === 'en') navigate('/');
   }, [pathname, navigate]);
 
   const value = useMemo(() => ({ lang, setLang }), [lang, setLang]);
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+}
+
+/**
+ * The language this visitor probably prefers (saved choice, browser language, or the country of this session), or null if unknown.
+ * It only drives a hint such as "this page is also available in Uzbek"; it never changes what a public address shows.
+ */
+export function useSuggestedLang(): Lang | null {
+  const [suggested, setSuggested] = useState<Lang | null>(null);
+  useEffect(() => {
+    if (import.meta.env.MODE === 'test' || typeof window === 'undefined') return;
+    const known = read(window.localStorage, STORE_KEY) ?? read(window.sessionStorage, GEO_KEY) ?? (/^uz\b/i.test(navigator.language || '') ? 'uz' : null);
+    if (known) { setSuggested(known); return; }
+    const controller = new AbortController();
+    fetch('/api/geo', { cache: 'no-store', signal: controller.signal })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { country?: string } | null) => {
+        const guess: Lang = d?.country === 'UZ' ? 'uz' : 'en';
+        try { window.sessionStorage.setItem(GEO_KEY, guess); } catch { /* storage unavailable */ }
+        setSuggested(guess);
+      })
+      .catch(() => {});
+    return () => controller.abort();
+  }, []);
+  return suggested;
 }
 
 export function useLang(): LanguageContextType {

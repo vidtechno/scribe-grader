@@ -1,4 +1,4 @@
-import { SITE, breadcrumbLd, ctaBox, esc, page } from './shell.js';
+import { SITE, authHref, breadcrumbLd, ctaBox, esc, page } from './shell.js';
 import { COURSE } from './data-course.js';
 import { COURSE_BASE } from './course-pages.js';
 import { GUIDES, type Guide, type GuideSection } from './data-learn-guides.js';
@@ -14,6 +14,7 @@ export const EN_LANDING = '/learn-english-from-uzbek';
 const LEVEL_TITLE: Record<string, string> = { beginner: 'Beginner', elementary: 'Elementary (A1)', 'pre-intermediate': 'Pre-Intermediate (A2)', intermediate: 'Intermediate (B1)' };
 const lessonHref = (l: [string, string]) => `${COURSE_BASE}/${l[0]}/${l[1]}`;
 const lessonTitle = (l: [string, string]) => COURSE.find(x => x.slug === l[0])?.units.flatMap(u => u.lessons).find(x => x.slug === l[1])?.titleUz ?? '';
+const lessonId = (l: [string, string]) => COURSE.find(x => x.slug === l[0])?.units.flatMap(u => u.lessons).find(x => x.slug === l[1])?.id;
 const crumbs = (...items: [string, string?][]) => ['<a href="/">Bosh sahifa</a>', ...items.map(([t, h]) => (h ? `<a href="${h}">${esc(t)}</a>` : esc(t)))].join(' / ');
 const hero = (eyebrow: string, h1: string, lead: string, trail: string) =>
   `<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb">${trail}</nav><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p></div></section>`;
@@ -27,7 +28,7 @@ const table = (t: NonNullable<GuideSection['table']>) =>
   `<div class="table-scroll"><table class="data"><thead><tr>${t.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
 const examples = (ex: [string, string][]) => `<ul class="vocab">${ex.map(([en, uz]) => `<li><b>${esc(en)}</b> — ${esc(uz)}</li>`).join('')}</ul>`;
 const lessonCta = (l: [string, string], what: string) =>
-  ctaBox(`${what} darsda mashqlar va audio bilan o'tang`, `«${lessonTitle(l)}» darsi: qisqa tushuntirish, talaffuz audiosi, mashqlar va yakuniy savollar. Ro'yxatdan o'ting va hoziroq boshlang.`, '/auth', 'Darsni boshlash');
+  ctaBox(`${what} darsda mashqlar va audio bilan o'tang`, `«${lessonTitle(l)}» darsi: qisqa tushuntirish, talaffuz audiosi, mashqlar va yakuniy savollar. Ro'yxatdan o'ting va hoziroq boshlang.`, authHref(lessonId(l) ? `/learn/lesson/${lessonId(l)}` : '/learn'), 'Darsni boshlash');
 
 
 /** A short in-page quiz built from the topic's own words: visitors start practising before they sign up. */
@@ -134,10 +135,11 @@ ${lessonCta(t.lesson, 'Bu mavzuni')}
 }
 
 /* ---------- English-language landing ---------- */
+const COURSE_LESSON_TOTAL = COURSE.reduce((n, l) => n + l.units.reduce((m, u) => m + u.lessons.length, 0), 0);
 const EN_FAQ = [
   { q: 'Can I learn English from zero in Uzbek?', a: 'Yes. Scorify.uz has a full beginner course for Uzbek speakers: every explanation is in Uzbek, examples and exercises are in English, and every word has audio.' },
   { q: 'Is the course free?', a: 'Every new account gets a 7-day free trial of the course. After that you can continue with a paid plan, paid in Uzbek sums.' },
-  { q: 'Which levels are available?', a: 'Beginner, Elementary (A1), Pre-Intermediate (A2) and Intermediate (B1): about 360 lessons in total, with unit tests and a placement test if you already know some English.' },
+  { q: 'Which levels are available?', a: `Beginner, Elementary (A1), Pre-Intermediate (A2) and Intermediate (B1): ${COURSE_LESSON_TOTAL} lessons in total, with unit tests and a placement test if you already know some English.` },
   { q: 'Does it work on a phone?', a: 'Yes. Lessons run in the browser on any phone or computer, and there is a Telegram bot with reminders and a Mini App.' },
   { q: 'Is there IELTS preparation too?', a: 'Yes. Scorify.uz also gives AI feedback on IELTS Writing and Speaking with estimated band scores, plus free sample answers and guides.' },
 ];

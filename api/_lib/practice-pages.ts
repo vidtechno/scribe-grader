@@ -1,5 +1,5 @@
 // Public search pages for IELTS Reading and Listening practice, and the human-readable site map.
-import { SITE, breadcrumbLd, ctaBox, esc, page } from './shell.js';
+import { SITE, authHref, breadcrumbLd, ctaBox, esc, page } from './shell.js';
 import { COURSE_BASE } from './course-pages.js';
 import { GUIDE_BASE, WORDS_BASE } from './learn-pages.js';
 import { GUIDES } from './data-learn-guides.js';
@@ -15,8 +15,8 @@ import { listPosts } from './posts.js';
 
 const faqLd = (faq: { q: string; a: string }[]) => ({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
 const faqHtml = (faq: { q: string; a: string }[]) => faq.map(f => `<details class="faq"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
-const hero = (eyebrow: string, h1: string, lead: string, crumb: string) =>
-  `<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / ${esc(crumb)}</nav><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p></div></section>`;
+const hero = (eyebrow: string, h1: string, lead: string, crumb: string, underIelts = true) =>
+  `<section class="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / ${underIelts ? '<a href="/ielts">IELTS</a> / ' : ''}${esc(crumb)}</nav><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p></div></section>`;
 const table = (head: string[], rows: string[][]) =>
   `<div class="table-scroll"><table class="data"><thead><tr>${head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
 
@@ -68,14 +68,14 @@ export function readingPage(): string {
 <li><b>Review every wrong answer.</b> Find the sentence that proves the answer and note why you missed it: vocabulary, paraphrase or timing.</li>
 <li><b>Track question types.</b> If you lose most marks on one type, practise that type alone for a week.</li>
 <li><b>Build topic vocabulary.</b> Read about science, history, society and the environment; see <a href="/ielts-vocabulary">IELTS vocabulary by topic</a>.</li></ul></section>
-${ctaBox('Try a free IELTS Reading test', 'Full tests with 3 passages, 40 questions and a 60-minute timer. You get an estimated band, accuracy by question type and a review of every answer. Tests 1 to 3 are free.', '/auth', 'Start a free test')}
+${ctaBox('Try a free IELTS Reading test', 'Full tests with 3 passages, 40 questions and a 60-minute timer. You get an estimated band, accuracy by question type and a review of every answer. Tests 1 to 3 are free.', authHref('/reading'), 'Start a free test')}
 <section class="section"><h2>IELTS Reading FAQ</h2>${faqHtml(faq)}</section>
-<section class="section"><h2>Keep going</h2><div class="grid"><a class="card" href="/ielts-listening-practice"><div class="body"><h3>IELTS Listening practice</h3><p>Four sections, 40 questions and a band score table.</p></div></a><a class="card" href="/ielts-writing-task-2-questions"><div class="body"><h3>Writing Task 2 questions</h3><p>Questions with plans and model essays.</p></div></a><a class="card" href="/ielts-speaking-part-2"><div class="body"><h3>Speaking Part 2 cue cards</h3><p>Model answers and vocabulary.</p></div></a></div></section>
+<section class="section"><h2>Keep going</h2><div class="grid"><a class="card" href="/ielts"><div class="body"><h3>IELTS practice hub</h3><p>Writing, Speaking, Reading and Listening in one place.</p></div></a><a class="card" href="/ielts-listening-practice"><div class="body"><h3>IELTS Listening practice</h3><p>Four sections, 40 questions and a band score table.</p></div></a><a class="card" href="/ielts-writing-task-2-questions"><div class="body"><h3>Writing Task 2 questions</h3><p>Questions with plans and model essays.</p></div></a><a class="card" href="/ielts-speaking-part-2"><div class="body"><h3>Speaking Part 2 cue cards</h3><p>Model answers and vocabulary.</p></div></a></div></section>
 </div></main>`;
   return page({
     title: 'IELTS Reading Practice: Question Types and Band Table | Scorify.uz', path: '/ielts-reading-practice', body,
     description: 'Free IELTS Reading practice: 3 passages, 40 questions, 60 minutes. Every question type explained, raw score to band table and a review of each answer.',
-    jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'IELTS Reading practice', path: '/ielts-reading-practice' }]), faqLd(faq)],
+    jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'IELTS', path: '/ielts' }, { name: 'IELTS Reading practice', path: '/ielts-reading-practice' }]), faqLd(faq)],
   });
 }
 
@@ -104,24 +104,24 @@ export function listeningPage(): string {
 <li><b>Practise with exam rules.</b> Listen once, write answers as you hear them and check spelling afterwards.</li>
 <li><b>Read the transcript after each test.</b> Find every missed answer in the text and note the distractor that fooled you.</li>
 <li><b>Train numbers and names.</b> Dates, prices, phone numbers and spelled names appear in almost every test.</li></ul></section>
-${ctaBox('Try a free IELTS Listening test', 'Full tests with 4 sections, 40 questions and audio. Exam mode plays each recording once; practice mode lets you replay. You get an estimated band, a transcript and a review of every answer. Tests 1 to 3 are free.', '/auth', 'Start a free test')}
+${ctaBox('Try a free IELTS Listening test', 'Full tests with 4 sections, 40 questions and audio. Exam mode plays each recording once; practice mode lets you replay. You get an estimated band, a transcript and a review of every answer. Tests 1 to 3 are free.', authHref('/listening'), 'Start a free test')}
 <section class="section"><h2>IELTS Listening FAQ</h2>${faqHtml(faq)}</section>
-<section class="section"><h2>Keep going</h2><div class="grid"><a class="card" href="/ielts-reading-practice"><div class="body"><h3>IELTS Reading practice</h3><p>Question types and a band score table.</p></div></a><a class="card" href="/ielts-speaking-part-1"><div class="body"><h3>Speaking Part 1 topics</h3><p>Model answers for everyday questions.</p></div></a><a class="card" href="/ielts-vocabulary"><div class="body"><h3>IELTS vocabulary by topic</h3><p>Word lists with examples.</p></div></a></div></section>
+<section class="section"><h2>Keep going</h2><div class="grid"><a class="card" href="/ielts"><div class="body"><h3>IELTS practice hub</h3><p>Writing, Speaking, Reading and Listening in one place.</p></div></a><a class="card" href="/ielts-reading-practice"><div class="body"><h3>IELTS Reading practice</h3><p>Question types and a band score table.</p></div></a><a class="card" href="/ielts-speaking-part-1"><div class="body"><h3>Speaking Part 1 topics</h3><p>Model answers for everyday questions.</p></div></a><a class="card" href="/ielts-vocabulary"><div class="body"><h3>IELTS vocabulary by topic</h3><p>Word lists with examples.</p></div></a></div></section>
 </div></main>`;
   return page({
     title: 'IELTS Listening Practice: Sections, Tips and Band Table | Scorify.uz', path: '/ielts-listening-practice', body,
     description: 'Free IELTS Listening practice: 4 sections, 40 questions with audio. Question types explained, raw score to band table and a transcript review.',
-    jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'IELTS Listening practice', path: '/ielts-listening-practice' }]), faqLd(faq)],
+    jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'IELTS', path: '/ielts' }, { name: 'IELTS Listening practice', path: '/ielts-listening-practice' }]), faqLd(faq)],
   });
 }
 
 /** Every public page in one place: helps visitors find things and gives crawlers a short path to each section. */
 export async function siteMapPage(): Promise<string> {
   const list = (items: [string, string][]) => `<ul class="vocab cols2">${items.map(([h, t]) => `<li><a href="${esc(h)}">${esc(t)}</a></li>`).join('')}</ul>`;
-  let posts: { slug: string; title: string }[] = [];
+  let posts: { slug: string; title: string; lang: string }[] = [];
   try { posts = await listPosts(); } catch { /* the blog is optional here */ }
   const sec = (title: string, href: string, items: [string, string][]) => `<section class="section"><h2><a href="${href}">${esc(title)}</a></h2>${list(items)}</section>`;
-  const body = `${hero('Site map', 'All Scorify.uz pages: English course and IELTS practice', 'Every lesson, grammar guide, word list and IELTS practice page in one place.', 'Site map')}
+  const body = `${hero('Site map', 'All Scorify.uz pages: English course and IELTS practice', 'Every lesson, grammar guide, word list and IELTS practice page in one place.', 'Site map', false)}
 <main class="page"><div class="wrap">
 ${sec('English course (in Uzbek)', COURSE_BASE, COURSE.map(l => [`${COURSE_BASE}/${l.slug}`, `${l.title} ${l.cefr}`] as [string, string]))}
 ${sec('Grammar rules', GUIDE_BASE, GUIDES.map(g => [`${GUIDE_BASE}/${g.slug}`, g.h1] as [string, string]))}
@@ -132,8 +132,9 @@ ${sec('IELTS Speaking Part 3 topics', '/ielts-speaking-part-3', PART3.map(t => [
 ${sec('IELTS Writing Task 2 questions', '/ielts-writing-task-2-questions', TASK2.map(t => [`/ielts-writing-task-2-questions/${t.slug}`, t.title] as [string, string]))}
 ${sec('IELTS Writing Task 1 samples', '/ielts-writing-task-1-samples', TASK1.map(t => [`/ielts-writing-task-1-samples/${t.slug}`, t.title] as [string, string]))}
 ${sec('IELTS vocabulary', '/ielts-vocabulary', VOCAB.map(t => [`/ielts-vocabulary/${t.slug}`, t.title] as [string, string]))}
-${sec('IELTS tools and practice', '/ielts-reading-practice', [['/ielts-reading-practice', 'IELTS Reading practice'], ['/ielts-listening-practice', 'IELTS Listening practice'], ['/ielts-band-score-calculator', 'IELTS band score calculator'], ['/ielts-speaking-practice', 'IELTS Speaking practice'], ['/ielts-writing-task-2', 'IELTS Writing Task 2 guide'], ['/ielts-writing-task-1', 'IELTS Writing Task 1 guide']])}
-${posts.length ? sec('Blog', '/blog', posts.map(p => [`/blog/${p.slug}`, p.title] as [string, string])) : ''}
+${sec('IELTS tools and practice', '/ielts-reading-practice', [['/ielts', 'IELTS practice hub (English)'], ['/uz/ielts', 'IELTS o‘zbek tilida (Uzbek IELTS hub)'], ['/ielts-reading-practice', 'IELTS Reading practice'], ['/ielts-listening-practice', 'IELTS Listening practice'], ['/ielts-band-score-calculator', 'IELTS band score calculator'], ['/ielts-speaking-practice', 'IELTS Speaking practice'], ['/ielts-writing-task-2', 'IELTS Writing Task 2 guide'], ['/ielts-writing-task-1', 'IELTS Writing Task 1 guide']])}
+${posts.some(p => p.lang === 'en') ? sec('Blog: articles in English', '/blog', posts.filter(p => p.lang === 'en').map(p => [`/blog/${p.slug}`, p.title] as [string, string])) : ''}
+${posts.some(p => p.lang === 'uz') ? sec('Blog: maqolalar o‘zbek tilida', '/uz/blog', posts.filter(p => p.lang === 'uz').map(p => [`/blog/${p.slug}`, p.title] as [string, string])) : ''}
 </div></main>`;
   return page({
     title: 'Site Map: English Course and IELTS Practice | Scorify.uz', path: '/sitemap', body,

@@ -53,13 +53,10 @@ export function SEOHead({ title, description, path = '', noindex, exactTitle, js
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={desc} />
-      {alternates && !noindex && (
-        <>
-          {alternates.en && <link rel="alternate" hrefLang="en" href={`${BASE_URL}${alternates.en}`} />}
-          {alternates.uz && <link rel="alternate" hrefLang="uz" href={`${BASE_URL}${alternates.uz}`} />}
-          <link rel="alternate" hrefLang="x-default" href={`${BASE_URL}${alternates.en ?? alternates.uz}`} />
-        </>
-      )}
+      {/* react-helmet-async only reads direct children: no fragments here. */}
+      {alternates?.en && !noindex && <link rel="alternate" hrefLang="en" href={`${BASE_URL}${alternates.en}`} />}
+      {alternates?.uz && !noindex && <link rel="alternate" hrefLang="uz" href={`${BASE_URL}${alternates.uz}`} />}
+      {alternates && !noindex && <link rel="alternate" hrefLang="x-default" href={`${BASE_URL}${alternates.en ?? alternates.uz}`} />}
       {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
     </Helmet>
   );

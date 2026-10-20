@@ -20,6 +20,16 @@
       "source": "/blog/computer-based-ielts-writing",
       "destination": "/blog",
       "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/uz/index.html",
+      "destination": "/uz",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -30,6 +40,18 @@
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
+    },
+    {
+      "source": "/ielts",
+      "destination": "/api/seo?kind=ielts-hub"
+    },
+    {
+      "source": "/uz/ielts",
+      "destination": "/api/seo?kind=ielts-hub&lang=uz"
+    },
+    {
+      "source": "/uz/blog",
+      "destination": "/api/blog?locale=uz"
     },
     {
       "source": "/blog/rss.xml",
@@ -152,8 +174,132 @@
       "destination": "/ielts-speaking-practice.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/auth",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/auth/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/tg",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/reset-password",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/vocabulary",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/grammar-test",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/practice",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/reading",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/reading/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/listening",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/listening/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/learn/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/support",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/exam",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/writing",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/result/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/essays",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/leaderboard",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/speaking",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/speaking-result/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/speaking-history",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/drafts",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/referral",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/profile",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/people",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/u/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/mock-test",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/mock-test/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/app.html"
     }
   ],
   "headers": [
@@ -413,6 +559,96 @@
     },
     {
       "source": "/learn/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/reading",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/reading/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/listening",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/listening/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/support",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/people",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/u/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/admin/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/app.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/404.html",
       "headers": [
         {
           "key": "X-Robots-Tag",

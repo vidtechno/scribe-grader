@@ -71,7 +71,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (!user) {
     // Inside the Telegram Mini App the session is restored from Telegram, keeping the requested page.
     if (isTelegramWebApp()) return <Navigate to={`/tg?next=${encodeURIComponent(miniAppPath(location.pathname + location.search))}`} replace />;
-    return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname))}`} replace />;
+    return <Navigate to={`/auth?next=${encodeURIComponent(safeReturnTo(location.pathname + location.search))}`} replace />;
   }
   if (devices.status === 'checking') return <LoadingScreen />;
   if (devices.status === 'pending') return <DeviceLimit />;
