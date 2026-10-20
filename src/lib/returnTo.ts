@@ -17,8 +17,17 @@ export const RETURN_TO_ROOTS = [
 const ORIGIN = 'https://return-to.invalid';
 const MAX_LENGTH = 512;
 
-const CONTROL = new RegExp('[\\u0000-\\u001f\\u007f-\\u009f\\u2028\\u2029]');
-const SAFE_SEARCH = /^\?[A-Za-z0-9\-._~%=&+,:@!*'()\/]*$/;
+/** C0/C1 control characters and the Unicode line separators: none may appear in a destination. Checked by code point, not by a regex. */
+const CONTROL = {
+  test(text: string): boolean {
+    for (let i = 0; i < text.length; i++) {
+      const c = text.charCodeAt(i);
+      if (c <= 0x1f || (c >= 0x7f && c <= 0x9f) || c === 0x2028 || c === 0x2029) return true;
+    }
+    return false;
+  },
+};
+const SAFE_SEARCH = /^\?[A-Za-z0-9\-._~%=&+,:@!*'()/]*$/;
 const SAFE_HASH = /^#[A-Za-z0-9\-_]*$/;
 
 export function safeReturnTo(value: string | null | undefined): string {

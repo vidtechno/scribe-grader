@@ -32,7 +32,7 @@ const lesson: Lesson = {
           ['Yaxshilash', 'I\'m working on it by making a clear plan every day.'],
           ['Yutuq', 'I\'m proud of finishing a big project on time.'],
         ] },
-        { t: 'tip', tone: 'good', md: "Zaif tomon haqida *I\'m lazy* yoki *I have no weaknesses* demang. Haqiqiy, kichik kamchilikni ayting va **qanday yaxshilayotganingizni** qo'shing." },
+        { t: 'tip', tone: 'good', md: "Zaif tomon haqida *I'm lazy* yoki *I have no weaknesses* demang. Haqiqiy, kichik kamchilikni ayting va **qanday yaxshilayotganingizni** qo'shing." },
         { t: 'check', ex: { k: 'choice', q: "Which is the best answer to 'What is your weakness?'", opts: ['I sometimes work too slowly, so I\'m learning to plan my time.', 'I have no weaknesses.', 'I don\'t like work.', 'I am always late.'], a: 0, why: "Kamchilik + uni yaxshilash = yaxshi javob." } },
       ],
     },
