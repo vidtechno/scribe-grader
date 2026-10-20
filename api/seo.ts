@@ -10,6 +10,7 @@ import { VOCAB } from './_lib/data-vocab.js';
 import { listPosts } from './_lib/posts.js';
 import { courseHub, levelBySlug, levelPage, lessonPage } from './_lib/course-pages.js';
 import { guideBySlug, guideHub, guidePage, topicBySlug, wordsHub, wordsPage } from './_lib/learn-pages.js';
+import { part3Extra } from './_lib/part3-extra.js';
 import { renderChart } from './_lib/charts.js';
 import { englishLanding } from './_lib/en-landing.js';
 import { ieltsHub, type HubLang } from './_lib/ielts-hub.js';
@@ -69,11 +70,12 @@ function qaHub(key: 'sp1' | 'sp3') {
 async function qaPage(key: 'sp1' | 'sp3', t: Part1Topic) {
   const c = QA[key]; const path = `${c.base}/${t.slug}`;
   const others = c.data.filter(x => x.slug !== t.slug).slice(0, 6);
-  const title = pick(`IELTS Speaking Part ${c.part}: ${t.title} Questions and Answers`, `IELTS Speaking Part ${c.part}: ${t.title} Answers`, `Speaking Part ${c.part}: ${t.title} Answers`);
-  const desc = `${t.qa.length} real IELTS Speaking Part ${c.part} questions about ${t.title.toLowerCase()} with band 7 sample answers, useful vocabulary and examiner tips. Practise free with AI feedback.`;
+  const title = t.seoTitle ?? pick(`IELTS Speaking Part ${c.part}: ${t.title} Questions and Answers`, `IELTS Speaking Part ${c.part}: ${t.title} Answers`, `Speaking Part ${c.part}: ${t.title} Answers`);
+  const desc = t.seoDesc ?? `${t.qa.length} real IELTS Speaking Part ${c.part} questions about ${t.title.toLowerCase()} with band 7 sample answers, useful vocabulary and examiner tips. Practise free with AI feedback.`;
   const body = `${hero(`IELTS Speaking Part ${c.part}`, `${t.title}: IELTS Speaking Part ${c.part} questions and answers`, t.intro, crumbs([`Speaking Part ${c.part}`, c.base], [t.title]))}
 <main class="page"><div class="narrow">
 <section><h2>Questions and sample answers</h2>${t.qa.map(x => `<div class="qa"><h3>${esc(x.q)}</h3><p>${esc(x.a)}</p></div>`).join('')}</section>
+${part3Extra(t)}
 <section class="section"><h2>Useful vocabulary</h2>${vocabList(t.vocab)}</section>
 <section class="section"><h2>Tips for this topic</h2>${bullets(t.tips)}</section>
 ${await studyGuides('speaking')}

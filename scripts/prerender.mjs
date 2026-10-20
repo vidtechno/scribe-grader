@@ -31,6 +31,16 @@ const mod = await import(pathToFileURL(join(ssrOut, 'prerender.js')).href);
 const template = readFileSync(join(dist, 'index.html'), 'utf8');
 if (!template.includes('<!--app-html-->') || !template.includes('<!--head-seo-->')) throw new Error('index.html template markers are missing');
 
+// Ownership tags for Bing / Yandex / Google: only written when the owner set the codes in the build environment.
+const verification = [
+  ['msvalidate.01', process.env.BING_SITE_VERIFICATION],
+  ['yandex-verification', process.env.YANDEX_SITE_VERIFICATION],
+  ['google-site-verification', process.env.GOOGLE_SITE_VERIFICATION],
+]
+  .filter(([, v]) => v && /^[A-Za-z0-9_\-:.]+$/.test(v))
+  .map(([n, v]) => `<meta name="${n}" content="${v}">`)
+  .join('\n');
+
 const put = (html, ...path) => {
   const file = join(dist, ...path);
   mkdirSync(resolve(file, '..'), { recursive: true });
@@ -39,7 +49,7 @@ const put = (html, ...path) => {
 const fill = (rendered, { lang, keepSiteJsonLd = true, extraHead = '' }) => {
   let out = template
     .replace('<html lang="en">', `<html lang="${lang}">`)
-    .replace('<!--head-seo-->', rendered.head + extraHead)
+    .replace('<!--head-seo-->', rendered.head + extraHead + (keepSiteJsonLd ? verification : ''))
     .replace('<!--app-html-->', rendered.html);
   if (!keepSiteJsonLd) out = out.replace(/<!--site-jsonld-start-->[\s\S]*?<!--site-jsonld-end-->/, '');
   return out;

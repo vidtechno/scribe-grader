@@ -3,7 +3,10 @@ export type Vocab = [word: string, meaning: string];
 export type Part1Topic = {
   slug: string; title: string; intro: string;
   qa: { q: string; a: string }[]; vocab: Vocab[]; tips: string[];
+  /** Optional per-page search snippet and extra sections (see part3-extra.ts) for pages that need more than the standard template. */
+  seoTitle?: string; seoDesc?: string; extra?: Part3Extra[];
 };
+export type Part3Extra = { id: string; h2: string; p?: string[]; steps?: [label: string, text: string][]; quote?: string; qa?: { q: string; a: string }[]; list?: string[] };
 
 export type CueCard = {
   slug: string; title: string; category: string; cue: string; points: string[];

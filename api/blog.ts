@@ -165,10 +165,12 @@ async function renderPost(post: Post) {
   const title = post.seo_title || post.title;
   const description = post.seo_description || post.excerpt || plain(post.content_html).slice(0, 155);
   const path = `/blog/${post.slug}`;
-  const alt = post.alt_slug ? all.find(p => p.slug === post.alt_slug) : null;
+  const altRow = post.alt_slug ? all.find(p => p.slug === post.alt_slug) : null;
+  // a counterpart is a real two-way pair in the other language; a lone article gets no hreflang at all
+  const alt = altRow && altRow.lang !== post.lang && altRow.alt_slug === post.slug ? altRow : null;
   const altPost = alt;
   const c = ui(post.lang);
-  const alternates = [{ lang: post.lang, path }, ...(alt ? [{ lang: alt.lang, path: `/blog/${alt.slug}` }, { lang: 'x-default', path: post.lang === 'en' ? path : `/blog/${alt.slug}` }] : [])];
+  const alternates = alt ? [{ lang: post.lang, path }, { lang: alt.lang, path: `/blog/${alt.slug}` }, { lang: 'x-default', path: post.lang === 'en' ? path : `/blog/${alt.slug}` }] : undefined;
   const wordCount = plain(post.content_html).split(' ').filter(Boolean).length;
   const faq = extractFaq(post.content_html);
   const track = `<script>(function(){try{var k='scorify_vid',v=localStorage.getItem(k);if(!v){v=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Math.random()).slice(2)+Date.now();localStorage.setItem(k,v)}fetch(${JSON.stringify(SUPABASE_URL)}+'/rest/v1/rpc/track_blog_view',{method:'POST',headers:{apikey:${JSON.stringify(SUPABASE_KEY)},'Content-Type':'application/json'},body:JSON.stringify({_slug:${JSON.stringify(post.slug)},_visitor:v}),keepalive:true})}catch(e){}})()</script>`;
