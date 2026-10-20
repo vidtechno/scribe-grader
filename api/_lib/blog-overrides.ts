@@ -13,6 +13,7 @@
 import {
   GRAPH_PRACTICE, GRAPH_WORKED, PART2_ANSWER, PART2_TIMER, SCORED_ARTICLE, TIMER_SCRIPT,
   UZ_T1_MODEL_SECTION, UZ_T1_PRACTICE, UZ_T2_ANALYSIS, UZ_T2_PRACTICE,
+  SOURCES_EN_BLOCK, SOURCES_UZ_BLOCK,
 } from './blog-override-content.js';
 
 export { TIMER_SCRIPT };
@@ -50,6 +51,7 @@ export const OVERRIDES: Record<string, Override> = {
       { before: '<h2>The language of change</h2>', html: GRAPH_WORKED },
       { before: '<h2>Frequently asked questions</h2>', html: GRAPH_PRACTICE },
     ],
+    insertBeforeEnd: SOURCES_EN_BLOCK,
   },
 
   // ---- Uzbek: Task 1 (DB post)
@@ -63,6 +65,7 @@ export const OVERRIDES: Record<string, Override> = {
       { before: '<h2>Diagramma turlari va ularga mos iboralar</h2>', html: UZ_T1_MODEL_SECTION },
       { before: '<h2>Haqiqiy diagrammalar bilan mashq qiling</h2>', html: UZ_T1_PRACTICE },
     ],
+    insertBeforeEnd: SOURCES_UZ_BLOCK,
   },
 
   // ---- Uzbek: Task 2 (DB post)
@@ -76,6 +79,7 @@ export const OVERRIDES: Record<string, Override> = {
       { before: '<h2>Eng ko‘p uchraydigan 7 ta xato</h2>', html: UZ_T2_ANALYSIS },
       { before: '<h2>Mashq qiling va natijani o‘lchang</h2>', html: UZ_T2_PRACTICE },
     ],
+    insertBeforeEnd: SOURCES_UZ_BLOCK,
   },
 
   // ---- English: how scoring works (static post: the whole body is replaced)
@@ -97,6 +101,7 @@ export const OVERRIDES: Record<string, Override> = {
     updated_at: MODIFIED,
     insertAtStart: PART2_ANSWER,
     insertions: [{ before: '<h2>The two-minute plan</h2>', html: PART2_TIMER }],
+    insertBeforeEnd: SOURCES_EN_BLOCK,
   },
 };
 

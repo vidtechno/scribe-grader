@@ -10,6 +10,11 @@ const btn = (href: string, label: string) => `<a class="btn" href="${href}">${la
 
 /* ------------------------------------------------------------------ EN: how to describe a graph */
 
+/** Links to the official IELTS information. The article is a simplified summary, so it points readers to the owners of the test. */
+export const SOURCES_EN = `<p>This is a simplified summary of public IELTS information. For the current rules, check the official sources: <a href="https://ielts.org/" rel="noopener" target="_blank">ielts.org (IELTS)</a>, <a href="https://ielts.idp.com/canada/results/band-score-calculation" rel="noopener" target="_blank">IDP IELTS: band score calculation</a> and <a href="https://takeielts.britishcouncil.org/" rel="noopener" target="_blank">British Council IELTS</a>. Test centres have the final word on your test day.</p>`;
+export const SOURCES_EN_BLOCK = `<h2>Sources</h2>${SOURCES_EN}`;
+export const SOURCES_UZ_BLOCK = `<h2>Manbalar</h2><p>Bu maqola IELTS haqidagi ochiq ma’lumotlarning soddalashtirilgan xulosasi. Amaldagi qoidalarni rasmiy manbalardan tekshiring: <a href="https://ielts.org/" rel="noopener" target="_blank">ielts.org</a>, <a href="https://ielts.idp.com/canada/results/band-score-calculation" rel="noopener" target="_blank">IDP IELTS</a> va <a href="https://takeielts.britishcouncil.org/" rel="noopener" target="_blank">British Council IELTS</a>. Imtihon kuni so‘nggi qaror test markazida.</p>`;
+
 export const LIBRARY_CHART = renderChart({
   kind: 'line', title: 'Example chart (fictional data): average monthly visits to three libraries in an imaginary city', unit: 'Thousand visits', xLabels: ['2000', '2005', '2010', '2015', '2020'],
   series: [{ name: 'Riverside Library', values: [30, 34, 41, 52, 61] }, { name: 'Central Library', values: [58, 55, 47, 41, 36] }, { name: 'Hillside Library', values: [20, 22, 21, 23, 22] }],
@@ -249,7 +254,7 @@ export const SCORED_ARTICLE = `<aside class="box good" id="short-answer"><p><str
 <h3>Is the Scorify band an official score?</h3>
 <p>No. Scorify gives a practice estimate. Only an official IELTS test gives an official band score.</p>
 <h2>Sources</h2>
-<p>Checked against public IELTS information: the IELTS organisation’s “IELTS scoring in detail” page (ielts.org), its Speaking band descriptors and Writing key assessment criteria guides, and the score guides of IDP IELTS and the British Council. Check the current versions on those sites before an important decision.</p>
+${SOURCES_EN}
 <p><em>Scorify.uz provides independent practice and estimated scores. Only an official IELTS test gives an official band score.</em></p>`;
 
 /* ------------------------------------------------------------------ EN: Speaking Part 2 time */

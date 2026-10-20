@@ -263,3 +263,15 @@ describe('through the blog handler', () => {
     vi.doUnmock('../../api/_lib/posts');
   });
 });
+
+describe('official source links', () => {
+  it('every article with IELTS rules links to ielts.org, IDP and the British Council', () => {
+    for (const slug of ['how-ielts-speaking-and-writing-are-scored', 'ielts-speaking-part-2-how-to-speak-for-two-minutes', 'ielts-writing-task-1-how-to-describe-a-graph', 'ielts-writing-task-1-qanday-yoziladi', 'ielts-writing-task-2-qanday-yoziladi']) {
+      const base = STATIC_POSTS.find((p) => p.slug === slug);
+      const html = applyOverride({ slug, title: 't', excerpt: '', cover_alt: null, content_html: base?.content_html ?? '<h2>x</h2>' } as unknown as OverridablePost & { content_html: string }).content_html;
+      expect(html, slug).toContain('https://ielts.org/');
+      expect(html, slug).toContain('ielts.idp.com');
+      expect(html, slug).toContain('takeielts.britishcouncil.org');
+    }
+  });
+});
