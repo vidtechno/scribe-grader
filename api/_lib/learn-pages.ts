@@ -3,6 +3,8 @@ import { COURSE } from './data-course.js';
 import { COURSE_BASE } from './course-pages.js';
 import { GUIDES, type Guide, type GuideSection } from './data-learn-guides.js';
 import { WORD_TOPICS, type WordTopic } from './data-learn-words.js';
+import { WORD_EXAMPLES } from './data-learn-words-ex.js';
+import { AUDIO_VERSION, wordAudio } from './word-audio.js';
 
 // Public SEO sections that feed the English course: Uzbek grammar guides (/ingliz-tili-qoidalari), Uzbek topic word
 // lists (/inglizcha-sozlar) and an English-language landing page for people who search in English.
@@ -31,26 +33,79 @@ const lessonCta = (l: [string, string], what: string) =>
   ctaBox(`${what} darsda mashqlar va audio bilan o'tang`, `«${lessonTitle(l)}» darsi: qisqa tushuntirish, talaffuz audiosi, mashqlar va yakuniy savollar. Ro'yxatdan o'ting va hoziroq boshlang.`, authHref(lessonId(l) ? `/learn/lesson/${lessonId(l)}` : '/learn'), 'Darsni boshlash');
 
 
-/** A short in-page quiz built from the topic's own words: visitors start practising before they sign up. */
+/* ---------- topic word pages: audio buttons, example sentences and the mini-test ---------- */
+/** Sign-up link that continues into the matching course lesson after login. */
+export const lessonAuthHref = (l: [string, string]) => { const id = lessonId(l); return id ? authHref(`/learn/lesson/${id}`) : '/auth'; };
+const wordsCta = (t: WordTopic) =>
+  ctaBox(`Keyingi qadam: «${lessonTitle(t.lesson)}» darsi`, `Dars qisqa tushuntirish, talaffuz audiosi, mashqlar va yakuniy savollardan iborat. Ro'yxatdan o'tgan har bir yangi hisobga 7 kun bepul; kirganingizdan so'ng shu darsga qaytasiz.`, lessonAuthHref(t.lesson), 'Darsni boshlash');
+
+const WL_CSS = `<style>
+.wl-jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;padding:0;list-style:none}.wl-jump a{display:inline-flex;align-items:center;min-height:40px;padding:6px 14px;border:1px solid var(--line,#e2e8f0);border-radius:999px;background:#fff;font-weight:600;font-size:.92rem;text-decoration:none}
+.wl-play{min-width:44px;min-height:44px;margin:-6px 8px -6px 0;border-radius:50%;border:1px solid var(--line,#e2e8f0);background:#fff;cursor:pointer;font-size:15px;line-height:1;vertical-align:middle}.wl-play[aria-pressed=true]{background:#fff1f3;border-color:#e80b2d}
+.wl-w{font-weight:700;vertical-align:middle}.wl-ex i{display:block;color:#64748b;font-size:.88rem}.wl-msg{color:#b91c1c;margin:0 0 8px;min-height:0}
+.wl-quiz .wl-q{font-size:1.15rem;font-weight:700;margin:6px 0 12px}.wl-opt{display:block;width:100%;text-align:left;min-height:48px;margin:0 0 8px;padding:10px 14px;border:1px solid var(--line,#e2e8f0);border-radius:12px;background:#fff;font:inherit;cursor:pointer}
+.wl-opt.ok{border-color:#16a34a;background:#f0fdf4}.wl-opt.bad{border-color:#dc2626;background:#fef2f2}.wl-fb p{margin:6px 0}.wl-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+@media(max-width:640px){.wl-t thead{position:absolute;left:-9999px}.wl-t,.wl-t tbody,.wl-t tr,.wl-t th,.wl-t td{display:block;width:100%}.wl-t tr{border:1px solid var(--line,#e2e8f0);border-radius:12px;margin:0 0 10px;padding:8px 12px}.wl-t th,.wl-t td{border:0!important;padding:3px 0!important;background:none!important}.wl-t td[data-l]::before{content:attr(data-l) ": ";color:#64748b;font-size:.8rem}}
+</style>`;
+
+function wordTable(t: WordTopic, words: WordTopic['words']): string {
+  const ex = WORD_EXAMPLES[t.slug];
+  const head = `<thead><tr><th>Inglizcha</th><th>Talaffuz</th><th>O'zbekcha</th>${ex ? '<th>Gapda</th>' : ''}</tr></thead>`;
+  const rows = words.map(([en, ipa, uz]) => {
+    const key = wordAudio(en);
+    const btn = key ? `<button type="button" class="wl-play" data-a="${key}" aria-label="${esc(en)} so'zini tinglash" aria-pressed="false" hidden>▶</button>` : '';
+    const e = ex?.[en];
+    return `<tr><th scope="row">${btn}<span class="wl-w">${esc(en)}</span></th><td data-l="Talaffuz">${esc(ipa)}</td><td data-l="O'zbekcha">${esc(uz)}</td>${ex ? `<td class="wl-ex">${e ? `${esc(e[0])}<i>${esc(e[1])}</i>` : ''}</td>` : ''}</tr>`;
+  }).join('');
+  return `<div class="table-scroll"><table class="data wl-t">${head}<tbody>${rows}</tbody></table></div>`;
+}
+
+/**
+ * Mini-test built from the topic's own words. Questions are drawn at random in the browser (distractors come from the same
+ * group, e.g. a weekday is never offered next to a month); words with a recording also give "listen and choose" questions.
+ * After every answer: the right answer, the rule behind it and the word in a sentence. The end screen offers a retry of the
+ * missed words and the matching course lesson.
+ */
 function quizSection(t: WordTopic): string {
-  const n = t.words.length;
-  const picks = Array.from({ length: Math.min(6, n) }, (_, i) => Math.floor((i * n) / Math.min(6, n) + (t.slug.length % Math.max(1, Math.floor(n / 6)))) % n);
-  const qs = [...new Set(picks)].map((i, k) => {
-    const [en, , uz] = t.words[i];
-    const wrong = [1, 3, 5].map(d => t.words[(i + d * 2 + k) % n][0]).filter(w => w !== en);
-    const opts = [en, ...wrong.slice(0, 3)];
-    const shift = (k + i) % opts.length;
-    const rotated = [...opts.slice(shift), ...opts.slice(0, shift)];
-    return { q: uz, o: rotated, a: rotated.indexOf(en) };
-  });
-  const data = JSON.stringify(qs).replace(/</g, '\\u003c');
-  return `<section class="section" id="mini-test"><h2>Mini-test: ${qs.length} ta savol, bilimingizni tekshiring</h2>
-<div class="box" id="mq"><p id="mq-text">Testni boshlash uchun tugmani bosing.</p><div id="mq-opts"></div><p><button class="btn" id="mq-go" type="button">Testni boshlash</button></p></div>
+  const ex = WORD_EXAMPLES[t.slug] ?? {};
+  const sizes = t.groups?.length ? t.groups.map(g => g.n) : [t.words.length];
+  const gOf: number[] = []; sizes.forEach((n, g) => { for (let i = 0; i < n; i++) gOf.push(g); });
+  const words = t.words.map(([e, i, u], k) => ({ e, i, u, g: gOf[k] ?? 0, a: wordAudio(e) ?? '', s: ex[e] ?? null }));
+  const n = Math.min(8, words.length);
+  const next = t.related.map(s => WORD_TOPICS.find(x => x.slug === s)).find(Boolean);
+  const data = JSON.stringify({ w: words, n, v: AUDIO_VERSION, why: t.quizWhy ?? '', c: { h: lessonAuthHref(t.lesson), t: `«${lessonTitle(t.lesson)}» darsiga o'tish` }, x: next ? { h: `${WORDS_BASE}/${next.slug}`, t: `Keyingi mavzu: ${next.h1}` } : null }).replace(/</g, '\\u003c').replace(/[\u2028\u2029]/g, ' ');
+  return `<section class="section" id="mini-test"><h2>Mini-test: ${n} ta savol</h2>
+<p>Savollar har safar boshqacha tushadi. Har bir javobdan keyin to'g'ri javob, qisqa izoh va so'z gapda ko'rsatiladi.</p>
+<div class="box wl-quiz" id="mq"><p id="mq-prog" aria-live="polite" style="margin:0;color:#64748b"></p><p id="mq-text" class="wl-q" tabindex="-1">Testni boshlash uchun tugmani bosing.</p><div id="mq-opts" role="group" aria-label="Javob variantlari"></div><div id="mq-fb" class="wl-fb" role="status" aria-live="polite"></div><div class="wl-actions" id="mq-act"><button class="btn" id="mq-go" type="button">Testni boshlash</button></div></div>
+<noscript><p>Mini-test ishlashi uchun brauzerda JavaScript yoqilgan bo'lishi kerak.</p></noscript>
 <script type="application/json" id="mq-data">${data}</script>
-<script>(function(){var d=JSON.parse(document.getElementById('mq-data').textContent),i=0,sc=0,t=document.getElementById('mq-text'),o=document.getElementById('mq-opts'),g=document.getElementById('mq-go');
-function show(){o.textContent='';if(i>=d.length){t.textContent='Natija: '+sc+' / '+d.length+(sc>=d.length-1?'. Zo‘r!':'. Yana mashq qiling.')+' Bu so’zlarni audio va mashqlar bilan mustahkamlang.';g.textContent='Darsni bepul boshlash';g.onclick=function(){location.href='/auth'};return}
-t.textContent=(i+1)+'/'+d.length+'. «'+d[i].q+'» inglizcha qanday?';g.style.display='none';d[i].o.forEach(function(w,k){var b=document.createElement('button');b.type='button';b.className='btn ghost';b.style.margin='4px 8px 4px 0';b.textContent=w;b.onclick=function(){if(b.dataset.done)return;Array.prototype.forEach.call(o.children,function(x){x.dataset.done=1});if(k===d[i].a){sc++;b.style.borderColor='#16a34a';b.style.background='#f0fdf4'}else{b.style.borderColor='#dc2626';b.style.background='#fef2f2';o.children[d[i].a].style.borderColor='#16a34a'}setTimeout(function(){i++;g.style.display='';g.textContent=i>=d.length?'Natijani ko‘rish':'Keyingi savol';g.onclick=show;o.textContent=''},700)};o.appendChild(b)})}
-g.onclick=show})()</script></section>`;
+<script>(function(){var D=JSON.parse(document.getElementById('mq-data').textContent),W=D.w,$=function(i){return document.getElementById(i)};
+var prog=$('mq-prog'),txt=$('mq-text'),opts=$('mq-opts'),fb=$('mq-fb'),act=$('mq-act'),go=$('mq-go'),Q=[],qi=0,sc=0,missed=[],locked=false,au=null;
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
+function el(tag,cls,t){var e=document.createElement(tag);if(cls)e.className=cls;if(t!=null)e.textContent=t;return e}
+function speak(key){try{if(au)au.pause();au=new Audio('/audio/'+key+'.mp3?v='+D.v);var p=au.play();if(p&&p.catch)p.catch(bad)}catch(e){bad()}}
+function bad(){var m=$('wl-audio-msg');if(m)m.textContent='Audio hozir yuklanmadi. Tarmoqni tekshirib, qayta urinib ko‘ring.'}
+function build(ids){return ids.map(function(i,k){var w=W[i],pool=[];W.forEach(function(x,j){if(j!==i&&x.g===w.g)pool.push(j)});if(pool.length<3)W.forEach(function(x,j){if(j!==i&&pool.indexOf(j)<0&&pool.length<6)pool.push(j)});return{i:i,o:sh([i].concat(sh(pool).slice(0,3))),l:!!w.a&&k%2===1}})}
+function start(ids){Q=build(ids);qi=0;sc=0;missed=[];show()}
+function clear(){opts.textContent='';fb.textContent='';act.textContent='';locked=false}
+function show(){clear();var q=Q[qi],w=W[q.i];prog.textContent='Savol '+(qi+1)+' / '+Q.length;
+if(q.l){txt.textContent='Eshiting va to‘g‘ri so‘zni tanlang.';var b=el('button','btn ghost','▶ Eshitish');b.type='button';b.onclick=function(){speak(w.a)};act.appendChild(b)}else{txt.textContent='«'+w.u+'» inglizcha qanday?'}
+q.o.forEach(function(j){var b=el('button','wl-opt',W[j].e);b.type='button';b.onclick=function(){pick(q,j,b)};opts.appendChild(b)});txt.focus()}
+function pick(q,j,b){if(locked)return;locked=true;var w=W[q.i],ok=j===q.i,k=0;
+Array.prototype.forEach.call(opts.children,function(c,n){if(q.o[n]===q.i){c.className='wl-opt ok';c.textContent=W[q.i].e+' ✓'}});
+if(!ok){b.className='wl-opt bad';b.textContent=W[j].e+' ✗';missed.push(q.i)}else sc++;
+fb.textContent='';fb.appendChild(el('p',null,(ok?'To‘g‘ri! ':'Noto‘g‘ri. ')+'To‘g‘ri javob: '+w.e+' '+w.i+' — '+w.u+'.'));
+if(!ok&&D.why)fb.appendChild(el('p',null,'Eslab qoling: '+D.why));
+if(w.s){var p=el('p',null,'Gapda: '+w.s[0]+' — '+w.s[1]);fb.appendChild(p)}
+act.textContent='';if(w.a){var l=el('button','btn ghost','▶ '+w.e);l.type='button';l.setAttribute('aria-label',w.e+' so‘zini tinglash');l.onclick=function(){speak(w.a)};act.appendChild(l)}
+var n=el('button','btn',qi+1>=Q.length?'Natijani ko‘rish':'Keyingi savol');n.type='button';n.onclick=function(){qi++;qi>=Q.length?end():show()};act.appendChild(n);n.focus()}
+function end(){clear();prog.textContent='Natija';txt.textContent=sc+' / '+Q.length+(sc===Q.length?'. Hammasi to‘g‘ri!':sc>=Q.length-2?'. Yaxshi natija.':'. Yana mashq qiling.');
+if(missed.length){var m=el('p',null,'Xato qilingan so‘zlar: '+missed.map(function(i){return W[i].e+' ('+W[i].u+')'}).join(', ')+'.');fb.appendChild(m);var r=el('button','btn','Xatolarni qayta mashq qilish');r.type='button';r.onclick=function(){start(missed.slice())};act.appendChild(r)}
+var a=el('button','btn ghost','Yangi test');a.type='button';a.onclick=function(){start(sh(W.map(function(x,i){return i})).slice(0,D.n))};act.appendChild(a);
+var c=el('a','btn',D.c.t);c.href=D.c.h;act.appendChild(c);if(D.x){var x=el('a','btn ghost',D.x.t);x.href=D.x.h;act.appendChild(x)}txt.focus()}
+go.onclick=function(){start(sh(W.map(function(x,i){return i})).slice(0,D.n))};
+document.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('.wl-play'):null;if(b){var m=$('wl-audio-msg');if(m)m.textContent='';speak(b.getAttribute('data-a'))}});
+Array.prototype.forEach.call(document.querySelectorAll('.wl-play'),function(b){b.hidden=false})})()</script></section>`;
 }
 
 /* ---------- grammar guides ---------- */
@@ -114,18 +169,26 @@ ${ctaBox("So'zlarni audio va mashqlar bilan o'rganing", "Scorify darslarida har 
 export function wordsPage(t: WordTopic): string {
   const path = `${WORDS_BASE}/${t.slug}`;
   const related = t.related.map(s => WORD_TOPICS.find(x => x.slug === s)).filter((x): x is WordTopic => !!x);
-  const body = `${hero(`Inglizcha so'zlar · ${LEVEL_TITLE[t.level]}`, t.h1, t.intro, crumbs(["Inglizcha so'zlar", WORDS_BASE], [t.h1]))}
+  const grouped = !!t.groups?.length && t.groups.reduce((n, g) => n + g.n, 0) === t.words.length;
+  const groups = grouped ? t.groups! : [{ id: 'sozlar', label: "So'zlar", h2: "So'zlar va talaffuz", n: t.words.length, note: undefined as string | undefined }];
+  let off = 0;
+  const tables = groups.map(g => { const ws = t.words.slice(off, off + g.n); off += g.n; return `<section class="section" id="${esc(g.id)}"><h2>${esc(g.h2)}</h2>${g.note ? `<p>${esc(g.note)}</p>` : ''}${wordTable(t, ws)}</section>`; }).join('');
+  const jump: [string, string][] = [...groups.map(g => [g.id, g.label] as [string, string]), ['mini-test', 'Mini-test']];
+  const hasAudio = t.words.some(w => wordAudio(w[0]));
+  const extra = (t.extra ?? []).map(x => `<section class="section" id="${esc(x.id)}"><h2>${esc(x.h2)}</h2>${(x.p || []).map(p => `<p>${esc(p)}</p>`).join('')}${x.table ? table(x.table) : ''}${x.ex ? examples(x.ex) : ''}</section>`).join('');
+  const body = `${WL_CSS}${hero(`Inglizcha so'zlar · ${LEVEL_TITLE[t.level]}`, t.h1, t.intro, crumbs(["Inglizcha so'zlar", WORDS_BASE], [t.h1]))}
 <main class="page"><div class="wrap">
-<aside class="box good"><p><b>Bu mavzuni audio bilan o'rganing.</b> Har bir so'zning talaffuzi, mashqlar va takrorlash: <a href="${lessonHref(t.lesson)}">«${esc(lessonTitle(t.lesson))}» darsi</a>. Ro'yxatdan o'tgan har bir yangi hisobga 7 kun bepul. <a class="btn" href="/auth" style="margin-left:8px">Bepul boshlash</a></p></aside>
-<section class="section"><h2>So'zlar va talaffuz</h2>
-<div class="table-scroll"><table class="data"><thead><tr><th>Inglizcha</th><th>Talaffuz</th><th>O'zbekcha</th></tr></thead><tbody>${t.words.map(([en, ipa, uz]) => `<tr><th scope="row">${esc(en)}</th><td>${esc(ipa)}</td><td>${esc(uz)}</td></tr>`).join('')}</tbody></table></div></section>
+<nav aria-label="Sahifa bo'limlari"><ul class="wl-jump">${jump.map(([id, l]) => `<li><a href="#${esc(id)}">${esc(l)}${id === 'mini-test' ? '' : ' ↓'}</a></li>`).join('')}</ul></nav>
+${hasAudio ? `<p class="wl-msg" id="wl-audio-msg" role="status" aria-live="polite"></p>` : ''}
+${tables}
+${extra}
 ${quizSection(t)}
-<section class="section"><h2>Gap ichida ishlatish</h2>${examples(t.phrases)}</section>
+<section class="section"><h2>Hayotda ishlatish: tayyor gaplar</h2>${examples(t.phrases)}</section>
 <section class="section"><h2>Eslab qolish uchun maslahat</h2><p>${esc(t.tip)}</p></section>
-${lessonCta(t.lesson, 'Bu mavzuni')}
+${wordsCta(t)}
 <section class="section"><h2>Ko'p beriladigan savollar</h2>${faqHtml(t.faq)}</section>
 <section class="section"><h2>Boshqa mavzular</h2><div class="grid">${related.map(r => `<a class="card" href="${WORDS_BASE}/${r.slug}"><div class="body"><h3>${esc(r.h1)}</h3></div></a>`).join('')}<a class="card" href="${WORDS_BASE}"><div class="body"><h3>Barcha mavzular</h3></div></a></div></section>
-<section class="section"><p>Kursdagi mos dars: <a href="${lessonHref(t.lesson)}">${esc(lessonTitle(t.lesson))}</a>. Grammatika: <a href="${GUIDE_BASE}">ingliz tili qoidalari</a>.</p></section>
+<section class="section"><p>Kursdagi mos dars (ro'yxatdan o'tmasdan ko'rish mumkin): <a href="${lessonHref(t.lesson)}">${esc(lessonTitle(t.lesson))}</a>. Grammatika: <a href="${GUIDE_BASE}">ingliz tili qoidalari</a>.</p></section>
 </div></main>`;
   return page({
     title: `${t.metaTitle} | Scorify.uz`, description: t.metaDesc, path, lang: 'uz', body, ogType: 'article',

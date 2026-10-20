@@ -3,8 +3,10 @@ import App from "./App.tsx";
 import "./index.css";
 import { AppErrorBoundary } from "./components/AppErrorBoundary";
 import { captureReferral } from "./lib/referral";
+import { rememberEntry } from "./lib/analytics";
 
 captureReferral();
+rememberEntry();
 
 createRoot(document.getElementById("root")!).render(<AppErrorBoundary><App /></AppErrorBoundary>);
 

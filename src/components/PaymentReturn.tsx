@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { checkPayment, type PaymentState } from '@/lib/checkout';
 import { getPlanEntitlement } from '@/lib/plans';
 import { currentLang, translate, useT } from '@/i18n';
+import { trackOnce } from '@/lib/analytics';
 
 const POLL_MS = 3000;
 const GIVE_UP_MS = 3 * 60_000;
@@ -33,7 +34,7 @@ export function PaymentReturn({ onPaid }: { onPaid: () => void }) {
         if (r.status === 'paid') {
           setPlan(r.plan);
           setState('paid');
-          if (!paidRef.current) { paidRef.current = true; onPaid(); toast.success(translate(currentLang(), 'payRet.success')); }
+          if (!paidRef.current) { paidRef.current = true; trackOnce('plan_purchased', String(r.plan ?? 'plan') + ':' + new Date().toISOString().slice(0, 10), { plan: String(r.plan ?? '') }); onPaid(); toast.success(translate(currentLang(), 'payRet.success')); }
           return;
         }
         if (r.status === 'failed' || r.status === 'expired') { setState(r.status); return; }

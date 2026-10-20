@@ -12,6 +12,7 @@ import type { Tables } from '@/integrations/supabase/types';
 import { loadActivePlans } from '@/lib/cached-plans';
 import { BEGINNER_UNITS, A1_UNITS, A2_UNITS, B1_UNITS } from '@/features/learn/course';
 import { motion } from 'framer-motion';
+import { track } from '@/lib/analytics';
 import {
   BookOpen, Check, CheckCircle, ChevronRight, Flame, Gift, GraduationCap, Headphones, Mic, PenLine, Repeat, Send, Sparkles, Trophy, Volume2, Zap,
   ClipboardCheck, Clock, Target, Languages, MessagesSquare, CreditCard, FileQuestion, HelpCircle, Layers, ArrowRight,
@@ -56,7 +57,7 @@ function StickyCta({ href }: { href: string }) {
   }, []);
   if (!show) return null;
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-background/95 backdrop-blur border-t border-border safe-area-bottom">
+    <div data-sticky-cta className="fixed bottom-0 inset-x-0 z-40 md:hidden p-3 bg-background/95 backdrop-blur border-t border-border safe-area-bottom">
       <Link to={href}><Button variant="glow" size="lg" className="w-full gap-2">{t('landing.cta.start')} <ChevronRight className="h-5 w-5" /></Button></Link>
     </div>
   );
@@ -119,6 +120,18 @@ export default function Index() {
   // The first call to action follows the page's audience: IELTS practice on the English page, the Uzbek-taught course on the Uzbek page.
   const startHref = lang === 'en' ? '/auth?next=%2Fpractice' : '/auth?next=%2Flearn';
   const appHref = lang === 'en' ? '/practice' : '/learn';
+
+  // One delegated listener: every sign-up call to action on the page is counted with the section it sits in.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement | null)?.closest?.('a[href^="/auth"]');
+      if (!a) return;
+      const section = a.closest('section[id]')?.id ?? (a.closest('[data-sticky-cta]') ? 'sticky' : 'page');
+      track('cta_click', { location: section, target: 'auth' });
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   const landingJsonLd = [
     {
