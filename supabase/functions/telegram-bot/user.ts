@@ -566,20 +566,21 @@ export async function showPlan(ctx: Ctx) {
     plan === "plus" ? "📖 Reading va 🎧 Listening  ♾ cheksiz" : `📖 Reading va 🎧 Listening  ${hint("3 tadan test ochiq")}`,
     "",
     quote([
-      "<b>Learn</b> — 49 000 so'm oyiga",
+      "<b>Learn</b> — 49 000 so'm oyiga <i>($4.99)</i>",
       hint("Barcha ingliz tili darslari · adaptiv o'rganish · so'z va grammatika takrori · XP va streak"),
       "",
-      "<b>IELTS</b> — 129 000 so'm oyiga",
+      "<b>IELTS</b> — 129 000 so'm oyiga <i>($11.99)</i>",
       hint("Learn'dagi hammasi + cheksiz Reading va Listening · 50 Writing · 30 Speaking · AI baholash va tahlil"),
       "",
       "🎁 Yangi hisob: <b>7 kun Learn bepul</b> + 1 Writing, 1 Speaking va 3 tadan Reading hamda Listening testi. IELTS tarifida bepul davr yo'q.",
       "🎉 <b>Oldindan to'lasangiz chegirma:</b> 3 oy −5%, 6 oy −10%",
       hint("Learn: 139 650 / 264 600 so'm · IELTS: 367 650 / 696 600 so'm (limitlar har 30 kunda yangilanadi)"),
     ].join("\n")),
-    hint("💳 To'lov Click yoki Payme orqali, saytning o'zida. To'lagach tarif avtomatik yoqiladi va shu yerga xabar keladi."),
+    hint("💳 To'lov Click yoki Payme orqali, saytning o'zida. To'lagach tarif avtomatik yoqiladi va shu yerga xabar keladi. Visa yoki xalqaro karta bilan to'lash uchun pastdagi tugma orqali menga yozing: Visa avtomatik to'lovi yo'q, qo'lda rasmiylashtiramiz."),
   ].join("\n");
   await reply(ctx, text, [
     [app("💳 Tarifni sotib olish", "/dashboard?pricing=1")],
+    [link("💳 Visa / xalqaro karta (Telegram)", "https://t.me/scorify_support?text=" + encodeURIComponent("Salom! Men Visa karta orqali tarif sotib olmoqchiman."))],
     [cb("🎁 Referal — do'st taklif qiling, pul ishlang", "u:invite")],
     [cb("⬅️ Kabinet", "u:cab")],
   ]);

@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { startCheckout, type CheckoutMethod } from '@/lib/checkout';
 import { useT } from '@/i18n';
 import { Rich } from '@/i18n/rich';
-import { formatUzs, getPlanEntitlement, type Billing } from '@/lib/plans';
+import { useAuth } from '@/hooks/useAuth';
+import { billingLabel, formatUzs, getPlanEntitlement, planPrice, visaLink, type Billing } from '@/lib/plans';
 
 const METHODS: { id: CheckoutMethod; name: string; hint: string; className: string }[] = [
   { id: 'click', name: 'Click', hint: 'pay.click.hint', className: 'bg-[#00b5ff] hover:bg-[#0099dd] text-white' },
@@ -17,7 +18,8 @@ const METHODS: { id: CheckoutMethod; name: string; hint: string; className: stri
 export function PayDialog({ open, onOpenChange, plan, billing, amountUzs, testMode }: {
   open: boolean; onOpenChange: (open: boolean) => void; plan: string; billing: Billing; amountUzs: number; testMode: boolean;
 }) {
-  const { t } = useT();
+  const { t, lang } = useT();
+  const { profile } = useAuth();
   const [busy, setBusy] = useState<CheckoutMethod | null>(null);
   const name = getPlanEntitlement(plan).name;
 
@@ -50,6 +52,11 @@ export function PayDialog({ open, onOpenChange, plan, billing, amountUzs, testMo
               {busy === m.id ? <Loader2 className="h-5 w-5 animate-spin" /> : <span className="text-xs font-medium opacity-80">{t(m.hint)}</span>}
             </Button>
           ))}
+        </div>
+        <div className="rounded-xl border border-border bg-secondary/40 p-3 text-xs">
+          <p className="font-semibold mb-1">{t('plans.visa.heading')}</p>
+          <p className="text-muted-foreground mb-2">{t('plans.visa.text', { name, period: billingLabel(lang, billing), usd: planPrice(plan, billing).usd })}</p>
+          <a href={visaLink(plan, billing, profile?.public_id, lang)} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">💳 {t('plans.visa.cta')} →</a>
         </div>
         <p className="text-xs text-muted-foreground flex items-start gap-2">
           <ShieldCheck className="h-4 w-4 shrink-0 mt-0.5" />

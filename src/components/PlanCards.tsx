@@ -7,7 +7,7 @@ import { PayDialog } from '@/components/PayDialog';
 import { useAuth } from '@/hooks/useAuth';
 import { useT } from '@/i18n';
 import { usePaymentSettings } from '@/hooks/usePaymentSettings';
-import { BILLING_DISCOUNT, billingLabel, formatUzs, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice, planTotalUzs } from '@/lib/plans';
+import { BILLING_DISCOUNT, billingLabel, formatUzs, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice, planTotalUzs, visaLink } from '@/lib/plans';
 
 export interface PlanRow {
   slug: string;
@@ -26,7 +26,7 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
   const { t, lang } = useT();
   const [billing, setBilling] = useState<Billing>('month');
   const [paying, setPaying] = useState<string | null>(null);
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const navigate = useNavigate();
   const { testPriceUzs } = usePaymentSettings();
   const payAmount = (slug: string) => testPriceUzs ?? planTotalUzs(slug, billing);
@@ -78,7 +78,7 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
                   <span className="text-4xl font-bold text-primary">{price.uzs}</span>
                   <span className="text-sm text-muted-foreground">{billing === 'month' ? t('plans.price.month') : t('plans.price.period', { period: billingLabel(lang, billing) })}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-0.5">≈ ${price.usd}{billing !== 'month' ? t('plans.perMonth', { uzs: price.perMonthUzs }) : ''}</p>
+                <p className="text-sm font-semibold text-foreground/80 mt-0.5">{t('plans.usd', { usd: price.usd })}<span className="text-xs font-normal text-muted-foreground">{billing !== 'month' ? t('plans.perMonth', { uzs: price.perMonthUzs }) : ''}</span></p>
                 {billing !== 'month' && <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">{t('plans.save', { amount: price.saveUzs })}</p>}
               </div>
               <p className={`text-xs font-semibold rounded-lg px-3 py-2 mb-4 ${ielts ? 'bg-secondary text-muted-foreground' : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'}`}>
@@ -98,6 +98,10 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
                 <CreditCard className="h-4 w-4" />
                 {isCurrent && billing === 'month' ? t('plans.current') : `${t('plans.buy', { name: e.name })}${billing !== 'month' ? ` · ${billingLabel(lang, billing)}` : ''}`}
               </Button>
+              <a href={visaLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer"
+                className="mt-2 text-center text-xs font-medium text-primary hover:underline">
+                💳 {t('plans.visa.short')}
+              </a>
             </motion.div>
           );
         })}
