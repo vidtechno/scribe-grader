@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { trackOnce } from '@/lib/analytics';
+import { trackOnce, PER_USER } from '@/lib/analytics';
 
 export interface Attempt { id: string; skill: 'reading' | 'listening'; test_id: string; mode: string; part: number | null; correct: number; total: number; band: number; created_at: string }
 
@@ -11,7 +11,7 @@ export async function saveAttempt(a: { skill: 'reading' | 'listening'; testId: s
     await (supabase.rpc as unknown as Rpc)('ielts_save_attempt', {
       _skill: a.skill, _test_id: a.testId, _mode: a.mode, _part: a.part, _correct: a.correct, _total: a.total, _band: a.band, _by_kind: a.byKind, _seconds: Math.round(a.seconds),
     });
-    trackOnce('first_ielts_practice', 'device', { skill: a.skill });
+    trackOnce('first_ielts_practice', PER_USER, { skill: a.skill });
   } catch { /* history is optional */ }
 }
 

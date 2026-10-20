@@ -13,7 +13,7 @@ import { Md } from '@/features/learn/components/Md';
 import { TelegramNudge } from '@/components/TelegramConnectCard';
 import { achievementInfo } from '@/features/learn/achievements';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
-import { trackOnce } from '@/lib/analytics';
+import { trackOnce, PER_USER } from '@/lib/analytics';
 
 export interface Saved {
   passed: boolean; stars: number; xp: number; first: boolean; streak: number;
@@ -39,7 +39,7 @@ export function Result({ lesson, fresh, score, total, seconds, next, unitLast, u
       _lesson: lesson.id, _score: score, _total: total, _seconds: seconds,
       _next_id: next && next.unitId === unitId ? next.id : null,
       _next_title: next && next.unitId === unitId ? `${next.titleUz}` : null,
-    }).then((r) => { setSaved(r); onSaved(); if (passed) trackOnce('first_lesson_completed', 'device'); void recordReview(events()).catch(() => {}); }).catch((e) => setError(learningErrorMessage(e, lang)));
+    }).then((r) => { setSaved(r); onSaved(); if (passed) trackOnce('first_lesson_completed', PER_USER); void recordReview(events()).catch(() => {}); }).catch((e) => setError(learningErrorMessage(e, lang)));
   }, [lesson.id, score, total, seconds, next, unitId, onSaved]);
 
   const stars = saved?.stars ?? (pct >= 90 ? 3 : pct >= 80 ? 2 : pct >= 70 ? 1 : 0);

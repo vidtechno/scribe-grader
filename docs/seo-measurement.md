@@ -33,7 +33,7 @@ Each goal carries `lang`, `audience` (`general_english | ielts_uz | ielts_en | o
 | `first_lesson_completed` | first passed General English lesson on this browser |
 | `first_ielts_practice` (`skill`) | first Writing / Speaking / Reading / Listening / mock section saved |
 | `plan_purchased` (`plan`) | a payment is confirmed `paid` |
-Page views, referrers and countries come from DataFast itself. "First …" goals are per browser (localStorage), so a second device counts again.
+Page views, referrers and countries come from DataFast itself. "First …" goals are counted once per account per browser (key = account id, stored locally only, never sent); a second device counts again. `plan_purchased` is keyed by the confirmed payment id.
 Set the goals up in the DataFast dashboard (Goals → add the names above) so they show; breakdown by custom parameter `audience`/`lang`.
 
 ## Tracking table (fill in on each date; same windows)

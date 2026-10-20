@@ -19,7 +19,7 @@ import {
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useT } from '@/i18n';
-import { trackOnce } from '@/lib/analytics';
+import { trackOnce, PER_USER } from '@/lib/analytics';
 
 const GRADING_STEPS = [
   { label: 'ex.step1', icon: Brain, duration: 3000 },
@@ -151,7 +151,7 @@ export default function Exam() {
       await refreshProfile();
       await refreshSub();
       toast.success(t('ex.graded'));
-      trackOnce('first_ielts_practice', 'device', { skill: 'writing' });
+      trackOnce('first_ielts_practice', PER_USER, { skill: 'writing' });
       navigate(`/result/${essayData.id}`);
     } catch (error: unknown) {
       console.error('Submit error:', error);

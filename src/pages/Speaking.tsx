@@ -26,7 +26,7 @@ import { uz as uzLocale } from 'date-fns/locale';
 import { useT } from '@/i18n';
 import { audioExtension } from '@/lib/audio';
 import { functionError } from '@/lib/function-errors';
-import { trackOnce } from '@/lib/analytics';
+import { trackOnce, PER_USER } from '@/lib/analytics';
 
 const GRADING_STEPS = [
   { label: 'spk.step1', icon: Mic, duration: 4000 },
@@ -209,7 +209,7 @@ export default function Speaking() {
 
       stepTimers.forEach(clearTimeout);
       toast.success(t('spk.graded'));
-      trackOnce('first_ielts_practice', 'device', { skill: 'speaking' });
+      trackOnce('first_ielts_practice', PER_USER, { skill: 'speaking' });
       navigate(`/speaking-result/${attempt.id}`);
     } catch (err: any) {
       console.error('Speaking processing error:', err);

@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { trackOnce } from '@/lib/analytics';
+import { trackOnce, PER_USER } from '@/lib/analytics';
 
 /** `?mock=<id>`: the page runs as one section of a full mock test (no intro, result saved into the mock). */
 export function useMockId(): string | null {
@@ -17,7 +17,7 @@ export async function saveMockSection(mockId: string, skill: 'listening' | 'read
   const { error } = await (supabase.rpc as unknown as Rpc)('mock_save_section', {
     _mock: mockId, _skill: skill, _test_id: testId, _correct: r.correct, _total: r.total, _band: r.band, _by_kind: r.byKind,
   });
-  if (!error) trackOnce('first_ielts_practice', 'device', { skill });
+  if (!error) trackOnce('first_ielts_practice', PER_USER, { skill });
   return !error;
 }
 

@@ -50,7 +50,7 @@ const ReadingTestPage = lazy(() => import("./pages/ReadingTest"));
 const ListeningTestPage = lazy(() => import("./pages/ListeningTest"));
 import { safeReturnTo } from "./lib/returnTo";
 import { isTelegramWebApp, miniAppPath } from "./lib/telegram";
-import { trackOnce } from "@/lib/analytics";
+import { trackOnce, setAnalyticsUser } from "@/lib/analytics";
 
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
 const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
@@ -98,6 +98,8 @@ function AppRoutes() {
   const [mentorOpen, setMentorOpen] = useState(false);
   const { user } = useAuth();
   usePresence(user?.id);
+
+  useEffect(() => { setAnalyticsUser(user?.id); }, [user?.id]);
 
   // A brand-new account (created in the last 10 minutes) counts once as a sign-up, with the page the visit started on.
   useEffect(() => {

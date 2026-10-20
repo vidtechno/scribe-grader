@@ -34,7 +34,7 @@ export function PaymentReturn({ onPaid }: { onPaid: () => void }) {
         if (r.status === 'paid') {
           setPlan(r.plan);
           setState('paid');
-          if (!paidRef.current) { paidRef.current = true; trackOnce('plan_purchased', String(r.plan ?? 'plan') + ':' + new Date().toISOString().slice(0, 10), { plan: String(r.plan ?? '') }); onPaid(); toast.success(translate(currentLang(), 'payRet.success')); }
+          if (!paidRef.current) { paidRef.current = true; trackOnce('plan_purchased', `pay:${id}`, { plan: String(r.plan ?? '') }); onPaid(); toast.success(translate(currentLang(), 'payRet.success')); }
           return;
         }
         if (r.status === 'failed' || r.status === 'expired') { setState(r.status); return; }

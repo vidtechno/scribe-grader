@@ -11,6 +11,15 @@ export function slugify(input: string): string {
   return input.toLowerCase().replace(/[ʻʼ’‘`´']/g, '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
 }
 
+import { audienceForPath, type Audience } from './audience.js';
+
+/**
+ * Product goals for server-rendered pages (the SPA does the same in src/lib/analytics.ts): remembers the first page of the visit with its
+ * audience, so a Google → article → /auth → first practice path keeps the original landing page, and counts clicks on sign-up buttons.
+ * No personal data is read or sent; if storage or the DataFast script is unavailable nothing happens.
+ */
+const trackingScript = (audience: Audience) => `<script>(function(){try{var p=location.pathname,A=${JSON.stringify(audience)},s=sessionStorage,l=localStorage;if(!s.getItem('scorify:entry')){s.setItem('scorify:entry',p);s.setItem('scorify:entry-aud',A)}if(!l.getItem('scorify:entry'))l.setItem('scorify:entry',JSON.stringify({path:p,at:Date.now(),audience:A}));document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href^="/auth"]');if(!a)return;var w=a.closest('header')?'header':a.closest('footer')?'footer':a.closest('.cta')?'cta_box':'content';if(typeof window.datafast!=='function'){window.datafast=function(){(window.datafast.q=window.datafast.q||[]).push([].slice.call(arguments))}}window.datafast('cta_click',{location:w,target:'auth',lang:document.documentElement.lang==='uz'?'uz':'en',entry:s.getItem('scorify:entry')||p,audience:s.getItem('scorify:entry-aud')||A})})}catch(e){}})()</script>`;
+
 export type PageOptions = {
   title: string; description: string; path: string; body: string; lang?: string; robots?: string; ogImage?: string; ogType?: string;
   bottomNav?: 'blog'; jsonLd?: unknown[]; alternates?: { lang: string; path: string }[]; head?: string; publishedTime?: string; modifiedTime?: string;
@@ -18,6 +27,8 @@ export type PageOptions = {
   altLang?: { lang: string; path: string };
   /** App route the header button leads to after sign-up (e.g. "/writing"); plain /auth when absent. */
   ctaNext?: string;
+  /** Audience of this page for the entry-page/CTA goals (see audience.ts). Defaults from the path and language. */
+  audience?: Audience;
 };
 
 /** English pages are IELTS-first; the Uzbek-taught General English course is a clearly labelled secondary link. */
@@ -137,6 +148,7 @@ ${o.body}
 </div><p class="copy">© ${new Date().getFullYear()} Scorify.uz. IELTS is a registered trademark of its owners; Scorify.uz is not affiliated with IELTS.</p>`}</div>
 </footer>
 ${o.bottomNav ? bottomNav(o.bottomNav) : ''}
+${o.robots?.startsWith('noindex') ? '' : trackingScript(o.audience ?? audienceForPath(o.path, o.lang || 'en'))}
 </body></html>`;
 }
 

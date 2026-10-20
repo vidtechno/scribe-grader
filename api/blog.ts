@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { SITE, SUPABASE_KEY, SUPABASE_URL, authHref, breadcrumbLd, ctaBox, esc, notFoundPage, page, send, slugify } from './_lib/shell.js';
 import { getPost, listPosts, type Post } from './_lib/posts.js';
+import { audienceForPost } from './_lib/audience.js';
 import { TIMER_SCRIPT, needsTimerScript } from './_lib/blog-overrides.js';
 import { extractFaq } from './_lib/faq.js';
 import { SECTIONS, totalPages } from './_lib/catalog.js';
@@ -189,7 +190,7 @@ ${related.length ? `<section class="section"><div class="wrap"><h2>${c.more}</h2
 ${track}`;
   return page({
     title: `${title} | Scorify.uz`, description, path, bottomNav: 'blog', body, lang: post.lang, ogType: 'article', ogImage: post.cover_image_url || undefined,
-    publishedTime: post.published_at, modifiedTime: post.updated_at, alternates, ctaNext: practiceNext(post),
+    publishedTime: post.published_at, modifiedTime: post.updated_at, alternates, ctaNext: practiceNext(post), audience: audienceForPost(post),
     jsonLd: [{
       '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, description, inLanguage: post.lang, mainEntityOfPage: `${SITE}${path}`,
       image: post.cover_image_url ? [post.cover_image_url] : [`${SITE}/logo.png`], datePublished: post.published_at, dateModified: post.updated_at, wordCount,

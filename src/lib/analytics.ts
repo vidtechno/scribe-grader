@@ -17,19 +17,19 @@ type DataFast = ((goal: string, meta?: Record<string, string | number | boolean>
 declare global { interface Window { datafast?: DataFast } }
 
 const ENTRY_KEY = 'scorify:entry';
+const AUD_KEY = 'scorify:entry-aud';
 const DONE_PREFIX = 'scorify:an:';
 
 export type Audience = 'general_english' | 'ielts_uz' | 'ielts_en' | 'other';
 
-/** Which of the three audiences a landing path belongs to (the address decides, never the visitor's country). */
-export function audienceOf(path: string, lang?: string): Audience {
+/**
+ * Audience of the page a visit started on. Server-rendered pages (blog, lessons, grammar, IELTS) store their own audience next to the
+ * entry path (api/_lib/audience.ts: the article's topic and language decide, not the country); only the two app-served landing pages
+ * are classified here: `/` is the IELTS-first English page, `/uz` the General English page.
+ */
+export function audienceOf(path: string): Audience {
   const p = path.split('?')[0].split('#')[0];
-  if (p === '/uz' || p === '/uz/ielts' || p === '/uz/blog') return p === '/uz' ? 'general_english' : 'ielts_uz';
-  if (p === '/' || p === '/ielts' || p === '/blog') return 'ielts_en';
-  if (/^\/(ingliz-tili-darslari|ingliz-tili-qoidalari|inglizcha-sozlar|learn-english-from-uzbek|learn)(\/|$)/.test(p)) return 'general_english';
-  if (/^\/(ielts|writing|speaking|reading|listening|mock-test|practice)/.test(p)) return lang === 'uz' ? 'ielts_uz' : 'ielts_en';
-  if (/^\/blog\//.test(p)) return lang === 'uz' ? 'ielts_uz' : 'ielts_en';
-  return 'other';
+  return p === '/uz' ? 'general_english' : p === '/' ? 'ielts_en' : 'other';
 }
 
 const safeGet = (store: Storage | undefined, key: string): string | null => { try { return store?.getItem(key) ?? null; } catch { return null; } };
@@ -38,22 +38,27 @@ const safeSet = (store: Storage | undefined, key: string, value: string) => { tr
 /** First page of the visit (kept for 30 minutes in sessionStorage, and the very first touch in localStorage for sign-up attribution). */
 export function rememberEntry(path = typeof location !== 'undefined' ? location.pathname : '/') {
   if (typeof window === 'undefined') return;
-  if (!safeGet(window.sessionStorage, ENTRY_KEY)) safeSet(window.sessionStorage, ENTRY_KEY, path);
-  if (!safeGet(window.localStorage, ENTRY_KEY)) safeSet(window.localStorage, ENTRY_KEY, JSON.stringify({ path, at: Date.now() }));
+  const audience = audienceOf(path);
+  if (!safeGet(window.sessionStorage, ENTRY_KEY)) { safeSet(window.sessionStorage, ENTRY_KEY, path); safeSet(window.sessionStorage, AUD_KEY, audience); }
+  if (!safeGet(window.localStorage, ENTRY_KEY)) safeSet(window.localStorage, ENTRY_KEY, JSON.stringify({ path, at: Date.now(), audience }));
 }
 
-function entry(): string {
-  if (typeof window === 'undefined') return '/';
-  const fromSession = safeGet(window.sessionStorage, ENTRY_KEY);
-  if (fromSession) return fromSession;
-  try { return (JSON.parse(safeGet(window.localStorage, ENTRY_KEY) ?? 'null') as { path?: string } | null)?.path ?? '/'; } catch { return '/'; }
+function entry(): { path: string; audience: Audience } {
+  if (typeof window === 'undefined') return { path: '/', audience: 'other' };
+  const path = safeGet(window.sessionStorage, ENTRY_KEY);
+  if (path) return { path, audience: (safeGet(window.sessionStorage, AUD_KEY) as Audience | null) ?? audienceOf(path) };
+  try {
+    const v = JSON.parse(safeGet(window.localStorage, ENTRY_KEY) ?? 'null') as { path?: string; audience?: Audience } | null;
+    if (v?.path) return { path: v.path, audience: v.audience ?? audienceOf(v.path) };
+  } catch { /* malformed */ }
+  return { path: '/', audience: 'ielts_en' };
 }
 
 export function track(goal: string, meta: Record<string, string | number | boolean> = {}) {
   if (typeof window === 'undefined') return;
   const lang = document.documentElement.lang === 'uz' ? 'uz' : 'en';
   const e = entry();
-  const payload = { lang, entry: e, audience: audienceOf(e, lang), ...meta };
+  const payload = { lang, entry: e.path, audience: e.audience, ...meta };
   try {
     if (typeof window.datafast !== 'function') {
       // Same queue the vendor snippet uses, so goals fired before the script loads are not lost.
@@ -63,9 +68,20 @@ export function track(goal: string, meta: Record<string, string | number | boole
   } catch { /* analytics must never break the page */ }
 }
 
-/** Fires a goal once per browser (and per `key`, e.g. a user id or payment id). */
+let currentUser: string | null = null;
+/** The signed-in account, so "first …" goals are counted once per account and not once per shared browser. Kept in memory only. */
+export function setAnalyticsUser(id: string | null | undefined) { currentUser = id ?? null; }
+
+/** Key for goals that happen once per account. Without a signed-in user there is no safe key, so the goal is skipped. */
+export const PER_USER = 'user';
+
+/**
+ * Fires a goal once per `key` in this browser. Use PER_USER for "first …" goals (one per account, so two people on one device
+ * both count) and the confirmed payment id for purchases. The key stays in localStorage and is never sent to DataFast.
+ */
 export function trackOnce(goal: string, key: string, meta: Record<string, string | number | boolean> = {}) {
   if (typeof window === 'undefined') return false;
+  if (key === PER_USER) { if (!currentUser) return false; key = `u:${currentUser}`; }
   const id = `${DONE_PREFIX}${goal}:${key}`;
   if (safeGet(window.localStorage, id)) return false;
   safeSet(window.localStorage, id, '1');
