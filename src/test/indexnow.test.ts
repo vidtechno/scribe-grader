@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-// @ts-expect-error plain ESM script
 import { parseSitemap, selectChanged } from '../../scripts/indexnow.mjs';
 import { verificationTags } from '../../api/_lib/verification';
 
