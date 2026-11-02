@@ -1,6 +1,8 @@
 // Plans, pricing cards, pricing dialog, price tag.
 export default {
   en: {
+    'plans.support.cta': 'Contact us on Telegram',
+    'plans.support.note': 'To activate your plan, message @scorify_support on Telegram.',
     'plans.free.f1': 'Full Learn course for {days} days',
     'plans.free.f2': '1 Writing assessment',
     'plans.free.f3': '1 Speaking assessment',
@@ -62,6 +64,8 @@ export default {
     'priceTag.local': 'or {uzs} so\'m / month in Uzbekistan',
   },
   uz: {
+    'plans.support.cta': 'Telegram orqali ulanish',
+    'plans.support.note': 'Tarifni faollashtirish uchun @scorify_support’ga yozing.',
     'plans.free.f1': "To'liq Learn kursi {days} kun",
     'plans.free.f2': '1 ta Writing baholash',
     'plans.free.f3': '1 ta Speaking baholash',

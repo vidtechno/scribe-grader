@@ -1,13 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { Check, CreditCard, GraduationCap, Mic, PenLine, Target } from 'lucide-react';
+import { Check, MessageCircle, GraduationCap, Mic, PenLine, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { PayDialog } from '@/components/PayDialog';
-import { useAuth } from '@/hooks/useAuth';
 import { useT } from '@/i18n';
-import { usePaymentSettings } from '@/hooks/usePaymentSettings';
-import { BILLING_DISCOUNT, billingLabel, formatUzs, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice, planTotalUzs, visaLink } from '@/lib/plans';
+import { BILLING_DISCOUNT, billingLabel, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice } from '@/lib/plans';
 
 export interface PlanRow {
   slug: string;
@@ -22,18 +18,9 @@ export interface PlanRow {
 const TAGLINE: Record<string, string> = { go: 'plans.tagline.go', plus: 'plans.tagline.plus' };
 
 /** Learn and IELTS side by side, with a 1 month / 6 months (-10%) switch. Used on the landing page and in the pricing dialog. */
-export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; currentPlan?: string; publicId?: string | null }) {
+export function PlanCards({ plans, currentPlan }: { plans: PlanRow[]; currentPlan?: string; publicId?: string | null }) {
   const { t, lang } = useT();
   const [billing, setBilling] = useState<Billing>('month');
-  const [paying, setPaying] = useState<string | null>(null);
-  const { user, profile } = useAuth();
-  const navigate = useNavigate();
-  const { testPriceUzs } = usePaymentSettings();
-  const payAmount = (slug: string) => testPriceUzs ?? planTotalUzs(slug, billing);
-  const choose = (slug: string) => {
-    if (!user) { navigate('/auth'); return; }
-    setPaying(slug);
-  };
   return (
     <div>
       <div className="max-w-4xl mx-auto mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm flex items-start gap-3">
@@ -93,15 +80,21 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
               <ul className="space-y-2 mb-6 flex-1">
                 {planFeatures(plan.slug, lang).map((f) => <li key={f} className="flex items-start gap-2 text-sm"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" /><span>{f}</span></li>)}
               </ul>
-              <Button variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto" disabled={isCurrent && billing === 'month'}
-                onClick={() => choose(plan.slug)}>
-                <CreditCard className="h-4 w-4" />
-                {isCurrent && billing === 'month' ? t('plans.current') : `${t('plans.buy', { name: e.name })}${billing !== 'month' ? ` · ${billingLabel(lang, billing)}` : ''}`}
-              </Button>
-              <a href={visaLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer"
-                className="mt-2 text-center text-xs font-medium text-primary hover:underline">
-                💳 {t('plans.visa.short')}
-              </a>
+              {isCurrent && billing === 'month' ? (
+                <Button variant={ielts ? 'glow' : 'outline'} className="w-full mt-auto" disabled>
+                  {t('plans.current')}
+                </Button>
+              ) : (
+                <Button asChild variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto">
+                  <a href="https://t.me/scorify_support" target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="h-4 w-4" />
+                    {t('plans.support.cta')}
+                  </a>
+                </Button>
+              )}
+              <p className="mt-2 text-center text-xs text-muted-foreground">
+                {t('plans.support.note')}
+              </p>
             </motion.div>
           );
         })}
@@ -110,10 +103,6 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
         {t('plans.footer.a', { period: t(`plans.valid.${billing}`) })}
         {billing === 'month' ? '' : t('plans.footer.renew')}. {t('plans.footer.b')} <span className="text-primary font-semibold">@scorify_support</span>.
       </p>
-      {testPriceUzs !== null && (
-        <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">{t('plans.testMode', { amount: formatUzs(testPriceUzs) })}</p>
-      )}
-      {paying && <PayDialog open onOpenChange={(v) => { if (!v) setPaying(null); }} plan={paying} billing={billing} amountUzs={payAmount(paying)} testMode={testPriceUzs !== null} />}
     </div>
   );
 }
