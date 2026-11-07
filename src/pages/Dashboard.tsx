@@ -90,18 +90,19 @@ export default function Dashboard() {
   const firstName = (profile?.full_name || meta?.full_name || meta?.name || user?.email?.split('@')[0] || t('dash.there')).split(' ')[0];
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden pb-24 md:pb-0">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_85%_5%,hsl(var(--primary)/0.08),transparent_28%),radial-gradient(circle_at_10%_35%,hsl(28_95%_55%/0.06),transparent_24%),hsl(var(--background))] overflow-x-hidden pb-24 md:pb-0">
       <SEOHead title={t('dash.seoTitle')} description={t('dash.seoDesc')} path="/dashboard" noindex />
       <Navbar />
       <TelegramConnectModal />
-      <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
+      <main className="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
         <PaymentReturn onPaid={onPaid} />
-        <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-6">
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-5">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold">{t('dash.welcome')} <span className="gradient-text">{firstName}</span></h1>
+            <p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">Your learning space</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold">{t('dash.welcome')} <span className="gradient-text">{firstName}</span></h1>
             <p className="text-muted-foreground text-sm sm:text-base">{t('dash.homeHint')}</p>
           </div>
-          <SubscriptionBadge planType={planType} planName={planName} size="md" />
+          <span className="hidden sm:block"><SubscriptionBadge planType={planType} planName={planName} size="md" /></span>
         </motion.div>
 
         {/* The first screen adapts to activation state: choose a path or continue. */}

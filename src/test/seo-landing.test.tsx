@@ -11,7 +11,7 @@ describe('prerendered landing pages', () => {
     const { renderLanding } = await import('@/prerender');
     const { html } = renderLanding('/');
     expect(html).toContain('<h1');
-    expect(html).toMatch(/Practise IELTS with/);
+    expect(html).toMatch(/Learn English today/);
     expect(html).not.toContain('seo-shell');
     expect(html).not.toMatch(/left:\s*-9999px/);
     expect(html).toMatch(/1,600 UZS/);
@@ -22,13 +22,13 @@ describe('prerendered landing pages', () => {
     const { renderLanding } = await import('@/prerender');
     const { html } = renderLanding('/uz');
     expect(html).toMatch(/Birinchi inglizcha/);
-    expect(html).not.toMatch(/Practise IELTS with/);
+    expect(html).not.toMatch(/Learn English today/);
   });
 
   it('the language of a public address does not depend on the saved choice', async () => {
     localStorage.setItem('scorify:lang', 'uz');
     const { renderLanding } = await import('@/prerender');
-    expect(renderLanding('/').html).toMatch(/Practise IELTS with/);
+    expect(renderLanding('/').html).toMatch(/Learn English today/);
     localStorage.setItem('scorify:lang', 'en');
     expect(renderLanding('/uz').html).toMatch(/Birinchi inglizcha/);
   });

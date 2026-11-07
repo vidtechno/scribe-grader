@@ -107,20 +107,20 @@ export default function Profile() {
       <SEOHead title={t('profile.seoTitle')} description={t('profile.seoDesc')} path="/profile" noindex />
       <Navbar />
 
-      <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <main className="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <ProfileHeader onOpenPeople={(tab) => { setPeopleTab(tab); document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
         <LearningIdentity />
 
         {/* Plan usage + history */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-          className="glass-card p-6 mb-6">
+          className="rounded-3xl border bg-card p-4 sm:p-6 mb-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h2 className="text-lg font-semibold flex items-center gap-2">
               <Crown className="h-5 w-5 text-primary" /> {planType === 'free' ? (trialActive ? t('profile.freeTrial', { n: trialDaysLeft }) : t('profile.freePlan')) : planName}
             </h2>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {expiresAt && <span className={`text-xs ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>{isExpired ? t('dash.expired') : t('dash.daysLeft', { n: daysRemaining })} · {format(expiresAt, 'MMM d, yyyy', dfl)}</span>}
-              <Button variant="glow" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>{planType === 'free' ? t('profile.choosePlan') : t('profile.changePlan')}</Button>
+              <Button variant="outline" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>{planType === 'free' ? t('profile.choosePlan') : t('profile.changePlan')}</Button>
             </div>
           </div>
           <div className="grid sm:grid-cols-3 gap-3 mb-6">

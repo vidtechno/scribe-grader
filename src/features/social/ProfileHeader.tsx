@@ -128,14 +128,14 @@ export function ProfileHeader({ onOpenPeople }: { onOpenPeople: (tab: PeopleTab)
     </button>
   );
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.12] via-card to-orange-400/[0.08] p-5 sm:p-8 mb-6 shadow-sm" aria-label={t('social.profileAria')}>
-      <span aria-hidden className="absolute -right-12 -top-16 h-52 w-52 rounded-full bg-primary/[0.06]" />
-      <div className="relative flex items-center gap-5 sm:gap-8">
+    <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#2b1d20] via-[#4d2028] to-primary p-5 text-white sm:p-8 mb-6 shadow-2xl shadow-primary/10" aria-label={t('social.profileAria')}>
+      <span aria-hidden className="absolute -right-12 -top-16 h-52 w-52 rounded-full bg-orange-300/15 blur-2xl" />
+      <div className="relative flex items-center gap-4 sm:gap-8">
         <UserAvatar avatar={profile?.avatar_key} name={name} size="xl" ring />
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-            <div className="min-w-0"><h1 className="truncate text-2xl sm:text-3xl font-extrabold">{name}</h1><p className="text-sm text-muted-foreground">@{profile?.username ?? 'username'}</p></div>
-            <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setEditing(true)}><Pencil className="h-3.5 w-3.5" />{t('social.edit')}</Button>
+            <div className="min-w-0"><h1 className="truncate text-xl sm:text-3xl font-extrabold">{name}</h1><p className="text-xs sm:text-sm text-white/60">@{profile?.username ?? 'username'}</p></div>
+            <Button size="sm" variant="outline" className="gap-1.5 border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white" onClick={() => setEditing(true)}><Pencil className="h-3.5 w-3.5" />{t('social.edit')}</Button>
           </div>
           <div className="flex gap-6 sm:gap-9">
             <Stat value={state?.profile?.xp ?? 0} label="XP" />
@@ -146,17 +146,17 @@ export function ProfileHeader({ onOpenPeople }: { onOpenPeople: (tab: PeopleTab)
       </div>
       <div className="relative mt-4 text-sm">
         {state?.profile && (
-          <p className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-0.5">
+          <p className="text-white/65 flex flex-wrap items-center gap-x-3 gap-y-0.5">
             <span>{levelLabel(map.activeLevel, t)}</span>
-            <span className="inline-flex items-center gap-1 text-orange-500"><Flame className="h-3.5 w-3.5" />{t('social.days', { n: streak })}</span>
-            <span className="inline-flex items-center gap-1 text-primary"><Zap className="h-3.5 w-3.5" />{state.profile.xp} XP</span>
+            <span className="inline-flex items-center gap-1 text-orange-300"><Flame className="h-3.5 w-3.5" />{t('social.days', { n: streak })}</span>
+            <span className="inline-flex items-center gap-1 text-amber-300"><Zap className="h-3.5 w-3.5" />{state.profile.xp} XP</span>
           </p>
         )}
-        {email && <p className="text-xs text-muted-foreground mt-0.5 truncate">{email}</p>}
+        {email && <p className="text-xs text-white/50 mt-0.5 truncate">{email}</p>}
       </div>
       <div className="relative mt-5 flex gap-2">
-        <Link to="/leaderboard" className="flex-1"><Button variant="secondary" size="sm" className="w-full gap-1.5"><Trophy className="h-4 w-4 text-amber-500" />{t('social.leaderboard')}</Button></Link>
-        <Link to="/learn" className="flex-1"><Button variant="glow" size="sm" className="w-full gap-1.5"><UserRound className="h-4 w-4" />{t('social.toLessons')}</Button></Link>
+        <Link to="/leaderboard" className="flex-1"><Button variant="outline" size="sm" className="w-full gap-1.5 border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"><Trophy className="h-4 w-4 text-amber-300" />{t('social.leaderboard')}</Button></Link>
+        <Link to="/learn" className="flex-1"><Button size="sm" className="w-full gap-1.5 bg-white text-primary hover:bg-white/90"><UserRound className="h-4 w-4" />{t('social.toLessons')}</Button></Link>
       </div>
       <EditProfileDialog open={editing} onOpenChange={setEditing} />
     </section>

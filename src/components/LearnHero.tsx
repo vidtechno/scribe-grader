@@ -16,7 +16,7 @@ type LearnHeroProps = {
   onSpeaking: () => void;
 };
 
-const pathCard = 'group relative overflow-hidden rounded-3xl border bg-card p-5 sm:p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg focus-within:ring-2 focus-within:ring-primary/40';
+const pathCard = 'group relative overflow-hidden rounded-[2rem] border bg-card p-5 sm:p-6 shadow-md shadow-black/[0.03] transition-all hover:-translate-y-0.5 hover:shadow-xl focus-within:ring-2 focus-within:ring-primary/40';
 
 /** New users choose a goal; returning users get one clear continuation action. */
 export function LearnHero({ hasIeltsActivity, onUpgrade, onWriting, onSpeaking }: LearnHeroProps) {
@@ -69,7 +69,7 @@ export function LearnHero({ hasIeltsActivity, onUpgrade, onWriting, onSpeaking }
   const locked = !state.access.allowed;
 
   const englishCard = (
-    <article className={`${pathCard} border-primary/25`}>
+    <article className={`${pathCard} border-primary/20 bg-gradient-to-br from-card via-card to-primary/[0.07]`}>
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between gap-3">
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary"><GraduationCap className="h-4 w-4" />{t('dash.continueLearning')}</span>
@@ -142,7 +142,7 @@ function ReturningGrid({ englishCard, onWriting, onSpeaking }: { englishCard: Re
       </div>
       <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-4">
         {englishCard}
-        <article className={`${pathCard} border-orange-300/40`}>
+        <article className={`${pathCard} border-orange-300/40 bg-gradient-to-br from-card via-card to-orange-400/[0.08]`}>
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between gap-3">
               <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-600"><Target className="h-4 w-4" />IELTS</span>

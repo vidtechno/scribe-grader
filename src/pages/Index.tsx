@@ -150,31 +150,31 @@ export default function Index() {
   const heroSection = (
     <>
       {/* Hero */}
-      <section className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-24 pb-14 sm:pt-28 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div animate={{ scale: [1, 1.18, 1], opacity: [0.12, 0.24, 0.12] }} transition={{ duration: 9, repeat: Infinity }} className="absolute -top-32 -right-24 w-[34rem] h-[34rem] bg-primary rounded-full blur-3xl" />
           <motion.div animate={{ scale: [1.15, 1, 1.15], opacity: [0.1, 0.18, 0.1] }} transition={{ duration: 11, repeat: Infinity }} className="absolute -bottom-40 -left-24 w-[28rem] h-[28rem] bg-orange-400 rounded-full blur-3xl" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative grid lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+        <div className="max-w-7xl mx-auto relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="text-center lg:text-left">
             <motion.div initial={false} animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-semibold tracking-wide mb-7">
+              className="inline-flex max-w-full items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] sm:text-sm font-semibold tracking-wide mb-5 sm:mb-7">
               <GraduationCap className="h-4 w-4" /> {t('landing.hero.badge')}
             </motion.div>
 
             <motion.h1 initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
-              className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold mb-6 leading-[1.1] tracking-tight">
+              className="text-[2.15rem] min-[390px]:text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold mb-4 sm:mb-6 leading-[1.08] tracking-tight break-words">
               {t('landing.hero.h1a')} <span className="gradient-text">{t('landing.hero.h1b')}</span>
             </motion.h1>
 
             <motion.p initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-9 leading-relaxed">
+              className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-7 sm:mb-9 leading-relaxed">
               {t('landing.hero.sub')}
             </motion.p>
 
             <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 [&_a]:w-full sm:[&_a]:w-auto [&_button]:w-full sm:[&_button]:w-auto">
               {user ? (
                 <Link to={appHref}><Button variant="glow" size="xl" className="gap-2">{t('landing.hero.continue')} <ChevronRight className="h-5 w-5" /></Button></Link>
               ) : (
@@ -186,14 +186,14 @@ export default function Index() {
             </motion.div>
 
             {!user && (
-              <p className="mt-4 text-sm text-muted-foreground flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-1">
+              <p className="mt-4 text-xs sm:text-sm text-muted-foreground flex flex-wrap items-center justify-center lg:justify-start gap-x-3 sm:gap-x-4 gap-y-1.5">
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />{t('landing.hero.noCard')}</span>
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />{t('landing.hero.telegram')}</span>
                 <span className="inline-flex items-center gap-1.5"><CheckCircle className="h-4 w-4 text-primary" />{t('landing.hero.anyLevel')}</span>
               </p>
             )}
 
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="grid grid-cols-3 gap-3 mt-10">
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="grid grid-cols-3 gap-2 sm:gap-3 mt-8 sm:mt-10">
               {[
                 ...(lang === 'en'
                   ? [
@@ -207,10 +207,10 @@ export default function Index() {
                     { icon: Target, value: t('landing.stat.c.v'), label: t('landing.stat.c.l') },
                   ]),
               ].map(s => (
-                <div key={s.value} className="p-3 sm:p-4 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/60 text-left">
-                  <s.icon className="h-5 w-5 mb-2 text-primary" />
-                  <div className="font-bold text-primary text-sm sm:text-base">{s.value}</div>
-                  <div className="text-xs sm:text-sm text-muted-foreground">{s.label}</div>
+                <div key={s.value} className="min-w-0 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-card/70 backdrop-blur-sm border border-border/60 text-left">
+                  <s.icon className="h-4 w-4 sm:h-5 sm:w-5 mb-1.5 sm:mb-2 text-primary" />
+                  <div className="font-bold text-primary text-xs sm:text-base break-words">{s.value}</div>
+                  <div className="text-[10px] leading-tight sm:text-sm sm:leading-normal text-muted-foreground break-words">{s.label}</div>
                 </div>
               ))}
             </motion.div>
