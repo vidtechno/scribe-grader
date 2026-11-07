@@ -6,7 +6,7 @@ import { uz } from 'date-fns/locale';
 import { useT } from '@/i18n';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BookOpen, Headphones, BrainCircuit, ChevronRight, ClipboardList, Crown, Mic, PenLine, PenTool, Sparkles, Trophy, Users, LifeBuoy } from 'lucide-react';
+  ArrowRight, Award, BookOpen, Headphones, BrainCircuit, Crown, Mic, PenLine, PenTool, Sparkles, LifeBuoy } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useActivityData } from '@/hooks/useDashboardData';
@@ -100,52 +100,20 @@ export default function Dashboard() {
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-6">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">{t('dash.welcome')} <span className="gradient-text">{firstName}</span></h1>
-            <p className="text-muted-foreground text-sm sm:text-base">{t('dash.subtitle')}</p>
+            <p className="text-muted-foreground text-sm sm:text-base">{t('dash.homeHint')}</p>
           </div>
           <SubscriptionBadge planType={planType} planName={planName} size="md" />
         </motion.div>
 
-        {/* English course: the main thing on this page */}
+        {/* The first screen adapts to activation state: choose a path or continue. */}
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={1} className="mb-6">
-          <LearnHero onUpgrade={() => setShowPricing(true)} />
-          <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 font-semibold px-3.5 py-1.5 hover:bg-amber-500/20 transition-colors"><Trophy className="h-4 w-4" />{t('dash.leaderboard')}</Link>
-            <Link to="/profile#people" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 hover:border-primary hover:text-primary transition-colors"><Users className="h-4 w-4" />{t('dash.friends')}</Link>
-          </div>
+          <LearnHero
+            hasIeltsActivity={activity.length > 0 || draftsCount > 0}
+            onUpgrade={() => setShowPricing(true)}
+            onWriting={() => openWriting(2)}
+            onSpeaking={openSpeaking}
+          />
         </motion.div>
-
-        {/* IELTS practice: one step down, always one tap away */}
-        <motion.section initial="hidden" animate="visible" variants={fadeUp} custom={2} className="mb-6" aria-label={t('dash.ieltsPractice')}>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">{t('dash.ieltsPractice')}</h2>
-            <Link to="/practice" className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:underline">{t('nav.allPractice')}<ChevronRight className="h-3.5 w-3.5" /></Link>
-          </div>
-          {!isIelts && (
-            <div className="mb-3 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
-              <Sparkles className="h-4 w-4 text-primary shrink-0" />
-              <p className="flex-1 min-w-[14rem]"><b>{t('dash.newBanner')}</b> <span className="text-muted-foreground">{t('dash.newBannerText')}</span></p>
-              <Button size="sm" variant="outline" onClick={() => setShowPricing(true)}>{t('dash.seeIeltsPlan')}</Button>
-            </div>
-          )}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {[
-              { icon: PenTool, title: 'Writing', left: writingLimit - writingUsed, onClick: () => openWriting(2) },
-              { icon: Mic, title: 'Speaking', left: speakingLimit - speakingUsed, onClick: openSpeaking },
-              { icon: BookOpen, title: 'Reading', note: isIelts ? t('dash.fiveUnlimited') : t('dash.threeFree'), isNew: true, onClick: () => navigate('/reading') },
-              { icon: Headphones, title: 'Listening', note: isIelts ? t('dash.fiveUnlimited') : t('dash.threeFree'), isNew: true, onClick: () => navigate('/listening') },
-              { icon: ClipboardList, title: t('dash.mock'), left: mockLimit - mockUsed, onClick: () => navigate('/mock-test') },
-            ].map((it) => (
-              <button key={it.title} type="button" onClick={it.onClick} className="group glass-card-hover p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 text-left">
-                <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><it.icon className="h-5 w-5" /></span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold text-sm">{it.title}{'isNew' in it && it.isNew && <span className="ml-1.5 align-middle text-[9px] font-bold uppercase rounded-full bg-primary text-primary-foreground px-1.5 py-0.5">{t('dash.new')}</span>}</span>
-                  <span className="block text-xs text-muted-foreground">{'note' in it ? it.note : t('dash.left', { n: Math.max(0, it.left) })}</span>
-                </span>
-                <ArrowRight className="hidden sm:block h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-              </button>
-            ))}
-          </div>
-        </motion.section>
 
         {/* 2. Learning, plan */}
         <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6 items-start mb-6">

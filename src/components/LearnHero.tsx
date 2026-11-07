@@ -1,132 +1,209 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, Compass, Flame, GraduationCap, Lock, Play, Target, Zap } from 'lucide-react';
+import {
+  ArrowRight, BookOpen, CheckCircle2, Clock3, Compass, GraduationCap, Headphones,
+  Layers3, Lock, Mic, PenTool, Play, Sparkles, Target,
+} from 'lucide-react';
 import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
-import { courseMap, learningStats, placementPending, trialDaysLeft, useLearningState } from '@/features/learn/api';
+import { courseMap, learningStats, placementPending, useLearningState } from '@/features/learn/api';
 import { ALL_LESSONS, COURSE_UNITS, levelOf, unitNo } from '@/features/learn/course';
-import { learningPlan } from '@/features/learn/plan';
-import { NextSteps } from '@/features/learn/components/NextSteps';
 
-/** The dashboard's main card: where the learner is in the English course and the one button that continues it. */
-export function LearnHero({ onUpgrade }: { onUpgrade: () => void }) {
+type LearnHeroProps = {
+  hasIeltsActivity: boolean;
+  onUpgrade: () => void;
+  onWriting: () => void;
+  onSpeaking: () => void;
+};
+
+const pathCard = 'group relative overflow-hidden rounded-3xl border bg-card p-5 sm:p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg focus-within:ring-2 focus-within:ring-primary/40';
+
+/** New users choose a goal; returning users get one clear continuation action. */
+export function LearnHero({ hasIeltsActivity, onUpgrade, onWriting, onSpeaking }: LearnHeroProps) {
   const { t, lang } = useT();
   const { data: state, isLoading } = useLearningState();
-  const shell = 'relative overflow-hidden rounded-3xl p-5 sm:p-7 text-white bg-gradient-to-br from-primary via-rose-500 to-orange-400 shadow-xl shadow-primary/20';
-  const bubbles = (
-    <>
-      <span aria-hidden className="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-white/10" />
-      <span aria-hidden className="absolute right-20 -bottom-16 w-40 h-40 rounded-full bg-white/10" />
-    </>
-  );
 
-  if (isLoading) return <div className="rounded-3xl h-[190px] bg-secondary/60 animate-pulse" aria-busy />;
+  if (isLoading) return <div className="h-[380px] rounded-3xl bg-secondary/60 animate-pulse" aria-busy />;
 
-  if (!state?.profile) {
-    return (
-      <div className={shell}>
-        {bubbles}
-        <div className="relative flex flex-col sm:flex-row sm:items-center gap-4">
-          <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><GraduationCap className="h-7 w-7" /></span>
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{t('learnhero.kicker')}</p>
-            <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">{t('learnhero.title')}</h2>
-            <p className="text-sm opacity-90 mt-1">{t('learnhero.desc')}</p>
-          </div>
-          <Link to="/learn"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">{t('learnhero.start')}<ArrowRight className="h-4 w-4" /></Button></Link>
-        </div>
-      </div>
-    );
+  const completedLessons = state?.progress?.filter((item) => item.completed_at).length ?? 0;
+  const completedDrills = state?.drills?.filter((item) => item.completed_at).length ?? 0;
+  const completedTests = state?.tests?.filter((item) => item.passed_at).length ?? 0;
+  const hasCourseActivity = completedLessons + completedDrills + completedTests > 0 || (state?.profile?.xp ?? 0) > 0;
+
+  if (!hasCourseActivity && !hasIeltsActivity) {
+    return <FirstVisit onWriting={onWriting} onSpeaking={onSpeaking} />;
   }
+
+  if (!state?.profile) return <ReturningGrid englishCard={<StartEnglishCard />} onWriting={onWriting} onSpeaking={onSpeaking} />;
 
   if (placementPending(state)) {
+    const target = levelOf(state.profile.placement_target);
     return (
-      <div className={shell}>
-        {bubbles}
-        <div className="relative flex flex-col sm:flex-row sm:items-center gap-4">
-          <span className="w-14 h-14 rounded-2xl bg-white/20 grid place-items-center shrink-0"><Compass className="h-7 w-7" /></span>
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{levelOf(state.profile.placement_target).title} · {levelOf(state.profile.placement_target).cefr}</p>
-            <h2 className="text-xl sm:text-2xl font-extrabold leading-tight">{t('learnhero.placement.title')}</h2>
-            <p className="text-sm opacity-90 mt-1">{t('learnhero.placement.desc', { level: levelOf(state.profile.placement_target).title })}</p>
-          </div>
-          <Link to="/learn/placement"><Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold">{t('learnhero.placement.start')}<ArrowRight className="h-4 w-4" /></Button></Link>
-        </div>
-      </div>
+      <ReturningGrid
+        englishCard={(
+          <article className={`${pathCard} border-primary/30`}>
+            <div className="flex h-full flex-col">
+              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><Compass className="h-5 w-5" /></span>
+              <p className="mt-4 text-xs font-bold uppercase tracking-wider text-primary">{target.title}</p>
+              <h2 className="mt-1 text-xl sm:text-2xl font-extrabold">{t('learnhero.placement.title')}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{t('learnhero.placement.desc', { level: target.title })}</p>
+              <Link to="/learn/placement" className="mt-auto pt-5"><Button size="lg" variant="glow" className="w-full gap-2">{t('learnhero.placement.start')}<ArrowRight className="h-4 w-4" /></Button></Link>
+            </div>
+          </article>
+        )}
+        onWriting={onWriting}
+        onSpeaking={onSpeaking}
+      />
     );
   }
 
-  const plan = learningPlan(state, 4, lang);
-  const map = plan.map;
+  const map = courseMap(state);
   const stats = learningStats(state, lang);
-  const daysLeft = trialDaysLeft(state.access);
-  const locked = !state.access.allowed;
   const level = levelOf(state.profile.level);
   const goal = state.goal?.daily_goal_xp ?? state.profile.daily_goal_xp ?? 30;
   const todayXp = state.goal?.today_xp ?? 0;
-  const info = state.streak_info;
-  const goalText = todayXp >= goal
-    ? t('learnhero.goal.done', { xp: todayXp, goal })
-    : todayXp > 0
-      ? t('learnhero.goal.some', { xp: todayXp, goal })
-      : info?.broken ? t('learnhero.goal.broken')
-      : info?.at_risk ? t(info.days_left <= 1 ? 'learnhero.goal.riskLast' : 'learnhero.goal.risk', { n: info.current })
-      : t('learnhero.goal.default', { goal, min: Math.max(5, Math.round(goal / 3)) });
   const pct = map.total ? Math.round((map.doneCount / map.total) * 100) : 0;
-  const drillTitle = map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.titleUz : null;
-  const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : map.nextLesson ? `/learn/lesson/${map.nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
-  const heading = locked ? t('learnhero.locked') : map.nextDrill ? t('learnhero.drill', { title: drillTitle ?? '' }) : map.nextLesson ? map.nextLesson.titleUz : map.pendingTest ? t('learnhero.testReady') : t('learnhero.allDone');
-  const topic = COURSE_UNITS.find((u) => u.id === (map.nextDrill ? ALL_LESSONS.find((l) => l.id === map.nextDrill!.lessonId)?.unitId : map.nextLesson?.unitId ?? map.pendingTest?.id));
-  const last = [...state.progress].filter((p) => p.completed_at).sort((a, b) => (b.completed_at! > a.completed_at! ? 1 : -1))
-    .map((p) => ALL_LESSONS.find((l) => l.id === p.lesson_id)).find(Boolean);
-  const kicker = locked ? t('learnhero.k.saved') : map.nextDrill ? t('learnhero.k.drill') : map.nextLesson ? (stats.todayDone ? t('learnhero.k.another') : t('learnhero.k.next')) : t('learnhero.k.test');
+  const nextLesson = map.nextLesson;
+  const drillTitle = map.nextDrill ? ALL_LESSONS.find((lesson) => lesson.id === map.nextDrill!.lessonId)?.titleUz : null;
+  const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : nextLesson ? `/learn/lesson/${nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
+  const heading = map.nextDrill ? t('learnhero.drill', { title: drillTitle ?? '' }) : nextLesson ? nextLesson.titleUz : map.pendingTest ? t('learnhero.testReady') : t('learnhero.allDone');
+  const topic = COURSE_UNITS.find((unit) => unit.id === (map.nextDrill ? ALL_LESSONS.find((lesson) => lesson.id === map.nextDrill!.lessonId)?.unitId : nextLesson?.unitId ?? map.pendingTest?.id));
+  const locked = !state.access.allowed;
 
-  return (
-    <div className={shell}>
-      {bubbles}
-      <div className="relative">
-        <div className="flex flex-wrap items-center gap-2 mb-3 text-xs font-semibold">
-          <span className="rounded-full bg-white/20 px-2.5 py-1">{level.title} · {level.cefr === 'Noldan' ? '0' : level.cefr}</span>
-          <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Flame className="h-3.5 w-3.5" />{t('learnhero.days', { n: info?.current ?? state.streak })}</span>
-          <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Zap className="h-3.5 w-3.5" />{state.profile.xp} XP</span>
-          {daysLeft !== null && <span className="rounded-full bg-white/20 px-2.5 py-1 inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{t('learnhero.freeLeft', { n: daysLeft })}</span>}
+  const englishCard = (
+    <article className={`${pathCard} border-primary/25`}>
+      <div className="flex h-full flex-col">
+        <div className="flex items-center justify-between gap-3">
+          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary"><GraduationCap className="h-4 w-4" />{t('dash.continueLearning')}</span>
+          <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">{level.title}</span>
         </div>
-        <div className="flex flex-col sm:flex-row sm:items-end gap-4">
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{kicker}</p>
-            <h2 className="text-xl sm:text-2xl font-extrabold leading-tight mt-0.5">{heading}</h2>
-            {!locked && topic && <p className="text-xs opacity-90 mt-1">{t('learnhero.topic', { n: unitNo(topic), title: topic.titleUz })}{last ? t('learnhero.last', { title: last.titleUz }) : ''}</p>}
-            <div className="mt-3 flex items-center gap-3">
-              <div className="h-2.5 flex-1 rounded-full bg-white/25 overflow-hidden"><div className="h-full rounded-full bg-white transition-all" style={{ width: `${pct}%` }} /></div>
-              <span className="text-xs font-semibold whitespace-nowrap">{t('learnhero.lessonsDone', { done: map.doneCount, total: map.total })}</span>
-            </div>
-            <p className="text-xs opacity-90 mt-2 flex items-center gap-1.5">
-              <Target className="h-3.5 w-3.5" />{goalText}
-            </p>
-            {!locked && plan.steps.length > 1 && (
-              <div className="mt-3 -mx-2 hidden sm:block"><NextSteps steps={plan.steps} dark /></div>
-            )}
-            <Link to="/learn" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold underline underline-offset-2 opacity-90 hover:opacity-100">{t('learnhero.allTopics', { level: level.title, done: plan.levelDone, total: plan.levelTotal })}<ArrowRight className="h-3 w-3" /></Link>
-          </div>
-          {locked ? (
-            <Button size="lg" onClick={onUpgrade} className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Lock className="h-4 w-4" />Learn / IELTS</Button>
-          ) : (
-            <Link to={continueTo} className="sm:shrink-0">
-              <Button size="lg" className="w-full sm:w-auto bg-white text-primary hover:bg-white/90 gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{map.nextLesson ? t('learnhero.continue') : t('learnhero.open')}</Button>
-            </Link>
-          )}
+        <h2 className="mt-3 text-xl sm:text-2xl font-extrabold leading-tight">{locked ? t('learnhero.locked') : heading}</h2>
+        {topic ? <p className="mt-1 text-sm text-muted-foreground">{t('learnhero.topic', { n: unitNo(topic), title: topic.titleUz })}</p> : null}
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} /></div>
+          <span className="text-xs font-semibold text-muted-foreground">{map.doneCount}/{map.total}</span>
         </div>
-        <div className="mt-5 flex items-stretch gap-1.5 h-10" aria-label={t('learnhero.last7')}>
-          {(() => {
-            const maxXp = Math.max(20, ...stats.week.map((d) => d.xp));
-            return stats.week.map((d) => (
-              <div key={d.day} className="flex-1 flex items-end justify-center" title={`${d.label}: ${d.xp} XP`}>
-                <div className={`w-3 sm:w-4 rounded-full ${d.xp ? 'bg-white' : 'bg-white/30'}`} style={{ height: d.xp ? `${Math.max(25, (d.xp / maxXp) * 100)}%` : '12%' }} />
-              </div>
-            ));
-          })()}
+        <div className="mt-4 grid grid-cols-3 gap-2 rounded-2xl bg-secondary/45 p-3 text-center text-xs text-muted-foreground">
+          <div><b className="block text-sm text-foreground">{todayXp}/{goal}</b>{t('dash.xpToday')}</div>
+          <div><b className="block text-sm text-foreground">{state.streak}</b>{t('dash.dayStreak')}</div>
+          <div><b className="block text-sm text-foreground">{stats.activeDays}</b>{t('dash.activeDays')}</div>
         </div>
-        <div className="flex justify-between text-[10px] opacity-80 mt-1">{stats.week.map((d) => <span key={d.day} className="flex-1 text-center">{d.label}</span>)}</div>
+        {locked ? (
+          <Button size="lg" onClick={onUpgrade} className="mt-5 w-full gap-2"><Lock className="h-4 w-4" />{t('dash.unlockLearning')}</Button>
+        ) : (
+          <Link to={continueTo} className="mt-auto pt-5"><Button size="lg" variant="glow" className="w-full gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{t('dash.continueLesson')}</Button></Link>
+        )}
       </div>
+    </article>
+  );
+
+  return <ReturningGrid englishCard={englishCard} onWriting={onWriting} onSpeaking={onSpeaking} />;
+}
+
+function FirstVisit({ onWriting, onSpeaking }: { onWriting: () => void; onSpeaking: () => void }) {
+  const { t } = useT();
+  return (
+    <section aria-labelledby="choose-path-title">
+      <div className="mb-4 sm:mb-5">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{t('dash.startKicker')}</p>
+        <h2 id="choose-path-title" className="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight">{t('dash.chooseGoal')}</h2>
+        <p className="mt-1 text-sm sm:text-base text-muted-foreground">{t('dash.chooseGoalText')}</p>
+      </div>
+      <div className="grid lg:grid-cols-2 gap-4">
+        <article className={`${pathCard} border-primary/30 bg-gradient-to-br from-card via-card to-primary/[0.06]`}>
+          <span aria-hidden className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-primary/[0.06]" />
+          <div className="relative flex h-full flex-col">
+            <CardHeading icon={BookOpen} kicker={t('dash.generalEnglish')} title={t('dash.improveEnglish')} />
+            <p className="mt-4 text-sm leading-6 text-muted-foreground">{t('dash.improveEnglishText')}</p>
+            <ul className="mt-4 grid grid-cols-1 min-[420px]:grid-cols-3 gap-2 text-xs font-semibold">
+              <li className="flex items-center gap-1.5"><Clock3 className="h-4 w-4 text-primary" />{t('dash.tenMinutes')}</li>
+              <li className="flex items-center gap-1.5"><Target className="h-4 w-4 text-primary" />{t('dash.dailyProgress')}</li>
+              <li className="flex items-center gap-1.5"><Layers3 className="h-4 w-4 text-primary" />{t('dash.levelRange')}</li>
+            </ul>
+            <Link to="/learn" className="mt-5 block"><Button size="lg" variant="glow" className="w-full gap-2 font-bold">{t('dash.startQuickLesson')}<ArrowRight className="h-4 w-4" /></Button></Link>
+            <Link to="/learn/start" className="mt-3 text-center text-xs font-medium text-muted-foreground hover:text-primary">{t('dash.unsureLevel')} <span className="font-semibold text-primary underline underline-offset-2">{t('dash.takeLevelCheck')}</span></Link>
+          </div>
+        </article>
+        <article className={`${pathCard} border-orange-300/50 bg-gradient-to-br from-card via-card to-orange-500/[0.06]`}>
+          <span aria-hidden className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-orange-400/[0.08]" />
+          <div className="relative flex h-full flex-col">
+            <CardHeading icon={Target} kicker={t('dash.ieltsPreparation')} title={t('dash.prepareIelts')} orange />
+            <p className="mt-4 text-sm leading-6 text-muted-foreground">{t('dash.prepareIeltsText')}</p>
+            <SkillGrid onWriting={onWriting} onSpeaking={onSpeaking} />
+            <Link to="/practice" className="mt-5 block"><Button size="lg" className="w-full gap-2 font-bold">{t('dash.chooseIelts')}<ArrowRight className="h-4 w-4" /></Button></Link>
+            <p className="mt-3 text-center text-xs text-muted-foreground">{t('dash.includesMocks')}</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function ReturningGrid({ englishCard, onWriting, onSpeaking }: { englishCard: ReactNode; onWriting: () => void; onSpeaking: () => void }) {
+  const { t } = useT();
+  return (
+    <section aria-label={t('dash.todayFocus')}>
+      <div className="mb-4">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{t('dash.todayFocus')}</p>
+        <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight">{t('dash.pickOneAction')}</h2>
+      </div>
+      <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-4">
+        {englishCard}
+        <article className={`${pathCard} border-orange-300/40`}>
+          <div className="flex h-full flex-col">
+            <div className="flex items-center justify-between gap-3">
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-600"><Target className="h-4 w-4" />IELTS</span>
+              <Link to="/practice" className="text-xs font-semibold text-primary hover:underline">{t('dash.allPractice')}</Link>
+            </div>
+            <h2 className="mt-3 text-xl sm:text-2xl font-extrabold">{t('dash.ieltsToday')}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{t('dash.ieltsTodayText')}</p>
+            <SkillGrid onWriting={onWriting} onSpeaking={onSpeaking} />
+            <Link to="/mock-test" className="mt-auto pt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:border-primary hover:text-primary transition-colors"><CheckCircle2 className="h-4 w-4" />{t('dash.openMock')}</Link>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function StartEnglishCard() {
+  const { t } = useT();
+  return (
+    <article className={`${pathCard} border-primary/25`}>
+      <div className="flex h-full flex-col">
+        <span className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><Sparkles className="h-5 w-5" /></span>
+        <h2 className="mt-4 text-xl sm:text-2xl font-extrabold">{t('dash.startEnglish')}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{t('dash.startEnglishText')}</p>
+        <Link to="/learn" className="mt-auto pt-5"><Button size="lg" variant="glow" className="w-full gap-2">{t('dash.chooseLevel')}<ArrowRight className="h-4 w-4" /></Button></Link>
+      </div>
+    </article>
+  );
+}
+
+function CardHeading({ icon: Icon, kicker, title, orange = false }: { icon: typeof PenTool; kicker: string; title: string; orange?: boolean }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${orange ? 'bg-orange-500/10 text-orange-600' : 'bg-primary/10 text-primary'}`}><Icon className="h-6 w-6" /></span>
+      <div><p className={`text-[11px] font-bold uppercase tracking-wider ${orange ? 'text-orange-600' : 'text-primary'}`}>{kicker}</p><h3 className="text-xl sm:text-2xl font-extrabold">{title}</h3></div>
     </div>
   );
+}
+
+function SkillGrid({ onWriting, onSpeaking }: { onWriting: () => void; onSpeaking: () => void }) {
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-2">
+      <SkillButton icon={PenTool} label="Writing" onClick={onWriting} />
+      <SkillButton icon={Mic} label="Speaking" onClick={onSpeaking} />
+      <SkillLink icon={BookOpen} label="Reading" to="/reading" />
+      <SkillLink icon={Headphones} label="Listening" to="/listening" />
+    </div>
+  );
+}
+
+function SkillButton({ icon: Icon, label, onClick }: { icon: typeof PenTool; label: string; onClick: () => void }) {
+  return <button type="button" onClick={onClick} className="flex min-h-11 items-center gap-2 rounded-xl bg-secondary/55 px-3 py-2.5 text-left text-sm font-semibold hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"><Icon className="h-4 w-4 shrink-0 text-primary" />{label}</button>;
+}
+
+function SkillLink({ icon: Icon, label, to }: { icon: typeof PenTool; label: string; to: string }) {
+  return <Link to={to} className="flex min-h-11 items-center gap-2 rounded-xl bg-secondary/55 px-3 py-2.5 text-sm font-semibold hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"><Icon className="h-4 w-4 shrink-0 text-primary" />{label}</Link>;
 }
