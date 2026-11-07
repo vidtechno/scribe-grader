@@ -1,4 +1,3 @@
-import { claimPendingReferral } from '@/lib/referral';
 import { useState, useEffect, useRef, useCallback, useMemo, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -81,7 +80,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setTimeout(() => {
           if (disposed) return;
           void fetchProfile(next.user.id);
-          void claimPendingReferral();
         }, 0);
       }
     };

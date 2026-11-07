@@ -124,15 +124,6 @@ export function UserSheet({ user, onClose, onChanged }: { user: AdminUser | null
         </section>
 
         <section className="mt-6">
-          <h3 className="text-sm font-bold mb-1">Referal</h3>
-          {d && <>
-            <Row k="Taklif qilgan / tarif olgan" v={`${d.referral.invited} / ${d.referral.bought}`} />
-            <Row k="Balans / to'langan" v={`${som(d.referral.balance)} / ${som(d.referral.paid)}`} />
-            {d.referral.referred_by && <Row k="Kim taklif qilgan" v={d.referral.referred_by} />}
-          </>}
-        </section>
-
-        <section className="mt-6">
           <h3 className="text-sm font-bold mb-1">IELTS</h3>
           <Row k="Writing / Speaking / Mock" v={`${user.essays} / ${user.speaking} / ${user.mocks}`} />
         </section>

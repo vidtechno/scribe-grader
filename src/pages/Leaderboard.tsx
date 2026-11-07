@@ -86,7 +86,7 @@ export default function Leaderboard() {
           <div>
             {podium.length > 0 && <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-5">
               {podium.map((r) => <Link key={r.public_id} to={`/u/${r.username ?? r.public_id}`} className={`rounded-2xl border p-3 text-center transition-transform hover:-translate-y-0.5 sm:p-4 ${r.rank === 1 ? 'border-yellow-400/50 bg-yellow-400/10 sm:-translate-y-1' : 'border-border bg-card'}`}>
-                <div className="mx-auto mb-2 w-fit"><Avatar name={r.name} avatar={r.avatar} /></div><div className="mx-auto mb-1 grid h-7 w-7 place-items-center"><RankBadge rank={r.rank} /></div><p className="truncate text-xs font-bold sm:text-sm">{r.username ? `@${r.username}` : r.name}{r.is_me && t('lb.you')}</p><p className="mt-1 text-lg font-extrabold text-primary">{r.xp} <span className="text-[10px] font-medium">XP</span></p>{r.streak > 0 ? <p className="mt-1 inline-flex items-center gap-1 text-[11px] text-orange-500"><Flame className="h-3 w-3" />{r.streak}</p> : null}
+                <div className="mx-auto mb-2 w-fit"><Avatar name={r.name} avatar={r.avatar} /></div><div className="mx-auto mb-1 grid h-7 w-7 place-items-center"><RankBadge rank={r.rank} /></div><p className="truncate text-sm font-extrabold sm:text-base">{r.name}{r.is_me && t('lb.you')}</p>{r.username ? <p className="truncate text-[10px] text-muted-foreground">@{r.username}</p> : null}<p className="mt-1 text-lg font-extrabold text-primary">{r.xp} <span className="text-[10px] font-medium">XP</span></p>{r.streak > 0 ? <p className="mt-1 inline-flex items-center gap-1 text-[11px] text-orange-500"><Flame className="h-3 w-3" />{r.streak}</p> : null}
               </Link>)}
             </div>}
             <div className="overflow-hidden rounded-2xl border bg-card">
@@ -97,7 +97,8 @@ export default function Leaderboard() {
                 <Link to={`/u/${r.username ?? r.public_id}`} className="flex flex-1 min-w-0 items-center gap-3">
                   <Avatar name={r.name} avatar={r.avatar} />
                   <span className="min-w-0">
-                    <span className="block truncate font-semibold text-sm">{r.username ? `@${r.username}` : r.name}{r.is_me && t('lb.you')}</span>
+                    <span className="block truncate font-bold text-sm">{r.name}{r.is_me && t('lb.you')}</span>
+                    {r.username ? <span className="block truncate text-[10px] text-muted-foreground">@{r.username}</span> : null}
                     <span className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span>{levelLabel(r.level, t)}</span>
                       {r.streak > 0 && <span className="inline-flex items-center gap-0.5 text-orange-500"><Flame className="h-3 w-3" />{r.streak}</span>}

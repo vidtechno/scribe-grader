@@ -14,7 +14,7 @@ import { BEGINNER_UNITS, A1_UNITS, A2_UNITS, B1_UNITS } from '@/features/learn/c
 import { motion } from 'framer-motion';
 import { track } from '@/lib/analytics';
 import {
-  BookOpen, Check, CheckCircle, ChevronRight, Flame, Gift, GraduationCap, Headphones, Mic, PenLine, Repeat, Send, Sparkles, Trophy, Volume2, Zap,
+  BookOpen, Check, CheckCircle, ChevronRight, Flame, GraduationCap, Headphones, Mic, PenLine, Repeat, Send, Sparkles, Trophy, Volume2, Zap,
   ClipboardCheck, Clock, Target, Languages, MessagesSquare, CreditCard, FileQuestion, HelpCircle, Layers, ArrowRight,
 } from 'lucide-react';
 
@@ -396,7 +396,7 @@ export default function Index() {
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{l.tag}</p>
                 <h3 className="text-2xl font-extrabold mb-2">{l.title}</h3>
                 <p className="text-sm opacity-95 mb-4">{l.text}</p>
-                <div className="flex gap-4 text-sm font-semibold"><span>{t('landing.level.units', { n: l.units })}</span><span>{t('landing.level.lessons', { n: l.lessons })}</span><span className="flex items-center gap-1"><ClipboardCheck className="h-4 w-4" />{l.exam ? t('landing.level.exam') : t('landing.level.unitTests')}</span></div>
+                <div className="flex gap-4 text-sm font-semibold"><span>{t('landing.level.units', { n: l.units })}</span><span className="flex items-center gap-1"><ClipboardCheck className="h-4 w-4" />{l.exam ? t('landing.level.exam') : t('landing.level.unitTests')}</span></div>
               </div>
             ))}
           </div>
@@ -425,10 +425,6 @@ export default function Index() {
               </motion.div>
             ))}
           </motion.div>
-          <div className="mt-8 max-w-3xl mx-auto glass-card p-5 flex items-start gap-3 border-l-4 border-l-primary">
-            <Gift className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-            <p className="text-sm text-muted-foreground leading-relaxed"><b className="text-foreground">{t('landing.ref.title')}</b> {t('landing.ref.text')}</p>
-          </div>
         </div>
       </section>
 

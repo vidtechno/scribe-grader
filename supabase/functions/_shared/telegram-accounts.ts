@@ -90,10 +90,6 @@ export async function ensureScorifyUser(db: Db, account: TelegramAccount): Promi
   const { data: row } = await db.from("telegram_accounts").select("user_id").eq("telegram_id", account.telegram_id).single();
   const finalUserId = (row?.user_id as string | null) ?? userId;
 
-  if (created && account.pending_ref) {
-    const { error } = await db.rpc("internal_claim_referral", { _me: finalUserId, _code: account.pending_ref });
-    if (error) console.error("referral claim failed:", error.message);
-  }
   return { userId: finalUserId, created };
 }
 

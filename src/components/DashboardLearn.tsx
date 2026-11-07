@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Brain, Gift, Medal, Target, Trophy } from 'lucide-react';
+import { Brain, Medal, Target, Trophy } from 'lucide-react';
 import { useLearningState } from '@/features/learn/api';
 import { useReviewQueue } from '@/features/learn/engine/api';
 import { useLeaderboard } from '@/features/social/api';
@@ -8,7 +8,7 @@ import { achievementText } from '@/features/social/components';
 
 const card = 'group glass-card-hover p-4 flex flex-col gap-2';
 
-/** The learning side of the dashboard: what to review, where you stand this week, latest achievements, referral. */
+/** The learning side of the dashboard: what to review, where you stand this week and latest achievements. */
 export function DashboardLearn() {
   const { t } = useT();
   const { data: state } = useLearningState();
@@ -51,12 +51,6 @@ export function DashboardLearn() {
             <span className="text-xs text-muted-foreground">{t('dl.joinText')}</span>
           </>
         )}
-      </Link>
-
-      <Link to="/profile#referral" className={card}>
-        <span className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider"><Gift className="h-4 w-4 text-emerald-600" />{t('dl.referral')}</span>
-        <span className="text-lg font-bold leading-tight">{t('dl.referralTitle')}</span>
-        <span className="text-xs text-muted-foreground inline-flex items-center gap-1">{t('dl.referralText')} <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" /></span>
       </Link>
 
       {recent.length > 0 && (

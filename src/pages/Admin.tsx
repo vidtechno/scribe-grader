@@ -19,7 +19,7 @@ const TABS = [
   { id: 'overview', label: 'Umumiy', icon: LayoutDashboard },
   { id: 'users', label: 'Foydalanuvchilar', icon: Users },
   { id: 'learning', label: "Ta'lim", icon: BookOpen },
-  { id: 'money', label: 'Pul va referal', icon: Wallet },
+  { id: 'money', label: 'Obunalar', icon: Wallet },
   { id: 'news', label: "E'lonlar", icon: Megaphone },
   { id: 'blog', label: 'Blog', icon: FileText },
   { id: 'settings', label: 'Sozlamalar', icon: Settings },

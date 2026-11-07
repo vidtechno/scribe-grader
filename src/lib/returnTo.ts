@@ -11,7 +11,7 @@ export const DEFAULT_RETURN_TO = '/dashboard';
  */
 export const RETURN_TO_ROOTS = [
   'dashboard', 'learn', 'writing', 'speaking', 'speaking-result', 'speaking-history', 'reading', 'listening', 'mock-test',
-  'practice', 'grammar-test', 'exam', 'result', 'leaderboard', 'profile', 'essays', 'drafts', 'support', 'referral', 'people', 'u',
+  'practice', 'grammar-test', 'exam', 'result', 'leaderboard', 'profile', 'essays', 'drafts', 'support', 'people', 'u',
 ] as const;
 
 const ORIGIN = 'https://return-to.invalid';

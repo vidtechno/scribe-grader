@@ -165,7 +165,7 @@ function CourseHome({ state }: { state: LearningState }) {
 
       <section className="mb-4" aria-label={t('learn.home.stats')}>
         <div className="grid grid-cols-2 gap-3 rounded-2xl bg-secondary/55 p-1.5">
-          <button type="button" onClick={() => setTab('map')} className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition-all ${tab === 'map' ? 'bg-card text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}><GraduationCap className="h-5 w-5" />{t('learn.home.tabTopics')}<span className="rounded-full bg-secondary px-2 py-0.5 text-[10px]">{map.doneCount}/{map.total}</span></button>
+          <button type="button" onClick={() => setTab('map')} className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition-all ${tab === 'map' ? 'bg-card text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}><GraduationCap className="h-5 w-5" />{t('learn.home.tabTopics')}</button>
           <button type="button" onClick={() => setTab('words')} className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition-all ${tab === 'words' ? 'bg-card text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}><Brain className="h-5 w-5" />{t('learn.home.tabWords')}<span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] text-primary">{map.wordCount}</span></button>
         </div>
       </section>

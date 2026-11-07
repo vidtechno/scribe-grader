@@ -10,7 +10,6 @@ export function functionUrl(): string {
 const USER_COMMANDS = [
   { command: "start", description: "Bosh menyu" },
   { command: "learn", description: "Ingliz tili darslari (noldan)" },
-  { command: "referral", description: "Referal: do'st taklif qiling, pul ishlang" },
   { command: "ielts", description: "IELTS: Writing, Speaking, Reading, Listening, mock" },
   { command: "dictionary", description: "Lug'at, kun so'zi va so'z testi" },
   { command: "cabinet", description: "Kabinet: tarif, natijalar, sozlamalar" },

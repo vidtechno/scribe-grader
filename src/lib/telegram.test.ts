@@ -4,7 +4,7 @@ import { miniAppPath } from './telegram';
 
 describe('Mini App destinations', () => {
   it('opens the page a bot button points to', () => {
-    for (const path of ['/writing', '/speaking', '/essays', '/mock-test', '/grammar-test', '/referral', '/profile', '/leaderboard', '/dashboard'])
+    for (const path of ['/writing', '/speaking', '/essays', '/mock-test', '/grammar-test', '/profile', '/leaderboard', '/dashboard'])
       expect(miniAppPath(path)).toBe(path);
     const id = '8777f662-e828-4bd1-931e-5a647c7b6556';
     expect(miniAppPath(`/result/${id}`)).toBe(`/result/${id}`);

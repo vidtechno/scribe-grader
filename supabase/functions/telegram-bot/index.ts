@@ -43,7 +43,6 @@ const MENU: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   [BTN.ielts]: user.showIelts,
   [BTN.dictionary]: user.showDictionary,
   [BTN.cabinet]: user.showCabinet,
-  [BTN.referral]: user.showInvite,
   [BTN.start]: (c) => user.showStart(c),
   [BTN.help]: user.showHelp,
 };
@@ -59,7 +58,6 @@ const LEGACY: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   [LEGACY_BTN.goal]: user.showGoal,
   [LEGACY_BTN.plan]: user.showPlan,
   [LEGACY_BTN.top]: (c) => user.showTop(c, "w"),
-  [LEGACY_BTN.invite]: user.showInvite,
   [LEGACY_BTN.dailyTest]: user.showDailyTest,
   [LEGACY_BTN.quiz]: user.newQuiz,
   [LEGACY_BTN.daily]: user.showDaily,
@@ -73,7 +71,6 @@ const COMMANDS: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   menu: (c) => user.showMenu(c),
   learn: user.showLearn,
   ielts: user.showIelts,
-  referral: user.showInvite,
   dictionary: user.showDictionary,
   writing: user.showWriting,
   speaking: user.showSpeaking,
@@ -87,7 +84,6 @@ const COMMANDS: Record<string, (ctx: Ctx) => Promise<unknown>> = {
   goal: user.showGoal,
   plan: user.showPlan,
   top: (c) => user.showTop(c, "w"),
-  invite: user.showInvite,
   daily: user.showDaily,
   app: user.openApp,
   settings: user.showSettings,
@@ -127,7 +123,6 @@ async function onMessage(msg: Message) {
   }
 
   if (ctx.account.state) {
-    if (text && await user.referralInput(ctx, text)) return;
     if (ctx.isAdmin && await adminInput(ctx, msg)) return;
     if (ctx.account.state.awaiting === "exam_date" && text) return user.examDateInput(ctx, text);
   }
@@ -162,7 +157,7 @@ async function onCallback(q: CallbackQuery) {
     switch (parts[0]) {
       case "u": {
         const map: Record<string, (c: Ctx) => Promise<unknown>> = {
-          stats: user.showStats, plan: user.showPlan, goal: user.showGoal, invite: user.showInvite, daily: user.showDaily,
+          stats: user.showStats, plan: user.showPlan, goal: user.showGoal, daily: user.showDaily,
           settings: user.showSettings, help: user.showHelp, open: user.openApp, register: user.register, linkinfo: user.linkInfo,
           cab: user.showCabinet, blog: user.showArticles, start: (c) => user.showStart(c), test: user.showDailyTest,
           writing: user.showWriting, speaking: user.showSpeaking, learn: user.showLearn, dict: user.showDictionary,
@@ -183,10 +178,6 @@ async function onCallback(q: CallbackQuery) {
         break;
       case "t":
         await user.showTop(ctx, ["d", "w", "m"].includes(parts[1]) ? parts[1] : "w");
-        break;
-      case "rf":
-        if (parts[1] === "w") await user.withdrawStart(ctx);
-        else if (parts[1] === "wy") await user.withdrawConfirm(ctx);
         break;
       case "q":
         if (parts[1] === "n") await user.newQuiz(ctx);
@@ -252,12 +243,6 @@ async function onUpdate(update: Update) {
     const exempt = data.startsWith("lg:") || payload.startsWith("login_") || payload.startsWith("link_");
     if (!exempt && !(await isSubscribed(from.id))) {
       if (cq) await dismiss(cq.id, "Avval kanalga obuna bo'ling 👇");
-      // A friend's referral link must survive the detour through the channel.
-      const ref = /^ref_([A-Za-z0-9]{4,16})$/.exec(payload)?.[1];
-      if (ref) {
-        const account = await upsertTelegramAccount(db, from);
-        if (!account.user_id) await db.from("telegram_accounts").update({ pending_ref: ref.toUpperCase() }).eq("telegram_id", from.id);
-      }
       await showGate(chat.id);
       return;
     }

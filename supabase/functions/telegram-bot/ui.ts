@@ -25,13 +25,12 @@ export const app = (text: string, path: string): Button => ({ text, web_app: { u
 /** Opens any page of scorify.uz inside Telegram without signing in (blog pages are public). */
 export const page = (text: string, url: string): Button => ({ text, web_app: { url } });
 
-/** Main keyboard: five buttons. Learn first; IELTS, dictionary, cabinet and referral; everything else lives inside them. */
+/** Main keyboard: Learn first; IELTS, dictionary and cabinet keep navigation short. */
 export const BTN = {
   learn: "🎓 Ingliz tili darslari",
   ielts: "🎯 IELTS",
   dictionary: "📚 Lug'at",
   cabinet: "👤 Kabinet",
-  referral: "🎁 Referal",
   start: "🚀 Boshlash",
   help: "❓ Yordam",
   admin: "👑 Admin panel",
@@ -48,7 +47,6 @@ export const LEGACY_BTN = {
   goal: "🎯 Maqsadim",
   plan: "💎 Tarifim",
   top: "🏆 Reyting",
-  invite: "🎁 Do'stlarni taklif qilish",
   dailyTest: "📝 Kunlik test",
   quiz: "🧠 So'z testi",
   daily: "💡 Kunlik mashq",
@@ -63,7 +61,7 @@ export function mainKeyboard(ctx: Ctx) {
     ? [
       [{ text: BTN.learn }],
       [{ text: BTN.ielts }, { text: BTN.dictionary }],
-      [{ text: BTN.cabinet }, { text: BTN.referral }],
+      [{ text: BTN.cabinet }],
     ]
     : [
       [{ text: BTN.learn }],

@@ -26,13 +26,12 @@ export async function showAdmin(ctx: Ctx) {
   const { data } = await ctx.db.rpc("telegram_admin_stats");
   const s = (data ?? {}) as Record<string, number>;
   const alerts = [
-    s.ref_pending ? `💸 To'lash kerak: <b>${s.ref_pending}</b> ta so'rov (${money(s.ref_pending_sum)})` : "",
     s.expiring_7d ? `⏳ 7 kunda tugaydigan obuna: <b>${s.expiring_7d}</b>` : "",
     s.outbox_failed_24h ? `⚠️ Xabar yuborishda xato (24 soat): <b>${s.outbox_failed_24h}</b>` : "",
   ].filter(Boolean);
   await reply(ctx, ["👑 <b>Admin panel</b>", alerts.length ? `\n${alerts.join("\n")}` : "\n✅ Hammasi joyida — kutayotgan ish yo'q.", "\nBo'limni tanlang:"].join("\n"), [
     [cb("📊 Bugungi holat", "ad:stats")],
-    [cb("👥 Foydalanuvchilar", "ad:ul"), cb(s.ref_pending ? `💸 To'lovlar (${s.ref_pending})` : "💸 To'lovlar", "ad:pay")],
+    [cb("👥 Foydalanuvchilar", "ad:ul")],
     [cb("📣 Xabar yuborish", "ad:bc"), cb("📢 Sayt e'lonlari", "ad:an")],
     [cb("🤖 Bot holati", "ad:bot")],
     [app("🖥 Saytdagi admin panel", "/admin")],
@@ -45,7 +44,7 @@ const money = (n: number) => `${String(Math.round(Number(n) || 0)).replace(/\B(?
 const pct = (a: number, b: number) => (b > 0 ? `${Math.round((a / b) * 100)}%` : "—");
 const num = (n: unknown) => Number(n ?? 0);
 
-/** Bot statistics, one screen per topic: people, learning, funnel, and the older overview of plans, referrals and IELTS. */
+/** Bot statistics, one screen per topic: people, learning, funnel, plans and IELTS. */
 async function showStats(ctx: Ctx, section = "u") {
   const { data: f, error: fe } = await ctx.db.rpc("telegram_admin_funnel");
   if (fe) throw fe;
@@ -92,9 +91,6 @@ async function showStats(ctx: Ctx, section = "u") {
       "💎 <b>Tariflar</b>",
       `Learn: <b>${num(s.paid_go)}</b> · IELTS: <b>${num(s.paid_plus)}</b> · bepul haftada: ${num(s.trial)}`,
       `7 kunda tugaydi: ${num(s.expiring_7d)}`,
-      "\n🎁 <b>Referal</b>",
-      `Taklif qilinganlar: ${num(s.ref_invited)}`,
-      `Kutilayotgan to'lov: ${s.ref_pending ? `<b>${s.ref_pending}</b> (${money(s.ref_pending_sum)})` : "yo'q"}`,
       "\n🤖 <b>Xabarlar (24 soat)</b>",
       `Yuborildi: ${num(s.outbox_sent_24h)} · navbatda: ${num(s.outbox_pending)} · xato: ${num(s.outbox_failed_24h)}`,
       "\n✍️ <b>IELTS (7 kun)</b>",
@@ -252,7 +248,6 @@ export async function userCard(ctx: Ctx, userId: string) {
       ? `\n🎓 <b>${LEVELS[u.level] ?? esc(u.level)}</b> · ⚡️ ${u.xp ?? 0} XP · 🔥 ${u.streak ?? 0} kun · ${u.lessons_done} ta dars${u.last_learn_day ? ` · oxirgi o'qish ${fmtDate(u.last_learn_day)}` : ""}`
       : "\n🎓 Kursni hali boshlamagan",
     u.essays || u.speaking || u.mocks ? `✍️ IELTS: Writing ${u.essays} (o'rtacha ${band(u.avg_writing === null ? null : Number(u.avg_writing))}) · Speaking ${u.speaking} (${band(u.avg_speaking === null ? null : Number(u.avg_speaking))}) · Mock ${u.mocks}` : "",
-    u.invited || u.ref_balance ? `🎁 Referal: ${u.invited} taklif · balans ${money(u.ref_balance)}` : "",
     u.telegram_id ? `🤖 ${u.telegram_username ? `@${esc(u.telegram_username)}` : u.telegram_id}${u.telegram_banned ? " · 🚫 ban" : ""}${u.telegram_blocked ? " · botni bloklagan" : ""}` : "🤖 Telegram ulanmagan",
   ].filter((x) => x !== "").join("\n");
   const keyboard: InlineKeyboard = [

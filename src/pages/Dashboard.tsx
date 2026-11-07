@@ -61,7 +61,7 @@ export default function Dashboard() {
   useEffect(() => { void refreshProfile(); void refreshSub(); }, [refreshProfile, refreshSub]);
   const onPaid = useCallback(() => { void refreshSub(); void refreshProfile(); }, [refreshSub, refreshProfile]);
 
-  // Live-refresh the plan when an admin (or the referral program) changes it.
+  // Live-refresh the plan when an admin or payment changes it.
   useEffect(() => {
     if (!profile?.user_id) return;
     const channel = supabase.channel('sub-live-' + profile.user_id)
@@ -118,7 +118,7 @@ export default function Dashboard() {
         <div className="grid lg:grid-cols-2 gap-4 items-stretch mb-6">
           <section className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] via-card to-card p-5 sm:p-6">
             <div className="flex items-start gap-3"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground"><Brain className="h-6 w-6" /></span><div><p className="text-xs font-bold uppercase tracking-wider text-primary">{t('learn.home.tabWords')}</p><h2 className="text-xl font-extrabold">{t('dl.review')}</h2></div></div>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">{t('dash.learnPlanInfo')}</p>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">{t('dash.vocabText')}</p>
             <div className="mt-4 grid grid-cols-2 gap-2">
               <Link to="/learn?tab=words"><Button variant="glow" className="w-full gap-2"><Brain className="h-4 w-4" />{t('learn.home.tabWords')}</Button></Link>
               <Link to="/learn"><Button variant="outline" className="w-full gap-2">{t('nav.learn')}<ArrowRight className="h-4 w-4" /></Button></Link>
@@ -165,12 +165,12 @@ export default function Dashboard() {
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('dash.explore')}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
-              { to: '/grammar-test', icon: BrainCircuit, title: t('nav.grammar'), text: t('dash.grammarText') },
-              { to: '/support', icon: LifeBuoy, title: t('dash.support'), text: t('dash.supportText') },
-              { to: '/drafts', icon: PenLine, title: t('dash.drafts'), text: draftsCount ? t(draftsCount === 1 ? 'dash.draftsOne' : 'dash.draftsMany', { n: draftsCount }) : t('dash.draftsNone') },
+              { to: '/grammar-test', icon: BrainCircuit, title: t('nav.grammar'), text: t('dash.grammarText'), tone: 'from-rose-500/10 to-orange-400/5 text-primary' },
+              { to: '/support', icon: LifeBuoy, title: t('dash.support'), text: t('dash.supportText'), tone: 'from-sky-500/10 to-cyan-400/5 text-sky-600' },
+              { to: '/drafts', icon: PenLine, title: t('dash.drafts'), text: draftsCount ? t(draftsCount === 1 ? 'dash.draftsOne' : 'dash.draftsMany', { n: draftsCount }) : t('dash.draftsNone'), tone: 'from-violet-500/10 to-fuchsia-400/5 text-violet-600' },
             ].map(i => (
-              <Link key={i.to} to={i.to} className="group glass-card-hover p-4 flex items-center gap-3">
-                <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><i.icon className="h-5 w-5" /></span>
+              <Link key={i.to} to={i.to} className={`group glass-card-hover bg-gradient-to-br ${i.tone} p-4 flex items-center gap-3`}>
+                <span className="w-10 h-10 rounded-xl bg-white/75 dark:bg-black/20 grid place-items-center shrink-0"><i.icon className="h-5 w-5" /></span>
                 <span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{i.title}</span><span className="block text-xs text-muted-foreground truncate">{i.text}</span></span>
                 <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
               </Link>

@@ -76,7 +76,7 @@ export function UsersTab() {
   };
 
   const SEGMENTS: [Segment, string][] = [['all', 'Hammasi'], ['online', 'Hozir onlayn'], ['recent', 'Oxirgi onlayn'], ['paid', 'Pullik'], ['trial', 'Bepul hafta'], ['expiring', '7 kunda tugaydi'], ['expired', "Muddati o'tgan"],
-    ['free', 'Free'], ['active7', 'Faol (7 kun)'], ['inactive', 'Faol emas (7+ kun)'], ['never', "Hech dars qilmagan"], ['referrers', 'Referal qilganlar']];
+    ['free', 'Free'], ['active7', 'Faol (7 kun)'], ['inactive', 'Faol emas (7+ kun)'], ['never', "Hech dars qilmagan"]];
 
   const pages = Math.max(1, Math.ceil(rows.length / PAGE));
   const current = Math.min(page, pages);

@@ -154,7 +154,6 @@ function AppRoutes() {
         <Route path="/speaking-result/:id" element={<ProtectedRoute><SpeakingResult /></ProtectedRoute>} />
         <Route path="/speaking-history" element={<ProtectedRoute><SpeakingHistory /></ProtectedRoute>} />
         <Route path="/drafts" element={<ProtectedRoute><Drafts /></ProtectedRoute>} />
-        <Route path="/referral" element={<Navigate to="/profile#referral" replace />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/people" element={<Navigate to="/profile#people" replace />} />
         <Route path="/u/:publicId" element={<ProtectedRoute><PublicProfile /></ProtectedRoute>} />

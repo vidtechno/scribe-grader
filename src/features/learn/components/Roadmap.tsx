@@ -113,10 +113,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
                       {status === 'done' ? tr('learn.road.statusDone') : status === 'current' ? tr('learn.road.statusCurrent') : status === 'review' ? tr('learn.road.statusReview') : tr('learn.road.statusLocked')}
                     </span>
                     <span className="block font-bold leading-snug">{tr('learn.road.unitName', { n: unitNo(unit), title: unit.titleUz })}</span>
-                    <span className="mt-1.5 flex items-center gap-2">
-                      <span className="h-1.5 w-24 rounded-full bg-secondary overflow-hidden"><span className="block h-full rounded-full bg-primary" style={{ width: `${pct}%` }} /></span>
-                      <span className="text-xs text-muted-foreground">{tr('learn.road.lessonsCount', { done: doneCount, total: unit.lessons.length })}</span>
-                    </span>
+                    {doneCount > 0 && <span className="mt-1.5 block h-1.5 w-24 rounded-full bg-secondary overflow-hidden"><span className="block h-full rounded-full bg-primary" style={{ width: `${pct}%` }} /></span>}
                   </span>
                   <ChevronDown className={`h-5 w-5 text-muted-foreground shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
                 </button>

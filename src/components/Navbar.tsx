@@ -7,13 +7,10 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useT } from '@/i18n';
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { LogOut, User, LayoutDashboard, Shield, Crown, PenTool, Mic, BrainCircuit, BookOpen, Headphones, GraduationCap, ChevronDown, ClipboardList, Target, Trophy } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { LogOut, User, LayoutDashboard, Shield, Crown, BookOpen, Trophy, Flame } from 'lucide-react';
+import { useLearningState } from '@/features/learn/api';
 
 import { useSubscription } from '@/hooks/useSubscription';
-
-/** Pages that belong to the IELTS Practice section. */
-const PRACTICE_PATHS = /^\/(practice|reading|listening|writing|exam|speaking|speaking-history|speaking-result|essays|result|drafts|mock-test|grammar-test|vocabulary)(\/|$)/;
 
 const PricingModal = lazy(() => import('@/components/PricingModal').then(m => ({ default: m.PricingModal })));
 
@@ -21,6 +18,7 @@ export function Navbar() {
   const { user, profile, signOut } = useAuth();
   const { t } = useT();
   const { planName, planType, trialActive, trialDaysLeft } = useSubscription();
+  const { data: learning } = useLearningState();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -63,40 +61,13 @@ export function Navbar() {
                   <span className="hidden sm:inline">{t('nav.dashboard')}</span>
                 </Button>
               </Link>
-              {/* The English course is the main section of the site. */}
-              <Link to="/learn" className="hidden md:block" aria-current={pathname.startsWith('/learn') ? 'page' : undefined}>
-                <Button size="sm" className={`gap-2 font-semibold ${pathname.startsWith('/learn') ? '' : 'bg-primary/10 text-primary hover:bg-primary/20'}`}>
-                  <GraduationCap className="h-4 w-4" />
-                  <span>{t('nav.learn')}</span>
-                </Button>
-              </Link>
               <Link to="/leaderboard" className="hidden md:block" aria-current={pathname === '/leaderboard' ? 'page' : undefined}>
                 <Button variant="ghost" size="sm" className={`gap-2 font-semibold ${pathname === '/leaderboard' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400' : 'text-amber-600 dark:text-amber-400 hover:bg-amber-500/10'}`}>
                   <Trophy className="h-4 w-4" />
                   <span>{t('nav.leaderboard')}</span>
                 </Button>
               </Link>
-              <div className="hidden md:block">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className={`gap-1.5 ${PRACTICE_PATHS.test(pathname) ? 'bg-secondary text-foreground' : ''}`}>
-                      <Target className="h-4 w-4" />
-                      <span>{t('nav.ielts')}</span>
-                      <ChevronDown className="h-3.5 w-3.5 opacity-60" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem asChild><Link to="/writing" className="gap-2 cursor-pointer"><PenTool className="h-4 w-4" />{t('nav.writing')}</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link to="/speaking" className="gap-2 cursor-pointer"><Mic className="h-4 w-4" />{t('nav.speaking')}</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link to="/reading" className="gap-2 cursor-pointer"><BookOpen className="h-4 w-4" />{t('nav.reading')}</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link to="/listening" className="gap-2 cursor-pointer"><Headphones className="h-4 w-4" />{t('nav.listening')}</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link to="/mock-test" className="gap-2 cursor-pointer"><ClipboardList className="h-4 w-4" />{t('nav.mock')}</Link></DropdownMenuItem>
-                    <DropdownMenuItem asChild><Link to="/grammar-test" className="gap-2 cursor-pointer"><BrainCircuit className="h-4 w-4" />{t('nav.grammar')}</Link></DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild><Link to="/practice" className="gap-2 cursor-pointer text-primary">{t('nav.allPractice')}</Link></DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              {learning?.profile ? <Link to="/learn" className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-orange-400/30 bg-orange-500/10 px-3 py-1.5 text-sm font-bold text-orange-600 hover:bg-orange-500/15" title={t('social.streak')}><Flame className="h-4 w-4 fill-orange-400" />{learning.streak_info?.current ?? learning.streak ?? 0}</Link> : null}
               <Link to="/support" aria-label={t('nav.help')} aria-current={pathname === '/support' ? 'page' : undefined}>
                 <Button variant="ghost" size="sm" className="gap-2 px-2.5 lg:px-3"><LifeBuoy className="h-4 w-4 text-primary" /><span className="hidden lg:inline">{t('nav.help')}</span></Button>
               </Link>

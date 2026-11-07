@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, BookOpen, CheckCircle2, Clock3, Compass, GraduationCap, Headphones,
-  Layers3, Lock, Mic, PenTool, Play, Sparkles, Target,
+  Flame, Layers3, Lock, Mic, PenTool, Play, Sparkles, Target, Zap,
 } from 'lucide-react';
 import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
@@ -62,7 +62,6 @@ export function LearnHero({ hasIeltsActivity, onUpgrade, onWriting, onSpeaking }
   const level = levelOf(state.profile.level);
   const goal = state.goal?.daily_goal_xp ?? state.profile.daily_goal_xp ?? 30;
   const todayXp = state.goal?.today_xp ?? 0;
-  const pct = map.total ? Math.round((map.doneCount / map.total) * 100) : 0;
   const nextLesson = map.nextLesson;
   const drillTitle = map.nextDrill ? ALL_LESSONS.find((lesson) => lesson.id === map.nextDrill!.lessonId)?.titleUz : null;
   const heading = map.nextDrill ? t('learnhero.drill', { title: drillTitle ?? '' }) : nextLesson ? nextLesson.titleUz : map.pendingTest ? t('learnhero.testReady') : t('learnhero.allDone');
@@ -78,14 +77,9 @@ export function LearnHero({ hasIeltsActivity, onUpgrade, onWriting, onSpeaking }
         </div>
         <h2 className="mt-3 text-xl sm:text-2xl font-extrabold leading-tight">{locked ? t('learnhero.locked') : heading}</h2>
         {topic ? <p className="mt-1 text-sm text-muted-foreground">{t('learnhero.topic', { n: unitNo(topic), title: topic.titleUz })}</p> : null}
-        <div className="mt-4 flex items-center gap-3">
-          <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} /></div>
-          <span className="text-xs font-semibold text-muted-foreground">{map.doneCount}/{map.total}</span>
-        </div>
-        <div className="mt-4 grid grid-cols-3 gap-2 rounded-2xl bg-secondary/45 p-3 text-center text-xs text-muted-foreground">
-          <div><b className="block text-sm text-foreground">{todayXp}/{goal}</b>{t('dash.xpToday')}</div>
-          <div><b className="block text-sm text-foreground">{state.streak}</b>{t('dash.dayStreak')}</div>
-          <div><b className="block text-sm text-foreground">{stats.activeDays}</b>{t('dash.activeDays')}</div>
+        <div className="mt-4 grid grid-cols-[1.35fr_0.65fr] gap-3">
+          <div className="rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-400/5 p-4"><span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-600"><Flame className="h-5 w-5 fill-orange-400" />{t('social.streak')}</span><p className="mt-1 text-3xl font-black">{state.streak} <span className="text-sm font-semibold text-muted-foreground">{t('dash.dayStreak')}</span></p><p className="mt-1 text-xs text-muted-foreground">{stats.todayDone ? t('learn.home.todayDone') : t('learn.home.todayNotDone')}</p></div>
+          <div className="rounded-2xl bg-secondary/55 p-4 text-center"><Zap className="mx-auto h-5 w-5 text-amber-500" /><b className="mt-1 block text-xl">{todayXp}/{goal}</b><span className="text-[11px] text-muted-foreground">{t('dash.xpToday')}</span></div>
         </div>
         {locked ? (
           <Button size="lg" onClick={onUpgrade} className="mt-5 w-full gap-2"><Lock className="h-4 w-4" />{t('dash.unlockLearning')}</Button>
@@ -157,7 +151,7 @@ function ReturningGrid({ englishCard, onWriting, onSpeaking }: { englishCard: Re
             <h2 className="mt-3 text-xl sm:text-2xl font-extrabold">{t('dash.ieltsToday')}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{t('dash.ieltsTodayText')}</p>
             <SkillGrid onWriting={onWriting} onSpeaking={onSpeaking} />
-            <Link to="/practice" className="mt-auto pt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:border-primary hover:text-primary transition-colors"><CheckCircle2 className="h-4 w-4" />{t('dash.allPractice')}</Link>
+            <Link to="/practice" className="mt-auto pt-4"><Button variant="glow" className="w-full gap-2 font-bold"><CheckCircle2 className="h-4 w-4" />{t('dash.allPractice')}</Button></Link>
           </div>
         </article>
       </div>

@@ -12,7 +12,6 @@ import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, 
 import { useSubscription } from '@/hooks/useSubscription';
 import { LearningIdentity } from '@/features/social/LearningIdentity';
 import { PeopleSection } from '@/features/social/PeopleSection';
-import { ReferralCard } from '@/features/social/ReferralCard';
 import { ProfileHeader, type PeopleTab } from '@/features/social/ProfileHeader';
 import { ActiveDevicesCard } from '@/components/ActiveDevices';
 import { TelegramConnectCard } from '@/components/TelegramConnectCard';
@@ -48,7 +47,7 @@ export default function Profile() {
 
   // /profile#people scrolls to the friends section once the page has rendered.
   useEffect(() => {
-    if (hash !== '#people' && hash !== '#referral') return;
+    if (hash !== '#people') return;
     const timer = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
     return () => clearTimeout(timer);
   }, [hash]);
@@ -247,7 +246,6 @@ export default function Profile() {
         <ActiveDevicesCard />
         <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
         <PeopleSection tab={peopleTab} onTab={setPeopleTab} />
-        <ReferralCard />
 
         {/* Quick links */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}

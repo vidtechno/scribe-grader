@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useT } from '@/i18n';
+import { COURSE_UNITS, LEVELS } from '@/features/learn/course';
+import type { LevelId } from '@/features/learn/types';
 
 type Question = { prompt: string; options: string[]; skill: string; correctAnswer?: number; explanation?: string };
 type SourceEssay = { id: string; task_type: string; topic: string; score: number };
@@ -48,6 +50,9 @@ export default function GrammarTest() {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<Record<number, number>>({});
   const [reviewing, setReviewing] = useState(false);
+  const [focusLevel, setFocusLevel] = useState<LevelId>('beginner');
+  const units = COURSE_UNITS.filter((unit) => unit.level === focusLevel);
+  const [focusUnit, setFocusUnit] = useState('u1');
 
   const load = useCallback(async () => {
     setLoading(true); setReady(false); setError('');
@@ -70,7 +75,9 @@ export default function GrammarTest() {
   const generate = async () => {
     setBusy(true); setError('');
     try {
-      const result = await request<{ test: GrammarTestData }>('generate', {}, t('grammar.unavailable'));
+      const unit = COURSE_UNITS.find((item) => item.id === focusUnit && item.level === focusLevel);
+      if (!unit) throw new Error(t('grammar.generateFail'));
+      const result = await request<{ test: GrammarTestData }>('generate', { focusLevel, focusUnit }, t('grammar.unavailable'));
       setTest(result.test); setCurrent(0); setSelected({}); setReviewing(false);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : t('grammar.generateFail'));
@@ -128,12 +135,23 @@ export default function GrammarTest() {
       </div>}
 
       {loading ? <div className="glass-card p-12 text-center"><Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" /><p className="mt-4">{t('grammar.checking')}</p></div>
-        : !test ? <div className="glass-card p-8 sm:p-12 text-center">
-          <BrainCircuit className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-3">{t('grammar.readyTitle')}</h2>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-3">{t('grammar.readyText1')}</p>
-          <p className="text-sm text-muted-foreground mb-6">{t('grammar.readyText2')}</p>
-          <Button disabled={busy || !ready} onClick={() => void generate()}>{busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />}{busy ? t('grammar.preparing') : t('grammar.generate')}</Button>
+        : !test ? <div className="overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.10] via-card to-orange-400/[0.08] p-6 sm:p-10">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div><span className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-primary to-orange-500 text-white shadow-lg shadow-primary/20"><BrainCircuit className="h-7 w-7" /></span><h2 className="text-2xl sm:text-3xl font-extrabold mb-3">{t('grammar.readyTitle')}</h2><p className="text-muted-foreground">{t('grammar.readyText1')}</p><p className="mt-3 text-sm text-muted-foreground">{t('grammar.readyText2')}</p></div>
+            <div className="rounded-2xl border bg-card/85 p-5 shadow-sm backdrop-blur">
+              <p className="mb-4 text-sm font-bold">{t('learn.home.level')} → {t('learn.home.tabTopics')}</p>
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-muted-foreground">{t('learn.home.level')}</label>
+              <select value={focusLevel} onChange={(event) => { const level = event.target.value as LevelId; setFocusLevel(level); setFocusUnit(COURSE_UNITS.find((unit) => unit.level === level)?.id ?? ''); }} className="mb-4 h-12 w-full rounded-xl border border-input bg-background px-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary">
+                {LEVELS.filter((level) => level.available && COURSE_UNITS.some((unit) => unit.level === level.id)).map((level) => <option key={level.id} value={level.id}>{level.title} · {level.cefr}</option>)}
+              </select>
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-muted-foreground">{t('learn.home.tabTopics')}</label>
+              <select value={focusUnit} onChange={(event) => setFocusUnit(event.target.value)} className="h-12 w-full rounded-xl border border-input bg-background px-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary">
+                {units.map((unit) => <option key={unit.id} value={unit.id}>{unit.n}. {unit.titleUz}</option>)}
+              </select>
+              <p className="mt-3 text-xs text-muted-foreground">{units.find((unit) => unit.id === focusUnit)?.description}</p>
+              <Button variant="glow" size="lg" className="mt-5 w-full" disabled={busy || !ready || !focusUnit} onClick={() => void generate()}>{busy && <Loader2 className="h-4 w-4 animate-spin mr-2" />}{busy ? t('grammar.preparing') : t('grammar.generate')}</Button>
+            </div>
+          </div>
         </div>
         : !test.started ? <div className="glass-card p-8 sm:p-12 text-center">
           <BrainCircuit className="w-12 h-12 text-primary mx-auto mb-4" />

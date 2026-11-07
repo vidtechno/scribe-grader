@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Loader2, Users, GraduationCap, Wallet, Gift, Bot, Flame, CalendarClock } from 'lucide-react';
+import { Loader2, Users, GraduationCap, Wallet, Bot, Flame, CalendarClock } from 'lucide-react';
 import { format } from 'date-fns';
 import { adminRpc, pct, som, type Overview } from './adminApi';
 import { Section, Stat } from './AdminUi';
@@ -88,20 +88,12 @@ export function OverviewTab() {
         </div>
       </Section>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Section title="Referal">
-          <div className="grid grid-cols-2 gap-3">
-            <Stat icon={Gift} label="Taklif qilinganlar" value={o.referral.invited} hint={`Tarif olgan: ${o.referral.bought} · mukofot: ${o.referral.rewarded}`} />
-            <Stat icon={Gift} label="Yechish so'rovlari" value={o.referral.pending_count} hint={o.referral.pending_count ? `${som(o.referral.pending_sum)} to'lash kerak` : `Jami to'langan: ${som(o.referral.paid_sum)}`} tone={o.referral.pending_count ? 'text-destructive' : 'text-primary'} />
-          </div>
-        </Section>
-        <Section title="Telegram bot">
-          <div className="grid grid-cols-2 gap-3">
-            <Stat icon={Bot} label="Bot foydalanuvchilari" value={o.bot.total} hint={`Hisobi ulangan: ${o.bot.linked} · bloklagan: ${o.bot.blocked}`} />
-            <Stat icon={Bot} label="Xabarlar navbati" value={o.bot.outbox_pending} hint={`24 soatda xato: ${o.bot.outbox_failed_24h}`} tone={o.bot.outbox_failed_24h ? 'text-destructive' : 'text-primary'} />
-          </div>
-        </Section>
-      </div>
+      <Section title="Telegram bot">
+        <div className="grid grid-cols-2 gap-3">
+          <Stat icon={Bot} label="Bot foydalanuvchilari" value={o.bot.total} hint={`Hisobi ulangan: ${o.bot.linked} · bloklagan: ${o.bot.blocked}`} />
+          <Stat icon={Bot} label="Xabarlar navbati" value={o.bot.outbox_pending} hint={`24 soatda xato: ${o.bot.outbox_failed_24h}`} tone={o.bot.outbox_failed_24h ? 'text-destructive' : 'text-primary'} />
+        </div>
+      </Section>
 
       <Section title="IELTS (oxirgi 7 kun)" subtitle="Writing, Speaking va Mock test bo'yicha bajarilgan topshiriqlar">
         <div className="grid grid-cols-3 gap-3">

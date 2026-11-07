@@ -10,6 +10,31 @@ const SYSTEM = 'You are an IELTS grammar teacher. Return only JSON: {"questions"
 const tashkentDay = () => new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Tashkent', year: 'numeric', month: '2-digit', day: '2-digit',
 }).format(new Date());
+const COURSE_FOCUS: Record<string, { level: string; title: string; grammar: string }> = {
+  u1: { level: 'beginner', title: 'Letters and sounds', grammar: 'the English alphabet, spelling, vowel and consonant sounds, greetings, numbers, colours and basic classroom language' },
+  u2: { level: 'beginner', title: 'Pronouns and to be', grammar: 'personal pronouns, am/is/are, negatives, questions, articles, plurals, demonstratives and possessives' },
+  u3: { level: 'beginner', title: 'Everyday life', grammar: 'Present Simple, do/does questions, negatives, time, routines, frequency adverbs and prepositions of time' },
+  u4: { level: 'beginner', title: 'Describing and asking', grammar: 'Wh- questions, there is/are, place prepositions, countable nouns, can, object pronouns, have got and Present Continuous' },
+  u5: { level: 'beginner', title: 'Past and future', grammar: 'Present Simple versus Continuous, was/were, Past Simple, irregular verbs, going to, will and comparisons' },
+  u6: { level: 'a1', title: 'People and places', grammar: 'describing people and places, possessives, dates and practical questions' },
+  u7: { level: 'a1', title: 'Work and free time', grammar: 'likes and dislikes, invitations, suggestions, plans and common workplace language' },
+  u8: { level: 'a1', title: 'Food and shopping', grammar: 'countable and uncountable nouns, quantity, prices, requests and ordering food' },
+  u9: { level: 'a1', title: 'Stories from the past', grammar: 'Past Simple forms, questions, negatives, time expressions and sequencing events' },
+  u10: { level: 'a1', title: 'Travel and health', grammar: 'will, going to, have to, must, advice and practical travel language' },
+  u11: { level: 'a1', title: 'Experiences', grammar: 'Present Perfect basics, tense review, questions and connected A1 sentences' },
+  u12: { level: 'a2', title: 'Stories from the past', grammar: 'Past Simple, Past Continuous, used to, when/while and narrative linkers' },
+  u13: { level: 'a2', title: 'Plans and the future', grammar: 'going to, will, may/might, future arrangements and first conditional' },
+  u14: { level: 'a2', title: 'Comparing things', grammar: 'comparatives, superlatives, as...as, too, enough and modifiers' },
+  u15: { level: 'a2', title: 'Rules, advice and requests', grammar: 'must, have to, should, can, could, permission and polite requests' },
+  u16: { level: 'a2', title: 'Experiences and the world', grammar: 'Present Perfect, relative clauses, basic passive voice and world topics' },
+  u17: { level: 'a2', title: 'Work, money and everyday life', grammar: 'A2 mixed grammar, functional conversations and practical writing' },
+  u18: { level: 'b1', title: 'Life stories and experiences', grammar: 'Present Perfect, Present Perfect Continuous, for/since and Past Simple contrast' },
+  u19: { level: 'b1', title: 'Telling stories and reporting', grammar: 'Past Perfect, reported speech, narrative tenses and reporting verbs' },
+  u20: { level: 'b1', title: 'Possibilities and imagination', grammar: 'conditionals, wish, modal deduction, probability and hypothetical meaning' },
+  u21: { level: 'b1', title: 'People, places and things', grammar: 'passive voice, relative clauses, articles and detailed description' },
+  u22: { level: 'b1', title: 'Work, study and technology', grammar: 'gerunds, infinitives, future forms, phrasal verbs and formal choices' },
+  u23: { level: 'b1', title: 'Ideas, opinions and communication', grammar: 'opinion language, linkers, contrast, cause/effect and B1 editing' },
+};
 
 async function generateBatch(db: ReturnType<typeof serviceClient>, userId: string, key: string, difficulty: string, context: unknown, batch: number): Promise<unknown> {
   const focus = batch === 1
@@ -21,7 +46,7 @@ async function generateBatch(db: ReturnType<typeof serviceClient>, userId: strin
     body: JSON.stringify({ model: 'gpt-4o-mini', temperature: 0.25, response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: SYSTEM },
-        { role: 'user', content: `Difficulty: ${difficulty}. Batch ${batch} of 2. Focus on ${focus}, while prioritising recurring errors in this student feedback: ${JSON.stringify(context)}` },
+        { role: 'user', content: `Difficulty: ${difficulty}. Batch ${batch} of 2. The selected courseFocus is the mandatory primary syllabus. Use ${focus} only where it fits that syllabus. recentWriting may tune distractors and difficulty but must not replace the selected course focus: ${JSON.stringify(context)}` },
       ] }),
   });
   if (!response.ok) throw new Error(`AI batch ${batch} returned ${response.status}`);
@@ -122,6 +147,10 @@ serve(async (req) => {
     }
     if (action === 'today') return json(req, { test: null });
 
+    const focusUnit = typeof body.focusUnit === 'string' ? COURSE_FOCUS[body.focusUnit] : null;
+    const focusLevel = typeof body.focusLevel === 'string' ? body.focusLevel : '';
+    if (!focusUnit || focusUnit.level !== focusLevel) return json(req, { error: 'Choose a valid level and topic.' }, 400);
+
     const { data: essays, error: essayError } = await admin.from('essays')
       .select('id,task_type,topic,score,feedback,created_at')
       .eq('user_id', user.id).not('score', 'is', null)
@@ -135,10 +164,9 @@ serve(async (req) => {
       const grammar = isRecord(feedback.grammaticalRange) ? feedback.grammaticalRange : {};
       return typeof grammar.score === 'number' ? grammar.score : Number(essay.score);
     });
-    const difficulty = difficultyFor(grammarScores);
-    const sourceSummary = sources.length
-      ? `Based on your ${sources.length} most recent graded ${sources.length === 1 ? 'essay' : 'essays'}. Grammar level: ${difficulty.replace('-', ' ')}. Review the topics below.`
-      : 'No graded essays yet. Today is a general grammar diagnostic; future tests will use your writing feedback.';
+    const adaptiveDifficulty = difficultyFor(grammarScores);
+    const difficulty = focusLevel === 'beginner' ? 'beginner' : focusLevel === 'a1' ? 'elementary' : focusLevel === 'a2' ? 'pre-intermediate' : 'intermediate';
+    const sourceSummary = `Course focus: ${focusUnit.title} (${difficulty.replace('-', ' ')}). Questions cover ${focusUnit.grammar}.${sources.length ? ` Your ${sources.length} recent graded ${sources.length === 1 ? 'essay was' : 'essays were'} also used to tune mistakes and challenge level (${adaptiveDifficulty.replace('-', ' ')}).` : ''}`;
     const { data: reserved, error: reserveError } = await admin.from('grammar_tests').insert({
       user_id: user.id, test_date: today, source_essay_ids: sources.map((essay) => essay.id),
       source_essays: sources, source_summary: sourceSummary, difficulty, questions: [], answers: {},
@@ -155,8 +183,8 @@ serve(async (req) => {
     });
     const key = Deno.env.get('OPENAI_API_KEY');
     const attempts = key ? await Promise.allSettled([
-      generateBatch(admin,user.id,key, difficulty, context, 1),
-      generateBatch(admin,user.id,key, difficulty, context, 2),
+      generateBatch(admin,user.id,key, difficulty, { courseFocus: focusUnit, recentWriting: context }, 1),
+      generateBatch(admin,user.id,key, difficulty, { courseFocus: focusUnit, recentWriting: context }, 2),
     ]) : [];
     const batches = attempts.filter((attempt): attempt is PromiseFulfilledResult<unknown> => attempt.status === 'fulfilled')
       .map((attempt) => attempt.value);
