@@ -65,7 +65,6 @@ export function LearnHero({ hasIeltsActivity, onUpgrade, onWriting, onSpeaking }
   const pct = map.total ? Math.round((map.doneCount / map.total) * 100) : 0;
   const nextLesson = map.nextLesson;
   const drillTitle = map.nextDrill ? ALL_LESSONS.find((lesson) => lesson.id === map.nextDrill!.lessonId)?.titleUz : null;
-  const continueTo = map.nextDrill ? `/learn/drill/${map.nextDrill.id}` : nextLesson ? `/learn/lesson/${nextLesson.id}` : map.pendingTest ? `/learn/test/${map.pendingTest.id}` : '/learn';
   const heading = map.nextDrill ? t('learnhero.drill', { title: drillTitle ?? '' }) : nextLesson ? nextLesson.titleUz : map.pendingTest ? t('learnhero.testReady') : t('learnhero.allDone');
   const topic = COURSE_UNITS.find((unit) => unit.id === (map.nextDrill ? ALL_LESSONS.find((lesson) => lesson.id === map.nextDrill!.lessonId)?.unitId : nextLesson?.unitId ?? map.pendingTest?.id));
   const locked = !state.access.allowed;
@@ -91,7 +90,7 @@ export function LearnHero({ hasIeltsActivity, onUpgrade, onWriting, onSpeaking }
         {locked ? (
           <Button size="lg" onClick={onUpgrade} className="mt-5 w-full gap-2"><Lock className="h-4 w-4" />{t('dash.unlockLearning')}</Button>
         ) : (
-          <Link to={continueTo} className="mt-auto pt-5"><Button size="lg" variant="glow" className="w-full gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{t('dash.continueLesson')}</Button></Link>
+          <Link to="/learn" className="mt-auto pt-5"><Button size="lg" variant="glow" className="w-full gap-2 font-bold"><Play className="h-4 w-4 fill-current" />{t('dash.continueLesson')}</Button></Link>
         )}
       </div>
     </article>
@@ -158,7 +157,7 @@ function ReturningGrid({ englishCard, onWriting, onSpeaking }: { englishCard: Re
             <h2 className="mt-3 text-xl sm:text-2xl font-extrabold">{t('dash.ieltsToday')}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{t('dash.ieltsTodayText')}</p>
             <SkillGrid onWriting={onWriting} onSpeaking={onSpeaking} />
-            <Link to="/mock-test" className="mt-auto pt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:border-primary hover:text-primary transition-colors"><CheckCircle2 className="h-4 w-4" />{t('dash.openMock')}</Link>
+            <Link to="/practice" className="mt-auto pt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:border-primary hover:text-primary transition-colors"><CheckCircle2 className="h-4 w-4" />{t('dash.allPractice')}</Link>
           </div>
         </article>
       </div>

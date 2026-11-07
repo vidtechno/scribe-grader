@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  BookA, Clock, Compass, Flame, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, Zap,
+  Brain, Clock, Compass, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Navbar } from '@/components/Navbar';
@@ -161,24 +161,14 @@ function CourseHome({ state }: { state: LearningState }) {
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
       {!locked && <ContinueCard state={state} />}
-      {!locked && <GoalStreak state={state} />}
-      {!locked && <DailyCard state={state} wordCount={map.wordCount} />}
-      <SkipIntroBanner state={state} />
+      {!locked && <div className="grid gap-3 lg:grid-cols-[1.3fr_0.7fr]"><GoalStreak state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
 
-      {/* Stats */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4" aria-label={t('learn.home.stats')}>
-        <StatCard icon={Flame} tone="text-orange-500" label="Streak" value={t('learn.home.streakDays', { n: state.streak })} hint={stats.todayDone ? t('learn.home.todayDone') : t('learn.home.todayNotDone')} />
-        <StatCard icon={Zap} tone="text-amber-500" label="Jami XP" value={String(state.profile?.xp ?? 0)} hint={t('learn.home.activeDays', { n: stats.activeDays })} />
-        <StatCard icon={Trophy} tone="text-primary" label={t('learn.home.lessons')} value={`${map.doneCount} / ${map.total}`} hint={t('learn.home.unitTests', { done: map.unitsPassed, total: map.unitsTotal })} />
-        <StatCard icon={BookA} tone="text-emerald-500" label={t('learn.home.words')} value={String(map.wordCount)} hint={stats.accuracy !== null ? t('learn.home.accuracy', { pct: stats.accuracy, min: stats.minutes }) : t('learn.home.startFirst')} />
+      <section className="mb-4" aria-label={t('learn.home.stats')}>
+        <div className="grid grid-cols-2 gap-3 rounded-2xl bg-secondary/55 p-1.5">
+          <button type="button" onClick={() => setTab('map')} className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition-all ${tab === 'map' ? 'bg-card text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}><GraduationCap className="h-5 w-5" />{t('learn.home.tabTopics')}<span className="rounded-full bg-secondary px-2 py-0.5 text-[10px]">{map.doneCount}/{map.total}</span></button>
+          <button type="button" onClick={() => setTab('words')} className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition-all ${tab === 'words' ? 'bg-card text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}><Brain className="h-5 w-5" />{t('learn.home.tabWords')}<span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] text-primary">{map.wordCount}</span></button>
+        </div>
       </section>
-
-      <div className="flex gap-2 mb-4 p-1 rounded-xl bg-secondary/60 w-fit">
-        {([['map', t('learn.home.tabTopics')], ['words', t('learn.home.tabWords')]] as const).map(([id, label]) => (
-          <button key={id} type="button" onClick={() => setTab(id)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${tab === id ? 'bg-card shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>{label}</button>
-        ))}
-      </div>
 
       {tab === 'map' ? (
         <>
@@ -194,6 +184,7 @@ function CourseHome({ state }: { state: LearningState }) {
           )}
           {earlierLevel && <p className="text-sm text-muted-foreground mb-4 rounded-xl bg-secondary/60 px-3 py-2">{t('learn.home.earlierOpen')}</p>}
           <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} />
+          <SkipIntroBanner state={state} />
           <section className="glass-card p-4 mt-6" aria-label={t('learn.home.weekly')}>
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-primary" />{t('learn.home.thisWeek')}</p>
@@ -245,16 +236,6 @@ function PlacementGate({ target, attemptsLeft }: { target: LevelId; attemptsLeft
       </p>
       <Button size="lg" variant="glow" className="w-full gap-2" onClick={() => navigate('/learn/placement')}><Play className="h-4 w-4 fill-current" />{t('learn.home.startTest')}</Button>
       <Button variant="ghost" className="w-full mt-2" disabled={busy} onClick={() => void skip()}>{t('learn.home.skipTest')}</Button>
-    </div>
-  );
-}
-
-function StatCard({ icon: Icon, tone, label, value, hint }: { icon: typeof Flame; tone: string; label: string; value: string; hint: string }) {
-  return (
-    <div className="glass-card px-3.5 py-2.5">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground"><Icon className={`h-4 w-4 ${tone}`} />{label}</div>
-      <p className="text-xl font-extrabold">{value}</p>
-      <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{hint}</p>
     </div>
   );
 }

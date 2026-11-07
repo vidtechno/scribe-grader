@@ -40,8 +40,9 @@ describe('dashboard learning decision area', () => {
     };
     renderHero();
     expect(screen.getByRole('heading', { name: 'What will you practise today?' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Continue lesson/ })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Continue lesson/ })).toHaveAttribute('href', '/learn');
     expect(screen.getByRole('button', { name: 'Writing' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Reading' })).toHaveAttribute('href', '/reading');
+    expect(screen.getAllByRole('link', { name: /All practice/ }).every((link) => link.getAttribute('href') === '/practice')).toBe(true);
   });
 });

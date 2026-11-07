@@ -6,7 +6,7 @@ import { uz } from 'date-fns/locale';
 import { useT } from '@/i18n';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, Award, BookOpen, Headphones, BrainCircuit, Crown, Mic, PenLine, PenTool, Sparkles, LifeBuoy } from 'lucide-react';
+  ArrowRight, Award, BookOpen, Brain, Headphones, BrainCircuit, Crown, Mic, PenLine, PenTool, Sparkles, LifeBuoy } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useActivityData } from '@/hooks/useDashboardData';
@@ -18,7 +18,6 @@ import { PricingModal } from '@/components/PricingModal';
 import { LearnHero } from '@/components/LearnHero';
 import { UsageBar } from '@/components/PracticeCard';
 import { SEOHead } from '@/components/SEOHead';
-import { DashboardLearn } from '@/components/DashboardLearn';
 import { PaymentReturn } from '@/components/PaymentReturn';
 
 type Activity = { kind: 'essay' | 'speaking'; id: string; title: string; score: number | null; at: Date };
@@ -115,20 +114,20 @@ export default function Dashboard() {
           />
         </motion.div>
 
-        {/* 2. Learning, plan */}
-        <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6 items-start mb-6">
-          <div className="min-w-0">
-            <DashboardLearn />
-            {tip && planType !== 'free' && (
-              <div className="glass-card p-4 mb-6 border-l-4 border-l-primary flex items-start gap-3">
-                <Sparkles className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                <p className="text-sm text-muted-foreground">{tip}</p>
-              </div>
-            )}
-          </div>
+        {/* Useful next steps and plan — course metrics already live on Learn. */}
+        <div className="grid lg:grid-cols-2 gap-4 items-stretch mb-6">
+          <section className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] via-card to-card p-5 sm:p-6">
+            <div className="flex items-start gap-3"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground"><Brain className="h-6 w-6" /></span><div><p className="text-xs font-bold uppercase tracking-wider text-primary">{t('learn.home.tabWords')}</p><h2 className="text-xl font-extrabold">{t('dl.review')}</h2></div></div>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">{t('dash.learnPlanInfo')}</p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <Link to="/learn?tab=words"><Button variant="glow" className="w-full gap-2"><Brain className="h-4 w-4" />{t('learn.home.tabWords')}</Button></Link>
+              <Link to="/learn"><Button variant="outline" className="w-full gap-2">{t('nav.learn')}<ArrowRight className="h-4 w-4" /></Button></Link>
+            </div>
+            {tip && planType !== 'free' ? <div className="mt-4 flex items-start gap-2 rounded-xl bg-secondary/60 p-3"><Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><p className="text-xs text-muted-foreground">{tip}</p></div> : null}
+          </section>
 
-          <aside className="space-y-4">
-            <section className="glass-card p-5" aria-label={t('dash.yourPlan')}>
+          <aside className="h-full">
+            <section className="glass-card h-full p-5 sm:p-6" aria-label={t('dash.yourPlan')}>
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs text-muted-foreground">{t('dash.yourPlan')}</p>

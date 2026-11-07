@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { GraduationCap, LayoutDashboard, Newspaper, Target, User as UserIcon } from 'lucide-react';
+import { GraduationCap, LayoutDashboard, Target, Trophy, User as UserIcon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useT } from '@/i18n';
 
@@ -21,8 +21,7 @@ export function BottomNav() {
     <div className="mx-3 mb-3 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/60 shadow-lg shadow-black/10">
       <div className="flex items-end justify-around h-16 px-2">
         <NavItem icon={LayoutDashboard} label={t('nav.home')} active={path === '/dashboard'} onClick={() => navigate('/dashboard')} />
-        {/* The blog is a server-rendered page outside the app router, so it opens with a normal link. */}
-        <NavItem icon={Newspaper} label={t('nav.blog')} active={false} onClick={() => window.location.assign('/blog')} />
+        <NavItem icon={Trophy} label={t('dash.leaderboard')} active={path === '/leaderboard'} onClick={() => navigate('/leaderboard')} />
         <button type="button" onClick={() => navigate('/learn')} aria-label={t('nav.englishCourse')} aria-current={onLearn ? 'page' : undefined}
           className="relative -mt-6 flex-1 flex flex-col items-center justify-center text-primary">
           <span className={`w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-brand-red-soft flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background transition-transform active:scale-95 ${onLearn ? 'scale-105' : ''}`}>

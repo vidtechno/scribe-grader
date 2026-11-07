@@ -110,18 +110,7 @@ export default function Profile() {
 
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <ProfileHeader onOpenPeople={(tab) => { setPeopleTab(tab); document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
-        <PeopleSection tab={peopleTab} onTab={setPeopleTab} />
         <LearningIdentity />
-        <ReferralCard />
-
-        <Link to="/support" className="glass-card-hover p-4 mb-4 flex items-center gap-3"><span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><LifeBuoy className="h-5 w-5" /></span><span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{t('profile.helpTitle')}</span><span className="block text-xs text-muted-foreground">{t('profile.helpText')}</span></span></Link>
-        <div className="glass-card p-4 mb-4 flex items-center gap-3">
-          <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><Languages className="h-5 w-5" /></span>
-          <span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{t('profile.langTitle')}</span><span className="block text-xs text-muted-foreground">{t('profile.langText')}</span></span>
-          <LanguageSwitcher />
-        </div>
-        <ActiveDevicesCard />
-        <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
 
         {/* Plan usage + history */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
@@ -251,6 +240,15 @@ export default function Profile() {
           </div>
         </motion.div>
 
+        <section className="mb-6 grid gap-3 sm:grid-cols-2" aria-label={t('profile.personal')}>
+          <Link to="/support" className="glass-card-hover p-4 flex items-center gap-3"><span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><LifeBuoy className="h-5 w-5" /></span><span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{t('profile.helpTitle')}</span><span className="block text-xs text-muted-foreground">{t('profile.helpText')}</span></span></Link>
+          <div className="glass-card p-4 flex items-center gap-3"><span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><Languages className="h-5 w-5" /></span><span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{t('profile.langTitle')}</span><span className="block text-xs text-muted-foreground">{t('profile.langText')}</span></span><LanguageSwitcher /></div>
+        </section>
+        <ActiveDevicesCard />
+        <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
+        <PeopleSection tab={peopleTab} onTab={setPeopleTab} />
+        <ReferralCard />
+
         {/* Quick links */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
           className="grid sm:grid-cols-3 gap-3 mb-6">
@@ -266,14 +264,6 @@ export default function Profile() {
             <Trophy className="h-5 w-5 text-primary" />
             <span className="font-medium text-sm">{t('dash.leaderboard')}</span>
           </Link>
-          <Link to="/profile#referral" className="glass-card-hover p-4 flex items-center gap-3">
-            <Gift className="h-5 w-5 text-primary" />
-            <span className="font-medium text-sm">{t('profile.referralLink')}</span>
-          </Link>
-          <a href="/blog" className="glass-card-hover p-4 flex items-center gap-3">
-            <BookOpen className="h-5 w-5 text-primary" />
-            <span className="font-medium text-sm">{t('profile.blogLink')}</span>
-          </a>
         </motion.div>
 
         <div className="flex justify-end">
