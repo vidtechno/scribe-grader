@@ -26,8 +26,8 @@ const KIND: Record<string, { icon: typeof BookOpen; label: string }> = {
 };
 
 /**
- * The course path of one level: first a "level up" card (quick test or final exam), then the topics one under the
- * other with a line between them. The topic you are on is open; finished topics show a tick; locked topics wait.
+ * The course path of one level. The topic you are on is open and visually prominent; finished topics show a tick.
+ * Level-up actions sit after the lessons so the next lesson remains the first decision on the page.
  */
 export function Roadmap({ state, level, onLocked }: { state: LearningState; level: LevelId; onLocked: () => void }) {
   const { t: tr, lang } = useT();
@@ -66,28 +66,6 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
 
   return (
     <div className="space-y-5">
-      {/* Level up: always visible, above the topics */}
-      <section className="rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-brand-red-soft/10 p-4" aria-label={tr('learn.road.levelTest')}>
-        <div className="flex items-start gap-3">
-          <span className="w-11 h-11 rounded-2xl bg-primary text-primary-foreground grid place-items-center shrink-0"><Rocket className="h-5 w-5" /></span>
-          <div className="min-w-0 flex-1">
-            <h2 className="font-bold leading-snug">{canQuickUp ? tr('learn.road.jump', { level: levelOf(level).title, next: nextLevel!.title }) : tr('learn.road.finalExam', { level: levelOf(level).title })}</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {canQuickUp ? tr('learn.road.quickInfo') : tr('learn.road.examInfo', { n: LEVEL_TEST.questions, pct: LEVEL_TEST.passPercent })}
-              {levelTest && !levelTest.passed_at ? ` ${tr('learn.road.best', { pct: Math.round((levelTest.best_score / levelTest.best_total) * 100) })}` : ''}
-            </p>
-          </div>
-        </div>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {canQuickUp && <button type="button" onClick={() => navigate(`/learn/upgrade/${nextLevel!.id}`)} className="rounded-full bg-primary text-primary-foreground text-sm font-semibold px-4 py-2 hover:opacity-90 transition-opacity">{tr('learn.road.upgradeTest', { next: nextLevel!.title })}</button>}
-          <button type="button" onClick={() => navigate(`/learn/level-test/${level}`)} className="rounded-full border border-primary/40 text-sm font-semibold px-4 py-2 hover:bg-primary/10 transition-colors inline-flex items-center gap-1.5">
-            {levelTest?.passed_at ? <Check className="h-4 w-4 text-emerald-500" /> : <Trophy className="h-4 w-4" />}{tr('learn.road.exam')}{levelTest?.passed_at ? ` · ${tr('learn.road.passedSuffix')}` : ''}
-          </button>
-          {levelTest?.passed_at && (
-            <button type="button" onClick={() => setCertificate(true)} className="rounded-full border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-sm font-semibold px-4 py-2 hover:bg-emerald-500/10 transition-colors inline-flex items-center gap-1.5"><Award className="h-4 w-4" />{tr('learn.road.certificate')}</button>
-          )}
-        </div>
-      </section>
       {certificate && levelTest && <CertificateDialog levelId={level} onClose={() => setCertificate(false)} />}
 
       {/* The path */}
@@ -106,7 +84,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
               <span className={`absolute left-0 top-1 w-8 h-8 rounded-full grid place-items-center text-sm font-bold ring-4 ring-background ${status === 'done' ? 'bg-emerald-500 text-white' : status === 'current' ? 'bg-primary text-primary-foreground' : status === 'review' ? 'border-2 border-primary/40 text-primary bg-card' : 'bg-secondary text-muted-foreground'}`}>
                 {status === 'done' ? <Check className="h-4 w-4" strokeWidth={3} /> : status === 'locked' ? <Lock className="h-3.5 w-3.5" /> : unitNo(unit)}
               </span>
-              <div className={`rounded-2xl border bg-card ${status === 'current' ? 'border-primary/50 shadow-sm' : 'border-border'} ${status === 'locked' ? 'opacity-80' : ''}`}>
+              <div className={`rounded-2xl border bg-card transition-shadow ${status === 'current' ? 'border-primary ring-2 ring-primary/15 shadow-xl shadow-primary/10 bg-gradient-to-br from-primary/[0.07] via-card to-orange-400/[0.05]' : 'border-border'} ${status === 'locked' ? 'opacity-80' : ''}`}>
                 <button type="button" aria-expanded={open} onClick={() => setOpenUnit(open ? '' : unit.id)} className="w-full text-left p-4 flex items-center gap-3">
                   <span className="min-w-0 flex-1">
                     <span className={`block text-[11px] font-semibold uppercase tracking-wider ${status === 'current' ? 'text-primary' : 'text-muted-foreground'}`}>
@@ -165,6 +143,28 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
         })}
       </ol>
 
+      <section className="rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/[0.08] via-card to-orange-400/[0.08] p-4" aria-label={tr('learn.road.levelTest')}>
+        <div className="flex items-start gap-3">
+          <span className="w-11 h-11 rounded-2xl bg-primary text-primary-foreground grid place-items-center shrink-0 shadow-md shadow-primary/20"><Rocket className="h-5 w-5" /></span>
+          <div className="min-w-0 flex-1">
+            <h2 className="font-bold leading-snug">{canQuickUp ? tr('learn.road.jump', { level: levelOf(level).title, next: nextLevel!.title }) : tr('learn.road.finalExam', { level: levelOf(level).title })}</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {canQuickUp ? tr('learn.road.quickInfo') : tr('learn.road.examInfo', { n: LEVEL_TEST.questions, pct: LEVEL_TEST.passPercent })}
+              {levelTest && !levelTest.passed_at ? ` ${tr('learn.road.best', { pct: Math.round((levelTest.best_score / levelTest.best_total) * 100) })}` : ''}
+            </p>
+          </div>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {canQuickUp && <button type="button" onClick={() => navigate(`/learn/upgrade/${nextLevel!.id}`)} className="rounded-full bg-primary text-primary-foreground text-sm font-semibold px-4 py-2 hover:opacity-90 transition-opacity">{tr('learn.road.upgradeTest', { next: nextLevel!.title })}</button>}
+          <button type="button" onClick={() => navigate(`/learn/level-test/${level}`)} className="rounded-full border border-primary/40 text-sm font-semibold px-4 py-2 hover:bg-primary/10 transition-colors inline-flex items-center gap-1.5">
+            {levelTest?.passed_at ? <Check className="h-4 w-4 text-emerald-500" /> : <Trophy className="h-4 w-4" />}{tr('learn.road.exam')}{levelTest?.passed_at ? ` · ${tr('learn.road.passedSuffix')}` : ''}
+          </button>
+          {levelTest?.passed_at && (
+            <button type="button" onClick={() => setCertificate(true)} className="rounded-full border border-emerald-500/40 text-emerald-700 dark:text-emerald-400 text-sm font-semibold px-4 py-2 hover:bg-emerald-500/10 transition-colors inline-flex items-center gap-1.5"><Award className="h-4 w-4" />{tr('learn.road.certificate')}</button>
+          )}
+        </div>
+      </section>
+
       {PARTIAL_LEVELS[level] && (
         <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4 text-sm text-center text-muted-foreground">
           <p className="font-semibold text-foreground mb-0.5">{tr('learn.road.moreSoon', { level: levelOf(level).title })}</p>
@@ -195,7 +195,7 @@ function LessonRow({ lesson, number, state, stars, onOpen }: { lesson: LessonMet
   const Icon = kind.icon;
   const scene = lesson.kind === 'scene';
   return (
-    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 px-3 py-3 text-left transition-colors hover:bg-secondary/50 ${scene ? 'border-l-4 border-l-fuchsia-500 bg-gradient-to-r from-fuchsia-500/10 via-amber-500/5 to-transparent' : ''} ${state === 'current' ? 'bg-primary/5' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
+    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 px-3 py-3 text-left transition-all hover:bg-secondary/50 ${scene ? 'border-l-4 border-l-fuchsia-500 bg-gradient-to-r from-fuchsia-500/10 via-amber-500/5 to-transparent' : ''} ${state === 'current' ? 'bg-gradient-to-r from-primary/15 via-primary/[0.07] to-orange-400/[0.08] ring-1 ring-inset ring-primary/25 shadow-sm' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
       <span className={`w-7 h-7 shrink-0 rounded-full grid place-items-center text-xs font-bold ${stateStyle(state)}`}>
         {state === 'done' ? <Check className="h-4 w-4" strokeWidth={3} /> : state === 'locked' ? <Lock className="h-3.5 w-3.5" /> : state === 'current' ? <Play className="h-3.5 w-3.5 fill-current" /> : scene ? <Icon className="h-3.5 w-3.5" /> : number}
       </span>
@@ -215,7 +215,7 @@ function GameRow({ id, state, stars, onOpen }: { id: string; state: DrillState; 
   const checkpoint = g === 'mastery' || g === 'mini-boss';
   const Icon = checkpoint ? Trophy : Gamepad2;
   return (
-    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 pl-10 pr-3 py-2.5 text-left transition-colors hover:bg-secondary/50 bg-secondary/20 ${state === 'current' ? 'bg-primary/5' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
+    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 pl-10 pr-3 py-2.5 text-left transition-all hover:bg-secondary/50 bg-secondary/20 ${state === 'current' ? 'bg-gradient-to-r from-primary/15 via-primary/[0.07] to-orange-400/[0.08] ring-1 ring-inset ring-primary/25 shadow-sm' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
       <span className={`w-6 h-6 shrink-0 rounded-full grid place-items-center ${stateStyle(state)}`}>
         {state === 'done' ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : state === 'locked' ? <Lock className="h-3 w-3" /> : <Icon className="h-3.5 w-3.5" />}
       </span>

@@ -34,8 +34,8 @@ export default function Leaderboard() {
       <Navbar />
       <main className="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#291d1d] via-[#401f26] to-[#8f1e2f] p-5 text-white shadow-2xl shadow-primary/10 sm:p-8 mb-5 flex items-center justify-between gap-3">
-            <span className="pointer-events-none absolute -right-12 -top-20 h-56 w-56 rounded-full bg-amber-300/15 blur-2xl" />
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#ff4359] via-primary to-[#b90024] p-5 text-white shadow-2xl shadow-primary/20 sm:p-8 mb-5 flex items-center justify-between gap-3">
+            <span className="pointer-events-none absolute -right-12 -top-20 h-56 w-56 rounded-full bg-white/20 blur-2xl" />
             <div className="relative flex items-center gap-3 sm:gap-4">
               <div className="w-12 h-12 sm:h-14 sm:w-14 rounded-2xl bg-white/10 ring-1 ring-white/15 grid place-items-center"><Trophy className="h-6 w-6 sm:h-7 sm:w-7 text-amber-300" /></div>
               <div>

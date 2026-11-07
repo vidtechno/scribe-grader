@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import type { LearningState } from '../api';
 import { ALL_LESSONS, levelOf, unitNo } from '../course';
 import { learningPlan } from '../plan';
-import { NextSteps } from './NextSteps';
 import { useReviewQueue } from '../engine/api';
 
 /** Where the learner is and what to do next: current topic, last stopping point, one big continue button. */
@@ -49,7 +48,6 @@ export function ContinueCard({ state, locked = false }: { state: LearningState; 
           </Button>
         )}
       </div>
-      {plan.steps.length > 1 && <div className="mt-3 -mx-2"><NextSteps steps={plan.steps} /></div>}
       <div className="mt-3 pt-3 border-t border-border/60 flex flex-wrap gap-x-5 gap-y-2 text-sm">
         <span className="inline-flex items-center gap-1.5"><Flame className="h-4 w-4 text-orange-500" /><b>{state.streak}</b> {t('learn.continue.streak')}</span>
         <span className="inline-flex items-center gap-1.5"><Zap className="h-4 w-4 text-amber-500" /><b>{state.profile?.xp ?? 0}</b> XP</span>

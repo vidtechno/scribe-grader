@@ -161,7 +161,7 @@ function CourseHome({ state }: { state: LearningState }) {
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
       {!locked && <ContinueCard state={state} />}
-      {!locked && <div className="grid gap-3 lg:grid-cols-[1.3fr_0.7fr]"><GoalStreak state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
+      {!locked && <div className="grid gap-3 lg:grid-cols-[1.55fr_0.45fr]"><GoalStreak state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
 
       <section className="mb-4" aria-label={t('learn.home.stats')}>
         <div className="grid grid-cols-2 gap-3 rounded-2xl bg-secondary/55 p-1.5">

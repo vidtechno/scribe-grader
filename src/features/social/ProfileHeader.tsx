@@ -128,8 +128,8 @@ export function ProfileHeader({ onOpenPeople }: { onOpenPeople: (tab: PeopleTab)
     </button>
   );
   return (
-    <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#2b1d20] via-[#4d2028] to-primary p-5 text-white sm:p-8 mb-6 shadow-2xl shadow-primary/10" aria-label={t('social.profileAria')}>
-      <span aria-hidden className="absolute -right-12 -top-16 h-52 w-52 rounded-full bg-orange-300/15 blur-2xl" />
+    <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#ff4359] via-primary to-[#b90024] p-5 text-white sm:p-8 mb-6 shadow-2xl shadow-primary/20" aria-label={t('social.profileAria')}>
+      <span aria-hidden className="absolute -right-12 -top-16 h-52 w-52 rounded-full bg-white/20 blur-2xl" />
       <div className="relative flex items-center gap-4 sm:gap-8">
         <UserAvatar avatar={profile?.avatar_key} name={name} size="xl" ring />
         <div className="flex-1 min-w-0">
