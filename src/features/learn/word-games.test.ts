@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { gameWordPool, matchingWords, wordQuiz } from './word-games';
+import { gameWordPool, matchingWords, repeatMissedWord, wordQuiz } from './word-games';
 import { seededRandom } from './daily';
 const words = Array.from({ length: 25 }, (_, i) => ({ en: `word ${i}`, uz: `so‘z ${i}` }));
 describe('personal word games', () => {
@@ -30,5 +30,19 @@ describe('personal word games', () => {
     expect(wordQuiz(words.slice(0, 3))).toEqual([]);
     expect(matchingWords(words.slice(0, 2)).pairs).toHaveLength(2);
     expect(gameWordPool([words[0], words[0], { en: 'other', uz: words[0].uz }, { en: '', uz: 'empty' }])).toHaveLength(1);
+  });
+  it('brings a missed word back after two or three other questions', () => {
+    const quiz = wordQuiz(words.slice(0, 8), seededRandom('repeat'));
+    for (const [random, gap] of [[() => 0, 2], [() => 0.99, 3]] as const) {
+      const updated = repeatMissedWord(quiz, 0, words, random);
+      expect(updated[gap + 1].word.en).toBe(quiz[0].word.en);
+      expect(updated.slice(1, gap + 1).every(q => q.word.en !== quiz[0].word.en)).toBe(true);
+    }
+  });
+  it('provides spacing even when the last question is missed, using only personal words', () => {
+    const pool = words.slice(0, 4), quiz = wordQuiz(pool);
+    const updated = repeatMissedWord(quiz, 3, pool, () => 0.99);
+    expect(updated[7].word.en).toBe(quiz[3].word.en);
+    expect(updated.slice(4, 7).every(q => q.word.en !== quiz[3].word.en && pool.includes(q.word))).toBe(true);
   });
 });

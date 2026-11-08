@@ -28,6 +28,29 @@ describe('word game rounds', () => {
     }
     expect(screen.getByText('6 / 6 correct')).toBeTruthy();
   });
+  it('shows the correction, advances automatically, then repeats a missed word', () => {
+    vi.useFakeTimers();
+    render(<WordGames words={words} locked={false} />);
+    fireEvent.click(screen.getByRole('button', { name: /60-second Word Sprint/ }));
+    const original = screen.getByRole('heading', { level: 3 }).textContent!;
+    const meaning = original.replace('word', 'meaning');
+    const dialog = within(screen.getByRole('dialog'));
+    const wrong = dialog.getAllByRole('button', { name: /^meaning \d$/ }).find(button => button.textContent !== meaning)!;
+    fireEvent.click(wrong);
+    expect(screen.getByRole('status')).toHaveTextContent(`${original} — ${meaning}`);
+    expect(screen.queryByRole('button', { name: 'Next' })).toBeNull();
+    act(() => vi.advanceTimersByTime(1700));
+    expect(screen.getByRole('heading', { level: 3 })).not.toHaveTextContent(original);
+    let returnedAfter = 0;
+    while (returnedAfter < 3 && screen.getByRole('heading', { level: 3 }).textContent !== original) {
+      const current = screen.getByRole('heading', { level: 3 }).textContent!;
+      fireEvent.click(dialog.getByRole('button', { name: current.replace('word', 'meaning') }));
+      act(() => vi.advanceTimersByTime(850));
+      returnedAfter++;
+    }
+    expect([2, 3]).toContain(returnedAfter);
+    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(original);
+  });
   it('prevents entry when the course is locked or there are too few words', () => {
     const { rerender } = render(<WordGames words={words} locked />);
     expect(screen.getAllByRole('button').every(button => (button as HTMLButtonElement).disabled)).toBe(true);

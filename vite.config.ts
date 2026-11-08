@@ -5,8 +5,13 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
+  if (Object.keys(env).some(name => /(?:SECRET|PASSWORD|PRIVATE|SERVICE_ROLE|OPENAI|DATABASE|BOT_TOKEN)/i.test(name))) {
+    throw new Error('Private credentials must not use a VITE_ environment variable. Move them to server-side secrets.');
+  }
   const supabaseUrl = env.VITE_SUPABASE_URL;
   return {
+  // Only the existing public frontend configuration is eligible for browser exposure.
+  envPrefix: ['VITE_SUPABASE_URL', 'VITE_SUPABASE_PUBLISHABLE_KEY'],
   server: {
     host: "::",
     port: 8080,
@@ -26,6 +31,7 @@ export default defineConfig(({ mode }) => {
     },
   ],
   build: {
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: (id: string) => {

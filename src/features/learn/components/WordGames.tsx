@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from '@/components/ui/button';
 import { useT } from '@/i18n';
 import type { Word } from '../types';
-import { gameWordPool, matchingWords, wordQuiz } from '../word-games';
+import { gameWordPool, matchingWords, repeatMissedWord, wordQuiz } from '../word-games';
 
 function useCountdown(seconds: number, stopped: boolean) {
   const [deadline] = useState(() => Date.now() + seconds * 1000);
@@ -30,7 +30,7 @@ function Summary({ score, total, mistakes, onReplay }: { score: number; total: n
 
 function Quiz({ words, onReplay }: { words: Word[]; onReplay: () => void }) {
   const { lang } = useT(); const uz = lang === 'uz';
-  const [questions] = useState(() => wordQuiz(words));
+  const [questions, setQuestions] = useState(() => wordQuiz(words));
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const answered = answers.length > index;
@@ -38,9 +38,19 @@ function Quiz({ words, onReplay }: { words: Word[]; onReplay: () => void }) {
   const finished = remaining === 0 || index >= questions.length;
   const score = questions.filter((q, i) => answers[i] === q.word.uz).length;
   const question = questions[index];
-  const select = (value: string) => { if (!answered && !finished && !expired()) setAnswers(current => current.length > index ? current : [...current, value]); };
-  if (finished) return <Summary score={score} total={questions.length} mistakes={questions.filter((q, i) => answers[i] !== q.word.uz).map(q => q.word)} onReplay={onReplay} />;
-  return <><Clock seconds={remaining} total={60} /><div className="mb-6 text-center"><p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{index + 1} / {questions.length} · {score} {uz ? 'to‘g‘ri' : 'correct'}</p><h3 className="my-4 text-3xl font-extrabold sm:text-4xl">{question.word.en}</h3><p className="text-sm text-muted-foreground">{uz ? 'To‘g‘ri tarjimani toping' : 'Choose the correct Uzbek meaning'}</p></div><div className="grid gap-2 sm:grid-cols-2">{question.options.map(option => <button key={option} type="button" disabled={answered} onClick={() => select(option)} className={`min-h-16 rounded-2xl border p-4 text-sm font-semibold transition-colors ${answered && option === question.word.uz ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : answered && answers[index] === option ? 'border-destructive bg-destructive/10 text-destructive' : 'border-border bg-card hover:border-primary hover:bg-primary/5'}`}>{option}</button>)}</div>{answered && <div className="mt-5"><p role="status" className="mb-3 text-center text-sm font-medium">{question.word.en} — {question.word.uz}</p><Button className="w-full gap-2 rounded-xl" onClick={() => setIndex(i => i + 1)}>{uz ? 'Keyingisi' : 'Next'}<ArrowRight className="h-4 w-4" /></Button></div>}</>;
+  const correct = answered && answers[index] === question?.word.uz;
+  useEffect(() => {
+    if (!answered || finished) return;
+    const timer = window.setTimeout(() => setIndex(i => i + 1), correct ? 850 : 1700);
+    return () => window.clearTimeout(timer);
+  }, [answered, correct, finished, index]);
+  const select = (value: string) => {
+    if (answered || finished || expired()) return;
+    setAnswers(current => current.length > index ? current : [...current, value]);
+    if (value !== question.word.uz) setQuestions(current => repeatMissedWord(current, index, words));
+  };
+  if (finished) return <Summary score={score} total={questions.length} mistakes={[...new Map(questions.filter((q, i) => answers[i] !== q.word.uz).map(q => [q.word.en, q.word])).values()]} onReplay={onReplay} />;
+  return <><Clock seconds={remaining} total={60} /><div className="mb-6 text-center"><p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{index + 1} / {questions.length} · {score} {uz ? 'to‘g‘ri' : 'correct'}</p><h3 className="my-4 text-3xl font-extrabold sm:text-4xl">{question.word.en}</h3><p className="text-sm text-muted-foreground">{uz ? 'To‘g‘ri tarjimani toping' : 'Choose the correct Uzbek meaning'}</p></div><div className="grid gap-2 sm:grid-cols-2">{question.options.map(option => <button key={option} type="button" disabled={answered} onClick={() => select(option)} className={`min-h-16 rounded-2xl border p-4 text-sm font-semibold transition-colors ${answered && option === question.word.uz ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : answered && answers[index] === option ? 'border-destructive bg-destructive/10 text-destructive' : 'border-border bg-card hover:border-primary hover:bg-primary/5'}`}>{option}</button>)}</div>{answered && <div className="mt-5 text-center"><p role="status" className="text-sm font-semibold">{question.word.en} — {question.word.uz}</p><p className="mt-2 text-xs text-muted-foreground">{!correct ? (uz ? 'Bu so‘z 2–3 ta savoldan keyin yana qaytadi.' : 'This word will return after 2–3 questions.') : (uz ? 'To‘g‘ri! Davom etamiz…' : 'Correct! Moving on…')}</p></div>}</>;
 }
 
 function Match({ words, onReplay }: { words: Word[]; onReplay: () => void }) {
