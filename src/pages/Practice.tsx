@@ -28,7 +28,7 @@ export default function Practice() {
   const speaking = useMemo(() => activityQ.data?.speaking ?? [], [activityQ.data]);
   const draftsCount = useMemo(() => essays.filter((x) => x.status === 'draft').length + speaking.filter((x) => x.status === 'draft').length, [essays, speaking]);
   useEffect(() => { const onFocus = () => refreshSub(); window.addEventListener('focus', onFocus); return () => window.removeEventListener('focus', onFocus); }, [refreshSub]);
-  const openWriting = () => writingLimit - writingUsed <= 0 ? setShowPricing(true) : navigate('/exam?task=2');
+  const openWriting = () => navigate('/writing');
   const openSpeaking = () => speakingLimit - speakingUsed <= 0 ? setShowPricing(true) : navigate('/speaking');
   const start = lang === 'uz' ? 'Boshlash' : 'Start practice';
   const tests = lang === 'uz' ? 'To‘liq testlar' : 'Full tests';
