@@ -43,11 +43,11 @@
   }
 
   .dark {
-    --background: 222 47% 6%;
+    --background: 225 28% 7%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 8%;
+    --card: 225 25% 11%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 8%;
+    --popover: 225 25% 11%;
     --popover-foreground: 210 40% 98%;
     --primary: 354 92% 62%;
     --primary-foreground: 0 0% 100%;
@@ -59,8 +59,8 @@
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 20%;
-    --input: 217 33% 20%;
+    --border: 224 20% 20%;
+    --input: 224 20% 20%;
     --ring: 354 92% 62%;
     --sidebar-background: 222 47% 6%;
     --sidebar-foreground: 210 40% 98%;
@@ -181,10 +181,10 @@ html, body, #root {
 
 /* Safe area for bottom nav */
 @media (min-width: 1024px) {
-  body:has(.workspace-sidebar) { background: hsl(var(--muted) / .3); }
+  body:has(.workspace-sidebar) { background: hsl(var(--background)); }
   #root:has(.workspace-sidebar) { padding-left: 232px; }
   .workspace-topbar { left: 232px; }
-  #root:has(.workspace-sidebar) > div { background-image: none; background-color: hsl(var(--muted) / .3); }
+  #root:has(.workspace-sidebar) > div { background-image: none; background-color: hsl(var(--background)); }
   #root:has(.workspace-sidebar) main { padding-top: 104px; }
   .workspace-card { border: 1px solid hsl(var(--border) / .65); border-radius: 24px; background-color: hsl(var(--card)); box-shadow: 0 4px 24px hsl(var(--foreground) / .025); }
   .profile-identity [class*="text-white/"] { color: hsl(var(--muted-foreground)); }
@@ -196,6 +196,10 @@ html, body, #root {
   .practice-heading [class*="text-white/"] { color: hsl(var(--muted-foreground)); }
   .practice-heading a button { color: white; background: hsl(var(--primary)); }
 }
+
+.dark .workspace-card { box-shadow: 0 6px 24px rgb(0 0 0 / .12); }
+.dark .workspace-sidebar, .dark .workspace-topbar { background-color: hsl(225 28% 9%); }
+.dark .leaderboard-page .ranking-table { box-shadow: 0 8px 32px rgb(0 0 0 / .12); }
 @media (min-width: 1280px) {
   #root:has(.workspace-sidebar) { padding-left: 256px; }
   .workspace-topbar { left: 256px; }
