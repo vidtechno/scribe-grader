@@ -180,6 +180,27 @@ html, body, #root {
 }
 
 /* Safe area for bottom nav */
+@media (min-width: 1024px) {
+  body:has(.workspace-sidebar) { background: hsl(var(--muted) / .3); }
+  #root:has(.workspace-sidebar) { padding-left: 232px; }
+  .workspace-topbar { left: 232px; }
+  #root:has(.workspace-sidebar) > div { background-image: none; background-color: hsl(var(--muted) / .3); }
+  #root:has(.workspace-sidebar) main { padding-top: 104px; }
+  .workspace-card { border: 1px solid hsl(var(--border) / .65); border-radius: 24px; background-color: hsl(var(--card)); box-shadow: 0 4px 24px hsl(var(--foreground) / .025); }
+  .profile-identity [class*="text-white/"] { color: hsl(var(--muted-foreground)); }
+  .profile-identity button[class*="text-white"], .profile-identity a button { color: hsl(var(--primary)); border-color: hsl(var(--primary) / .2); background: hsl(var(--primary) / .05); }
+  .profile-identity .text-orange-300, .profile-identity .text-amber-300 { color: hsl(var(--primary)); }
+  .profile-identity > div:last-of-type { max-width: 440px; }
+  .profile-page > .glass-card, .profile-page > .rounded-3xl { border-radius: 24px; box-shadow: 0 4px 24px hsl(var(--foreground) / .025); }
+  .practice-heading .text-orange-200 { color: hsl(var(--primary)); }
+  .practice-heading [class*="text-white/"] { color: hsl(var(--muted-foreground)); }
+  .practice-heading a button { color: white; background: hsl(var(--primary)); }
+}
+@media (min-width: 1280px) {
+  #root:has(.workspace-sidebar) { padding-left: 256px; }
+  .workspace-topbar { left: 256px; }
+}
+
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }

@@ -107,12 +107,16 @@ export default function Profile() {
       <SEOHead title={t('profile.seoTitle')} description={t('profile.seoDesc')} path="/profile" noindex />
       <Navbar />
 
-      <main className="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <main className="profile-page pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div className="mb-6 hidden lg:block"><p className="text-xs font-bold uppercase tracking-wider text-primary">{lang === 'uz' ? 'Shaxsiy maydon' : 'Your account'}</p><h1 className="mt-2 text-3xl font-extrabold">{t('nav.profile')}</h1><p className="mt-2 text-sm text-muted-foreground">{lang === 'uz' ? 'Hisobingiz, natijalaringiz va sozlamalaringiz bir joyda.' : 'Your account, achievements and preferences, all in one place.'}</p></div>
+        <nav aria-label={t('nav.profile')} className="mb-6 hidden items-center gap-2 rounded-2xl border border-border/60 bg-card p-2 lg:flex">{[['#profile-overview', lang === 'uz' ? 'Umumiy' : 'Overview'], ['#profile-plan', lang === 'uz' ? 'Obuna' : 'Subscription'], ['#profile-settings', lang === 'uz' ? 'Sozlamalar' : 'Settings'], ['#people', t('social.friends')]].map(([to, label]) => <a key={to} href={to} className="rounded-xl px-5 py-2.5 text-sm font-semibold text-muted-foreground transition-colors hover:bg-primary/5 hover:text-primary">{label}</a>)}</nav>
+        <div id="profile-overview" className="scroll-mt-28">
         <ProfileHeader onOpenPeople={(tab) => { setPeopleTab(tab); document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
+        </div>
         <LearningIdentity />
 
         {/* Plan usage + history */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+        <motion.div id="profile-plan" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
           className="rounded-3xl border bg-card p-4 sm:p-6 mb-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h2 className="text-lg font-semibold flex items-center gap-2">
@@ -173,8 +177,8 @@ export default function Profile() {
         </motion.div>
 
         {/* Edit info */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-          className="glass-card p-6 mb-6">
+        <motion.div id="profile-settings" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+          className="glass-card scroll-mt-28 p-6 mb-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-lg font-semibold flex items-center gap-2">
               <UserIcon className="h-5 w-5 text-primary" /> {t('profile.personal')}

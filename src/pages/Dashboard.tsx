@@ -19,6 +19,7 @@ import { LearnHero } from '@/components/LearnHero';
 import { UsageBar } from '@/components/PracticeCard';
 import { SEOHead } from '@/components/SEOHead';
 import { PaymentReturn } from '@/components/PaymentReturn';
+import { DesktopDashboard } from '@/components/DesktopDashboard';
 
 type Activity = { kind: 'essay' | 'speaking'; id: string; title: string; score: number | null; at: Date };
 
@@ -96,6 +97,8 @@ export default function Dashboard() {
       <TelegramConnectModal />
       <main className="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative">
         <PaymentReturn onPaid={onPaid} />
+        <DesktopDashboard name={firstName} onPlan={() => setShowPricing(true)} />
+        <div className="lg:hidden">
         <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0} className="flex flex-wrap items-end justify-between gap-3 mb-5">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">Your learning space</p>
@@ -212,6 +215,7 @@ export default function Dashboard() {
             <p className="text-sm text-muted-foreground py-6 text-center">{t('dash.nothingYet')}</p>
           )}
         </section>
+        </div>
       </main>
 
       <PricingModal open={showPricing} onOpenChange={setShowPricing} currentPlan={planType} />

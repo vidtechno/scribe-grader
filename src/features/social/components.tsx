@@ -16,7 +16,7 @@ export function FollowButton({ publicId, following, size = 'sm' }: { publicId: s
   const follow = useFollow();
   const { t, lang } = useT();
   return (
-    <Button size={size} variant={following ? 'outline' : 'default'} disabled={follow.isPending} className="gap-1.5 shrink-0"
+    <Button size={size} variant={following ? 'outline' : 'default'} disabled={follow.isPending} className="gap-1.5 shrink-0 lg:rounded-full lg:border lg:border-primary/20 lg:bg-primary/5 lg:text-primary lg:shadow-none lg:hover:bg-primary/10"
       onClick={() => follow.mutate({ publicId, follow: !following }, { onError: (e) => toast.error(socialErrorMessage(e, lang)) })}>
       {follow.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : following ? <UserCheck className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}
       {following ? t('social.following') : t('social.follow')}
@@ -43,8 +43,8 @@ export function PersonRow({ card }: { card: SocialCard }) {
       <Link to={`/u/${card.username ?? card.public_id}`} className="flex flex-1 min-w-0 items-center gap-3">
         <Avatar name={card.name} avatar={card.avatar} />
         <span className="min-w-0">
-          <span className="block truncate font-semibold text-sm">{card.username ? `@${card.username}` : card.name}</span>
-          {card.username && <span className="block truncate text-xs text-muted-foreground">{card.name}</span>}
+          <span className="block truncate font-semibold text-sm">{card.name}</span>
+          {card.username && <span className="block truncate text-xs text-muted-foreground">@{card.username}</span>}
           <span className="flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
             <span>{levelLabel(card.level, t)}</span>
             {card.xp != null && <span className="inline-flex items-center gap-0.5"><Zap className="h-3 w-3" />{card.xp}</span>}

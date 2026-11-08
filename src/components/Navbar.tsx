@@ -12,6 +12,7 @@ import { useLearningState } from '@/features/learn/api';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 import { useSubscription } from '@/hooks/useSubscription';
+import { DesktopWorkspace } from './DesktopWorkspace';
 
 const PricingModal = lazy(() => import('@/components/PricingModal').then(m => ({ default: m.PricingModal })));
 
@@ -36,9 +37,12 @@ export function Navbar() {
   }, [user]);
 
   const handleSignOut = async () => { await signOut(); navigate('/auth'); };
+  const workspace = !!user && !['/', '/uz', '/auth'].includes(pathname) && !pathname.startsWith('/admin');
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border/70">
+    <>
+    {workspace && <DesktopWorkspace isAdmin={isAdmin} onSignOut={handleSignOut} />}
+    <nav className={`fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border/70 ${workspace ? 'lg:hidden' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-3">
           <Link to={user ? '/dashboard' : '/'} className="flex items-center gap-2.5 shrink-0">
@@ -159,5 +163,6 @@ export function Navbar() {
       </div>
       {showPricing && <Suspense fallback={null}><PricingModal open={showPricing} onOpenChange={setShowPricing} /></Suspense>}
     </nav>
+    </>
   );
 }

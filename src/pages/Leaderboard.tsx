@@ -32,19 +32,19 @@ export default function Leaderboard() {
     <div className="min-h-screen bg-background pb-24 md:pb-0">
       <SEOHead title={t('lb.seoTitle')} description={t('lb.seoDesc')} path="/leaderboard" noindex />
       <Navbar />
-      <main className="pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <main className="leaderboard-page pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#ff4359] via-primary to-[#b90024] p-5 text-white shadow-2xl shadow-primary/20 sm:p-8 mb-5 flex items-center justify-between gap-3">
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#ff4359] via-primary to-[#b90024] p-5 text-white shadow-2xl shadow-primary/20 sm:p-8 mb-5 flex items-center justify-between gap-3 lg:rounded-none lg:bg-none lg:p-0 lg:pb-3 lg:text-foreground lg:shadow-none">
             <span className="pointer-events-none absolute -right-12 -top-20 h-56 w-56 rounded-full bg-white/20 blur-2xl" />
             <div className="relative flex items-center gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:h-14 sm:w-14 rounded-2xl bg-white/10 ring-1 ring-white/15 grid place-items-center"><Trophy className="h-6 w-6 sm:h-7 sm:w-7 text-amber-300" /></div>
+              <div className="w-12 h-12 sm:h-14 sm:w-14 rounded-2xl bg-white/10 ring-1 ring-white/15 grid place-items-center lg:bg-primary/10"><Trophy className="h-6 w-6 sm:h-7 sm:w-7 text-amber-300 lg:text-primary" /></div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[.2em] text-amber-300">Scorify League</p>
+                <p className="text-[10px] font-bold uppercase tracking-[.2em] text-amber-300 lg:text-primary">Scorify League</p>
                 <h1 className="text-2xl sm:text-3xl font-extrabold">{t('lb.title')}</h1>
-                <p className="text-xs sm:text-sm text-white/65">{t('lb.subtitle')}</p>
+                <p className="text-xs sm:text-sm text-white/65 lg:mt-2 lg:text-muted-foreground">{t('lb.subtitle')}</p>
               </div>
             </div>
-            <Link to="/profile#people" className="relative hidden sm:block"><Button variant="outline" size="sm" className="gap-1.5 border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"><Search className="h-4 w-4" />{t('lb.friends')}</Button></Link>
+            <Link to="/profile#people" className="relative hidden sm:block"><Button variant="outline" size="sm" className="gap-1.5 border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white lg:border-border lg:bg-card lg:text-foreground lg:hover:bg-secondary lg:hover:text-foreground"><Search className="h-4 w-4" />{t('lb.friends')}</Button></Link>
           </div>
 
           <div className="grid gap-2 sm:grid-cols-2 mb-4 rounded-2xl border bg-card p-1.5 shadow-sm">
@@ -93,6 +93,7 @@ export default function Leaderboard() {
               </Link>)}
             </div>}
             <div className="overflow-hidden rounded-3xl border bg-card shadow-sm">
+            <div className="hidden grid-cols-[28px_1fr_90px_100px] gap-3 border-b bg-secondary/25 px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground lg:grid"><span>#</span><span>{lang === 'uz' ? 'O‘quvchi' : 'Learner'}</span><span className="text-right">XP</span><span /></div>
             {remaining.map((r, i) => (
               <motion.div key={r.public_id} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: Math.min(i, 12) * 0.025 }}
                 className={`flex items-center gap-2.5 sm:gap-3 border-b border-border/60 p-3 sm:p-4 last:border-0 ${r.is_me ? 'bg-primary/[0.07]' : 'hover:bg-secondary/35'}`}>
