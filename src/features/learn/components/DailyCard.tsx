@@ -13,15 +13,19 @@ export function DailyCard({ state, wordCount }: { state: LearningState; wordCoun
   const done = isDailyDone(user?.id, state.today);
   return (
     <Link to="/learn/daily" aria-label={t('learn.daily.title')}
-      className={`rounded-2xl border p-4 mb-4 flex items-center gap-4 transition-colors hover:border-primary ${done ? 'border-emerald-500/40 bg-emerald-500/5' : 'border-primary/40 bg-primary/5'}`}>
-      <span className={`h-11 w-11 shrink-0 rounded-xl grid place-items-center ${done ? 'bg-emerald-500/15 text-emerald-600' : 'bg-primary/15 text-primary'}`}>
-        {done ? <CheckCircle2 className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
+      className={`group mb-4 flex min-h-[164px] flex-col justify-between rounded-[1.75rem] border p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-lg ${done ? 'border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-card' : 'border-primary/25 bg-gradient-to-br from-primary/[0.08] via-card to-orange-400/[0.08]'}`}>
+      <span className="flex min-w-0 items-start gap-3">
+        <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${done ? 'bg-emerald-500/15 text-emerald-600' : 'bg-primary/15 text-primary'}`}>
+          {done ? <CheckCircle2 className="h-6 w-6" /> : <Sun className="h-6 w-6" />}
+        </span>
+        <span className="min-w-0 pt-0.5">
+          <span className="block text-lg font-extrabold leading-tight">{done ? t('learn.daily.done') : t('learn.daily.title')}</span>
+          <span className="mt-1 block text-sm leading-snug text-muted-foreground">{done ? t('learn.daily.cardDone') : t('learn.daily.sub')}</span>
+        </span>
       </span>
-      <span className="min-w-0 flex-1">
-        <span className="block font-bold leading-snug">{done ? t('learn.daily.done') : t('learn.daily.title')}</span>
-        <span className="block text-sm text-muted-foreground">{done ? t('learn.daily.cardDone') : t('learn.daily.sub')}</span>
+      <span className={`mt-4 inline-flex w-full items-center justify-center gap-1 rounded-xl px-4 py-2.5 text-sm font-bold transition-colors ${done ? 'bg-emerald-600 text-white group-hover:bg-emerald-700' : 'bg-primary text-primary-foreground group-hover:bg-primary/90'}`}>
+        {done ? t('learn.daily.again') : t('learn.daily.open')}<ChevronRight className="h-4 w-4" />
       </span>
-      <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary shrink-0">{done ? t('learn.daily.again') : t('learn.daily.open')}<ChevronRight className="h-4 w-4" /></span>
     </Link>
   );
 }
