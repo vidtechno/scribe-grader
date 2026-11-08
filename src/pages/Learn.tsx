@@ -28,6 +28,7 @@ import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { loadSession, useReviewQueue } from '@/features/learn/engine/api';
 import { WordDrill, type DrillItem } from '@/features/learn/components/WordDrill';
 import { shuffle } from '@/features/learn/check';
+import { WordGames } from '@/features/learn/components/WordGames';
 
 const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts'];
 
@@ -145,7 +146,7 @@ function CourseHome({ state }: { state: LearningState }) {
       <div className="flex flex-wrap items-end justify-between gap-3 mb-3">
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">{levelOf(startLevel).cefr === 'Noldan' ? t('learn.home.startedScratch', { level: levelOf(startLevel).title }) : t('learn.home.startedAt', { level: levelOf(startLevel).title, cefr: levelOf(startLevel).cefr })}</p>
-          <h1 className="text-2xl sm:text-3xl font-extrabold">{t('learn.home.courseTitle')}</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold">{tab === 'words' ? t('learn.home.tabWords') : t('learn.home.courseTitle')}</h1>
         </div>
         <Link to="/dashboard" className="inline-flex items-center gap-1.5 rounded-full border border-border text-sm font-medium px-3.5 py-2 hover:border-primary hover:text-primary transition-colors sm:order-last">{t('learn.home.dashboard')}</Link>
         <Link to="/leaderboard" className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3.5 py-2 hover:bg-amber-500/20 transition-colors sm:order-last">
@@ -160,8 +161,8 @@ function CourseHome({ state }: { state: LearningState }) {
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
-      {!locked && <ContinueCard state={state} />}
-      {!locked && <div className="grid gap-3 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]"><GoalStreak state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
+      {!locked && tab === 'map' && <ContinueCard state={state} />}
+      {!locked && tab === 'map' && <div className="grid gap-3 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]"><GoalStreak state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
 
       <section className="mb-4" aria-label={t('learn.home.stats')}>
         <div className="grid grid-cols-2 gap-3 rounded-2xl bg-secondary/55 p-1.5">
@@ -288,6 +289,7 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
 
   return (
     <div>
+      <WordGames words={all} locked={locked} />
       <div className="flex flex-wrap gap-3 items-center mb-5">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
