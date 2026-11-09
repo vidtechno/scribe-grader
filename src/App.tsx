@@ -10,7 +10,7 @@ import { DevicesProvider, useDevices } from "@/hooks/useDevices";
 import { usePresence } from "@/hooks/usePresence";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { BottomNav } from "@/components/BottomNav";
-import { Suspense, lazy, useState, useEffect } from "react";
+import { Suspense, lazy, useState, useEffect, useCallback } from "react";
 import Index from "./pages/Index";
 const Auth = lazy(() => import("./pages/Auth"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
@@ -55,6 +55,7 @@ import { trackOnce, setAnalyticsUser } from "@/lib/analytics";
 
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
 const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
+const UserIntakeGate = lazy(() => import("@/components/UserIntake").then(m => ({ default: m.UserIntakeGate })));
 
 // Fewer round trips to the database: data stays fresh for a minute, no refetch every time the window regains focus.
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 60_000, refetchOnWindowFocus: false, retry: 1 } } });
@@ -97,7 +98,10 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 
 function AppRoutes() {
   const [mentorOpen, setMentorOpen] = useState(false);
+  const [intakeStatus, setIntakeStatus] = useState<{userId: string | null; busy: boolean}>({ userId: null, busy: true });
   const { user } = useAuth();
+  const setIntakeBusy = useCallback((busy: boolean) => setIntakeStatus({userId:user?.id ?? null,busy}), [user?.id]);
+  const intakeBusy = intakeStatus.userId !== user?.id || intakeStatus.busy;
   usePresence(user?.id);
 
   useEffect(() => { setAnalyticsUser(user?.id); }, [user?.id]);
@@ -119,7 +123,8 @@ function AppRoutes() {
   return (
     <>
       <ScrollToTop />
-      {user && <Suspense fallback={null}><Announcements /></Suspense>}
+      {user && <Suspense fallback={null}><UserIntakeGate key={user.id} onBusyChange={setIntakeBusy} /></Suspense>}
+      {user && !intakeBusy && <Suspense fallback={null}><Announcements /></Suspense>}
       <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />

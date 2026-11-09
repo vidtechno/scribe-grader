@@ -28,6 +28,11 @@ type TabId = typeof TABS[number]['id'];
 
 /** Admin panel: one clear section per job. Everything is read live from admin-only database functions. */
 export default function Admin() {
+  const { user } = useAuth();
+  return <AdminSession key={user?.id} />;
+}
+
+function AdminSession() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
@@ -36,8 +41,10 @@ export default function Admin() {
 
   useEffect(() => {
     if (!user) return;
+    let cancelled = false;
     void supabase.from('user_roles').select('role').eq('user_id', user.id).eq('role', 'admin').maybeSingle()
-      .then(({ data }) => setIsAdmin(!!data));
+      .then(({ data }) => { if (!cancelled) setIsAdmin(!!data); });
+    return () => { cancelled = true; };
   }, [user]);
 
   if (authLoading || (user && isAdmin === null)) return <LoadingScreen />;

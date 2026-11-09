@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { adminRpc, daysUntil, LEVEL_LABEL, PLAN_LABEL, som, statusOf, type AdminUser, agoUz, isOnline, seenMs } from './adminApi';
+import { UserIntakeDetails } from './IntakeStatsPanel';
 
 interface Detail {
   learning: { level: string; xp: number; streak_current: number; streak_best: number; daily_goal_xp: number; placement_status: string; next_lesson_title: string | null } | null;
@@ -85,6 +86,8 @@ export function UserSheet({ user, onClose, onChanged }: { user: AdminUser | null
           {profileHref && <Link to={profileHref}><Button size="sm" variant="outline" className="gap-1.5"><ExternalLink className="h-3.5 w-3.5" />Profil</Button></Link>}
           {user.telegram_username && <a href={`https://t.me/${user.telegram_username}`} target="_blank" rel="noopener noreferrer"><Button size="sm" variant="outline" className="gap-1.5"><MessageCircle className="h-3.5 w-3.5" />Telegram</Button></a>}
         </div>
+
+        <UserIntakeDetails userId={user.user_id} />
 
         <section className="mt-5">
           <h3 className="text-sm font-bold mb-1">Tarif</h3>
