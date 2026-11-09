@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
+import { WritingRecoveryList } from '@/components/WritingRecovery';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { SEOHead } from '@/components/SEOHead';
 import { ArrowLeft, PenLine, Mic, ChevronRight, FileText } from 'lucide-react';
@@ -20,6 +21,11 @@ interface SpeakingDraft {
 type Draft = EssayDraft | SpeakingDraft;
 
 export default function Drafts() {
+  const { user } = useAuth();
+  return <AccountDrafts key={user?.id} />;
+}
+
+function AccountDrafts() {
   const { t, lang } = useT();
   const dfl = lang === 'uz' ? { locale: uz } : undefined;
   const { user } = useAuth();
@@ -33,7 +39,7 @@ export default function Drafts() {
     const load = async () => {
       setLoading(true);
       const [{ data: e }, { data: s }] = await Promise.all([
-        supabase.from('essays').select('id, task_type, topic, word_count, created_at').eq('status', 'draft').order('created_at', { ascending: false }),
+        supabase.from('essays').select('id, task_type, topic, word_count, created_at').eq('user_id', user.id).eq('status', 'draft').order('created_at', { ascending: false }),
         supabase.from('speaking_attempts').select('id, part, topic, created_at').eq('status', 'draft').order('created_at', { ascending: false }),
       ]);
       setEssays((e || []).map((x: any) => ({ ...x, kind: 'essay' as const })));
@@ -63,6 +69,7 @@ export default function Drafts() {
       <SEOHead title={t('drafts.seoTitle')} description={t('drafts.seoDesc')} path="/drafts" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <WritingRecoveryList />
         <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="h-4 w-4" /> {t('essays.back')}
         </Link>

@@ -1,8 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { calibratedOverall, validGrade } from '../_shared/grading.ts';
 
-import { serviceClient, getRequestUser, consumeQuota, refundQuota, quotaErrorMessage } from "../_shared/quota.ts";
-import { boundedString, isRecord, json, preflight } from "../_shared/http.ts";
+import { serviceClient, getRequestUser } from "../_shared/quota.ts";
+import { isRecord, json, preflight } from "../_shared/http.ts";
 import { logTextUsage } from "../_shared/ai-usage.ts";
 
 const systemPrompt = `You are a strict, evidence-based IELTS Writing examiner. Evaluate the response as it is written, using the four official IELTS Writing criteria. Do not reward ambition when control and accuracy are weak. Do not assume intended meaning when the sentence is unclear.
@@ -71,129 +71,93 @@ You must respond ONLY with a valid JSON object in this exact format:
 serve(async (req) => {
   const early = preflight(req);
   if (early) return early;
-  let quotaUserId: string | null = null;
   let admin: ReturnType<typeof serviceClient> | null = null;
-
+  let attemptId: string | null = null;
+  let userId: string | null = null;
+  const token = crypto.randomUUID();
+  let claimed = false;
   try {
     admin = serviceClient();
     const user = await getRequestUser(req, admin);
-    if (!user) return json(req, { error: 'Unauthorized' }, 401);
-
+    if (!user) return json(req, { error: 'writing.session' }, 401);
+    userId = user.id;
     const body: unknown = await req.json();
-    if (!isRecord(body) || !boundedString(body.essay, 20_000, 20) ||
-        !boundedString(body.topic, 500) ||
-        (body.taskType !== 'Task 1' && body.taskType !== 'Task 2')) {
-      return json(req, { error: 'Invalid essay, task type or topic' }, 400);
+    if (!isRecord(body) || typeof body.attemptId !== 'string' ||
+        !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.attemptId)) {
+      return json(req, { error: 'Saved Writing attempt ID required' }, 400);
     }
-    const { essay, taskType, topic } = body;
+    attemptId = body.attemptId;
+    const key = Deno.env.get('OPENAI_API_KEY');
+    if (!key) return json(req, { error: 'writing.aiUnavailable' }, 503);
+
+    // Row lock + quota reservation are one transaction. JWT supplies ownership;
+    // text/topic/task always come from the saved snapshot, never the request body.
+    const { data: claim, error: claimError } = await admin.rpc('claim_writing_grade', {
+      _id: attemptId, _user_id: user.id, _token: token,
+    });
+    if (claimError) return json(req, { error: 'writing.setup' }, 503);
+    if (claim.state === 'missing') return json(req, { error: 'Save the essay before grading' }, 404);
+    if (claim.state === 'completed') return json(req, { state: 'completed', essayId: attemptId, result: claim.result });
+    if (claim.state === 'grading' || claim.state === 'review_required') {
+      return json(req, { state: claim.state, essayId: attemptId }, 202);
+    }
+    if (claim.state === 'too_short') return json(req, { error: 'writing.tooShort' }, 400);
+    if (claim.state === 'quota') return json(req, { error: claim.quota.reason === 'trial_expired' ? 'writing.trialExpired' : 'writing.quota', limitReached: true }, 403);
+    if (claim.state !== 'claimed') return json(req, { error: 'Writing attempt is not available for grading' }, 409);
+    claimed = true;
+    const { essay_text: essay, task_type: taskType, topic } = claim.attempt;
     const wordCount = essay.trim().split(/\s+/).length;
-
-    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
-    if (!OPENAI_API_KEY) return json(req, { error: 'AI service not configured' }, 503);
-
-    const quota = await consumeQuota(admin, user.id, 'writing');
-    if (!quota.allowed) {
-      return json(req, { error: quotaErrorMessage(quota, 'writing'), limitReached: quota.reason === 'limit_reached', plan: quota.plan }, quota.reason === 'quota_check_failed' ? 503 : 403);
-    }
-    quotaUserId = user.id;
-
-
     const model = 'gpt-4o-mini';
-
-    const userPrompt = `Please evaluate this IELTS ${taskType} essay.
-
+    const userPrompt = `Evaluate this IELTS ${taskType} essay using the specified JSON format.
 Topic: ${topic}
-Submitted word count: ${wordCount} (expected minimum: ${taskType==='Task 1'?150:250})
-
+Word count: ${wordCount}. Expected minimum: ${taskType === 'Task 1' ? 150 : 250}.
 Essay:
 ${essay}
-
-Provide your evaluation as a JSON object following the exact format specified. Make sure to:
-- Find and list ALL errors in the errorCorrections array
-- Include "improvement" type entries for high-band alternatives
-- Analyze vocabulary range and find repeated basic words with academic synonyms
-- Check coherence between all paragraphs
-- Categorize every sentence by complexity (simple/compound/complex)`;
-
-    console.log(`Calling OpenAI (${model}) for essay grading...`);
-
+List concrete errors and corrections, vocabulary alternatives, coherence checks and sentence complexity.`;
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      signal: AbortSignal.timeout(60_000),
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.3,
-        response_format: { type: "json_object" },
-      }),
+      method: 'POST', signal: AbortSignal.timeout(60_000),
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, messages: [
+        { role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt },
+      ], temperature: 0.3, response_format: { type: 'json_object' } }),
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('OpenAI error:', response.status, errorText);
-      await refundQuota(admin, quotaUserId, 'writing');
-      quotaUserId = null;
-
-      if (response.status === 429) {
-        return json(req, { error: 'Rate limit exceeded. Please try again later.' }, 429);
+    const finish = async (result: unknown, failure: string | null = null) => {
+      // Retrying this transaction cannot consume quota or call OpenAI again.
+      for (let i = 0; i < 3; i++) {
+        const { error } = await admin!.rpc('finish_writing_grade', {
+          _id: attemptId, _user_id: userId, _token: token, _result: result, _failure: failure,
+        });
+        if (!error) { claimed = false; return; }
       }
-
-      return json(req, { error: 'Failed to get AI response' }, 502);
+      throw new Error('Writing result persistence failed');
+    };
+    if (!response.ok) {
+      // Only definite non-completion rejections release the reservation.
+      // A 5xx or network timeout may have run the model: fail closed.
+      const retryable = [400, 401, 403, 404, 413, 422, 429].includes(response.status);
+      await finish(null, retryable ? 'rejected' : 'ambiguous');
+      return json(req, { error: retryable ? 'writing.providerRejected' : 'writing.review' }, response.status === 429 ? 429 : 502);
     }
-
     const aiResponse = await response.json();
-    const content = aiResponse.choices?.[0]?.message?.content;
-
-    if (!content) {
-      await refundQuota(admin, quotaUserId, 'writing');
-      quotaUserId = null;
-      return json(req, { error: 'Invalid AI response' }, 502);
+    // Accounting telemetry must not discard an otherwise valid paid response.
+    await logTextUsage(admin, user.id, 'writing', model, aiResponse.usage, { taskType, attemptId }).catch(() => undefined);
+    const gradeResult = JSON.parse(aiResponse.choices?.[0]?.message?.content || 'null');
+    if (!validGrade(gradeResult, 'writing')) throw new Error('Invalid grading result');
+    gradeResult.overallBand = calibratedOverall(gradeResult, 'writing');
+    for (const field of ['errorCorrections','vocabularyAnalysis','coherenceCheck','sentenceComplexity']) {
+      if (!Array.isArray(gradeResult[field])) gradeResult[field] = [];
     }
-
-    let gradeResult;
-    try {
-      gradeResult = JSON.parse(content);
-    } catch (parseError) {
-      console.error('Failed to parse AI response:', parseError);
-      await refundQuota(admin, quotaUserId, 'writing');
-      quotaUserId = null;
-      return json(req, { error: 'Failed to parse grading result' }, 502);
-    }
-
-    if (!validGrade(gradeResult, 'writing')) {
-      await refundQuota(admin, quotaUserId, 'writing');
-      quotaUserId = null;
-      return json(req, { error: 'Invalid grading result structure' }, 502);
-    }
-
-    gradeResult.overallBand = calibratedOverall(gradeResult,'writing');
-
-    // Ensure arrays exist
-    if (!Array.isArray(gradeResult.errorCorrections)) gradeResult.errorCorrections = [];
-    if (!Array.isArray(gradeResult.vocabularyAnalysis)) gradeResult.vocabularyAnalysis = [];
-    if (!Array.isArray(gradeResult.coherenceCheck)) gradeResult.coherenceCheck = [];
-    if (!Array.isArray(gradeResult.sentenceComplexity)) gradeResult.sentenceComplexity = [];
-
-    await logTextUsage(admin,user.id,'writing',model,aiResponse.usage,{ taskType });
-
     gradeResult.modelUsed = 'Scorify AI';
-    gradeResult.quota = { used: quota.used, limit: quota.limit, plan: quota.plan };
-
-    console.log('Essay graded successfully:', gradeResult.overallBand);
-
-    quotaUserId = null;
-    return json(req, gradeResult);
-  } catch (error) {
-    console.error('Grade essay error:', error);
-    if (quotaUserId && admin) await refundQuota(admin, quotaUserId, 'writing');
-    return json(req, { error: 'Essay grading failed' }, 500);
-
+    gradeResult.quota = claim.quota;
+    await finish(gradeResult);
+    return json(req, { state: 'completed', essayId: attemptId, result: gradeResult });
+  } catch {
+    // Never log essay content, provider responses or secrets.
+    if (claimed && admin && attemptId && userId) {
+      await admin.rpc('finish_writing_grade', {
+        _id: attemptId, _user_id: userId, _token: token, _result: null, _failure: 'ambiguous',
+      });
+    }
+    return json(req, { error: claimed ? 'writing.review' : 'ex.gradeFailed' }, 503);
   }
 });

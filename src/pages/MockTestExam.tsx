@@ -1,15 +1,15 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { MockWritingStep } from '@/components/MockWritingStep';
 import { SpeechRecorder } from '@/components/SpeechRecorder';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { getRandomTopic } from '@/lib/topics';
 import { getRandomSpeakingTopic } from '@/lib/speakingTopics';
-import { Clock, FileText, Send, Mic, ArrowRight, Loader2, BookOpen, Headphones } from 'lucide-react';
+import { Send, Mic, ArrowRight, Loader2, BookOpen, Headphones } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { audioExtension } from '@/lib/audio';
@@ -31,31 +31,33 @@ const STEP_LABELS: Record<Step, string> = {
   speaking_p3: 'mock.step.speaking_p3',
   done: 'mock.step.done',
 };
-const WRITING_LIMIT: Record<'task1' | 'task2', number> = { task1: 20 * 60, task2: 40 * 60 };
-const WRITING_MIN: Record<'task1' | 'task2', number> = { task1: 150, task2: 250 };
 const SPEAKING_MAX: Record<'speaking_p1' | 'speaking_p2' | 'speaking_p3', number> = {
   speaking_p1: 90, speaking_p2: 120, speaking_p3: 150,
 };
 
 export default function MockTestExam() {
+  const { user } = useAuth();
+  const { id } = useParams<{ id: string }>();
+  return <MockTestSession key={`${user?.id}:${id}`} />;
+}
+
+function MockTestSession() {
   const { id } = useParams<{ id: string }>();
   const { t } = useT();
   const navigate = useNavigate();
   const { user, refreshProfile } = useAuth();
   const [mt, setMt] = useState<any>(null);
   const [step, setStep] = useState<Step>('task1');
-  const [essay, setEssay] = useState('');
-  const [timeLeft, setTimeLeft] = useState(WRITING_LIMIT.task1);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const initRef = useRef(false);
 
   // Load mock test, ensure all topics exist, set current step
   useEffect(() => {
-    if (!id || !user || initRef.current) return;
-    initRef.current = true;
+    if (!id || !user) return;
+    let cancelled = false;
     (async () => {
-      const { data, error } = await supabase.from('mock_tests').select('*').eq('id', id).single();
+      const { data, error } = await supabase.from('mock_tests').select('*').eq('id', id).eq('user_id', user.id).single();
+      if (cancelled) return;
       if (error || !data) { toast.error(t('mock.exam.notFound')); navigate('/mock-test'); return; }
       if (data.user_id !== user.id) { toast.error(t('mock.exam.denied')); navigate('/mock-test'); return; }
       if (data.status !== 'in_progress') {
@@ -74,48 +76,19 @@ export default function MockTestExam() {
         const { data: updated } = await supabase.from('mock_tests').update(patch).eq('id', id).select().single();
         if (updated) row = updated;
       }
+      if (cancelled) return;
       setMt(row);
       const cur = (row.current_step || 'task1') as Step;
       setStep(cur);
-      if (cur === 'task1') { setEssay(row.task1_essay || ''); setTimeLeft(WRITING_LIMIT.task1); }
-      else if (cur === 'task2') { setEssay(row.task2_essay || ''); setTimeLeft(WRITING_LIMIT.task2); }
     })();
-  }, [id, user, navigate]);
-
-  // Writing timer
-  useEffect(() => {
-    if (step !== 'task1' && step !== 'task2') return;
-    if (timeLeft <= 0) { void completeWritingStep(); return; }
-    const t = setInterval(() => setTimeLeft(v => v - 1), 1000);
-    return () => clearInterval(t);
-  }, [step, timeLeft]);
-
-  const formatTime = (s: number) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
-
-  const wordCount = essay.trim().split(/\s+/).filter(Boolean).length;
+    return () => { cancelled = true; };
+  }, [id, user?.id, navigate, t]);
 
   const stepOrder = mt?.listening_test_id ? STEP_ORDER_FULL : STEP_ORDER_LEGACY;
   const advance = (current: Step): Step => {
     const i = stepOrder.indexOf(current);
     return stepOrder[Math.min(i + 1, stepOrder.length - 1)];
   };
-
-  const completeWritingStep = useCallback(async () => {
-    if (!mt || (step !== 'task1' && step !== 'task2')) return;
-    setUploading(true);
-    const next = advance(step);
-    const payload: any = step === 'task1'
-      ? { task1_essay: essay, task1_word_count: wordCount, current_step: next }
-      : { task2_essay: essay, task2_word_count: wordCount, current_step: next };
-    const { error } = await supabase.from('mock_tests').update(payload).eq('id', mt.id);
-    setUploading(false);
-    if (error) { toast.error(t('mock.exam.saveFail')); return; }
-    toast.success(t('mock.exam.saved', { step: t(STEP_LABELS[step]) }));
-    setMt({ ...mt, ...payload });
-    setStep(next);
-    setEssay('');
-    if (next === 'task2') setTimeLeft(WRITING_LIMIT.task2);
-  }, [mt, step, essay, wordCount, t]);
 
   const handleAudioComplete = useCallback(async (blob: Blob) => {
     if (!mt || !user) return;
@@ -204,42 +177,18 @@ export default function MockTestExam() {
           </motion.div>
         )}
 
-        {(step === 'task1' || step === 'task2') && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} key={step}>
-            <div className="glass-card p-5 mb-4">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t('mock.exam.topic')}</span>
-                <span className="flex items-center gap-1.5 font-mono text-sm font-bold bg-secondary/50 px-2.5 py-1 rounded">
-                  <Clock className="h-3.5 w-3.5" /> {formatTime(timeLeft)}
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed">{step === 'task1' ? mt.task1_topic : mt.task2_topic}</p>
-              <div className="mt-3 text-xs text-muted-foreground flex items-center gap-3">
-                <span className="flex items-center gap-1"><FileText className="h-3 w-3" /> {t('mock.exam.minWords', { n: WRITING_MIN[step] })}</span>
-                <span className={wordCount >= WRITING_MIN[step] ? 'text-green-600 font-medium' : ''}>{t('mock.exam.written', { n: wordCount })}</span>
-              </div>
-            </div>
-
-            <Textarea
-              value={essay}
-              onChange={(e) => setEssay(e.target.value)}
-              placeholder={t('mock.exam.placeholder')}
-              className="min-h-[400px] text-base leading-relaxed"
-              autoFocus
-            />
-
-            <div className="mt-4 flex justify-end">
-              <Button
-                onClick={completeWritingStep}
-                disabled={uploading || wordCount < 20}
-                variant="glow"
-                className="gap-2"
-              >
-                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
-                {t('mock.exam.saveContinue')}
-              </Button>
-            </div>
-          </motion.div>
+        {(step === 'task1' || step === 'task2') && user && (
+          <MockWritingStep key={`${user.id}:${mt.id}:${step}`} userId={user.id} mockId={mt.id}
+            task={step === 'task1' ? 'Task 1' : 'Task 2'}
+            topic={step === 'task1' ? mt.task1_topic : mt.task2_topic}
+            serverText={step === 'task1' ? mt.task1_essay : mt.task2_essay}
+            onSaved={(text) => {
+              const next = advance(step);
+              const payload = step === 'task1'
+                ? { task1_essay: text, current_step: next }
+                : { task2_essay: text, current_step: next };
+              setMt({ ...mt, ...payload }); setStep(next);
+            }} />
         )}
 
         {(step === 'speaking_p1' || step === 'speaking_p2' || step === 'speaking_p3') && (

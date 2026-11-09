@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
+import { WritingRecoveryList } from '@/components/WritingRecovery';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { SEOHead } from '@/components/SEOHead';
@@ -26,6 +27,11 @@ interface Essay {
 const PAGE_SIZE = 10;
 
 export default function Essays() {
+  const { user } = useAuth();
+  return <WritingHistory key={user?.id} />;
+}
+
+function WritingHistory() {
   const { t, lang } = useT();
   const dfl = lang === 'uz' ? { locale: uz } : undefined;
   const { user } = useAuth();
@@ -52,6 +58,7 @@ export default function Essays() {
       const { data, error } = await supabase
         .from('essays')
         .select('id, task_type, topic, score, word_count, created_at, status, error_message')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -86,6 +93,7 @@ export default function Essays() {
       <SEOHead title={t('essays.seoTitle')} description={t('essays.seoDesc')} path="/essays" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <WritingRecoveryList />
         <Link to="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="h-4 w-4" /> {t('essays.back')}
         </Link>
@@ -123,7 +131,7 @@ export default function Essays() {
               const isDraft = essay.status === 'draft';
               const isProcessing = essay.status === 'processing' || essay.status === 'queued';
               const isFailed = essay.status === 'failed';
-              const href = isDraft ? `/exam?draft=${essay.id}` : `/result/${essay.id}`;
+              const href = isDraft || isFailed ? `/exam?draft=${essay.id}` : `/result/${essay.id}`;
               return (
               <motion.div
                 key={essay.id}

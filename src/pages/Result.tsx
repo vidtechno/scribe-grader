@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
+import { copyWriting } from '@/components/WritingRecovery';
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { ErrorCorrections } from '@/components/ErrorCorrections';
@@ -65,28 +67,39 @@ interface Essay {
   score: number | null;
   feedback: Feedback | null;
   created_at: string;
+  status?: string;
 }
 
 export default function Result() {
+  const { user } = useAuth();
+  const { id } = useParams<{ id: string }>();
+  return <WritingResult key={`${user?.id}:${id}`} />;
+}
+
+function WritingResult() {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const { t, lang } = useT();
   const [essay, setEssay] = useState<Essay | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || !user) return;
+    let cancelled = false;
     (async () => {
       try {
-        const { data, error } = await supabase.from('essays').select('*').eq('id', id).single();
+        const { data, error } = await supabase.from('essays').select('*').eq('id', id).eq('user_id', user.id).single();
+        if (cancelled) return;
         if (error) throw error;
         setEssay(data as unknown as Essay);
       } catch (error) {
         console.error('Error fetching essay:', error);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     })();
-  }, [id]);
+    return () => { cancelled = true; };
+  }, [id, user?.id]);
 
   if (loading) return <LoadingScreen />;
   if (!essay) {
@@ -101,6 +114,14 @@ export default function Result() {
   }
 
   const feedback = essay.feedback;
+  if (!feedback && essay.status !== 'completed') return <div className="min-h-screen bg-background"><Navbar />
+    <main className="max-w-3xl mx-auto px-4 pt-24 pb-24 space-y-4">
+      <h1 className="text-xl font-semibold">{essay.task_type}</h1><p>{essay.topic}</p>
+      <p role="status">{t(essay.status === 'processing' ? 'writing.pending' : 'writing.found')}</p>
+      <pre className="rounded-xl border p-4 whitespace-pre-wrap break-words">{essay.essay_text}</pre>
+      <div className="flex flex-wrap gap-2"><Button onClick={() => copyWriting(essay.essay_text, t)}>{t('writing.copy')}</Button>
+        <Button variant="outline" asChild><Link to={`/exam?draft=${essay.id}`}>{t('writing.resume')}</Link></Button></div>
+    </main></div>;
   const chartData = feedback ? [
     { subject: t('rs.radarTask'), score: feedback.taskAchievement.score, fullMark: 9 },
     { subject: t('rs.radarCoh'), score: feedback.coherenceCohesion.score, fullMark: 9 },

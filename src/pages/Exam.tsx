@@ -1,423 +1,226 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { functionError } from '@/lib/function-errors';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useWritingDraft } from '@/hooks/useWritingDraft';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
 import { PricingModal } from '@/components/PricingModal';
+import { WritingConflict, WritingRecoveryList, copyWriting } from '@/components/WritingRecovery';
 import { getRandomTopic } from '@/lib/topics';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Clock, FileText, Send, RefreshCw, AlertCircle,
-  Loader2, Sparkles, PenLine, PanelLeftClose, PanelLeft,
-  CheckCircle2, Brain, BarChart3
-} from 'lucide-react';
+import { functionError } from '@/lib/function-errors';
+import { fromServer, loadWritingAttempt, writingRpc } from '@/lib/writing-api';
+import { backupDraft, readDrafts, remainingSeconds, removeDraft, storeDraft, type WritingDraft, type WritingTask } from '@/lib/writing-drafts';
+import { Clock, FileText, Loader2, Send } from 'lucide-react';
 import { toast } from 'sonner';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { useT } from '@/i18n';
 import { trackOnce, PER_USER } from '@/lib/analytics';
 
-const GRADING_STEPS = [
-  { label: 'ex.step1', icon: Brain, duration: 3000 },
-  { label: 'ex.step2', icon: CheckCircle2, duration: 3000 },
-  { label: 'ex.step3', icon: BarChart3, duration: 4000 },
-];
-
 export default function Exam() {
+  const { user } = useAuth();
+  const [params] = useSearchParams();
+  return <WritingExam key={`${user?.id}:${params.toString()}`} userId={user?.id} />;
+}
+
+function WritingExam({ userId }: { userId?: string }) {
   const { t } = useT();
-  const [searchParams] = useSearchParams();
+  const [params] = useSearchParams();
   const navigate = useNavigate();
-  const { profile, refreshProfile } = useAuth();
+  const { refreshProfile } = useAuth();
   const { writingRemaining, refresh: refreshSub } = useSubscription();
-  const isMobile = useIsMobile();
-  const [draft, setDraft] = useState<{ id: string; task_type: string } | null>(null);
-  const draftId = searchParams.get('draft');
-  
-  const taskType = draft?.task_type === 'Task 1' || (!draft && searchParams.get('task') === '1') ? 'Task 1' : 'Task 2';
-  const timeLimit = taskType === 'Task 1' ? 20 * 60 : 40 * 60;
-  
-  const [topic, setTopic] = useState(() => getRandomTopic(taskType));
-  const [useCustomTopic, setUseCustomTopic] = useState(false);
-  const [customTopic, setCustomTopic] = useState('');
-  const [essay, setEssay] = useState('');
-  const [timeLeft, setTimeLeft] = useState(timeLimit);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const submittingRef = useRef(false);
-  const [gradingStep, setGradingStep] = useState(0);
+  const requestedId = params.get('attempt') || params.get('draft');
+  const [id] = useState(() => requestedId || crypto.randomUUID());
+  const [task, setTask] = useState<WritingTask>(params.get('task') === '1' ? 'Task 1' : 'Task 2');
+  const [topic, setTopic] = useState(() => getRandomTopic(task).prompt);
+  const [draft, setDraft] = useState<WritingDraft | null>(null);
+  const [active, setActive] = useState(false);
+  const [loading, setLoading] = useState(!!requestedId);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const [showPricing, setShowPricing] = useState(false);
-  const [examStarted, setExamStarted] = useState(false);
-  const [showTopicPanel, setShowTopicPanel] = useState(true);
-
-  const activeTopic = useCustomTopic && customTopic.trim() ? customTopic.trim() : topic.prompt;
-
-  const wordCount = essay.trim().split(/\s+/).filter(Boolean).length;
-  const minWords = taskType === 'Task 1' ? 150 : 250;
-  const isWordCountValid = wordCount >= minWords;
+  const [remoteChoice, setRemoteChoice] = useState<WritingDraft | null>(null);
+  const [now, setNow] = useState(Date.now());
+  const mounted = useRef(true);
+  const submitLock = useRef(false);
+  const expiryHandled = useRef(false);
+  const recovery = useWritingDraft(draft, active);
+  const latest = useRef(draft); latest.current = draft;
+  const minimum = task === 'Task 1' ? 150 : 250;
+  const words = draft?.text.trim().split(/\s+/).filter(Boolean).length || 0;
+  const timeLeft = draft ? remainingSeconds(draft, now) : task === 'Task 1' ? 1200 : 2400;
+  const expired = !!draft?.deadline && timeLeft === 0;
+  const locked = busy || expired || draft?.phase === 'submitting';
 
   useEffect(() => {
-    if (!draftId || !profile?.user_id) return;
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+  useEffect(() => {
+    if (!requestedId || !userId) return;
     let cancelled = false;
-    supabase.from('essays').select('id,task_type,topic,essay_text').eq('id', draftId)
-      .eq('user_id', profile.user_id).eq('status', 'draft').single().then(({ data, error }) => {
+    let local: WritingDraft | undefined;
+    try { local = readDrafts(userId).find(d => !d.mockId && d.id === requestedId); }
+    catch { setError('writing.storageError'); }
+    if (local) { setDraft(local); setTask(local.task); setTopic(local.topic); }
+    void (async () => {
+      try {
+        const row = await loadWritingAttempt(requestedId, userId);
         if (cancelled) return;
-        if (error || !data) { toast.error(t('ex.draftUnavailable')); return; }
-        setDraft(data);
-        setEssay(data.essay_text);
-        setCustomTopic(data.topic);
-        setUseCustomTopic(true);
-        setTimeLeft(data.task_type === 'Task 1' ? 20 * 60 : 40 * 60);
-      });
+        if (row?.state === 'completed') { removeDraft(fromServer(row)); navigate(`/result/${row.id}`, { replace: true }); return; }
+        if (row) {
+          const remote = fromServer(row);
+          if (local && (local.text !== remote.text || local.topic !== remote.topic) && local.serverVersion !== remote.serverVersion) {
+            setRemoteChoice(remote);
+          } else {
+            const chosen = local && (local.text !== remote.text || local.topic !== remote.topic) ?
+              { ...local, deadline: remote.deadline, startedAt: remote.startedAt } : remote;
+            setDraft(chosen); setTask(chosen.task); setTopic(chosen.topic);
+          }
+          if (row.state === 'review_required') setError('writing.review');
+        } else if (!local) {
+          const { data, error: fetchError } = await supabase.from('essays').select('*')
+            .eq('id', requestedId).eq('user_id', userId).single();
+          if (cancelled) return;
+          if (fetchError || !data) throw new Error('ex.draftUnavailable');
+          if (data.status === 'completed') { navigate(`/result/${data.id}`, { replace: true }); return; }
+          if (!['draft', 'failed'].includes(data.status)) throw new Error('writing.pending');
+          const older: WritingDraft = { id: data.id, userId, mockId: null, task: data.task_type as WritingTask,
+            text: data.essay_text, topic: data.topic, startedAt: null, deadline: null,
+            version: 0, serverVersion: 0, updatedAt: Date.parse(data.created_at), phase: 'writing' };
+          setDraft(older); setTask(older.task); setTopic(older.topic); setMessage('writing.legacy');
+        }
+      } catch (e) { if (!cancelled) setError(e instanceof Error ? e.message : 'writing.saveError'); }
+      finally { if (!cancelled) setLoading(false); }
+    })();
     return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draftId, profile?.user_id]);
-
+  }, [requestedId, userId]);
   useEffect(() => {
-    if (!examStarted || timeLeft <= 0) return;
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) { clearInterval(timer); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [examStarted, timeLeft]);
+    if (!active) return;
+    const tick = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(tick);
+  }, [active]);
 
-  // Grading steps animation
-  useEffect(() => {
-    if (!isSubmitting) { setGradingStep(0); return; }
-    setGradingStep(0);
-    const intervals: NodeJS.Timeout[] = [];
-    let cumulative = 0;
-    GRADING_STEPS.forEach((s, i) => {
-      if (i > 0) {
-        cumulative += GRADING_STEPS[i - 1].duration;
-        intervals.push(setTimeout(() => setGradingStep(i), cumulative));
-      }
-    });
-    return () => intervals.forEach(clearTimeout);
-  }, [isSubmitting]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const regenerateTopic = () => {
-    setTopic(getRandomTopic(taskType));
-    toast.success(t('ex.newTopicDone'));
-  };
-
-  const handleSubmit = useCallback(async () => {
-    if (submittingRef.current) return;
-    if (!profile) { toast.error(t('ex.signIn')); return; }
-    if (writingRemaining <= 0) {
-      toast.error(t('ex.allUsed'));
-      setShowPricing(true); return;
-    }
-    if (!isWordCountValid) { toast.error(t('ex.minWordsErr', { n: minWords })); return; }
-
-    submittingRef.current = true;
-    setIsSubmitting(true);
+  const submit = useCallback(async () => {
+    const current = latest.current;
+    if (!current || !userId || submitLock.current) return;
+    submitLock.current = true; setBusy(true); setError('');
     try {
-      const topicText = activeTopic;
-      // Usage is consumed server-side by the grade-essay function.
-      // Queue the attempt so it shows up in history immediately with a spinner
-      const pending = {
-        user_id: profile.user_id, task_type: taskType, topic: topicText,
-        essay_text: essay, word_count: wordCount, status: 'processing'
-      };
-      const { data: pendingRow, error: pendingError } = await (draft
-        ? supabase.from('essays').update(pending).eq('id', draft.id).eq('status', 'draft')
-        : supabase.from('essays').insert(pending)).select().single();
-      if (pendingError || !pendingRow) throw new Error(t('ex.saveFailed'));
-
-      const { data: gradeResult, error: gradeError } = await supabase.functions.invoke('grade-essay', {
-        body: { essay, taskType, topic: topicText }
-      });
-      if (gradeError) {
-        if (pendingRow) await supabase.from('essays').update({ status: 'failed', error_message: gradeError.message }).eq('id', pendingRow.id);
-        throw await functionError(gradeError, t('ex.gradeFailed'));
+      recovery.writer!.update({ text: current.text, topic: current.topic, phase: remainingSeconds(current) === 0 ? 'expired' : current.phase });
+      recovery.local();
+      if (!current.text.trim()) throw new Error('writing.emptyExpired');
+      if (current.text.trim().split(/\s+/).length < minimum) throw new Error(t('ex.minWordsErr', { n: minimum }));
+      const { data: auth } = await supabase.auth.getUser();
+      if (!auth.user || auth.user.id !== userId) throw new Error('writing.session');
+      if (!mounted.current) return;
+      setMessage('writing.saving'); await recovery.flush();
+      if (!mounted.current) return;
+      const submitting = { ...recovery.writer!.current, phase: 'submitting' as const };
+      storeDraft(submitting); setDraft(submitting); setMessage('writing.grading');
+      const { data, error: invokeError } = await supabase.functions.invoke('grade-essay-v2', { body: { attemptId: current.id } });
+      if (!mounted.current) return;
+      if (invokeError) throw await functionError(invokeError, t('ex.gradeFailed'));
+      if (data?.state !== 'completed') { setMessage(data?.state === 'review_required' ? 'writing.review' : 'writing.pending'); return; }
+      recovery.writer!.disposed = true;
+      removeDraft(submitting);
+      await Promise.all([refreshProfile(), refreshSub()]);
+      if (!mounted.current) return;
+      toast.success(t('ex.graded')); trackOnce('first_ielts_practice', PER_USER, { skill: 'writing' });
+      navigate(`/result/${current.id}`);
+    } catch (e) {
+      if (mounted.current) {
+        setError(e instanceof Error ? e.message : 'writing.saveError'); setMessage('');
+        // A definitive quota/provider rejection leaves a draft, so allow editing
+        // while its original timer remains open. Ambiguous calls stay locked.
+        try {
+          const row = await loadWritingAttempt(current.id, userId);
+          if (mounted.current && row?.state === 'draft') {
+            const next = { ...recovery.writer!.current, phase: remainingSeconds(current) === 0 ? 'expired' as const : 'writing' as const };
+            recovery.writer!.current = next; storeDraft(next); setDraft(next);
+          }
+        } catch { /* Original text and the actionable error remain visible. */ }
       }
-      const { data: essayData, error: essayError } = await supabase.from('essays')
-        .update({ score: gradeResult.overallBand, feedback: gradeResult, status: 'completed' })
-        .eq('id', pendingRow.id).select().single();
-      if (essayError) throw essayError;
-
-      await refreshProfile();
-      await refreshSub();
-      toast.success(t('ex.graded'));
-      trackOnce('first_ielts_practice', PER_USER, { skill: 'writing' });
-      navigate(`/result/${essayData.id}`);
-    } catch (error: unknown) {
-      console.error('Submit error:', error);
-      toast.error(error instanceof Error ? error.message : t('ex.gradeFailed'));
-    } finally {
-      setIsSubmitting(false);
-      submittingRef.current = false;
-    }
-  }, [essay, taskType, activeTopic, profile, wordCount, isWordCountValid, minWords, navigate, refreshProfile, writingRemaining, refreshSub, draft, t]);
-
+    } finally { submitLock.current = false; if (mounted.current) setBusy(false); }
+  }, [userId, recovery, minimum, refreshProfile, refreshSub, navigate, t]);
   useEffect(() => {
-    if (examStarted && timeLeft === 0) {
-      setExamStarted(false);
-      void handleSubmit();
+    if (active && expired && !expiryHandled.current) {
+      expiryHandled.current = true; setMessage('writing.expired'); void submit();
     }
-  }, [examStarted, timeLeft, handleSubmit]);
+  }, [active, expired, submit]);
 
-  const saveDraft = useCallback(async () => {
-    if (!profile) return;
-    if (!essay.trim()) { toast.error(t('ex.nothingToSave')); return; }
-    const payload = {
-      user_id: profile.user_id, task_type: taskType, topic: activeTopic,
-      essay_text: essay, word_count: wordCount, status: 'draft'
-    };
-    const { data, error } = await (draft
-      ? supabase.from('essays').update(payload).eq('id', draft.id).eq('status', 'draft')
-      : supabase.from('essays').insert(payload)).select('id,task_type').single();
-    if (error) { toast.error(t('ex.draftFailed')); return; }
-    setDraft(data);
-    toast.success(t('ex.draftSaved'));
-  }, [profile, taskType, essay, wordCount, activeTopic, draft, t]);
-
-  const startExam = () => {
-    if (writingRemaining <= 0) { setShowPricing(true); return; }
-    if (useCustomTopic && !customTopic.trim()) { toast.error(t('ex.enterTopic')); return; }
-    setExamStarted(true);
+  const start = () => {
+    if (!userId) { setError('writing.session'); return; }
+    if (!draft && writingRemaining <= 0) { setShowPricing(true); return; }
+    if (!topic.trim()) { setError('ex.enterTopic'); return; }
+    const current = draft || { id, userId, mockId: null, task, text: '', topic: topic.trim(),
+      startedAt: null, deadline: null, updatedAt: Date.now(), version: 0, serverVersion: 0, phase: 'writing' as const };
+    const startedAt = current.startedAt ?? Date.now();
+    const next = { ...current, startedAt, deadline: current.deadline ?? startedAt + (task === 'Task 1' ? 1200 : 2400) * 1000 };
+    try { storeDraft(next); setDraft(next); setActive(true); setNow(Date.now()); }
+    catch { setError('writing.storageError'); }
   };
-
-  const getTimeColor = () => {
-    const percentage = timeLeft / timeLimit;
-    if (percentage <= 0.1) return 'text-red-600';
-    if (percentage <= 0.25) return 'text-yellow-600';
-    return 'text-gray-700';
+  const choose = (device: boolean) => {
+    const remote = remoteChoice || recovery.conflict;
+    if (!remote || !draft) return;
+    try {
+      backupDraft(draft); backupDraft(remote);
+      const choice = remoteChoice ? (device ? { ...draft, serverVersion: remote.serverVersion,
+        deadline: remote.deadline, startedAt: remote.startedAt } : remote) : recovery.resolve(device)!;
+      if (recovery.writer) { recovery.writer.current = choice; recovery.writer.conflict = null; }
+      storeDraft(choice); setDraft(choice); setTask(choice.task); setTopic(choice.topic); setRemoteChoice(null); setError('');
+    } catch { setError('writing.storageError'); }
   };
+  const notice = error || message;
+  if (!active) return <div className="min-h-screen bg-background"><Navbar />
+    <main className="mx-auto max-w-2xl px-4 pt-24 pb-24 space-y-5">
+      <Link to="/writing" className="text-sm text-primary">← {t('writing.back')}</Link>
+      {loading ? <Loader2 className="animate-spin" aria-label="Loading" /> : draft ? <section className="rounded-2xl border p-5 space-y-4">
+        <h1 className="text-xl font-bold">{t('writing.found')}</h1><p>{draft.task} · {draft.topic}</p>
+        <pre className="max-h-48 overflow-auto whitespace-pre-wrap break-words text-sm">{draft.text}</pre>
+        {(remoteChoice || recovery.conflict) ? <WritingConflict device={draft} account={(remoteChoice || recovery.conflict)!} onChoose={choose} /> : <Button onClick={start}>{t('writing.resume')}</Button>}
+        <div className="flex flex-wrap gap-2"><Button variant="outline" onClick={() => copyWriting(draft.text, t)}>{t('writing.copy')}</Button>
+          <Button variant="ghost" onClick={async () => {
+            if (!window.confirm(t('writing.confirmDelete'))) return;
+            try { await writingRpc('discard_writing_attempt', { _id: draft.id }); removeDraft(draft); navigate(`/exam?task=${task === 'Task 1' ? 1 : 2}`, { replace: true }); }
+            catch (e) { setError(e instanceof Error ? e.message : 'writing.saveError'); }
+          }}>{t('writing.delete')}</Button></div>
+      </section> : <><WritingRecoveryList /><section className="rounded-2xl border bg-card p-6 space-y-5">
+        <FileText className="h-9 w-9 text-primary" /><h1 className="text-2xl font-bold">{t('ex.examTitle', { task })}</h1>
+        <p className="text-muted-foreground">{t('ex.intro', { min: task === 'Task 1' ? 20 : 40, n: minimum })}</p>
+        <label className="block space-y-2"><span>{t('ex.topic')}</span><Textarea value={topic} maxLength={500} onChange={e => setTopic(e.target.value)} /></label>
+        <div className="flex gap-2 flex-wrap"><Button variant="outline" onClick={() => setTopic(getRandomTopic(task).prompt)}>{t('ex.newTopic')}</Button><Button onClick={start}>{t('ex.startExam')}</Button></div>
+        <p className="text-sm text-muted-foreground">{t('ex.evalsRemaining', { n: writingRemaining })}</p>
+      </section></>}
+      {notice && <p role="alert" className="text-sm text-destructive">{t(notice)}</p>}
+    </main><PricingModal open={showPricing} onOpenChange={setShowPricing} /></div>;
 
-  const timePercentage = (timeLeft / timeLimit) * 100;
-
-  if (!examStarted) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <main className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="text-center py-12">
-            <div className="glass-card p-8 mb-8">
-              <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 3, repeat: Infinity }}
-                className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <FileText className="h-8 w-8 text-primary" />
-              </motion.div>
-              <h1 className="text-3xl font-bold mb-2">{t('ex.examTitle', { task: taskType })}</h1>
-              <p className="text-muted-foreground mb-6">
-                {t('ex.intro', { min: taskType === 'Task 1' ? 20 : 40, n: minWords })}
-              </p>
-              <div className="bg-secondary/30 rounded-lg p-4 mb-4 text-left">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm text-muted-foreground">
-                    {useCustomTopic ? t('ex.yourTopic') : t('ex.topic')}
-                  </p>
-                  <Button variant="ghost" size="sm" className="gap-2 text-xs" 
-                    onClick={() => setUseCustomTopic(!useCustomTopic)}>
-                    <PenLine className="h-3 w-3" />
-                    {useCustomTopic ? t('ex.useRandom') : t('ex.ownTopic')}
-                  </Button>
-                </div>
-                {useCustomTopic ? (
-                  <Input
-                    placeholder={t('ex.topicPh')}
-                    value={customTopic}
-                    onChange={(e) => setCustomTopic(e.target.value)}
-                    className="bg-background/50"
-                  />
-                ) : (
-                  <>
-                    <p className="text-sm">{topic.prompt}</p>
-                    <Button variant="ghost" size="sm" className="mt-3 gap-2" onClick={regenerateTopic}>
-                      <RefreshCw className="h-4 w-4" /> {t('ex.newTopic')}
-                    </Button>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-8">
-                <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {t('ex.minShort', { min: taskType === 'Task 1' ? 20 : 40 })}</span>
-                <span className="flex items-center gap-1"><FileText className="h-4 w-4" /> {t('ex.wordsPlus', { n: minWords })}</span>
-              </div>
-              <Button variant="glow" size="xl" onClick={startExam} className="gap-2" disabled={writingRemaining <= 0}>
-                <Sparkles className="h-5 w-5" /> {t('ex.start')}
-              </Button>
-              <p className="text-xs text-muted-foreground mt-3">
-                {t('ex.remaining')} <span className="font-semibold text-primary">{writingRemaining}</span>
-                {writingRemaining <= 0 && ` — ${t('ex.upgradeToContinue')}`}
-              </p>
-            </div>
-          </motion.div>
-        </main>
-        <PricingModal open={showPricing} onOpenChange={setShowPricing} />
-      </div>
-    );
-  }
-
-  // CD-IELTS Style Exam Workspace
-  return (
-    <div className="min-h-screen bg-[#f0f0f0] flex flex-col">
-      {/* Grading overlay */}
-      <AnimatePresence>
-        {isSubmitting && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex items-center justify-center"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="bg-card border border-border rounded-2xl p-8 max-w-sm w-full mx-4 text-center shadow-xl"
-            >
-              <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-6" />
-              <div className="space-y-4">
-                {GRADING_STEPS.map((step, i) => {
-                  const StepIcon = step.icon;
-                  const isActive = gradingStep === i;
-                  const isDone = gradingStep > i;
-                  return (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0.4 }}
-                      animate={{ opacity: isActive || isDone ? 1 : 0.4 }}
-                      className={`flex items-center gap-3 text-sm ${isActive ? 'text-primary font-medium' : isDone ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}
-                    >
-                      {isDone ? (
-                        <CheckCircle2 className="h-5 w-5 text-primary" />
-                      ) : isActive ? (
-                        <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                      ) : (
-                        <StepIcon className="h-5 w-5" />
-                      )}
-                      {t(step.label)}
-                    </motion.div>
-                  );
-                })}
-              </div>
-              <p className="text-xs text-muted-foreground mt-6">{t('ex.dontClose')}</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* IELTS-style top bar */}
-      <div className="bg-[#2c3e50] text-white px-4 py-2 flex items-center justify-between flex-wrap gap-2 z-50">
-        <div className="flex items-center gap-3">
-          <span className="font-semibold text-sm">{t('ex.topbar', { task: taskType })}</span>
-          <span className="text-xs text-gray-300">Scorify.uz</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className={`flex items-center gap-1.5 font-mono text-lg font-bold ${getTimeColor()} bg-white/10 px-3 py-1 rounded`}>
-            <Clock className="h-4 w-4" /> {formatTime(timeLeft)}
-          </span>
-          <span className={`text-sm font-medium ${isWordCountValid ? 'text-green-400' : 'text-gray-300'}`}>
-            {t('ex.wordProgress', { n: wordCount, min: minWords })}
-          </span>
-        </div>
-      </div>
-
-      {/* Time progress bar */}
-      <div className="w-full h-1 bg-gray-300">
-        <div 
-          className={`h-full transition-all duration-1000 ${timePercentage <= 10 ? 'bg-red-500' : timePercentage <= 25 ? 'bg-yellow-500' : 'bg-green-500'}`}
-          style={{ width: `${timePercentage}%` }} 
-        />
-      </div>
-
-      {/* Main content */}
-      <div className="flex-1 flex flex-col lg:flex-row">
-        {/* Topic Panel */}
-        {isMobile ? (
-          <>
-            <button 
-              onClick={() => setShowTopicPanel(!showTopicPanel)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#34495e] text-white text-sm w-full"
-            >
-              {showTopicPanel ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
-              {showTopicPanel ? t('ex.hideTopic') : t('ex.showTopic')}
-            </button>
-            {showTopicPanel && (
-              <div className="bg-white border-b border-gray-300 p-4 max-h-[40vh] overflow-y-auto">
-                <h2 className="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">{t('ex.question')}</h2>
-                <p className="text-sm text-gray-800 leading-relaxed">{activeTopic}</p>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="w-[400px] min-w-[350px] bg-white border-r border-gray-300 flex flex-col">
-            <div className="bg-[#ecf0f1] border-b border-gray-300 px-4 py-2">
-              <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">{t('ex.question')}</h2>
-            </div>
-            <div className="p-5 flex-1 overflow-y-auto">
-              <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">{activeTopic}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Writing Area */}
-        <div className="flex-1 flex flex-col bg-white">
-          <div className="bg-[#ecf0f1] border-b border-gray-300 px-4 py-2 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">{t('ex.response')}</h2>
-            {!isWordCountValid && wordCount > 0 && (
-              <span className="text-xs text-yellow-600 flex items-center gap-1">
-                <AlertCircle className="h-3 w-3" />
-                {t('ex.moreNeeded', { n: minWords - wordCount })}
-              </span>
-            )}
-          </div>
-          <div className="flex-1 p-0">
-            <Textarea 
-              placeholder={t('ex.essayPh')}
-              value={essay}
-              onChange={(e) => setEssay(e.target.value)}
-              className="h-full min-h-[300px] lg:min-h-0 resize-none border-none rounded-none focus-visible:ring-0 text-base leading-[1.8] text-gray-900 placeholder:text-gray-400 p-5"
-              style={{ backgroundColor: '#FFFFFF' }}
-              autoFocus 
-            />
-          </div>
-
-          {/* Bottom submit bar */}
-          <div className="border-t border-gray-300 bg-[#ecf0f1] px-4 py-3 flex items-center justify-between safe-area-bottom">
-            <div className="flex items-center gap-3 text-sm text-gray-600">
-              <span className={isWordCountValid ? 'text-green-600 font-medium' : ''}>
-                {t('ex.wordProgress', { n: wordCount, min: minWords })}
-              </span>
-              <span className={`${getTimeColor()} font-mono font-medium`}>
-                {formatTime(timeLeft)}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                onClick={saveDraft}
-                disabled={isSubmitting}
-                className="gap-2"
-              >
-                {t('ex.saveDraft')}
-              </Button>
-              <Button
-                onClick={handleSubmit}
-                disabled={isSubmitting || !isWordCountValid}
-                className="gap-2 bg-green-600 hover:bg-green-700 text-white border-0 px-6"
-              >
-                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                {t('ex.startEval')}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <PricingModal open={showPricing} onOpenChange={setShowPricing} />
-    </div>
-  );
+  return <div className="min-h-screen flex flex-col bg-background text-foreground">
+    <header className="border-b bg-card p-4 flex flex-wrap justify-between items-center gap-3">
+      <Link to="/writing" className="font-semibold">Scorify · IELTS {task}</Link>
+      <span className={`inline-flex items-center gap-2 font-mono font-bold ${expired ? 'text-destructive' : ''}`}><Clock className="h-4 w-4" />{Math.floor(timeLeft / 60).toString().padStart(2, '0')}:{(timeLeft % 60).toString().padStart(2, '0')}</span>
+    </header>
+    <div className="px-4 py-2 border-b text-xs text-muted-foreground" role="status" aria-live="polite">{t(recovery.status)}</div>
+    {(remoteChoice || recovery.conflict) && <WritingConflict device={draft!} account={(remoteChoice || recovery.conflict)!} onChoose={choose} />}
+    {notice && <div role="status" aria-live="polite" className={`m-4 rounded-xl border p-3 text-sm ${error ? 'border-destructive text-destructive' : 'bg-primary/5'}`}>
+      {busy && <Loader2 className="inline h-4 w-4 mr-2 animate-spin" />}{t(notice)}</div>}
+    <main className="flex-1 grid lg:grid-cols-[minmax(240px,350px)_1fr]">
+      <aside className="border-b lg:border-r p-5 max-h-60 overflow-auto lg:max-h-none"><h2 className="font-semibold mb-3">{t('ex.question')}</h2><p className="whitespace-pre-wrap text-sm leading-relaxed">{draft?.topic}</p></aside>
+      <section className="flex flex-col min-w-0"><label htmlFor="writing-answer" className="px-5 pt-4 font-semibold text-sm">{t('ex.response')}</label>
+        <Textarea id="writing-answer" value={draft?.text || ''} readOnly={locked || !!recovery.conflict || !!remoteChoice} maxLength={20000}
+          placeholder={t('ex.essayPh')} onChange={e => setDraft(d => d && ({ ...d, text: e.target.value, updatedAt: Date.now() }))}
+          className="flex-1 min-h-[45vh] lg:min-h-[60vh] resize-y rounded-none border-0 p-5 text-base leading-8 focus-visible:ring-inset" />
+        <footer className="border-t p-4 flex flex-wrap items-center justify-between gap-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <p className="text-sm text-muted-foreground">{t('ex.wordProgress', { n: words, min: minimum })}</p>
+          <div className="flex flex-wrap gap-2"><Button variant="outline" onClick={() => copyWriting(draft!.text, t)}>{t('writing.copy')}</Button>
+            <Button variant="outline" disabled={busy} onClick={() => { void recovery.flush().catch(e => setError(e instanceof Error ? e.message : 'writing.saveError')); }}>{t('ex.saveDraft')}</Button>
+            <Button disabled={busy || !!recovery.conflict || !!remoteChoice} onClick={() => void submit()} className="gap-2">
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}{error ? t('writing.retry') : draft?.phase === 'submitting' ? t('writing.checkResult') : t('ex.startEval')}
+            </Button></div>
+        </footer>
+      </section>
+    </main><PricingModal open={showPricing} onOpenChange={setShowPricing} />
+  </div>;
 }

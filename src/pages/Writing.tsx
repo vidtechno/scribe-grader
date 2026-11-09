@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
+import { WritingRecoveryList } from '@/components/WritingRecovery';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
 import { PricingModal } from '@/components/PricingModal';
@@ -27,6 +28,11 @@ interface Essay {
 }
 
 export default function Writing() {
+  const { user } = useAuth();
+  return <WritingHub key={user?.id} />;
+}
+
+function WritingHub() {
   const { user } = useAuth();
   const { t, lang } = useT();
   const navigate = useNavigate();
@@ -76,6 +82,7 @@ export default function Writing() {
       <SEOHead title={t('wr.seoTitle')} description={t('wr.seoDesc')} path="/writing" noindex />
       <Navbar />
       <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <WritingRecoveryList />
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -179,7 +186,7 @@ export default function Writing() {
                 const isDraft = e.status === 'draft';
                 const isProcessing = e.status === 'processing' || e.status === 'queued';
                 const isFailed = e.status === 'failed';
-                const href = isDraft ? `/exam?draft=${e.id}` : `/result/${e.id}`;
+                const href = isDraft || isFailed ? `/exam?draft=${e.id}` : `/result/${e.id}`;
                 return (
                   <Link key={e.id} to={href} className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all group">
                     <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-sm font-bold ${
