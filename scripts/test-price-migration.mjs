@@ -36,7 +36,7 @@ try {
   const checkout = await readFile(new URL('../supabase/migrations/20261102100000_checkout_payments.sql', import.meta.url), 'utf8');
   const start = checkout.indexOf('create or replace function public.internal_pay_price(');
   await db.exec(checkout.slice(start, checkout.indexOf('end; $$;', start) + 'end; $$;'.length));
-  const migration = await readFile(new URL('../supabase/migrations/20261110064647_update_learn_ielts_uzs_prices.sql', import.meta.url), 'utf8');
+  const migration = await readFile(new URL('../supabase/migrations/20261110065054_update_learn_ielts_uzs_prices.sql', import.meta.url), 'utf8');
   await db.exec(migration);
   for (const [plan, values] of [['go',[99000,282150,534600]],['plus',[149000,424650,804600]]]) {
     for (const [i, months] of [1,3,6].entries()) {

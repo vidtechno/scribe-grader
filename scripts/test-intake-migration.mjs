@@ -12,7 +12,7 @@ create type public.app_role as enum('admin','user');
 create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.uid',true),'')::uuid$$;
 create function public.has_role(_id uuid,_role public.app_role) returns boolean language sql as $$select _id='${admin}'::uuid and _role='admin'$$;
 insert into auth.users values('${a}'),('${b}'),('${admin}');insert into profiles values('${a}','+998901111111'),('${b}',null),('${admin}',null);`);
-await db.exec(await readFile(new URL('../supabase/migrations/20261109181251_user_intake_survey.sql',import.meta.url),'utf8'));
+await db.exec(await readFile(new URL('../supabase/migrations/20261109182515_user_intake_survey.sql',import.meta.url),'utf8'));
 await db.exec('grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;set role authenticated;');
 await db.query("select set_config('test.uid',$1,false)",[a]);
 const submit=async(phone=null,tg=null,no=false,age='19_24',source='search')=>(await db.query('select complete_user_intake($1,$2,$3,$4,$5) as r',[phone,tg,no,age,source])).rows[0].r;
