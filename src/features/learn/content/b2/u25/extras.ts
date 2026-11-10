@@ -15,7 +15,7 @@ export const extras: UnitExtras = {
     },
     {
       title: "Wish bilan o'tgan zamon pushaymoni",
-      md: "O'zbek tilida *kashkiydi* kabi bir so'z o'tgan va hozirgi pushaymonni bildiradi, inglizchada esa zamon farq qiladi. O'tgan voqea haqida **wish + Past Perfect** kerak: *I wish I hadn't said that.* **wish + Past Simple** — faqat hozirgi holat uchun (*I wish I had more time*).",
+      md: "O'zbek tilida *qaniydi* so'zi ham hozirgi, ham o'tgan pushaymonni bildiradi, inglizchada esa zamon shakli farq qiladi. O'tgan voqea haqida **wish + Past Perfect** kerak: *I wish I hadn't said that.* **wish + Past Simple** — faqat hozirgi holat uchun (*I wish I had more time*).",
       fix: { k: 'fix', wrong: "I wish I didn't tell her the secret yesterday.", a: ["I wish I hadn't told her the secret yesterday.", "I wish I had not told her the secret yesterday."], why: "Kecha sodir bo'lgan voqea → **wish + Past Perfect**." },
     },
     {
