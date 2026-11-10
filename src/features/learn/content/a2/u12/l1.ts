@@ -154,7 +154,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Qaysi fe'lda **-ed** /ɪd/ deb o'qiladi?", opts: ["watched", "visited", "cleaned", "helped"], a: 1, why: "**visited** — t bilan tugaydi: vi-zi-tid." },
     { k: "tf", q: "**We was at the market yesterday.** — to'g'ri gap.", a: false, why: "*we* bilan **were**: *We **were** at the market.*" },
     { k: "tf", q: "**stop** fe'lining Past Simple shakli **stopped**.", a: true, why: "Bir bo'g'inli, 1 unli + 1 undosh → undosh ikkilanadi." },
-    { k: "order", uz: "Biz kecha kinoga bordik.", words: ["We", "went", "to", "the", "cinema", "yesterday."], extra: ["go", "goed"], alt: [["Yesterday", "we", "went", "to", "the", "cinema."]] },
+    { k: "order", uz: "Biz kecha kinoga bordik.", words: ["We", "went", "to", "the", "cinema", "yesterday"], extra: ["go", "goed"], alt: [["Yesterday", "we", "went", "to", "the", "cinema"]] },
     { k: "translate", uz: "U kecha menga xat yozdi.", a: ["She wrote me a letter yesterday.", "She wrote a letter to me yesterday.", "He wrote me a letter yesterday.", "He wrote a letter to me yesterday.", "Yesterday she wrote me a letter.", "Yesterday he wrote me a letter."], why: "**write – wrote**. (U = she yoki he.)" },
     { k: "speak", say: "Last weekend I visited my grandmother and we cooked plov.", uz: "O'tgan hafta oxirida buvimnikiga bordim va palov pishirdik." },
   ],
