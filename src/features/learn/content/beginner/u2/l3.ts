@@ -138,7 +138,7 @@ const lesson: Lesson = {
     { k: 'fill', q: 'We ___ poor.', a: ["aren't", 'are not'], uz: "Biz kambag'al emasmiz.", why: "**we** → **aren't**." },
     { k: 'fill', q: 'I ___ tired. I am fine.', a: ['am not'], uz: 'Men charchagan emasman. Yaxshiman.', hint: "I ___ (am + not)", why: "**I am not** (qisqasi *I'm not*)." },
     { k: 'fill', q: "The cat isn't clean. It's ___.", a: ['dirty'], uz: 'Mushuk toza emas. U iflos.', why: "clean — toza, **dirty** — iflos." },
-    { k: 'order', uz: 'Ruchka qimmat emas.', words: ['The', 'pen', "isn't", 'expensive'], extra: ["aren't"] },
+    { k: 'order', uz: 'Ruchka qimmat emas.', words: ['The', 'pen', "isn't", 'expensive'], extra: ["aren't", 'is', 'not'], alt: [['The', 'pen', 'is', 'not', 'expensive']] },
     { k: 'order', uz: "Ular yosh emas. Ular qari.", words: ["They", "aren't", 'young', "They're", 'old'], extra: ["isn't"], why: "*They aren't young. They're old.*" },
     { k: 'translate', uz: 'Sumka arzon emas.', a: ["The bag isn't cheap", "The bag is not cheap", "The bag's not cheap", "My bag isn't cheap", "My bag is not cheap"], why: "**The bag isn't cheap.**" },
     { k: 'translate', uz: "U baland bo'yli emas (ayol).", a: ["She isn't tall", "She's not tall", 'She is not tall'], why: "**She isn't tall.**" },
