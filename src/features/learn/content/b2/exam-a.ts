@@ -54,32 +54,32 @@ export const UPPER_INTERMEDIATE_EXAM_A: ExamItem[] = [
 
   // ---------- Vocabulary ----------
   // u24
-  v('u24-l5', { k: 'match', pairs: [['fluctuate', "tebranib turmoq, o'zgarib turmoq"], ['decline', 'pasaymoq, kamaymoq'], ['setback', "to'siq, orqaga ketish"], ['overtake', "quvib o'tmoq, o'zib ketmoq"]] }),
+  v('u24-l5', { k: 'match', pairs: [['stagnate', "o'smay turib qolmoq"], ['slump', 'keskin pasayish'], ['gain momentum', 'tezlashmoq, kuch olmoq'], ['overtake', "quvib o'tmoq, o'zib ketmoq"]] }),
   v('u24-l5', { k: 'choice', q: 'There was a ___ rise in house prices last year, from £200,000 to £260,000.', opts: ['wide', 'sharp', 'tall', 'heavy'], a: 1, why: "Tez va katta o'sish — **a sharp rise** (kuchli kollokatsiya). *wide, tall, heavy* bu ot bilan kelmaydi." }),
   v('u24-l6', { k: 'choice', q: 'Some people prefer living in cities, ___ others love the quiet of the countryside.', opts: ['however', 'meanwhile', 'whereas', 'therefore'], a: 2, why: "Ikki qarama-qarshi fikrni bitta gapda bog'laydi: **whereas** (…, holbuki / aksincha). *however* alohida gapda vergul bilan keladi." }),
 
   // u25
-  v('u25-l5', { k: 'match', pairs: [['reluctant', 'istamaydigan, ikkilanayotgan'], ['thrilled', 'juda hayajonlangan, xursand'], ['stubborn', "o'jar"], ['easy-going', 'murosasoz, xotirjam']] }),
-  v('u25-l5', { k: 'choice', q: 'He was ___ to admit his mistake, so we had to ask him three times.', opts: ['thrilled', 'tolerant', 'ambitious', 'reluctant'], a: 3, why: "Biror ishni qilishni istamaslik — **reluctant to** + fe'l. Uch marta so'rashga to'g'ri kelgani shuni bildiradi." }),
+  v('u25-l5', { k: 'match', pairs: [['gullible', 'tez ishonuvchan, aldanuvchan'], ['wary', 'ehtiyotkor, shubhalanuvchi'], ['insecure', "ishonchsiz, o'ziga ishonmaydigan"], ['easy-going', 'xotirjam, sodda munosabatli']] }),
+  v('u25-l5', { k: 'choice', q: 'Scammers often target ___ people, who believe almost any story they are told.', opts: ['wary', 'gullible', 'easy-going', 'down-to-earth'], a: 1, why: "Har qanday gapga tez ishonadigan odam — **gullible**. *wary* — aksincha, ehtiyotkor, shubhalanuvchi." }),
   v('u25-l6', { k: 'choice', q: "I'd say the new plan will work ___ , but we still need to test it.", opts: ['at the extent', 'by some extent', 'to some extent', 'in some extend'], a: 2, why: "Fikrni yumshatish (hedging): **to some extent** — ma'lum darajada. Qolgan variantlar noto'g'ri predlog yoki imlo." }),
 
   // u26
-  v('u26-l5', { k: 'match', pairs: [['bias', 'tarafkashlik'], ['censorship', 'senzura'], ['subscription', 'obuna'], ['breakthrough', "katta yutuq, kashfiyot"]] }),
+  v('u26-l5', { k: 'match', pairs: [['misinformation', "noto'g'ri ma'lumot"], ['censorship', 'senzura'], ['subscription', 'obuna'], ['breakthrough', "katta yutuq, kashfiyot"]] }),
   v('u26-l5', { k: 'choice', q: 'The video of the dancing dog ___ viral within a day and was watched ten million times.', opts: ['made', 'took', 'did', 'went'], a: 3, why: "Internetda tez tarqalmoq — **go viral**. Bu qat'iy kollokatsiya, boshqa fe'llar bilan ishlatilmaydi." }),
   v('u26-l5', { k: 'fill', q: 'The website blocked the article, and many readers complained about online ___ .', a: ['censorship'], hint: 'senzura', why: "Ma'lumotni cheklash yoki taqiqlash — **censorship**." }),
 
   // u27
-  v('u27-l5', { k: 'match', pairs: [['workforce', 'ishchi kuchi'], ['entrepreneur', 'tadbirkor'], ['negotiate', 'muzokara olib bormoq'], ['supervisor', 'bevosita rahbar, nazoratchi']] }),
+  v('u27-l5', { k: 'match', pairs: [['workforce', 'ishchi kuchi'], ['entrepreneur', 'tadbirkor'], ['negotiate', 'muzokara olib bormoq'], ['redundant', "ish o'rni qisqartirilgan"]] }),
   v('u27-l5', { k: 'choice', q: 'We worked all weekend in order to ___ the deadline.', opts: ['win', 'take', 'meet', 'catch'], a: 2, why: "Muddatga ulgurmoq — **meet a deadline** (kollokatsiya)." }),
   v('u27-l3', { k: 'choice', q: "I can't ___ my noisy neighbours any longer. I'm going to move out.", opts: ['turn down', 'put up with', 'look into', 'come up with'], a: 1, why: "Chidamoq, toqat qilmoq — **put up with** (uch qismli frazali fe'l). *turn down* — rad etmoq, *look into* — tekshirmoq, *come up with* — o'ylab topmoq." }),
 
   // u28
-  v('u28-l5', { k: 'match', pairs: [['undermine', 'zaiflashtirmoq, putur yetkazmoq'], ['outweigh', "ustun kelmoq, og'irroq bo'lmoq"], ['controversial', 'bahsli, munozarali'], ['tackle', 'hal qilishga kirishmoq']] }),
+  v('u28-l5', { k: 'match', pairs: [['undermine', 'zaiflashtirmoq, putur yetkazmoq'], ['crucial', 'hal qiluvchi, juda muhim'], ['controversial', 'bahsli, munozarali'], ['tackle', 'hal qilishga kirishmoq']] }),
   v('u28-l5', { k: 'choice', q: 'The government must ___ the problem of unemployment before it gets worse.', opts: ['undermine', 'outweigh', 'tackle', 'contribute'], a: 2, why: "Muammoni hal qilishga kirishmoq — **tackle a problem**. *undermine* — zaiflashtirmoq, *outweigh* — ustun kelmoq." }),
   v('u28-l5', { k: 'choice', q: 'After a long discussion, the two sides finally ___ a consensus.', opts: ['made', 'took', 'reached', 'gave'], a: 2, why: "Kelishuvga erishmoq — **reach a consensus** (kollokatsiya)." }),
 
   // u29
-  v('u29-l5', { k: 'match', pairs: [['sustainable', 'barqaror, tabiatga zarar qilmaydigan'], ['renewable', 'qayta tiklanadigan'], ['sedentary', "kam harakatli, o'tirib ishlaydigan"], ['obesity', 'semizlik']] }),
+  v('u29-l5', { k: 'match', pairs: [['carbon footprint', 'uglerod izi'], ['renewable', 'qayta tiklanadigan'], ['sedentary', "kam harakatli, o'tirib ishlaydigan"], ['chronic', 'surunkali']] }),
   v('u29-l5', { k: 'fill', q: 'To stay healthy, you should eat a ___ diet with plenty of fruit and vegetables.', a: ['balanced'], hint: 'muvozanatli', why: "Barcha oziq moddalarni o'z ichiga olgan ovqatlanish — **a balanced diet**." }),
 
   // u30
