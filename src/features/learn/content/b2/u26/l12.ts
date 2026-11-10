@@ -52,7 +52,7 @@ const lesson: Lesson = {
         { t: 'compare',
           good: { title: "To'g'ri", items: ["She was offered a new contract.", "I was told to wait.", "The staff were shown the new system."] },
           bad: { title: "Xato", items: ["She was offered to a new contract.", "I was told wait.", "It was shown the staff the new system."] } },
-        { t: 'check', ex: { k: 'choice', q: "Rektor sizga mukofot berdi. Majhul gap:", opts: ["I was given an award by the director.", "I was given to an award by the director.", "An award gave me by the director.", "I gave an award by the director."], a: 0, why: "Ikki to'ldiruvchili fe'l: **I was given + narsa**; *to* qo'shilmaydi." } },
+        { t: 'check', ex: { k: 'choice', q: "Direktor sizga mukofot berdi. Majhul gap:", opts: ["I was given an award by the director.", "I was given to an award by the director.", "An award gave me by the director.", "I gave an award by the director."], a: 0, why: "Ikki to'ldiruvchili fe'l: **I was given + narsa**; *to* qo'shilmaydi." } },
         { t: 'tip', tone: 'warn', md: "**get-passive** rasmiy yozuvda (hisobot, ilmiy matn) kam ishlatiladi: *The company was fined* (rasmiy) / *The company got fined* (so'zlashuv). Ilmiy matnda **be + V3** ni tanlang." },
       ],
     },

@@ -182,7 +182,7 @@ const lesson: Lesson = {
   ],
   quiz: [
     { k: "choice", q: "The new law will allow the police to use mass ___ in public places.", opts: ["surveillance", "subscription", "clickbait", "viral"], a: 0, why: "Ommaviy kuzatuv → **mass surveillance**." },
-    { k: "choice", q: "A local newspaper was the first to ___ the news about the factory closing.", opts: ["break", "raise", "spread", "go"], a: 0, why: "**break the news** — yangilikni birinchi bo'lib yetkazmoq." },
+    { k: "choice", q: "A local newspaper was the first to ___ the news about the factory closing.", opts: ["break", "raise", "cancel", "go"], a: 0, why: "**break the news** — yangilikni birinchi bo'lib yetkazmoq." },
     { k: "choice", q: "This game is so ___ that I forget to sleep.", opts: ["addicted", "addictive", "addiction", "addict"], a: 1, why: "Narsa haqida sifat: **addictive**." },
     { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["The news is surprising.", "The news are surprising.", "A news is surprising.", "The newses are surprising."], a: 0, why: "**news** sanalmaydigan ot, fe'l birlikda: *is*." },
     { k: "fill", q: "Our phones track our location all day, which some people see as a form of ___. (kuzatuv)", a: ["surveillance"], uz: "Telefonlarimiz kun bo'yi joylashuvimizni kuzatadi, ba'zilar buni kuzatuv shakli deb biladi.", why: "Kuzatuv, nazorat → **surveillance**." },

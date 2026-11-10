@@ -53,7 +53,7 @@ const lesson: Lesson = {
           bad: { title: "Xato", items: ["I apologise you for the delay.", "I'm sorry for I was late.", "I should tell you yesterday.", "I'll do it up to you."] } },
         { t: 'p', md: "O'zbekcha *kechirasiz, kechikdim* va *aytishim kerak edi* iboralari so'zma-so'z tarjima qilinganda quyidagi xatolar chiqadi: **for** dan keyin gap emas, ot yoki **-ing** kerak; o'tgan zamondagi **kerak edi** uchun **should have + V3** kerak." },
         { t: 'check', ex: { k: 'fix', wrong: "I apologise you for being late.", a: ["I apologise for being late.", "I apologise to you for being late."], why: "**apologise for…** yoki **apologise to you for…**." } },
-        { t: 'check', ex: { k: 'fix', wrong: "I'm sorry for I forgot the meeting.", a: ["I'm sorry I forgot the meeting.", "I'm sorry for forgetting the meeting."], why: "**for** dan keyin **-ing** (yoki *sorry* dan keyin to'liq gap, **for** siz)." } },
+        { t: 'check', ex: { k: 'fix', wrong: "I'm sorry for I forgot the meeting.", a: ["I'm sorry I forgot the meeting.", "I'm sorry that I forgot the meeting.", "I'm sorry for forgetting the meeting."], why: "**for** dan keyin **-ing** (yoki *sorry* dan keyin to'liq gap, **for** siz)." } },
         { t: 'check', ex: { k: 'fix', wrong: "I should tell you about the error yesterday.", a: ["I should have told you about the error yesterday."], why: "O'tgan zamondagi afsus: **should have + V3**." } },
       ],
     },
@@ -80,7 +80,7 @@ const lesson: Lesson = {
     { en: 'make up for', uz: "o'rnini to'ldirmoq, kompensatsiya qilmoq", ipa: 'meɪk ʌp fɔː', pos: 'phrasal verb', ex: 'I will make up for the lost time by working late.', exUz: "Yo'qotilgan vaqtning o'rnini kech ishlab to'ldiraman." },
     { en: 'put right', uz: "tuzatmoq", ipa: 'pʊt raɪt', pos: 'phrasal verb', ex: 'We will put the error right immediately.', exUz: "Xatoni darhol tuzatamiz." },
     { en: 'take responsibility', uz: "mas'uliyatni o'z zimmasiga olmoq", ipa: 'teɪk rɪˌspɒnsəˈbɪləti', pos: 'phrase', ex: 'The manager took responsibility for the failure.', exUz: "Menejer muvaffaqiyatsizlik uchun mas'uliyatni o'z zimmasiga oldi." },
-    { en: 'make amends', uz: "xatoni yuvmoq, kechirim olishga harakat qilmoq", ipa: 'meɪk əˈmendz', pos: 'phrase', ex: 'He sent flowers to make amends for his rude comment.', exUz: "U qo'pol gapi uchun kechirim so'rab gul yubordi." },
+    { en: 'apologetic', uz: "uzr so'rayotgandek, uzrxoh", ipa: 'əˌpɒləˈdʒetɪk', pos: 'adj', ex: 'She gave an apologetic smile and promised to be on time.', exUz: "U uzrxohlik bilan jilmaydi va o'z vaqtida bo'lishga va'da berdi." },
   ],
   practice: [
     { k: 'match', pairs: [['oversight', "e'tiborsizlik"], ['slip-up', 'kichik xato'], ['put right', 'tuzatmoq'], ['make up for', "o'rnini to'ldirmoq"], ['take responsibility', "mas'uliyatni o'z zimmasiga olmoq"]] },
@@ -100,7 +100,7 @@ const lesson: Lesson = {
   ],
   quiz: [
     { k: 'choice', q: "Menejeringizga rasmiy xatda yozing: ___ for the late report.", opts: ['I apologise', 'Sorry, my bad', 'No worries', 'My mistake lol'], a: 0, why: "Rasmiy yozuvda **I apologise for…**." },
-    { k: 'choice', q: "He sent a gift to ___ amends for his rude comment.", opts: ['make', 'do', 'take', 'put'], a: 0, why: "**make amends** — qat'iy birikma." },
+    { k: 'choice', q: "She looked very ___ when she handed in the report late.", opts: ['apologetic', 'apologising', 'apologised', 'apology'], a: 0, why: "Sifat kerak: **apologetic** (uzrxoh). *Apology* — ot." },
     { k: 'fill', q: "I'll make ___ for the lost time by staying late.", a: ['up'], uz: "Yo'qotilgan vaqtni kech qolib to'ldiraman.", why: "**make up for**." },
     { k: 'fix', wrong: "I'm sorry for I didn't call you.", a: ["I'm sorry I didn't call you.", "I'm sorry for not calling you."], why: "**for** dan keyin **-ing**, yoki **sorry** + to'liq gap." },
     { k: 'order', uz: "Sizga oldinroq aytishim kerak edi.", words: ['I', 'should', 'have', 'told', 'you', 'earlier.'], extra: ['tell', 'had'], why: "**should have + V3**." },
@@ -112,7 +112,7 @@ const lesson: Lesson = {
     "**Apologise for + ot / -ing**, **apologise to + kishi**: *I apologise you* xato.",
     "Yaxshi uzr: uzr + qisqa izoh + tuzatish (*put right, make up for*) + va'da (*It won't happen again*).",
     "O'tgan xato uchun: **should have + V3**: *I should have told you*, *should tell* emas.",
-    "Yangi so'zlar: **oversight, slip-up, make up for, put right, take responsibility, make amends**.",
+    "Yangi so'zlar: **oversight, slip-up, make up for, put right, take responsibility, apologetic**.",
   ],
   homework: "Haqiqiy yoki o'ylab topilgan vaziyat tanlang (hujjatni kech topshirdingiz). 1) do'stingizga 2 gaplik norasmiy uzr, 2) menejeringizga 5 gaplik rasmiy uzr xati yozing. Rasmiy xatda *apologise for, should have, put right, It won't happen again* bo'lsin.",
 };

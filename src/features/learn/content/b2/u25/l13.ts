@@ -57,7 +57,7 @@ const lesson: Lesson = {
     {
       title: "O'qing va dialog",
       blocks: [
-        { t: 'text', title: 'In hindsight', voice: 'emma', en: "When I started my first business, I made several mistakes. I should have written a plan, but I was too impatient. I spent a lot of money on a shop window that nobody noticed. I needn't have paid so much for it. A friend told me I could have started online first, and she was right. In retrospect, my biggest mistake was not asking for advice. Many people learn the hard way, and I was no different. If I had listened to my accountant, I wouldn't be repaying a loan now. Still, I don't see it as a wasted effort. That missed opportunity taught me to plan carefully, and I would not change what I learnt.", uz: "Birinchi biznesimni boshlaganimda bir necha xato qildim. Reja yozishim kerak edi, lekin sabrsiz edim. Hech kim e'tibor bermagan vitrinaga ko'p pul sarfladim. Buncha pul to'lashim shart emas ekan. Do'stim menga avval onlayn boshlashim mumkin edi, dedi va u haq edi. Orqaga qarab aytsam, eng katta xatom maslahat so'ramaslik edi. Ko'pchilik achchiq tajriba orqali o'rganadi, men ham shunday edim. Buxgalterimni tinglaganimda edi, hozir qarz to'lamasdim. Shunday bo'lsa ham, buni behuda urinish deb hisoblamayman. O'sha boy berilgan imkoniyat menga ehtiyotkorlik bilan rejalashtirishni o'rgatdi va men o'rganganlarimni o'zgartirmasdim." },
+        { t: 'text', title: 'In hindsight', voice: 'emma', en: "When I started my first business, I made several regrettable mistakes, mostly because I lacked foresight. I should have written a plan, but I was too impatient. I spent a lot of money on a shop window that nobody noticed. I needn't have paid so much for it. A friend told me I could have started online first, and she was right. In retrospect, my biggest mistake was not asking for advice. Many people learn the hard way, and I was no different. If I had listened to my accountant, I wouldn't be repaying a loan now. Still, I don't see it as a wasted effort. That missed opportunity taught me to plan carefully, and I would not change what I learnt.", uz: "Birinchi biznesimni boshlaganimda bir necha afsuslanarli xato qildim, asosan uzoqni ko'zlamaganim sababli. Reja yozishim kerak edi, lekin sabrsiz edim. Hech kim e'tibor bermagan vitrinaga ko'p pul sarfladim. Buncha pul to'lashim shart emas ekan. Do'stim menga avval onlayn boshlashim mumkin edi, dedi va u haq edi. Orqaga qarab aytsam, eng katta xatom maslahat so'ramaslik edi. Ko'pchilik achchiq tajriba orqali o'rganadi, men ham shunday edim. Buxgalterimni tinglaganimda edi, hozir qarz to'lamasdim. Shunday bo'lsa ham, buni behuda urinish deb hisoblamayman. O'sha boy berilgan imkoniyat menga ehtiyotkorlik bilan rejalashtirishni o'rgatdi va men o'rganganlarimni o'zgartirmasdim." },
         { t: 'check', ex: { k: 'tf', q: "The speaker thinks she paid too much for the shop window.", a: true, why: "*I needn't have paid so much for it.*" } },
         { t: 'dialog', lines: [
           { who: 'Oliver', en: "Mia, you look upset. What happened?", uz: "Mia, xafa ko'rinasan. Nima bo'ldi?" },
@@ -72,18 +72,18 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'hindsight', uz: "o'tgan voqeani keyin tushunish", ipa: 'ˈhaɪndsaɪt', pos: 'noun', ex: 'With hindsight, the decision was clearly wrong.', exUz: "Keyin qarasak, qaror aniq noto'g'ri edi." },
+    { en: 'foresight', uz: "ilgarilab ko'ra bilish, uzoqni ko'zlash", ipa: 'ˈfɔːsaɪt', pos: 'noun', ex: 'A little foresight would have saved us a lot of money.', exUz: "Bir oz uzoqni ko'zlash bizga ko'p pulni tejab berardi." },
     { en: 'in retrospect', uz: "orqaga qarab, keyin o'ylab", ipa: 'ɪn ˈretrəspekt', pos: 'phrase', ex: 'In retrospect, we should have accepted the first offer.', exUz: "Orqaga qarab, birinchi taklifni qabul qilishimiz kerak edi." },
-    { en: 'missed opportunity', uz: "boy berilgan imkoniyat", ipa: 'mɪst ˌɒpəˈtjuːnəti', pos: 'noun', ex: 'Not applying for the scholarship was a missed opportunity.', exUz: "Stipendiyaga ariza topshirmaslik boy berilgan imkoniyat edi." },
+    { en: 'regrettable', uz: "afsusli, afsuslanarli", ipa: 'rɪˈɡretəbəl', pos: 'adj', ex: 'It was a regrettable mistake, but nobody was hurt.', exUz: "Bu afsuslanarli xato edi, lekin hech kim zarar ko'rmadi." },
     { en: 'needlessly', uz: "keraksiz, behuda", ipa: 'ˈniːdləsli', pos: 'adv', ex: 'She worried needlessly about the exam.', exUz: "U imtihon haqida behuda xavotir oldi." },
     { en: 'learn the hard way', uz: "achchiq tajriba orqali o'rganmoq", ipa: 'lɜːn ðə hɑːd weɪ', pos: 'phrase', ex: 'He learnt the hard way that contracts must be read carefully.', exUz: "U shartnomalarni diqqat bilan o'qish kerakligini achchiq tajribada bildi." },
   ],
   practice: [
-    { k: 'match', pairs: [['hindsight', "o'tgan voqeani keyin tushunish"], ['missed opportunity', 'boy berilgan imkoniyat'], ['needlessly', 'behuda'], ['learn the hard way', "achchiq tajriba orqali o'rganmoq"], ['in retrospect', "orqaga qarab"]] },
+    { k: 'match', pairs: [['foresight', "ilgarilab ko'ra bilish"], ['regrettable', 'afsuslanarli'], ['needlessly', 'behuda'], ['learn the hard way', "achchiq tajriba orqali o'rganmoq"], ['in retrospect', "orqaga qarab"]] },
     { k: 'choice', q: "I took a taxi, but the bus came at once. I ___ a taxi.", opts: ["needn't have taken", "needn't take", "shouldn't take", "mustn't have taken"], a: 0, why: "Taksi olindi, behuda bo'ldi → **needn't have + V3**." },
     { k: 'fill', q: "He drove too fast. He ___ have driven so fast.", a: ["shouldn't", 'should not', "oughtn't to", 'ought not to'], hint: 'qilmaslik kerak edi', uz: "U juda tez haydadi. Bunchalik tez haydamasligi kerak edi.", why: "**shouldn't have + V3**: qilingan, lekin noto'g'ri bo'lgan ish." },
     { k: 'listen', say: "You should have told me earlier.", opts: ["You should have told me earlier.", "You should tell me earlier.", "You must have told me earlier.", "You shouldn't have told me earlier."], a: 0 },
-    { k: 'order', uz: "Men bunchalik ko'p yemasligim kerak edi.", words: ['I', "shouldn't", 'have', 'eaten', 'so', 'much.'], extra: ['should', 'ate'], alt: [['I', 'should', 'not', 'have', 'eaten', 'so', 'much.']], why: "**shouldn't have + V3**." },
+    { k: 'order', uz: "Men bunchalik ko'p yemasligim kerak edi.", words: ['I', "shouldn't", 'have', 'eaten', 'so', 'much.'], extra: ['should', 'ate'], why: "**shouldn't have + V3**." },
     { k: 'fix', wrong: "You should told me about the problem.", a: ["You should have told me about the problem.", "You should've told me about the problem."], why: "**should + have + V3**." },
     { k: 'fix', wrong: "I needn't to have paid so much.", a: ["I needn't have paid so much.", "I need not have paid so much."], why: "**needn't have + V3**, *to* yo'q." },
     { k: 'tf', q: "*I needn't have gone* = Men bormadim.", a: false, why: "**needn't have gone** — men bordim, lekin bu keraksiz bo'lib chiqdi." },
@@ -99,7 +99,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "Boy berilgan imkoniyat haqida: \"You ___ the scholarship. It was so easy!\"", opts: ["could have won", "can win", "must win", "should won"], a: 0, why: "**could have + V3** — imkoniyat bor edi." },
     { k: 'fill', q: "I ___ have shouted at her. I was wrong.", a: ["shouldn't", 'should not', 'oughtn\'t to', 'ought not to'], uz: "Unga baqirmasligim kerak edi. Men noto'g'ri edim.", why: "**shouldn't have + V3**." },
     { k: 'fix', wrong: "We should to have left earlier.", a: ["We should have left earlier.", "We ought to have left earlier.", "We should've left earlier."], why: "**should** dan keyin **to** yo'q; **ought to** da bor." },
-    { k: 'order', uz: "Bunchalik pul to'lashim shart emas ekan.", words: ['I', "needn't", 'have', 'paid', 'so', 'much.'], extra: ['paying', 'pay'], alt: [['I', 'need', 'not', 'have', 'paid', 'so', 'much.']], why: "**needn't have + V3**." },
+    { k: 'order', uz: "Bunchalik pul to'lashim shart emas ekan.", words: ['I', "needn't", 'have', 'paid', 'so', 'much.'], extra: ['paying', 'pay'], why: "**needn't have + V3**." },
     { k: 'listen', say: "If I had listened, I wouldn't be in this mess now.", opts: ["If I had listened, I wouldn't be in this mess now.", "If I listened, I wouldn't be in this mess now.", "If I had listened, I wouldn't have been in this mess now.", "If I would listen, I wouldn't be in this mess now."], a: 0 },
     { k: 'tf', q: "*You must have called him* — bu tanqid: qo'ng'iroq qilmading.", a: false, why: "**must have called** — taxmin (*qo'ng'iroq qilgan bo'lsang kerak*). Tanqid uchun **should have**." },
     { k: 'translate', uz: "Siz menga oldinroq aytishingiz mumkin edi.", a: ['You could have told me earlier.', 'You could have told me sooner.', "You could've told me earlier.", "You could've told me sooner."], why: "**could have + V3**." },
@@ -109,7 +109,7 @@ const lesson: Lesson = {
     "**Could have + V3** — imkoniyat bor edi, ishlatilmadi. **Must have** esa tanqid emas, taxmin.",
     "**Needn't have + V3** — qildim, behuda ekan; **didn't need to + fe'l** — kerak emas edi (odatda qilinmagan).",
     "Boshqaga qattiq tanqid qilmang: *It might have been better to… / I wish you'd…* muloyimroq. O'z xatongiz uchun *should have* tabiiy.",
-    "Yangi so'zlar: **hindsight, in retrospect, missed opportunity, needlessly, learn the hard way**.",
+    "Yangi so'zlar: **foresight, in retrospect, regrettable, needlessly, learn the hard way**.",
   ],
   homework: "O'z hayotingizdan 3 ta afsus yozing: bitta *I should have…*, bitta *I shouldn't have…*, bitta *I needn't have…*. Keyin bittasini **shart gap** bilan to'ldiring: *If I had…, I wouldn't be… now.*",
 };

@@ -10,13 +10,13 @@ export const extras: UnitExtras = {
   traps: [
     {
       title: "O'timsiz fe'lni passive qilish",
-      md: "O'zbek tilida *sodir bo'ldi, paydo bo'ldi* kabi shakllar -ildi qo'shimchasiga o'xshaydi, shuning uchun inglizchada *was happened* yoki *was appeared* deb yozamiz. **happen, occur, appear, arrive** o'timsiz fe'llar: ular passive bo'lmaydi. Faol shaklni ishlating: *The accident happened*.",
+      md: "O'zbek tilida *qurildi, ochildi* kabi majhul shakllar ko'p, shuning uchun *sodir bo'ldi, paydo bo'ldi* ham xuddi shunday deb o'ylab, inglizchada *was happened* yoki *was appeared* deb yozamiz. **happen, occur, appear, arrive** o'timsiz fe'llar: ular passive bo'lmaydi. Faol shaklni ishlating: *The accident happened*.",
       fix: { k: 'fix', wrong: 'The accident was happened at night.', a: ['The accident happened at night.', 'The accident happened at night'], why: "**happen** o'timsiz fe'l, passive bo'lmaydi." },
     },
     {
       title: "Causative o'rniga oddiy faol fe'l",
-      md: "O'zbek tilida *sochimni oldirdim, telefonni ta'mirlattim* kabi ettirgan shakl bor, inglizchada esa uni **have / get + object + V3** bilan beramiz. *I repaired my phone* — o'zingiz ta'mirlagansiz. Boshqa odam qilsa: *I had my phone repaired*.",
-      fix: { k: 'fix', wrong: 'Yesterday I repaired my phone at a service centre.', a: ['Yesterday I had my phone repaired at a service centre.', 'Yesterday I got my phone repaired at a service centre.'], why: "Ishni xodim bajargan: **had / got + object + V3**." },
+      md: "O'zbek tilida *sochimni oldirdim, telefonni ta'mirlatdim* kabi ettirgan shakl bor, inglizchada esa uni **have / get + object + V3** bilan beramiz. *I repaired my phone* — o'zingiz ta'mirlagansiz. Boshqa odam qilsa: *I had my phone repaired*.",
+      fix: { k: 'fix', wrong: "Last week I cut my hair at the hairdresser's.", a: ["Last week I had my hair cut at the hairdresser's.", "Last week I got my hair cut at the hairdresser's."], why: "Sochni sartarosh kesgan: **had / got + object + V3**." },
     },
     {
       title: "Ko'chirma savolda so'roq tartibi",

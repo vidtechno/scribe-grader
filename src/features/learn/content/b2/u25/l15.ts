@@ -110,7 +110,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "He remembers his school days through rose-tinted glasses. This means he ___.", opts: ["remembers them as better than they were", "hated them", "has forgotten them", "needs glasses to read"], a: 0, why: "**rose-tinted** — go'zallashtirilgan, haqiqatdan yaxshiroq." },
     { k: 'choice', q: "In a reading task, an 'attitude' question asks you to find ___.", opts: ["the writer's feelings or opinion", "the date of publication", "a missing word", "the number of paragraphs"], a: 0, why: "Attitude savoli muallifning **fikri va munosabatini** so'raydi." },
     { k: 'choice', q: "Which sentence is a good way to start a comment?", opts: ["I partly agree, but I would add that…", "I agree. The end.", "No.", "Read my blog."], a: 0, why: "Qisman rozilik va qo'shimcha fikr yaxshi izoh boshlanishi." },
-    { k: 'fill', q: "I wish I ___ the chance when I was young.", hint: "take", a: ['had taken'], why: "O'tgan pushaymon → **wish + Past Perfect**." },
+    { k: 'fill', q: "I wish I ___ the chance when I was young.", hint: "take", a: ['had taken', "'d taken"], why: "O'tgan pushaymon → **wish + Past Perfect**." },
     { k: 'fill', q: "To some ___, the columnist is right.", a: ['extent'], why: "Ibora: **to some extent**." },
     { k: 'tf', q: "A 120-word comment should include both your opinion and a personal example.", a: true, why: "Topshiriq: fikr, shaxsiy misol, qarama-qarshi fikr va xulosa." },
     { k: 'fix', wrong: "I wish I didn't give up my course when I was twenty.", a: ["I wish I hadn't given up my course when I was twenty.", "I wish I had not given up my course when I was twenty."], why: "O'tgan pushaymon → **wish + Past Perfect**." },

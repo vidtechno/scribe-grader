@@ -86,7 +86,7 @@ const lesson: Lesson = {
   ],
   practice: [
     { k: 'match', pairs: [['It keeps freezing.', "U qayta-qayta qotib qoladi."], ["It won't turn on.", "U yonmayapti."], ['It overheats.', "U haddan ziyod qizib ketadi."], ['The screen is unresponsive.', "Ekran javob bermaydi."], ['I want a refund.', "Pulni qaytarib berishlarini xohlayman."]] },
-    { k: 'choice', q: "My laptop ___ crashing since the update.", opts: ['keeps', 'keep', 'is keep', 'keeps to'], a: 0, why: "Ega birlik (*my laptop*): **keeps + -ing**." },
+    { k: 'choice', q: "My laptop ___ crashing every time I open the browser.", opts: ['keeps', 'keep', 'is keep', 'keeps to'], a: 0, why: "Ega birlik (*my laptop*): **keeps + -ing**." },
     { k: 'fill', q: "I'd like to get the screen ___ under warranty.", a: ['repaired', 'replaced', 'fixed'], uz: "Ekranni kafolat asosida ta'mirlatmoqchiman.", hint: "Ta'mirlangan holat (V3)", why: "**get + narsa + V3**: ish boshqa odam tomonidan bajariladi." },
     { k: 'listen', say: "I've already tried to reset it, but it won't turn on.", opts: ["I've already tried to reset it, but it won't turn on.", "I've already tried to reset it, but it didn't turn on.", "I already try to reset it, but it won't turn on.", "I've already reset it, and it will turn on."], a: 0 },
     { k: 'tf', q: "*I bought it since last Monday.* — Gap to'g'ri.", a: false, why: "Aniq o'tgan vaqt uchun **last Monday** (yoki *ago*) bilan oddiy o'tgan zamon: *I bought it last Monday.*" },
@@ -104,7 +104,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "The phone ___ whenever I use the camera for more than five minutes.", opts: ['overheats', 'overheat', 'is overheat', 'overheating'], a: 0, why: "Odat/takror: Present Simple, ega birlik → **overheats**." },
     { k: 'choice', q: "I'd like ___ replaced under warranty.", opts: ['to have the battery', 'to have replaced the battery', 'the battery to have', 'to replace the battery by you'], a: 0, why: "**to have + narsa + V3**: *to have the battery replaced*." },
     { k: 'fill', q: "It started ___ the last software update.", a: ['after'], uz: "U oxirgi dastur yangilanishidan keyin boshlandi.", hint: "oldin emas, keyin", why: "Voqeadan keyingi vaqt: **after**." },
-    { k: 'fix', wrong: "My laptop doesn't turn on since Monday.", a: ["My laptop hasn't turned on since Monday.", "My laptop won't turn on since Monday.", "My laptop hasn't been turning on since Monday.", "My laptop has not turned on since Monday."], why: "**since** bilan **Present Perfect**: *hasn't turned on since Monday*." },
+    { k: 'fix', wrong: "My laptop doesn't turn on since Monday.", a: ["My laptop hasn't turned on since Monday.", "My laptop has not turned on since Monday.", "My laptop hasn't worked since Monday.", "My laptop has not worked since Monday."], why: "**since** bilan **Present Perfect**: *hasn't turned on since Monday*." },
     { k: 'listen', say: "The screen is completely unresponsive.", opts: ["The screen is completely unresponsive.", "The screen is completely unreasonable.", "The screen is completely unresolved.", "The screen is completely unattractive."], a: 0 },
     { k: 'order', uz: "Men uni allaqachon ikki marta qayta yoqdim.", words: ["I've", 'already', 'restarted', 'it', 'twice.'], extra: ['restart', 'did'], alt: [['I', 'have', 'already', 'restarted', 'it', 'twice.']], why: "**Present Perfect + already**." },
     { k: 'tf', q: "*Could I have the screen replaced?* — Gapda foydalanuvchi ekranni o'zi almashtirmoqchi.", a: false, why: "**have + narsa + V3** — kimdir boshqa odam almashtiradi." },

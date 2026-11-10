@@ -14,7 +14,7 @@ const lesson: Lesson = {
           t: "table", head: ["Ma'no", "Ifoda", "Misol"], speak: [2],
           rows: [
             ["Majburiyat", "must, have to, need to, be required to", "All staff must wear a badge."],
-            ["Taqiq", "mustn't, can't, be not allowed to", "You mustn't share the password."],
+            ["Taqiq", "mustn't, can't, aren't allowed to", "You mustn't share the password."],
             ["Shart emas", "don't have to, don't need to, needn't", "You don't have to come on Friday."],
             ["Ruxsat", "can, may, be allowed to", "We are allowed to work from home."],
             ["Kutilgan / reja", "be supposed to", "The meeting is supposed to start at nine."],
@@ -146,13 +146,13 @@ const lesson: Lesson = {
             { who: "Rachel", en: "I'm afraid not. You mustn't connect personal devices to our network.", uz: "Afsuski, yo'q. Shaxsiy qurilmalarni tarmog'imizga ulash mumkin emas." },
           ],
         },
-        { t: "check", ex: { k: "choice", q: "What is Chris NOT allowed to do?", opts: ["Connect a personal laptop to the network", "Park in the visitors' car park today", "Wear jeans", "Meet clients"], a: 0, why: "Rachel: *You mustn't connect personal devices to our network.*" } },
+        { t: "check", ex: { k: "choice", q: "What is Chris NOT allowed to do?", opts: ["Connect a personal laptop to the network", "Park in the visitors' car park today", "Wear a suit", "Meet clients"], a: 0, why: "Rachel: *You mustn't connect personal devices to our network.*" } },
       ],
     },
   ],
   words: [
     { en: "prohibit", uz: "taqiqlamoq", ipa: "prəˈhɪb.ɪt", pos: "verb", ex: "The law prohibits smoking in public buildings.", exUz: "Qonun jamoat binolarida chekishni taqiqlaydi." },
-    { en: "comply with", uz: "(qoidaga) rioya qilmoq", ipa: "kəmˈplaɪ wɪð", pos: "phrasal verb", ex: "All staff must comply with the safety rules.", exUz: "Barcha xodimlar xavfsizlik qoidalariga rioya qilishi kerak." },
+    { en: "abide by", uz: "(qoidaga) rioya qilmoq, bo'ysunmoq", ipa: "əˈbaɪd baɪ", pos: "phrasal verb", ex: "All staff must abide by the safety rules.", exUz: "Barcha xodimlar xavfsizlik qoidalariga rioya qilishi kerak." },
     { en: "entitled", uz: "huquqi bor", ipa: "ɪnˈtaɪ.təld", pos: "adj", ex: "Employees are entitled to four weeks' paid holiday.", exUz: "Xodimlar to'rt haftalik haq to'lanadigan ta'tilga haqli." },
     { en: "mandatory", uz: "majburiy", ipa: "ˈmæn.də.tər.i", pos: "adj", ex: "Safety training is mandatory for all new staff.", exUz: "Xavfsizlik bo'yicha o'qish barcha yangi xodimlar uchun majburiy." },
     { en: "dress code", uz: "kiyinish qoidasi", ipa: "ˈdres kəʊd", pos: "noun", ex: "The company has a strict dress code for client meetings.", exUz: "Kompaniyada mijozlar bilan uchrashuvlar uchun qat'iy kiyinish qoidasi bor." },
@@ -164,7 +164,7 @@ const lesson: Lesson = {
   ],
   practice: [
     { k: "choice", q: "Visitors ___ enter the laboratory without protective clothing. It is dangerous.", opts: ["mustn't", "don't have to", "needn't", "are supposed"], a: 0, why: "Xavfsizlik taqiqi: **mustn't**." },
-    { k: "choice", q: "You ___ bring a laptop to the training. We will provide one.", opts: ["mustn't", "don't have to", "can't", "must"], a: 1, why: "Shart emas: **don't have to**." },
+    { k: "choice", q: "You ___ bring a laptop to the training. We will provide one, but you can use your own if you prefer.", opts: ["mustn't", "don't have to", "can't", "must"], a: 1, why: "Shart emas: **don't have to**." },
     { k: "listen", say: "Employees are not allowed to use personal phones at the front desk.", opts: ["Employees are allowed to use personal phones at the front desk.", "Employees are not supposed to use personal phones at the front desk.", "Employees are not allowed to use personal phones at the front desk.", "Employees don't have to use personal phones at the front desk."], a: 2, why: "**not allowed to** = taqiqlangan." },
     { k: "fill", q: "Last year we ___ wear a uniform, but now we can choose.", a: ["had to"], uz: "O'tgan yili forma kiyishimiz kerak edi.", why: "**must** → **had to**." },
     { k: "fill", q: "Staff ___ allowed to work from home on Fridays.", a: ["are"], uz: "Xodimlar juma kunlari uydan ishlashi mumkin.", why: "**are allowed to**." },

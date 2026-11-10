@@ -31,7 +31,7 @@ const lesson: Lesson = {
         { t: 'p', md: "Predlogdan keyin fe'l kelsa, u har doim **-ing** shaklida bo'ladi (gerund). *to* ham predlog bo'lishi mumkin: **object to**, **look forward to**, **be used to**." },
         { t: 'examples', items: [
           { en: "She succeeded in finding a cheaper supplier.", uz: "U arzonroq yetkazib beruvchi topishga muvaffaq bo'ldi.", note: "**succeed in + -ing**." },
-          { en: "He insisted on paying for the whole meeting.", uz: "U butun yig'ilish xarajatini o'zi to'lashda turib oldi.", note: "**insist on + -ing**." },
+          { en: "He insisted on paying for the whole team's lunch.", uz: "U butun jamoaning tushligini o'zi to'lashda turib oldi.", note: "**insist on + -ing**." },
           { en: "I apologise for being late.", uz: "Kechikkanim uchun uzr.", note: "**apologise for + -ing**." },
           { en: "Many employees object to working at weekends.", uz: "Ko'plab xodimlar dam olish kunlari ishlashga qarshi.", note: "**object to + -ing**: bu yerda *to* — predlog." },
         ] },

@@ -72,8 +72,10 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Alex', en: "Nina, are you free tonight? I'm having a few friends over.", uz: "Nina, bugun kechqurun bandmisan? Bir necha do'stni mehmonga chaqiryapman." },
           { who: 'Nina', en: "I'd love to, but I'm seeing my dentist at six. Does it matter if I'm late?", uz: "Juda xohlardim, lekin oltida tish shifokoriga boraman. Kechiksam, qiyin bo'lmaydimi?" },
-          { who: 'Alex', en: "Not at all. I'm cooking my grandmother's soup, so dinner won't be ready until eight.", uz: "Aslo. Buvimning sho'rvasini pishiryapman, kechki ovqat sakkizgacha tayyor bo'lmaydi." },
+          { who: 'Alex', en: "Not at all. I'm cooking my grandmother's soup, so dinner won't be ready until eight.", uz: "Umuman yo'q. Buvimning sho'rvasini pishiryapman, kechki ovqat sakkizgacha tayyor bo'lmaydi." },
           { who: 'Nina', en: "That smells wonderful already! I think I'll bring dessert.", uz: "Hozirdan hidi ajoyib! Shirinlik olib kelsam bo'ladi deb o'ylayman." },
+          { who: 'Alex', en: "Dessert would be lovely. Mia is coming too, so you'll have someone to talk to.", uz: "Shirinlik juda yaxshi bo'lardi. Mia ham keladi, gaplashadigan odam topiladi." },
+          { who: 'Nina', en: "Great! I haven't seen her since March, so we have a lot to catch up on.", uz: "Ajoyib! Uni martdan beri ko'rmaganman, gaplashadigan gaplarimiz ko'p." },
         ] },
         { t: 'check', ex: { k: 'choice', q: "Why does Nina say she will be late?", opts: ["She is seeing her dentist at six.", "She is cooking soup.", "She doesn't know Alex's address.", "She has no friends coming."], a: 0, why: "*I'm seeing my dentist at six.*" } },
       ],

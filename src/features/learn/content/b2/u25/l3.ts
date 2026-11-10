@@ -64,7 +64,7 @@ const lesson: Lesson = {
         },
         { t: "tip", tone: "warn", md: "**Had better** ohangi qat'iy: do'stga ayting, lekin xo'jayinga yoki notanish odamga **I think you should…** yumshoqroq. **Had better to** (*to* bilan) — xato." },
         { t: "check", ex: { k: "fill", q: "It's high time the council ___ this road. (repair)", a: ["repaired"], why: "**It's (high) time + ega + Past Simple** — norozilik: *repaired*." } },
-        { t: "check", ex: { k: "choice", q: "You ___ apologise to her before she gets angrier.", opts: ["had better", "would rather", "had better to", "are better to"], a: 0, why: "Kuchli maslahat: **had better + V1** (*to*siz)." } },
+        { t: "check", ex: { k: "choice", q: "You ___ apologise to her before she gets angrier.", opts: ["had better", "would better", "had better to", "did better"], a: 0, why: "Kuchli maslahat: **had better + V1** (*to*siz)." } },
       ],
     },
     {
@@ -81,7 +81,7 @@ const lesson: Lesson = {
         },
         { t: "p", md: "**Ko'rinish va hislar** haqida (*look, sound, seem, feel*) odatda Present: *It looks as if it's going to rain.* Xatti-harakat va taqqoslash (*talk, behave, act, spend*) haqida ko'pincha Past: *He behaves as though he owned the place.* Norasmiy ingliz tilida **like** ham ishlatiladi: *It looks like it's going to rain.* Rasmiy yozuvda **as if** yaxshiroq." },
         { t: "tip", tone: "good", md: "**Were** barcha shaxslarda: *as if he were a child.* Gaplashuvda *was* ham eshitiladi. **Childish** (bolalarcha, salbiy) va **grown-up** (kattalarcha) so'zlari bilan tez-tez uchraydi: *She behaves as if she were still a child.*" },
-        { t: "check", ex: { k: "choice", q: "He's only the sales assistant, but he talks as if he ___ the company.", opts: ["owned", "owns", "will own", "has owned"], a: 0, why: "U egasi emas, ya'ni haqiqatga mos emas: **as if + Past Simple**." } },
+        { t: "check", ex: { k: "choice", q: "He's only the sales assistant, but he talks as if he ___ the company.", opts: ["owned", "own", "will own", "has owned"], a: 0, why: "U egasi emas, ya'ni haqiqatga mos emas: **as if + Past Simple**." } },
         { t: "check", ex: { k: "tf", q: "*She looked as though she had seen a ghost* gapi uning haqiqatan ham arvohni ko'rganini bildiradi.", a: false, why: "**as though + Past Perfect** — o'xshatish: u shunday ko'rinardi, lekin aslida ko'rmagan." } },
       ],
     },
@@ -106,7 +106,7 @@ const lesson: Lesson = {
         {
           t: "text", title: "My little brother", voice: "emma",
           en: "My younger brother is twenty-six, but he often behaves as if he were still a teenager. He sleeps until noon, leaves dirty plates in the sink, and keeps procrastinating about looking for a job. Last night my mother told him, \"It's time you started acting like a grown-up.\" He just shrugged. I would rather he were more independent, but I also remember that I wasn't very different at his age. Yesterday I told him he had better send some applications this week, or he would miss the best opportunities in the autumn. He looked at me as though I had asked him to climb a mountain. Still, I would rather talk to him calmly than argue. Perhaps it is simply time we all gave him a small push, and, ideally, one that doesn't end in a row.",
-          uz: "Mening ukam yigirma olti yoshda, lekin ko'pincha hali o'smirdek o'zini tutadi. U tushgacha uxlaydi, kosalarni lavaboda iflos qoldiradi va ish qidirishni doim keyinga suradi. Kecha kechqurun onam unga: «Kattalardek yurishni boshlaydigan vaqting bo'ldi», dedi. U shunchaki yelka qisdi. Qani edi, u mustaqilroq bo'lsa, lekin men ham o'sha yoshda juda boshqacha emasligimni eslayman. Kecha unga shu hafta bir nechta ariza yuborgani ma'qul, aks holda kuzda eng yaxshi imkoniyatlarni qo'ldan boy beradi, dedim. U menga xuddi uni tog'ga chiqishga undagandek qaradi. Baribir, men u bilan janjallashgandan ko'ra, xotirjam gaplashishni afzal ko'raman. Ehtimol, hammamiz unga kichik bir turtki beradigan vaqt bo'lgandir, va aytganda, janjal bilan tugamaydigan turtki.",
+          uz: "Mening ukam yigirma olti yoshda, lekin ko'pincha hali o'smirdek o'zini tutadi. U tushgacha uxlaydi, kosalarni lavaboda iflos qoldiradi va ish qidirishni doim keyinga suradi. Kecha kechqurun onam unga: «Kattalardek yurishni boshlaydigan vaqting bo'ldi», dedi. U shunchaki yelka qisdi. Qani edi, u mustaqilroq bo'lsa, lekin men ham o'sha yoshda juda boshqacha emasligimni eslayman. Kecha unga shu hafta bir nechta ariza yuborgani ma'qul, aks holda kuzda eng yaxshi imkoniyatlarni qo'ldan boy beradi, dedim. U menga xuddi uni tog'ga chiqishga undagandek qaradi. Baribir, men u bilan janjallashgandan ko'ra, xotirjam gaplashishni afzal ko'raman. Ehtimol, hammamiz unga kichik bir turtki beradigan vaqt bo'lgandir, va, albatta, janjal bilan tugamaydigan turtki.",
         },
         { t: "check", ex: { k: "tf", q: "The writer says her brother is a teenager.", a: false, why: "U yigirma olti yoshda; *as if he were still a teenager* — faqat o'xshatish." } },
         { t: "check", ex: { k: "choice", q: "What does \"I would rather talk to him calmly than argue\" mean?", opts: ["She prefers calm talking to arguing.", "She has already argued with him.", "She must argue with him.", "She never talks to him."], a: 0, why: "**would rather V1 than V1** — tanlov: janjal emas, xotirjam suhbat." } },
@@ -163,8 +163,8 @@ const lesson: Lesson = {
   ],
   quiz: [
     { k: "choice", q: "I'd rather you ___ the window. It's cold in here.", opts: ["closed", "close", "will close", "to close"], a: 0, why: "**would rather + ega + Past Simple**." },
-    { k: "choice", q: "She isn't rich, but she spends money as if she ___ a millionaire.", opts: ["were", "is", "will be", "has been"], a: 0, why: "Haqiqatga mos emas: **as if + were**." },
-    { k: "choice", q: "You ___ hurry, or you'll miss your flight.", opts: ["had better", "would rather", "had better to", "are better"], a: 0, why: "Ogohlantirish: **had better + V1**." },
+    { k: "choice", q: "She isn't rich, but she spends money as if she ___ a millionaire.", opts: ["were", "be", "will be", "has been"], a: 0, why: "Haqiqatga mos emas: **as if + were**." },
+    { k: "choice", q: "You ___ hurry, or you'll miss your flight.", opts: ["had better", "would better", "had better to", "did better"], a: 0, why: "Ogohlantirish: **had better + V1**." },
     { k: "fill", q: "I'd rather ___ by train than fly. (travel)", a: ["travel"], uz: "Uchgandan ko'ra poyezdda borganim ma'qul.", why: "**would rather + V1 + than + V1**." },
     { k: "fill", q: "It's time the government ___ something about the traffic. (do)", a: ["did"], uz: "Hukumat transport tirbandligi haqida biror ish qiladigan vaqt bo'ldi.", why: "**It's time + ega + Past Simple**." },
     { k: "order", uz: "Shoshilganingiz ma'qul (tezroq harakat qiling).", words: ["You", "had", "better", "get", "a", "move", "on."], extra: ["to", "would"], alt: [["You'd", "better", "get", "a", "move", "on."]], why: "**had better + V1**, *get a move on* — tezroq harakat qilmoq." },

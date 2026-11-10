@@ -34,10 +34,10 @@ const lesson: Lesson = {
             { en: "They couldn't have arrived yet. Their flight was delayed.", uz: "Ular hali yetib kelgan bo'lishi mumkin emas. Parvozlari kechikkan edi." },
           ],
         },
-        { t: "tip", tone: "warn", md: "**Inkor taxmin uchun *mustn't have* ishlatilmaydi** (Britaniya ingliz tilida u deyarli uchramaydi va imtihonda xato hisoblanadi). O'zbekcha «bo'lmagan bo'lsa kerak» deb o'ylab **He mustn't have known** deyish xato. To'g'risi: **He can't have known** (mumkin emas) yoki **He probably didn't know** (ehtimol bilmagan)." },
+        { t: "tip", tone: "warn", md: "Inkor taxmin uchun standart shakl — **can't have / couldn't have + V3**. *Mustn't have* inkor taxmin uchun standart Britaniya ingliz tilida ishlatilmaydi, shuning uchun o'zbekcha «bo'lmagan bo'lsa kerak» deb **He mustn't have known** demang. To'g'risi: **He can't have known** (bilgan bo'lishi mumkin emas) yoki **He probably didn't know** (ehtimol bilmagan)." },
         { t: "p", md: "**Can't have** va **couldn't have** deyarli bir xil. Gaplashuvda **can't have** ko'proq eshitiladi; **couldn't have** — biroz rasmiyroq va ba'zan o'tgan voqea uchun kuchliroq: *He couldn't have seen us; the lights were off.*" },
         { t: "check", ex: { k: "fill", q: "The shop is closed and the lights are off. The owner ___ gone home. (deyarli aniq)", a: ["must have", "has probably", "must have already"], uz: "Do'kon yopiq, chiroqlar o'chiq. Egasi uyga ketgan bo'lsa kerak.", hint: "must have + V3", why: "Kuchli dalil, deyarli aniq xulosa: **must have + V3**." } },
-        { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["She mustn't have heard the phone ring.", "She can't have heard the phone ring; she was asleep.", "She must have heard not the phone ring.", "She can't have hear the phone ring."], a: 1, why: "Deyarli aniq «yo'q»: **can't have + V3**. *Mustn't have* ma'nosi aniq emas va *hear* o'rniga *heard* kerak." } },
+        { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["She mustn't have heard the phone ring.", "She can't have heard the phone ring; she was asleep.", "She must have heard not the phone ring.", "She can't have hear the phone ring."], a: 1, why: "Deyarli aniq «yo'q»: **can't have + V3**. Inkor taxmin uchun *mustn't have* standart shakl emas; *hear* o'rniga *heard* kerak." } },
       ],
     },
     {
@@ -124,7 +124,7 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "dialog", lines: [
-            { who: "Dilnoza", en: "Jasur still isn't here, and the meeting starts in five minutes.", uz: "Jasur hali ham yo'q, yig'ilish esa besh daqiqadan keyin boshlanadi." },
+            { who: "Dilnoza", en: "Karim still isn't here, and the meeting starts in five minutes.", uz: "Karim hali ham yo'q, yig'ilish esa besh daqiqadan keyin boshlanadi." },
             { who: "Jasur", en: "Maybe he overslept. He might have been working late last night.", uz: "Balki uxlab qolgandir. U kecha kech ishlagan bo'lishi mumkin." },
             { who: "Dilnoza", en: "He can't have overslept. He posted a message at six this morning.", uz: "U uxlab qolgan bo'lishi mumkin emas. Ertalab soat oltida xabar yozgan edi." },
             { who: "Jasur", en: "Then he must have been stuck on the metro. The Green Line was closed today.", uz: "Unda u metroda qolib ketgan bo'lsa kerak. Bugun yashil liniya yopiq edi." },
@@ -157,7 +157,7 @@ const lesson: Lesson = {
     { k: "fill", q: "She ___ stolen the money. She was in another city. (deyarli aniq, inkor)", a: ["can't have", "couldn't have"], uz: "U pulni o'g'irlagan bo'lishi mumkin emas. U boshqa shaharda edi.", hint: "inkor taxmin", why: "Alibi bor, deyarli aniq inkor: **can't / couldn't have + V3**." },
     { k: "fill", q: "When I called, he didn't answer. He ___ having a shower. (jarayon, ehtimol)", a: ["might have been", "may have been", "could have been"], uz: "Qo'ng'iroq qilganimda u javob bermadi. U dush qabul qilayotgan bo'lishi mumkin edi.", hint: "ehtimol + jarayon", why: "O'tgan paytdagi ehtimoliy jarayon: **might / may / could have been + V-ing**." },
     { k: "order", uz: "U bu xatni ko'rgan bo'lishi mumkin emas.", words: ["She", "can't", "have", "seen", "this", "email."], extra: ["mustn't", "see"], alt: [["She", "couldn't", "have", "seen", "this", "email."]], why: "**can't / couldn't have + V3**." },
-    { k: "order", uz: "Ular yo'ldan adashgan bo'lsa kerak.", words: ["They", "must", "have", "got", "lost."], extra: ["can't", "get"], alt: [["They", "must", "have", "lost", "their", "way."]], why: "**must have + V3**." },
+    { k: "order", uz: "Ular yo'ldan adashgan bo'lsa kerak.", words: ["They", "must", "have", "got", "lost."], extra: ["can't", "get"], why: "**must have + V3**." },
     { k: "translate", uz: "U kech ishlayotgan bo'lsa kerak edi.", a: ["He must have been working late.", "She must have been working late.", "He must have been working late last night.", "She must have been working late last night."], why: "O'tgan paytdagi jarayon: **must have been + V-ing**." },
     { k: "translate", uz: "Ular tirbandlikda qolgan bo'lishi mumkin.", a: ["They might have got stuck in traffic.", "They may have got stuck in traffic.", "They could have got stuck in traffic.", "They might have been stuck in traffic.", "They may have been stuck in traffic.", "They could have been stuck in traffic.", "They might have got stuck in a traffic jam."], why: "Ehtimol: **might / may / could have + V3**." },
     { k: "fix", wrong: "He mustn't have known about the problem.", a: ["He can't have known about the problem.", "He couldn't have known about the problem."], hint: "deyarli aniq inkor", why: "Inkor taxmin: **can't / couldn't have + V3**." },
@@ -174,7 +174,7 @@ const lesson: Lesson = {
     { k: "choice", q: "I don't know why she is late. She ___ missed her bus, or perhaps she is ill.", opts: ["may have", "must have", "can't have", "had to have"], a: 0, why: "Aniq emas, ehtimol: **may have + V3**." },
     { k: "fill", q: "The lights were on at midnight. They ___ working all night. (jarayon, deyarli aniq)", a: ["must have been"], uz: "Chiroqlar yarim tunda yoniq edi. Ular tun bo'yi ishlagan bo'lsa kerak.", hint: "jarayon", why: "**must have been + V-ing**." },
     { k: "fill", q: "Nobody answered the door. They ___ at home. (ehtimol, ishonch yo'q)", a: ["might not have been", "may not have been"], uz: "Eshikni hech kim ochmadi. Ular uyda bo'lmagan bo'lishi mumkin.", hint: "ehtimol bo'lmagan", why: "**might not / may not have been** — ehtimoliy inkor." },
-    { k: "order", uz: "U kalitlarni xonada qoldirgan bo'lsa kerak.", words: ["He", "must", "have", "left", "the", "keys", "in", "the", "room."], extra: ["can't", "leave"], alt: [["He", "must", "have", "left", "his", "keys", "in", "the", "room."]], why: "**must have + V3**." },
+    { k: "order", uz: "U kalitlarni xonada qoldirgan bo'lsa kerak.", words: ["He", "must", "have", "left", "the", "keys", "in", "the", "room."], extra: ["can't", "leave"], why: "**must have + V3**." },
     { k: "translate", uz: "Ular bu haqda bilgan bo'lishi mumkin emas.", a: ["They can't have known about it.", "They couldn't have known about it.", "They can't have known about this.", "They couldn't have known about this."], why: "Deyarli aniq inkor: **can't / couldn't have + V3**." },
     { k: "fix", wrong: "She mustn't have heard the news.", a: ["She can't have heard the news.", "She couldn't have heard the news."], hint: "deyarli aniq inkor", why: "Inkor taxmin: **can't / couldn't have + V3**." },
     { k: "tf", q: "*He must have been sleeping* — bu gap davom etayotgan jarayon haqida o'tgan zamon taxmini.", a: true, why: "**must have been + V-ing** o'tgan paytdagi jarayon haqida deyarli aniq xulosa." },
@@ -184,7 +184,7 @@ const lesson: Lesson = {
     "**Must have + V3** — o'tgan voqea haqida deyarli aniq «ha» xulosasi (*It must have rained*); **can't / couldn't have + V3** — deyarli aniq «yo'q» (*He can't have known*).",
     "**Might / may / could have + V3** — ehtimol; **might not / may not have + V3** — «balki bo'lmagan» (can't have emas, u kuchliroq).",
     "Jarayon uchun **modal + have been + V-ing** (*must have been sleeping*); hozirgi taxmin **modal + V1** (*must be tired*).",
-    "Inkor taxmin uchun **mustn't have** ishlatilmaydi: **can't have**.",
+    "Inkor taxmin uchun standart shakl **can't / couldn't have**; **mustn't have** standart Britaniya ingliz tilida ishlatilmaydi.",
     "Xatolar: ~~mustn't have known~~ → **can't have known**; ~~must have wait~~ → **must have waited**; ~~might have take~~ → **might have taken**.",
   ],
   homework: "Bugun yoki ertaga 5 ta vaziyatni kuzating (masalan, kech qolgan odam, yopiq do'kon, yo'qolgan narsa, ho'l ko'cha). Har biri uchun **dalil** va **taxmin** yozing: *The street is wet. It must have rained. He didn't call. He might have forgotten.* Kamida bitta **can't have** va bitta **must have been + V-ing** ishlating. Yangi so'zlardan **baffled, hunch, jump to conclusions, go missing** ni qo'shib, 4 gapdan iborat kichik «sirli voqea» yozing va ovoz chiqarib o'qing.",

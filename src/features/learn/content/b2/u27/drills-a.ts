@@ -37,7 +37,7 @@ export const drills: Drill[] = [
       { k: "fix", wrong: "I'll look the problem into this afternoon.", a: ["I'll look into the problem this afternoon."], hint: "inseparable", why: "**look into** ajralmaydi: ob'ekt particle'dan keyin." },
       { k: "fix", wrong: "She turned down it because the pay was low.", a: ["She turned it down because the pay was low."], hint: "olmosh o'rni", why: "Olmosh (*it*) **turned** va **down** orasiga qo'yiladi." },
       { k: "tf", q: "In *The supplier held up the delivery*, the verb *held up* means that the delivery was made late.", a: true, why: "**hold up** = kechiktirmoq, to'xtatib turmoq." },
-      { k: "order", uz: "Ular bu yil ellikta yangi xodimni ishga oldi.", words: ["They", "took", "on", "fifty", "new", "staff", "this", "year."], extra: ["up", "in"], why: "**take on** = ishga olmoq." },
+      { k: "order", uz: "Ular bu yil ellikta yangi xodimni ishga oldi.", words: ["They", "took", "on", "fifty", "new", "staff", "this", "year."], extra: ["up", "in"], alt: [["They", "took", "fifty", "new", "staff", "on", "this", "year."]], why: "**take on** = ishga olmoq." },
       { k: "choice", q: "Which phrasal verb is a three-part verb (the object cannot go in the middle)?", opts: ["put up with", "turn down", "draw up", "call off"], a: 0, why: "**put up with** — uch qismli, ajralmaydi. Qolganlari separable." },
     ],
   },

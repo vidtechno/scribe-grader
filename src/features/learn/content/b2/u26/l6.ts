@@ -145,7 +145,7 @@ const lesson: Lesson = {
           ],
         },
         { t: "check", ex: { k: "choice", q: "What does Zarina think is better than deleting fake news?", opts: ["Warning labels.", "Fines for users.", "A total ban.", "Doing nothing."], a: 0, why: "*warning labels work better than deletion.*" } },
-        { t: "check", ex: { k: "tf", q: "Paul agrees completely with Zarina at the beginning of the conversation.", a: false, why: "Zarina *has reservations* va ular *up to a point* kelishadi, shuning uchun to'liq rozi emas." } },
+        { t: "check", ex: { k: "tf", q: "Zarina fully agrees with Paul's first answer.", a: false, why: "Zarina *I have reservations* deydi va keyin faqat *up to a point* rozi bo'ladi, shuning uchun to'liq rozi emas." } },
       ],
     },
   ],

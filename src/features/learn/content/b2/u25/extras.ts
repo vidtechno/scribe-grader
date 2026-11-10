@@ -20,7 +20,7 @@ export const extras: UnitExtras = {
     },
     {
       title: "Inkor taxmin: mustn't have emas",
-      md: "O'zbek tilida *bo'lishi mumkin emas* va *bo'lmagan bo'lsa kerak* o'xshash eshitiladi, shuning uchun **must** ni inkorga o'tkazamiz. Inglizchada o'tgan haqidagi ishonchli **inkor** taxmin **can't have / couldn't have** bilan beriladi. **mustn't have** odatda ishlatilmaydi.",
+      md: "O'zbek tilida *bo'lishi mumkin emas* va *bo'lmagan bo'lsa kerak* o'xshash eshitiladi, shuning uchun **must** ni inkorga o'tkazamiz. Inglizchada o'tgan haqidagi ishonchli **inkor** taxmin **can't have / couldn't have** bilan beriladi. **mustn't have** esa inkor taxmin uchun standart Britaniya ingliz tilida ishlatilmaydi.",
       fix: { k: 'fix', wrong: "She mustn't have seen my message; she never replied.", a: ["She can't have seen my message; she never replied.", "She couldn't have seen my message; she never replied.", "She might not have seen my message; she never replied."], why: "Inkor taxmin → **can't have / couldn't have** (ehtimol: **might not have**)." },
     },
   ],

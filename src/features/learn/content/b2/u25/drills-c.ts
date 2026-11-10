@@ -51,7 +51,7 @@ export const drills: Drill[] = [
       { k: "choice", q: "You'd better ___ a doctor.", opts: ["see", "to see", "seeing", "seen"], a: 0, why: "**Had better** dan keyin **to**siz fe'l." },
       { k: "choice", q: "I spent a fortune on shoes last month. I wish I ___ so much.", opts: ["hadn't spent", "didn't spend", "wouldn't spend", "haven't spent"], a: 0, why: "O'tgan pushaymonlik: **wish + had(n't) + V3**." },
       { k: "choice", q: "Qaysi ibora *oxirgi daqiqada, zo'rg'a ulgurib* degan ma'noni bildiradi?", opts: ["in the nick of time", "against all odds", "twist of fate", "sink in"], a: 0, why: "**In the nick of time** — *oxirgi daqiqada*." },
-      { k: "fill", q: "I am almost certain: she ___ gone home.", a: ["must have"], why: "Kuchli xulosa: **must have + V3**." },
+      { k: "fill", q: "I am almost certain: she ___ gone home.", a: ["must have", "must've", "will have", "has probably", "has surely"], why: "Kuchli xulosa: **must have + V3**." },
       { k: "order", uz: "Ehtimol, yig'ilish bekor qilingan. (gap *Ehtimol* bilan boshlansin)", words: ["Presumably,", "the", "meeting", "has", "been", "cancelled."], extra: ["was", "will"], why: "**Presumably** — taxminiy; **has been cancelled** — Present Perfect Passive." },
       { k: "choice", q: "You can use my laptop ___ you look after it.", opts: ["as long as", "in case", "but for", "otherwise"], a: 0, why: "**As long as** — *…sharti bilan*." },
       { k: "fix", wrong: "I'd rather to stay at home tonight.", a: ["I'd rather stay at home tonight."], hint: "would rather + fe'l", why: "**Would rather** dan keyin **to**siz fe'l." },

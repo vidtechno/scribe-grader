@@ -125,7 +125,7 @@ const lesson: Lesson = {
         {
           t: "dialog", lines: [
             { who: "Emily", en: "You look much happier these days. What have you been up to?", uz: "Bu kunlarda ancha xursand ko'rinasiz. Nima bilan band bo'ldingiz?" },
-            { who: "Adam", en: "I've been trying to build better habits. I used to stay up until two every night.", uz: "Yaxshiroq odatlar shakllantirishga urinyapman. Avval har kecha soat ikkigacha uxlamasdim." },
+            { who: "Adam", en: "I've been trying to build better habits. I used to stay up until two every night.", uz: "Yaxshiroq odatlar shakllantirishga urinyapman. Avval har kecha soat ikkigacha uxlamay yurardim." },
             { who: "Emily", en: "And how long have you been doing this?", uz: "Buni qancha vaqtdan beri qilyapsiz?" },
             { who: "Adam", en: "Since March. It was hard at first, but I'm getting used to going to bed early.", uz: "Martdan beri. Avvaliga qiyin edi, lekin erta yotishga ko'nikyapman." },
             { who: "Emily", en: "Do you think you'll keep it up?", uz: "Sizningcha, davom ettira olasizmi?" },
@@ -163,7 +163,7 @@ const lesson: Lesson = {
     { k: "fix", wrong: "When I will have more time, I'll learn to paint.", a: ["When I have more time, I'll learn to paint."], hint: "vaqt gapida will yo'q", why: "**when** dan keyin Present." },
     { k: "choice", q: "**Which phrase means \"in the end, over a long period\"?**", opts: ["in the long run", "at the outset", "all along", "beforehand"], a: 0, why: "**in the long run** — uzoq muddatda." },
     { k: "dictation", say: "In the long run, small habits have a lasting effect.", uz: "Uzoq muddatda kichik odatlar uzoq davom etadigan ta'sir qiladi." },
-    { k: "fill", q: "As soon as winter ___ in, the days become very short. (set)", a: ["sets"], why: "Vaqt gapida Present: **sets in**." },
+    { k: "fill", q: "As soon as winter ___ in, the days become very short. (set)", a: ["sets", "has set"], why: "Vaqt gapida Present: **sets in**." },
     { k: "tf", q: "**Whereas** ikki voqea bir vaqtda sodir bo'lishini bildiradi.", a: false, why: "**whereas** faqat qarama-qarshilik; bir vaqtdalik uchun **while / meanwhile**." },
     { k: "speak", say: "By the time I arrived, the meeting had already started.", uz: "Men kelguncha yig'ilish boshlanib bo'lgan edi." },
   ],
@@ -172,7 +172,7 @@ const lesson: Lesson = {
     { k: "choice", q: "**Sales ___ by 5 per cent in March.**", opts: ["rose", "raised", "has raised", "are rised"], a: 0, why: "To'ldiruvchi yo'q → **rose**." },
     { k: "choice", q: "**We ___ a garden behind the house when I was a child.**", opts: ["used to have", "would have", "used to having", "were used to have"], a: 0, why: "*have* — holat, **would** bo'lmaydi." },
     { k: "choice", q: "**Which sentence is correct?**", opts: ["She has a lot of experience in marketing.", "She is having a lot of experience in marketing.", "She has been having a lot of experience in marketing.", "She had a lot of experience in marketing now."], a: 0, why: "Egalik ma'nosidagi *have* — holat fe'li, Continuous bo'lmaydi." },
-    { k: "fill", q: "A positive ___ helps you recover from failure. (way of thinking)", a: ["mindset"], why: "Fikrlash tarzi → **mindset**." },
+    { k: "fill", q: "A positive ___ helps you recover from failure. (way of thinking)", a: ["mindset", "attitude", "outlook"], why: "Fikrlash tarzi → **mindset**." },
     { k: "fill", q: "It is useful to ___ track of what you spend every month.", a: ["keep"], why: "**keep track of** — kuzatib bormoq." },
     { k: "fill", q: "Boredom began to ___ in after the first week. (start, usually of something unpleasant)", a: ["set"], why: "**set in** — yomon narsa boshlanmoq." },
     { k: "listen", say: "By the end of the year, I will have finished my degree.", opts: ["By the end of the year, I will have finished my degree.", "By the end of the year, I will finish my degree.", "By the end of the year, I have finished my degree."], a: 0 },

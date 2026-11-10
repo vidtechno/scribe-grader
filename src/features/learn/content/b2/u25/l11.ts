@@ -38,7 +38,7 @@ const lesson: Lesson = {
           ['must / might / can\'t have + V3', "o'tgan haqida taxmin", "She can't have forgotten; she wrote it down."],
           ["should have / needn't have", 'tanqid / keraksiz ish', "We needn't have hurried; the train was late."],
         ] },
-        { t: 'tip', tone: 'info', md: "Inkor taxmin: **can't have / couldn't have** (*mustn't have* emas). **needn't have** — ish bajarildi, lekin kerak emas edi. **should have** — «kerak edi, lekin qilinmadi»." },
+        { t: 'tip', tone: 'info', md: "Inkor taxmin uchun standart shakl **can't have / couldn't have** (*mustn't have* standart Britaniya ingliz tilida ishlatilmaydi). **needn't have** — ish bajarildi, lekin kerak emas edi. **should have** — «kerak edi, lekin qilinmadi»." },
         { t: 'check', ex: { k: 'choice', q: "Her coat is still here, so she ___ left the building.", opts: ["can't have", "must have", "needn't have", "should have"], a: 0, why: "Dalil teskarisini ko'rsatadi → inkor taxmin **can't have**." } },
         { t: 'check', ex: { k: 'fill', q: "I wish I ___ more time. I'm always in a hurry.", hint: "have", a: ['had'], why: "Hozirgi pushaymon → **wish + Past Simple**." } },
       ],
