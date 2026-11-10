@@ -5,6 +5,13 @@ import { extras as extras20 } from './content/b1/u20/extras';
 import { extras as extras21 } from './content/b1/u21/extras';
 import { extras as extras22 } from './content/b1/u22/extras';
 import { extras as extras23 } from './content/b1/u23/extras';
+import { extras as extras24 } from './content/b2/u24/extras';
+import { extras as extras25 } from './content/b2/u25/extras';
+import { extras as extras26 } from './content/b2/u26/extras';
+import { extras as extras27 } from './content/b2/u27/extras';
+import { extras as extras28 } from './content/b2/u28/extras';
+import { extras as extras29 } from './content/b2/u29/extras';
+import { extras as extras30 } from './content/b2/u30/extras';
 
 
 /**
@@ -184,3 +191,5 @@ export const UNIT_EXTRAS: Record<string, UnitExtras> = {
 
 // Intermediate units keep their extras next to their lessons (content/b1/uNN/extras.ts).
 Object.assign(UNIT_EXTRAS, { u18: extras18, u19: extras19, u20: extras20, u21: extras21, u22: extras22, u23: extras23 });
+// Upper-Intermediate units too (content/b2/uNN/extras.ts).
+Object.assign(UNIT_EXTRAS, { u24: extras24, u25: extras25, u26: extras26, u27: extras27, u28: extras28, u29: extras29, u30: extras30 });

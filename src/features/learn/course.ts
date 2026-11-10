@@ -815,6 +815,13 @@ const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[]; drills?: Dr
   u21: () => import('./content/b1/u21'),
   u22: () => import('./content/b1/u22'),
   u23: () => import('./content/b1/u23'),
+  u24: () => import('./content/b2/u24'),
+  u25: () => import('./content/b2/u25'),
+  u26: () => import('./content/b2/u26'),
+  u27: () => import('./content/b2/u27'),
+  u28: () => import('./content/b2/u28'),
+  u29: () => import('./content/b2/u29'),
+  u30: () => import('./content/b2/u30'),
 };
 
 export async function loadUnit(unitId: string): Promise<Lesson[]> {

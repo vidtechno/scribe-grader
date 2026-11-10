@@ -75,7 +75,7 @@ export const drills: Drill[] = [
       { k: "choice", q: "Which formal verb replaces *come up with a plan*?", opts: ["devise", "cancel", "reject", "reduce"], a: 0, why: "**come up with** = *devise* (o'ylab topmoq)." },
       { k: "tf", q: "*You don't have to wear a tie* means that wearing a tie is forbidden.", a: false, why: "**don't have to** — shart emas, taqiq emas." },
       { k: "translate", uz: "O'tgan yili biz uniforma kiyishimiz kerak edi.", a: ["Last year we had to wear a uniform.", "We had to wear a uniform last year."], why: "**must** ning o'tgan zamoni yo'q: **had to**." },
-      { k: "fill", q: "Customers are not p… to enter the warehouse. (formal: allowed)", a: ["permitted", "allowed"], hint: "p…", why: "**be permitted to** — rasmiy taqiq." },
+      { k: "fill", q: "Customers are not ___ to enter the warehouse. (formal: allowed)", a: ["permitted", "allowed"], hint: "p…", why: "**be permitted to** — rasmiy taqiq." },
       { k: "fill", q: "The ___ of the new system took six months. (implement)", a: ["implementation"], uz: "Yangi tizimni joriy etish olti oy davom etdi.", why: "**implement → implementation**." },
       { k: "fix", wrong: "The arrive of the delegation was delayed.", a: ["The arrival of the delegation was delayed."], hint: "ot kerak", why: "Artikldan keyin ot: **arrive → arrival**." },
       { k: "choice", q: "Which is the best formal rewriting of: *The company expanded quickly, so it needed more staff.*", opts: ["The rapid expansion of the company led to a need for more staff.", "The company expanded quickly, so it needed more people.", "The company grew fast so needed staff.", "Because the company was quick to expand, staff needed."], a: 0, why: "Nominalizatsiya: **expanded → expansion** + **led to**." },
