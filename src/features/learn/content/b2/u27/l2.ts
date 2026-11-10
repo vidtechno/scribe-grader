@@ -35,6 +35,7 @@ const lesson: Lesson = {
             ["end / stop", "terminate", "The company terminated the contract."],
             ["about", "approximately", "It costs approximately £50."],
             ["enough", "sufficient", "We have sufficient evidence."],
+            ["good enough", "adequate", "The facilities are adequate."],
             ["later", "subsequently", "He was subsequently promoted."],
             ["and also / plus", "furthermore", "It is cheaper; furthermore, it is faster."],
             ["live", "reside", "Applicants must reside in the city."],
@@ -44,7 +45,7 @@ const lesson: Lesson = {
         {
           t: "table", head: ["Phrasal verb", "Rasmiy fe'l"],
           rows: [
-            ["find out", "discover, establish"],
+            ["find out", "discover, establish, ascertain"],
             ["look into", "investigate"],
             ["put off", "postpone"],
             ["ask for", "request"],
@@ -158,8 +159,8 @@ const lesson: Lesson = {
     { en: "obtain", uz: "olmoq, qo'lga kiritmoq (rasmiy)", ipa: "əbˈteɪn", pos: "verb", ex: "You must obtain permission before you publish the data.", exUz: "Ma'lumotni e'lon qilishdan oldin ruxsat olishingiz kerak." },
     { en: "commence", uz: "boshlanmoq, boshlamoq (rasmiy)", ipa: "kəˈmens", pos: "verb", ex: "The training will commence at nine o'clock.", exUz: "Trening soat to'qqizda boshlanadi." },
     { en: "purchase", uz: "sotib olmoq (rasmiy)", ipa: "ˈpɜː.tʃəs", pos: "verb", ex: "We purchased fifty laptops for the new office.", exUz: "Yangi ofis uchun ellikta noutbuk sotib oldik." },
-    { en: "approximately", uz: "taxminan", ipa: "əˈprɒk.sɪ.mət.li", pos: "adv", ex: "The journey takes approximately two hours.", exUz: "Yo'l taxminan ikki soat oladi." },
-    { en: "sufficient", uz: "yetarli", ipa: "səˈfɪʃ.ənt", pos: "adj", ex: "We do not have sufficient information to decide.", exUz: "Qaror qabul qilish uchun yetarli ma'lumotimiz yo'q." },
+    { en: "ascertain", uz: "aniqlamoq, aniq bilib olmoq (rasmiy)", ipa: "ˌæs.əˈteɪn", pos: "verb", ex: "We are trying to ascertain the cause of the delay.", exUz: "Kechikish sababini aniqlashga harakat qilyapmiz." },
+    { en: "adequate", uz: "yetarli, qoniqarli", ipa: "ˈæd.ɪ.kwət", pos: "adj", ex: "The facilities in the new office are adequate.", exUz: "Yangi ofisdagi sharoitlar qoniqarli." },
     { en: "terminate", uz: "tugatmoq, bekor qilmoq (shartnomani)", ipa: "ˈtɜː.mɪ.neɪt", pos: "verb", ex: "The company terminated the contract in May.", exUz: "Kompaniya shartnomani may oyida bekor qildi." },
     { en: "subsequently", uz: "keyinroq, undan keyin", ipa: "ˈsʌb.sɪ.kwənt.li", pos: "adv", ex: "He was subsequently promoted to director.", exUz: "U keyinroq direktor lavozimiga ko'tarildi." },
     { en: "furthermore", uz: "bundan tashqari", ipa: "ˌfɜː.ðəˈmɔː", pos: "adv", ex: "The offer is generous; furthermore, it includes training.", exUz: "Taklif saxiy; bundan tashqari, unga o'qitish ham kiradi." },

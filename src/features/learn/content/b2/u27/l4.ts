@@ -60,6 +60,7 @@ const lesson: Lesson = {
             { en: "Staff are allowed to take a long lunch on Fridays.", uz: "Xodimlar juma kunlari uzoqroq tushlik qilishi mumkin." },
             { en: "Customers are not permitted to enter the warehouse.", uz: "Mijozlarga omborxonaga kirish taqiqlangan." },
             { en: "We weren't allowed to take photos during the tour.", uz: "Ekskursiya paytida surat olishga ruxsat berilmagan edi." },
+            { en: "The contract stipulates that staff must give a month's notice.", uz: "Shartnomada xodimlar bir oy oldin ogohlantirishi shart qilib qo'yilgan." },
           ],
         },
         { t: "p", md: "**Be supposed to** — qoida bo'yicha **kutilgan** ish, ko'pincha amalda bajarilmaydigan: *You're supposed to wear a helmet* (qoida shunday, lekin hamma kiymaydi). Reja haqida ham: *The train is supposed to arrive at six.* **Be required to** — rasmiy talab: *Applicants are required to provide two references.*" },
@@ -158,7 +159,7 @@ const lesson: Lesson = {
     { en: "exempt", uz: "ozod qilingan, majburiyatdan xoli", ipa: "ɪɡˈzempt", pos: "adj", ex: "Part-time staff are exempt from the training.", exUz: "Qisman bandlikdagi xodimlar o'qishdan ozod." },
     { en: "enforce", uz: "joriy qilmoq, bajarishga majburlamoq", ipa: "ɪnˈfɔːs", pos: "verb", ex: "It is difficult to enforce the no-phones rule.", exUz: "Telefon taqiqi qoidasini amalda ta'minlash qiyin." },
     { en: "restriction", uz: "cheklov", ipa: "rɪˈstrɪk.ʃən", pos: "noun", ex: "There are no restrictions on working hours.", exUz: "Ish soatlariga cheklovlar yo'q." },
-    { en: "authorise", uz: "ruxsat bermoq, vakolat bermoq", ipa: "ˈɔː.θər.aɪz", pos: "verb", ex: "Only the manager can authorise overtime.", exUz: "Qo'shimcha ish soatlariga faqat menejer ruxsat bera oladi." },
+    { en: "stipulate", uz: "shart qilib qo'ymoq, qat'iy belgilamoq", ipa: "ˈstɪp.jə.leɪt", pos: "verb", ex: "The contract stipulates that staff must give a month's notice.", exUz: "Shartnomada xodimlar bir oy oldin ogohlantirishi shart qilib qo'yilgan." },
     { en: "disciplinary", uz: "intizomiy", ipa: "ˌdɪs.əˈplɪn.ər.i", pos: "adj", ex: "He faced a disciplinary meeting after repeated lateness.", exUz: "Qayta-qayta kechikkani uchun u intizomiy yig'ilishga duch keldi." },
   ],
   practice: [
