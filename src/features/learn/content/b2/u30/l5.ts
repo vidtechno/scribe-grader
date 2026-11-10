@@ -174,7 +174,6 @@ const lesson: Lesson = {
     { k: "choice", q: "Which sentence is correct?", opts: ["The craftsmanship of the doors is amazing.", "The craftsmanships of the doors are amazing.", "The craftsmanship of the doors are amazing.", "A craftsmanship of the doors is amazing."], a: 0, why: "**craftsmanship** sanalmaydi: *is*." },
     { k: "tf", q: "We can say *very breathtaking* in the same way as *very beautiful*.", a: false, why: "**Breathtaking** — kuchli sifat; *absolutely / really breathtaking* aytiladi." },
     { k: "order", uz: "Muzey ikki yil davomida rasmni tikladi.", words: ["The", "museum", "restored", "the", "painting", "over", "two", "years."], extra: ["held", "for"], alt: [["Over", "two", "years", "the", "museum", "restored", "the", "painting."]], why: "**restored** — o'tgan zamon." },
-    { k: "translate", uz: "Ko'rgazma kelasi oy ochiladi.", a: ["The exhibition opens next month.", "The exhibition will open next month.", "The exhibition is opening next month.", "The exhibition starts next month.", "The exhibition will start next month."], why: "**exhibition** — ko'rgazma." },
     { k: "fix", wrong: "The folklores are very interesting.", a: ["The folklore is very interesting.", "Folklore is very interesting."], hint: "sanalmaydigan ot", why: "**folklore** ko'plikda ishlatilmaydi." },
     { k: "choice", q: "Which phrase refers to a work of the highest quality?", opts: ["a masterpiece", "an exhibition", "customs", "folklore"], a: 0, why: "**masterpiece** — durdona." },
   ],
