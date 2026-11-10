@@ -1,7 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 
 /** Active paid plans, cached in the browser for 30 minutes: the landing page and the pricing dialog read them often and they rarely change. */
-const KEY = 'scorify.plans.v1';
+const KEY = 'scorify.plans.v2';
 const TTL_MS = 30 * 60_000;
 let pending: Promise<unknown[]> | null = null;
 

@@ -13,8 +13,8 @@ const COURSE = ALL_COURSE.filter(l => OPEN_LEVELS.has(l.slug));
 
 /** Same numbers as src/lib/plans.ts (LEARN_TRIAL_DAYS and the Learn plan); src/test/course-pages.test.ts keeps them in sync. */
 export const TRIAL_DAYS = 7;
-export const LEARN_PRICE_UZS = 49000;
-const LEARN_PRICE_TEXT = '49 000';
+export const LEARN_PRICE_UZS = 99000;
+const LEARN_PRICE_TEXT = '99 000';
 const TRIAL_TEXT = `Ro'yxatdan o'tgan har bir yangi hisobga ${TRIAL_DAYS} kun bepul sinov beriladi, keyin davom etish uchun Learn tarifi kerak: oyiga ${LEARN_PRICE_TEXT} so'm.`;
 
 /** Lesson and unit counts are never typed by hand: they come from the course data, so titles and descriptions cannot drift. */

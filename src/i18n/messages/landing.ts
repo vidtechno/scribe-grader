@@ -11,7 +11,7 @@ export default {
     'landing.ld.feat.5': 'Practice games, unit tests and a certificate',
     'landing.ld.feat.6': 'Smart review and a personal vocabulary list',
     'landing.ld.feat.7': 'IELTS Writing, Speaking, Reading and Listening',
-    'landing.ld.offer': '7 days free, then Learn at 49,000 UZS/month',
+    'landing.ld.offer': '7 days free, then Learn at 99,000 UZS/month',
 
     'landing.cta.start': "Try IELTS practice free",
     'landing.hero.badge': "English from zero · IELTS when you are ready",
@@ -101,7 +101,7 @@ export default {
 
     'landing.pricing.h2a': 'Simple',
     'landing.pricing.h2b': 'pricing',
-    'landing.pricing.sub': 'Learn is the English course, about 1,600 UZS a day ($4.99 a month). IELTS adds to the course: unlimited Reading and Listening, 50 AI-graded Writing and 30 Speaking assessments a month, and mock tests. 5% off for 3 months, 10% off for 6 months.',
+    'landing.pricing.sub': 'Learn is the English course, about 3,300 UZS a day ($4.99 a month). IELTS adds to the course: unlimited Reading and Listening, 50 AI-graded Writing and 30 Speaking assessments a month, and mock tests. 5% off for 3 months, 10% off for 6 months.',
 
     'landing.free.h2a': 'Free',
     'landing.free.h2b': 'guides and exercises',
@@ -134,7 +134,7 @@ export default {
     'landing.faq.4.q': "What's included in the 7-day free trial?",
     'landing.faq.4.a': 'Every new account gets 7 days of full Learn access: all lessons, pronunciation, vocabulary and the review system. No card needed.',
     'landing.faq.5.q': 'How much does it cost and how do I pay?',
-    'landing.faq.5.a': 'Learn is 49,000 UZS a month ($4.99) and IELTS is 129,000 UZS a month ($11.99). Pay 3 months at once for 5% off, or 6 months for 10% off. To pay and activate your plan, contact @scorify_support on Telegram. Automatic payments on the site are temporarily unavailable.',
+    'landing.faq.5.a': 'Learn is 99,000 UZS a month ($4.99) and IELTS is 149,000 UZS a month ($11.99). Pay 3 months at once for 5% off, or 6 months for 10% off. To pay and activate your plan, contact @scorify_support on Telegram. Automatic payments on the site are temporarily unavailable.',
     'landing.faq.6.q': 'Is there IELTS Writing, Speaking, Reading and Listening too?',
     'landing.faq.6.a': 'Yes, all four IELTS sections. Your Writing and Speaking answers are graded by AI (50 Writing and 30 Speaking assessments a month), 5 full tests each of Reading and Listening are UNLIMITED, and there are mock tests too. To try it out, a new account gets 1 Writing and 1 Speaking assessment and 3 Reading and 3 Listening tests for free.',
     'landing.faq.7.q': 'What are the IELTS Reading and Listening tests like?',
@@ -232,7 +232,7 @@ export default {
     'landing.paths.english.p2': "Every word with audio and Uzbek translation",
     'landing.paths.english.p3': "Made for people who speak Uzbek",
     'landing.paths.english.cta': "See the English course",
-    'landing.paths.english.note': "7-day free trial, then about 1,600 UZS a day",
+    'landing.paths.english.note': "7-day free trial, then about 3,300 UZS a day",
     'landing.paths.ielts.tag': "IELTS preparation",
     'landing.paths.ielts.title': "Practise all four IELTS skills",
     'landing.paths.ielts.p1': "AI scores for Writing and Speaking in seconds",
@@ -292,7 +292,7 @@ export default {
     'landing.ld.feat.5': "Mashq o'yinlari, bosqich testlari va sertifikat",
     'landing.ld.feat.6': "Aqlli takrorlash va shaxsiy lug'at",
     'landing.ld.feat.7': 'IELTS Writing, Speaking, Reading va Listening',
-    'landing.ld.offer': "7 kun bepul, keyin Learn 49 000 so'm/oy",
+    'landing.ld.offer': "7 kun bepul, keyin Learn 99 000 so'm/oy",
 
     'landing.cta.start': '7 kun bepul boshlash',
     'landing.hero.badge': "Umumiy ingliz tili + IELTS · o'zbekcha tushuntirish",
@@ -382,7 +382,7 @@ export default {
 
     'landing.pricing.h2a': 'Oddiy',
     'landing.pricing.h2b': 'narxlar',
-    'landing.pricing.sub': "Learn — ingliz tili kursi, kuniga taxminan 1 600 so'm (oyiga $4.99). IELTS — kursga qo'shimcha: cheksiz Reading va Listening, oyiga 50 ta Writing va 30 ta Speaking AI baholash, mock testlar. 3 oyga 5%, 6 oyga 10% chegirma.",
+    'landing.pricing.sub': "Learn — ingliz tili kursi, kuniga taxminan 3 300 so'm (oyiga $4.99). IELTS — kursga qo'shimcha: cheksiz Reading va Listening, oyiga 50 ta Writing va 30 ta Speaking AI baholash, mock testlar. 3 oyga 5%, 6 oyga 10% chegirma.",
 
     'landing.free.h2a': 'Bepul',
     'landing.free.h2b': "qo'llanmalar va mashqlar",
@@ -415,7 +415,7 @@ export default {
     'landing.faq.4.q': '7 kunlik bepul davrda nima bor?',
     'landing.faq.4.a': "Har bir yangi hisobga 7 kun Learn to'liq ochiq: barcha darslar, talaffuz, lug'at va takrorlash tizimi. Karta kerak emas.",
     'landing.faq.5.q': "Narxi qancha va qanday to'layman?",
-    'landing.faq.5.a': "Learn — oyiga 49 000 so'm ($4.99), IELTS — oyiga 129 000 so'm ($11.99). 3 oyga birdan to'lasangiz 5%, 6 oyga 10% chegirma. To'lov va tarifni faollashtirish uchun Telegramda @scorify_support ga yozing. Saytda avtomatik to'lov vaqtincha mavjud emas.",
+    'landing.faq.5.a': "Learn — oyiga 99 000 so'm ($4.99), IELTS — oyiga 149 000 so'm ($11.99). 3 oyga birdan to'lasangiz 5%, 6 oyga 10% chegirma. To'lov va tarifni faollashtirish uchun Telegramda @scorify_support ga yozing. Saytda avtomatik to'lov vaqtincha mavjud emas.",
     'landing.faq.6.q': 'IELTS Writing, Speaking, Reading va Listening ham bormi?',
     'landing.faq.6.a': "Ha, IELTS ning to'rttala qismi bor. Writing va Speaking javoblaringiz AI bilan baholanadi (Writing oyiga 50 ta, Speaking oyiga 30 ta), Reading va Listening bo'yicha 5 tadan to'liq test CHEKSIZ ochiladi, shuningdek mock testlar bor. Sinab ko'rish uchun yangi hisobga 1 ta Writing, 1 ta Speaking baholash va 3 tadan Reading hamda Listening testi bepul.",
     'landing.faq.7.q': 'IELTS Reading va Listening testlari qanday?',
@@ -513,7 +513,7 @@ export default {
     'landing.paths.english.p2': "Har bir so'z audio va o'zbekcha tarjima bilan",
     'landing.paths.english.p3': "Aqlli takrorlash: o'rganganingiz esda qoladi",
     'landing.paths.english.cta': "Ingliz tilini boshlash",
-    'landing.paths.english.note': "Bepul haftadan keyin kuniga taxminan 1 600 so'm",
+    'landing.paths.english.note': "Bepul haftadan keyin kuniga taxminan 3 300 so'm",
     'landing.paths.ielts.tag': "IELTS tayyorgarlik",
     'landing.paths.ielts.title': "IELTS ga tayyorlanish uchun",
     'landing.paths.ielts.p1': "Writing va Speaking uchun soniyalarda AI baho",

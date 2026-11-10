@@ -14,7 +14,7 @@ describe('prerendered landing pages', () => {
     expect(html).toMatch(/Learn English today/);
     expect(html).not.toContain('seo-shell');
     expect(html).not.toMatch(/left:\s*-9999px/);
-    expect(html).toMatch(/1,600 UZS/);
+    expect(html).toMatch(/3,300 UZS/);
     expect(html).toMatch(/Free sample: 1 Writing, 1 Speaking, 3 Reading and 3 Listening/);
   });
 

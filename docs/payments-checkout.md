@@ -28,6 +28,13 @@ The price is always computed on the server (`internal_pay_price`): list price fr
 - Card numbers never touch our servers (`pay_via_card` is not used).
 - Deploying functions: `create-checkout`, `checkout-status` (JWT on), `checkout-webhook` (JWT off, see `supabase/config.toml`).
 
+## Current UZS prices
+Learn: **99 000 so'm / 30 days**; IELTS: **149 000 so'm / 30 days**.
+3 months (-5%): **282 150 / 424 650 so'm**; 6 months (-10%): **534 600 / 804 600 so'm** (Learn / IELTS).
+The frontend, English/Uzbek copy, public course pages and bot show these prices. `subscription_plans.price_uzs`
+is the source for server checkout and the admin's estimated monthly revenue. Existing invoices and subscription
+history retain their original amounts; changing list prices does not charge anyone or alter existing plan expiry.
+
 ## Dollar prices and Visa
 The so'm price is the main price and the only amount charged online (Click / Payme). Next to it the site shows a fixed dollar price: **Learn $4.99/month, IELTS $11.99/month**
 (`priceUsd` in `src/lib/plans.ts`; 3 and 6 months follow the same -5% / -10%: Learn $14.22 / $26.95, IELTS $34.17 / $64.75).

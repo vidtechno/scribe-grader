@@ -42,7 +42,7 @@ XP is permanent. The streak resets only after **three missed days in a row** (on
 mastery, mistakes and all progress stay. A comeback after 3+ missed days gives +25 XP.
 
 ## Plans and trial
-Learn (slug `go`, 49 000 so'm) — all English lessons and the engine. IELTS (slug `plus`, 129 000 so'm) — Learn + 50 Writing,
+Learn (slug `go`, 99 000 so'm) — all English lessons and the engine. IELTS (slug `plus`, 149 000 so'm) — Learn + 50 Writing,
 30 Speaking (+3 mock tests). Every account gets `subscriptions.learn_trial_ends_at = created + 7 days`: Learn access plus the Free
 1 Writing + 1 Speaking (`consume_quota` refuses Free users once it has passed). IELTS has no trial; the Free allowance is separate
 from the IELTS monthly allowance (upgrading sets the plan's limits and resets usage).

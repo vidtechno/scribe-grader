@@ -25,12 +25,12 @@ describe('Checkout.uz helpers', () => {
   });
 
   it('matches the paid amount to the invoice amount', () => {
-    expect(amountsMatch(49000, 49000)).toBe(true);
-    expect(amountsMatch('49000', 49000)).toBe(true);
-    expect(amountsMatch(49000.4, 49000)).toBe(true);
-    expect(amountsMatch(1000, 49000)).toBe(false);
-    expect(amountsMatch(undefined, 49000)).toBe(false);
-    expect(amountsMatch('abc', 49000)).toBe(false);
+    expect(amountsMatch(99000, 99000)).toBe(true);
+    expect(amountsMatch('99000', 99000)).toBe(true);
+    expect(amountsMatch(99000.4, 99000)).toBe(true);
+    expect(amountsMatch(1000, 99000)).toBe(false);
+    expect(amountsMatch(undefined, 99000)).toBe(false);
+    expect(amountsMatch('abc', 99000)).toBe(false);
   });
 
   it('reads the Checkout webhook and ignores anything else', () => {

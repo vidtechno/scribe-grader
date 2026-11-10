@@ -73,10 +73,10 @@ describe('level pages', () => {
       expect(course.hasCourseInstance.courseMode).toBe('online');
       expect(course.hasCourseInstance).not.toHaveProperty('courseWorkload');
       expect(course.offers.priceCurrency).toBe('UZS');
-      expect(course.offers.price).toBe('49000');
+      expect(course.offers.price).toBe('99000');
       const visible = text(html);
       expect(visible).toContain(`${TRIAL_DAYS} kun bepul sinov`);
-      expect(visible).toContain('49 000');
+      expect(visible).toContain('99 000');
       expect(course.offers.description).toContain(`${TRIAL_DAYS} kun bepul`);
       expect(visible).toContain(String(course.offers.description));
       expect(visible).toContain(l.title);
@@ -108,7 +108,7 @@ describe('hub page', () => {
     expect(hrefs(html).filter((h) => h.startsWith('/auth'))).toEqual(['/auth?next=%2Flearn']);
     const visible = text(html);
     expect(visible).toContain(`${TRIAL_DAYS} kun bepul sinov`);
-    expect(visible).toContain('49 000');
+    expect(visible).toContain('99 000');
     expect(jsonLd(html).some((d) => d['@type'] === 'Course')).toBe(false);
     expect(JSON.stringify(jsonLd(html))).not.toContain('numberOfCredits');
   });

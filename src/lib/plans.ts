@@ -39,7 +39,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     ],
   },
   go: {
-    slug: 'go', name: 'Learn', priceUsd: '4.99', priceUzs: '49 000',
+    slug: 'go', name: 'Learn', priceUsd: '4.99', priceUzs: '99 000',
     personal: { writing: 0, speaking: 0, mockTests: 0 },
     practice: { reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS },
     features: [
@@ -54,7 +54,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     ],
   },
   plus: {
-    slug: 'plus', name: 'IELTS', priceUsd: '11.99', priceUzs: '129 000',
+    slug: 'plus', name: 'IELTS', priceUsd: '11.99', priceUzs: '149 000',
     personal: { writing: 50, speaking: 30, mockTests: 6 },
     practice: { reading: null, listening: null },
     features: [
