@@ -1,0 +1,127 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (situation): a phone call to a client. Formal phone phrases, delay explanation, taking and leaving messages, spelling and numbers.
+const lesson: Lesson = {
+  id: 'u27-l10',
+  title: 'A phone call to a client',
+  titleUz: "Mijoz bilan telefon suhbati: ma'lumot berish va xabar qoldirish",
+  mini: true,
+  kind: 'situation',
+  goal: "Mijozga rasmiy **qo'ng'iroq qilasiz**: o'zingizni tanishtirasiz, kechikish sababini tushuntirasiz, **xabar qoldirasiz yoki qabul qilasiz**, ism va raqamlarni harflab / raqamlab tasdiqlaysiz va muloyim yakunlaysiz.",
+  slides: [
+    {
+      title: "Rasmiy telefon iboralari",
+      blocks: [
+        { t: 'p', md: "Ish telefonida ohang muloyim va aniq bo'ladi. Odatda suhbat shu tartibda ketadi: **tanishtirish → maqsad → so'rov → xabar → tasdiqlash → xayrlashish**." },
+        { t: 'table', head: ['Maqsad', 'Ibora'], speak: [1], rows: [
+          ['Tanishtirish', 'Good morning, this is Alex Brooks from Brightline Supplies.'],
+          ['Maqsad', "I'm calling about order number four-two-one."],
+          ['Kimnidir so\'rash', 'Could I speak to Ms Hart, please?'],
+          ['Ulab berish', "Hold the line, please. I'll put you through."],
+          ["Yo'q bo'lsa", "I'm afraid she's in a meeting at the moment."],
+          ['Xabar', 'Would you like to leave a message?'],
+          ['Qaytib aloqa', "I'll ask her to get back to you this afternoon."],
+          ['Yakun', 'Thank you for your time. Goodbye.'],
+        ] },
+        { t: 'tip', tone: 'info', md: "**This is** — o'zingizni tanishtirish (*This is Alex*), **Who's calling, please?** — qo'ng'iroq qilgandan kim ekanini so'rash. Inglizcha telefonda *I am Alex* deyilmaydi." },
+        { t: 'check', ex: { k: 'choice', q: "You call a company and want to introduce yourself. Which is natural?", opts: ["Good morning, this is Sara Lane from Orion Travel.", "Good morning, I am Sara Lane speaking.", "Good morning, who is speaking?", "Good morning, you are talking with Sara Lane."], a: 0, why: "Telefonda **This is + ism** — odatiy rasmiy shakl." } },
+      ],
+    },
+    {
+      title: "Kechikishni tushuntirish va tasdiqlash",
+      blocks: [
+        { t: 'p', md: "Muammo haqida xabar berganda **muloyim yumshatuvchi** iboralar va **majhul nisbat** ishlating: ular gapni rasmiy va xotirjam qiladi." },
+        { t: 'examples', items: [
+          { en: "I'm calling to apologise for the delay on your order.", uz: "Buyurtmangiz kechikkani uchun uzr so'rash maqsadida qo'ng'iroq qilyapman.", note: "Maqsadni boshda ayting: **I'm calling to + V1**." },
+          { en: "Unfortunately, the shipment has been held up at customs.", uz: "Afsuski, yuk bojxonada ushlanib qoldi.", note: "**has been held up** — majhul nisbat, aybdorni ko'rsatmaydi." },
+          { en: "I was wondering if we could move the meeting to Friday.", uz: "Uchrashuvni juma kuniga ko'chirsak bo'ladimi, deb o'ylayotgan edim.", note: "**I was wondering if…** — juda muloyim so'rov." },
+          { en: "Just to confirm, the delivery will arrive on Thursday before noon.", uz: "Tasdiqlash uchun: yetkazib berish payshanba kuni tushgacha keladi.", note: "**Just to confirm…** — ma'lumotni qaytarib tekshirish." },
+        ] },
+        { t: 'table', head: ['Nimani', 'Qanday aytiladi'], speak: [1], rows: [
+          ['Harflab aytish', 'Karimov: K as in kilo, A, R, I, M, O, V'],
+          ['Ikki xil harf', 'Brooks: B, R, double O, K, S'],
+          ['Telefon raqami', 'zero two zero, seven four six, one one eight'],
+          ['Elektron pochta', 'alex dot brooks at brightline dot com'],
+        ] },
+        { t: 'tip', tone: 'good', md: "Raqamlarni **guruhlab** va **bittadan** ayting. **0** telefon raqamida odatda *oh* yoki *zero* deyiladi, **ikki bir xil raqam** — *double* (*double five*). Tushunmasangiz: *Could you repeat that, please?* yoki *Could you spell that, please?*" },
+        { t: 'check', ex: { k: 'fill', q: "Brooks: B, R, ___ O, K, S.", a: ['double'], why: "Ketma-ket ikki bir xil harf yoki raqam: **double**." } },
+        { t: 'check', ex: { k: 'choice', q: "Which sentence is the most polite way to ask for a callback?", opts: ["Could you ask her to call me back, please?", "Tell her to call me.", "She must call me now.", "Say her to call me back."], a: 0, why: "**Could you ask her to…, please?** — muloyim. *Tell her* buyruqdek eshitiladi, *say her* esa grammatik xato." } },
+      ],
+    },
+    {
+      title: "Tipik xatolar (o'zbek tilidan)",
+      blocks: [
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ["May I ask who's calling?", "Could I speak to Ms Hart, please?", "Hold the line, please.", "Could you repeat that, please?"] },
+          bad: { title: 'Xato', items: ["Who are you speaking?", "I want to speak with Ms Hart.", "Wait a little, please.", "Please say again."] } },
+        { t: 'p', md: "*Kim gapirayapti?* ni so'zma-so'z tarjima qilamiz, *Men ... bilan gaplashmoqchiman* ni esa *I want to speak with…* deb aytamiz: bu buyruq kabi eshitiladi. Ingliz tilida **Could I speak to…?** yoki **I'd like to speak to…** deyiladi." },
+        { t: 'check', ex: { k: 'fix', wrong: 'I want to speak with Mr Evans.', a: ["I'd like to speak to Mr Evans, please.", 'Could I speak to Mr Evans, please?', 'I would like to speak to Mr Evans, please.', 'Could I speak to Mr Evans?', "I'd like to speak to Mr Evans."], why: "**I want** qo'pol eshitiladi. Muloyim: **Could I speak to…?** / **I'd like to speak to…**" } },
+        { t: 'check', ex: { k: 'fix', wrong: 'Wait a little, I connect you.', a: ["Hold the line, please. I'll put you through.", "Hold the line, please, I'll put you through.", "Hold the line. I'll put you through.", "Please hold the line. I'll put you through.", "Bear with me, I'll put you through.", "Bear with me. I'll put you through."], why: "**Hold the line / Bear with me** + **put (someone) through** — telefonda ulab berish." } },
+        { t: 'check', ex: { k: 'tf', q: "On the phone, *I am Alex* is the usual way to say who you are.", a: false, why: "Telefonda **This is Alex** deyiladi." } },
+      ],
+    },
+    {
+      title: "Tinglang: qo'ng'iroq",
+      blocks: [
+        { t: 'dialog', lines: [
+          { who: 'Sofia', en: "Good morning, Hartwell Foods. How can I help you?", uz: "Xayrli tong, Hartwell Foods. Sizga qanday yordam bera olaman?" },
+          { who: 'Alex', en: "Good morning. This is Alex Brooks from Brightline Supplies. Could I speak to Ms Hart, please?", uz: "Xayrli tong. Bu Brightline Suppliesdan Alex Brooks. Ms Hart bilan gaplashsam bo'ladimi?" },
+          { who: 'Sofia', en: "I'm afraid she's in a meeting until eleven. Would you like to leave a message?", uz: "Afsuski, u o'n birgacha yig'ilishda. Xabar qoldirasizmi?" },
+          { who: 'Alex', en: "Yes, please. I'm calling about order four-two-one. The shipment has been held up at customs, so it will arrive on Thursday instead of Tuesday.", uz: "Ha, iltimos. Men 421-buyurtma haqida qo'ng'iroq qilyapman. Yuk bojxonada ushlanib qoldi, shuning uchun seshanba o'rniga payshanba keladi." },
+          { who: 'Sofia', en: "Thursday instead of Tuesday. Could you spell your surname, please?", uz: "Seshanba o'rniga payshanba. Familiyangizni harflab bera olasizmi?" },
+          { who: 'Alex', en: "Of course. It's Brooks: B, R, double O, K, S.", uz: "Albatta. Brooks: B, R, ikkita O, K, S." },
+          { who: 'Sofia', en: "Thank you. And your number, in case she needs to call you back?", uz: "Rahmat. Qayta qo'ng'iroq qilishi kerak bo'lsa, raqamingiz?" },
+          { who: 'Alex', en: "Zero two zero, seven four six, one one eight. Please apologise to her on behalf of our company.", uz: "Nol ikki nol, yetti to'rt olti, bir bir sakkiz. Iltimos, kompaniyamiz nomidan undan uzr so'rang." },
+          { who: 'Sofia', en: "I will. I'll make sure she gets back to you this afternoon.", uz: "Albatta. U tushdan keyin sizga qo'ng'iroq qilishiga ishonch hosil qilaman." },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: 'Why is the order late?', opts: ['The shipment is held up at customs.', 'The supplier has closed.', 'Ms Hart cancelled it.', 'The company has no stock.'], a: 0, why: "*The shipment has been held up at customs.*" } },
+        { t: 'check', ex: { k: 'tf', q: 'Alex speaks to Ms Hart directly.', a: false, why: "Ms Hart yig'ilishda; Alex xabar qoldiradi." } },
+        { t: 'text', title: 'A voicemail message', voice: 'emma', en: "Good afternoon, this is Nina Roberts from Orion Travel, calling for Mr Evans. I'm calling about the contract we discussed last week. I'm afraid I will be unable to attend tomorrow's meeting, so I was wondering if we could move it to Friday. Could you please get back to me before the end of the day? My number is zero one six one, four nine six, zero two two two. Thank you very much, and goodbye.", uz: "Xayrli kun, bu Orion Travel'dan Nina Roberts, Mr Evans uchun qo'ng'iroq qilyapman. O'tgan hafta muhokama qilgan shartnomamiz haqida qo'ng'iroq qilyapman. Afsuski, ertangi yig'ilishga kela olmayman, shuning uchun uni juma kuniga ko'chirsak bo'ladimi, deb o'ylayotgan edim. Iltimos, kun tugagunicha menga qayta qo'ng'iroq qilsangiz. Raqamim: nol bir olti bir, to'rt to'qqiz olti, nol ikki ikki ikki. Katta rahmat, xayr." },
+      ],
+    },
+  ],
+  words: [
+    { en: 'hold the line', uz: "(telefonda) kutib turmoq", ipa: 'həʊld ðə laɪn', pos: 'phrase', ex: 'Could you hold the line, please? I will check.', exUz: "Iltimos, trubkani qo'ymay turasizmi? Men tekshiraman." },
+    { en: 'put through', uz: "telefonda ulab bermoq", ipa: 'ˈpʊt θruː', pos: 'phrasal verb', ex: "I'll put you through to the accounts department.", exUz: "Sizni hisob bo'limiga ulab beraman." },
+    { en: 'get back to', uz: "keyinroq javob bermoq, qayta qo'ng'iroq qilmoq", ipa: 'ˌget ˈbæk tuː', pos: 'phrasal verb', ex: "I'll get back to you by the end of the day.", exUz: "Men kun oxirigacha sizga javob beraman." },
+    { en: 'take a message', uz: "xabar qabul qilmoq", ipa: 'teɪk ə ˈmes.ɪdʒ', pos: 'phrase', ex: 'Can I take a message for Mr Evans?', exUz: "Mr Evansga xabar qoldirsam bo'ladimi?" },
+    { en: 'bear with me', uz: "sabr qiling, bir daqiqa kuting", ipa: 'beə wɪð miː', pos: 'phrase', ex: 'Bear with me while I find your file.', exUz: "Faylingizni topgunimcha sabr qiling." },
+    { en: 'on behalf of', uz: "...nomidan", ipa: 'ɒn bɪˈhɑːf ɒv', pos: 'phrase', ex: 'I am calling on behalf of our director.', exUz: "Men direktorimiz nomidan qo'ng'iroq qilyapman." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['hold the line', 'trubkani qo\'ymay kutmoq'], ['put through', 'ulab bermoq'], ['get back to', 'keyinroq javob bermoq'], ['take a message', 'xabar qabul qilmoq'], ['on behalf of', '...nomidan']] },
+    { k: 'choice', q: "Sofia: \"I'm afraid Ms Hart is in a meeting.\" Which reply is the most polite?", opts: ["Could I leave a message, please?", "Then I tell you my message.", "Call her immediately.", "I speak with her later, ok?"], a: 0, why: "**Could I leave a message, please?** — muloyim so'rov." },
+    { k: 'fill', q: "Hold the line, please. I'll put you ___ to the sales team.", a: ['through'], why: "**put (someone) through (to)** — telefonda ulab bermoq." },
+    { k: 'listen', say: "I'm afraid he's not available at the moment.", opts: ["I'm afraid he's not available at the moment.", "I'm afraid he's not available at the meeting.", "I'm afraid she's not available at the moment.", "I'm afraid he wasn't available at the moment."], a: 0 },
+    { k: 'order', uz: "Men sizga kun oxirigacha qayta aloqaga chiqaman.", words: ["I'll", 'get', 'back', 'to', 'you', 'by', 'the', 'end', 'of', 'the', 'day.'], extra: ['return', 'at'], alt: [['I', 'will', 'get', 'back', 'to', 'you', 'by', 'the', 'end', 'of', 'the', 'day.']], why: "**get back to + kishi** — keyinroq javob bermoq." },
+    { k: 'tf', q: "On the phone it is natural to say *Who are you speaking?*", a: false, why: "To'g'ri: **Who's calling, please?** yoki **May I ask who's calling?**" },
+    { k: 'fix', wrong: 'Please say again your number.', a: ['Could you repeat your number, please?', 'Could you say your number again, please?', 'Could you repeat that, please?', 'Could you repeat the number, please?', 'Could you say that again, please?'], why: "*Please say again* — so'zma-so'z tarjima. Muloyim: **Could you repeat…, please?**" },
+    { k: 'translate', uz: "Afsuski, u hozir yig'ilishda.", a: ["I'm afraid he's in a meeting at the moment.", "I'm afraid she's in a meeting at the moment.", "I'm afraid he is in a meeting at the moment.", "I'm afraid she is in a meeting at the moment.", "I'm afraid he's in a meeting now.", "I'm afraid she's in a meeting now.", "Unfortunately, he's in a meeting at the moment.", "Unfortunately, she's in a meeting at the moment."], why: "**I'm afraid …** — yomon yangilikni yumshatadi." },
+    { k: 'dictation', say: 'Just to confirm, the delivery will arrive on Thursday morning.', a: ['Just to confirm, the delivery will arrive on Thursday morning.'], uz: "Tasdiqlash uchun: yetkazib berish payshanba ertalab keladi." },
+    { k: 'choice', q: "How do you say the name *Cooper* when you spell it?", opts: ['C, double O, P, E, R', 'C, O, double P, E, R', 'C, two O, one P, E, R', 'Double C, O, P, E, R'], a: 0, why: "Cooper = C-O-O-P-E-R: ikkita **O** → **double O**." },
+    { k: 'fix', wrong: 'I apologise you for the delay.', a: ['I apologise for the delay.', 'I apologise to you for the delay.', "I'd like to apologise for the delay.", 'I would like to apologise for the delay.', 'We apologise for the delay.', 'We apologise to you for the delay.'], why: "**apologise (to someone) for something**: *you* dan oldin **to** kerak yoki uni tushirib qoldiring." },
+    { k: 'tf', q: "*Zero two zero, seven four six, one one eight* is a normal way to read a phone number.", a: true, why: "Raqamlar bittadan va guruhlab aytiladi." },
+    { k: 'choice', q: "I'm calling ___ our director, who is unable to attend.", opts: ['on behalf of', 'instead for', 'in front of', 'by name of'], a: 0, why: "**on behalf of** — ...nomidan." },
+    { k: 'speak', say: "Good morning, this is Alex Brooks from Brightline Supplies. Could I speak to Ms Hart, please?", uz: "Xayrli tong, bu Brightline Suppliesdan Alex Brooks. Ms Hart bilan gaplashsam bo'ladimi?" },
+  ],
+  quiz: [
+    { k: 'choice', q: "Which is the best way to answer the phone in an office?", opts: ["Good morning, Orion Travel. How can I help you?", "Yes? Who are you?", "Speak, I am listening.", "Hello, what do you want?"], a: 0, why: "Rasmiy salomlashuv + kompaniya nomi + yordam taklifi." },
+    { k: 'choice', q: "I'll ask her to ___ you this afternoon.", opts: ['get back to', 'get back', 'back to', 'go back for'], a: 0, why: "**get back to + kishi**." },
+    { k: 'fill', q: "Could you ___ that, please? (give the letters one by one)", a: ['spell'], why: "Harflab aytish: **spell**." },
+    { k: 'order', uz: "Xabar qoldirmoqchimisiz?", words: ['Would', 'you', 'like', 'to', 'leave', 'a', 'message?'], extra: ['take', 'do'], why: "**Would you like to + V1?**" },
+    { k: 'fix', wrong: 'I am Alex from Brightline, I call about my order.', a: ["This is Alex from Brightline. I'm calling about my order.", "This is Alex from Brightline, I'm calling about my order.", "This is Alex from Brightline, and I'm calling about my order."], why: "Telefonda **This is…**; hozirgi harakat uchun **I'm calling**." },
+    { k: 'listen', say: 'Bear with me while I check your file.', opts: ['Bear with me while I check your file.', 'Bare with me while I check your file.', 'Bear with me when I checked your file.', 'Care for me while I check your file.'], a: 0 },
+    { k: 'tf', q: "*Hold the line, please* means you ask the caller to wait.", a: true, why: "**hold the line** — trubkani qo'ymay kuting." },
+    { k: 'translate', uz: "Men sizga qayta qo'ng'iroq qilaman.", a: ["I'll call you back.", 'I will call you back.', "I'll get back to you.", 'I will get back to you.', "I'll ring you back.", 'I will ring you back.'], why: "**call back / get back to** — qayta aloqaga chiqmoq." },
+  ],
+  summary: [
+    "Telefonda o'zingizni **This is …** bilan tanishtiring, maqsadni **I'm calling about / to…** bilan ayting.",
+    "Muloyimlik: **Could I speak to…?**, **I'm afraid…**, **I was wondering if…**, **Just to confirm…**; kechikish haqida majhul nisbat: *has been held up*.",
+    "Ism va raqam: **spell**, **double O**, raqamlarni bittadan va guruhlab ayting; tushunmasangiz **Could you repeat that, please?**",
+    "Xatolar: *Who are you speaking?* → **Who's calling?**; *I want to speak with…* → **Could I speak to…?**; *Wait a little* → **Hold the line**.",
+    "Yangi so'zlar: **hold the line, put through, get back to, take a message, bear with me, on behalf of**.",
+  ],
+  homework: "Mijozga yetkazib berish kechikkani haqida 40-60 so'zli ovozli xabar (voicemail) yozing: tanishtirish, sabab, uzr, qayta aloqa raqami. Keyin uni ovoz chiqarib yozib oling.",
+};
+
+export default lesson;

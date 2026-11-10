@@ -1,0 +1,125 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (grammar): dependent prepositions (verb, adjective, noun + preposition), prepositions followed by -ing, Uzbek interference.
+const lesson: Lesson = {
+  id: 'u27-l12',
+  title: 'Verbs followed by prepositions',
+  titleUz: "Fe'l + predlog: depend on, apologise for, succeed in, insist on, object to",
+  mini: true,
+  kind: 'grammar',
+  goal: "Fe'l, sifat va otlardan keyin keladigan **qat'iy predloglarni** (*rely on, succeed in, insist on, object to, responsible for*) to'g'ri ishlatasiz, predlogdan keyin **-ing** qo'yasiz va o'zbek tilidan kelib chiqadigan xatolarni (*discuss about, marry with, enter to*) tuzatasiz.",
+  slides: [
+    {
+      title: "Qat'iy predlogli fe'llar",
+      blocks: [
+        { t: 'p', md: "Ko'p fe'llar **o'zlariga xos predlog** bilan keladi. Predlogni ma'noga qarab taxmin qilib bo'lmaydi, uni fe'l bilan birga yodlash kerak. Ish va rasmiy yozuvda bu juda ko'p uchraydi." },
+        { t: 'table', head: ['Fe\'l + predlog', 'Misol'], speak: [1], rows: [
+          ['rely on', 'We rely on our suppliers to deliver on time.'],
+          ['succeed in', 'She succeeded in winning a big contract.'],
+          ['insist on', 'The manager insisted on checking every report.'],
+          ['object to', 'Several staff objected to the new schedule.'],
+          ['apologise for / to', 'He apologised to the client for the mistake.'],
+          ['comply with', 'All companies must comply with the safety rules.'],
+        ] },
+        { t: 'tip', tone: 'info', md: "**apologise** da ikkita predlog bor: kimga — **to**, nima uchun — **for**: *I apologise to you for the delay.* Ikkalasini birga ham, faqat bittasini ham aytish mumkin: *I apologise for the delay.*" },
+        { t: 'check', ex: { k: 'choice', q: "You can always ___ Daniel. He never misses a deadline.", opts: ['rely on', 'rely at', 'rely of', 'rely to'], a: 0, why: "**rely on** — ishonmoq, tayanmoq." } },
+      ],
+    },
+    {
+      title: "Predlogdan keyin -ing",
+      blocks: [
+        { t: 'p', md: "Predlogdan keyin fe'l kelsa, u har doim **-ing** shaklida bo'ladi (gerund). *to* ham predlog bo'lishi mumkin: **object to**, **look forward to**, **be used to**." },
+        { t: 'examples', items: [
+          { en: "She succeeded in finding a cheaper supplier.", uz: "U arzonroq yetkazib beruvchi topishga muvaffaq bo'ldi.", note: "**succeed in + -ing**." },
+          { en: "He insisted on paying for the whole meeting.", uz: "U butun yig'ilish xarajatini o'zi to'lashda turib oldi.", note: "**insist on + -ing**." },
+          { en: "I apologise for being late.", uz: "Kechikkanim uchun uzr.", note: "**apologise for + -ing**." },
+          { en: "Many employees object to working at weekends.", uz: "Ko'plab xodimlar dam olish kunlari ishlashga qarshi.", note: "**object to + -ing**: bu yerda *to* — predlog." },
+        ] },
+        { t: 'tip', tone: 'warn', md: "*object to work*, *insist on to pay* kabi xatolarga yo'l qo'ymang. Predlogdan keyin **to + V1** emas, **-ing**. Agar ikkilansangiz, *to* dan keyin *it* qo'yib ko'ring: *I object to it* to'g'ri, demak *to* — predlog → **-ing**." },
+        { t: 'check', ex: { k: 'fill', q: "The team succeeded in ___ the project early. (finish)", a: ['finishing'], why: "**succeed in** — predlog → **-ing**." } },
+        { t: 'check', ex: { k: 'choice', q: "Which sentence is correct?", opts: ["She insisted on seeing the manager.", "She insisted on see the manager.", "She insisted to seeing the manager.", "She insisted in seeing the manager."], a: 0, why: "**insist on + -ing**." } },
+      ],
+    },
+    {
+      title: "Sifat va ot + predlog; tipik xatolar",
+      blocks: [
+        { t: 'table', head: ['Tur', 'Misol'], speak: [1], rows: [
+          ['Sifat', 'Who is responsible for the budget?'],
+          ['Sifat', 'He is capable of leading the whole department.'],
+          ['Ot', 'There is a reason for this change.'],
+          ['Ot', 'We need a solution to this problem.'],
+          ['Ot', 'There has been a sharp increase in demand for our services.'],
+        ] },
+        { t: 'p', md: "O'zbek tilida **-ni, -ga, -bilan** qo'shimchalari bor, shuning uchun ba'zi fe'llarga ortiqcha predlog qo'shamiz. Quyidagi fe'llar **predlogsiz** keladi:" },
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ['We discussed the plan.', 'He married a teacher.', 'She entered the room.', 'Please contact me by email.'] },
+          bad: { title: 'Xato', items: ['We discussed about the plan.', 'He married with a teacher.', 'She entered to the room.', 'Please contact with me by email.'] } },
+        { t: 'check', ex: { k: 'fix', wrong: 'We discussed about the budget yesterday.', a: ['We discussed the budget yesterday.'], why: "**discuss** predlogsiz keladi (*discuss something*). *Talk about* esa predlog bilan." } },
+        { t: 'check', ex: { k: 'fix', wrong: 'He is responsible of the sales team.', a: ['He is responsible for the sales team.'], why: "**responsible for** — mas'ul." } },
+        { t: 'check', ex: { k: 'tf', q: "*She entered to the meeting room.* — Gap to'g'ri.", a: false, why: "**enter** predlogsiz: *She entered the meeting room.*" } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang",
+      blocks: [
+        { t: 'text', title: 'A difficult week', voice: 'emma', en: "Last week our department had a difficult time. The manager insisted on finishing the report by Friday, but several people objected to working overtime. In the end, we succeeded in agreeing on a compromise: the team would work late on Wednesday only. Our new colleague, Tom, is responsible for collecting the data, and I rely on him to send it on time. When he sent it a day late, he apologised to me for the delay, and I thanked him for being honest. I think a good team depends on honesty and clear communication.", uz: "O'tgan hafta bo'limimizda qiyin vaqt bo'ldi. Menejer hisobotni juma kuniga tugatishda turib oldi, lekin bir nechta odam qo'shimcha ishlashga qarshi chiqdi. Oxir-oqibat biz kelishuvga erishdik: jamoa faqat chorshanba kuni kechgacha ishlaydi. Yangi hamkasbimiz Tom ma'lumot yig'ishga mas'ul, men esa uning vaqtida yuborishiga tayanaman. U ma'lumotni bir kun kechiktirib yuborganda, kechikish uchun mendan uzr so'radi, men esa halol bo'lgani uchun rahmat dedim. Menimcha, yaxshi jamoa halollik va aniq muloqotga tayanadi." },
+        { t: 'check', ex: { k: 'choice', q: 'What did several people object to?', opts: ['working overtime', 'sending the data', 'meeting Tom', 'finishing on Friday'], a: 0, why: "*several people objected to working overtime.*" } },
+        { t: 'dialog', lines: [
+          { who: 'Nilufar', en: "Bobur, are you responsible for the client report?", uz: "Bobur, mijoz hisoboti uchun sen mas'ulmisan?" },
+          { who: 'Bobur', en: "Yes, but I'm relying on Sara to send me the figures.", uz: "Ha, lekin raqamlarni Sara yuborishiga tayanyapman." },
+          { who: 'Nilufar', en: "Our director insists on seeing it before noon.", uz: "Direktorimiz uni tushgacha ko'rishda turib oldi." },
+          { who: 'Bobur', en: "I know. I apologised to him for the last delay, so I won't be late again.", uz: "Bilaman. Oxirgi kechikish uchun undan uzr so'radim, shuning uchun yana kechikmayman." },
+          { who: 'Nilufar', en: "Good. Did you discuss the changes with Sara?", uz: "Yaxshi. O'zgarishlarni Sara bilan muhokama qildingmi?" },
+          { who: 'Bobur', en: "Yes, and she succeeded in finding the missing data.", uz: "Ha, va u yetishmayotgan ma'lumotni topishga muvaffaq bo'ldi." },
+        ] },
+        { t: 'check', ex: { k: 'tf', q: 'Bobur is waiting for Sara to send him some figures.', a: true, why: "*I'm relying on Sara to send me the figures.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'rely on', uz: 'tayanmoq, ishonmoq', ipa: 'rɪˈlaɪ ɒn', pos: 'verb', ex: 'Our customers rely on us for fast delivery.', exUz: "Mijozlarimiz tez yetkazib berish uchun bizga tayanadi." },
+    { en: 'succeed in', uz: "muvaffaq bo'lmoq", ipa: 'səkˈsiːd ɪn', pos: 'verb', ex: 'They succeeded in opening a branch abroad.', exUz: "Ular chet elda filial ochishga muvaffaq bo'lishdi." },
+    { en: 'insist on', uz: 'turib olmoq, talab qilmoq', ipa: 'ɪnˈsɪst ɒn', pos: 'verb', ex: 'The client insisted on a written contract.', exUz: "Mijoz yozma shartnomada turib oldi." },
+    { en: 'object to', uz: 'qarshi bo\'lmoq, e\'tiroz bildirmoq', ipa: 'əbˈdʒekt tuː', pos: 'verb', ex: 'I object to being treated like this.', exUz: "Menga bunday munosabatda bo'lishlariga e'tirozim bor." },
+    { en: 'comply with', uz: 'rioya qilmoq, amal qilmoq', ipa: 'kəmˈplaɪ wɪð', pos: 'verb', ex: 'All staff must comply with the new rules.', exUz: "Barcha xodimlar yangi qoidalarga rioya qilishi shart." },
+    { en: 'be responsible for', uz: "mas'ul bo'lmoq", ipa: 'bi rɪˈspɒn.sə.bəl fɔː', pos: 'phrase', ex: 'She is responsible for training new employees.', exUz: "U yangi xodimlarni o'qitishga mas'ul." },
+    { en: 'be capable of', uz: "qodir bo'lmoq", ipa: 'bi ˈkeɪ.pə.bəl ɒv', pos: 'phrase', ex: 'He is capable of working under great pressure.', exUz: "U katta bosim ostida ishlashga qodir." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['rely on', 'tayanmoq'], ['succeed in', "muvaffaq bo'lmoq"], ['insist on', 'turib olmoq'], ['object to', "e'tiroz bildirmoq"], ['comply with', 'rioya qilmoq']] },
+    { k: 'choice', q: "She apologised ___ the delay.", opts: ['for', 'about', 'of', 'on'], a: 0, why: "**apologise for** + sabab." },
+    { k: 'fill', q: "He insisted ___ paying for the lunch. (preposition)", a: ['on'], why: "**insist on** + -ing." },
+    { k: 'choice', q: "Many staff object ___ the new dress code.", opts: ['to', 'for', 'at', 'with'], a: 0, why: "**object to** + ot yoki -ing." },
+    { k: 'listen', say: 'We succeeded in reducing the costs.', opts: ['We succeeded in reducing the costs.', 'We succeeded to reduce the costs.', 'We succeeded on reducing the costs.', 'We succeed in reducing the costs.'], a: 0 },
+    { k: 'fix', wrong: 'We discussed about the new project.', a: ['We discussed the new project.', 'We talked about the new project.'], why: "**discuss** predlogsiz; **talk about** — predlog bilan." },
+    { k: 'order', uz: "U yangi mijoz topishga muvaffaq bo'ldi.", words: ['She', 'succeeded', 'in', 'finding', 'a', 'new', 'client.'], extra: ['to', 'find'], why: "**succeed in + -ing**." },
+    { k: 'tf', q: "*I object to work at weekends.* — Gap to'g'ri.", a: false, why: "*object to* dagi **to** — predlog → **object to working**." },
+    { k: 'fix', wrong: 'He is responsible of the budget.', a: ['He is responsible for the budget.'], why: "**responsible for**." },
+    { k: 'translate', uz: "Men sizning yordamingizga tayanaman.", a: ['I rely on your help.', "I'm relying on your help.", 'I am relying on your help.', 'I rely on you for help.', "I'm relying on you for help."], why: "**rely on** + ot." },
+    { k: 'choice', q: "Which sentence is correct?", opts: ["He married a colleague from the office.", "He married with a colleague from the office.", "He married to a colleague from the office.", "He got married a colleague from the office."], a: 0, why: "**marry** predlogsiz. (*get married to* esa *to* bilan.)" },
+    { k: 'dictation', say: 'I apologise for being late.', a: ['I apologise for being late.'], uz: "Kechikkanim uchun uzr." },
+    { k: 'fill', q: "All employees must comply ___ the safety rules. (preposition)", a: ['with'], why: "**comply with**." },
+    { k: 'fix', wrong: 'She entered to the manager\'s office.', a: ["She entered the manager's office."], why: "**enter** predlogsiz." },
+    { k: 'speak', say: 'Our customers rely on us for fast delivery.', uz: "Mijozlarimiz tez yetkazib berish uchun bizga tayanadi." },
+  ],
+  quiz: [
+    { k: 'choice', q: "The manager insisted ___ a full report.", opts: ['on having', 'to have', 'in having', 'on have'], a: 0, why: "**insist on + -ing**." },
+    { k: 'choice', q: "Who is responsible ___ the new website?", opts: ['for', 'of', 'to', 'about'], a: 0, why: "**responsible for**." },
+    { k: 'fill', q: "They succeeded ___ opening a second office. (preposition)", a: ['in'], why: "**succeed in**." },
+    { k: 'fix', wrong: 'Please contact with me if you have questions.', a: ['Please contact me if you have questions.'], why: "**contact** predlogsiz." },
+    { k: 'order', uz: "Bu kompaniya Yevropa bozoriga tayanadi.", words: ['This', 'company', 'relies', 'on', 'the', 'European', 'market.'], extra: ['in', 'rely'], why: "**rely on**; ega *company* birlik → **relies**." },
+    { k: 'tf', q: "*He apologised for arrive late.* — Gap to'g'ri.", a: false, why: "Predlogdan keyin **-ing**: *apologised for arriving late*." },
+    { k: 'choice', q: "There has been a sharp increase ___ demand.", opts: ['in', 'of', 'on', 'at'], a: 0, why: "**an increase in** (miqdor o'sishi)." },
+    { k: 'translate', uz: "U bu muammoni hal qilishga muvaffaq bo'ldi.", a: ['She succeeded in solving this problem.', 'He succeeded in solving this problem.', 'She succeeded in solving the problem.', 'He succeeded in solving the problem.', 'She succeeded in solving that problem.', 'He succeeded in solving that problem.'], why: "**succeed in + -ing**." },
+  ],
+  summary: [
+    "Fe'llar o'z predlogi bilan yodlanadi: **rely on, succeed in, insist on, object to, comply with, apologise for / to**.",
+    "Predlogdan keyin fe'l **-ing** bo'ladi: *succeed in finding*, *object to working*, *apologise for being late*.",
+    "Sifat va ot ham predlog talab qiladi: **responsible for, capable of, a reason for, a solution to, an increase in**.",
+    "Predlogsiz fe'llar: *discuss, marry, enter, contact* (xato: *discuss about, marry with, enter to, contact with*).",
+    "Yangi so'zlar: **rely on, succeed in, insist on, object to, comply with, be responsible for, be capable of**.",
+  ],
+  homework: "Ishdagi yoki o'qishdagi vaziyat haqida 6 ta gap yozing: har birida bittadan **rely on, succeed in, insist on, object to, apologise for, be responsible for** ishlating. Predlogdan keyin -ing borligini tekshiring.",
+};
+
+export default lesson;
