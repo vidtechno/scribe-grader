@@ -65,7 +65,7 @@ const lesson: Lesson = {
         },
         { t: "p", md: "**Raise awareness** dan keyin **of** yoki **about** keladi: *raise awareness of the problem*. Fe'l **raise**, **rise** emas (*rise* — o'z-o'zidan ko'tarilish: *prices rise*)." },
         { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["The charity wants to raise awareness of cyberbullying.", "The charity wants to rise awareness of cyberbullying.", "The charity wants to raise an awareness about cyberbullying.", "The charity wants to go viral awareness of cyberbullying."], a: 0, why: "**raise awareness of + ot**: *rise* emas, *an awareness* emas." } },
-        { t: "check", ex: { k: "fill", q: "The clip ___ viral after a famous actor shared it.", a: ["went", "has gone", "had gone", "goes"], uz: "Mashhur aktyor ulashgandan keyin klip tarqalib ketdi.", why: "**go viral**: o'tgan zamonda *went viral*." } },
+        { t: "check", ex: { k: "fill", q: "The clip ___ viral after a famous actor shared it.", a: ["went", "has gone"], uz: "Mashhur aktyor ulashgandan keyin klip tarqalib ketdi.", why: "**go viral**: o'tgan zamonda *went viral*." } },
       ],
     },
     {
@@ -185,7 +185,7 @@ const lesson: Lesson = {
     { k: "choice", q: "A local newspaper was the first to ___ the news about the factory closing.", opts: ["break", "raise", "spread", "go"], a: 0, why: "**break the news** — yangilikni birinchi bo'lib yetkazmoq." },
     { k: "choice", q: "This game is so ___ that I forget to sleep.", opts: ["addicted", "addictive", "addiction", "addict"], a: 1, why: "Narsa haqida sifat: **addictive**." },
     { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["The news is surprising.", "The news are surprising.", "A news is surprising.", "The newses are surprising."], a: 0, why: "**news** sanalmaydigan ot, fe'l birlikda: *is*." },
-    { k: "fill", q: "The algorithm recommends videos you might like, based on your watching ___. (history)", a: ["history"], uz: "Algoritm ko'rish tarixingiz asosida sizga yoqishi mumkin bo'lgan videolarni tavsiya qiladi.", why: "Matnda berilgan so'z: *watching history*." },
+    { k: "fill", q: "Our phones track our location all day, which some people see as a form of ___. (kuzatuv)", a: ["surveillance"], uz: "Telefonlarimiz kun bo'yi joylashuvimizni kuzatadi, ba'zilar buni kuzatuv shakli deb biladi.", why: "Kuzatuv, nazorat → **surveillance**." },
     { k: "fill", q: "A famous ___ shared the post, and it quickly went viral. (influence)", a: ["influencer"], uz: "Mashhur influenser postni ulashdi va u tezda tarqalib ketdi.", why: "Odam: **influence + er = influencer**." },
     { k: "order", uz: "Kampaniya onlayn xavfsizlik haqida xabardorlikni oshirmoqchi.", words: ["The", "campaign", "wants", "to", "raise", "awareness", "of", "online", "safety."], extra: ["rise", "an"], why: "**raise awareness of**." },
     { k: "translate", uz: "Men gazetaga obunani bekor qildim.", a: ["I cancelled my subscription to the newspaper.", "I canceled my subscription to the newspaper.", "I cancelled my newspaper subscription.", "I canceled my newspaper subscription.", "I have cancelled my subscription to the newspaper.", "I've cancelled my subscription to the newspaper."], why: "**cancel a subscription (to)**." },
