@@ -101,7 +101,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "I'd rather you ___ me the truth.", opts: ['told', 'telling', 'to tell', 'would told'], a: 0, why: "**would rather** + boshqa odam → **Past Simple**." },
     { k: 'choice', q: "She was ___ about her new job.", opts: ['thrilled', 'thrilling', 'thrill', 'thrills'], a: 0, why: "Odamning his-tuyg'usi → **-ed** sifat." },
     { k: 'fill', q: "Study harder, ___ you will fail the exam.", a: ['otherwise', 'or else'], why: "Aks holda → **otherwise / or else**." },
-    { k: 'fill', q: "I ___ have spent so much on a phone. It was a waste.", hint: "tanqid", a: ["shouldn't", "should not", "ought not to", "oughtn't to"], why: "O'tgan haqida afsus → **shouldn't have + V3**." },
+    { k: 'fill', q: "I ___ have spent so much on a phone. It was a waste.", hint: "tanqid", a: ["shouldn't", "should not", "ought not to", "oughtn't to", "needn't", "need not"], why: "O'tgan haqida afsus → **shouldn't have + V3**." },
     { k: 'tf', q: "**as if** dan keyin hozirgi haqiqiy bo'lmagan voqea uchun **were** ishlatiladi.", a: true, why: "Misol: *She talks as if she were the manager.*" },
     { k: 'fix', wrong: "If I would have studied medicine, I would be a doctor now.", a: ["If I had studied medicine, I would be a doctor now."], why: "**If** dan keyin **Past Perfect**." },
     { k: 'order', uz: "Bir hafta kutganingizni afzal ko'raman.", words: ['I', 'would', 'rather', 'you', 'waited', 'a', 'week.'], extra: ['wait', 'will'], why: "**would rather** + gap → **Past Simple**." },
