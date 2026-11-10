@@ -141,7 +141,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "advocate", uz: "targ'ib qilmoq, qo'llab-quvvatlamoq", ipa: "ˈæd.və.keɪt", pos: "verb", ex: "Many doctors advocate a diet with less sugar.", exUz: "Ko'p shifokorlar shakari kam parhezni qo'llab-quvvatlaydi." },
-    { en: "reinforce", uz: "mustahkamlamoq, kuchaytirmoq", ipa: "ˌriː.ɪnˈfɔːs", pos: "verb", ex: "The example reinforces the writer's main point.", exUz: "Misol muallifning asosiy fikrini mustahkamlaydi." },
+    { en: "bolster", uz: "mustahkamlamoq, kuchaytirmoq", ipa: "ˈbəʊl.stə", pos: "verb", ex: "The new figures bolster the writer's main point.", exUz: "Yangi raqamlar muallifning asosiy fikrini mustahkamlaydi." },
     { en: "underlying", uz: "asosiy, tub (yashirin)", ipa: "ˌʌn.dəˈlaɪ.ɪŋ", pos: "adjective", ex: "The underlying cause of the problem is poor planning.", exUz: "Muammoning tub sababi — yomon rejalashtirish." },
     { en: "rationale", uz: "asos, mantiqiy tushuntirish", ipa: "ˌræʃ.əˈnɑːl", pos: "noun", ex: "What is the rationale behind this decision?", exUz: "Bu qarorning mantiqiy asosi nima?" },
     { en: "stance", uz: "pozitsiya, qarash", ipa: "stæns", pos: "noun", ex: "The minister took a firm stance on the issue.", exUz: "Vazir bu masalada qat'iy pozitsiya egalladi." },
@@ -164,7 +164,7 @@ const lesson: Lesson = {
     { k: "fix", wrong: "Rarely we go abroad in winter.", a: ["Rarely do we go abroad in winter."], hint: "do kerak", why: "**Rarely + do + ega**." },
     { k: "fix", wrong: "He studied hard for to pass the exam.", a: ["He studied hard to pass the exam.", "He studied hard in order to pass the exam."], hint: "for ortiqcha", why: "Maqsad: **to + fe'l**." },
     { k: "fix", wrong: "What she wants it is a quiet room.", a: ["What she wants is a quiet room."], hint: "it ortiqcha", why: "**What she wants** — ega, **it** kerak emas." },
-    { k: "match", pairs: [["advocate", "targ'ib qilmoq"], ["reinforce", "mustahkamlamoq"], ["stance", "pozitsiya"], ["compelling", "ishontiruvchi"], ["underlying", "tub, yashirin"]] },
+    { k: "match", pairs: [["advocate", "targ'ib qilmoq"], ["bolster", "mustahkamlamoq"], ["stance", "pozitsiya"], ["compelling", "ishontiruvchi"], ["underlying", "tub, yashirin"]] },
     { k: "tf", q: "**Although he was ill, but he came.** — bu gap to'g'ri.", a: false, why: "**Although** va **but** bitta gapda birga ishlatilmaydi." },
     { k: "dictation", say: "What matters is not the price but the quality.", uz: "Muhimi narx emas, sifat.", why: "Wh-cleft: **What matters is …**" },
     { k: "choice", q: "Which sentence is a well-hedged claim?", opts: ["Teenagers tend to sleep too little.", "All teenagers sleep too little.", "Everybody knows teenagers sleep little.", "Teenagers never sleep."], a: 0, why: "**tend to** — tendensiya, mutlaq emas." },

@@ -136,7 +136,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "George", en: "Sara, I heard the launch was delayed again. Was it the designers who missed the deadline?", uz: "Sara, ishga tushirish yana kechiktirilganini eshitdim. Muddatni o'tkazib yuborgan dizaynerlar bo'ldimi?" },
             { who: "Sara", en: "No, it wasn't the designers. It was the testing that took longer than we anticipated.", uz: "Yo'q, dizaynerlar emas. Biz kutganimizdan uzoqroq cho'zilgani sinov bo'ldi." },
-            { who: "George", en: "So what do we do now?", uz: "Endi nima qilamiz?" },
+            { who: "George", en: "So what do we do now? Should we prioritise the testing?", uz: "Endi nima qilamiz? Sinovni birinchi o'ringa qo'yishimiz kerakmi?" },
             { who: "Sara", en: "What I'd suggest is a short delay, not a complete change of plan.", uz: "Men qisqa kechiktirishni taklif qilardim, rejani butunlay o'zgartirishni emas." },
             { who: "George", en: "That sounds fair. What worries me, though, is the client's reaction.", uz: "Bu adolatli eshitiladi. Lekin meni mijozning munosabati tashvishlantiryapti." },
             { who: "Sara", en: "All they want is an honest update. It's the surprises that they hate.", uz: "Ular faqat halol yangilik kutadi. Ular yoqtirmaydigan narsa — kutilmagan holatlar." },
@@ -158,7 +158,7 @@ const lesson: Lesson = {
     { en: "emphasis", uz: "urg'u, ahamiyat berish", ipa: "ˈem.fə.sɪs", pos: "noun", ex: "The teacher put great emphasis on accuracy.", exUz: "O'qituvchi aniqlikka katta urg'u berdi." },
     { en: "notion", uz: "tushuncha, g'oya", ipa: "ˈnəʊ.ʃən", pos: "noun", ex: "The notion that money brings happiness is not always true.", exUz: "Pul baxt keltiradi degan tushuncha har doim ham to'g'ri emas." },
     { en: "unaware", uz: "bexabar, ogoh emas", ipa: "ˌʌn.əˈweər", pos: "adjective", ex: "Many drivers are unaware of the new rule.", exUz: "Ko'p haydovchilar yangi qoidadan bexabar." },
-    { en: "anticipate", uz: "oldindan kutmoq, taxmin qilmoq", ipa: "ænˈtɪs.ɪ.peɪt", pos: "verb", ex: "We didn't anticipate such a strong reaction.", exUz: "Biz bunday kuchli munosabatni kutmagan edik." },
+    { en: "prioritise", uz: "ustuvor qilmoq, birinchi o'ringa qo'ymoq", ipa: "praɪˈɒr.ɪ.taɪz", pos: "verb", ex: "What we need to do is prioritise the most urgent tasks.", exUz: "Biz eng shoshilinch vazifalarni birinchi o'ringa qo'yishimiz kerak." },
   ],
   practice: [
     { k: "choice", q: "Which sentence puts the focus on **the price**?", opts: ["The price worried me.", "It was the price that worried me.", "I was worried about prices.", "Prices worried me a lot."], a: 1, why: "**It was … that** gapning markazida *the price* turadi." },
@@ -172,7 +172,7 @@ const lesson: Lesson = {
     { k: "translate", uz: "Meni xafa qilgani uning aytgan gapi emas, ohangi edi.", a: ["It wasn't what he said that upset me, it was his tone.", "It wasn't what he said that upset me, it was the way he said it.", "It was not what he said that upset me, it was his tone."], why: "Qarama-qarshi qo'yish uchun it-cleft: **It wasn't … that …, it was …**" },
     { k: "fix", wrong: "What I need it is a long rest.", a: ["What I need is a long rest."], hint: "it ortiqcha", why: "**What I need** — butun qism ega; qo'shimcha **it** kerak emas." },
     { k: "fix", wrong: "It was in 2018 who we opened the shop.", a: ["It was in 2018 that we opened the shop."], hint: "who faqat odam uchun", why: "Vaqt ajratilgan, shuning uchun **that**." },
-    { k: "match", pairs: [["flaw", "kamchilik"], ["initiative", "tashabbus"], ["unaware", "bexabar"], ["emphasis", "urg'u"], ["anticipate", "oldindan kutmoq"]] },
+    { k: "match", pairs: [["flaw", "kamchilik"], ["initiative", "tashabbus"], ["unaware", "bexabar"], ["emphasis", "urg'u"], ["prioritise", "ustuvor qilmoq"]] },
     { k: "tf", q: "**The thing that annoys me is the noise.** gapi wh-cleft turiga kiradi (*the thing that* = *what*).", a: true, why: "**The thing that …** *What …* o'rniga ishlatiladi va xuddi shu vazifani bajaradi." },
     { k: "choice", q: "Qaysi gapda cleft noto'g'ri qo'llangan?", opts: ["It was Tom who broke the window.", "What I want is to sleep.", "It was last week who I called him.", "All I need is a quiet room."], a: 2, why: "Vaqt (*last week*) uchun **that**, **who** emas: *It was last week that I called him.*" },
     { k: "dictation", say: "What surprised me was how quiet it was.", uz: "Meni hayron qoldirgani — bu yer qanchalik jim edi.", why: "**What surprised me was how …** — wh-cleft." },

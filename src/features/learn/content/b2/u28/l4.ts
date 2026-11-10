@@ -138,7 +138,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "hence", uz: "shuning uchun, demak", ipa: "hens", pos: "adverb", ex: "Demand is rising; hence the long queues.", exUz: "Talab oshmoqda; shuning uchun uzun navbatlar." },
-    { en: "shortage", uz: "tanqislik, yetishmovchilik", ipa: "ˈʃɔː.tɪdʒ", pos: "noun", ex: "There is a shortage of nurses in many hospitals.", exUz: "Ko'p kasalxonalarda hamshiralar yetishmaydi." },
+    { en: "shortfall", uz: "kamomad, yetishmovchilik", ipa: "ˈʃɔːt.fɔːl", pos: "noun", ex: "The company reported a shortfall of two million pounds.", exUz: "Kompaniya ikki million funt kamomad haqida xabar berdi." },
     { en: "ensure", uz: "ta'minlamoq, kafolatlamoq", ipa: "ɪnˈʃɔː", pos: "verb", ex: "Please ensure that all windows are closed.", exUz: "Iltimos, barcha oynalar yopiq ekanini ta'minlang." },
     { en: "trigger", uz: "sabab bo'lmoq, qo'zg'atmoq", ipa: "ˈtrɪɡ.ə", pos: "verb", ex: "The rise in prices triggered protests.", exUz: "Narxlar oshishi noroziliklarni qo'zg'atdi." },
     { en: "stem from", uz: "…dan kelib chiqmoq", ipa: "stem frɒm", pos: "phrasal verb", ex: "Many health problems stem from stress.", exUz: "Ko'p sog'liq muammolari stressdan kelib chiqadi." },
@@ -161,7 +161,7 @@ const lesson: Lesson = {
     { k: "translate", uz: "Ob-havo tufayli reys bekor qilindi.", a: ["The flight was cancelled because of the weather.", "Owing to the weather, the flight was cancelled.", "The flight was cancelled owing to the weather.", "The flight was cancelled due to the weather.", "Due to the weather, the flight was cancelled."], why: "Sabab ot bilan: **because of / owing to / due to**." },
     { k: "fix", wrong: "Because of it was raining, we stayed at home.", a: ["Because it was raining, we stayed at home.", "Because of the rain, we stayed at home."], hint: "gap yoki ot", why: "**because of** + ot, **because** + gap." },
     { k: "fix", wrong: "I use this app for to learn new words.", a: ["I use this app to learn new words.", "I use this app for learning new words."], hint: "for to — xato", why: "Maqsad: **to + fe'l** yoki **for + -ing**." },
-    { k: "match", pairs: [["hence", "shuning uchun"], ["shortage", "tanqislik"], ["ensure", "ta'minlamoq"], ["trigger", "qo'zg'atmoq"], ["stem from", "…dan kelib chiqmoq"]] },
+    { k: "match", pairs: [["hence", "shuning uchun"], ["shortfall", "kamomad"], ["ensure", "ta'minlamoq"], ["trigger", "qo'zg'atmoq"], ["stem from", "…dan kelib chiqmoq"]] },
     { k: "tf", q: "**Owing to** dan keyin gap keladi: *Owing to it was late, we left.*", a: false, why: "**Owing to** + ot: *Owing to the late hour, we left.* Gap bo'lsa **because**." },
     { k: "dictation", say: "Consequently, many residents began to save water.", uz: "Natijada ko'p aholi suv tejay boshladi.", why: "**Consequently,** — yangi gap boshida vergul bilan." },
     { k: "speak", say: "I wrote it down in order not to forget it.", uz: "Unutmaslik uchun yozib qo'ydim." },
