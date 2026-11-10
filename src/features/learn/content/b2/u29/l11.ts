@@ -1,0 +1,126 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (review): the whole unit with new examples (comparison, quantifiers, articles, adjectives, so/such/too/enough, degree, describing data).
+const lesson: Lesson = {
+  id: 'u29-l11',
+  title: 'Environment, health and the modern world: final review',
+  titleUz: 'Atrof-muhit va salomatlik: yakuniy takror',
+  mini: true,
+  kind: 'review',
+  goal: "Bosqichdagi hamma mavzuni takrorlaysiz: **taqqoslash**, **miqdor so'zlari va kelishuv**, **artikl**, **sifat va ravish**, **so / such / too / enough**, **daraja ifodalari** va **ma'lumotlarni tasvirlash**. Yangi misollarda o'zingizni tekshirasiz va tipik xatolarni tuzatasiz.",
+  slides: [
+    {
+      title: "Taqqoslash va miqdor",
+      blocks: [
+        { t: 'p', md: "Bu bosqichning birinchi yarmi **solishtirish** va **miqdor** haqida edi. Asosiy qoliplar:" },
+        { t: 'table', head: ['Mavzu', 'Qoida', 'Yangi misol'], speak: [2], rows: [
+          ['Farq darajasi', 'far / much / considerably / slightly + comparative', 'The new route is far shorter than the old one.'],
+          ['Ikki taqqoslash', 'the + comparative, the + comparative', 'The more we recycle, the less waste we produce.'],
+          ['Ko\'paytiruvchi', 'twice / half as … as', 'This bottle holds twice as much water as that one.'],
+          ['Fewer / less', 'fewer + sanaladigan; less + sanalmaydigan', 'There are fewer cars and less noise.'],
+          ['The number of / a number of', 'the number … is; a number … are', 'The number of patients is rising. A number of doctors are worried.'],
+          ['Foiz va kasr', "fe'l of dan keyingi otga mos", 'A quarter of the water is polluted. Ten per cent of the trees are dead.'],
+        ] },
+        { t: 'tip', tone: 'warn', md: "Taqqoslashda **very** emas, **far / much** ishlatiladi: ~~very cheaper~~ → **much cheaper**. *More better* ham xato: faqat **better**. **Hardly any** bilan **not** kelmaydi." },
+        { t: 'check', ex: { k: 'choice', q: "The number of electric cars ___ every year.", opts: ['grows', 'grow', 'are growing', 'have grown'], a: 0, why: "**The number of** + birlik fe'l: *The number … grows*." } },
+        { t: 'check', ex: { k: 'fill', q: "There is hardly ___ rain in the desert in summer.", a: ['any'], uz: "Cho'lda yozda deyarli yomg'ir yog'maydi.", why: "**hardly any** — deyarli yo'q." } },
+      ],
+    },
+    {
+      title: "Artikl, sifat, so / such / too / enough",
+      blocks: [
+        { t: 'table', head: ['Mavzu', 'Qoida', 'Yangi misol'], speak: [2], rows: [
+          ['Umumiy fikr', "ko'plik artiklsiz; the + sifat", 'Doctors study for years. The elderly need more care.'],
+          ['The bilan', "daryo, dengiz, tog' tizmasi", 'The Danube flows through many countries.'],
+          ['Such a / what a', 'artikl sifatdan oldin keladi', 'It was such a long queue! What a waste of time!'],
+          ['Sifatlar tartibi', "fikr, o'lcham, yosh, rang, material", 'a lovely old wooden bench'],
+          ['So / such', 'so + sifat; such + (a) + ot', 'so tired; such tired eyes'],
+          ['Too / enough', 'too + sifat; sifat + enough', 'too noisy to sleep; quiet enough to study'],
+        ] },
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ['The Aral Sea is shrinking.', 'It was such a good idea.', 'The room is big enough.', 'We have too many cars.'] },
+          bad: { title: 'Xato', items: ['Aral Sea is shrinking.', 'It was so a good idea.', 'The room is enough big.', 'We have too much cars.'] } },
+        { t: 'tip', tone: 'info', md: "**Gradable** sifat bilan *very, fairly*; **non-gradable** bilan *absolutely, utterly*: *very tired*, lekin *absolutely exhausted*. **Too** — ortiqcha va salbiy; **enough** — yetarli." },
+        { t: 'check', ex: { k: 'choice', q: "She was ___ tired that she fell asleep at her desk.", opts: ['so', 'such', 'too', 'enough'], a: 0, why: "Sifat + natija (**that**): **so tired that**." } },
+        { t: 'check', ex: { k: 'choice', q: "Which phrase is in the correct order?", opts: ['a small black leather bag', 'a leather black small bag', 'a black small leather bag', 'a small leather black bag'], a: 0, why: "Tartib: o'lcham → rang → material." } },
+      ],
+    },
+    {
+      title: "Daraja ifodalari va ma'lumotlar tavsifi",
+      blocks: [
+        { t: 'examples', items: [
+          { en: "It is by far the biggest park in the region.", uz: "Bu hududdagi eng katta bog' bo'lib, boshqalardan ancha katta.", note: "**by far** + superlative." },
+          { en: "The new clinic is nowhere near as busy as the old one.", uz: "Yangi poliklinika eskisidek band emas, juda uzoq.", note: "**nowhere near as … as** — katta farq." },
+          { en: "No sooner had we arrived than the rain stopped.", uz: "Yetib kelishimiz bilan yomg'ir tindi.", note: "**No sooner had** + ega + V3 + **than** (inversiya)." },
+          { en: "Car use fell from 40 to 30 per cent between 2015 and 2020.", uz: "Mashinadan foydalanish 2015 va 2020-yillar orasida 40 foizdan 30 foizga tushdi.", note: "**from … to …**; **per cent** hech qachon -s olmaydi." },
+          { en: "Overall, cycling rose, whereas bus use remained stable.", uz: "Umuman olganda, velosiped ko'paydi, avtobusdan foydalanish esa o'zgarmadi.", note: "Overview: raqamsiz umumiy tendensiya." },
+        ] },
+        { t: 'tip', tone: 'info', md: "Hisobotda **o'tgan davr** (2015–2020) uchun **o'tgan zamon**, **fikr yo'q**: *rose by 5 per cent* (o'zgarish miqdori), *rose to 35 per cent* (oxirgi qiymat), *stood at 12 per cent* (daraja)." },
+        { t: 'check', ex: { k: 'choice', q: "Sales rose from 200 to 224, so they rose ___ 12 per cent.", opts: ['by', 'to', 'at', 'from'], a: 0, why: "O'zgarish miqdori: **by 12 per cent**." } },
+        { t: 'check', ex: { k: 'tf', q: "*Ten per cents of the pupils walk to school.* gapi to'g'ri.", a: false, why: "**Per cent** ko'plik -s olmaydi: *ten per cent*." } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang: Millbrook hisoboti",
+      blocks: [
+        { t: 'text', title: 'The Millbrook report', voice: 'george', en: "Millbrook is a small town, and its council has just published a report on health and the environment. Overall, the picture is mixed. Traffic emissions have fallen slightly, but the town centre is still nowhere near as clean as the council hoped. The number of cyclists has doubled, which is encouraging, yet hardly any children walk to school, so doctors are worried about sedentary habits. A vaccine campaign was such a success that there was no outbreak of flu last winter, and life expectancy is a little higher than it was ten years ago. The council also admits that the new road caused some deforestation, and it has promised to plant twice as many trees as were cut down. The mayor called the report honest and useful.", uz: "Millbrook kichik shahar, uning kengashi atrof-muhit va salomatlik haqida hisobot e'lon qildi. Umuman olganda, manzara aralash. Transport chiqindilari ozgina kamaydi, lekin shahar markazi hamon kengash umid qilgandek toza emas. Velosipedchilar soni ikki baravar oshdi, bu quvonarli, ammo bolalarning deyarli hech biri maktabga piyoda bormaydi, shuning uchun shifokorlar harakatsiz odatlardan xavotirda. Emlash kampaniyasi shunchalik muvaffaqiyatli bo'ldiki, o'tgan qishda gripp avj olmadi, o'rtacha umr uzunligi esa o'n yil oldingidan ozgina yuqori. Kengash yangi yo'l ba'zi o'rmonlarning kesilishiga sabab bo'lganini ham tan oladi va kesilganidan ikki baravar ko'p daraxt ekishga va'da bergan. Mer hisobotni halol va foydali deb atadi." },
+        { t: 'check', ex: { k: 'choice', q: "What does the report say about the town centre?", opts: ["It is still much less clean than the council wanted.", "It is cleaner than the council hoped.", "It has no traffic at all.", "It has been closed to cars."], a: 0, why: "*nowhere near as clean as the council hoped* — kutilganidan ancha iflos." } },
+        { t: 'check', ex: { k: 'tf', q: 'Many children in Millbrook walk to school.', a: false, why: "*hardly any children walk to school.*" } },
+        { t: 'dialog', lines: [
+          { who: 'Kate', en: "Did you read the Millbrook report, Tom?", uz: "Millbrook hisobotini o'qidingmi, Tom?" },
+          { who: 'Tom', en: "Yes. The number of cyclists has doubled, but far fewer children walk to school than ten years ago.", uz: "Ha. Velosipedchilar soni ikki baravar oshibdi, lekin maktabga piyoda boradigan bolalar o'n yil oldingidan ancha kam." },
+          { who: 'Kate', en: "That's worrying. A sedentary childhood can lead to chronic health problems.", uz: "Bu xavotirli. Harakatsiz bolalik surunkali kasalliklarga olib kelishi mumkin." },
+          { who: 'Tom', en: "True. On the other hand, there was no outbreak of flu last winter. The vaccine campaign was such a success.", uz: "To'g'ri. Ikkinchi tomondan, o'tgan qishda gripp avj olmadi. Emlash kampaniyasi juda muvaffaqiyatli bo'ldi." },
+          { who: 'Kate', en: "So what is the most important thing the council should do now?", uz: "Unda kengash endi eng muhimi nima qilishi kerak?" },
+          { who: 'Tom', en: "Get more children walking. It would be much cheaper than building another clinic.", uz: "Ko'proq bolani piyoda yurdirish. Bu yana bir poliklinika qurishdan ancha arzon bo'lardi." },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: "What does Tom think the council should do?", opts: ["Encourage more children to walk", "Build another clinic", "Stop the vaccine campaign", "Close the new road"], a: 0, why: "*Get more children walking. It would be much cheaper than building another clinic.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'emission', uz: "chiqindi gaz, havoga chiqarish", ipa: 'ɪˈmɪʃ.ən', pos: 'noun', ex: 'Emissions from factories have fallen by a third.', exUz: "Zavodlardan chiqadigan zararli gazlar uchdan biriga kamaydi." },
+    { en: 'outbreak', uz: "(kasallik) avj olishi", ipa: 'ˈaʊt.breɪk', pos: 'noun', ex: 'Doctors acted quickly to stop an outbreak of measles.', exUz: "Shifokorlar qizamiq avj olishini to'xtatish uchun tez harakat qildi." },
+    { en: 'vaccine', uz: 'emlash vaktsinasi', ipa: 'ˈvæk.siːn', pos: 'noun', ex: 'A new vaccine will be given to all children.', exUz: "Yangi vaktsina barcha bolalarga beriladi." },
+    { en: 'deforestation', uz: "o'rmonlarning kesilishi", ipa: 'diːˌfɒr.ɪˈsteɪ.ʃən', pos: 'noun', ex: 'Deforestation is destroying the homes of many animals.', exUz: "O'rmonlarning kesilishi ko'p hayvonlarning uyini yo'q qilmoqda." },
+    { en: 'life expectancy', uz: "o'rtacha umr uzunligi", ipa: 'laɪf ɪkˈspek.tən.si', pos: 'noun', ex: 'Life expectancy has risen thanks to better healthcare.', exUz: "Sog'liqni saqlash yaxshilangani tufayli o'rtacha umr uzunligi oshdi." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['emission', "havoga chiqarilgan gaz"], ['outbreak', "kasallik avj olishi"], ['vaccine', 'emlash vaktsinasi'], ['deforestation', "o'rmonlarning kesilishi"], ['life expectancy', "o'rtacha umr uzunligi"]] },
+    { k: 'choice', q: "Prices rose ___ faster than wages last year.", opts: ['far', 'very', 'more', 'so'], a: 0, why: "Taqqoslash darajasi oldida **far / much**; *very* ishlatilmaydi." },
+    { k: 'choice', q: "A number of students ___ absent yesterday.", opts: ['were', 'was', 'is', 'has been'], a: 0, why: "**A number of** + ko'plik fe'l: *were*." },
+    { k: 'choice', q: "The ___ often need more support from the health service.", opts: ['elderly', 'elderlies', 'elder', 'old person'], a: 0, why: "**the + sifat** odamlar guruhini bildiradi: *the elderly*." },
+    { k: 'fill', q: "The more people cycle, the ___ the air becomes. (clean)", a: ['cleaner'], uz: "Qancha ko'p odam velosipedda yursa, havo shuncha toza bo'ladi.", why: "**the + comparative, the + comparative**." },
+    { k: 'fill', q: "There is ___ any traffic on our street at night.", a: ['hardly', 'scarcely'], uz: "Bizning ko'chada kechasi deyarli transport yo'q.", why: "**hardly any** — deyarli yo'q." },
+    { k: 'listen', say: 'No sooner had the clinic opened than a queue formed.', opts: ['No sooner had the clinic opened than a queue formed.', 'No sooner the clinic opened than a queue formed.', 'No sooner had the clinic opened when a queue formed.', 'No sooner did the clinic opened than a queue formed.'], a: 0, why: "**No sooner had + ega + V3 + than**." },
+    { k: 'order', uz: "Shahar hayoti qishloq hayotidan ancha qimmat.", words: ['City', 'life', 'is', 'far', 'more', 'expensive', 'than', 'village', 'life.'], extra: ['very', 'most'], why: "**far + more expensive + than**." },
+    { k: 'order', uz: "Bu shunday uzun navbat ediki, biz ketdik.", words: ['It', 'was', 'such', 'a', 'long', 'queue', 'that', 'we', 'left.'], extra: ['so', 'too'], why: "**such a + sifat + ot + that**." },
+    { k: 'fix', wrong: 'The number of cyclists have increased.', a: ['The number of cyclists has increased.'], why: "**The number of** + birlik fe'l: *has increased*." },
+    { k: 'fix', wrong: 'This room is enough big for twenty people.', a: ['This room is big enough for twenty people.'], why: "**enough** sifatdan keyin keladi: *big enough*." },
+    { k: 'translate', uz: "Qancha ko'p mashq qilsangiz, shuncha sog'lom bo'lasiz.", a: ['The more you exercise, the healthier you become.', 'The more you exercise, the healthier you get.', 'The more you exercise, the healthier you will be.', "The more you exercise, the healthier you'll be.", 'The more you exercise, the healthier you are.'], why: "**The more…, the healthier…**" },
+    { k: 'tf', q: "*Ten per cents of the pupils walk to school.* — gap to'g'ri.", a: false, why: "**Per cent** hech qachon -s olmaydi." },
+    { k: 'dictation', say: 'Traffic emissions have fallen slightly this year.', a: ['Traffic emissions have fallen slightly this year.'], uz: "Bu yil transport chiqindilari ozgina kamaydi." },
+    { k: 'speak', say: 'The more people cycle, the cleaner the air becomes.', uz: "Qancha ko'p odam velosipedda yursa, havo shuncha toza bo'ladi." },
+  ],
+  quiz: [
+    { k: 'choice', q: "There is ___ water left in the tank, so we must save it.", opts: ['little', 'few', 'many', 'a few'], a: 0, why: "Suv sanalmaydi va juda kam: **little**." },
+    { k: 'choice', q: "Sales were 200 last year and 224 this year, so they rose ___ 12 per cent.", opts: ['by', 'to', 'at', 'from'], a: 0, why: "O'zgarish miqdori: **by**." },
+    { k: 'choice', q: "Which phrase is correct?", opts: ['a lovely old wooden bench', 'a wooden old lovely bench', 'an old lovely wooden bench', 'a wooden lovely old bench'], a: 0, why: "Tartib: fikr → yosh → material: *lovely old wooden*." },
+    { k: 'fill', q: "She was ___ tired that she fell asleep at the table.", a: ['so'], uz: "U shunchalik charchagan ediki, stol yonida uxlab qoldi.", why: "Sifat + **that** natija: **so tired that**." },
+    { k: 'fill', q: "Is the water clean ___ to drink?", a: ['enough'], uz: "Suv ichish uchun yetarlicha tozami?", why: "Sifatdan keyin **enough**." },
+    { k: 'order', uz: "Qancha ko'p o'qisam, shuncha yaxshi tushunaman.", words: ['The', 'more', 'I', 'read,', 'the', 'better', 'I', 'understand.'], extra: ['most', 'good'], why: "**The more…, the better…**" },
+    { k: 'fix', wrong: 'Aral Sea is shrinking.', a: ['The Aral Sea is shrinking.'], why: "Dengiz nomi **the** bilan: *the Aral Sea*." },
+    { k: 'listen', say: 'Life expectancy is a little higher than it was ten years ago.', opts: ['Life expectancy is a little higher than it was ten years ago.', 'Life expectancy is a little lower than it was ten years ago.', 'Life expectancy was a little higher than it is now.', 'Life expectancy is much higher than it was ten years ago.'], a: 0 },
+    { k: 'tf', q: "*It was such a nice weather.* — gap to'g'ri.", a: false, why: "*Weather* sanalmaydi: *such nice weather* (**a** yo'q)." },
+  ],
+  summary: [
+    "**Taqqoslash:** far / much + comparative (*very* yo'q); **the more…, the better…**; **twice as … as**; fewer + sanaladigan, less + sanalmaydigan.",
+    "**Miqdor:** **the number of → is**, **a number of → are**, hardly any, foiz va kasrda fe'l of dan keyingi otga mos; **per cent** -s olmaydi.",
+    "**Artikl va sifat:** the elderly, the Aral Sea, such a / what a; tartib: fikr → o'lcham → yosh → rang → material; **so, such, too, big enough**.",
+    "**Ma'lumotlar:** o'tgan zamon, **from … to, by, at**, overview raqamsiz, fikr yo'q.",
+    "Yangi so'zlar: **emission, outbreak, vaccine, deforestation, life expectancy**.",
+  ],
+  homework: "O'z shahringiz yoki mahallangiz haqida 8 ta gap yozing: 1 ta *the more… the…*, 1 ta *twice as … as*, 1 ta *the number of*, 1 ta *hardly any*, 1 ta *such a / so*, 1 ta *too / enough* va 1 ta foizli ma'lumot (*from … to*) bilan. Keyin xatolarni tekshiring.",
+};
+
+export default lesson;
