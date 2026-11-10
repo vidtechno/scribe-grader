@@ -211,7 +211,7 @@ const lesson: Lesson = {
     { k: "fill", q: "The report is twenty pages long: it is a twenty-___ report.", a: ["page"], uz: "Hisobot yigirma betlik.", why: "Compound adjective birlikda: **twenty-page**." },
     { k: "fill", q: "There was ___ any food left after the party. (almost none)", a: ["hardly", "barely", "scarcely"], uz: "Ziyofatdan keyin deyarli ovqat qolmadi.", why: "**Hardly any** = deyarli yo'q." },
     { k: "order", uz: "Bu ancha uzun, lekin juda yaxshi film.", words: ["It", "is", "a", "fairly", "long", "but", "very", "good", "film."], extra: ["absolutely", "hardly"], why: "**Fairly** + *long* (gradable), **very** + *good* (gradable)." },
-    { k: "translate", uz: "U yarim soatlik tanaffus oldi.", a: ["She took a half-hour break.", "She had a half-hour break.", "She took a thirty-minute break.", "She had a thirty-minute break."], why: "Compound adjective birlikda: **half-hour / thirty-minute**." },
+    { k: "translate", uz: "U yarim soatlik tanaffus oldi.", a: ["She took a half-hour break.", "She had a half-hour break.", "She took a thirty-minute break.", "She had a thirty-minute break.", "She took a break of half an hour."], why: "Compound adjective birlikda: **half-hour / thirty-minute**." },
     { k: "fix", wrong: "We had a ten-minutes break.", a: ["We had a ten-minute break."], hint: "compound adjective", why: "O'lchov birlikda: **ten-minute**." },
     { k: "tf", q: "*Absolutely tired* — to'g'ri ibora.", a: false, why: "*Tired* gradable: **very tired**. *Absolutely* non-gradable bilan (*exhausted*)." },
   ],

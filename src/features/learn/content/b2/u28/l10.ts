@@ -100,7 +100,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: "I have different opinion about this plan.", a: ["I have a different opinion about this plan.", "I have a different opinion about this plan"], why: "Sanaladigan ot oldida **a** kerak: *a different opinion*." },
     { k: 'choice', q: "A colleague gives good advice and you will use it. Which phrase fits?", opts: ["I'll take that on board.", "I'll take that on the board.", "I'll take that in board.", "I'll take on that board."], a: 0, why: "**take something on board** — barqaror ibora: maslahatni inobatga olmoq." },
     { k: 'dictation', say: "It's the timing that I'm not sure about, not the idea itself.", uz: "Men shubhalanayotgan narsa g'oya emas, vaqt." },
-    { k: 'order', uz: "Tushunaman, lekin men baribir kutishni afzal ko'raman.", words: ['I', 'understand,', 'but', "I'd", 'still', 'prefer', 'to', 'wait.'], extra: ['am', 'for'], alt: [['I', 'understand,', 'but', 'I', 'would', 'still', 'prefer', 'to', 'wait.']], why: "**I'd still prefer to…** — pozitsiyada muloyim turib olish." },
+    { k: 'order', uz: "Tushunaman, lekin men baribir kutishni afzal ko'raman.", words: ['I', 'understand,', 'but', "I'd", 'still', 'prefer', 'to', 'wait.'], extra: ['am', 'for'], why: "**I'd still prefer to…** — pozitsiyada muloyim turib olish." },
     { k: 'speak', say: "I see what you mean, but what worries me is the cost." },
   ],
   quiz: [

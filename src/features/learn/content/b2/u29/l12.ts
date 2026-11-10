@@ -110,7 +110,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "The old factory is ___ as polluting as it was ten years ago.", opts: ['not nearly', 'not so near', 'nowhere nearly', 'hardly nearly'], a: 0, why: "**not nearly as … as** — qat'iy birikma." },
     { k: 'choice', q: "Hardly had the speaker begun ___ the fire alarm rang.", opts: ['when', 'than', 'that', 'then'], a: 0, why: "**Hardly had … when**; **no sooner … than**." },
     { k: 'fill', q: "No sooner had they arrived ___ the rain started.", a: ['than'], why: "**No sooner … than**." },
-    { k: 'fill', q: "I could ___ hear the lecturer from the back row.", a: ['barely', 'hardly'], uz: "Oxirgi qatordan ma'ruzachini zo'rg'a eshitdim.", why: "**barely / hardly** — zo'rg'a." },
+    { k: 'fill', q: "I could ___ hear the lecturer from the back row.", a: ['barely', 'hardly', 'scarcely'], uz: "Oxirgi qatordan ma'ruzachini zo'rg'a eshitdim.", why: "**barely / hardly** — zo'rg'a." },
     { k: 'fix', wrong: "This is the best coffee I tasted.", a: ["This is the best coffee I've ever tasted.", "This is the best coffee I have ever tasted."], why: "Tajriba: **I've ever tasted**." },
     { k: 'order', uz: "U mamlakatdagi eng uzun daryolardan biri.", words: ['It', 'is', 'one', 'of', 'the', 'longest', 'rivers', 'in', 'the', 'country.'], extra: ['river', 'a'], why: "**one of the + superlative + ko'plik**." },
     { k: 'listen', say: 'I can hardly believe how hot it is.', opts: ['I can hardly believe how hot it is.', 'I can hardly not believe how hot it is.', 'I can nearly believe how hot it is.', 'I can quite believe how hot it was.'], a: 0 },

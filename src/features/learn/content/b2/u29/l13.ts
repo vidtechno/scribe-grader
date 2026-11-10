@@ -61,9 +61,9 @@ const lesson: Lesson = {
     {
       title: "O'qing va tinglang",
       blocks: [
-        { t: 'text', title: 'A dry summer', voice: 'george', en: "Last summer our village had such a serious water shortage that we had to rethink everything. The rain was so scarce that the river became too shallow to use, and the well was not deep enough to supply every house. At first, people used far too much water for their gardens. Then the village agreed on a simple rule: a sufficient supply for drinking and cooking comes first, and watering plants comes last. Excessive use was stopped, and adequate storage tanks were built behind the school. It was such a difficult summer that nobody wants a repeat, but we learned that careful planning can make even a small amount of water enough.", uz: "O'tgan yozda qishlog'imizda suv tanqisligi shunchalik jiddiy bo'ldiki, hamma narsani qaytadan o'ylab ko'rishga to'g'ri keldi. Yomg'ir shunchalik kam ediki, daryo foydalanish uchun juda sayoz bo'lib qoldi, quduq esa har bir uyni ta'minlash uchun yetarlicha chuqur emas edi. Avvaliga odamlar bog'lari uchun haddan tashqari ko'p suv sarflashardi. Keyin qishloq oddiy qoidaga kelishdi: avval ichish va ovqat pishirish uchun yetarli zaxira, o'simliklarni sug'orish esa oxirgi o'rinda. Ortiqcha sarflash to'xtatildi va maktab orqasida yetarli suv omborlari qurildi. Bu shunchalik qiyin yoz bo'ldiki, hech kim takrorlanishini xohlamaydi, lekin kichik miqdordagi suv ham rejalashtirish bilan yetarli bo'lishi mumkinligini o'rgandik." },
+        { t: 'text', title: 'A dry summer', voice: 'george', en: "Last summer our village had such a serious water shortage that we had to rethink everything. The rain was so scarce that the river became too shallow to use, supplies began to dwindle, and the well was not deep enough to supply every house. At first, people used far too much water for their gardens. Then the village agreed on a simple rule: an ample supply for drinking and cooking comes first, and watering plants comes last. Excessive use was stopped, and adequate storage tanks were built behind the school. It was such a difficult summer that nobody wants a repeat, but we learned that careful planning can make even a small amount of water enough.", uz: "O'tgan yozda qishlog'imizda suv tanqisligi shunchalik jiddiy bo'ldiki, hamma narsani qaytadan o'ylab ko'rishga to'g'ri keldi. Yomg'ir shunchalik kam ediki, daryo foydalanish uchun juda sayoz bo'lib qoldi, zaxiralar kamaya boshladi, quduq esa har bir uyni ta'minlash uchun yetarlicha chuqur emas edi. Avvaliga odamlar bog'lari uchun haddan tashqari ko'p suv sarflashardi. Keyin qishloq oddiy qoidaga kelishdi: avval ichish va ovqat pishirish uchun mo'l zaxira, o'simliklarni sug'orish esa oxirgi o'rinda. Ortiqcha sarflash to'xtatildi va maktab orqasida yetarli suv omborlari qurildi. Bu shunchalik qiyin yoz bo'ldiki, hech kim takrorlanishini xohlamaydi, lekin kichik miqdordagi suv ham rejalashtirish bilan yetarli bo'lishi mumkinligini o'rgandik." },
         { t: 'check', ex: { k: 'tf', q: 'The well was deep enough to supply every house.', a: false, why: "*the well was not deep enough to supply every house.*" } },
-        { t: 'check', ex: { k: 'choice', q: "What came first in the village rule?", opts: ["Water for drinking and cooking", "Water for gardens", "Water for cars", "Water for the school"], a: 0, why: "*a sufficient supply for drinking and cooking comes first.*" } },
+        { t: 'check', ex: { k: 'choice', q: "What came first in the village rule?", opts: ["Water for drinking and cooking", "Water for gardens", "Water for cars", "Water for the school"], a: 0, why: "*an ample supply for drinking and cooking comes first.*" } },
       ],
     },
     {
@@ -82,20 +82,20 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'sufficient', uz: "yetarli", ipa: 'səˈfɪʃnt', pos: 'adj', ex: 'Is there sufficient evidence to support the claim?', exUz: "Da'voni qo'llab-quvvatlash uchun yetarli dalil bormi?" },
+    { en: 'insufficient', uz: "yetarli emas, yetmaydigan", ipa: 'ˌɪn.səˈfɪʃ.ənt', pos: 'adj', ex: 'There is insufficient evidence to support the claim.', exUz: "Da'voni qo'llab-quvvatlash uchun dalil yetarli emas." },
     { en: 'adequate', uz: "yetarli, qoniqarli", ipa: 'ˈædɪkwət', pos: 'adj', ex: 'The hospital does not have adequate equipment.', exUz: "Kasalxonada yetarli jihoz yo'q." },
     { en: 'excessive', uz: "haddan tashqari", ipa: 'ɪkˈsesɪv', pos: 'adj', ex: 'Excessive noise can damage your hearing.', exUz: "Haddan tashqari shovqin eshitishni buzishi mumkin." },
-    { en: 'shortage', uz: "tanqislik, yetishmovchilik", ipa: 'ˈʃɔːtɪdʒ', pos: 'noun', ex: 'There is a shortage of clean water in the region.', exUz: "Hududda toza suv tanqisligi bor." },
-    { en: 'scarce', uz: "kam uchraydigan, tanqis", ipa: 'skeəs', pos: 'adj', ex: 'Fresh water is scarce in dry areas.', exUz: "Quruq hududlarda chuchuk suv tanqis." },
+    { en: 'dwindle', uz: "kamayib bormoq, ozayib bormoq", ipa: 'ˈdwɪn.dəl', pos: 'verb', ex: 'Our savings began to dwindle after he lost his job.', exUz: "U ishdan ayrilgach, jamg'armamiz kamayib bora boshladi." },
+    { en: 'ample', uz: "yetarli va mo'l, bemalol yetadigan", ipa: 'ˈæm.pəl', pos: 'adj', ex: 'There is ample room for everyone in the hall.', exUz: "Zalda hamma uchun bemalol joy bor." },
   ],
   practice: [
-    { k: 'match', pairs: [['sufficient', 'yetarli'], ['excessive', 'haddan tashqari'], ['shortage', 'tanqislik'], ['scarce', 'kam uchraydigan'], ['adequate', 'qoniqarli darajada yetarli']] },
+    { k: 'match', pairs: [['insufficient', 'yetarli emas'], ['excessive', 'haddan tashqari'], ['dwindle', 'kamayib bormoq'], ['ample', 'bemalol yetadigan'], ['adequate', 'qoniqarli darajada yetarli']] },
     { k: 'choice', q: "The soup was ___ salty that I couldn't eat it.", opts: ['so', 'such', 'too', 'enough'], a: 0, why: "Sifat (*salty*) oldida va natija (*that*) bor → **so**." },
     { k: 'choice', q: "It was ___ strong wind that the trees fell.", opts: ['such a', 'so a', 'too', 'so'], a: 0, why: "Birlik ot (*wind*, *a strong wind*) bilan: **such a**." },
     { k: 'fill', q: "The river is ___ polluted to swim in.", a: ['too'], uz: "Daryo suzish uchun juda ifloslangan.", why: "Salbiy natija (*to swim in*) → **too**." },
     { k: 'fill', q: "Is the tank big ___ for the whole village?", a: ['enough'], uz: "Zaxira idish butun qishloq uchun yetarlicha kattami?", why: "**big enough** — enough sifatdan keyin." },
     { k: 'listen', say: 'It was such a hot day that nobody wanted to work.', opts: ['It was such a hot day that nobody wanted to work.', 'It was so a hot day that nobody wanted to work.', 'It was too hot day that nobody wanted to work.', 'It was such hot day that nobody wanted to work.'], a: 0 },
-    { k: 'choice', q: "There was a serious ___ of fresh water last summer.", opts: ['shortage', 'dose', 'litter', 'initiative'], a: 0, why: "**a shortage of** — yetishmovchilik." },
+    { k: 'choice', q: "Fresh water supplies began to ___ as the dry summer went on.", opts: ['dwindle', 'dose', 'litter', 'initiative'], a: 0, why: "**dwindle** — kamayib bormoq; boshqa so'zlar ma'noga mos emas." },
     { k: 'order', uz: "Bu xona yetarlicha katta emas.", words: ['This', 'room', 'is', 'not', 'big', 'enough.'], extra: ['very', 'too'], why: "**not big enough**." },
     { k: 'order', uz: "Shunchalik ko'p mashina ediki, yo'l to'sildi.", words: ['There', 'were', 'so', 'many', 'cars', 'that', 'the', 'road', 'was', 'blocked.'], extra: ['much', 'such'], why: "**so many + ko'plik ot + that**." },
     { k: 'fix', wrong: "The bridge isn't enough strong for lorries.", a: ["The bridge isn't strong enough for lorries.", "The bridge is not strong enough for lorries."], why: "**strong enough**: enough sifatdan keyin." },
@@ -108,9 +108,9 @@ const lesson: Lesson = {
   quiz: [
     { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ["We have enough food for everyone.", "We have enough the food for everyone.", "We have enough of food for everyone.", "We have too enough food for everyone."], a: 0, why: "**enough + ot** (*enough food*); *enough* dan keyin *the* yoki *of* qo'yilmaydi." },
     { k: 'choice', q: "There are ___ many tourists that the beach is crowded.", opts: ['so', 'such', 'too', 'enough'], a: 0, why: "**so many + ot + that**." },
-    { k: 'choice', q: "The city has taken ___ steps to cut air pollution.", opts: ['sufficient', 'scarce', 'excessive', 'dizzy'], a: 0, why: "Kerakli darajadagi qadamlar → **sufficient**. *excessive* — haddan tashqari." },
+    { k: 'choice', q: "The city has taken ___ steps to cut air pollution.", opts: ['adequate', 'insufficient', 'excessive', 'dizzy'], a: 0, why: "Kerakli darajadagi qadamlar → **adequate**. *insufficient* — yetarli emas, *excessive* — haddan tashqari." },
     { k: 'fill', q: "The room is ___ small for twenty people.", a: ['too'], uz: "Xona yigirma kishi uchun juda kichik.", why: "Salbiy natija: **too small**." },
-    { k: 'fill', q: "He drives so ___ that the neighbours complain.", a: ['fast', 'quickly', 'badly', 'dangerously', 'noisily', 'carelessly'], uz: "U shunchalik ... haydaydiki, qo'shnilar shikoyat qiladi.", why: "**so + ravish + that**: har qanday mos ravish." },
+    { k: 'fill', q: "He drives so ___ that the neighbours complain. (very quickly)", a: ['fast', 'quickly'], uz: "U shunchalik tez haydaydiki, qo'shnilar shikoyat qiladi.", why: "**so + ravish + that**: *so fast / so quickly*." },
     { k: 'fix', wrong: "There was so a long queue.", a: ["There was such a long queue.", "There was a very long queue.", "The queue was so long."], why: "Ot (*queue*) bilan: **such a long queue**." },
     { k: 'order', uz: "Bu masala ko'rib chiqish uchun juda muhim.", words: ['This', 'issue', 'is', 'too', 'important', 'to', 'ignore.'], extra: ['enough', 'very'], why: "**too + sifat + to + fe'l**." },
     { k: 'listen', say: 'There is not enough water for everyone.', opts: ['There is not enough water for everyone.', 'There is not water enough for everyone.', 'There is too enough water for everyone.', 'There are not enough water for everyone.'], a: 0 },
@@ -121,7 +121,7 @@ const lesson: Lesson = {
     "**too** + sifat — ortiqcha va salbiy (*too cold to swim*); **enough** sifatdan keyin (*big enough*), otdan oldin (*enough water*).",
     "**not enough** va **too** ma'nosi yaqin, lekin *too* kuchliroq va salbiyroq; *very … to* deb bo'lmaydi.",
     "Xatolar: *enough big* → *big enough*; *so a nice day* → *such a nice day*; *too much cars* → *too many cars*.",
-    "Yangi so'zlar: **sufficient, adequate, excessive, shortage, scarce**.",
+    "Yangi so'zlar: **insufficient, adequate, excessive, dwindle, ample**.",
   ],
   homework: "O'z hayotingiz haqida 6 ta gap yozing: 2 tasi **so … that**, 1 tasi **such a … that**, 1 tasi **too … to**, 1 tasi **not … enough**, 1 tasi **enough + ot**. Mavzu: ish yoki o'qish, shahar transporti yoki ob-havo.",
 };

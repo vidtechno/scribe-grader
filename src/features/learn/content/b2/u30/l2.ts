@@ -174,7 +174,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I don't like horror films, but my sister ___.", a: ["does"], uz: "Men qo'rqinchli filmlarni yoqtirmayman, singlim esa yoqtiradi.", why: "Birinchi gap inkor, ikkinchisi qarama-qarshi darak: **does**." },
     { k: "fix", wrong: "I think no. He isn't coming.", a: ["I don't think so. He isn't coming.", "I don't think so. He's not coming."], hint: "think + so", why: "**I don't think so**." },
     { k: "choice", q: "Which reply fits *Nice to meet you*?", opts: ["Likewise.", "By all means.", "No wonder.", "Not necessarily."], a: 0, why: "Tanishuvda: **Likewise** = «menga ham»." },
-    { k: "translate", uz: "Men ham charchadim.", a: ["So am I.", "I'm tired too.", "I am tired too.", "Me too.", "Same here."], why: "Birinchi gap *I'm tired* bo'lsa: **So am I**." },
+    { k: "translate", uz: "— Charchadim, — dedi Ali. Javob bering: «Men ham charchadim.»", a: ["So am I.", "I'm tired too.", "I am tired too.", "Me too.", "Same here."], why: "Birinchi gap *I'm tired* bo'lsa: **So am I**." },
     { k: "tf", q: "*I like the red dress better than the blue one.* gapida *one* = dress.", a: true, why: "**one** takrorlanayotgan sanaladigan otni (*dress*) almashtiradi." },
     { k: "order", uz: "Men ham buni ko'rmaganman.", words: ["Neither", "have", "I."], extra: ["So", "do"], why: "Inkor + Present Perfect: **Neither have I**." },
     { k: "choice", q: "Anyone who wishes to enter the competition may ___ online. (rasmiy)", opts: ["do so", "do it so", "so do", "do that so"], a: 0, why: "Rasmiy uslubda **do so** = shuni qilmoq." },

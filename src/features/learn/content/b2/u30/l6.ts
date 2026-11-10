@@ -120,11 +120,11 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Max", en: "Nina, how did your practice go? You spoke for almost two minutes.", uz: "Nina, mashq qanday o'tdi? Deyarli ikki daqiqa gapirding." },
             { who: "Nina", en: "Honestly, I ran out of ideas after one minute. I kept saying 'very nice, very nice'.", uz: "Rostini aytsam, bir daqiqadan keyin g'oyalarim tugadi. Takror-takror «very nice, very nice» dedim." },
-            { who: "Max", en: "Next time, add a detail. What did you see? What did you smell?", uz: "Keyingi safar tafsilot qo'sh. Nimani ko'rding? Nimani hidladi?" },
+            { who: "Max", en: "Next time, add a detail. What did you see? What did you smell?", uz: "Keyingi safar tafsilot qo'sh. Nimani ko'rding? Nimani hidlading?" },
             { who: "Nina", en: "Good idea. And I said 'I have visited Bukhara last summer'. Was that right?", uz: "Yaxshi fikr. Yana «I have visited Bukhara last summer» dedim. To'g'rimi?" },
             { who: "Max", en: "Not quite. With 'last summer', use the Past Simple: 'I visited Bukhara'.", uz: "Unchalik emas. «last summer» bilan Past Simple kerak: «I visited Bukhara»." },
             { who: "Nina", en: "Right. I also want to use one idiom, but only one.", uz: "To'g'ri. Yana bitta idioma ishlatmoqchiman, lekin faqat bitta." },
-            { who: "Max", en: "Wise choice. Then finish with why it mattered to you. That's the strongest ending.", uz: "To'g'ri qaror. Keyin nega bu siz uchun muhimligi bilan tugating. Bu eng kuchli yakun." },
+            { who: "Max", en: "Wise choice. Then finish with why it mattered to you. That's the strongest ending.", uz: "To'g'ri qaror. Keyin nega bu sen uchun muhimligi bilan tugat. Bu eng kuchli yakun." },
           ],
         },
         { t: "check", ex: { k: "choice", q: "What advice does Max give about the ending?", opts: ["Finish with why it mattered to you.", "Finish with a question to the examiner.", "Stop after the story.", "Add three idioms."], a: 0, why: "*Then finish with why it mattered to you.*" } },

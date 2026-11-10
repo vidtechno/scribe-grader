@@ -104,7 +104,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: "Having finish the report, I went to bed.", a: ["Having finished the report, I went to bed."], why: "**having + V3**: *finished*." },
     { k: 'order', uz: "Nima deyishni bilmay, u jim qoldi.", words: ['Not', 'knowing', 'what', 'to', 'say,', 'he', 'stayed', 'silent.'], extra: ['Knowing', 'not'], why: "Inkor sifatdosh: **Not + -ing**." },
     { k: 'listen', say: "Founded in 1920, the college is one of the oldest in the country.", opts: ["Founded in 1920, the college is one of the oldest in the country.", "Founding in 1920, the college is one of the oldest in the country.", "Found in 1920, the college is one of the oldest in the country.", "Founded in 1920, the college was one of the oldest country."], a: 0 },
-    { k: 'translate', uz: "Yomg'irdan charchagan bo'lsak ham, biz davom etdik.", a: ["Although we were weary, we continued.", "Though we were weary, we continued.", "Weary, we continued."], why: "Qisqa shakl: sifat + ega: **Weary, we continued.**" },
+    { k: 'translate', uz: "Yomg'irdan charchagan bo'lsak ham, biz davom etdik.", a: ["Although we were weary, we continued.", "Though we were weary, we continued.", "Weary, we continued.", "Weary of the rain, we continued.", "Although we were weary of the rain, we continued.", "Although we were tired of the rain, we continued."], why: "Qisqa shakl: sifat + ega: **Weary, we continued.**" },
     { k: 'choice', q: "Which one is correct?", opts: ["The house building in 1900 is old.", "The house built in 1900 is old.", "The house been built in 1900 is old.", "The house to build in 1900 is old."], a: 1, why: "Majhul: **built** (= *which was built*)." },
   ],
   summary: [

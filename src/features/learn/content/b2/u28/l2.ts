@@ -181,7 +181,7 @@ const lesson: Lesson = {
   ],
   quiz: [
     { k: "choice", q: "___ she left the room than everyone started talking.", opts: ["No sooner had", "Hardly had", "Not only had", "Little had"], a: 0, why: "**than** bilan faqat **no sooner had** mos keladi (*hardly … when*)." },
-    { k: "choice", q: "Under no circumstances ___ leave the building.", opts: ["should you", "you should", "you must", "do you"], a: 0, why: "**Under no circumstances + should + you**." },
+    { k: "choice", q: "Under no circumstances ___ leave the building.", opts: ["should you", "you should", "you must", "you do"], a: 0, why: "**Under no circumstances + should + you**." },
     { k: "choice", q: "___ you need any assistance, please ask at reception.", opts: ["Should", "Would", "Do", "Might"], a: 0, why: "Rasmiy 1-shart, **if** siz: **Should you need …**" },
     { k: "choice", q: "I can't drive. — ___.", opts: ["Neither can I", "Neither I can", "So can I", "Nor I can"], a: 0, why: "Inkor + «men ham»: **Neither can I**." },
     { k: "fill", q: "Hardly ___ the meeting started when the fire alarm rang.", a: ["had"], uz: "Yig'ilish boshlanishi bilan yong'in signali jiringladi.", why: "**Hardly had + ega + V3 … when**." },

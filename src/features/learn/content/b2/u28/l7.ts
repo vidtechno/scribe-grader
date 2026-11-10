@@ -193,8 +193,8 @@ const lesson: Lesson = {
     { k: "fill", q: "To some ___, I agree with the statement.", a: ["extent"], uz: "Ma'lum darajada bu fikrga qo'shilaman.", why: "**to some extent**." },
     { k: "fill", q: "On ___, the benefits outweigh the costs.", a: ["balance"], uz: "Hammasini tortib ko'rganda, foyda xarajatdan ustun.", why: "**On balance**." },
     { k: "fix", wrong: "From one hand, cities offer jobs.", a: ["On the one hand, cities offer jobs.", "On one hand, cities offer jobs."], hint: "on the one hand", why: "**On the one hand …**" },
-    { k: "order", uz: "Shuni ta'kidlash mumkinki, texnologiya vaqtni tejaydi.", words: ["It", "could", "be", "argued", "that", "technology", "saves", "time."], extra: ["can", "is"], why: "**It could be argued that …** — hedging." },
-    { k: "translate", uz: "Mutaxassislarning aksariyat ko'pchiligi rozi.", a: ["The vast majority of experts agree.", "The great majority of experts agree."], why: "**the vast majority of**." },
+    { k: "order", uz: "Shuni ta'kidlash mumkinki, texnologiya vaqtni tejaydi.", words: ["It", "could", "be", "argued", "that", "technology", "saves", "time."], extra: ["can", "is"], alt: [["It", "can", "be", "argued", "that", "technology", "saves", "time."]], why: "**It could be argued that …** — hedging." },
+    { k: "translate", uz: "Mutaxassislarning aksariyat ko'pchiligi rozi.", a: ["The vast majority of experts agree.", "The great majority of experts agree.", "Most experts agree.", "The overwhelming majority of experts agree.", "The vast majority of experts are in agreement."], why: "**the vast majority of**." },
     { k: "tf", q: "The conclusion of a 250-word essay should add a completely new example.", a: false, why: "Xulosa thesis ni jamlaydi va yangi dalil kiritmaydi." },
   ],
   summary: [

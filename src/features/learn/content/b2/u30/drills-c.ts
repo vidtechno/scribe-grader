@@ -58,7 +58,7 @@ export const drills: Drill[] = [
       { k: "fix", wrong: "Could you tell me where does the exhibition start?", a: ["Could you tell me where the exhibition starts?"], hint: "indirect savol", why: "Indirect savolda oddiy so'z tartibi va *does* yo'q." },
       { k: "choice", q: "Which word describes a film whose ending you can guess easily?", opts: ["gripping", "well-paced", "convincing", "predictable"], a: 3, why: "**predictable** — oldindan bilinadigan." },
       { k: "order", uz: "Biz yetib kelishimiz bilan yomg'ir yog'a boshladi.", words: ["Hardly", "had", "we", "arrived", "when", "it", "started", "to", "rain."], extra: ["did", "than"], why: "**Hardly had + ega + V3 + when**: inversion." },
-      { k: "translate", uz: "Men kecha soatimni ta'mirlatdim.", a: ["I had my watch repaired yesterday.", "I got my watch repaired yesterday."], why: "Causative: **have / get + object + V3**." },
+      { k: "translate", uz: "Men kecha soatimni ta'mirlatdim.", a: ["I had my watch repaired yesterday.", "I got my watch repaired yesterday.", "I had my watch fixed yesterday.", "I got my watch fixed yesterday."], why: "Causative: **have / get + object + V3**." },
     ],
   },
 ];

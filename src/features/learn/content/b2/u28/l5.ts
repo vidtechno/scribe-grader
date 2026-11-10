@@ -49,7 +49,7 @@ const lesson: Lesson = {
     {
       title: "Ot: perspective, implication va so'z oilalari",
       blocks: [
-        { t: "p", md: "**Perspective** — nuqtai nazar (qaysi tomondan qaraymiz): *from a teacher's perspective*. **Implication** — oqibat yoki yashirin ma'no: *the implications of the decision*. Ikkalasi ham ko'pincha **ko'plikda** va **for** bilan ishlatiladi." },
+        { t: "p", md: "**Perspective** — nuqtai nazar (qaysi tomondan qaraymiz): *from a teacher's perspective*. **Implication** — oqibat yoki yashirin ma'no: *the implications of the decision*. **Implication** ko'pincha ko'plikda va **for** bilan (*implications for*), **perspective** esa **from … perspective** shaklida ishlatiladi." },
         {
           t: "examples", items: [
             { en: "From an employer's perspective, experience matters more than grades.", uz: "Ish beruvchi nuqtai nazaridan tajriba baholardan muhimroq.", note: "**from … perspective** = «… nuqtai nazaridan»" },
@@ -177,7 +177,7 @@ const lesson: Lesson = {
     { k: "fill", q: "From a customer's ___, the delay is unacceptable.", a: ["perspective"], uz: "Mijoz nuqtai nazaridan kechikish qabul qilib bo'lmaydi.", why: "**from … perspective**." },
     { k: "fill", q: "The new law has important ___ for students. (implication)", a: ["implications"], uz: "Yangi qonun talabalar uchun muhim oqibatlarga ega.", why: "Ko'plik ot: **implications for**." },
     { k: "fix", wrong: "The report rised concerns about safety.", a: ["The report raised concerns about safety."], hint: "raise, raised", why: "**raise** — *raised*." },
-    { k: "order", uz: "Bu masala juda munozarali.", words: ["This", "issue", "is", "highly", "controversial."], extra: ["controversy", "very"], why: "**highly controversial**." },
+    { k: "order", uz: "Bu masala juda munozarali.", words: ["This", "issue", "is", "highly", "controversial."], extra: ["controversy", "very"], alt: [["This", "issue", "is", "very", "controversial."]], why: "**highly controversial**." },
     { k: "translate", uz: "Uyqu sog'liqda katta rol o'ynaydi.", a: ["Sleep plays a major role in health.", "Sleep plays an important role in health.", "Sleep plays a big role in health.", "Sleep plays a crucial role in health.", "Sleep plays a vital role in health.", "Sleep plays a significant role in health."], why: "**play a role in**." },
     { k: "tf", q: "**We can make a conclusion** — bu to'g'ri collocation.", a: false, why: "**draw a conclusion** to'g'ri; *make a conclusion* xato." },
   ],

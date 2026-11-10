@@ -12,7 +12,7 @@ const lesson: Lesson = {
     {
       title: "Prefikslar: so'z boshidagi qo'shimchalar",
       blocks: [
-        { t: 'p', md: "B2 darajada yangi so'zlarning ko'pi aslida **tanish so'z + prefiks yoki suffiks**. Bu qoidani bilsangiz, notanish so'zning ma'nosini taxmin qila olasiz (IELTS Reading uchun juda foydali). Avval **prefiks** (so'zdan oldin) ma'noni o'zgartiradi, turkumni emas:" },
+        { t: 'p', md: "B2 darajada yangi so'zlarning ko'pi aslida **tanish so'z + prefiks yoki suffiks**. Bu qoidani bilsangiz, notanish so'zning ma'nosini taxmin qila olasiz (IELTS Reading uchun juda foydali). Avval **prefiks** (so'zdan oldin) odatda ma'noni o'zgartiradi, turkumni emas (*en-* istisno: *large → enlarge* — fe'l bo'ladi):" },
         { t: 'table', head: ['Prefiks', "Ma'no", 'Misol'], speak: [2], rows: [
           ['un-', "inkor, teskari", 'unreliable, unfair, unlock'],
           ['dis-', "inkor, teskari", 'disagree, disappear, disadvantage'],
@@ -44,7 +44,7 @@ const lesson: Lesson = {
           { en: "The bus service is dependable, so I never worry about being late.", uz: "Avtobus xizmati ishonchli, shuning uchun kechikishdan qo'rqmayman.", note: "depend (fe'l) → **dependable** (sifat)." },
           { en: "There has been a big improvement in her English.", uz: "Uning ingliz tilida katta yaxshilanish bo'ldi.", note: "improve (fe'l) → **improvement** (ot)." },
           { en: "We had a disagreement about the budget.", uz: "Byudjet haqida kelishmovchiligimiz bo'ldi.", note: "disagree (fe'l) → **disagreement** (ot)." },
-          { en: "The new bridge will reinforce the road network.", uz: "Yangi ko'prik yo'l tarmog'ini mustahkamlaydi.", note: "**reinforce** (re- + force): mustahkamlamoq." },
+          { en: "Engineers will reinforce the old bridge before winter.", uz: "Muhandislar eski ko'prikni qishgacha mustahkamlaydi.", note: "**reinforce**: mustahkamlamoq (fe'l)." },
         ] },
         { t: 'tip', tone: 'info', md: "So'z oilasi: *depend* (fe'l), *dependable* (sifat), *dependent* (sifat), *dependence* (ot), *independent* (sifat), *independence* (ot). Gapda **o'rniga qaysi turkum kerak** ekanini ko'ring: *ot* oldidan artikl/sifat, *fe'l* oldidan ega, *sifat* oldidan *very*." },
         { t: 'check', ex: { k: 'fill', q: "There has been a clear ___ in the service. (improve)", a: ['improvement'], why: "*a clear ___* — ot kerak: improve → **improvement**." } },
@@ -69,8 +69,8 @@ const lesson: Lesson = {
           ['fast food', 'give advice'],
         ] },
         { t: 'compare',
-          good: { title: "To'g'ri", items: ["She made a decision.", "I need to do some research.", "It was heavy rain all day."], },
-          bad: { title: 'Xato', items: ["She did a decision.", "I need to make a research.", "It was strong rain all day."] } },
+          good: { title: "To'g'ri", items: ["She made a decision.", "I need to do some research.", "There was heavy rain all day."], },
+          bad: { title: 'Xato', items: ["She did a decision.", "I need to make a research.", "There was strong rain all day."] } },
         { t: 'tip', tone: 'warn', md: "O'zbekchadan so'zma-so'z tarjima xatolari: *qaror qabul qilmoq* → *accept a decision* emas, **make a decision**; *kuchli yomg'ir* → *strong rain* emas, **heavy rain**. **research** sanalmaydi: *a research* emas, **some research** / **do research**." },
         { t: 'check', ex: { k: 'fix', wrong: "We did a big mistake in the report.", a: ["We made a big mistake in the report."], why: "**make a mistake** — kuchli collocation." } },
         { t: 'check', ex: { k: 'fix', wrong: "Yesterday we had a strong rain in the city.", a: ["Yesterday we had heavy rain in the city.", "Yesterday we had a heavy rain in the city.", "Yesterday we had heavy rain in the city"], why: "Yomg'ir bilan **heavy**: *heavy rain*. *strong* — kofe, shamol uchun." } },
@@ -106,7 +106,7 @@ const lesson: Lesson = {
     { k: 'fill', q: "Students should do more ___ before they write an essay. (research / researchs)", a: ['research'], why: "**do research** — *research* sanalmaydi, ko'plik shakli yo'q." },
     { k: 'fix', wrong: "There was a strong rain on Sunday.", a: ["There was heavy rain on Sunday.", "There was a heavy rain on Sunday.", "There was heavy rain on Sunday"], why: "Yomg'ir bilan **heavy**: *heavy rain*." },
     { k: 'choice', q: "'Underpaid' means:", opts: ['paid too little', 'paid too much', 'paid again', 'not paid at all'], a: 0, why: "**under-** = yetarli emas → *underpaid*: kam maosh olayotgan." },
-    { k: 'order', uz: "U bu yil katta yutuqlarga erishdi.", words: ['She', 'has', 'made', 'great', 'progress', 'this', 'year.'], extra: ['done', 'progresses'], alt: [['She', 'has', 'made', 'good', 'progress', 'this', 'year.']], why: "**make progress** — kuchli collocation, *progress* sanalmaydi." },
+    { k: 'order', uz: "U bu yil katta yutuqlarga erishdi.", words: ['She', 'has', 'made', 'great', 'progress', 'this', 'year.'], extra: ['done', 'progresses'], why: "**make progress** — kuchli collocation, *progress* sanalmaydi." },
     { k: 'fill', q: "The manager wants to ___ the meeting room, because it is too small. (en- + large)", a: ['enlarge'], why: "**en-** + large → *enlarge*: kattalashtirmoq." },
     { k: 'listen', say: 'There has been a big improvement in her work.', opts: ['There has been a big improvement in her work.', 'There has been a big improvise in her work.', 'There was a big improvement on her work.', 'There has been a big improving in her work.'], a: 0 },
     { k: 'tf', q: "*Disagreement* is a noun made from the verb *disagree*.", a: true, why: "disagree + **-ment** → disagreement (ot)." },
@@ -114,7 +114,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "Choose the correct form: 'She is very ___; you can always trust her.'", opts: ['dependable', 'dependence', 'dependably', 'depend'], a: 0, why: "*very ___* — sifat. Boshqa variantlar ot yoki ravish." },
     { k: 'fix', wrong: "I will do a research about this topic.", a: ["I will do some research about this topic.", "I will do research about this topic.", "I will do some research on this topic.", "I will do research on this topic."], why: "**research** sanalmaydi: *a research* emas." },
     { k: 'dictation', say: 'We made a decision to reinforce the old bridge.', a: ['We made a decision to reinforce the old bridge.'], uz: "Biz eski ko'prikni mustahkamlashga qaror qildik." },
-    { k: 'speak', say: 'It was heavy rain, so the streets were overcrowded.', uz: "Kuchli yomg'ir yog'di, shuning uchun ko'chalar gavjum edi." },
+    { k: 'speak', say: 'There was heavy rain, and the station was overcrowded.', uz: "Kuchli yomg'ir yog'di va bekat haddan tashqari gavjum edi." },
   ],
   quiz: [
     { k: 'choice', q: "Which prefix means 'wrongly' in 'misunderstand'?", opts: ['mis-', 'dis-', 'over-', 'en-'], a: 0, why: "**mis-** = noto'g'ri." },

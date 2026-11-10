@@ -104,7 +104,7 @@ const lesson: Lesson = {
       ],
     },
     {
-      title: "Dialog: Hafta oxiri rejalari",
+      title: "Dialog: Ish kunining oxirida",
       blocks: [
         {
           t: "dialog", lines: [

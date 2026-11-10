@@ -28,9 +28,11 @@ const lesson: Lesson = {
     {
       title: "For, since va miqdor so'zlari",
       blocks: [
-        { t: 'compare',
-          good: { title: 'for + muddat', items: ['for three days', 'for a couple of weeks', 'for ages'] },
-          bad: { title: 'since + boshlanish nuqtasi', items: ['since Monday', 'since last winter', 'since I got back from Dubai'] } },
+        { t: 'table', head: ['for + muddat', 'since + boshlanish nuqtasi'], speak: [0, 1], rows: [
+          ['for three days', 'since Monday'],
+          ['for a couple of weeks', 'since last winter'],
+          ['for ages', 'since I got back from Dubai'],
+        ] },
         { t: 'examples', items: [
           { en: "I've felt tired since the weekend.", uz: "Dam olish kunlaridan beri o'zimni charchagan his qilyapman.", note: "**since** + boshlanish vaqti." },
           { en: "I've been coughing for a few days.", uz: "Bir necha kundan beri yo'talyapman.", note: "**a few** + sanaladigan ko'plik: *bir nechta (yetarli)*." },

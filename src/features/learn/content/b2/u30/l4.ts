@@ -40,7 +40,7 @@ const lesson: Lesson = {
         },
         { t: "tip", tone: "warn", md: "**To say the truth** — inglizchada yo'q (o'zbekcha *rostini aytsam* dan olingan). To'g'ri: **to tell the truth** yoki **to be honest**." },
         { t: "check", ex: { k: "fill", q: "The film was too long. To be ___, the acting was excellent.", a: ["fair"], uz: "Film juda uzun edi. Adolat uchun aytsam, aktyorlik a'lo edi.", why: "Muvozanat berish: **to be fair**." } },
-        { t: "check", ex: { k: "choice", q: "*I don't dislike the idea. ___, it needs more thought.*", opts: ["What I mean is", "To cut a long story short", "Speaking of which", "On second thoughts"], a: 0, why: "Fikrni aniqlashtirish: **What I mean is**." } },
+        { t: "check", ex: { k: "choice", q: "*I don't dislike the idea. ___, it needs more thought.*", opts: ["What I mean is", "To cut a long story short", "Speaking of which", "By the way"], a: 0, why: "Fikrni aniqlashtirish: **What I mean is**." } },
       ],
     },
     {
@@ -155,7 +155,7 @@ const lesson: Lesson = {
   ],
   quiz: [
     { k: "choice", q: "Which phrase means «aytmoqchi bo'lganim»?", opts: ["what I mean is", "by the way", "speaking of which", "on second thoughts"], a: 0, why: "**What I mean is** fikrni aniqlashtiradi." },
-    { k: "choice", q: "*I thought he was shy, but ___ he's very talkative.*", opts: ["actually", "currently", "nowadays", "at the moment"], a: 0, why: "Kutilganga zid ma'lumot: **actually** = aslida." },
+    { k: "choice", q: "*I thought he was shy, but ___ he's very talkative when you get to know him.*", opts: ["actually", "currently", "nowadays", "at the moment"], a: 0, why: "Kutilganga zid ma'lumot: **actually** = aslida." },
     { k: "fill", q: "Let's meet at five. On second ___, make it six.", a: ["thoughts"], uz: "Beshda uchrashaylik. Qayta o'ylasam, oltida bo'lsin.", why: "**on second thoughts**." },
     { k: "fix", wrong: "As matter of fact, he is my uncle.", a: ["As a matter of fact, he is my uncle.", "As a matter of fact, he's my uncle."], hint: "artikl", why: "**as a matter of fact**." },
     { k: "choice", q: "We were discussing travel. ___, I've found a cheap flight to Rome.", opts: ["Speaking of which", "To cut a long story short", "Mind you", "What I mean is"], a: 0, why: "Mavzuga bog'liq yangilik: **speaking of which**." },

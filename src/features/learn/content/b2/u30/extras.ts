@@ -5,7 +5,7 @@ export const extras: UnitExtras = {
     "Idioma va collocation'larni o'rinli ishlataman (a piece of cake, hit the nail on the head, make a decision, heavy rain)",
     "So do I / Neither can I / I hope so bilan javob beraman va whose, whom, which bilan fikrni boyitaman",
     "Nutq belgilari bilan ravon gapiraman, 2 daqiqalik javob (cue card) va qisqa taqdimot qilaman",
-    "250 so'zli sharh yoki hikoya yozaman va maqolaning 100-120 so'zli qisqacha mazmunini tuzaman",
+    "250 so'zli sharh yoki hikoya yozaman va mehmonga 100-120 so'zli tavsiya yozaman",
   ],
   traps: [
     {
