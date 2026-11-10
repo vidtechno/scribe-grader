@@ -88,7 +88,7 @@ const lesson: Lesson = {
             { who: "Zarina", en: "To a certain extent, I like the idea. My brother had his phone taken away for a week and he survived.", uz: "Ma'lum darajada g'oya menga yoqadi. Akamning telefoni bir haftaga olib qo'yilgan edi va u chidadi." },
             { who: "Tom", en: "Ha! I'd say the real problem is cyberbullying. It is said to be getting worse every year.", uz: "Ha! Menimcha, haqiqiy muammo internetdagi ta'qib. U yildan yilga yomonlashmoqda, deyiladi." },
             { who: "Zarina", en: "I couldn't agree more. Teachers should be trained to spot it earlier.", uz: "To'liq roziman. O'qituvchilar buni erta payqashga o'rgatilishi kerak." },
-            { who: "Tom", en: "Meanwhile, our own classroom computers are obsolete, and the bandwidth is so low that streaming a lesson is impossible.", uz: "Bu orada bizning sinfdagi kompyuterlarimiz eskirgan, tarmoq o'tkazuvchanligi shu qadar pastligi sababli darsni onlayn ko'rib bo'lmaydi." },
+            { who: "Tom", en: "Meanwhile, our own classroom computers are obsolete, and the bandwidth is so low that streaming a lesson is impossible.", uz: "Bu orada bizning sinfdagi kompyuterlarimiz eskirgan, tarmoq o'tkazuvchanligi shunchalik past ekanki, darsni onlayn ko'rib bo'lmaydi." },
             { who: "Zarina", en: "Then let's ask the school to have the network upgraded.", uz: "Unda maktabdan tarmoqni yangilatishni so'raymiz." },
             { who: "Tom", en: "Good idea. I'll write to the head teacher tonight.", uz: "Yaxshi fikr. Bugun kechqurun direktorga yozaman." },
           ],
