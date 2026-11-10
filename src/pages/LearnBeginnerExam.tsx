@@ -14,6 +14,7 @@ import { BEGINNER_EXAM, BEGINNER_SPEAKING, type ExamItem, type ExamSkill } from 
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from '@/features/learn/content/a1/exam';
 import { PREINTERMEDIATE_EXAM, PREINTERMEDIATE_SPEAKING } from '@/features/learn/content/a2/exam';
 import { INTERMEDIATE_EXAM, INTERMEDIATE_SPEAKING } from '@/features/learn/content/b1/exam';
+import { UPPER_INTERMEDIATE_EXAM, UPPER_INTERMEDIATE_SPEAKING } from '@/features/learn/content/b2/exam';
 import { CertificateDialog } from '@/features/learn/components/CertificateDialog';
 import { ExerciseView } from '@/features/learn/components/ExerciseView';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
@@ -43,6 +44,8 @@ const CONFIGS: Record<string, ExamConfig> = {
     ready: 'learn.exam.ready.a2' },
   b1: { level: 'b1', title: 'Intermediate', cefr: 'B1', bank: INTERMEDIATE_EXAM, speaking: INTERMEDIATE_SPEAKING,
     ready: 'learn.exam.ready.b1' },
+  b2: { level: 'b2', title: 'Upper-Intermediate', cefr: 'B2', bank: UPPER_INTERMEDIATE_EXAM, speaking: UPPER_INTERMEDIATE_SPEAKING,
+    ready: 'learn.exam.ready.b2' },
 };
 
 interface Outcome { passed: boolean; advanced: boolean; next_level: string | null; xp: number }
@@ -56,6 +59,7 @@ export const BeginnerExam = () => <LevelExam config={CONFIGS.beginner} />;
 export const ElementaryExam = () => <LevelExam config={CONFIGS.a1} />;
 export const PreIntermediateExam = () => <LevelExam config={CONFIGS.a2} />;
 export const IntermediateExam = () => <LevelExam config={CONFIGS.b1} />;
+export const UpperIntermediateExam = () => <LevelExam config={CONFIGS.b2} />;
 
 function LevelExam({ config }: { config: ExamConfig }) {
   const { t: tr, lang } = useT();

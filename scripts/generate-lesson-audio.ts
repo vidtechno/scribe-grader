@@ -26,6 +26,7 @@ import { BEGINNER_EXAM, BEGINNER_SPEAKING } from '../src/features/learn/content/
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from '../src/features/learn/content/a1/exam';
 import { PREINTERMEDIATE_EXAM, PREINTERMEDIATE_SPEAKING } from '../src/features/learn/content/a2/exam';
 import { INTERMEDIATE_EXAM, INTERMEDIATE_SPEAKING } from '../src/features/learn/content/b1/exam';
+import { UPPER_INTERMEDIATE_EXAM, UPPER_INTERMEDIATE_SPEAKING } from '../src/features/learn/content/b2/exam';
 import type { Lesson } from '../src/features/learn/types';
 
 const run = promisify(execFile);
@@ -140,6 +141,8 @@ async function main() {
   for (const ex of PREINTERMEDIATE_SPEAKING) for (const t of exerciseAudioTexts(ex)) texts.set(audioKey(t), t);
   for (const item of INTERMEDIATE_EXAM) for (const t of exerciseAudioTexts(item.ex)) texts.set(audioKey(t), t);
   for (const ex of INTERMEDIATE_SPEAKING) for (const t of exerciseAudioTexts(ex)) texts.set(audioKey(t), t);
+  for (const item of UPPER_INTERMEDIATE_EXAM) for (const t of exerciseAudioTexts(item.ex)) texts.set(audioKey(t), t);
+  for (const ex of UPPER_INTERMEDIATE_SPEAKING) for (const t of exerciseAudioTexts(ex)) texts.set(audioKey(t), t);
   // Practice games after lessons have their own listening and reading texts.
   for (const unit of WRITTEN_UNITS) {
     for (const drill of await loadDrills(unit.id)) {

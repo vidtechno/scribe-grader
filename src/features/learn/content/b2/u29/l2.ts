@@ -180,7 +180,7 @@ const lesson: Lesson = {
     { k: "choice", q: "The majority of the water ___ from the river.", opts: ["comes", "come", "are coming", "have come"], a: 0, why: "*Water* — sanalmaydigan, birlik: **comes**." },
     { k: "choice", q: "Which word means 'not enough'?", opts: ["scarce", "abundant", "surplus", "sufficient"], a: 0, why: "**Scarce** — kamyob, yetmaydi. Qolganlari mo'l yoki yetarli." },
     { k: "fill", q: "Two-thirds of the students ___ girls. (be)", a: ["are"], uz: "Talabalarning uchdan ikki qismi qizlar.", why: "**Students** — ko'plik: **are**." },
-    { k: "fill", q: "We have only ___ little money left, so let's take the bus. (a very small amount, negative)", a: ["very"], hint: "so'z: very", why: "**Very little** — juda oz, salbiy ma'no." },
+    { k: "fill", q: "I would like to help you, but I have ___ money left this month. (almost none)", a: ["hardly any"], uz: "Sizga yordam berardim, lekin bu oy deyarli pulim qolmadi.", why: "**Hardly any** — deyarli yo'q (sanalmaydigan ot bilan ham ishlatiladi)." },
     { k: "order", uz: "Mehmonxonaning har bir xonasida televizor bor.", words: ["Each", "of", "the", "rooms", "has", "a", "television."], extra: ["have", "many"], why: "**Each of** + birlik fe'l: **has**." },
     { k: "translate", uz: "Velosipedchilar soni oshmoqda.", a: ["The number of cyclists is rising.", "The number of cyclists is increasing.", "The number of cyclists is growing."], why: "**The number of** + birlik fe'l." },
     { k: "fix", wrong: "There are much cars on the road today.", a: ["There are many cars on the road today.", "There are a lot of cars on the road today.", "There are lots of cars on the road today."], hint: "cars sanaladi", why: "*Cars* — sanaladigan: **many / a lot of**." },

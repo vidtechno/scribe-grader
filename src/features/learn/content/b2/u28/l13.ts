@@ -1,0 +1,120 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (grammar): participle clauses (present, past, perfect), the same-subject rule, reduced relative clauses.
+const lesson: Lesson = {
+  id: 'u28-l13',
+  title: 'Participle clauses',
+  titleUz: "Sifatdosh gaplari: Having finished, Walking home, Built in 1900",
+  mini: true,
+  kind: 'grammar',
+  goal: "**Sifatdosh gaplarini** (*Walking home, …*, *Built in 1900, …*, *Having finished, …*) tuzasiz, **bir xil ega** qoidasini bilasiz (dangling participle xatosi), qisqargan nisbiy gaplarni (*the man standing there*) ishlatasiz va yozma nutqni ixchamroq qilasiz.",
+  slides: [
+    {
+      title: "Uchta shakl: -ing, V3, having + V3",
+      blocks: [
+        { t: 'p', md: "Sifatdosh gapi ikkita fe'lni bitta gapda **ixcham** birlashtiradi. Oddiy gap: *While I was walking home, I met an old friend.* Qisqargan: **Walking home, I met an old friend.** Bu **rasmiy yozma nutq**, hikoya va esselarda tez-tez uchraydi. O'zbek tilidagi *-b / -gach* (*uyga kelib, ovqatlandim*, *ishni tugatgach*) shakllariga o'xshash." },
+        { t: 'table', head: ['Shakl', 'Ma\'no', 'Misol'], speak: [2], rows: [
+          ['Present participle (-ing)', "Aktiv, bir vaqtda yoki sabab", "Walking home, I met an old friend."],
+          ['Past participle (V3)', "Majhul (passive), natija", "Built in 1900, the house is now a museum."],
+          ['Perfect participle (having + V3)', "Oldin tugagan harakat", "Having finished the report, she went home."],
+          ['Inkor', "**Not** boshida", "Not knowing the answer, he guessed."],
+        ] },
+        { t: 'tip', tone: 'info', md: "**Perfect** (*having finished*) — birinchi harakat **tugab bo'lgan**, keyin ikkinchisi boshlangan. *Finishing the report, she went home* esa ikkala ish deyarli bir vaqtda degan ma'no beradi. Majhul perfect: **Having been told** the news, he left." },
+        { t: 'check', ex: { k: 'choice', q: "___ the report, she sent it to her manager.", opts: ["Having finished", "Having finish", "Finished having", "Been finished"], a: 0, why: "Birinchi harakat tugagan: **having + V3** = *having finished*." } },
+        { t: 'check', ex: { k: 'tf', q: "*Built in 1900, the house is now a museum.* — *Built* majhul ma'noga ega.", a: true, why: "**Past participle** majhul: uy *qurilgan* (the house was built)." } },
+      ],
+    },
+    {
+      title: "Bir xil ega qoidasi va qisqargan nisbiy gaplar",
+      blocks: [
+        { t: 'p', md: "Eng muhim qoida: sifatdosh gapining **egasi** bosh gapning **egasi bilan bir xil** bo'lishi kerak. Aks holda **dangling participle** (osilib qolgan sifatdosh) xatosi chiqadi va gap kulgili eshitiladi." },
+        { t: 'compare',
+          good: { title: "To'g'ri (ega bir xil)", items: ['Walking home, I met an old friend.', 'Opening the door, I saw a cat.', 'Having eaten dinner, we washed the dishes.'] },
+          bad: { title: 'Xato (ega boshqa)', items: ['Walking home, the rain started.', 'Opening the door, a cat jumped out.', 'Having eaten dinner, the dishes were washed.'] } },
+        { t: 'tip', tone: 'warn', md: "*Walking home, the rain started* — go'yo yomg'ir uyga *yurib borayotgandek*. To'g'risi: *Walking home, I felt the rain start* yoki *While I was walking home, it started to rain.* Ega farq qilsa — oddiy bog'lovchi bilan gap tuzing (*while, when, because*)." },
+        { t: 'examples', items: [
+          { en: "The man standing at the door is my uncle.", uz: "Eshik oldida turgan odam — amakim.", note: "**-ing** = *who is standing*: aktiv nisbiy gap." },
+          { en: "The book written by George Orwell is on the table.", uz: "Jorj Oruell yozgan kitob stol ustida.", note: "**V3** = *which was written*: majhul nisbiy gap." },
+          { en: "Passengers stranded by bad weather can wait in the café.", uz: "Yomon ob-havo tufayli qolib ketgan yo'lovchilar kafeda kutishi mumkin.", note: "Ega ot bilan birga: sifatdosh otdan keyin." },
+        ] },
+        { t: 'check', ex: { k: 'fill', q: "The woman ___ next to me is my aunt.", a: ['sitting', 'seated'], hint: "o'tirgan (who is sitting)", why: "**-ing** / **seated** = *who is sitting*." } },
+        { t: 'check', ex: { k: 'choice', q: "Qaysi gap to'g'ri (dangling participle yo'q)?", opts: ["Walking home, the rain started.", "Walking home, I met an old friend.", "Opening the door, a cat jumped out.", "Having eaten dinner, the dishes were washed."], a: 1, why: "Faqat ikkinchisida sifatdosh va bosh gap egasi bir xil: *I*." } },
+      ],
+    },
+    {
+      title: "Tipik xatolar (o'zbek tilidan)",
+      blocks: [
+        { t: 'p', md: "O'zbek tilida *-b* ravishdoshi va *-gach* ko'pincha oson ishlatiladi, ular ega haqida qaygurmaydi. Inglizchada esa 4 xato tez-tez chiqadi:" },
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ['Having finished the work, he went home.', 'While I was waiting, my phone rang.', 'The woman sitting next to me is my aunt.', 'The house built in 1900 is a museum.'] },
+          bad: { title: 'Xato', items: ['Finished the work, he went home.', 'Waiting for the bus, my phone rang.', 'The woman sits next to me is my aunt.', 'The house building in 1900 is a museum.'] } },
+        { t: 'tip', tone: 'warn', md: "*Ishni tugatib, uyga ketdi* → **Having finished**, *Finished* emas (*Finished the work* — majhul ma'no). Ega boshqa bo'lsa — to'liq gap. *Sits next to me* — fe'l shaklida, *sitting* yoki *who sits* kerak. *Building* faol (qurayotgan), *built* esa majhul (qurilgan)." },
+        { t: 'check', ex: { k: 'fix', wrong: "Finished the work, he went home.", a: ["Having finished the work, he went home.", "When he had finished the work, he went home.", "After finishing the work, he went home.", "After he finished the work, he went home."], why: "Oldin tugagan harakat: **Having finished**." } },
+        { t: 'check', ex: { k: 'fix', wrong: "Waiting for the bus, my phone rang.", a: ["While I was waiting for the bus, my phone rang.", "Waiting for the bus, I heard my phone ring.", "As I was waiting for the bus, my phone rang.", "When I was waiting for the bus, my phone rang."], why: "Ega boshqa (*I* ≠ *phone*): to'liq gap yoki *I* ni ega qiling." } },
+        { t: 'check', ex: { k: 'fix', wrong: "The woman sits next to me is my aunt.", a: ["The woman sitting next to me is my aunt.", "The woman who sits next to me is my aunt.", "The woman who is sitting next to me is my aunt.", "The woman seated next to me is my aunt."], why: "Qisqargan nisbiy gap: **-ing** yoki *who sits*." } },
+      ],
+    },
+    {
+      title: "O'qing va dialog",
+      blocks: [
+        { t: 'text', title: 'The old school in the mountains', voice: 'emma', en: "Last summer I visited a village in the mountains. Built in the nineteenth century, the old school at the edge of the village had been abandoned for thirty years. Walking through its derelict classrooms, I felt a strange sadness. Having heard about a project to restore it, I asked a local man about the plan. The man standing beside me, a retired teacher, explained that the village had been founded by farmers who valued education. Stranded without a school, the children now travel two hours by bus every day. Not wanting to lose their history, the villagers have started raising money. Moved by their story, I donated what I could.", uz: "O'tgan yozda tog'dagi bir qishloqqa bordim. O'n to'qqizinchi asrda qurilgan, qishloq chekkasidagi eski maktab o'ttiz yildan beri tashlandiq edi. Uning eskirgan sinfxonalarida yurib, g'alati g'amginlik his qildim. Uni tiklash loyihasi haqida eshitgan bo'lib, mahalliy odamdan reja haqida so'radim. Yonimda turgan odam, nafaqadagi o'qituvchi, qishloq ta'limni qadrlagan dehqonlar tomonidan asos solinganini tushuntirdi. Maktabsiz qolgan bolalar endi har kuni avtobusda ikki soat yo'l yuradi. Tarixini yo'qotishni istamay, qishloq aholisi pul yig'a boshladi. Ularning hikoyasidan ta'sirlanib, qo'limdan kelganicha xayriya qildim." },
+        { t: 'check', ex: { k: 'tf', q: "The school is still open and the children walk to it.", a: false, why: "*Had been abandoned*; bolalar avtobusda ikki soat yo'l yuradi." } },
+        { t: 'check', ex: { k: 'choice', q: "Why have the villagers started raising money?", opts: ["They want to build a new road.", "They do not want to lose their history.", "They want to move to the city.", "They need a new bus."], a: 1, why: "*Not wanting to lose their history, the villagers have started raising money.*" } },
+        { t: 'dialog', lines: [
+          { who: 'Madina', en: "Look at this photo. Taken in 1950, it shows the old railway station.", uz: "Mana bu suratga qara. 1950-yilda olingan, unda eski vokzal ko'rinadi." },
+          { who: 'Jasur', en: "Is that the building standing next to the river?", uz: "Bu daryo yonida turgan bino-mi?" },
+          { who: 'Madina', en: "Yes. Founded as a small station, it grew into the busiest one in the region.", uz: "Ha. Kichik bekat sifatida asos solingan, u viloyatdagi eng gavjumiga aylangan." },
+          { who: 'Jasur', en: "Having been closed for twenty years, it must be derelict now.", uz: "Yigirma yil yopiq turgani uchun, hozir u eskirgan bo'lsa kerak." },
+          { who: 'Madina', en: "It is, but the council wants to restore it. Having seen the plans, I think the result will be wonderful.", uz: "Shunday, lekin kengash uni tiklamoqchi. Rejalarni ko'rganimdan keyin, natija ajoyib bo'ladi, deb o'ylayman." },
+          { who: 'Jasur', en: "Weary after a long journey, travellers would love a café there.", uz: "Uzoq yo'ldan charchagan sayohatchilar u yerda kafeni yoqtirardi." },
+          { who: 'Madina', en: "Exactly. And passengers stranded by bad weather could wait in comfort.", uz: "Aynan. Yomon ob-havo tufayli qolib ketgan yo'lovchilar ham qulay kutishi mumkin." },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: "What does the council want to do with the station?", opts: ["Restore it", "Demolish it", "Sell it", "Close it"], a: 0, why: "*The council wants to restore it.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'abandoned', uz: "tashlab ketilgan, egasiz", ipa: 'əˈbæn.dənd', pos: 'adj', ex: "The abandoned factory stood empty for years.", exUz: "Tashlandiq fabrika yillar davomida bo'sh turdi." },
+    { en: 'derelict', uz: "tashlandiq va xaroba", ipa: 'ˈder.ə.lɪkt', pos: 'adj', ex: "The derelict warehouse is going to be turned into flats.", exUz: "Xaroba ombor kvartiralarga aylantiriladi." },
+    { en: 'stranded', uz: "qolib ketgan (yo'lda, yordamsiz)", ipa: 'ˈstræn.dɪd', pos: 'adj', ex: "Stranded at the airport, we slept on the floor.", exUz: "Aeroportda qolib ketib, polda uxladik." },
+    { en: 'founded', uz: "asos solingan", ipa: 'ˈfaʊn.dɪd', pos: 'adj', ex: "Founded in 1920, the college is one of the oldest in the country.", exUz: "1920-yilda asos solingan kollej mamlakatdagi eng qadimiylaridan biri." },
+    { en: 'restore', uz: "tiklamoq, asl holiga qaytarmoq", ipa: 'rɪˈstɔː', pos: 'verb', ex: "They plan to restore the old theatre to its original beauty.", exUz: "Ular eski teatrni asl go'zalligiga qaytarmoqchi." },
+    { en: 'weary', uz: "charchagan, toliqqan", ipa: 'ˈwɪə.ri', pos: 'adj', ex: "Weary after the climb, we rested by the lake.", exUz: "Ko'tarilishdan charchab, ko'l bo'yida dam oldik." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['abandoned', 'tashlab ketilgan'], ['derelict', 'tashlandiq, xaroba'], ['stranded', 'yo\'lda qolib ketgan'], ['founded', 'asos solingan'], ['restore', 'tiklamoq'], ['weary', 'charchagan']] },
+    { k: 'choice', q: "Which sentence is correct (no dangling participle)?", opts: ["Walking home, I met an old friend.", "Walking home, the rain started.", "Opening the door, a cat jumped out.", "Having eaten dinner, the dishes were washed."], a: 0, why: "Faqat birinchisida sifatdosh va bosh gap egasi bir xil (*I*)." },
+    { k: 'fill', q: "The man ___ next to me is my uncle.", a: ['sitting', 'seated'], uz: "Yonimda o'tirgan odam amakim.", hint: "o'tirgan", why: "Qisqargan nisbiy gap: **sitting** (= *who is sitting*)." },
+    { k: 'fix', wrong: "Finished the work, he went home.", a: ["Having finished the work, he went home.", "When he had finished the work, he went home.", "After finishing the work, he went home.", "After he finished the work, he went home."], why: "Oldin tugagan harakat → **having finished**." },
+    { k: 'order', uz: "Sohil bo'ylab yurib, men g'alati chig'anoq topdim.", words: ['Walking', 'along', 'the', 'beach,', 'I', 'found', 'a', 'strange', 'shell.'], extra: ['Having', 'walked'], why: "**-ing + bir xil ega (I)**." },
+    { k: 'tf', q: "*The house building in 1900 is now a museum.* — Gap to'g'ri.", a: false, why: "Uy *qurilgan* (majhul): **built**, *building* emas." },
+    { k: 'translate', uz: "Ishni tugatgach, u uyga ketdi.", a: ["Having finished the work, he went home.", "Having finished the work, she went home.", "Having finished his work, he went home.", "Having finished her work, she went home.", "Having finished work, he went home.", "Having finished work, she went home."], why: "**Having + V3** — oldin tugagan ish." },
+    { k: 'dictation', say: "Not knowing the answer, she decided to guess.", uz: "Javobni bilmay, u taxmin qilishga qaror qildi." },
+    { k: 'fix', wrong: "The woman sits next to me is my aunt.", a: ["The woman sitting next to me is my aunt.", "The woman who sits next to me is my aunt.", "The woman who is sitting next to me is my aunt.", "The woman seated next to me is my aunt."], why: "Nisbiy gapni qisqartirish: **-ing**; yoki to'liq: *who sits*." },
+    { k: 'choice', q: "The book ___ by George Orwell is on the table.", opts: ['written', 'writing', 'wrote', 'writes'], a: 0, why: "Majhul qisqargan nisbiy gap: **written** (= *which was written*)." },
+    { k: 'fill', q: "(build) ___ in 1890, the old mill is now a hotel.", a: ['Built'], hint: "qurilgan (majhul)", why: "**Built in 1890** — past participle majhul ma'noda." },
+    { k: 'listen', say: "Having seen the plans, I think the result will be wonderful.", opts: ["Having seen the plans, I think the result will be wonderful.", "Having see the plans, I think the result will be wonderful.", "Having seen the plans, the result will be wonderful, I think.", "Having saw the plans, I think the result will be wonderful."], a: 0 },
+    { k: 'fix', wrong: "Waiting for the bus, my phone rang.", a: ["While I was waiting for the bus, my phone rang.", "Waiting for the bus, I heard my phone ring.", "As I was waiting for the bus, my phone rang.", "When I was waiting for the bus, my phone rang."], why: "Ega mos emas: *I* ≠ *phone*." },
+    { k: 'speak', say: "Walking through the derelict classrooms, I felt a strange sadness." },
+  ],
+  quiz: [
+    { k: 'choice', q: "Which sentence means that the first action finished before the second?", opts: ["Having locked the door, she left.", "Locking the door, she left.", "Locked the door, she left.", "Being locked the door, she left."], a: 0, why: "**Having + V3** = oldin tugagan harakat." },
+    { k: 'fill', q: "The students ___ in the front row asked the most questions.", a: ['sitting', 'seated'], hint: "oldingi qatorda o'tirgan", why: "Qisqargan nisbiy gap: *sitting* yoki *seated*." },
+    { k: 'tf', q: "*Opening the door, a cat jumped out.* — Bu gapda dangling participle xatosi bor.", a: true, why: "*Opening* ning egasi — *I*, lekin bosh gapda ega *cat*." },
+    { k: 'fix', wrong: "Having finish the report, I went to bed.", a: ["Having finished the report, I went to bed."], why: "**having + V3**: *finished*." },
+    { k: 'order', uz: "Nima deyishni bilmay, u jim qoldi.", words: ['Not', 'knowing', 'what', 'to', 'say,', 'he', 'stayed', 'silent.'], extra: ['Knowing', 'not'], why: "Inkor sifatdosh: **Not + -ing**." },
+    { k: 'listen', say: "Founded in 1920, the college is one of the oldest in the country.", opts: ["Founded in 1920, the college is one of the oldest in the country.", "Founding in 1920, the college is one of the oldest in the country.", "Found in 1920, the college is one of the oldest in the country.", "Founded in 1920, the college was one of the oldest country."], a: 0 },
+    { k: 'translate', uz: "Yomg'irdan charchagan bo'lsak ham, biz davom etdik.", a: ["Although we were weary, we continued.", "Though we were weary, we continued.", "Weary, we continued."], why: "Qisqa shakl: sifat + ega: **Weary, we continued.**" },
+    { k: 'choice', q: "Which one is correct?", opts: ["The house building in 1900 is old.", "The house built in 1900 is old.", "The house been built in 1900 is old.", "The house to build in 1900 is old."], a: 1, why: "Majhul: **built** (= *which was built*)." },
+  ],
+  summary: [
+    "**Sifatdosh gapi** ikki harakatni bog'laydi: **-ing** (aktiv), **V3** (majhul), **having + V3** (oldin tugagan harakat); inkor — **Not + -ing**.",
+    "**Bir xil ega** qoidasi: sifatdosh va bosh gap egasi bir kishi/narsa bo'lishi kerak. Aks holda — dangling participle (*Walking home, the rain started*).",
+    "**Qisqargan nisbiy gap**: *the man standing there* (= who is standing), *the book written by…* (= which was written).",
+    "Xatolar: *Finished the work, he…* → *Having finished…*; *Waiting for the bus, my phone rang* → *While I was waiting…*; *sits next to me* → *sitting next to me*; *building* → *built*.",
+    "Yangi so'zlar: **abandoned, derelict, stranded, founded, restore, weary**.",
+  ],
+  homework: "Telefondan 3 ta eski suratni tanlang va har biri uchun 2 gapli tavsif yozing: bittasida **Built/Taken in…, …** (past participle), ikkinchisida **Having…, …** yoki **Walking/Sitting…, I…** ishlating. Har gapda sifatdosh va bosh gap egasi bir xil ekanini tekshiring.",
+};
+
+export default lesson;

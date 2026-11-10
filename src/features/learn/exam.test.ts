@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { ALL_LESSONS } from './course';
+import { ALL_LESSONS, B2_UNITS } from './course';
 import { BEGINNER_EXAM, type ExamSkill } from './content/beginner/exam';
 import { ELEMENTARY_EXAM, ELEMENTARY_SPEAKING } from './content/a1/exam';
 import { PREINTERMEDIATE_EXAM, PREINTERMEDIATE_SPEAKING } from './content/a2/exam';
 import { INTERMEDIATE_EXAM, INTERMEDIATE_SPEAKING } from './content/b1/exam';
+import { UPPER_INTERMEDIATE_EXAM, UPPER_INTERMEDIATE_SPEAKING } from './content/b2/exam';
 import type { Exercise } from './types';
 
 const MIN: Record<ExamSkill, number> = { grammar: 16, vocabulary: 12, reading: 10, listening: 12, writing: 12 };
@@ -227,6 +228,53 @@ describe('Intermediate speaking', () => {
   it('has 3 speak prompts', () => {
     expect(INTERMEDIATE_SPEAKING).toHaveLength(3);
     for (const e of INTERMEDIATE_SPEAKING) {
+      expect(e.k).toBe('speak');
+      expect(e.k === 'speak' && e.say.trim().length > 0).toBe(true);
+    }
+  });
+});
+
+describe('Upper-Intermediate exam bank', () => {
+  it('has enough items per skill', () => {
+    for (const [skill, n] of Object.entries(MIN)) {
+      expect(UPPER_INTERMEDIATE_EXAM.filter((i) => i.skill === skill).length, skill).toBeGreaterThanOrEqual(n);
+    }
+  });
+
+  // B2 stays out of ALL_LESSONS while the level is closed, so topics are checked against its written outline.
+  it('topics are lessons of the B2 units, and every unit is tested', () => {
+    const ids = new Set(B2_UNITS.flatMap((u) => u.lessons.map((x) => x.id)));
+    expect(UPPER_INTERMEDIATE_EXAM.filter((i) => !ids.has(i.topic)).map((i) => i.topic)).toEqual([]);
+    for (const u of B2_UNITS) expect(UPPER_INTERMEDIATE_EXAM.some((i) => i.topic.startsWith(u.id + '-')), u.id).toBe(true);
+  });
+
+  it('has no duplicate questions', () => {
+    const keys = UPPER_INTERMEDIATE_EXAM.map((i) => key(i.ex).trim().toLowerCase());
+    expect(keys.filter((k, i) => keys.indexOf(k) !== i)).toEqual([]);
+  });
+
+  it('uses only allowed kinds per skill and valid exercises', () => {
+    const allowed: Record<ExamSkill, string[]> = {
+      grammar: ['choice', 'fill', 'fix'],
+      vocabulary: ['choice', 'match', 'fill'],
+      reading: ['choice', 'tf'],
+      listening: ['listen', 'dictation'],
+      writing: ['order', 'translate', 'fix'],
+    };
+    const p: string[] = [];
+    UPPER_INTERMEDIATE_EXAM.forEach((i, n) => {
+      if (!allowed[i.skill].includes(i.ex.k)) p.push(`#${n + 1}: ${i.ex.k} not allowed in ${i.skill}`);
+      if (i.skill === 'reading' && !('q' in i.ex && i.ex.q.includes('\n\n'))) p.push(`#${n + 1}: reading needs passage + question`);
+      p.push(...problems(i.ex, `#${n + 1} ${i.skill}`));
+    });
+    expect(p).toEqual([]);
+  });
+});
+
+describe('Upper-Intermediate speaking', () => {
+  it('has 3 speak prompts', () => {
+    expect(UPPER_INTERMEDIATE_SPEAKING).toHaveLength(3);
+    for (const e of UPPER_INTERMEDIATE_SPEAKING) {
       expect(e.k).toBe('speak');
       expect(e.k === 'speak' && e.say.trim().length > 0).toBe(true);
     }
