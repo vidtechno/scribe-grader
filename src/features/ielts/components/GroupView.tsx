@@ -59,7 +59,7 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus, fl
                       {(group.kind === 'tfng' ? ['true', 'false', 'not-given'] : ['yes', 'no', 'not-given']).map((o) => (
                         <button key={o} type="button" role="radio" aria-checked={value === o} disabled={!!review}
                           onClick={() => { set(n, value === o ? undefined : o); onFocus?.(n); }}
-                          className={cn('px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors', value === o ? 'border-primary bg-primary text-primary-foreground' : 'border-border hover:border-primary/50')}>
+                          className={cn('px-3.5 py-2.5 min-h-10 rounded-lg border text-xs font-semibold transition-colors', value === o ? 'border-primary bg-primary text-primary-foreground' : 'border-border hover:border-primary/50')}>
                           {TF[o]}
                         </button>
                       ))}
@@ -71,7 +71,7 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus, fl
                       {(item as { options: string[] }).options.map((o, k) => (
                         <button key={k} type="button" role="radio" aria-checked={value === k} disabled={!!review}
                           onClick={() => { set(n, value === k ? undefined : k); onFocus?.(n); }}
-                          className={cn('w-full text-left flex gap-2 px-3 py-2 rounded-lg border transition-colors', value === k ? 'border-primary bg-primary/10' : 'border-border hover:border-primary/50')}>
+                          className={cn('w-full text-left flex gap-2 px-3 py-2.5 min-h-11 rounded-lg border transition-colors', value === k ? 'border-primary bg-primary/10' : 'border-border hover:border-primary/50')}>
                           <span className="font-semibold w-5 shrink-0">{String.fromCharCode(65 + k)}</span><span>{o}</span>
                         </button>
                       ))}
@@ -81,7 +81,7 @@ export function GroupView({ group, start, answers, onAnswer, review, onFocus, fl
                   {group.kind === 'match' && (
                     <select aria-label={t('ielts.q.questionN', { n })} disabled={!!review} value={typeof value === 'number' ? String(value) : ''}
                       onChange={(e) => { set(n, e.target.value === '' ? undefined : Number(e.target.value)); onFocus?.(n); }}
-                      className="rounded-lg border border-border bg-background px-3 py-2 text-sm min-w-[8rem]">
+                      className="rounded-lg border border-border bg-background px-3 py-2.5 text-base sm:text-sm min-w-[8rem]">
                       <option value="">{t('ielts.q.choose')}</option>
                       {group.options.map((_, k) => <option key={k} value={k}>{optionLabel(group.instruction, k)}</option>)}
                     </select>
@@ -125,7 +125,7 @@ function FillLine({ q, value, disabled, onChange, onFocus, label }: { q: string;
       {before}
       <input type="text" value={value} disabled={disabled} onChange={(e) => onChange(e.target.value)} onFocus={onFocus} aria-label={label}
         autoComplete="off" autoCapitalize="off" spellCheck={false}
-        className="mx-1 w-36 sm:w-44 rounded-md border-b-2 border-primary/50 bg-secondary/40 px-2 py-1 text-sm focus:outline-none focus:border-primary" />
+        className="mx-1 w-36 sm:w-44 rounded-md border-b-2 border-primary/50 bg-secondary/40 px-2 py-1.5 text-base sm:text-sm focus:outline-none focus:border-primary" />
       {rest.join('___')}
     </p>
   );
