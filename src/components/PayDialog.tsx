@@ -14,7 +14,7 @@ import { billingLabel, formatUzs, getPlanEntitlement, planPrice, visaLink, type 
  * (click, payme, uzcard-humo, paynet); until a file exists the name is shown instead.
  */
 const METHODS: { id: CheckoutMethod; name: string; logo: string; hint: string }[] = [
-  { id: 'click', name: 'Click', logo: '/pay/click.svg', hint: 'pay.click.hint' },
+  // Click is switched off for now (it does not work); add the line back to offer it again.
   { id: 'payme', name: 'Payme', logo: '/pay/payme.svg', hint: 'pay.payme.hint' },
   { id: 'uzcard', name: 'Uzcard / Humo', logo: '/pay/uzcard-humo.svg', hint: 'pay.card.hint' },
   { id: 'paynet', name: 'Paynet', logo: '/pay/paynet.svg', hint: 'pay.paynet.hint' },
