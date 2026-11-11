@@ -1,0 +1,135 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (review): the whole unit (narrative tenses, present perfect, past habits, future forms, stative verbs, linkers) with new examples,
+// error spotting and a one-minute speaking task.
+const lesson: Lesson = {
+  id: 'u24-l11',
+  title: 'Time, habits and change: final review',
+  titleUz: "Vaqt, odatlar va o'zgarish: yakuniy takror",
+  mini: true,
+  kind: 'review',
+  goal: "Bosqichdagi hamma mavzuni takrorlaysiz: **hikoya zamonlari**, **Present Perfect Simple / Continuous**, **used to / would / be used to**, **kelasi zamon shakllari**, **holat va harakat fe'llari** va **vaqt bog'lovchilari**. Xatolarni topasiz va 1 daqiqalik nutq aytasiz.",
+  slides: [
+    {
+      title: "O'tgan va hozirgi zamonlar",
+      blocks: [
+        { t: 'p', md: "Zamonni **vaqt so'ziga** emas, **ma'noga** qarab tanlang: *tugagan voqea*, *fon*, *oldingi voqea*, *davomiylik*, *hozirgi natija*." },
+        { t: 'table', head: ['Zamon', "Qachon ishlatiladi", 'Misol'], speak: [2], rows: [
+          ['Past Simple', "asosiy voqea", "She quit her job in March."],
+          ['Past Continuous', "fon yoki bo'lingan harakat", "I was cooking when the lights went out."],
+          ['Past Perfect', "o'tgan paytdan oldingi voqea", "By then, he had already left."],
+          ['Past Perfect Continuous', "o'tgan paytgacha davom etgan jarayon", "I had been waiting for an hour."],
+          ['Present Perfect Simple', "natija, son", "I've written four reports this week."],
+          ['Present Perfect Continuous', "davomiylik, so'nggi faoliyat", "I've been writing reports all morning."],
+        ] },
+        { t: 'check', ex: { k: 'choice', q: "When I called her, she ___ dinner, so she couldn't talk.", opts: ['was cooking', 'cooked', 'had cooked', 'has been cooking'], a: 0, why: "Qo'ng'iroq paytida harakat **davom etayotgan edi** → **Past Continuous**." } },
+        { t: 'check', ex: { k: 'fill', q: "I'm exhausted. ___ in the garden since six.", a: ["I've been working", "I have been working"], hint: 'work', why: "**since six** — davomiylik va hozirgi natija (charchoq) → **have been working**." } },
+      ],
+    },
+    {
+      title: "Odatlar va kelajak",
+      blocks: [
+        { t: 'table', head: ['Shakl', 'Ma\'no', 'Misol'], speak: [2], rows: [
+          ['used to + V', "o'tgan odat va holat", "I used to be shy."],
+          ['would + V', "o'tgan odat (holat emas)", "We would walk to school together."],
+          ['be / get used to + V-ing', "ko'nikkan / ko'nikmoq", "I'm used to getting up early."],
+          ['will be + V-ing', "kelajakdagi jarayon", "This time next week I'll be flying."],
+          ['will have + V3', "kelajakdagi paytgacha tugagan", "By June I'll have finished the course."],
+        ] },
+        { t: 'tip', tone: 'warn', md: "**would** faqat takrorlanadigan *harakatlar* uchun: *I would be shy* (xato) → **I used to be shy**. **be used to** dan keyin **-ing**: *I'm used to get up* (xato) → *I'm used to getting up*." },
+        { t: 'check', ex: { k: 'choice', q: "As a child I ___ a very shy boy.", opts: ['used to be', 'would be', 'was used to be', 'got used to being'], a: 0, why: "*be* — holat fe'li, shuning uchun **used to be**; **would** holatda ishlatilmaydi." } },
+        { t: 'check', ex: { k: 'fix', wrong: "I'm used to get up early now.", a: ["I'm used to getting up early now.", "I am used to getting up early now."], why: "**be used to** + **V-ing**." } },
+        { t: 'check', ex: { k: 'choice', q: "This time next Friday I ___ on a beach in Spain.", opts: ['will be lying', 'lie', 'am lying', 'have lain'], a: 0, why: "Kelajakdagi aniq paytda davom etayotgan jarayon → **Future Continuous**." } },
+      ],
+    },
+    {
+      title: "Holat fe'llari, bog'lovchilar va xatolar",
+      blocks: [
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ["I have known her since 2019.", "I'll call you as soon as I arrive.", "Be quiet! I'm thinking about my exam."] },
+          bad: { title: 'Xato', items: ["I am knowing her since 2019.", "I'll call you as soon as I will arrive.", "I'm thinking you're right about it."] } },
+        { t: 'tip', tone: 'info', md: "**know, believe, want, belong** — holat fe'llari, ular odatda *-ing* shaklida ishlatilmaydi. **Think** ikki ma'noda: *I think it's late* (fikr, holat) va *I'm thinking about it* (o'ylash jarayoni). **as soon as / when / by the time** dan keyin kelajak uchun ham **hozirgi zamon**." },
+        { t: 'check', ex: { k: 'choice', q: "Be quiet! I ___ about my exam.", opts: ['think', 'am thinking', 'have thought', 'thought'], a: 1, why: "O'ylash **jarayoni** hozir davom etmoqda → **am thinking**." } },
+        { t: 'check', ex: { k: 'fix', wrong: "I am knowing her since 2019.", a: ["I have known her since 2019.", "I've known her since 2019."], why: "**know** — holat fe'li, *-ing* yo'q; **since** → **Present Perfect**." } },
+        { t: 'check', ex: { k: 'choice', q: "I'll call you as soon as I ___ at the hotel.", opts: ['arrive', 'will arrive', 'am going to arrive', 'will have arrived'], a: 0, why: "Vaqt gapida kelajak uchun **Present Simple**: *as soon as I arrive*." } },
+      ],
+    },
+    {
+      title: "Dialog va matn: odatni o'zgartirish",
+      blocks: [
+        { t: 'dialog', lines: [
+          { who: 'Helen', en: "Jasur, you look different. Have you been going to the gym?", uz: "Jasur, sen boshqacha ko'rinyapsan. Sport zaliga qatnayapsanmi?" },
+          { who: 'Jasur', en: "Yes, I've been training for three months. I used to hate exercise, though.", uz: "Ha, uch oydan beri mashq qilyapman. Lekin avval mashqni yomon ko'rardim." },
+          { who: 'Helen', en: "Really? I remember you would always take the lift to the second floor.", uz: "Rostdanmi? Esimda, sen doim ikkinchi qavatga lift bilan chiqarding." },
+          { who: 'Jasur', en: "True! But my doctor said I needed a long-term plan, so I'm trying to stick to a routine.", uz: "To'g'ri! Lekin shifokor menga uzoq muddatli reja kerakligini aytdi, shuning uchun tartibga rioya qilishga harakat qilyapman." },
+          { who: 'Helen', en: "How is it going?", uz: "Qanday ketyapti?" },
+          { who: 'Jasur', en: "It's tough, but I'm getting used to getting up early. In the long run, it will be worth it.", uz: "Qiyin, lekin erta turishga ko'nikyapman. Uzoq muddatda bunga arziydi." },
+          { who: 'Helen', en: "By December you'll have run your first ten kilometres, I bet.", uz: "Ishonamanki, dekabrgacha birinchi o'n kilometringni yugurib bo'lgan bo'lasan." },
+        ] },
+        { t: 'check', ex: { k: 'tf', q: "Jasur has been training for three months.", a: true, why: "*I've been training for three months.*" } },
+        { t: 'text', title: 'My new routine', voice: 'emma', en: "Last January I decided to change my routine. I had been staying up until two every night, so I was always tired. I used to check my phone in bed, but now I leave it in the kitchen. It was hard to stick to the new plan at first, and I nearly gave up in the second week. These days I get up at six, and I feel much better. I believe a calmer mindset is a lifelong project, not a quick fix. Willpower alone is not enough, because old habits are deeply ingrained, so a relapse does not mean failure: it only means I need more self-discipline. My New Year resolution was just the start. In the long run, small habits matter more than big promises. By next January I will have kept this routine for a whole year, and I'll be training for a half marathon.", uz: "O'tgan yanvarda tartibimni o'zgartirishga qaror qildim. Har kecha soat ikkigacha uxlamay yurgan edim, shuning uchun doim charchagan edim. Oldin to'shakda telefonimga qarardim, hozir esa uni oshxonada qoldiraman. Boshida yangi rejaga rioya qilish qiyin edi va ikkinchi haftada deyarli voz kechdim. Hozir soat oltida turaman va o'zimni ancha yaxshi his qilaman. Ishonamanki, xotirjam fikrlash — bu umrbod loyiha, tez yechim emas. Faqat iroda kuchi yetmaydi, chunki eski odatlar chuqur singib ketgan, shuning uchun eski odatga qaytib qolish muvaffaqiyatsizlik emas: bu menga ko'proq intizom kerakligini bildiradi. Yangi yil va'dam faqat boshlanish edi. Uzoq muddatda kichik odatlar katta va'dalardan muhimroq. Kelasi yanvarga kelib, bu tartibni bir yil davomida saqlagan bo'laman va yarim marafonga tayyorlanayotgan bo'laman." },
+        { t: 'check', ex: { k: 'choice', q: "What had the speaker been doing every night before the change?", opts: ['Staying up until two', 'Training at the gym', 'Getting up at six', 'Leaving her phone in the kitchen'], a: 0, why: "*I had been staying up until two every night.*" } },
+      ],
+    },
+    {
+      title: "Gapiring: 1 daqiqalik mini nutq",
+      blocks: [
+        { t: 'p', md: "Mavzu: **«A habit I have changed»**. 5 ta gapdan iborat reja tuzing va **ovoz chiqarib** ayting (taxminan 60 soniya). Har gapda boshqa shakl ishlating:" },
+        { t: 'table', head: ['Gap', 'Shakl', 'Namuna'], speak: [2], rows: [
+          ['1. O\'tmish odati', 'used to / would', "I used to spend hours on my phone every evening."],
+          ['2. Oldingi voqea', 'Past Perfect', "I decided to change after I had missed an important deadline."],
+          ['3. Hozirgi davom', 'Present Perfect Continuous', "I've been reading before bed for two months."],
+          ['4. Ko\'nikish', 'get / be used to', "I'm getting used to going to bed early."],
+          ['5. Kelajak', 'Future Perfect', "By the summer I'll have finished ten books."],
+        ] },
+        { t: 'tip', tone: 'good', md: "Tayyor bo'lgach, o'zingizni tekshiring: kamida **3 xil zamon** ishlatdingizmi? *used to* dan keyin fe'l asosiy shaklda, *be used to* dan keyin **-ing** bormi? *since* bilan **Present Perfect** ishlatdingizmi?" },
+        { t: 'check', ex: { k: 'fill', q: "By the summer I ___ ten books.", a: ["will have read", "'ll have read"], hint: 'read', why: "Kelajakdagi paytgacha tugagan ish → **will have + V3**." } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'lifelong', uz: "umrbod, butun hayot davomidagi", ipa: 'ˈlaɪf.lɒŋ', pos: 'adj', ex: 'Learning a language can be a lifelong hobby.', exUz: "Til o'rganish umrbod hobbi bo'lishi mumkin." },
+    { en: 'willpower', uz: "iroda kuchi", ipa: 'ˈwɪlˌpaʊ.ə', pos: 'noun', ex: 'Giving up sugar takes a lot of willpower.', exUz: "Shakardan voz kechish katta iroda kuchini talab qiladi." },
+    { en: 'ingrained', uz: "chuqur ildiz otgan, singib ketgan", ipa: 'ɪnˈɡreɪnd', pos: 'adj', ex: 'Old habits are deeply ingrained and hard to change.', exUz: "Eski odatlar chuqur singib ketgan va o'zgartirish qiyin." },
+    { en: 'self-discipline', uz: "o'zini tutish, intizom", ipa: 'ˌself ˈdɪs.ə.plɪn', pos: 'noun', ex: 'Studying alone requires a lot of self-discipline.', exUz: "Yolg'iz o'qish katta intizomni talab qiladi." },
+    { en: 'relapse', uz: "eski odatga qaytib qolish", ipa: 'ˈriː.læps', pos: 'noun', ex: 'After a month without cigarettes, he had a relapse.', exUz: "Bir oy sigaretsiz yurgach, u yana eski odatiga qaytdi." },
+    { en: 'resolution', uz: "(yangi yil) va'dasi, qat'iy qaror", ipa: 'ˌrez.əˈluː.ʃən', pos: 'noun', ex: 'My New Year resolution is to walk to work every day.', exUz: "Yangi yil va'dam — har kuni ishga piyoda borish." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['lifelong', 'umrbod'], ['willpower', 'iroda kuchi'], ['ingrained', 'singib ketgan'], ['self-discipline', 'intizom'], ['relapse', 'eski odatga qaytish'], ['resolution', 'qat\'iy qaror, va\'da']] },
+    { k: 'choice', q: "By the time we arrived, the film ___.", opts: ['had already started', 'was already starting', 'already starts', 'has already started'], a: 0, why: "Kelishdan **oldin** boshlangan → **Past Perfect**." },
+    { k: 'choice', q: "Which sentence is correct?", opts: ["I've lived here since 2018.", "I live here since 2018.", "I'm living here since 2018.", "I lived here since 2018."], a: 0, why: "**since** + o'tgandan hozirgacha → **Present Perfect**." },
+    { k: 'fill', q: "We ___ play in the street every evening when we were kids.", a: ['would', 'used to'], uz: "Bolaligimizda har kech ko'chada o'ynardik.", why: "Takrorlangan o'tgan harakat: **would** yoki **used to**." },
+    { k: 'fill', q: "This time tomorrow I ___ on a plane to Tashkent.", a: ["will be sitting", "'ll be sitting", "will be flying", "'ll be flying", "will be travelling", "'ll be travelling"], hint: 'sit / fly', uz: "Ertaga shu paytda men Toshkentga ketayotgan samolyotda bo'laman.", why: "**this time tomorrow** → **will be + V-ing**." },
+    { k: 'listen', say: 'I have been waiting for you since nine o\'clock.', opts: ["I have been waiting for you since nine o'clock.", "I had been waiting for you since nine o'clock.", "I was waiting for you since nine o'clock.", "I have waited for you since nine o'clock."], a: 0 },
+    { k: 'order', uz: "Qiyin edi, lekin men rejaga rioya qildim.", words: ['It', 'was', 'hard,', 'but', 'I', 'stuck', 'to', 'the', 'plan.'], extra: ['stick', 'for'], alt: [['It', 'was', 'hard', 'but', 'I', 'stuck', 'to', 'the', 'plan.']], why: "**stick to** — o'tgan zamonda **stuck to**." },
+    { k: 'order', uz: "Iyunga kelib men kursni tugatgan bo'laman.", words: ['By', 'June', "I'll", 'have', 'finished', 'the', 'course.'], extra: ['will', 'finish'], alt: [['By', 'June', 'I', 'will', 'have', 'finished', 'the', 'course.']], why: "**by June** → **will have + V3**." },
+    { k: 'fix', wrong: "She is knowing the answer.", a: ["She knows the answer.", "She knows the answer"], why: "**know** — holat fe'li, *-ing* shakli yo'q." },
+    { k: 'fix', wrong: "I'll text you when I will get home.", a: ["I'll text you when I get home.", "I will text you when I get home."], why: "**when** dan keyin kelajak uchun **Present Simple**." },
+    { k: 'translate', uz: "U yarim soatdan beri meni kutyapti.", a: ["She has been waiting for me for half an hour.", "He has been waiting for me for half an hour.", "She's been waiting for me for half an hour.", "He's been waiting for me for half an hour.", "She has been waiting for me for thirty minutes.", "He has been waiting for me for thirty minutes."], why: "**for** + davomiylik → **has been waiting**." },
+    { k: 'tf', q: "*Jack would be tall as a child.* — Gap to'g'ri.", a: false, why: "*be* holat fe'li: **Jack used to be tall**." },
+    { k: 'dictation', say: 'In the long run, small habits matter more than big promises.', a: ['In the long run, small habits matter more than big promises.'], uz: "Uzoq muddatda kichik odatlar katta va'dalardan muhimroq." },
+    { k: 'speak', say: 'I used to spend hours on my phone, but I have changed my routine.', uz: "Telefonda soatlab o'tirardim, lekin tartibimni o'zgartirdim." },
+  ],
+  quiz: [
+    { k: 'choice', q: "I was late because my train ___ for an hour in the snow.", opts: ['had been stuck', 'was sticking', 'has been stuck', 'is stuck'], a: 0, why: "O'tgan paytdan oldingi holat → **Past Perfect**." },
+    { k: 'choice', q: "Which sentence means the speaker is used to the habit?", opts: ["I'm used to working at night.", "I used to work at night.", "I would work at night.", "I got used work at night."], a: 0, why: "**be used to + V-ing** — ko'nikkanman." },
+    { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ["I think she is right.", "I am thinking she is right.", "I have thought she is right.", "I think she be right."], a: 0, why: "Fikr bildirishda **think** holat fe'li kabi ishlatiladi: *I think…*." },
+    { k: 'fill', q: "How long ___ English?", a: ['have you been learning', 'have you been studying', 'have you learned', 'have you studied'], uz: "Siz ingliz tilini qancha vaqtdan beri o'rganyapsiz?", hint: 'learn', why: "Davomiylik savoli: **How long have you been learning…?**" },
+    { k: 'fill', q: "I'll lend you the book as soon as I ___ it.", a: ['finish', 'have finished', "'ve finished"], uz: "Kitobni tugatishim bilan senga beraman.", hint: 'finish', why: "**as soon as** dan keyin **Present** (Simple yoki Perfect)." },
+    { k: 'order', uz: "Bir yildan keyin men bu ishda ishlayotgan bo'laman.", words: ['This', 'time', 'next', 'year', "I'll", 'be', 'working', 'here.'], extra: ['have', 'work'], alt: [['This', 'time', 'next', 'year', 'I', 'will', 'be', 'working', 'here.']], why: "**this time next year** → **will be + V-ing**." },
+    { k: 'fix', wrong: "Before two years I moved to London.", a: ["Two years ago I moved to London.", "I moved to London two years ago."], why: "O'tgan vaqt: **two years ago**." },
+    { k: 'listen', say: 'By the time she came, we had already eaten.', opts: ['By the time she came, we had already eaten.', 'By the time she came, we already ate.', 'By the time she comes, we had already eaten.', 'By the time she came, we have already eaten.'], a: 0 },
+    { k: 'tf', q: "*I'm used to drive on the left.* — Gap to'g'ri.", a: false, why: "**be used to** + **V-ing**: *I'm used to driving*." },
+  ],
+  summary: [
+    "**Hikoya zamonlari**: Past Simple (asosiy voqea), Continuous (fon), Perfect (oldingi voqea), Perfect Continuous (oldingi davomiy jarayon).",
+    "**Present Perfect**: Simple — natija va son; Continuous — davomiylik (*for, since, how long*). **ago** → Past Simple.",
+    "**used to** (odat va holat), **would** (faqat odat), **be / get used to + -ing** (ko'nikish).",
+    "**Kelajak**: will be + -ing, will have + V3; **when / as soon as / by the time** dan keyin Present. **know, believe, want** — *-ing* yo'q.",
+    "Yangi so'zlar: **lifelong, willpower, ingrained, self-discipline, relapse, resolution**.",
+  ],
+  homework: "«A habit I have changed» mavzusida 1 daqiqalik nutqni telefoningizga yozib oling (5 gap: *used to*, Past Perfect, Present Perfect Continuous, *get used to*, Future Perfect). Keyin tinglab, 3 ta xatoni toping va to'g'rilab, qayta yozing.",
+};
+
+export default lesson;

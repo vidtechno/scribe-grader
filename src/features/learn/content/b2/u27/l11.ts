@@ -1,0 +1,125 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (review): the whole unit with new examples (gerund / infinitive, prepositions, phrasal verbs, modals of obligation, register, nominalisation, meetings and emails).
+const lesson: Lesson = {
+  id: 'u27-l11',
+  title: 'Work and business: final review',
+  titleUz: 'Ish va biznes: yakuniy takror',
+  mini: true,
+  kind: 'review',
+  goal: "Bosqichdagi hamma mavzuni takrorlaysiz: **gerund / infinitive**, **fe'l + predlog**, **phrasal verbs**, **majburiyat va ruxsat**, **rasmiy uslub va nominalizatsiya**, **yig'ilish va rasmiy xat** iboralari. Ish haqidagi 6 ta yangi so'zni ham o'rganasiz.",
+  slides: [
+    {
+      title: "Gerund, infinitive va predloglar",
+      blocks: [
+        { t: 'p', md: "Ikkinchi fe'lning shaklini **birinchi fe'l** belgilaydi. Predlogdan keyin esa doim **-ing** keladi." },
+        { t: 'table', head: ['Qolip', 'Misol'], speak: [1], rows: [
+          ['decide / manage / refuse + **to**', 'We decided to outsource the delivery service.'],
+          ['avoid / suggest / consider + **-ing**', 'She suggested reviewing the strategy.'],
+          ['remember + **to** (keyingi ish)', 'Remember to send the invoice today.'],
+          ['remember + **-ing** (o\'tgan ish)', 'I remember sending the invoice on Monday.'],
+          ['fe\'l + predlog + **-ing**', 'He insisted on paying; she succeeded in winning the contract.'],
+          ['look forward to + **-ing**', 'We look forward to meeting your team.'],
+        ] },
+        { t: 'tip', tone: 'warn', md: "Uzbek tilidagi tarjima xatosi: *look forward to meet*, *suggest to go*, *discuss about*. To'g'ri: **look forward to meeting**, **suggest going**, **discuss** (predlogsiz)." },
+        { t: 'check', ex: { k: 'choice', q: "We are considering ___ part of the work to an agency.", opts: ['outsourcing', 'to outsource', 'outsource', 'to outsourcing'], a: 0, why: "**consider** dan keyin **-ing** keladi." } },
+        { t: 'check', ex: { k: 'fix', wrong: 'She succeeded to win the contract.', a: ['She succeeded in winning the contract.'], why: "**succeed in** + **-ing**: predlogdan keyin gerund." } },
+      ],
+    },
+    {
+      title: "Phrasal verbs va majburiyat",
+      blocks: [
+        { t: 'table', head: ['Tur', 'Misol'], speak: [1], rows: [
+          ['Separable', 'They turned down the offer. / They turned it down.'],
+          ['Inseparable', 'We will look into the problem. / We will look into it.'],
+          ['Uch qismli', "I can't put up with these delays."],
+          ['mustn\'t (taqiq)', "You mustn't share your password."],
+          ["don't have to (shart emas)", "You don't have to come on Saturday."],
+          ['be supposed to (kutilgan)', 'We are supposed to finish by five.'],
+          ["o'tgan zamon", 'I had to work late. / We were allowed to leave early.'],
+        ] },
+        { t: 'tip', tone: 'info', md: "Separable phrasal verb bilan **olmosh o'rtada** turadi: *turned it down* (~~turned down it~~). **Must** ning o'tgan zamoni yo'q: **had to**." },
+        { t: 'check', ex: { k: 'choice', q: "You ___ come to the meeting; it is optional.", opts: ["don't have to", "mustn't", "can't must", "haven't to"], a: 0, why: "Shart emas → **don't have to**. **mustn't** = taqiq." } },
+        { t: 'check', ex: { k: 'fill', q: "They offered me the job, but I turned ___ down. (olmosh)", a: ['it'], why: "Separable phrasal verb: olmosh **o'rtada** — *turned it down*." } },
+      ],
+    },
+    {
+      title: "Rasmiy uslub va nominalizatsiya",
+      blocks: [
+        { t: 'table', head: ['Norasmiy', 'Rasmiy'], speak: [1], rows: [
+          ['get', 'obtain'],
+          ['buy', 'purchase'],
+          ['put off', 'postpone'],
+          ["The prices went up sharply.", 'There was a sharp increase in prices.'],
+          ['The company decided to expand.', "The company's decision to expand…"],
+        ] },
+        { t: 'compare',
+          good: { title: "To'g'ri (rasmiy)", items: ['I would be grateful if you could reply by Friday.', 'We would like to postpone the meeting.', 'There has been a reduction in costs.'] },
+          bad: { title: "Rasmiy xatda o'rinsiz", items: ["I wanna know if you can reply by Friday.", "We're gonna put the meeting off.", "Costs have gone down a lot, mate."] } },
+        { t: 'check', ex: { k: 'choice', q: "Which sentence is the most formal?", opts: ['Prices shot up, so we spent less.', "Prices went up so we're spending less.", 'There was a rise in prices; consequently, spending was reduced.', 'Prices rose and we cut back on stuff.'], a: 2, why: "Nominalizatsiya (*a rise in prices*), passive va **consequently** — rasmiy uslub." } },
+        { t: 'check', ex: { k: 'fill', q: "There has been a sharp increase ___ the cost of fuel.", a: ['in'], why: "**an increase in** + ot." } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang: yangi strategiya",
+      blocks: [
+        { t: 'text', title: 'A difficult year', voice: 'emma', en: "Last year was a difficult one for our small food company. Our revenue fell by eight per cent because of problems in the supply chain, and a larger competitor took some of our market share. The board therefore asked me to prepare a new strategy. I suggested outsourcing our delivery service, which would allow us to concentrate on production. However, the scope of the plan must stay limited, as we are not allowed to spend more than fifty thousand pounds. We are supposed to present the proposal at the next meeting, and I am looking forward to hearing the team's views.", uz: "O'tgan yil kichik oziq-ovqat kompaniyamiz uchun og'ir bo'ldi. Yetkazib berish zanjiridagi muammolar sababli daromadimiz sakkiz foizga tushdi va kattaroq raqib bozor ulushimizning bir qismini oldi. Shuning uchun boshqaruv kengashi mendan yangi strategiya tayyorlashni so'radi. Men yetkazib berish xizmatini tashqi kompaniyaga topshirishni taklif qildim, bu bizga ishlab chiqarishga e'tibor qaratish imkonini beradi. Biroq rejaning qamrovi cheklangan bo'lishi kerak, chunki ellik ming funtdan ortiq sarflashga ruxsat yo'q. Taklifni keyingi yig'ilishda taqdim etishimiz kerak va jamoaning fikrlarini eshitishni intiqlik bilan kutaman." },
+        { t: 'check', ex: { k: 'choice', q: 'Why did the revenue fall?', opts: ['Because of problems in the supply chain', 'Because the board changed the strategy', 'Because the delivery service was outsourced', 'Because the staff left'], a: 0, why: "*Our revenue fell by eight per cent because of problems in the supply chain.*" } },
+        { t: 'check', ex: { k: 'tf', q: 'The company is allowed to spend more than fifty thousand pounds on the plan.', a: false, why: "*we are not allowed to spend more than fifty thousand pounds.*" } },
+        { t: 'dialog', lines: [
+          { who: 'Rachel', en: "Jasur, I've read your proposal. I take your point about outsourcing, but I'm afraid I'm not convinced yet.", uz: "Jasur, taklifingni o'qidim. Tashqi kompaniyaga topshirish haqidagi fikringni tushundim, lekin hali ishonmayapman." },
+          { who: 'Jasur', en: "Just to check, are you worried about the cost or the quality?", uz: "Aniqlashtirish uchun: sizni narx tashvishlantiryaptimi yoki sifatmi?" },
+          { who: 'Rachel', en: "Mainly the quality. We have to protect our reputation with customers.", uz: "Asosan sifat. Mijozlar oldidagi obro'ni saqlashimiz kerak." },
+          { who: 'Jasur', en: "That's fair. If you could give me two weeks, I would be able to test two agencies.", uz: "Bu adolatli. Agar ikki hafta bersangiz, ikkita agentlikni sinab ko'ra olardim." },
+          { who: 'Rachel', en: "Good idea. How about starting with a small trial?", uz: "Yaxshi fikr. Kichik sinovdan boshlasak-chi?" },
+          { who: 'Jasur', en: "Agreed. I'll send you a summary of the results by the end of the month.", uz: "Kelishdik. Natijalarning qisqacha xulosasini oy oxirigacha yuboraman." },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: 'What will Jasur do?', opts: ['Test two agencies and send a summary', 'Cancel the proposal', 'Hire more staff', 'Reduce the budget'], a: 0, why: "*I would be able to test two agencies… I'll send you a summary of the results.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'revenue', uz: 'daromad (tushum)', ipa: 'ˈrev.ən.juː', pos: 'noun', ex: 'The shop increased its revenue by ten per cent last year.', exUz: "Do'kon o'tgan yili daromadini o'n foizga oshirdi." },
+    { en: 'strategy', uz: 'strategiya', ipa: 'ˈstræt.ə.dʒi', pos: 'noun', ex: 'The board approved a new marketing strategy.', exUz: "Boshqaruv kengashi yangi marketing strategiyasini tasdiqladi." },
+    { en: 'outsource', uz: "ishni tashqi kompaniyaga topshirmoq", ipa: 'ˈaʊt.sɔːs', pos: 'verb', ex: 'Many firms outsource their payroll to specialist companies.', exUz: "Ko'p firmalar ish haqi hisobini mutaxassis kompaniyalarga topshiradi." },
+    { en: 'supply chain', uz: 'yetkazib berish zanjiri', ipa: 'səˈplaɪ tʃeɪn', pos: 'noun', ex: 'A strike at the port disrupted the whole supply chain.', exUz: "Portdagi ish tashlash butun yetkazib berish zanjirini izdan chiqardi." },
+    { en: 'market share', uz: 'bozor ulushi', ipa: 'ˈmɑː.kɪt ʃeə', pos: 'noun', ex: 'Our market share has grown since we lowered our prices.', exUz: "Narxlarni tushirganimizdan beri bozor ulushimiz o'sdi." },
+    { en: 'scope', uz: "qamrov, ko'lam", ipa: 'skəʊp', pos: 'noun', ex: 'The scope of the project is too wide for one team.', exUz: "Loyihaning ko'lami bitta jamoa uchun juda keng." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['revenue', 'daromad'], ['strategy', 'strategiya'], ['outsource', 'ishni tashqariga topshirmoq'], ['supply chain', 'yetkazib berish zanjiri'], ['market share', 'bozor ulushi'], ['scope', "qamrov"]] },
+    { k: 'choice', q: "The company lost a large part of its ___ to a cheaper rival.", opts: ['market share', 'supply chain', 'scope', 'outsource'], a: 0, why: "Raqibga yo'qotiladigan narsa — **market share** (bozor ulushi)." },
+    { k: 'choice', q: "Last year we decided to ___ our accounting to an agency.", opts: ['adjourn', 'reimburse', 'outsource', 'commence'], a: 2, why: "Ishni tashqi kompaniyaga topshirish — **outsource**." },
+    { k: 'fill', q: "We are considering ___ the launch until next year. (postpone)", a: ['postponing'], why: "**consider** + **-ing**: *postponing*." },
+    { k: 'listen', say: 'We are not allowed to spend more than fifty thousand pounds.', opts: ['We are not allowed to spend more than fifty thousand pounds.', 'We are not supposed to spend fifteen thousand pounds.', 'We do not have to spend more than fifty thousand pounds.', 'We were not allowed to spend more than fifty thousand pounds.'], a: 0 },
+    { k: 'fix', wrong: 'I look forward to meet you next week.', a: ['I look forward to meeting you next week.', "I'm looking forward to meeting you next week.", 'I am looking forward to meeting you next week.'], why: "**look forward to** dagi *to* — predlog, shuning uchun **-ing**." },
+    { k: 'order', uz: "Siz ofisda chekishingiz mumkin emas.", words: ['You', "mustn't", 'smoke', 'in', 'the', 'office.'], extra: ["don't", 'to'], why: "Taqiq: **mustn't + V1**." },
+    { k: 'order', uz: "Juma kuniga qadar javob bersangiz, minnatdor bo'lardim.", words: ['I', 'would', 'be', 'grateful', 'if', 'you', 'could', 'reply', 'by', 'Friday.'], extra: ['will', 'replying'], why: "Rasmiy iltimos: **I would be grateful if you could…**" },
+    { k: 'translate', uz: "Daromadda keskin pasayish bo'ldi.", a: ['There was a sharp fall in revenue.', 'There was a sharp drop in revenue.', 'There was a sharp decrease in revenue.', 'There has been a sharp fall in revenue.', 'There has been a sharp drop in revenue.', 'There has been a sharp decrease in revenue.', 'There was a sharp decline in revenue.', 'There has been a sharp decline in revenue.'], why: "Nominalizatsiya: **a fall / drop / decrease in** + ot." },
+    { k: 'tf', q: "*Mustn't* and *don't have to* mean the same thing.", a: false, why: "**mustn't** — taqiq; **don't have to** — shart emas." },
+    { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ['She insisted paying for the meal.', 'She insisted to pay for the meal.', 'She insisted on paying for the meal.', 'She insisted in paying for the meal.'], a: 2, why: "**insist on** + **-ing**." },
+    { k: 'dictation', say: 'If you could send me the figures, we would be able to decide today.', a: ['If you could send me the figures, we would be able to decide today.', "If you could send me the figures, we'd be able to decide today."], uz: "Agar raqamlarni yuborsangiz, bugunoq qaror qila olardik." },
+    { k: 'fix', wrong: 'We discussed about the new strategy yesterday.', a: ['We discussed the new strategy yesterday.'], why: "**discuss** — predlogsiz fe'l." },
+    { k: 'speak', say: "I take your point, but I'm afraid the scope is too wide.", uz: "Fikringizni tushundim, lekin afsuski, qamrov juda keng." },
+  ],
+  quiz: [
+    { k: 'choice', q: "On the way to the meeting, he stopped ___ some coffee.", opts: ['to buy', 'buying', 'buy', 'to buying'], a: 0, why: "**stop to do** — to'xtab, maqsad bilan bajarmoq (*kofe olish uchun to'xtadi*)." },
+    { k: 'choice', q: "You ___ park here. This space is for managers only.", opts: ["don't have to", "mustn't", "needn't", "aren't supposing"], a: 1, why: "Taqiq → **mustn't**." },
+    { k: 'fill', q: "The new manager is responsible ___ training the staff.", a: ['for'], why: "**responsible for** + **-ing**." },
+    { k: 'fill', q: "I couldn't join the call yesterday because I ___ work late. (majburiyat, o'tgan zamon)", a: ['had to'], why: "**Must** ning o'tgan zamoni yo'q: **had to**." },
+    { k: 'order', uz: "Biz ko'proq xodim yollashni o'ylab ko'ryapmiz.", words: ['We', 'are', 'considering', 'hiring', 'more', 'staff.'], extra: ['to', 'hire'], why: "**consider** + **-ing**." },
+    { k: 'fix', wrong: 'There was an increase of prices last year.', a: ['There was an increase in prices last year.'], why: "**an increase in** + ot." },
+    { k: 'tf', q: "In a formal letter to a person whose name you do not know, you write *Dear Sir or Madam* and end with *Yours faithfully*.", a: true, why: "Ism noma'lum → **Dear Sir or Madam … Yours faithfully**." },
+    { k: 'choice', q: "Which is the most formal way to ask for information?", opts: ['Just tell me the date, will you?', 'Can you tell me the date, please?', 'I would be grateful if you could confirm the date.', 'What is the date?'], a: 2, why: "**I would be grateful if you could…** — eng rasmiy shakl." },
+  ],
+  summary: [
+    "**Gerund / infinitive**: *decide, manage + to*; *avoid, consider, suggest + -ing*; *remember to do* (keyingi ish) va *remember doing* (o'tgan ish).",
+    "**Predloglar** (*insist on, succeed in, responsible for, look forward to*) dan keyin **-ing**; *discuss, marry, enter* predlogsiz.",
+    "**Phrasal verbs**: separable'da olmosh o'rtada (*turned it down*); **mustn't** (taqiq) ≠ **don't have to** (shart emas); o'tgan zamon — **had to**.",
+    "**Rasmiy uslub**: qisqartmasiz, *obtain / purchase / postpone*, nominalizatsiya (*an increase in prices*), *I would be grateful if you could…*",
+    "Yangi so'zlar: **revenue, strategy, outsource, supply chain, market share, scope**.",
+  ],
+  homework: "O'z ish yoki o'qish joyingiz haqida 8 ta gap yozing: 1 ta *consider / suggest + -ing*, 1 ta *predlog + -ing*, 1 ta separable phrasal verb olmosh bilan, 1 ta *mustn't* va 1 ta *don't have to*, 1 ta nominalizatsiya (*an increase in…*) va 1 ta *I would be grateful if you could…*, hamda *strategy* yoki *scope* so'zi bilan bitta gap.",
+};
+
+export default lesson;

@@ -1,0 +1,217 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u26-l1",
+  title: "Passive voice: all tenses",
+  titleUz: "Majhul nisbat barcha zamonlarda: is being built, has been done, will have been completed",
+  goal: "**Majhul nisbat** (*passive*) ni **barcha zamonlarda** tuzasiz: *is being built, has been announced, will have been completed, should have been told*. Passive'ni qachon tanlashni (diqqat nimada, ish qiluvchi noma'lum, rasmiy uslub) bilasiz va **The accident was happened**, **The bridge is building** kabi xatolardan qochasiz.",
+  slides: [
+    {
+      title: "Nima uchun barcha zamonlar kerak?",
+      blocks: [
+        { t: "p", md: "Yangiliklarda, ish xatlarida va ma'ruzalarda passive juda ko'p uchraydi: *The new metro line is being built. The results have been announced. The report will have been finished by Friday.* B1 da siz **Present Simple, Past Simple, Present Perfect va will** passive'ni o'rgandingiz. Endi **continuous, past perfect, future perfect va modal** passive'ni qo'shamiz." },
+        { t: "p", md: "Formula doim bir xil: **be + V3**. Zamon va modal faqat **be** qismida ko'rinadi. Fe'lning o'zi (V3) o'zgarmaydi." },
+        {
+          t: "table", head: ["Zamon", "Passive shakli", "Misol"], speak: [2],
+          rows: [
+            ["Present Simple", "am / is / are + V3", "The news is published online."],
+            ["Present Continuous", "am / is / are **being** + V3", "The road is being repaired."],
+            ["Past Simple", "was / were + V3", "The photo was taken in 2019."],
+            ["Past Continuous", "was / were **being** + V3", "The stadium was being built then."],
+            ["Present Perfect", "has / have **been** + V3", "The results have been announced."],
+            ["Past Perfect", "had **been** + V3", "The email had been deleted."],
+            ["Future (will)", "will **be** + V3", "The film will be released in May."],
+            ["Future Perfect", "will have **been** + V3", "The work will have been completed by June."],
+            ["Modal", "must / can / should **be** + V3", "All data must be protected."],
+            ["Modal perfect", "should / might **have been** + V3", "You should have been told."],
+          ],
+        },
+        { t: "check", ex: { k: "choice", q: "Qaysi gap passive?", opts: ["They have announced the winners.", "The winners have been announced.", "They are announcing the winners.", "They will announce the winners."], a: 1, why: "**have been announced** = have + been + V3 — passive. Qolgan gaplarda ish qiluvchi (*they*) bor." } },
+      ],
+    },
+    {
+      title: "Continuous va perfect passive: being va been",
+      blocks: [
+        { t: "p", md: "Ikkita kichik so'z ko'p xatoga sabab bo'ladi: **being** va **been**." },
+        { t: "p", md: "**being** — ish **hozir (yoki o'sha paytda) davom etayotgan** bo'lsa: *is being built* = «qurilmoqda». **been** — ish **tugagan va natijasi bor** bo'lsa: *has been built* = «qurib bo'lingan»." },
+        {
+          t: "examples", items: [
+            { en: "The old market hall is being refurbished at the moment.", uz: "Eski bozor binosi hozir qayta ta'mirlanmoqda.", note: "Present Continuous passive: jarayon davom etyapti." },
+            { en: "When I called, my laptop was being repaired.", uz: "Men qo'ng'iroq qilganimda, noutbukim ta'mirlanayotgan edi.", note: "Past Continuous passive." },
+            { en: "The new model has been unveiled.", uz: "Yangi model taqdim etildi.", note: "Present Perfect passive: natija hozir muhim." },
+            { en: "By the time we arrived, the tickets had been sold.", uz: "Biz yetib borgunimizcha, chiptalar sotilib bo'lgan edi.", note: "Past Perfect passive: boshqa o'tgan ishdan oldin." },
+          ],
+        },
+        {
+          t: "compare",
+          good: { title: "To'g'ri", items: ["The bridge is being built.", "The results have been announced.", "The files had been deleted."] },
+          bad: { title: "Xato", items: ["The bridge is building.", "The results have announced.", "The files had deleted."] },
+        },
+        { t: "tip", tone: "warn", md: "Passive'da **-ing** va **V3** bir vaqtda kerak emas deb o'ylamang: *is being built* da **being** — be fe'lining -ing shakli, **built** esa V3. Ikkalasi ham kerak." },
+        { t: "check", ex: { k: "fill", q: "Sorry about the noise. The lift ___ at the moment. (repair)", a: ["is being repaired", "'s being repaired"], why: "«Hozir» — jarayon davom etyapti: **is being repaired**." } },
+        { t: "check", ex: { k: "choice", q: "I can't find my files. I think they ___.", opts: ["have been deleted", "are being deleted", "have deleted", "had deleting"], a: 0, why: "Natija hozir ko'rinib turibdi, ish tugagan: **have been deleted**. Fayllar o'zi o'chirmaydi, shuning uchun passive." } },
+      ],
+    },
+    {
+      title: "Kelasi zamon va modal passive",
+      blocks: [
+        { t: "p", md: "Kelasi zamon va modallarda ham qoida o'sha: birinchi yordamchi fe'l o'zgaradi, keyin **be / have been** va **V3**." },
+        {
+          t: "table", head: ["Shakl", "Misol", "Ma'no"], speak: [1],
+          rows: [
+            ["will be + V3", "The winner will be announced tonight.", "Kelajakdagi ish"],
+            ["is going to be + V3", "The old school is going to be demolished.", "Reja yoki aniq belgi"],
+            ["will have been + V3", "The report will have been finished by Friday.", "Muddatgacha tugagan bo'ladi"],
+            ["must / has to be + V3", "All passwords must be changed every month.", "Majburiyat"],
+            ["can / could be + V3", "The problem can be solved easily.", "Imkoniyat"],
+            ["should be + V3", "Children should be protected online.", "Maslahat"],
+            ["should have been + V3", "We should have been told earlier.", "O'tgan, lekin qilinmagan ish"],
+            ["might have been + V3", "The files might have been lost.", "O'tgan zamon haqida taxmin"],
+          ],
+        },
+        { t: "tip", tone: "info", md: "**will have been + V3** — «belgilangan paytgacha bo'lib bo'lgan bo'ladi»: *By 2030, most documents will have been digitised.* Odatda **by + vaqt** bilan keladi." },
+        { t: "check", ex: { k: "choice", q: "The new software ___ by the end of the week.", opts: ["will have been installed", "will install", "has installed", "will have installing"], a: 0, why: "**By the end of the week** — Future Perfect, dasturni kimdir o'rnatadi: **will have been installed**." } },
+        { t: "check", ex: { k: "fix", wrong: "The parents should have told about the changes.", a: ["The parents should have been told about the changes."], hint: "should have + been + V3", why: "Modal perfect passive: **should have been told**. *been* tushib qolmasin." } },
+      ],
+    },
+    {
+      title: "Passive qachon tanlanadi?",
+      blocks: [
+        { t: "p", md: "Passive «chiroyli» uslub uchun emas, aniq sababga ko'ra ishlatiladi. B2 da to'rtta asosiy sababni bilish kerak:" },
+        {
+          t: "table", head: ["Sabab", "Misol"],
+          rows: [
+            ["Ish qiluvchi noma'lum", "My account has been hacked. (kim ekanini bilmaymiz)"],
+            ["Ish qiluvchi aniq yoki ahamiyatsiz", "The road is closed. Visitors are advised to use the east gate."],
+            ["Diqqat natijada, mavzuda", "The new library was inaugurated yesterday. It was designed by a local architect."],
+            ["Rasmiy, ilmiy, yangilik uslubi", "Samples were collected and analysed. Three people have been arrested."],
+          ],
+        },
+        { t: "p", md: "Yaxshi ma'lumot tartibi: **eski ma'lumot** gap boshida, **yangi ma'lumot** oxirida. Shuning uchun *The library was designed by a local architect* da yangi ma'lumot — **by a local architect** — oxirga qo'yilgan." },
+        {
+          t: "compare",
+          good: { title: "Tabiiy", items: ["I made the decision.", "A decision was made. (kim ekani muhim emas)", "The plan was approved by the board. (kim ekani muhim)"] },
+          bad: { title: "Keraksiz passive", items: ["The decision was made by me.", "The email was sent by someone.", "A mistake was made by people."] },
+        },
+        { t: "tip", tone: "warn", md: "**by + ish qiluvchi** faqat yangi yoki muhim ma'lumot bo'lsa kerak. *by me, by someone, by people* — deyarli doim ortiqcha: ish qiluvchi «men» bo'lsa, aktiv gap ishlating." },
+        { t: "check", ex: { k: "choice", q: "Qaysi gap passive uchun eng mos (ish qiluvchi noma'lum)?", opts: ["Someone has stolen my bike.", "My bike has been stolen.", "I have a stolen bike.", "A thief stole my bike."], a: 1, why: "Kim o'g'irlagani noma'lum, diqqat velosipedda: **My bike has been stolen.**" } },
+        { t: "check", ex: { k: "tf", q: "*A mistake was made by someone.* — bu gapda **by someone** qoldirilgani yaxshiroq.", a: true, why: "**by someone** hech qanday yangi ma'lumot bermaydi: *A mistake was made.*" } },
+      ],
+    },
+    {
+      title: "Tipik xatolar: o'zbek tilidan interferensiya",
+      blocks: [
+        { t: "p", md: "O'zbek tilida «bo'ldi, qurilmoqda, e'lon qilib bo'lindi» kabi shakllar bitta so'zga sig'adi. Inglizchaga so'zma-so'z o'tkazganda quyidagi xatolar chiqadi." },
+        {
+          t: "compare",
+          good: { title: "1. O'timsiz fe'l passive bo'lmaydi", items: ["The accident happened at midnight.", "A problem occurred during the update.", "The train arrived late."] },
+          bad: { title: "Xato", items: ["The accident was happened at midnight.", "A problem was occurred during the update.", "The train was arrived late."] },
+        },
+        { t: "p", md: "**happen, occur, arrive, appear, disappear, exist, seem, remain, rise, fall** — o'timsiz fe'llar (to'ldiruvchi olmaydi), shuning uchun passive bo'lmaydi." },
+        { t: "check", ex: { k: "fix", wrong: "A technical problem was occurred during the live broadcast.", a: ["A technical problem occurred during the live broadcast.", "A technical problem happened during the live broadcast."], hint: "occur — o'timsiz fe'l", why: "**occur** passive bo'lmaydi: *A problem occurred.*" } },
+        {
+          t: "compare",
+          good: { title: "2. Jarayon: being", items: ["The new bridge is being built.", "My phone is being repaired.", "The streets were being cleaned."] },
+          bad: { title: "Xato", items: ["The new bridge is building.", "My phone is repairing.", "The streets were cleaning."] },
+        },
+        { t: "p", md: "O'zbekcha «qurilmoqda» bitta so'z, shuning uchun o'quvchi *is building* deydi. Ammo ko'prik o'zi qurmaydi, uni qurishadi: **is being built**." },
+        { t: "check", ex: { k: "fix", wrong: "Don't use the lift. It is repairing now.", a: ["Don't use the lift. It is being repaired now.", "Don't use the lift. It's being repaired now."], hint: "is being + V3", why: "Lift o'zini ta'mirlamaydi: **is being repaired**." } },
+        {
+          t: "compare",
+          good: { title: "3. been / being tushib qolmasin", items: ["The results have been announced.", "The files had been deleted.", "It will have been finished."] },
+          bad: { title: "Xato", items: ["The results have announced.", "The files had deleted.", "The documents will have signed by Friday."] },
+        },
+        { t: "check", ex: { k: "fix", wrong: "The new phone has released this morning.", a: ["The new phone has been released this morning.", "The new phone was released this morning."], hint: "has + been + V3", why: "Passive Present Perfect: **has been released**." } },
+        {
+          t: "compare",
+          good: { title: "4. by va with", items: ["The village was destroyed by a flood.", "The letter was written with a pen.", "The report was written by a journalist."] },
+          bad: { title: "Xato", items: ["The village was destroyed with a flood.", "The letter was written by a pen.", "The report was written with a journalist."] },
+        },
+        { t: "p", md: "**by** — ish qiluvchi (odam, kuch, tashkilot). **with** — qurol, vosita. Tabiiy hodisa (*flood, storm, fire*) ish qiluvchi sifatida **by** bilan keladi." },
+        { t: "check", ex: { k: "fix", wrong: "The old bridge was destroyed with a storm.", a: ["The old bridge was destroyed by a storm."], hint: "ish qiluvchi: by", why: "Bo'ron — ish qiluvchi kuch: **by a storm**." } },
+      ],
+    },
+    {
+      title: "O'qing: Yangi kutubxona",
+      blocks: [
+        {
+          t: "text", title: "The Riverside Library", voice: "emma",
+          en: "The new Riverside Library is being completed this month, and the whole district is excited. The building was designed by a local architect, and it has been built almost entirely from recycled materials. Last spring, work was stopped for six weeks because the contractor had been given the wrong plans. Since then, the project has been running behind schedule, but the last books are being moved in this week. By Friday, all the shelves will have been filled, and the opening ceremony will be held on Saturday. Several residents were relocated during the work, and they have since been compensated by the city. Nobody knows yet who will open the library, but the name will be announced tomorrow.",
+          uz: "Yangi Riverside kutubxonasi shu oy yakunlanmoqda va butun mavze hayajonda. Bino mahalliy me'mor tomonidan loyihalangan va deyarli to'liq qayta ishlangan materiallardan qurilgan. O'tgan bahorda pudratchiga noto'g'ri chizmalar berilgani uchun ish olti hafta to'xtatildi. O'shandan beri loyiha jadvaldan orqada qolib kelmoqda, lekin oxirgi kitoblar shu hafta ko'chirilmoqda. Juma kunigacha barcha javonlar to'ldirib bo'linadi, ochilish marosimi esa shanba kuni o'tkaziladi. Ish davomida bir necha aholi boshqa joyga ko'chirilgan va shahar ularga tovon to'lagan. Kutubxonani kim ochishi hali noma'lum, lekin ismi ertaga e'lon qilinadi.",
+        },
+        { t: "check", ex: { k: "tf", q: "The library is already open to the public.", a: false, why: "Ochilish marosimi **shanba kuni** o'tkaziladi (*will be held on Saturday*)." } },
+        { t: "check", ex: { k: "choice", q: "Why was the work stopped last spring?", opts: ["The contractor had received the wrong plans.", "The residents were relocated.", "The books were not ready.", "The city had no money."], a: 0, why: "*the contractor had been given the wrong plans*." } },
+      ],
+    },
+    {
+      title: "Dialog: Eski shahar hokimiyati",
+      blocks: [
+        {
+          t: "dialog", lines: [
+            { who: "George", en: "Did you hear? The old town hall is going to be refurbished.", uz: "Eshitdingizmi? Eski shahar hokimiyati qayta ta'mirlanadi." },
+            { who: "Nilufar", en: "Really? I thought it was going to be dismantled and sold.", uz: "Rostdanmi? Men uni qismlarga ajratib sotishadi deb o'ylagandim." },
+            { who: "George", en: "That was the original plan, but it was cancelled after the residents complained.", uz: "Dastlabki reja shunday edi, lekin aholi shikoyat qilgach, u bekor qilindi." },
+            { who: "Nilufar", en: "So when will the work be finished?", uz: "Xo'sh, ish qachon tugatiladi?" },
+            { who: "George", en: "It is supposed to be completed by June, but the contractor has already been warned about delays.", uz: "Iyungacha tugatilishi kerak, lekin pudratchi kechikishlar haqida allaqachon ogohlantirilgan." },
+            { who: "Nilufar", en: "Typical. Were the residents told how much it will cost?", uz: "Odatiy hol. Aholiga qancha turishi aytilganmi?" },
+            { who: "George", en: "A report will be published next week, and all the figures will be explained at a public meeting.", uz: "Hisobot kelasi hafta e'lon qilinadi va barcha raqamlar ochiq yig'ilishda tushuntiriladi." },
+            { who: "Nilufar", en: "Good. I'll be there. I just hope the work won't have been delayed again by then.", uz: "Yaxshi. Men borman. Faqat o'sha paytgacha ish yana kechiktirilmagan bo'lsin." },
+          ],
+        },
+        { t: "check", ex: { k: "choice", q: "What happened to the plan to dismantle and sell the town hall?", opts: ["It was cancelled.", "It is being carried out.", "It will be decided next week.", "It was approved."], a: 0, why: "*it was cancelled after the residents complained*." } },
+      ],
+    },
+  ],
+  words: [
+    { en: "inaugurate", uz: "rasman ochmoq (marosim bilan)", ipa: "ɪˈnɔː.ɡjə.reɪt", pos: "verb", ex: "The new stadium will be inaugurated by the mayor.", exUz: "Yangi stadionni hokim rasman ochadi." },
+    { en: "relocate", uz: "boshqa joyga ko'chirmoq, ko'chmoq", ipa: "ˌriː.ləʊˈkeɪt", pos: "verb", ex: "Two hundred families were relocated before the dam was built.", exUz: "To'g'on qurilishidan oldin ikki yuz oila boshqa joyga ko'chirildi." },
+    { en: "compensate", uz: "tovon to'lamoq, qoplamoq", ipa: "ˈkɒm.pen.seɪt", pos: "verb", ex: "Passengers will be compensated for the delay.", exUz: "Yo'lovchilarga kechikish uchun tovon to'lanadi." },
+    { en: "refurbish", uz: "qayta ta'mirlamoq, yangilamoq", ipa: "ˌriːˈfɜː.bɪʃ", pos: "verb", ex: "The hotel was refurbished last winter.", exUz: "Mehmonxona o'tgan qishda qayta ta'mirlandi." },
+    { en: "dismantle", uz: "qismlarga ajratib olmoq", ipa: "dɪsˈmæn.təl", pos: "verb", ex: "The old stage is being dismantled this week.", exUz: "Eski sahna shu hafta demontaj qilinmoqda." },
+    { en: "unveil", uz: "(yangi narsani) ommaga taqdim etmoq", ipa: "ʌnˈveɪl", pos: "verb", ex: "A new electric car was unveiled at the show.", exUz: "Ko'rgazmada yangi elektromobil taqdim etildi." },
+    { en: "authorise", uz: "ruxsat bermoq, vakolat bermoq", ipa: "ˈɔː.θə.raɪz", pos: "verb", ex: "Only authorised staff can enter the server room.", exUz: "Server xonasiga faqat vakolatli xodimlar kira oladi." },
+    { en: "contractor", uz: "pudratchi", ipa: "kənˈtræk.tə", pos: "noun", ex: "The contractor was paid after the work was inspected.", exUz: "Ish tekshirilgach, pudratchiga to'lov qilindi." },
+    { en: "behind schedule", uz: "jadvaldan orqada", ipa: "bɪˈhaɪnd ˈʃed.juːl", pos: "phrase", ex: "The project is running two months behind schedule.", exUz: "Loyiha jadvaldan ikki oy orqada ketmoqda." },
+    { en: "under construction", uz: "qurilmoqda, qurilish ostida", ipa: "ˌʌn.də kənˈstrʌk.ʃən", pos: "phrase", ex: "The new terminal has been under construction since 2022.", exUz: "Yangi terminal 2022-yildan beri qurilmoqda." },
+  ],
+  practice: [
+    { k: "choice", q: "Some streets are closed because the new metro line ___ at the moment.", opts: ["is being built", "is built", "has built", "is building"], a: 0, why: "«Hozir» — jarayon davom etyapti, ish qiluvchi aytilmagan: **is being built**." },
+    { k: "choice", q: "By next year, the whole old town ___.", opts: ["will have renovated", "will be renovating", "will have been renovated", "has been renovating"], a: 2, why: "**By next year** — Future Perfect, bino o'zi ta'mirlanmaydi: **will have been renovated**." },
+    { k: "listen", say: "The results have just been announced.", opts: ["The results have just announced.", "The results have just been announced.", "The results were just announcing.", "The results will be announced."], a: 1, why: "Present Perfect passive: **have just been announced**." },
+    { k: "fill", q: "Sorry about the noise. The lift ___ at the moment. (repair)", a: ["is being repaired", "'s being repaired"], uz: "Shovqin uchun kechirasiz. Lift hozir ta'mirlanmoqda.", why: "Hozir davom etayotgan jarayon: **is being repaired**." },
+    { k: "fill", q: "Nobody told us about the delay. We should have ___ told.", a: ["been"], uz: "Hech kim bizga kechikish haqida aytmadi. Bizga aytilishi kerak edi.", why: "Modal perfect passive: should have **been** told." },
+    { k: "fill", q: "I'm sure the problem ___ by tomorrow morning. (solve)", a: ["will have been solved", "will be solved", "'ll have been solved", "'ll be solved"], uz: "Ishonamanki, muammo ertaga ertalabgacha hal qilinadi.", why: "**By tomorrow morning** — **will have been solved** (yoki oddiy **will be solved**)." },
+    { k: "order", uz: "Yangi stadion hozir qurilmoqda.", words: ["The", "new", "stadium", "is", "being", "built", "now."], extra: ["been", "builds"], why: "Present Continuous passive: **is being built**." },
+    { k: "order", uz: "Barcha ishtirokchilarga aytilishi kerak edi.", words: ["All", "the", "participants", "should", "have", "been", "told."], extra: ["be", "were"], why: "Modal perfect passive: **should have been told**." },
+    { k: "translate", uz: "Ko'prik kelasi oyga qadar ta'mirlab bo'linadi.", a: ["The bridge will have been repaired by next month.", "The bridge will have been fixed by next month.", "The bridge will be repaired by next month.", "The bridge will be fixed by next month."], why: "**By next month** — **will have been repaired** (yoki **will be repaired**)." },
+    { k: "translate", uz: "Mening telefonim hozir ta'mirlanmoqda.", a: ["My phone is being repaired now.", "My phone is being repaired at the moment.", "My phone is being repaired right now.", "My phone is being fixed now.", "My phone is being fixed at the moment."], why: "Hozir davom etayotgan ish: **is being repaired**." },
+    { k: "fix", wrong: "The new bridge is building now.", a: ["The new bridge is being built now.", "The new bridge is being built."], hint: "is being + V3", why: "Ko'prik o'zi qurmaydi: **is being built**." },
+    { k: "fix", wrong: "The new model has unveiled today.", a: ["The new model has been unveiled today.", "The new model was unveiled today."], hint: "passive kerak", why: "Passive: **has been unveiled** (yoki **was unveiled**)." },
+    { k: "match", pairs: [["inaugurate", "rasman ochmoq (marosim bilan)"], ["compensate", "tovon to'lamoq"], ["relocate", "boshqa joyga ko'chirmoq"], ["dismantle", "qismlarga ajratib olmoq"], ["unveil", "ommaga taqdim etmoq"]] },
+    { k: "tf", q: "*The report was written by someone.* — gapda **by someone** ni tushirib qoldirish yaxshiroq.", a: true, why: "**by someone** yangi ma'lumot bermaydi: *The report was written.*" },
+    { k: "dictation", say: "The new library will have been opened by the end of the month.", uz: "Yangi kutubxona oy oxirigacha ochilgan bo'ladi.", why: "**will have been opened** — Future Perfect passive." },
+    { k: "speak", say: "The road is being repaired, so the buses have been diverted.", uz: "Yo'l ta'mirlanmoqda, shuning uchun avtobuslar boshqa yo'lga yo'naltirilgan." },
+  ],
+  quiz: [
+    { k: "choice", q: "The new exhibition ___ by the mayor next week.", opts: ["will be opened", "will open", "is opening", "opens"], a: 0, why: "**by the mayor** — ish qiluvchi bor, passive: **will be opened**." },
+    { k: "choice", q: "We can't use the lab today. It ___ cleaned.", opts: ["has being", "is being", "is been", "being"], a: 1, why: "Hozir davom etyapti: **is being cleaned**." },
+    { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["The problem should have been reported earlier.", "The problem should have reported earlier.", "The problem should been reported earlier.", "The problem should has been reported earlier."], a: 0, why: "Modal perfect passive: **should have been + V3**." },
+    { k: "choice", q: "Qaysi fe'l passive bo'lmaydi?", opts: ["steal", "build", "happen", "announce"], a: 2, why: "**happen** o'timsiz fe'l, passive bo'lmaydi." },
+    { k: "fill", q: "The tickets have already ___ sold out. (passive)", a: ["been"], uz: "Chiptalar allaqachon sotilib bo'lgan.", why: "Present Perfect passive: have **been** sold." },
+    { k: "fill", q: "The village was destroyed ___ a flood.", a: ["by"], uz: "Qishloqni toshqin vayron qildi.", why: "Tabiiy kuch ish qiluvchi sifatida **by** bilan keladi." },
+    { k: "fill", q: "Residents who lost their homes were ___ by the city. (compensate)", a: ["compensated"], uz: "Uylarini yo'qotgan aholiga shahar tovon to'ladi.", why: "Past Simple passive: were **compensated**." },
+    { k: "order", uz: "O'zgarish haqida hech kimga aytilganmi?", words: ["Has", "anyone", "been", "told", "about", "the", "change?"], extra: ["being", "was"], why: "Present Perfect passive savol: **Has + ega + been + V3?**" },
+    { k: "fix", wrong: "The accident was occurred at midnight.", a: ["The accident occurred at midnight.", "The accident happened at midnight."], hint: "o'timsiz fe'l", why: "**occur** passive bo'lmaydi." },
+    { k: "tf", q: "*The road has been repaired* — bu gap ta'mirlash hali davom etayotganini bildiradi.", a: false, why: "**has been repaired** — tugagan ish. Davom etayotgan jarayon: **is being repaired**." },
+  ],
+  summary: [
+    "Passive = **be + V3**. Zamon **be** qismida: *is being built, has been announced, had been deleted, will have been finished*.",
+    "**being** — jarayon davom etyapti; **been** — ish tugagan yoki o'tgan. Ikkalasini ham tushirib qoldirmang.",
+    "Modal passive: **must be done, can be solved, should have been told, might have been lost**.",
+    "Passive: ish qiluvchi noma'lum, ahamiyatsiz yoki diqqat natijada bo'lganda, rasmiy va yangilik uslubida. **by** faqat yangi yoki muhim ish qiluvchi uchun.",
+    "O'timsiz fe'llar (*happen, occur, arrive*) passive bo'lmaydi: ~~was happened~~. Ish qiluvchi: **by** + odam/kuch; vosita: **with**.",
+  ],
+  homework: "Bugungi yangiliklardan (o'zbekcha yoki inglizcha) 6 ta xabarni oling va har birini inglizcha passive gap bilan yozing: ikkitasi **continuous** (*is being…*), ikkitasi **perfect** (*has been…*), bittasi **future perfect** va bittasi **modal** (*must / should be…*). Har gapda **be / been / being** borligini tekshiring.",
+};
+
+export default lesson;

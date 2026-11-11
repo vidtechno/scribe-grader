@@ -1,0 +1,196 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u26-l8",
+  title: "Unit review: passive, causative and reporting",
+  titleUz: "Bosqich takrori: majhul nisbat, causative va ko'chirma gap",
+  goal: "Bosqichni yangi misollarda takrorlaysiz: **passive** (barcha zamonlar, *being / to be / get*), **reporting passive**, **causative** (*have / get something done*), **ko'chirma gap** (zamon siljishi, savollar, reporting fe'llari) va **fikr bildirish** iboralari. Natijada o'z bilimingizni tekshirib, zaif joylarni topasiz.",
+  slides: [
+    {
+      title: "Takror: passive",
+      blocks: [
+        { t: "p", md: "Formula bitta: **be + V3**. Zamon, modal va **-ing / to** shakllari faqat **be** qismida o'zgaradi. Fe'lning o'zi (V3) hech qachon o'zgarmaydi." },
+        {
+          t: "table", head: ["Shakl", "Misol"], speak: [1],
+          rows: [
+            ["Present Continuous", "The new app is being tested this week."],
+            ["Past Continuous", "My laptop was being repaired when you called."],
+            ["Present Perfect", "The article has been shared thousands of times."],
+            ["Past Perfect", "The video had been deleted before anyone saw it."],
+            ["Future Perfect", "The system will have been updated by Monday."],
+            ["Modal perfect", "You should have been warned about the risks."],
+            ["being + V3", "I hate being interrupted."],
+            ["to be / to have been + V3", "She wants to be promoted. He seems to have been misled."],
+            ["get + V3", "Two accounts got hacked last night."],
+          ],
+        },
+        { t: "tip", tone: "info", md: "**being** — jarayon davom etyapti; **been** — tugagan. **get-passive** so'zlashuv uslubida, ko'pincha kutilmagan yoki yoqimsiz voqea uchun. O'timsiz fe'llar (*happen, appear, arrive*) passive bo'lmaydi: *~~was happened~~*." },
+        { t: "check", ex: { k: "choice", q: "**The bridge ___ at the moment, so please use the other road.**", opts: ["is being repaired", "is repaired", "has been repaired", "repairs"], a: 0, why: "**at the moment** — hozir davom etyapti → **is being repaired**." } },
+        { t: "check", ex: { k: "choice", q: "**By next year the whole system ___.**", opts: ["will have replaced", "will be replacing", "will have been replaced", "has replaced"], a: 2, why: "Tizim o'zi almashtirilmaydi, uni almashtirishadi: kelasi zamon tugallangan passive → **will have been replaced**." } },
+      ],
+    },
+    {
+      title: "Takror: reporting passive",
+      blocks: [
+        { t: "p", md: "Manbani aytmasdan xabar berish: **It is said that + gap** yoki **Ega + is said to + fe'l**. **to** dan keyingi shakl vaqtni ko'rsatadi." },
+        {
+          t: "table", head: ["Vaqt", "Shakl", "Misol"], speak: [2],
+          rows: [
+            ["Hozir / doim", "is said to + V", "The company is thought to employ 500 people."],
+            ["Hozir davom etyapti", "is said to be + V-ing", "The site is believed to be losing readers."],
+            ["Oldin bo'lgan", "is said to have + V3", "The singer is reported to have left the country."],
+            ["Kelajak", "is expected to + V", "Prices are expected to rise."],
+          ],
+        },
+        { t: "tip", tone: "warn", md: "**is said that** + **to** aralashmaydi: *~~He is said that he lives abroad~~* → *It is said that he lives abroad* yoki *He is said to live abroad*. Kelajak uchun **will** emas: *are expected **to rise***." },
+        { t: "check", ex: { k: "choice", q: "**The minister ___ to have resigned last night.**", opts: ["is said", "is said that", "said", "is saying"], a: 0, why: "Qolip: **is said to have + V3**. *is said that* dan keyin to'liq gap keladi." } },
+        { t: "check", ex: { k: "fix", wrong: "The company is reported to lost millions last year.", a: ["The company is reported to have lost millions last year.", "It is reported that the company lost millions last year."], hint: "oldingi ish: to have + V3", why: "O'tgan voqea: **to have + V3** (*to have lost*) yoki *It is reported that … lost*." } },
+      ],
+    },
+    {
+      title: "Takror: causative",
+      blocks: [
+        { t: "p", md: "**have / get + object + V3** — ishni boshqa odam bajaradi, yoki boshimizga kelgan yoqimsiz voqea. Object **ikki fe'l orasida** turadi." },
+        {
+          t: "examples", items: [
+            { en: "I had my phone screen replaced yesterday.", uz: "Kecha telefonimning ekranini almashtirtirdim.", note: "Xizmat: ishni boshqa odam qildi." },
+            { en: "She had her wallet stolen on the train.", uz: "Poyezdda uning hamyoni o'g'irlandi.", note: "Yomon tajriba: kim o'g'irlagani ma'lum emas." },
+            { en: "I got the technician to check the router.", uz: "Texnikni routerni tekshirishga ko'ndirdim.", note: "**get someone to do**: to bilan." },
+            { en: "The manager had us rewrite the report.", uz: "Boshliq hisobotni qayta yozdirdi.", note: "**have someone do**: to'siz." },
+            { en: "The school doesn't allow pupils to use phones, but it lets them bring them.", uz: "Maktab o'quvchilarga telefondan foydalanishga ruxsat bermaydi, lekin ularni olib kelishga yo'l qo'yadi.", note: "**allow + to**, **let + V**." },
+          ],
+        },
+        { t: "tip", tone: "warn", md: "*I cut my hair* — o'zingiz kesgansiz. Sartaroshda: *I **had my hair cut***. **made me wait** (to'siz), lekin passive'da **was made to wait**." },
+        { t: "check", ex: { k: "choice", q: "**I can't fix it myself, so I'm going to ___ by a technician.**", opts: ["have it checked", "have checked it", "check it", "be checked it"], a: 0, why: "Qolip: **have + object + V3** → *have it checked*." } },
+        { t: "check", ex: { k: "order", uz: "Poyezdda uning telefoni o'g'irlandi.", words: ["She", "had", "her", "phone", "stolen", "on", "the", "train."], extra: ["steal", "has"], why: "**had + object + V3**: *had her phone stolen*." } },
+      ],
+    },
+    {
+      title: "Takror: ko'chirma gap va reporting fe'llari",
+      blocks: [
+        { t: "p", md: "Ko'chirma gapda zamon odatda **bir pog'ona orqaga** siljiydi va vaqt/joy so'zlari o'zgaradi. Ko'chiruvchi fe'l hozirgi zamonda bo'lsa yoki gap hali ham to'g'ri bo'lsa, siljish shart emas." },
+        {
+          t: "table", head: ["To'g'ri gap", "Ko'chirma gap"], speak: [1],
+          rows: [
+            ["\"I will call you tomorrow.\"", "She said that she would call me the next day."],
+            ["\"I have finished the report.\"", "He said that he had finished the report."],
+            ["\"Where do you live?\"", "She asked me where I lived."],
+            ["\"Is it ready?\"", "He asked if / whether it was ready."],
+            ["\"Don't open the attachment.\"", "She warned us not to open the attachment."],
+          ],
+        },
+        { t: "p", md: "**Reporting fe'llari** o'z qolipini talab qiladi: **admit / deny / suggest + -ing**; **promise / refuse / agree + to V**; **advise / warn / remind + kim + to V**; **accuse sb of + -ing**; **insist on + -ing**." },
+        { t: "tip", tone: "warn", md: "*~~He said me~~* → *He told me / He said to me*. *~~She asked where did I live~~* → *where I lived* (savol tartibi yo'q). *~~He denied to take~~* → *denied taking*. *~~suggested me to go~~* → *suggested that I go / suggested going*." },
+        { t: "check", ex: { k: "fill", q: "'I will call you tomorrow,' she said. → She said that she ___ call me the next day.", a: ["would"], why: "Backshift: **will → would**." } },
+        { t: "check", ex: { k: "choice", q: "**The manager admitted ___ the mistake.**", opts: ["to make", "making", "that make", "for making"], a: 1, why: "**admit + -ing**: *admitted making*." } },
+      ],
+    },
+    {
+      title: "Media va texnologiya: yangi so'zlar va fikr bildirish",
+      blocks: [
+        { t: "p", md: "Bosqichning yangiliklar va texnologiya mavzusini so'zlar bilan takrorlaymiz (*clickbait* — oldingi darsdan, qolganlari yangi). Ularni passive va reporting qoliplari ichida ishlatib ko'ring:" },
+        {
+          t: "examples", items: [
+            { en: "Many readers say that they are tired of clickbait.", uz: "Ko'p o'quvchilar aldamchi sarlavhalardan charchaganini aytadi.", note: "**clickbait** — bosishga undaydigan, ammo mazmunsiz sarlavha." },
+            { en: "The newspaper has introduced a paywall, so articles can only be read by paying readers.", uz: "Gazeta pullik kirish to'sig'ini joriy qildi, shuning uchun maqolalarni faqat to'lagan o'quvchilar o'qiy oladi.", note: "**paywall** + passive." },
+            { en: "The whistleblower is believed to have contacted a journalist.", uz: "Qoidabuzarlikni fosh qilgan xodim jurnalist bilan bog'langan, deb hisoblanadi.", note: "**whistleblower** + reporting passive." },
+            { en: "Every claim should be fact-checked before it is published.", uz: "Har bir da'vo nashr etilishidan oldin faktlar bo'yicha tekshirilishi kerak.", note: "**fact-check** + modal passive." },
+          ],
+        },
+        { t: "p", md: "Xavfsizlik so'zlari: **phishing** (*Customers were warned about a phishing email*), **malware** (*The files had been infected with malware*), **firewall** (*The connection was blocked by the firewall*)." },
+        { t: "p", md: "Fikr bildirish va javob berish: **In my view, …** / **I'd say that …** (fikr); **I couldn't agree more** (to'liq rozilik); **I see your point, but …** va **up to a point** (qisman rozilik); **That's debatable** (munozarali). *~~I am agree~~* deb aytmang: **I agree**." },
+        { t: "check", ex: { k: "choice", q: "Siz qisman roziligingizni bildirmoqchisiz. Eng yaxshi javob qaysi?", opts: ["I agree up to a point, but it also has benefits.", "I am agree with you completely.", "I don't agree with.", "It is not true, you are wrong."], a: 0, why: "**up to a point** — qisman rozilik. *I am agree* xato (agree — fe'l), qolganlari qo'pol yoki to'liq emas." } },
+        { t: "check", ex: { k: "tf", q: "*I couldn't agree more* — bu to'liq rozilikni bildiradi.", a: true, why: "Tom ma'noda: bundan ortiq rozi bo'lolmasdim, ya'ni mutlaqo roziman." } },
+      ],
+    },
+    {
+      title: "Tipik xatolar: takror",
+      blocks: [
+        { t: "p", md: "Bu bosqichda eng ko'p takrorlanadigan xatolar. Har birini tuzating:" },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["The accident happened yesterday.", "I'm having my laptop repaired.", "She asked me where I lived.", "He denied taking the money."] },
+          bad: { title: "Xato", items: ["The accident was happened yesterday.", "I'm repairing my laptop. (boshqa odam ta'mirlasa)", "She asked me where did I live.", "He denied to take the money."] } },
+        { t: "check", ex: { k: "fix", wrong: "He denied to take the money.", a: ["He denied taking the money."], hint: "deny + ...", why: "**deny + -ing** (*denied taking*). *to* bilan kelmaydi." } },
+        { t: "check", ex: { k: "fix", wrong: "The professor said me that the exam would be difficult.", a: ["The professor told me that the exam would be difficult.", "The professor said that the exam would be difficult."], hint: "say / tell", why: "**said** dan keyin kim kelmaydi: *said that…* yoki *told me that…*." } },
+        { t: "check", ex: { k: "fix", wrong: "She asked me where did I live.", a: ["She asked me where I lived."], hint: "ko'chirma savol", why: "Ko'chirma savolda **so'roq tartibi yo'q**: *where I lived*." } },
+      ],
+    },
+    {
+      title: "O'qing va dialog",
+      blocks: [
+        {
+          t: "text", title: "A paywall for the Marlow Herald", voice: "emma",
+          en: "The Marlow Herald, a local news website, has introduced a paywall, and readers are reacting strongly. According to the editor, the decision was taken because the newspaper could no longer be funded by advertising alone. She said that the site had been losing money for three years and that it would have to close without new income. It is reported that more than half of the readers have already complained, and the editor is thought to have expected this. Some users claim that they have been forced to read clickbait on free sites instead. The editor denied lowering her standards and promised that every story would be fact-checked before it was published. She also had the website redesigned by a local company, and the new version is being tested this week. A reader asked if the prices could be changed, and the editor told her to wait until the autumn.",
+          uz: "Mahalliy yangilik sayti Marlow Herald pullik kirish to'sig'ini joriy qildi va o'quvchilar keskin munosabat bildirmoqda. Muharrirning aytishicha, qaror gazeta faqat reklama hisobiga mablag' bilan ta'minlanishi mumkin bo'lmay qolgani uchun qabul qilingan. U sayt uch yildan beri zarar ko'rayotganini va yangi daromadsiz yopilishini aytdi. O'quvchilarning yarmidan ko'pi allaqachon shikoyat qilgani xabar qilinadi va muharrir buni kutgan, deb hisoblanadi. Ba'zi foydalanuvchilar o'rniga bepul saytlarda aldamchi sarlavhalarni o'qishga majbur bo'layotganini da'vo qiladi. Muharrir o'z me'yorini pasaytirganini rad etdi va har bir hikoya nashr etilishidan oldin faktlar bo'yicha tekshirilishiga va'da berdi. U saytni mahalliy kompaniyaga qayta ishlab chiqarttirdi va yangi versiya shu hafta sinovdan o'tkazilmoqda. Bir o'quvchi narxlar o'zgarishi mumkinmi, deb so'radi, muharrir esa unga kuzgacha kutishni aytdi.",
+        },
+        { t: "check", ex: { k: "tf", q: "The editor said that the website had been losing money for three years.", a: true, why: "Matnda: *She said that the site had been losing money for three years.*" } },
+        { t: "check", ex: { k: "choice", q: "What did the editor promise?", opts: ["Every story would be fact-checked before publication.", "The paywall would be removed in autumn.", "Prices would be lowered at once.", "The website would be closed."], a: 0, why: "Matnda: *promised that every story would be fact-checked before it was published*." } },
+        {
+          t: "dialog", lines: [
+            { who: "Rustam", en: "Did you see that the Marlow Herald has put up a paywall?", uz: "Marlow Herald pullik kirish to'sig'ini qo'yganini ko'rdingmi?" },
+            { who: "Helen", en: "I did. The editor said that the paper couldn't survive on advertising alone.", uz: "Ko'rdim. Muharrir gazeta faqat reklama hisobiga yashay olmasligini aytdi." },
+            { who: "Rustam", en: "To a certain extent I understand, but I'd say young readers will just go and read clickbait for free.", uz: "Ma'lum darajada tushunaman, lekin yosh o'quvchilar bepul aldamchi sarlavhalarni o'qiydi, deb o'ylayman." },
+            { who: "Helen", en: "I see your point, but good journalism has to be paid for. Stories are fact-checked, and whistleblowers are protected.", uz: "Fikringni tushunaman, lekin yaxshi jurnalistika uchun pul to'lash kerak. Hikoyalar tekshiriladi, fosh qiluvchi xodimlar himoya qilinadi." },
+            { who: "Rustam", en: "Fair enough. I just wish my news app didn't track everything I read. I'm told it's used to target adverts.", uz: "To'g'ri. Faqat yangiliklar ilovasi o'qiganimning hammasini kuzatmasa edi. Bu reklamani yo'naltirish uchun ishlatiladi, deyishdi." },
+            { who: "Helen", en: "That's a fair concern. You can have the privacy settings changed in a few minutes.", uz: "Bu asosli xavotir. Maxfiylik sozlamalarini bir necha daqiqada o'zgartirishing mumkin." },
+            { who: "Rustam", en: "Good idea. I'll get it done tonight.", uz: "Yaxshi fikr. Bugun kechqurun qilaman." },
+          ],
+        },
+        { t: "check", ex: { k: "choice", q: "What does Helen suggest Rustam should do about tracking?", opts: ["Change the privacy settings", "Delete the news app for good", "Pay for the paywall", "Stop reading news"], a: 0, why: "Helen: *You can have the privacy settings changed*." } },
+      ],
+    },
+  ],
+  words: [
+    { en: "phishing", uz: "aldov orqali parol va ma'lumot o'g'irlash (fishing)", ipa: "ˈfɪʃ.ɪŋ", pos: "noun", ex: "The bank warned customers about a new phishing email.", exUz: "Bank mijozlarni yangi fishing xati haqida ogohlantirdi." },
+    { en: "paywall", uz: "pullik kirish to'sig'i", ipa: "ˈpeɪ.wɔːl", pos: "noun", ex: "The newspaper put its best articles behind a paywall.", exUz: "Gazeta eng yaxshi maqolalarini pullik to'siq ortiga qo'ydi." },
+    { en: "livestream", uz: "jonli efir", ipa: "ˈlaɪv.striːm", pos: "noun", ex: "The final will be shown as a livestream on the club's website.", exUz: "Final klub saytida jonli efirda ko'rsatiladi." },
+    { en: "whistleblower", uz: "qoidabuzarlikni fosh qiluvchi xodim", ipa: "ˈwɪs.l.bləʊ.ər", pos: "noun", ex: "The whistleblower is believed to have worked for the company.", exUz: "Fosh qiluvchi xodim kompaniyada ishlagan, deb hisoblanadi." },
+    { en: "malware", uz: "zararli dastur", ipa: "ˈmæl.weə", pos: "noun", ex: "The laptop was infected with malware after he opened an attachment.", exUz: "U ilovani ochgach, noutbuk zararli dastur bilan zararlandi." },
+    { en: "fact-check", uz: "faktlarni tekshirmoq", ipa: "ˈfækt.tʃek", pos: "verb", ex: "Journalists must fact-check every claim before it is published.", exUz: "Jurnalistlar har bir da'voni nashrdan oldin tekshirishi kerak." },
+    { en: "firewall", uz: "xavfsizlik devori (tarmoqni himoya qiluvchi dastur)", ipa: "ˈfaɪə.wɔːl", pos: "noun", ex: "The firewall blocked the suspicious connection.", exUz: "Xavfsizlik devori shubhali ulanishni to'sib qo'ydi." },
+    { en: "wearable", uz: "taqiladigan qurilma", ipa: "ˈweə.rə.bəl", pos: "noun", ex: "Many runners use a wearable to track their heart rate.", exUz: "Ko'p yuguruvchilar yurak urishini kuzatish uchun taqiladigan qurilmadan foydalanadi." },
+    { en: "troll", uz: "internetda tahqirlovchi, qasddan tortishuv chiqaruvchi", ipa: "trɒl", pos: "noun", ex: "She ignored the troll who kept posting rude comments.", exUz: "U qo'pol izohlar yozib turgan trollga e'tibor bermadi." },
+    { en: "deepfake", uz: "sun'iy intellekt yordamida yasalgan soxta video", ipa: "ˈdiːp.feɪk", pos: "noun", ex: "The video was shown to be a deepfake.", exUz: "Video deepfake ekani isbotlandi." },
+  ],
+  practice: [
+    { k: "match", pairs: [["phishing", "aldov orqali ma'lumot o'g'irlash"], ["paywall", "pullik kirish to'sig'i"], ["whistleblower", "qoidabuzarlikni fosh qiluvchi"], ["malware", "zararli dastur"], ["fact-check", "faktlarni tekshirmoq"], ["firewall", "xavfsizlik devori"]] },
+    { k: "choice", q: "**The bridge ___ at the moment, so please use the other road.**", opts: ["is being repaired", "is repaired", "has been repaired", "repairs"], a: 0, why: "**at the moment** → hozir davom etyapti: **is being repaired**." },
+    { k: "choice", q: "**By next year the whole system ___.**", opts: ["will have replaced", "will have been replaced", "will be replacing", "has replaced"], a: 1, why: "Tizim almashtiriladi: **will have been replaced**." },
+    { k: "fill", q: "I hate ___ interrupted when I am speaking. (be)", a: ["being", "getting"], why: "Gerund passive: **being + V3**; so'zlashuvda *getting* ham bo'ladi." },
+    { k: "choice", q: "**The minister ___ to have resigned last night.**", opts: ["said", "is saying", "is said", "is said that"], a: 2, why: "**is said to have + V3**." },
+    { k: "fix", wrong: "The company is reported to lost millions last year.", a: ["The company is reported to have lost millions last year.", "It is reported that the company lost millions last year."], hint: "oldingi ish", why: "O'tgan voqea: **to have + V3**." },
+    { k: "order", uz: "Poyezdda uning telefoni o'g'irlandi.", words: ["She", "had", "her", "phone", "stolen", "on", "the", "train."], extra: ["steal", "has"], why: "Causative: **had + object + V3**." },
+    { k: "choice", q: "**I can't fix it myself, so I'm going to ___ by a technician.**", opts: ["have it checked", "have checked it", "check it", "be checked it"], a: 0, why: "**have + object + V3**: *have it checked*." },
+    { k: "translate", uz: "Men telefonimning ekranini almashtirtirdim.", a: ["I had my phone screen replaced.", "I had the screen on my phone replaced.", "I had the screen of my phone replaced.", "I got my phone screen replaced.", "I got the screen on my phone replaced.", "I had my phone's screen replaced.", "I got my phone's screen replaced."], why: "Causative: **had / got + object + V3**." },
+    { k: "fill", q: "'I will call you tomorrow,' she said. → She said that she ___ call me the next day.", a: ["would"], why: "Backshift: **will → would**." },
+    { k: "tf", q: "**She suggested me to restart it** — bu gap to'g'ri.", a: false, why: "**suggest** dan keyin *me to V* kelmaydi: *suggested that I restart it* yoki *suggested restarting it*." },
+    { k: "choice", q: "**'Where do you live?' he asked me. → He asked me ___.**", opts: ["where did I live", "where do I live", "where I lived", "that where I lived"], a: 2, why: "Ko'chirma savol: so'roq tartibi yo'q va zamon orqaga: **where I lived**." },
+    { k: "listen", say: "The whistleblower is believed to have contacted a journalist.", opts: ["The whistleblower is believed to have contacted a journalist.", "The whistleblower is believed to contact a journalist.", "The whistleblower was believed to have contacted a journalist."], a: 0 },
+    { k: "choice", q: "**The manager admitted ___ the mistake.**", opts: ["to make", "that make", "making", "for making"], a: 2, why: "**admit + -ing**." },
+    { k: "fix", wrong: "He denied to take the money.", a: ["He denied taking the money."], hint: "deny + ...", why: "**deny + -ing**: *denied taking*." },
+    { k: "dictation", say: "You can have the settings changed in a few minutes.", uz: "Sozlamalarni bir necha daqiqada o'zgartirtirishingiz mumkin." },
+    { k: "speak", say: "I see your point, but I'd say that clickbait is harmful to readers.", uz: "Fikringizni tushunaman, lekin aldamchi sarlavhalar o'quvchilarga zarar, deb o'ylayman." },
+  ],
+  quiz: [
+    { k: "choice", q: "**The results ___ by the end of the week.**", opts: ["will announce", "will be announcing", "will have been announced", "have announced"], a: 2, why: "**by the end of** → future perfect passive: **will have been announced**." },
+    { k: "choice", q: "**A headline with little content, written only to make you click, is ___.**", opts: ["a firewall", "a paywall", "a livestream", "clickbait"], a: 3, why: "Bosishga undaydigan, mazmunsiz sarlavha → **clickbait**." },
+    { k: "fill", q: "The company is thought ___ a security problem last year. (have)", a: ["to have had"], why: "Oldingi ish: **to have + V3** → *to have had*." },
+    { k: "fill", q: "'Don't open the attachment,' she said. → She warned us ___ the attachment.", a: ["not to open"], why: "**warn + kim + (not) to V**." },
+    { k: "choice", q: "**He insisted ___ the report himself.**", opts: ["to write", "on writing", "writing", "that write"], a: 1, why: "**insist on + -ing**." },
+    { k: "fix", wrong: "The professor said me that the exam would be difficult.", a: ["The professor told me that the exam would be difficult.", "The professor said that the exam would be difficult."], hint: "say / tell", why: "**said** dan keyin kim kelmaydi: *told me* yoki *said that*." },
+    { k: "listen", say: "Her phone was being repaired when I called.", opts: ["Her phone has been repaired when I called.", "Her phone is being repaired when I called.", "Her phone was being repaired when I called."], a: 2 },
+    { k: "tf", q: "*Two people got fired* — get-passive *were dismissed* ga qaraganda norasmiyroq.", a: true, why: "**get + V3** so'zlashuv uslubi; rasmiy yozuvda **be + V3**." },
+    { k: "choice", q: "Do'stingiz: *Social media is making teenagers anxious.* Siz qisman rozisiz. Eng yaxshi javob qaysi?", opts: ["I am agree.", "I agree with you up to a point, but it also helps them stay in touch.", "I am not agree with.", "That's wrong, you are stupid."], a: 1, why: "**up to a point** — qisman rozilik. *I am agree* xato." },
+    { k: "order", uz: "Hikoya soxta bo'lgan, deb keng ishoniladi.", words: ["It", "is", "widely", "believed", "that", "the", "story", "was", "fake."], extra: ["to", "been"], why: "**It is believed that + gap**: reporting passive." },
+  ],
+  summary: [
+    "**Passive** = **be + V3** barcha zamonlarda (*is being tested, has been shared, will have been updated*), modal (*should have been warned*), **being / to be / get + V3**.",
+    "**Reporting passive**: *It is said that…* / *is said to + V / to be V-ing / to have V3*; kelajak uchun *is expected to*, **will** emas.",
+    "**Causative**: **have / get + object + V3** (*had my phone repaired, got it fixed*); **have + kim + V**, **get + kim + to V**; **make / let** to'siz, **allow / force** to bilan.",
+    "**Ko'chirma gap**: zamon bir pog'ona orqaga, savolda so'roq tartibi yo'q (*asked where I lived*); fe'l qolipi: **admit -ing, promise to V, warn sb to V, insist on -ing**.",
+    "Yangi so'zlar: **phishing, paywall, livestream, whistleblower, malware, fact-check, firewall, wearable, troll, deepfake**. Fikr bildirish: **In my view, I see your point, but…, up to a point**.",
+  ],
+  homework: "Bosqichning o'zingiz uchun eng qiyin mavzusini tanlang va uning qoidasini o'z so'zlaringiz bilan 3 gapda tushuntiring. Keyin shu mavzu bo'yicha 6 ta yangi gap yozing (yangiliklar yoki o'z hayotingizdan). Oxirida 1 daqiqa vaqt ajratib, bir yangilikni *According to…, It was reported that…* va *said that…* bilan ovoz chiqarib qayta aytib bering.",
+};
+
+export default lesson;

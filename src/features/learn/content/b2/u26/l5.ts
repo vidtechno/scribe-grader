@@ -1,0 +1,205 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u26-l5",
+  title: "Media and technology",
+  titleUz: "Ommaviy axborot va texnologiya: so'zlar (headline, bias, algorithm, viral, privacy)",
+  goal: "Ommaviy axborot va texnologiya haqidagi B2 so'zlarini (*censorship, misinformation, algorithm, viral, subscription, breakthrough, addictive, surveillance…*) va ularning **birikmalarini** (*go viral, spread misinformation, raise awareness*) ishlatasiz, so'z oilalarini (*subscribe → subscription*) bilasiz va *a news, informations, addicted of* kabi xatolardan qochasiz.",
+  slides: [
+    {
+      title: "Nega bu so'zlar kerak?",
+      blocks: [
+        { t: "p", md: "IELTS Speaking va Writing da ham, ish joyidagi suhbatda ham, yangiliklarda ham bir xil mavzu uchraydi: **ommaviy axborot** va **texnologiya**. Siz allaqachon *headline, bias, privacy* kabi so'zlarni bilasiz. Endi mavzuni chuqurroq gapirish uchun yangi so'zlar kerak." },
+        { t: "p", md: "Bu darsda 10 ta yangi so'z va ularning **hamrohlari** (*collocations*) bilan ishlaymiz. Inglizchada so'zni yakka emas, **birikma bilan** yod olish kerak: *go viral*, *spread misinformation*." },
+        {
+          t: "table", head: ["So'z", "Ma'nosi", "Misol"], speak: [2],
+          rows: [
+            ["censorship", "senzura: ma'lumotni hukumat yoki tashkilot tomonidan cheklash", "Strict censorship stopped newspapers from criticising the government."],
+            ["misinformation", "noto'g'ri ma'lumot (ba'zan bilmasdan tarqatiladi)", "Misinformation about the vaccine spread quickly online."],
+            ["clickbait", "bosishga undaydigan, ko'pincha aldamchi sarlavha", "That headline is pure clickbait: the article says nothing new."],
+            ["influencer", "ijtimoiy tarmoqda ko'p kuzatuvchisi bor, odamlarga ta'sir qiluvchi shaxs", "The influencer recommended a new phone to her followers."],
+          ],
+        },
+        { t: "tip", tone: "info", md: "**misinformation** — sanalmaydigan ot: *a lot of misinformation*. Ko'plikda ishlatilmaydi: ~~misinformations~~." },
+        { t: "check", ex: { k: "choice", q: "The article was nothing but ___: the headline promised a huge secret, but the text had no news.", opts: ["clickbait", "censorship", "surveillance", "subscription"], a: 0, why: "Aldamchi, bosishga undovchi sarlavha → **clickbait**." } },
+        { t: "check", ex: { k: "fill", q: "Some websites spread a lot of ___, so you should always check the source. (noto'g'ri ma'lumot)", a: ["misinformation"], why: "Sanalmaydigan ot: **misinformation** (*a lot of*, ko'plik qo'shimchasiz)." } },
+      ],
+    },
+    {
+      title: "Texnologiya so'zlari",
+      blocks: [
+        { t: "p", md: "Ikkinchi guruh so'zlar telefon, ilova va internet bilan bog'liq:" },
+        {
+          t: "table", head: ["So'z", "Ma'nosi", "Misol"], speak: [2],
+          rows: [
+            ["algorithm", "algoritm: kompyuter bajaradigan qoidalar tizimi", "The algorithm decides which videos you see first."],
+            ["viral", "tez va keng tarqalgan (internetda)", "Her video went viral and was watched by millions."],
+            ["subscription", "obuna", "I pay for a monthly subscription to a news website."],
+            ["breakthrough", "katta kashfiyot, jiddiy yutuq", "Doctors announced a breakthrough in the treatment of diabetes."],
+            ["addictive", "odat qilib qo'yadigan, qaramlik keltiradigan", "Some games are designed to be highly addictive."],
+            ["surveillance", "kuzatuv, nazorat", "Many people worry about the use of surveillance cameras in public places."],
+          ],
+        },
+        { t: "p", md: "**Algorithm** va **surveillance** ko'pincha tanqidiy mavzuda uchraydi: *the algorithm shows us what we already like*, *mass surveillance*." },
+        { t: "tip", tone: "warn", md: "**surveillance** talaffuzi: *sə-VAY-lənss* (urg'u ikkinchi bo'g'inda). **algorithm** — *AL-gə-ri-dhəm* (urg'u birinchi bo'g'inda)." },
+        { t: "check", ex: { k: "choice", q: "The new social media app uses an ___ to decide which posts appear first in your feed.", opts: ["algorithm", "subscription", "breakthrough", "influencer"], a: 0, why: "Qaysi post birinchi chiqishini hal qiladigan tizim → **algorithm**." } },
+        { t: "check", ex: { k: "choice", q: "Scientists described the discovery as a major ___ in medicine.", opts: ["censorship", "breakthrough", "surveillance", "clickbait"], a: 1, why: "Katta kashfiyot → **breakthrough**." } },
+      ],
+    },
+    {
+      title: "Hamrohlar: kuchli birikmalar",
+      blocks: [
+        { t: "p", md: "Birikmalar fikringizni B2 darajada tabiiy qiladi. Ularni **butun holda** yod oling." },
+        {
+          t: "table", head: ["Birikma", "Ma'nosi", "Misol"], speak: [2],
+          rows: [
+            ["go viral", "tarqalib ketmoq", "The photo went viral within hours."],
+            ["break the news", "yangilikni birinchi bo'lib yetkazmoq", "A local radio station broke the news at six o'clock."],
+            ["spread misinformation", "noto'g'ri ma'lumot tarqatmoq", "Fake accounts spread misinformation before the election."],
+            ["raise awareness (of / about)", "xabardorlikni oshirmoq", "The campaign aims to raise awareness of online scams."],
+            ["a major breakthrough", "katta yutuq", "It was a major breakthrough in battery technology."],
+            ["cancel / renew a subscription", "obunani bekor qilmoq / yangilamoq", "I forgot to cancel my subscription again."],
+            ["highly addictive", "juda ko'p odat qilib qo'yadigan", "Short videos can be highly addictive."],
+            ["under surveillance", "kuzatuv ostida", "The building has been under surveillance for a month."],
+          ],
+        },
+        { t: "p", md: "**Raise awareness** dan keyin **of** yoki **about** keladi: *raise awareness of the problem*. Fe'l **raise**, **rise** emas (*rise* — o'z-o'zidan ko'tarilish: *prices rise*)." },
+        { t: "check", ex: { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["The charity wants to raise awareness of cyberbullying.", "The charity wants to rise awareness of cyberbullying.", "The charity wants to raise an awareness about cyberbullying.", "The charity wants to go viral awareness of cyberbullying."], a: 0, why: "**raise awareness of + ot**: *rise* emas, *an awareness* emas." } },
+        { t: "check", ex: { k: "fill", q: "The clip ___ viral after a famous actor shared it.", a: ["went", "has gone"], uz: "Mashhur aktyor ulashgandan keyin klip tarqalib ketdi.", why: "**go viral**: o'tgan zamonda *went viral*." } },
+      ],
+    },
+    {
+      title: "So'z oilalari: ot, fe'l, sifat",
+      blocks: [
+        { t: "p", md: "Bitta so'zdan bir nechtasini bilish IELTS da ham yordam beradi. Quyidagi oilalarni yod oling:" },
+        {
+          t: "table", head: ["Fe'l", "Ot", "Sifat / boshqa"], speak: [0, 1, 2],
+          rows: [
+            ["censor", "censorship", "censored"],
+            ["subscribe", "subscription, subscriber", "subscribed"],
+            ["addict (ot) / be addicted to", "addiction", "addictive, addicted"],
+            ["misinform", "misinformation", "misinformed"],
+            ["influence", "influence, influencer", "influential"],
+            ["break through", "breakthrough", "groundbreaking"],
+          ],
+        },
+        { t: "p", md: "**Fe'l va ot juftlari:** inglizchada ba'zi fe'l qo'shma shaklda (ikki so'z), otlar esa **bir so'z** bo'ladi: *to **break through** the barrier* — *a **breakthrough***; *to **back up** files* — *a **backup***; *to **log in** to an account* — *a **login***." },
+        { t: "tip", tone: "good", md: "**addicted** shaxsni tasvirlaydi (*He is addicted to games*), **addictive** esa narsani (*The game is addictive*)." },
+        { t: "check", ex: { k: "choice", q: "My brother is ___ to online games and plays until midnight.", opts: ["addicted", "addictive", "addiction", "addict"], a: 0, why: "Shaxs haqida: **be addicted to**." } },
+        { t: "check", ex: { k: "fill", q: "Thousands of new ___ joined the channel after the video. (subscribe)", a: ["subscribers"], why: "Odamlar: **subscribe + er = subscriber**; ko'plikda **subscribers**." } },
+      ],
+    },
+    {
+      title: "Tipik xatolar: o'zbek tilidan interferensiya",
+      blocks: [
+        { t: "p", md: "O'zbek tilida «yangilik, ma'lumot, maslahat» sanaladi (*bitta yangilik, ikkita ma'lumot*). Inglizchada ular **sanalmaydi**. Predlog va qo'shimchalar ham xatolarga olib keladi." },
+        {
+          t: "compare",
+          good: { title: "1. Sanalmaydigan otlar", items: ["The news is good. (a piece of news)", "I read a lot of information online.", "There is too much misinformation."] },
+          bad: { title: "Xato", items: ["The news are good. / a news", "I read many informations online.", "There are too many misinformations."] },
+        },
+        { t: "check", ex: { k: "fix", wrong: "There are many misinformations on social media.", a: ["There is a lot of misinformation on social media.", "There is a lot of misinformation on social media", "There is much misinformation on social media.", "There is so much misinformation on social media."], hint: "sanalmaydigan ot", why: "**misinformation** sanalmaydi: ko'plik yo'q, *is* va *a lot of / much*." } },
+        {
+          t: "compare",
+          good: { title: "2. addicted to", items: ["She is addicted to her phone.", "He got addicted to video games."] },
+          bad: { title: "Xato", items: ["She is addicted of her phone.", "He is addictive to video games."] },
+        },
+        { t: "check", ex: { k: "fix", wrong: "She is addicted of her phone.", a: ["She is addicted to her phone."], hint: "predlog", why: "**be addicted to** + ot." } },
+        {
+          t: "compare",
+          good: { title: "3. go viral, raise awareness", items: ["The video went viral.", "We want to raise awareness of the problem."] },
+          bad: { title: "Xato", items: ["The video became a virus.", "We want to rise awareness of the problem."] },
+        },
+        { t: "check", ex: { k: "fix", wrong: "We organised an event to rise awareness of online safety.", a: ["We organised an event to raise awareness of online safety.", "We organised an event to raise awareness about online safety."], hint: "fe'l", why: "**raise** (kimdir ko'taradi) — *raise awareness*; **rise** o'z-o'zidan ko'tariladi." } },
+        {
+          t: "compare",
+          good: { title: "4. news — birlik", items: ["The news is shocking.", "Here is a piece of news."] },
+          bad: { title: "Xato", items: ["The news are shocking.", "I heard a news yesterday."] },
+        },
+        { t: "check", ex: { k: "fix", wrong: "I heard a news about the new law yesterday.", a: ["I heard some news about the new law yesterday.", "I heard a piece of news about the new law yesterday.", "I heard the news about the new law yesterday."], hint: "news sanalmaydi", why: "**news** sanalmaydi: *some news, a piece of news*." } },
+      ],
+    },
+    {
+      title: "O'qing: Telefon meni boshqargan edi",
+      blocks: [
+        {
+          t: "text", title: "Taking back control", voice: "emma",
+          en: "Last year I realised that my phone was controlling me. The app I used most had a clever algorithm that always showed me videos I could not stop watching, and I found it highly addictive. One evening a short clip of mine went viral, and strangers began to comment. Some were kind, but others spread misinformation about the topic. Around the same time I read that some governments used surveillance and censorship to control what people could read online, and I became curious about who decides what we see. So I cancelled one subscription, stopped following influencers who used clickbait titles, and started reading the news from three different sources. Last week I read about a medical breakthrough in a printed newspaper, not on my phone, and I enjoyed it more than any clip.",
+          uz: "O'tgan yili telefonim meni boshqarayotganini angladim. Eng ko'p ishlatgan ilovamda aqlli algoritm bor edi va u menga to'xtatib bo'lmaydigan videolarni ko'rsataverardi, men uni juda odat qilib qo'yadigan deb topdim. Bir kuni qisqa videom tarqalib ketdi va notanishlar izoh yoza boshladi. Ba'zilari mehribon edi, boshqalari esa mavzu haqida noto'g'ri ma'lumot tarqatdi. Taxminan o'sha paytda ba'zi hukumatlar odamlar internetda nimani o'qishini nazorat qilish uchun kuzatuv va senzuradan foydalanishini o'qidim va nimani ko'rishimizni kim hal qilishiga qiziqib qoldim. Shunday qilib bitta obunani bekor qildim, aldamchi sarlavhali influenserlarni kuzatishni to'xtatdim va yangiliklarni uch xil manbadan o'qiy boshladim. O'tgan hafta men bosma gazetada tibbiy kashfiyot haqida o'qidim va bundan har qanday videodan ko'ra ko'proq zavq oldim.",
+        },
+        { t: "check", ex: { k: "tf", q: "The writer thought the algorithm made her app very addictive.", a: true, why: "Matnda: *a clever algorithm … I found it highly addictive.*" } },
+        { t: "check", ex: { k: "choice", q: "What did she do to change her habits?", opts: ["She cancelled a subscription and read news from several sources.", "She deleted her phone.", "She became an influencer.", "She started using more clickbait."], a: 0, why: "*I cancelled one subscription … started reading the news from three different sources.*" } },
+      ],
+    },
+    {
+      title: "Dialog: Bu haqiqatmi?",
+      blocks: [
+        {
+          t: "dialog", lines: [
+            { who: "Sardor", en: "Did you see that clip about the new battery? It went viral overnight.", uz: "Yangi batareya haqidagi videoni ko'rdingmi? U bir kechada tarqalib ketdi." },
+            { who: "Mia", en: "I did, but I'm not sure it's true. The headline looked like clickbait.", uz: "Ko'rdim, lekin rost ekaniga ishonchim komil emas. Sarlavha aldamchiga o'xshardi." },
+            { who: "Sardor", en: "Really? I thought it was a real breakthrough.", uz: "Rostdanmi? Men buni haqiqiy kashfiyot deb o'yladim." },
+            { who: "Mia", en: "A fact-checker said it was misinformation. The influencer who posted it never named a source.", uz: "Faktlarni tekshiruvchi bu noto'g'ri ma'lumot ekanini aytdi. Uni joylagan influenser hech qanday manbani ko'rsatmagan." },
+            { who: "Sardor", en: "How do you decide what to trust?", uz: "Nimaga ishonishni qanday hal qilasiz?" },
+            { who: "Mia", en: "I check at least two sources, and I pay for a subscription to a serious newspaper, so I'm not relying on the algorithm.", uz: "Kamida ikkita manbani tekshiraman va jiddiy gazetaga obuna to'layman, shuning uchun algoritmga tayanmayman." },
+            { who: "Sardor", en: "Good idea. My feed is so addictive that I just keep scrolling.", uz: "Yaxshi fikr. Mening lentam shunchalik odat qilib qo'yadiki, men shunchaki aylantirib turaman." },
+            { who: "Mia", en: "Try setting a time limit. Awareness is the first step.", uz: "Vaqt chegarasini o'rnatib ko'ring. Xabardorlik birinchi qadam." },
+          ],
+        },
+        { t: "check", ex: { k: "choice", q: "Why does Mia trust her sources?", opts: ["She checks two sources and pays for a newspaper subscription.", "She follows the algorithm.", "She reads only clickbait.", "She asks influencers."], a: 0, why: "Mia: *I check at least two sources, and I pay for a subscription to a serious newspaper.*" } },
+        { t: "check", ex: { k: "tf", q: "According to a fact-checker, the battery clip was a real breakthrough.", a: false, why: "Fact-checker uni **misinformation** deb atadi." } },
+      ],
+    },
+  ],
+  words: [
+    { en: "censorship", uz: "senzura, ma'lumotni cheklash", ipa: "ˈsen.sə.ʃɪp", pos: "noun", ex: "Strict censorship made it difficult for journalists to report the truth.", exUz: "Qattiq senzura jurnalistlarga haqiqatni yozishni qiyinlashtirdi." },
+    { en: "misinformation", uz: "noto'g'ri ma'lumot", ipa: "ˌmɪs.ɪn.fəˈmeɪ.ʃən", pos: "noun", ex: "Social media can spread misinformation faster than the truth.", exUz: "Ijtimoiy tarmoqlar noto'g'ri ma'lumotni haqiqatdan tezroq tarqatishi mumkin." },
+    { en: "algorithm", uz: "algoritm", ipa: "ˈæl.ɡə.rɪ.ðəm", pos: "noun", ex: "The algorithm recommends videos based on what you watched before.", exUz: "Algoritm avval ko'rgan narsangiz asosida videolarni tavsiya qiladi." },
+    { en: "viral", uz: "tez tarqalgan (internetda)", ipa: "ˈvaɪ.rəl", pos: "adj", ex: "A viral video can make an unknown person famous in a day.", exUz: "Tez tarqalgan video noma'lum odamni bir kunda mashhur qilishi mumkin." },
+    { en: "subscription", uz: "obuna", ipa: "səbˈskrɪp.ʃən", pos: "noun", ex: "I cancelled my subscription because I rarely used the app.", exUz: "Ilovadan kamdan-kam foydalanganim uchun obunani bekor qildim." },
+    { en: "breakthrough", uz: "katta kashfiyot, yutuq", ipa: "ˈbreɪk.θruː", pos: "noun", ex: "The team made a breakthrough in solar energy research.", exUz: "Jamoa quyosh energiyasi tadqiqotida katta yutuqqa erishdi." },
+    { en: "addictive", uz: "odat qilib qo'yadigan", ipa: "əˈdɪk.tɪv", pos: "adj", ex: "Many people find mobile games addictive.", exUz: "Ko'p odamlar mobil o'yinlarni odat qilib qo'yadigan deb hisoblaydi." },
+    { en: "surveillance", uz: "kuzatuv, nazorat", ipa: "səˈveɪ.ləns", pos: "noun", ex: "The city increased surveillance after a series of thefts.", exUz: "Bir qator o'g'irliklardan keyin shahar kuzatuvni kuchaytirdi." },
+    { en: "influencer", uz: "ijtimoiy tarmoqdagi ta'sirchan shaxs, influenser", ipa: "ˈɪn.flu.ən.sə", pos: "noun", ex: "The brand paid an influencer to advertise its trainers.", exUz: "Brend o'z krossovkalarini reklama qilish uchun influenserga pul to'ladi." },
+    { en: "clickbait", uz: "aldamchi, bosishga undovchi sarlavha", ipa: "ˈklɪk.beɪt", pos: "noun", ex: "I never trust articles with clickbait headlines.", exUz: "Men aldamchi sarlavhali maqolalarga hech qachon ishonmayman." },
+  ],
+  practice: [
+    { k: "match", pairs: [["censorship", "ma'lumotni cheklash"], ["algorithm", "kompyuter qoidalari tizimi"], ["clickbait", "aldamchi sarlavha"], ["surveillance", "kuzatuv, nazorat"], ["breakthrough", "katta yutuq"]] },
+    { k: "choice", q: "The government introduced strict ___, so newspapers could not print any criticism.", opts: ["subscription", "algorithm", "censorship", "breakthrough"], a: 2, why: "Nashrlarni cheklash → **censorship**." },
+    { k: "choice", q: "The video ___ overnight and had five million views by morning.", opts: ["went viral", "made viral", "got a viral", "was virally"], a: 0, why: "**go viral** — tarqalib ketmoq." },
+    { k: "fill", q: "I cancelled my ___ to the magazine because I never read it. (subscribe)", a: ["subscription"], uz: "Jurnalni o'qimasligim uchun unga obunani bekor qildim.", why: "Ot: **subscription**." },
+    { k: "fill", q: "Scientists announced a major ___ in cancer research. (break through)", a: ["breakthrough"], uz: "Olimlar saraton tadqiqotida katta yutuq haqida e'lon qilishdi.", why: "Ot: bir so'zda **breakthrough**." },
+    { k: "order", uz: "Yolg'on hikoyalar internetda noto'g'ri ma'lumotni juda tez tarqatadi.", words: ["Fake", "stories", "spread", "misinformation", "very", "quickly", "online."], extra: ["informations", "spreads"], why: "**misinformation** sanalmaydi va ko'plik shaklga ega emas." },
+    { k: "translate", uz: "Bu ilova juda odat qilib qo'yadi.", a: ["This app is very addictive.", "This app is highly addictive.", "This app is extremely addictive.", "This application is very addictive.", "This application is highly addictive.", "This app is really addictive."], why: "**addictive** — narsa haqida sifat." },
+    { k: "tf", q: "*There are a lot of misinformations online* — bu gap to'g'ri.", a: false, why: "**misinformation** sanalmaydi: *There is a lot of misinformation online.*" },
+    { k: "fix", wrong: "She is addicted of her phone.", a: ["She is addicted to her phone."], hint: "predlog", why: "**be addicted to** + ot." },
+    { k: "fix", wrong: "The article contained many misinformations.", a: ["The article contained a lot of misinformation.", "The article contained much misinformation.", "The article contained some misinformation.", "The article contained lots of misinformation."], hint: "sanalmaydigan ot", why: "**misinformation** ko'plikda ishlatilmaydi." },
+    { k: "listen", say: "The campaign aims to raise awareness of online privacy.", opts: ["The campaign aims to raise awareness of online privacy.", "The campaign aims to rise awareness of online privacy.", "The campaign aims to raise an awareness of online privacy."], a: 0, why: "Birikma: **raise awareness of**." },
+    { k: "choice", q: "Which word describes a person who is paid to promote products to a large online audience?", opts: ["subscriber", "algorithm", "influencer", "censorship"], a: 2, why: "Ko'p kuzatuvchisi bor, mahsulotlarni reklama qiluvchi shaxs → **influencer**." },
+    { k: "dictation", say: "The video went viral within a few hours.", uz: "Video bir necha soat ichida tarqalib ketdi.", why: "**go viral** — o'tgan zamonda *went viral*." },
+    { k: "match", pairs: [["go viral", "tarqalib ketmoq"], ["break the news", "yangilikni birinchi bo'lib aytmoq"], ["raise awareness", "xabardorlikni oshirmoq"], ["spread misinformation", "noto'g'ri ma'lumot tarqatmoq"], ["cancel a subscription", "obunani bekor qilmoq"]] },
+    { k: "speak", say: "I try not to fall for clickbait, and I check the source before I share anything.", uz: "Aldamchi sarlavhalarga aldanmaslikka harakat qilaman va biror narsani ulashishdan oldin manbani tekshiraman." },
+  ],
+  quiz: [
+    { k: "choice", q: "The new law will allow the police to use mass ___ in public places.", opts: ["surveillance", "subscription", "clickbait", "viral"], a: 0, why: "Ommaviy kuzatuv → **mass surveillance**." },
+    { k: "choice", q: "A local newspaper was the first to ___ the news about the factory closing.", opts: ["break", "raise", "cancel", "go"], a: 0, why: "**break the news** — yangilikni birinchi bo'lib yetkazmoq." },
+    { k: "choice", q: "This game is so ___ that I forget to sleep.", opts: ["addicted", "addictive", "addiction", "addict"], a: 1, why: "Narsa haqida sifat: **addictive**." },
+    { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["The news is surprising.", "The news are surprising.", "A news is surprising.", "The newses are surprising."], a: 0, why: "**news** sanalmaydigan ot, fe'l birlikda: *is*." },
+    { k: "fill", q: "Our phones track our location all day, which some people see as a form of ___. (kuzatuv)", a: ["surveillance"], uz: "Telefonlarimiz kun bo'yi joylashuvimizni kuzatadi, ba'zilar buni kuzatuv shakli deb biladi.", why: "Kuzatuv, nazorat → **surveillance**." },
+    { k: "fill", q: "A famous ___ shared the post, and it quickly went viral. (influence)", a: ["influencer"], uz: "Mashhur influenser postni ulashdi va u tezda tarqalib ketdi.", why: "Odam: **influence + er = influencer**." },
+    { k: "order", uz: "Kampaniya onlayn xavfsizlik haqida xabardorlikni oshirmoqchi.", words: ["The", "campaign", "wants", "to", "raise", "awareness", "of", "online", "safety."], extra: ["rise", "an"], why: "**raise awareness of**." },
+    { k: "translate", uz: "Men gazetaga obunani bekor qildim.", a: ["I cancelled my subscription to the newspaper.", "I canceled my subscription to the newspaper.", "I cancelled my newspaper subscription.", "I canceled my newspaper subscription.", "I have cancelled my subscription to the newspaper.", "I've cancelled my subscription to the newspaper."], why: "**cancel a subscription (to)**." },
+    { k: "fix", wrong: "I read many informations about the breakthrough yesterday.", a: ["I read a lot of information about the breakthrough yesterday.", "I read much information about the breakthrough yesterday.", "I read some information about the breakthrough yesterday.", "I read lots of information about the breakthrough yesterday."], hint: "information sanalmaydi", why: "**information** sanalmaydi: ko'plik yo'q." },
+    { k: "tf", q: "*Misinformation* va *censorship* bir xil narsani bildiradi.", a: false, why: "**misinformation** — noto'g'ri ma'lumot, **censorship** — ma'lumotni cheklash." },
+  ],
+  summary: [
+    "**Media so'zlari:** *censorship, misinformation, clickbait, influencer*; **texnologiya:** *algorithm, viral, subscription, breakthrough, addictive, surveillance*.",
+    "**Birikmalar:** *go viral, break the news, spread misinformation, raise awareness of, cancel a subscription, highly addictive, under surveillance*.",
+    "**So'z oilalari:** *censor → censorship, subscribe → subscription → subscriber, addict → addictive / addicted, influence → influencer*; *break through → breakthrough*.",
+    "**Sanalmaydigan otlar:** *news, information, misinformation* ko'plikda ishlatilmaydi: *The news is good. a lot of information*.",
+    "**Xatolar:** *addicted of* (to'g'risi *to*), *rise awareness* (to'g'risi *raise*), *a news*, *informations*.",
+  ],
+  homework: "Bir kun davomida telefon yoki yangiliklar ilovasida uchragan **uchta** narsani toping (viral video, aldamchi sarlavha, obuna taklifi) va har biri haqida shu darsdagi so'zlar bilan **bittadan gap** yozing. Keyin 5-6 gapdan iborat qisqa paragraf yozing: *Ijtimoiy tarmoqlar hayotimizga qanday ta'sir qiladi?* Kamida 6 ta yangi so'zdan foydalaning.",
+};
+
+export default lesson;

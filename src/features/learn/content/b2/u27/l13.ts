@@ -1,0 +1,125 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (grammar): nominalisation, turning verbs and adjectives into nouns for formal writing.
+const lesson: Lesson = {
+  id: 'u27-l13',
+  title: 'Nominalisation: from verbs to nouns',
+  titleUz: "Nominalizatsiya: fe'ldan otga (decide → decision) — rasmiy matn uchun",
+  mini: true,
+  kind: 'grammar',
+  goal: "Fe'l va sifatlarni **otga aylantirib** (*decide → decision, efficient → efficiency*) rasmiy matnni qisqa va jiddiy yozasiz, **-tion, -ment, -ness, -ity** qo'shimchalarini va ularning predloglarini bilasiz, oddiy gapni rasmiy shaklga o'zgartira olasiz.",
+  slides: [
+    {
+      title: "Nominalizatsiya nima?",
+      blocks: [
+        { t: 'p', md: "**Nominalizatsiya** — fe'l yoki sifatni **ot** shakliga o'tkazish. Rasmiy hisobot, maqola va IELTS Writing da bu uslub gapni qisqartiradi va jiddiy ohang beradi. Og'zaki nutqda fe'l ko'proq ishlatiladi." },
+        { t: 'examples', items: [
+          { en: "The company decided to close the branch. This surprised the staff.", uz: "Kompaniya filialni yopishga qaror qildi. Bu xodimlarni hayron qoldirdi.", note: "Ikkita gap, ikkita fe'l: oddiy, og'zaki uslub." },
+          { en: "The company's decision to close the branch surprised the staff.", uz: "Kompaniyaning filialni yopish qarori xodimlarni hayron qoldirdi.", note: "Bitta gap: **decided → decision**. Rasmiy uslub." },
+          { en: "Prices increased sharply, so customers complained.", uz: "Narxlar keskin oshdi, shuning uchun mijozlar shikoyat qildi.", note: "Oddiy: ikki fe'l, **so** bog'lovchisi." },
+          { en: "The sharp increase in prices led to customer complaints.", uz: "Narxlarning keskin oshishi mijozlar shikoyatiga olib keldi.", note: "Rasmiy: **increase** (ot) + **led to**." },
+        ] },
+        { t: 'tip', tone: 'info', md: "Yangi ot oldiga ko'pincha **sifat** qo'yiladi (*sharp increase*, *rapid growth*), fe'l o'rniga esa **kuchli fe'l** (*led to, resulted in, caused*) ishlatiladi." },
+        { t: 'check', ex: { k: 'fill', q: "The company decided to expand. → The company's ___ to expand surprised us.", a: ['decision'], why: "**decide → decision**." } },
+      ],
+    },
+    {
+      title: "Qo'shimchalar va predloglar",
+      blocks: [
+        { t: 'table', head: ["Qo'shimcha", "Fe'l / sifat → ot", 'Misol'], speak: [2], rows: [
+          ['-tion / -sion', 'reduce → reduction', 'There was a reduction in costs.'],
+          ['-tion', 'implement → implementation', 'The implementation of the plan took a year.'],
+          ['-ment', 'assess → assessment, improve → improvement', 'An assessment of the risks is needed.'],
+          ['-al', 'arrive → arrival, approve → approval', 'The arrival of the delegation was delayed.'],
+          ['-ness / -ity', 'aware → awareness, available → availability', 'The availability of staff is limited.'],
+          ['-ency / -ance', 'efficient → efficiency, perform → performance', 'The efficiency of the process has improved.'],
+          ["Boshqa", 'grow → growth, fail → failure, expand → expansion', 'The company is planning an expansion.'],
+        ] },
+        { t: 'p', md: "Ot **predlog** talab qiladi. Eng ko'p uchraydigan qoliplar:" },
+        { t: 'table', head: ['Ot + predlog', 'Misol'], speak: [1], rows: [
+          ['an increase / a reduction **in**', 'a reduction in costs'],
+          ['the implementation / assessment / arrival **of**', 'the assessment of the risks'],
+          ['a shortage **of**', 'a shortage of skilled workers'],
+          ['a decision **to** + V1', "the decision to close the branch"],
+          ['demand **for**', 'demand for online courses'],
+        ] },
+        { t: 'check', ex: { k: 'choice', q: "There has been a sharp ___ in the number of applicants.", opts: ['increase', 'increasing', 'increased', 'to increase'], a: 0, why: "**a sharp increase in** — ot kerak (sifatdan keyin)." } },
+        { t: 'check', ex: { k: 'choice', q: "Which noun comes from the adjective *efficient*?", opts: ['efficiency', 'efficientness', 'efficience', 'efficiention'], a: 0, why: "**efficient → efficiency**." } },
+      ],
+    },
+    {
+      title: "Tipik xatolar va uslub",
+      blocks: [
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ['the decision of the board', 'an increase in prices', 'the arrival of the guests', 'the development of the city'] },
+          bad: { title: 'Xato', items: ['the decide of the board', 'an increase of prices', 'the arrive of the guests', 'the develop of the city'] } },
+        { t: 'p', md: "Xatolarning sababi: o'zbek tilida *-ish, -ma, -lik* qo'shimchalari bilan ot yasash oson, inglizchada esa **maxsus shakl** yodlanadi. Fe'lni artikldan keyin qo'yib bo'lmaydi (*the decide*)." },
+        { t: 'check', ex: { k: 'fix', wrong: 'The develop of the new system was slow.', a: ['The development of the new system was slow.'], why: "Artikldan keyin ot kerak: **develop → development**." } },
+        { t: 'check', ex: { k: 'fix', wrong: 'There was an increase of prices last year.', a: ['There was an increase in prices last year.'], why: "O'sish / kamayish bilan **in** ishlatiladi: *an increase in*, *a reduction in*." } },
+        { t: 'tip', tone: 'warn', md: "**Haddan oshirmang.** Har bir fe'lni otga aylantirsangiz, matn og'ir va tushunish qiyin bo'ladi. Bir gapda **ikkitadan ko'p** nominalizatsiya ishlatmaslikka harakat qiling; og'zaki nutqda oddiy fe'l ma'qul." },
+        { t: 'check', ex: { k: 'tf', q: "*The reduction in costs was caused by the implementation of the plan.* — formal written style.", a: true, why: "Ikkita nominalizatsiya (**reduction, implementation**) hisobot uchun mos." } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang",
+      blocks: [
+        { t: 'text', title: 'Extract from a report', voice: 'george', en: "The assessment of the new ordering system shows that its implementation has led to a significant reduction in errors. The efficiency of the sales team has also improved, and the availability of products has increased. However, the expansion of the business into new regions is limited by a shortage of qualified staff. Therefore, the management recommends investment in training.", uz: "Yangi buyurtma tizimini baholash shuni ko'rsatadiki, uning joriy etilishi xatolarning sezilarli kamayishiga olib keldi. Savdo jamoasining samaradorligi ham yaxshilandi, mahsulotlar mavjudligi oshdi. Biroq biznesning yangi hududlarga kengayishi malakali xodimlar yetishmasligi bilan cheklangan. Shuning uchun rahbariyat o'qitishga sarmoya kiritishni tavsiya qiladi." },
+        { t: 'check', ex: { k: 'choice', q: 'What limits the expansion of the business?', opts: ['A shortage of qualified staff', 'A reduction in errors', 'The new ordering system', 'Low efficiency'], a: 0, why: "*limited by a shortage of qualified staff*." } },
+        { t: 'dialog', lines: [
+          { who: 'Maria', en: "Max, can you look at my report? My manager says it sounds too informal.", uz: "Max, hisobotimga qarab bera olasanmi? Menejerim u juda norasmiy eshitiladi, deydi." },
+          { who: 'Max', en: "Sure. You wrote: Many people left because the company didn't pay well.", uz: "Albatta. Sen yozibsan: Kompaniya yaxshi maosh bermagani uchun ko'p odam ketdi." },
+          { who: 'Maria', en: "Yes. How can I make it more formal?", uz: "Ha. Uni qanday rasmiyroq qilsam bo'ladi?" },
+          { who: 'Max', en: "Try this: The high level of staff turnover was caused by low salaries.", uz: "Mana buni sinab ko'r: Xodimlar almashinuvining yuqori darajasiga past maoshlar sabab bo'ldi." },
+          { who: 'Maria', en: "That sounds much better. So I change the verbs into nouns?", uz: "Ancha yaxshi eshitilyapti. Demak, fe'llarni otga aylantiraman?" },
+          { who: 'Max', en: "Yes, but not too many. Otherwise the sentence becomes heavy.", uz: "Ha, lekin juda ko'p emas. Aks holda gap og'ir bo'lib qoladi." },
+        ] },
+        { t: 'check', ex: { k: 'tf', q: 'Max says you should change every verb into a noun.', a: false, why: "*but not too many. Otherwise the sentence becomes heavy.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'implementation', uz: 'joriy etish, amalga oshirish', ipa: 'ˌɪm.plɪ.menˈteɪ.ʃən', pos: 'noun', ex: 'The implementation of the new policy begins in May.', exUz: "Yangi siyosatni joriy etish may oyida boshlanadi." },
+    { en: 'assessment', uz: 'baholash', ipa: 'əˈses.mənt', pos: 'noun', ex: 'A full assessment of the risks is required.', exUz: "Xavflarni to'liq baholash talab qilinadi." },
+    { en: 'reduction', uz: 'kamayish, qisqarish', ipa: 'rɪˈdʌk.ʃən', pos: 'noun', ex: 'There has been a reduction in travel costs.', exUz: "Sayohat xarajatlari kamaydi." },
+    { en: 'efficiency', uz: 'samaradorlik', ipa: 'ɪˈfɪʃ.ən.si', pos: 'noun', ex: 'The new software has improved the efficiency of our work.', exUz: "Yangi dastur ishimiz samaradorligini oshirdi." },
+    { en: 'expansion', uz: 'kengayish', ipa: 'ɪkˈspæn.ʃən', pos: 'noun', ex: 'The expansion of the company created two hundred jobs.', exUz: "Kompaniyaning kengayishi 200 ta ish o'rni yaratdi." },
+    { en: 'shortage', uz: 'yetishmovchilik', ipa: 'ˈʃɔː.tɪdʒ', pos: 'noun', ex: 'There is a shortage of skilled engineers.', exUz: "Malakali muhandislar yetishmaydi." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['decide', 'decision'], ['develop', 'development'], ['arrive', 'arrival'], ['efficient', 'efficiency'], ['expand', 'expansion']] },
+    { k: 'choice', q: "The manager approved the plan. → The manager's ___ of the plan was quick.", opts: ['approval', 'approve', 'approvement', 'approved'], a: 0, why: "**approve → approval**." },
+    { k: 'fill', q: "The government reduced taxes. → There was a ___ in taxes. (noun)", a: ['reduction'], why: "**reduce → reduction**, **a reduction in**." },
+    { k: 'choice', q: "Which sentence is the most formal?", opts: ["The rapid growth of the company created new jobs.", "The company grew fast, so they made new jobs.", "Since the company grew a lot, loads of jobs came up.", "The company got bigger quickly and made jobs."], a: 0, why: "**rapid growth** (nominalizatsiya) + kuchli fe'l *created* — rasmiy uslub." },
+    { k: 'listen', say: 'There has been a sharp increase in demand for our products.', opts: ['There has been a sharp increase in demand for our products.', 'There has been a sharp increase of demand for our products.', 'There has been a sharp increased in demand for our products.', 'There was a sharp increase in demand for our product.'], a: 0 },
+    { k: 'fix', wrong: 'The arrive of the delegation was late.', a: ['The arrival of the delegation was late.', 'The arrival of the delegation was delayed.'], why: "**arrive → arrival**." },
+    { k: 'order', uz: "Malakali xodimlar yetishmayotgani bizni cheklaydi.", words: ['A', 'shortage', 'of', 'skilled', 'staff', 'limits', 'us.'], extra: ['in', 'short'], alt: [['A', 'shortage', 'of', 'qualified', 'staff', 'limits', 'us.']], why: "**a shortage of + ot**." },
+    { k: 'tf', q: "*an increase of prices* — To'g'ri birikma.", a: false, why: "To'g'ri: **an increase in prices** (o'sish / kamayish bilan **in**)." },
+    { k: 'translate', uz: "Rejani joriy etish ikki yil davom etdi.", a: ['The implementation of the plan took two years.', 'The implementation of the plan lasted two years.', 'The implementation of the project took two years.'], why: "**implementation of + ot**." },
+    { k: 'fill', q: "The company improved its efficiency. → The ___ in efficiency saved money. (noun)", a: ['improvement'], why: "**improve → improvement**." },
+    { k: 'fix', wrong: 'There was a reduction on costs last year.', a: ['There was a reduction in costs last year.'], why: "**a reduction in**." },
+    { k: 'dictation', say: 'The assessment of the risks takes two weeks.', a: ['The assessment of the risks takes two weeks.'], uz: "Xavflarni baholash ikki hafta oladi." },
+    { k: 'choice', q: "Which word is NOT a noun made from a verb?", opts: ['quickly', 'reduction', 'improvement', 'arrival'], a: 0, why: "**quickly** — ravish. Qolganlari fe'ldan yasalgan otlar." },
+    { k: 'order', uz: "Yangi tizim samaradorlikni oshirdi.", words: ['The', 'new', 'system', 'has', 'increased', 'efficiency.'], extra: ['increase', 'efficient'], why: "Oddiy gapda fe'l; **efficiency** — ot." },
+    { k: 'speak', say: 'The expansion of the business is limited by a shortage of staff.', uz: "Biznesning kengayishi xodimlar yetishmasligi bilan cheklangan." },
+  ],
+  quiz: [
+    { k: 'choice', q: "Customers complained because prices rose. → The ___ in prices caused complaints.", opts: ['rise', 'risen', 'rose', 'rising'], a: 0, why: "**rise** (ot) *the rise in prices*." },
+    { k: 'choice', q: "Which noun comes from *assess*?", opts: ['assessment', 'assessation', 'assessing', 'assessness'], a: 0, why: "**assess → assessment** (-ment)." },
+    { k: 'fill', q: "They want to expand abroad. → Their ___ abroad will start next year. (noun)", a: ['expansion'], why: "**expand → expansion**." },
+    { k: 'fix', wrong: 'The decide to move the office was difficult.', a: ['The decision to move the office was difficult.'], why: "**decide → decision**." },
+    { k: 'order', uz: "Xodimlarning mavjudligi cheklangan.", words: ['The', 'availability', 'of', 'staff', 'is', 'limited.'], extra: ['available', 'limit'], why: "**available → availability**." },
+    { k: 'tf', q: "In formal reports, nominalisation can make sentences shorter.", a: true, why: "Ikkita gap bitta ot guruhiga aylanadi." },
+    { k: 'choice', q: "Which is correct?", opts: ["a shortage of qualified teachers", "a shortage in qualified teachers", "a shortage on qualified teachers", "a short of qualified teachers"], a: 0, why: "**a shortage of**." },
+    { k: 'translate', uz: "Samaradorlikning oshishi vaqtni tejadi.", a: ['The increase in efficiency saved time.', 'An increase in efficiency saved time.', 'The improvement in efficiency saved time.', 'Increased efficiency saved time.', 'The rise in efficiency saved time.'], why: "**the increase in efficiency** — ot birikmasi." },
+  ],
+  summary: [
+    "**Nominalizatsiya**: fe'l yoki sifat → ot (*decide → decision, efficient → efficiency*). Rasmiy yozuvda gapni qisqartiradi.",
+    "Qo'shimchalar: **-tion** (*reduction*), **-ment** (*assessment*), **-al** (*arrival*), **-ness / -ity** (*availability*), **-ency** (*efficiency*); ba'zilari alohida: *growth, failure*.",
+    "Predloglar: **an increase / a reduction in**, **the implementation of**, **a shortage of**, **a decision to**.",
+    "Xatolar: *the decide, the arrive, increase of prices* → **the decision, the arrival, increase in prices**.",
+    "Yangi so'zlar: **implementation, assessment, reduction, efficiency, expansion, shortage**.",
+  ],
+  homework: "Ishdagi yoki o'qishdagi 4 ta oddiy gapni tanlang (masalan, *The company grew quickly, so it hired more people*) va ularni nominalizatsiya bilan rasmiy shaklga o'zgartiring. Har bir yangi gapda kamida bitta ot (*growth, decision…*) bo'lsin.",
+};
+
+export default lesson;

@@ -1,0 +1,210 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u24-l5",
+  title: "Change, trends and development",
+  titleUz: "O'zgarish va rivojlanish: so'zlar va birikmalar (rise, decline, steady, boom)",
+  goal: "O'zgarish va tendensiyalar haqida aniq gapirasiz va yozasiz: **a sharp rise, a steady increase, a slump, an upturn** kabi birikmalarni, **boom, overtake, transform, evolve, stagnate** kabi fe'llarni bilasiz. **rise / raise**, **increase by / to** va ot–fe'l shakllarini adashtirmaysiz. IELTS Writing Task 1, ish hisoboti va yangiliklarni tushunish uchun kerak.",
+  slides: [
+    {
+      title: "Nima uchun kerak: tendensiyani aniq aytish",
+      blocks: [
+        { t: "p", md: "Hisobot, yangilik yoki IELTS grafigida *«narxlar oshdi»* demaydi. Aniq yoziladi: **qanchalik tez**, **qaysi yo'nalishda**, **qancha vaqt davomida**. B1 da *increase, decrease, grow, fall* ni bilgansiz. Endi shu fe'llarga **sifat yoki ravish** qo'shib, o'zgarishni aniq tasvirlaymiz." },
+        {
+          t: "table", head: ["Sifat + ot", "Fe'l + ravish", "Ma'nosi"], speak: [0, 1],
+          rows: [
+            ["a sharp rise", "rose sharply", "keskin ko'tarilish"],
+            ["a slight fall", "fell slightly", "ozgina pasayish"],
+            ["a steady increase", "increased steadily", "bir maromdagi o'sish"],
+            ["a gradual decline", "declined gradually", "asta-sekin pasayish"],
+            ["a rapid growth", "grew rapidly", "tez o'sish"],
+            ["a significant change", "changed significantly", "sezilarli o'zgarish"],
+          ],
+        },
+        { t: "tip", tone: "info", md: "Bir fikrni ikki xil yozish mumkin: **ot bilan** (*There was a sharp rise in prices.*) yoki **fe'l bilan** (*Prices rose sharply.*). **Sifat** otni, **ravish** fe'lni tasvirlaydi. Ikkalasini aralashtirmang." },
+        { t: "check", ex: { k: "choice", q: "There was a ___ increase in sales last year.", opts: ["steady", "steadily", "steadied", "steadiness"], a: 0, why: "**increase** — ot, uni **sifat** tasvirlaydi: **a steady increase**." } },
+        { t: "check", ex: { k: "choice", q: "Unemployment fell ___ during the spring.", opts: ["slightly", "slight", "a slight", "slightness"], a: 0, why: "**fell** — fe'l, uni **ravish** tasvirlaydi: **fell slightly**." } },
+      ],
+    },
+    {
+      title: "Yangi fe'llar va otlar: boom, slump, upturn, downturn",
+      blocks: [
+        { t: "p", md: "Iqtisodiyot va hayotdagi o'zgarishlarni ifodalovchi eng foydali so'zlar. Ularning ba'zilari **ot**, ba'zilari **fe'l**, ba'zilari ikkalasi ham:" },
+        {
+          t: "table", head: ["So'z", "Ma'nosi", "Misol"], speak: [0, 2],
+          rows: [
+            ["boom (n, v)", "keskin va tez o'sish, gullab-yashnash", "There was a boom in online shopping."],
+            ["slump (n, v)", "keskin pasayish", "Sales slumped in January."],
+            ["upturn (n)", "yaxshilanish, ko'tarilishga burilish", "Experts expect an upturn in the spring."],
+            ["downturn (n)", "pasayish davri, tanazzul", "The company survived the economic downturn."],
+            ["stagnate (v)", "o'smay turib qolmoq", "Wages have stagnated for years."],
+            ["gain momentum", "tezlashmoq, kuch olmoq", "The campaign began to gain momentum."],
+          ],
+        },
+        { t: "examples", items: [
+          { en: "A boom in tourism has transformed the small coastal town.", uz: "Turizmdagi gullab-yashnash kichik qirg'oq shaharchasini o'zgartirib yubordi." },
+          { en: "After a long downturn, the first signs of an upturn appeared in March.", uz: "Uzoq tanazzuldan keyin martda yaxshilanishning birinchi belgilari paydo bo'ldi." },
+        ] },
+        { t: "tip", tone: "warn", md: "**boom** va **slump** — juda **kuchli** o'zgarish. Kichik o'zgarishga *a slight rise* deyiladi. **stagnate** — «yomonlashmoq» emas, **o'sishsiz turib qolmoq**: *Sales stagnated* = sotuv o'zgarmadi, o'smadi." },
+        { t: "check", ex: { k: "choice", q: "Sales stayed at about the same low level for five years. Sales ___.", opts: ["stagnated", "boomed", "overtook", "transformed"], a: 0, why: "O'sishsiz turib qolish → **stagnated**." } },
+        { t: "check", ex: { k: "choice", q: "After the factory opened, the number of new houses grew very fast. This was a housing ___.", opts: ["boom", "slump", "downturn", "setting"], a: 0, why: "Keskin va tez o'sish → **boom**." } },
+      ],
+    },
+    {
+      title: "overtake, transform, evolve va steady",
+      blocks: [
+        { t: "p", md: "Bu so'zlar **kimdir/nimadir boshqasidan o'tib ketganini** yoki **butunlay o'zgarganini** bildiradi:" },
+        {
+          t: "table", head: ["So'z", "Ma'nosi va qolip", "Misol"], speak: [2],
+          rows: [
+            ["overtake", "quvib o'tmoq (+ to'g'ridan-to'g'ri to'ldiruvchi)", "Mobile sales have overtaken desktop sales."],
+            ["transform", "butunlay o'zgartirmoq (+ into)", "The team transformed the old factory into a gallery."],
+            ["evolve", "asta-sekin rivojlanmoq (o'zi)", "Her job has evolved over the years."],
+            ["steady", "bir maromda, barqaror (sifat)", "The company has shown steady growth."],
+          ],
+        },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["Mobile sales overtook desktop sales.", "The city has been transformed.", "Ideas evolve over time."] },
+          bad: { title: "Xato", items: ["Mobile sales overtook than desktop sales.", "The city has transformed by the new park.", "Ideas are evolved over time."] } },
+        { t: "tip", tone: "info", md: "**overtake** dan keyin predlog **kerak emas**: *overtake the competitor* (~~overtake than~~, ~~overtake to~~). **evolve** — majhul nisbatda ishlatilmaydi (*evolves*, *is evolved* emas), chunki o'zi o'zgaradi. **transform** — ikkalasi ham bo'ladi: *transform something* va *be transformed*." },
+        { t: "check", ex: { k: "fill", q: "In 2023 our app ___ the main rival and became number one. (overtake, past)", a: ["overtook"], why: "O'tgan zamon: **overtook** (overtake — overtook — overtaken)." } },
+        { t: "check", ex: { k: "fill", q: "The old warehouse was ___ into a modern office. (transform)", a: ["transformed"], why: "**be transformed into** — majhul nisbat, V3: **transformed**." } },
+      ],
+    },
+    {
+      title: "So'z shakllari va rise / raise",
+      blocks: [
+        { t: "p", md: "B2 da bir so'zning ot, fe'l va sifat shakllarini bilish kerak. IELTS da ham ular ko'p so'raladi:" },
+        {
+          t: "table", head: ["Fe'l", "Ot", "Sifat / ravish"], speak: [0, 1],
+          rows: [
+            ["develop", "development", "developing, developed"],
+            ["increase", "an increase", "increasing, increasingly"],
+            ["decline", "a decline", "declining"],
+            ["transform", "a transformation", "transformative"],
+            ["fluctuate", "a fluctuation", "—"],
+          ],
+        },
+        { t: "p", md: "**rise** va **raise** ni adashtirmang. Ikkalasi ham «ko'tarilmoq/ko'tarmoq» ma'nosida, lekin:" },
+        {
+          t: "table", head: ["Fe'l", "Shakllari", "To'ldiruvchi bormi?", "Misol"], speak: [3],
+          rows: [
+            ["rise", "rise, rose, risen", "yo'q (o'zi ko'tariladi)", "Prices rose last month."],
+            ["raise", "raise, raised, raised", "bor (kimdir nimanidir ko'taradi)", "The shop raised its prices."],
+          ],
+        },
+        { t: "tip", tone: "info", md: "**by** — qancha o'zgarganini, **to** — qaysi darajaga yetganini bildiradi: *Prices rose **by** 5 per cent* (5 foizga oshdi); *Prices rose **to** 20 pounds* (20 funtga yetdi). **from … to …** — boshlanish va tugash: *from 10 to 15*." },
+        { t: "check", ex: { k: "choice", q: "The bank has ___ interest rates twice this year.", opts: ["raised", "risen", "rose", "rised"], a: 0, why: "**interest rates** — to'ldiruvchi bor, shuning uchun **raise**: *has raised*." } },
+        { t: "check", ex: { k: "choice", q: "The number of visitors ___ from 200 to 350.", opts: ["rose", "raised", "has raised", "was rose"], a: 0, why: "To'ldiruvchi yo'q — **rose**." } },
+      ],
+    },
+    {
+      title: "Tipik xatolar (o'zbek tilidan interferensiya)",
+      blocks: [
+        { t: "p", md: "O'zbek tilida *oshdi* va *oshirdi* bir ildizdan, shuning uchun o'zbek tilida so'zlovchilar ko'p xato qiladi. Mana eng tipik to'rttasi:" },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["Prices rose sharply last year.", "There was a significant rise in prices.", "Sales increased by ten per cent.", "Our app overtook the competitor."] },
+          bad: { title: "Xato", items: ["Prices raised sharply last year.", "There was a significantly rise in prices.", "Sales increased to ten per cent. (10 foizga oshdi demoqchi)", "Our app overtook than the competitor."] } },
+        { t: "check", ex: { k: "fix", wrong: "Prices raised sharply last year.", a: ["Prices rose sharply last year."], hint: "o'zi ko'tarilgan: rise", why: "To'ldiruvchi yo'q, narxlarning o'zi ko'tarilgan: **rose**, **raised** emas." } },
+        { t: "check", ex: { k: "fix", wrong: "There was a significantly rise in the number of students.", a: ["There was a significant rise in the number of students."], hint: "ot oldidan sifat", why: "**rise** — ot, uning oldida **sifat** (**significant**) turadi." } },
+        { t: "check", ex: { k: "fix", wrong: "Our app overtook than the old one last year.", a: ["Our app overtook the old one last year."], hint: "overtake dan keyin predlog yo'q", why: "**overtake** — o'timli fe'l, predlog kerak emas." } },
+        { t: "check", ex: { k: "fix", wrong: "The population increased to 5 per cent last year.", a: ["The population increased by 5 per cent last year."], hint: "qancha o'zgargan", why: "O'zgarish miqdori **by** bilan: **increased by 5 per cent**." } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang",
+      blocks: [
+        {
+          t: "text", title: "How a small town changed", voice: "emma",
+          en: "Imagine a town called Riverside. Ten years ago it was quiet, and after the factory closed, the economy went into a long downturn. For a while the population simply stagnated. Then a small software company opened an office there, and things began to change. Over the next five years the number of jobs rose steadily, and the local economy gained momentum. A boom in new cafés and flats followed, and house prices rose sharply. Today Riverside has overtaken the neighbouring city as the main centre for young professionals. There have been problems, of course: a slump in tourism last winter hurt several shops. Even so, most people agree that the town has been transformed, and it is still evolving.",
+          uz: "Riverside degan shaharchani tasavvur qiling. O'n yil oldin u sokin edi, zavod yopilgach iqtisodiyot uzoq tanazzulga uchradi. Bir muddat aholi soni shunchaki o'smay turdi. Keyin kichik dasturiy ta'minot kompaniyasi u yerda ofis ochdi va hammasi o'zgara boshladi. Keyingi besh yilda ish o'rinlari soni bir maromda o'sdi, mahalliy iqtisodiyot kuch ola boshladi. Yangi kafe va kvartiralarning gullab-yashnashi boshlandi, uy narxlari keskin ko'tarildi. Bugun Riverside qo'shni shahardan o'tib, yosh mutaxassislarning asosiy markaziga aylandi. Albatta, muammolar ham bo'ldi: o'tgan qishdagi turizmning keskin pasayishi bir nechta do'konga zarar yetkazdi. Shunday bo'lsa-da, ko'pchilik shaharcha butunlay o'zgargan va hali ham rivojlanayotgan deb hisoblaydi.",
+        },
+        { t: "check", ex: { k: "tf", q: "The population of Riverside grew fast during the downturn.", a: false, why: "Matnda: iqtisodiy tanazzul paytida aholi soni **stagnated** (o'smay turdi)." } },
+        { t: "check", ex: { k: "choice", q: "What happened after the software company opened an office?", opts: ["The number of jobs rose steadily.", "House prices fell sharply.", "The population left the town.", "Tourism boomed in winter."], a: 0, why: "Matnda: *the number of jobs rose steadily*." } },
+        {
+          t: "dialog", lines: [
+            { who: "Tom", en: "Have you seen the latest figures for our online shop?", uz: "Onlayn do'konimizning oxirgi ko'rsatkichlarini ko'rdingizmi?" },
+            { who: "Aziza", en: "Yes. After the slump in January, there has been a clear upturn.", uz: "Ha. Yanvardagi pasayishdan keyin aniq yaxshilanish bo'ldi." },
+            { who: "Tom", en: "Right. Sales rose by twelve per cent in March, and they are still gaining momentum.", uz: "To'g'ri. Martda sotuv o'n ikki foizga oshdi va hali ham tezlashmoqda." },
+            { who: "Aziza", en: "Do you think we will overtake our main competitor this year?", uz: "Sizningcha, biz bu yil asosiy raqobatchimizdan o'tib ketamizmi?" },
+            { who: "Tom", en: "It is possible. Their sales have stagnated since the autumn.", uz: "Mumkin. Ularning sotuvi kuzdan beri o'smay turibdi." },
+            { who: "Aziza", en: "Then let's write that in the report. I'll describe the steady growth over the last three months.", uz: "Unda buni hisobotga yozaylik. Men oxirgi uch oydagi bir maromdagi o'sishni tasvirlayman." },
+            { who: "Tom", en: "Good idea. And don't forget the chart.", uz: "Yaxshi fikr. Grafikni ham unutmang." },
+          ],
+        },
+        { t: "check", ex: { k: "tf", q: "According to Tom, the competitor's sales are still growing.", a: false, why: "Tom: *Their sales have stagnated since the autumn* — o'smayapti." } },
+      ],
+    },
+    {
+      title: "Grafikni tasvirlash: qolip",
+      blocks: [
+        { t: "p", md: "IELTS Writing Task 1 va ish hisobotida o'zgarish tasvirlash uchun tayyor qolip:" },
+        {
+          t: "table", head: ["Qism", "Qolip", "Misol"], speak: [2],
+          rows: [
+            ["Umumiy tendensiya", "Overall, … rose / fell / remained stable", "Overall, sales rose steadily."],
+            ["Boshlanish va oxir", "from … to …", "Sales rose from 200 to 350 units."],
+            ["Miqdor", "by + raqam", "Sales rose by 150 units."],
+            ["Davr", "between … and … / over the period", "Between 2020 and 2024, the figure doubled."],
+            ["Keskin o'zgarish", "a boom / a slump in …", "There was a slump in sales in winter."],
+          ],
+        },
+        { t: "tip", tone: "good", md: "**remain stable / stay steady** — o'zgarmasdan turish; **peak at** — eng yuqori nuqtaga chiqish; **a rise followed by a fall** — ko'tarilish va undan keyingi pasayish. Raqamli ma'lumotni hech qachon o'zingiz o'ylab topmang: faqat grafikdagi ko'rsatkichni yozing." },
+        { t: "check", ex: { k: "order", uz: "Sotuv martda 200 dan 350 gacha oshdi.", words: ["Sales", "rose", "from", "200", "to", "350", "in", "March."], extra: ["by", "raised"], alt: [["In", "March", "sales", "rose", "from", "200", "to", "350."], ["Sales", "rose", "in", "March", "from", "200", "to", "350."]], why: "**rose from … to …** — boshlanish va oxirgi daraja." } },
+        { t: "check", ex: { k: "choice", q: "Qaysi gap o'zgarishsiz holatni bildiradi?", opts: ["Prices remained stable throughout the year.", "Prices slumped throughout the year.", "Prices boomed throughout the year.", "Prices overtook throughout the year."], a: 0, why: "**remain stable** — o'zgarmasdan turish." } },
+      ],
+    },
+  ],
+  words: [
+    { en: "steady", uz: "bir maromdagi, barqaror", ipa: "ˈsted.i", pos: "adj", ex: "The company has enjoyed steady growth since 2020.", exUz: "Kompaniya 2020-yildan beri bir maromdagi o'sishga erishdi." },
+    { en: "boom", uz: "keskin o'sish, gullab-yashnash", ipa: "buːm", pos: "noun / verb", ex: "There was a boom in house building in the 1990s.", exUz: "1990-yillarda uy qurilishida gullab-yashnash bo'ldi." },
+    { en: "slump", uz: "keskin pasayish", ipa: "slʌmp", pos: "noun / verb", ex: "The slump in oil prices affected many countries.", exUz: "Neft narxining keskin pasayishi ko'p mamlakatlarga ta'sir qildi." },
+    { en: "upturn", uz: "yaxshilanish, ko'tarilishga burilish", ipa: "ˈʌp.tɜːn", pos: "noun", ex: "Economists have noticed an upturn in consumer spending.", exUz: "Iqtisodchilar iste'mol xarajatlarida yaxshilanishni payqashdi." },
+    { en: "downturn", uz: "tanazzul, pasayish davri", ipa: "ˈdaʊn.tɜːn", pos: "noun", ex: "Many shops closed during the economic downturn.", exUz: "Iqtisodiy tanazzul paytida ko'p do'konlar yopildi." },
+    { en: "stagnate", uz: "o'smay turib qolmoq", ipa: "stæɡˈneɪt", pos: "verb", ex: "Salaries in the sector have stagnated for years.", exUz: "Sohadagi maoshlar yillar davomida o'smay turibdi." },
+    { en: "gain momentum", uz: "tezlashmoq, kuch olmoq", ipa: "ˌɡeɪn məˈmen.təm", pos: "phrase", ex: "The movement began to gain momentum last summer.", exUz: "Harakat o'tgan yozda kuch ola boshladi." },
+    { en: "overtake", uz: "quvib o'tmoq, ortda qoldirmoq", ipa: "ˌəʊ.vəˈteɪk", pos: "verb", ex: "Solar power may soon overtake coal as the main source.", exUz: "Quyosh energiyasi tez orada ko'mirdan o'tib, asosiy manbaga aylanishi mumkin." },
+    { en: "transform", uz: "butunlay o'zgartirmoq", ipa: "trænsˈfɔːm", pos: "verb", ex: "Mobile phones have transformed the way we communicate.", exUz: "Mobil telefonlar muloqot usulimizni butunlay o'zgartirdi." },
+    { en: "evolve", uz: "asta-sekin rivojlanmoq", ipa: "ɪˈvɒlv", pos: "verb", ex: "The business has evolved from a market stall into a large company.", exUz: "Biznes bozordagi peshtaxtadan katta kompaniyaga aylanib rivojlandi." },
+  ],
+  practice: [
+    { k: "match", pairs: [["boom", "keskin o'sish"], ["slump", "keskin pasayish"], ["downturn", "tanazzul davri"], ["stagnate", "o'smay turib qolmoq"], ["overtake", "quvib o'tmoq"]] },
+    { k: "choice", q: "**Sales ___ by 8 per cent last quarter.**", opts: ["rose", "raised", "boomed up", "overtook"], a: 0, why: "To'ldiruvchi yo'q: **rose by 8 per cent**." },
+    { k: "choice", q: "**The government ___ taxes on fuel last year.**", opts: ["raised", "rose", "has risen", "stagnated"], a: 0, why: "**taxes** — to'ldiruvchi, shuning uchun **raise**: *raised taxes*." },
+    { k: "fill", q: "There was a ___ rise in prices last month. (very quick and big)", a: ["sharp", "dramatic", "rapid", "steep", "significant", "substantial"], hint: "keskin", why: "Ot oldidan sifat: **a sharp rise**." },
+    { k: "fill", q: "For ten years the economy of the region did not grow at all. It simply ___. (stagnate, past)", a: ["stagnated"], why: "O'sishsiz turib qoldi: **stagnated**." },
+    { k: "tf", q: "**Overtake** fe'lidan keyin predlog kerak: *overtake than the rival*.", a: false, why: "**overtake** o'timli fe'l: *overtake the rival*, predlog kerak emas." },
+    { k: "listen", say: "The company has shown steady growth over the last three years.", opts: ["The company has shown steady growth over the last three years.", "The company has shown a sharp growth over the last three years.", "The company has slowed down over the last three years."], a: 0 },
+    { k: "order", uz: "Mobil sotuvlar kompyuter sotuvlaridan o'tib ketdi.", words: ["Mobile", "sales", "overtook", "desktop", "sales."], extra: ["than", "overtaken"], why: "**overtook** + to'g'ridan-to'g'ri to'ldiruvchi, predlogsiz." },
+    { k: "fix", wrong: "Oil prices raised sharply after the announcement.", a: ["Oil prices rose sharply after the announcement."], hint: "o'zi ko'tarilgan", why: "To'ldiruvchi yo'q: **rose**." },
+    { k: "choice", q: "**Economists expect an ___ in the housing market next year, after two bad years.**", opts: ["upturn", "slump", "downturn", "stagnation of"], a: 0, why: "Ikki yomon yildan keyin yaxshilanish → **upturn**." },
+    { k: "translate", uz: "Shahar so'nggi o'n yilda butunlay o'zgardi.", a: ["The city has been transformed over the last ten years.", "The city has been transformed in the last ten years.", "The city has been transformed over the past ten years.", "The city has been transformed in the past ten years.", "The city has changed completely over the last ten years.", "The city has changed completely in the last ten years.", "The city has changed completely over the past ten years.", "The city has completely changed over the last ten years.", "The city has completely changed in the last ten years.", "The city has completely changed over the past ten years."], why: "**has been transformed** — majhul nisbat, Present Perfect." },
+    { k: "dictation", say: "Sales have been gaining momentum since the spring.", uz: "Sotuv bahordan beri tezlashmoqda." },
+    { k: "fill", q: "The population increased ___ 5,000 to 8,000 in ten years.", a: ["from"], why: "**from … to …** — boshlanish va oxirgi daraja." },
+    { k: "choice", q: "**Which sentence is correct?**", opts: ["There was a significant fall in profits.", "There was a significantly fall in profits.", "There was significant fall of profits.", "There was a significant fell in profits."], a: 0, why: "**a significant fall** — sifat + ot; **fell** — fe'l, ot o'rnida kelmaydi." },
+    { k: "tf", q: "**Slump** — sekin va ozgina pasayish.", a: false, why: "**slump** — **keskin** pasayish. Ozgina pasayish: *a slight fall*." },
+    { k: "speak", say: "Sales rose steadily and then fell sharply in winter.", uz: "Sotuv bir maromda oshdi, keyin qishda keskin tushdi." },
+  ],
+  quiz: [
+    { k: "choice", q: "**The number of users ___ from two million to three million.**", opts: ["rose", "raised", "has raised", "overtook"], a: 0, why: "To'ldiruvchi yo'q: **rose**." },
+    { k: "choice", q: "**Their sales did not change for years. They ___.**", opts: ["stagnated", "boomed", "transformed", "overtook"], a: 0, why: "O'sishsiz turib qolish → **stagnated**." },
+    { k: "choice", q: "**Which phrase means a sudden, big increase?**", opts: ["a boom", "a downturn", "a slump", "a steady level"], a: 0, why: "**boom** — keskin va katta o'sish." },
+    { k: "choice", q: "**Prices increased ___ 12 per cent.**", opts: ["by", "to", "than", "at"], a: 0, why: "Qancha o'zgargan → **by**." },
+    { k: "fill", q: "The first signs of an ___ appeared after a long period of decline. (a change for the better)", a: ["upturn", "improvement"], why: "Yaxshilanishga burilish → **upturn**." },
+    { k: "fill", q: "The new law has completely ___ the way companies work. (change completely)", a: ["transformed", "changed", "altered", "revolutionised", "revolutionized"], why: "Butunlay o'zgartirdi → **transformed**." },
+    { k: "fill", q: "Her role at the firm has ___ over the years. (develop slowly)", a: ["evolved", "developed", "changed"], why: "Asta-sekin rivojlandi → **evolved**." },
+    { k: "listen", say: "There was a slump in sales in January.", opts: ["There was a slump in sales in January.", "There was a boom in sales in January.", "There was a slight rise in sales in January."], a: 0 },
+    { k: "tf", q: "**Mobile sales overtook than desktop sales** — bu gap to'g'ri.", a: false, why: "**overtake** dan keyin **than** yo'q." },
+    { k: "fix", wrong: "There was a steadily increase in prices.", a: ["There was a steady increase in prices."], hint: "ot oldidan sifat", why: "**increase** — ot, oldidan sifat: **steady**." },
+  ],
+  summary: [
+    "O'zgarishni **sifat + ot** (*a sharp rise*) yoki **fe'l + ravish** (*rose sharply*) bilan yozing: sifat otni, ravish fe'lni tasvirlaydi.",
+    "**boom** va **slump** — keskin o'zgarish, **upturn** va **downturn** — yaxshilanish va pasayish davri, **stagnate** — o'smay turib qolish.",
+    "**rise** (rose, risen) to'ldiruvchisiz; **raise** (raised) to'ldiruvchi bilan. **by** — miqdor, **to** — daraja, **from … to …**.",
+    "**overtake** + to'g'ridan-to'g'ri to'ldiruvchi (predlogsiz); **transform … into**; **evolve** majhul nisbatda ishlatilmaydi.",
+    "Tendensiyani tasvirlashda: *Overall, … ; from … to … ; by …; between … and …*.",
+  ],
+  homework: "Yangiliklardan yoki biror grafikdan (aholi, narx, internet foydalanuvchilari) o'zgarishni toping va 5–6 gap yozing: kamida 3 ta yangi so'z (*steady, boom, stagnate, overtake, upturn...*), 1 ta *from … to …*, 1 ta *by …* ishlating. Faqat grafikda ko'rgan ma'lumotni yozing. Keyin ovoz chiqarib o'qing va *rise / raise* xatosini qidiring.",
+};
+
+export default lesson;

@@ -7,7 +7,8 @@ import { WRITTEN_UNITS } from './course';
 describe('course outline for the public SEO pages', () => {
   it('lists every written lesson once, with unique slugs', () => {
     const fromCourse = COURSE.flatMap((l) => l.units.flatMap((u) => u.lessons.map((x) => x.id)));
-    expect(fromCourse).toEqual(WRITTEN_UNITS.flatMap((u) => u.lessons.map((l) => l.id)));
+    const seoLevels = new Set(COURSE.map((l) => l.id)); // levels still closed (B2) have no public pages yet
+    expect(fromCourse).toEqual(WRITTEN_UNITS.filter((u) => seoLevels.has(u.level)).flatMap((u) => u.lessons.map((l) => l.id)));
     for (const level of COURSE) {
       const slugs = level.units.flatMap((u) => u.lessons.map((x) => x.slug));
       expect(new Set(slugs).size).toBe(slugs.length);

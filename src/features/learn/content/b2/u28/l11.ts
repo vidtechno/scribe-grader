@@ -1,0 +1,127 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (review): the whole unit with new examples (clefts, emphatic structures, inversion, concession, cause / result / purpose, participle clauses, essay language).
+const lesson: Lesson = {
+  id: 'u28-l11',
+  title: 'Argument and emphasis: final review',
+  titleUz: "Dalil va urg'u: yakuniy takror",
+  mini: true,
+  kind: 'review',
+  goal: "Bosqichdagi hamma mavzuni takrorlaysiz: **cleft gaplar**, **inversiya**, **qarama-qarshi va sabab-natija bog'lovchilari**, **sifatdosh gaplari** va **essay** iboralari. Dalil bilan gapirish uchun 6 ta yangi so'z ham o'rganasiz.",
+  slides: [
+    {
+      title: "Cleft gaplar va urg'u",
+      blocks: [
+        { t: 'p', md: "**Cleft** gap bitta bo'lakni ajratib, uni **urg'u** bilan ko'rsatadi. Bu yangi yoki to'g'rilanayotgan ma'lumot uchun ishlatiladi." },
+        { t: 'table', head: ['Tur', 'Misol'], speak: [1], rows: [
+          ['It-cleft', 'It was the price that put me off.'],
+          ['It-cleft (odam)', 'It was my manager who suggested the change.'],
+          ['Wh-cleft', 'What I need is a longer deadline.'],
+          ['All I want', 'All I want is some peace and quiet.'],
+          ['Emphatic do', 'I did warn you about the risks.'],
+          ['so / such', 'It was such a long meeting that we missed lunch.'],
+        ] },
+        { t: 'tip', tone: 'warn', md: "Ortiqcha olmosh qo'ymang: ~~What I need it is a break~~ → **What I need is a break**. Vaqt va joy bilan **who** emas, **that**: *It was in 2019 that…*" },
+        { t: 'check', ex: { k: 'choice', q: "___ surprised me was the speed of the reply.", opts: ['What', 'It', 'That', 'Which'], a: 0, why: "Wh-cleft: **What surprised me was…**" } },
+        { t: 'check', ex: { k: 'fill', q: "It was in 2019 ___ the company moved to Leeds.", a: ['that'], why: "Vaqt bilan **that** (*who* faqat odam uchun)." } },
+      ],
+    },
+    {
+      title: "Inversiya",
+      blocks: [
+        { t: 'p', md: "Salbiy yoki cheklovchi so'z gap boshiga chiqsa, **yordamchi fe'l egadan oldin** keladi. Yordamchi fe'l bo'lmasa, **do / does / did** qo'shiladi." },
+        { t: 'table', head: ['Qolip', 'Misol'], speak: [1], rows: [
+          ['Never + have / had', 'Never have I seen such a mess.'],
+          ['Rarely / Seldom + do', 'Rarely does she complain.'],
+          ['Not only + did / was', 'Not only was he late, but he also forgot the documents.'],
+          ['Hardly had … when', 'Hardly had she sat down when the phone rang.'],
+          ['Only then / Only after', 'Only then did I understand the problem.'],
+          ['Had I known…', 'Had I known about the delay, I would have called you.'],
+        ] },
+        { t: 'check', ex: { k: 'fix', wrong: 'Never I have seen such a beautiful view.', a: ['Never have I seen such a beautiful view.'], why: "Salbiy so'z boshida: **have + ega** (*have I*)." } },
+        { t: 'check', ex: { k: 'choice', q: "Not only ___ late, but he also forgot the documents.", opts: ['was he', 'he was', 'did he', 'he did'], a: 0, why: "**Not only** + yordamchi + ega: *was he*." } },
+        { t: 'check', ex: { k: 'fill', q: "Hardly had she sat down ___ the phone rang.", a: ['when', 'before'], why: "**Hardly had … when …**: avval Past Perfect, keyin Past Simple." } },
+      ],
+    },
+    {
+      title: "Bog'lovchilar va sifatdosh gaplari",
+      blocks: [
+        { t: 'table', head: ['Ma\'no', 'Misol'], speak: [1], rows: [
+          ["To'sqinlik (+ gap)", 'Although it was expensive, we bought it.'],
+          ["To'sqinlik (+ ot / -ing)", 'Despite the rain, the match went ahead.'],
+          ['Gap boshida', 'The hotel was old; nevertheless, it was very clean.'],
+          ['Sabab', 'The match was cancelled owing to heavy rain.'],
+          ['Natija', 'Sales fell; consequently, costs were cut.'],
+          ['Maqsad', 'He spoke quietly so as not to wake the baby.'],
+          ['Sifatdosh gapi', 'Having finished the work, she went home.'],
+        ] },
+        { t: 'tip', tone: 'info', md: "Sifatdosh gapining egasi bosh gapning egasi bilan **bir xil** bo'lishi kerak. ~~Walking home, the rain started~~ (yomg'ir yurmadi!) → **Walking home, I got caught in the rain.**" },
+        { t: 'check', ex: { k: 'choice', q: "___ the heavy rain, the match went ahead.", opts: ['Despite', 'Although', 'However', 'Because'], a: 0, why: "Keyin **ot** kelyapti (*the heavy rain*) → **despite**." } },
+        { t: 'check', ex: { k: 'fix', wrong: 'Although it was expensive, but we bought it.', a: ['Although it was expensive, we bought it.', 'It was expensive, but we bought it.'], why: "**Although** bilan **but** birga kelmaydi." } },
+        { t: 'check', ex: { k: 'fix', wrong: 'Waiting for the bus, my phone rang.', a: ['While I was waiting for the bus, my phone rang.', 'As I was waiting for the bus, my phone rang.', 'Waiting for the bus, I heard my phone ring.'], why: "Sifatdosh egasi (*telefon*) kutayotgan odam emas: ega bir xil bo'lishi kerak." } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang: essay uchun fikr",
+      blocks: [
+        { t: 'text', title: 'Should university be free?', voice: 'george', en: "Many people believe that university education should be free. Admittedly, it would remove a heavy financial burden from students. Nevertheless, I would argue that a fully free system is not viable. What worries me most is the cost to taxpayers, many of whom never attend university. There is also an undeniable disparity between the incomes of graduates and other workers, so it seems fairer that graduates contribute to the cost of their studies. Some say this argument is flawed, because poorer students may be afraid of debt. That is a fair point; having heard it, I would add generous grants for low-income students, so that talented young people can thrive. Only then will higher education be both accessible and fair.", uz: "Ko'pchilik universitet ta'limi bepul bo'lishi kerak, deb hisoblaydi. To'g'ri, bu talabalardan og'ir moliyaviy yukni olib tashlardi. Shunga qaramay, men to'liq bepul tizim amalga oshirib bo'lmaydi, deb bahslashaman. Meni eng ko'p tashvishlantiradigani soliq to'lovchilarga tushadigan xarajat, ularning ko'pi universitetda umuman o'qimagan. Shuningdek, bitiruvchilar va boshqa ishchilar daromadi o'rtasida inkor etib bo'lmaydigan farq bor, shuning uchun bitiruvchilar o'qish xarajatining bir qismini qoplashi adolatliroq ko'rinadi. Ba'zilar bu dalil kamchilikka ega, chunki kambag'al talabalar qarzdan qo'rqishi mumkin, deydi. Bu o'rinli fikr; uni eshitib, men kam ta'minlangan talabalarga saxiy grantlar qo'shardim, shunda iste'dodli yoshlar gullab-yashnay oladi. Faqat shundagina oliy ta'lim ham qulay, ham adolatli bo'ladi." },
+        { t: 'check', ex: { k: 'choice', q: "What worries the writer most?", opts: ['The cost to taxpayers', 'The quality of teaching', 'The number of students', 'The length of courses'], a: 0, why: "*What worries me most is the cost to taxpayers.*" } },
+        { t: 'check', ex: { k: 'tf', q: 'The writer thinks a fully free system is viable.', a: false, why: "*I would argue that a fully free system is not viable.*" } },
+        { t: 'dialog', lines: [
+          { who: 'Nina', en: "Tom, do you think remote working is a viable option for every company?", uz: "Tom, sen masofaviy ish har bir kompaniya uchun maqbul variant, deb o'ylaysanmi?" },
+          { who: 'Tom', en: "Not for every company. What matters most is the type of work. Although some teams thrive at home, others need to meet daily.", uz: "Har bir kompaniya uchun emas. Eng muhimi — ish turi. Ba'zi jamoalar uyda gullab-yashnasa ham, boshqalar har kuni uchrashishi kerak." },
+          { who: 'Nina', en: "I take your point. Despite the savings in time, there is a notable drop in team spirit in some firms.", uz: "Fikringni tushundim. Vaqt tejalishiga qaramay, ba'zi firmalarda jamoa ruhi sezilarli pasayadi." },
+          { who: 'Tom', en: "Exactly. Rarely does a team stay close without meeting at all.", uz: "Aynan. Umuman uchrashmasdan jamoa yaqin bo'lib qolishi kamdan-kam bo'ladi." },
+          { who: 'Nina', en: "So is a mixed system the answer?", uz: "Demak, aralash tizim yechimmi?" },
+          { who: 'Tom', en: "I think so. Having tried both, we now work three days at home and two in the office.", uz: "Shunday deb o'ylayman. Ikkalasini ham sinab ko'rib, endi uch kun uyda, ikki kun ofisda ishlaymiz." },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: 'What does Tom think is the best system?', opts: ['Three days at home and two in the office', 'Working at home every day', 'Meeting in the office every day', 'Working at home two days only'], a: 0, why: "*we now work three days at home and two in the office.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'viable', uz: "amalga oshiriladigan, maqbul", ipa: 'ˈvaɪ.ə.bəl', pos: 'adj', ex: 'A four-day working week is not viable for every business.', exUz: "To'rt kunlik ish haftasi har bir biznes uchun maqbul emas." },
+    { en: 'undeniable', uz: "inkor etib bo'lmaydigan", ipa: 'ˌʌn.dɪˈnaɪ.ə.bəl', pos: 'adj', ex: 'It is undeniable that technology has changed education.', exUz: "Texnologiya ta'limni o'zgartirgani inkor etib bo'lmaydi." },
+    { en: 'thrive', uz: "gullab-yashnamoq, muvaffaqiyatli rivojlanmoq", ipa: 'θraɪv', pos: 'verb', ex: 'Some children thrive in small classes.', exUz: "Ba'zi bolalar kichik sinflarda yaxshi rivojlanadi." },
+    { en: 'flawed', uz: 'kamchiligi bor, xato', ipa: 'flɔːd', pos: 'adj', ex: 'The study was flawed because the sample was too small.', exUz: "Tadqiqot kamchilikka ega edi, chunki tanlov juda kichik edi." },
+    { en: 'disparity', uz: "katta tafovut, nomutanosiblik", ipa: 'dɪˈspær.ə.ti', pos: 'noun', ex: 'There is a wide disparity in pay between the two jobs.', exUz: "Ikki ish o'rtasida ish haqida katta tafovut bor." },
+    { en: 'notable', uz: "diqqatga sazovor, sezilarli", ipa: 'ˈnəʊ.tə.bəl', pos: 'adj', ex: 'There was a notable improvement in her essays.', exUz: "Uning esselarida sezilarli yaxshilanish bor edi." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['viable', 'amalga oshiriladigan'], ['undeniable', "inkor etib bo'lmaydigan"], ['thrive', 'gullab-yashnamoq'], ['flawed', 'kamchiligi bor'], ['disparity', 'katta tafovut'], ['notable', 'sezilarli']] },
+    { k: 'choice', q: "The plan is not ___ because it costs far too much money.", opts: ['viable', 'undeniable', 'thrive', 'disparity'], a: 0, why: "Amalga oshirib bo'lmaydigan reja — **not viable**." },
+    { k: 'choice', q: "There is a large ___ between the salaries of the two departments.", opts: ['viable', 'disparity', 'thrive', 'flawed'], a: 1, why: "Ikki narsa o'rtasidagi katta farq — **disparity** (ot)." },
+    { k: 'fill', q: "Many small businesses ___ in this area because the rents are low. (gullab-yashnamoq)", a: ['thrive'], why: "Muvaffaqiyatli rivojlanmoq — **thrive**." },
+    { k: 'listen', say: 'It was the price that put me off, not the location.', opts: ['It was the price that put me off, not the location.', 'It was the location that put me off, not the price.', 'It is the price that puts me off, not the location.', 'It was the price who put me off, not the location.'], a: 0 },
+    { k: 'fix', wrong: 'What I need it is a quiet place to work.', a: ['What I need is a quiet place to work.'], why: "Wh-cleft: ortiqcha **it** yo'q." },
+    { k: 'fix', wrong: 'Never I have seen such a mess.', a: ['Never have I seen such a mess.'], why: "Salbiy so'z boshida inversiya: **have I**." },
+    { k: 'order', uz: "Qimmat bo'lishiga qaramay, biz uni sotib oldik.", words: ['Despite', 'being', 'expensive,', 'we', 'bought', 'it.'], extra: ['of', 'but'], why: "**Despite** + **-ing**; **of** va **but** kerak emas." },
+    { k: 'order', uz: "Ishni tugatib, u uyga ketdi.", words: ['Having', 'finished', 'the', 'work,', 'she', 'went', 'home.'], extra: ['Finished', 'to'], why: "Oldin tugagan harakat: **Having + V3**." },
+    { k: 'translate', uz: "Faqat shundan keyingina u haqiqatni tushundi.", a: ['Only then did she understand the truth.', 'Only then did she realise the truth.', 'Only then did she realize the truth.'], why: "**Only then** + **did** + ega + V1 (inversiya)." },
+    { k: 'tf', q: "In *Not only was he late, but he also forgot the documents*, the auxiliary comes before the subject.", a: true, why: "**Not only** dan keyin inversiya: *was he*." },
+    { k: 'choice', q: "She was late ___ the heavy traffic.", opts: ['because', 'although', 'because of', 'despite of'], a: 2, why: "Keyin ot (*the heavy traffic*) → **because of**." },
+    { k: 'choice', q: "He spoke quietly ___ wake the baby.", opts: ['in order for', 'so as not to', 'for not', 'so that not'], a: 1, why: "Inkor maqsad: **so as not to + V1**." },
+    { k: 'dictation', say: 'Having considered both sides, I conclude that the plan is flawed.', a: ['Having considered both sides, I conclude that the plan is flawed.'], uz: "Ikkala tomonni ko'rib chiqib, reja kamchilikka ega degan xulosaga kelaman." },
+    { k: 'speak', say: 'What worries me most is the cost, not the idea itself.', uz: "Meni eng ko'p tashvishlantiradigani xarajat, g'oyaning o'zi emas." },
+  ],
+  quiz: [
+    { k: 'choice', q: "___ I known about the delay, I would have called you.", opts: ['Had', 'Have', 'Would', 'Did'], a: 0, why: "Rasmiy shart: **Had + ega + V3** (*if* siz)." },
+    { k: 'choice', q: "The hotel was old; ___, it was very clean.", opts: ['although', 'despite', 'nevertheless', 'because'], a: 2, why: "Nuqtali vergul va vergul orasida **nevertheless** keladi, *although* va *despite* emas." },
+    { k: 'fill', q: "The match was cancelled ___ to heavy rain. (sabab)", a: ['owing', 'due'], why: "**owing to / due to** + ot." },
+    { k: 'fill', q: "He left early so ___ not to miss the train.", a: ['as'], why: "**so as not to** + V1." },
+    { k: 'fix', wrong: 'Despite of the rain, we had a great time.', a: ['Despite the rain, we had a great time.', 'In spite of the rain, we had a great time.'], why: "**Despite** dan keyin *of* yo'q; *in spite of* da esa bor." },
+    { k: 'fix', wrong: 'Walking home, the rain started.', a: ['While I was walking home, the rain started.', 'As I was walking home, the rain started.', 'Walking home, I got caught in the rain.'], why: "Sifatdosh gapi egasi bosh gap egasi bilan bir xil bo'lishi kerak." },
+    { k: 'tf', q: "*Hardly had he left when the phone rang.* — *had he left* — Past Perfect, *rang* — Past Simple.", a: true, why: "**Hardly had … when …**: Past Perfect + Past Simple." },
+    { k: 'order', uz: "Meni hayratga solgani narx edi.", words: ['It', 'was', 'the', 'price', 'that', 'surprised', 'me.'], extra: ['who', 'what'], why: "It-cleft: **It was … that …**" },
+  ],
+  summary: [
+    "**Cleft**: *It was … that / who …*, *What I need is …*, *All I want is …*; **emphatic do** (*I did warn you*), **so / such**. Ortiqcha olmosh yo'q.",
+    "**Inversiya**: salbiy so'z + yordamchi + ega (*Never have I, Rarely does she, Not only was he, Hardly had … when, Had I known*).",
+    "**Bog'lovchilar**: *although + gap*, *despite + ot / -ing*, *nevertheless*; *because of / owing to*, *consequently*; *so as not to*.",
+    "**Sifatdosh gapi**: -ing, V3, having + V3; ega bir xil bo'lsin (*Walking home, I…*).",
+    "Yangi so'zlar: **viable, undeniable, thrive, flawed, disparity, notable**.",
+  ],
+  homework: "Qiziq bo'lgan bahsli mavzu tanlang (masalan, masofaviy ish yoki bepul ta'lim) va 6-8 gaplik qisqa paragraf yozing: 1 ta cleft, 1 ta inversiya, 1 ta *although* yoki *despite*, 1 ta sifatdosh gapi va kamida 2 ta yangi so'z (*viable, disparity, thrive*) ishlating.",
+};
+
+export default lesson;

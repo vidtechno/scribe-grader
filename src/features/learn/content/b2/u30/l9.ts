@@ -1,0 +1,125 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (situation): explaining an Uzbek tradition (Navruz, plov, weddings) to a foreign friend. Uses relative clauses with whose / where / which, comparisons and polite correction.
+const lesson: Lesson = {
+  id: 'u30-l9',
+  title: 'Talking about culture and traditions',
+  titleUz: "Madaniyat va an'analar haqida suhbat: o'z mamlakatingizni tushuntirish",
+  mini: true,
+  kind: 'situation',
+  goal: "Chet ellik do'stingizga **Navro'z, palov, to'y** kabi an'anani tushuntirasiz: nima, qachon, kim bilan va **nima uchun** qilinishini aytasiz, **whose / where / which** bilan jumlani boyitasiz va noto'g'ri tushunchani **muloyim tuzatasiz**.",
+  slides: [
+    {
+      title: "Vaziyat: mehmonga o'z madaniyatingizni tushuntirish",
+      blocks: [
+        { t: 'p', md: "Xorijiy do'stingiz Navro'zda sizning uyingizga keldi va ko'p savol beradi: *Bu nima? Nega buni qilasizlar?* B2 darajada faqat nomini aytish yetmaydi: **ma'no** (*what it symbolises*), **tarix** (*passed down*) va **hozirgi odat** (*these days*) ni ham tushuntirish kerak." },
+        { t: 'table', head: ['Maqsad', 'Ibora'], speak: [1], rows: [
+          ['Nima ekanini aytish', "Navruz is a spring festival which marks the new year."],
+          ['Ma\'no', "The green sprouts symbolise new life and good luck."],
+          ['An\'ana', "The recipe has been passed down from generation to generation."],
+          ['Odat', "It is customary to visit relatives and neighbours."],
+          ['Solishtirish', "It is a bit like Christmas in the UK, but it is celebrated in spring."],
+          ['Hozirgi holat', "These days, many families also celebrate in parks."],
+        ] },
+        { t: 'tip', tone: 'info', md: "**Navro'z** 21-mart kuni, bahorgi tengkunlikda nishonlanadi. Inglizcha: *Navruz*. Bayram taomi **sumalak** (*a sweet dish made from sprouted wheat*) uzoq vaqt qozonda pishiriladi. Yangi tushuncha bo'lsa, avval qisqa izoh bering: *sumalak, which is made from sprouted wheat*." },
+        { t: 'check', ex: { k: 'choice', q: "Which sentence explains the meaning of a custom?", opts: ["We eat plov on Sundays.", "The green sprouts symbolise new life.", "My uncle cooks it very well.", "It starts at seven."], a: 1, why: "**symbolise** — nimadir nimani ifodalashini tushuntiradi, ya'ni ma'no beradi." } },
+      ],
+    },
+    {
+      title: "Tasvirni boyitamiz: whose, where, which",
+      blocks: [
+        { t: 'p', md: "Ikkita qisqa gapni bitta uzun, tabiiy gapga birlashtirish B2 uslubi. Uchta kerakli so'z:" },
+        { t: 'examples', items: [
+          { en: "Plov is cooked by a man whose family has made it for years.", uz: "Palovni oilasi yillar davomida pishirib kelgan odam pishiradi.", note: "**whose** = kimning (egalik): *a man whose family*." },
+          { en: "A wedding is held in a yard where the neighbours can gather.", uz: "To'y qo'shnilar yig'ilishi mumkin bo'lgan hovlida o'tkaziladi.", note: "**where** = joy: *a yard where…*." },
+          { en: "Guests bring gifts, which is a sign of respect.", uz: "Mehmonlar sovg'a olib keladi, bu hurmat belgisi.", note: "**, which** butun gapga ishora qiladi." },
+          { en: "In my mahalla, which is a close community, everyone knows each other.", uz: "Mening mahallamda, ya'ni yaqin jamoada, hamma bir-birini taniydi.", note: "Qo'shimcha ma'lumot **vergul** bilan ajratiladi." },
+        ] },
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ["a man whose family has made plov for years", "a yard where neighbours gather", "Guests bring gifts, which shows respect."] },
+          bad: { title: 'Xato', items: ["a man who his family has made plov for years", "a yard where the neighbours gather there", "Guests bring gifts, that shows respect."] } },
+        { t: 'tip', tone: 'warn', md: "O'zbekchada *uning oilasi* deymiz, shuning uchun inglizchada ham *who his family* deb yuborish mumkin. To'g'risi: **whose family**. **where** dan keyin *there* kerak emas, **, which** o'rniga *that* ishlatilmaydi." },
+        { t: 'check', ex: { k: 'fill', q: "He is the cook ___ plov is famous in the whole district.", a: ['whose'], why: "Egalik: *kimning palovi* → **whose**." } },
+        { t: 'check', ex: { k: 'fix', wrong: "It is a square where people gather there.", a: ["It is a square where people gather."], why: "**where** o'zi joyni bildiradi, *there* ortiqcha." } },
+      ],
+    },
+    {
+      title: "Muloyim tuzatish va tipik xatolar",
+      blocks: [
+        { t: 'p', md: "Chet ellik ba'zan noto'g'ri tushunadi: *Navruz is the Muslim New Year, right?* Rad etmang, **yumshoq tuzating**:" },
+        { t: 'table', head: ['Qo\'pol', 'Muloyim'], speak: [1], rows: [
+          ['No, you are wrong.', "Not exactly. It is actually a much older spring festival."],
+          ['That is not true.', "That is a common idea, but in fact it is celebrated by people of many faiths."],
+          ["You don't understand.", "Let me explain it a little differently."],
+        ] },
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ["It is celebrated on 21 March.", "People look forward to it.", "It is quite different from our wedding."], },
+          bad: { title: 'Xato', items: ["It celebrates on 21 March.", "People wait it with hope.", "It is quite different of our wedding."] } },
+        { t: 'tip', tone: 'warn', md: "Tipik xatolar: **majhul nisbat** o'rniga faol shakl (*It celebrates* → *It is celebrated*); **look forward to** o'rniga *wait it*; *different of* (to'g'risi: *different from*)." },
+        { t: 'check', ex: { k: 'fix', wrong: "Navruz celebrates on 21 March every year.", a: ["Navruz is celebrated on 21 March every year.", "Navruz is celebrated on the 21st of March every year.", "Navruz is celebrated on March 21 every year."], why: "Bayram nishonlanadi, ya'ni majhul nisbat: **is celebrated**." } },
+        { t: 'check', ex: { k: 'choice', q: "A friend says: 'Plov is eaten only at weddings.' The politest correction is:", opts: ["No, that is wrong.", "Actually, we eat it at weddings, but also on many other occasions.", "You know nothing about plov.", "Stop talking about plov."], a: 1, why: "**Actually, …** bilan fikrni to'ldirasiz, hamsuhbatni xafa qilmaysiz." } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang",
+      blocks: [
+        { t: 'text', title: 'Navruz in our family', voice: 'george', en: "For my family, Navruz is the most cheerful day of the year. It is celebrated on the twenty-first of March, when spring begins. The festival is a gathering of relatives and neighbours, and it is customary to visit the older members of the family first. In the courtyard, where the whole street often meets, women prepare sumalak, which is made from sprouted wheat and cooked slowly for many hours. The green sprouts symbolise new life, so people believe the year will be fruitful. Another ritual is to clean the house and forgive old arguments before the new year begins. Many recipes have been passed down from our ancestors, and children learn them by watching. These days some families celebrate in parks and city squares, but the main idea has not changed: to start the year in peace with the people around us.", uz: "Mening oilam uchun Navro'z yilning eng quvnoq kuni. U bahor boshlanadigan yigirma birinchi martda nishonlanadi. Bayram qarindosh va qo'shnilarning yig'ilishi bo'lib, avval keksa oila a'zolarinikiga borish odat. Ko'pincha butun ko'cha yig'iladigan hovlida ayollar sumalak tayyorlaydi: u undirilgan bug'doydan qilinadi va ko'p soat sekin pishiriladi. Yashil maysalar yangi hayotni ifodalaydi, shuning uchun odamlar yil hosildor bo'ladi deb ishonadi. Yana bir marosim: yangi yil boshlanishidan oldin uyni tozalash va eski kelishmovchiliklarni kechirish. Ko'p retseptlar ota-bobolarimizdan o'tib kelgan, bolalar ularni kuzatib o'rganadi. Hozir ba'zi oilalar bog'larda va shahar maydonlarida nishonlaydi, lekin asosiy g'oya o'zgarmagan: yilni atrofdagilar bilan tinchlikda boshlash." },
+        { t: 'check', ex: { k: 'tf', q: "In the text, people forgive old arguments before the new year begins.", a: true, why: "*clean the house and forgive old arguments before the new year begins.*" } },
+        { t: 'check', ex: { k: 'choice', q: "What do the green sprouts symbolise?", opts: ["Hard work", "New life", "Family wealth", "A long journey"], a: 1, why: "*The green sprouts symbolise new life.*" } },
+        { t: 'dialog', lines: [
+          { who: 'Emily', en: "Rustam, this smells wonderful. What is that dish with the long cooking time?", uz: "Rustam, juda yoqimli hid. Uzoq pishadigan bu taom nima?" },
+          { who: 'Rustam', en: "It is sumalak, which we make only at Navruz. It is stirred for hours, usually by the women of the family.", uz: "Bu sumalak, uni faqat Navro'zda qilamiz. Uni soatlab aralashtiradi, odatda oilaning ayollari." },
+          { who: 'Emily', en: "Is it a Muslim tradition, like Eid?", uz: "Bu Hayit kabi musulmon an'anasimi?" },
+          { who: 'Rustam', en: "Not exactly. It is actually much older, and it is celebrated by people of different faiths.", uz: "Aynan emas. U aslida ancha qadimiyroq va turli e'tiqoddagi odamlar nishonlaydi." },
+          { who: 'Emily', en: "I see. So it is a bit like a spring New Year?", uz: "Tushundim. Demak, bu bahorgi Yangi yilga o'xshashmi?" },
+          { who: 'Rustam', en: "Exactly. Come, I will introduce you to my grandmother, whose recipe this is.", uz: "Aynan. Yur, seni buvim bilan tanishtiraman, bu uning retsepti." },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: "How does Rustam correct Emily?", opts: ["He says she is wrong.", "He says 'Not exactly' and adds information.", "He does not answer.", "He changes the subject."], a: 1, why: "**Not exactly… It is actually…** — muloyim tuzatish." } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'ritual', uz: "marosim, odat tusiga kirgan harakat", ipa: 'ˈrɪtʃ.u.əl', pos: 'noun', ex: 'Making tea for guests is a daily ritual in many homes.', exUz: "Mehmonga choy damlash ko'p uylarda kundalik marosimdir." },
+    { en: 'heirloom', uz: "avloddan avlodga o'tadigan qimmatli buyum, oilaviy yodgorlik", ipa: 'ˈeə.luːm', pos: 'noun', ex: 'This carved chest is a family heirloom.', exUz: "Bu o'ymakor sandiq oilaviy yodgorlik." },
+    { en: 'gathering', uz: "yig'ilish, yig'in", ipa: 'ˈɡæð.ər.ɪŋ', pos: 'noun', ex: 'A family gathering can include fifty relatives.', exUz: "Oilaviy yig'inda ellik qarindosh bo'lishi mumkin." },
+    { en: 'symbolise', uz: "ramziy ma'no bermoq, ifodalamoq", ipa: 'ˈsɪm.bəl.aɪz', pos: 'verb', ex: 'Bread symbolises hospitality in many cultures.', exUz: "Non ko'p madaniyatlarda mehmondo'stlikni ifodalaydi." },
+    { en: 'customary', uz: "odatiy, an'anaga ko'ra qabul qilingan", ipa: 'ˈkʌs.tə.mər.i', pos: 'adj', ex: 'It is customary to take off your shoes in the house.', exUz: "Uyda poyabzalni yechish odat." },
+    { en: 'festive', uz: "bayramona", ipa: 'ˈfes.tɪv', pos: 'adj', ex: 'The streets had a festive atmosphere.', exUz: "Ko'chalarda bayramona kayfiyat bor edi." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['ritual', "marosim"], ['heirloom', "oilaviy yodgorlik"], ['gathering', "yig'in"], ['symbolise', "ramz bo'lmoq"], ['customary', "odatiy"], ['festive', 'bayramona']] },
+    { k: 'choice', q: "It is ___ to bring a small gift when you visit someone's home.", opts: ['customary', 'heirloom', 'ritual', 'festive'], a: 0, why: "**It is customary to…** — odatga ko'ra qabul qilingan. Boshqalari bu qolipga mos kelmaydi." },
+    { k: 'fill', q: "The white colour ___ peace in many cultures.", a: ['symbolises', 'symbolizes'], uz: "Oq rang ko'p madaniyatlarda tinchlikni ifodalaydi.", why: "Hozirgi zamon, 3-shaxs birlik: **symbolises** (symbolizes ham to'g'ri)." },
+    { k: 'tf', q: "*A man whose family has cooked plov for years* — here *whose* shows possession.", a: true, why: "**whose** egalikni bildiradi: *kimning oilasi*." },
+    { k: 'order', uz: "Bu bayram bahorda nishonlanadi.", words: ['This', 'festival', 'is', 'celebrated', 'in', 'spring.'], extra: ['celebrates', 'was'], why: "Majhul nisbat: **is celebrated**." },
+    { k: 'fix', wrong: "It is a yard where people meet there every evening.", a: ["It is a yard where people meet every evening."], why: "**where** joyni o'zi bildiradi, *there* ortiqcha." },
+    { k: 'listen', say: 'The recipe has been passed down from our ancestors.', opts: ['The recipe has been passed down from our ancestors.', 'The recipe has passed down from our ancestors.', 'The recipe was passing down from our ancestors.', 'The recipe has been passed up from our ancestors.'], a: 0 },
+    { k: 'translate', uz: "Palov odatda to'ylarda pishiriladi.", a: ['Plov is usually cooked at weddings.', 'Plov is usually made at weddings.', 'Plov is usually prepared at weddings.'], why: "Majhul nisbat: **is usually cooked**." },
+    { k: 'choice', q: "Which sentence is a polite correction?", opts: ["You are completely wrong.", "Not exactly. It is actually an older tradition.", "That is stupid.", "No."], a: 1, why: "**Not exactly… actually…** — yumshoq, hurmatli ohang." },
+    { k: 'fill', q: "We visited my grandmother, ___ house is full of old photographs.", a: ['whose'], uz: "Biz buvimnikiga bordik, uning uyi eski suratlarga to'la.", why: "*Buvimning uyi* → **whose house**." },
+    { k: 'dictation', say: 'It is customary to visit relatives first.', a: ['It is customary to visit relatives first.', "It's customary to visit relatives first."], uz: "Avval qarindoshlarnikiga borish odat." },
+    { k: 'order', uz: "Hovlida, ya'ni qo'shnilar yig'iladigan joyda, hamma gaplashadi.", words: ['In', 'the', 'yard,', 'where', 'neighbours', 'gather,', 'everyone', 'talks.'], extra: ['there', 'which'], why: "**where** + gap: *the yard, where neighbours gather*." },
+    { k: 'tf', q: "*Guests bring gifts, that shows respect.* — gap to'g'ri.", a: false, why: "Butun gapga ishora qilganda **, which** kerak, *that* emas." },
+    { k: 'speak', say: 'Navruz is a spring festival which marks the new year.', uz: "Navro'z yangi yilni bildiradigan bahor bayrami." },
+  ],
+  quiz: [
+    { k: 'choice', q: "In many families, the recipe is ___ down from one generation to the next.", opts: ['passed', 'passing', 'pass', 'passes'], a: 0, why: "**is passed down** — majhul nisbat." },
+    { k: 'choice', q: "He is a cook ___ plov is known all over the city.", opts: ['whose', 'who', 'which', 'where'], a: 0, why: "Egalik: **whose plov**." },
+    { k: 'fill', q: "The wedding was held in a hall ___ two hundred guests could sit.", a: ['where'], uz: "To'y ikki yuz mehmon sig'adigan zalda o'tdi.", why: "Joy: **a hall where…**." },
+    { k: 'fix', wrong: "Navruz celebrates in March.", a: ["Navruz is celebrated in March.", "Navruz is celebrated in the month of March."], why: "Majhul nisbat: **is celebrated**." },
+    { k: 'choice', q: "'Not exactly. It is actually older.' — this sentence is used to:", opts: ["correct someone politely", "refuse an invitation", "ask a question", "say goodbye"], a: 0, why: "**Not exactly… actually…** — muloyim tuzatish." },
+    { k: 'order', uz: "Yashil maysalar yangi hayotni ifodalaydi.", words: ['Green', 'sprouts', 'symbolise', 'new', 'life.'], extra: ['symbolises', 'a'], why: "Ega ko'plik (*sprouts*): **symbolise**." },
+    { k: 'tf', q: "*A family heirloom* is a valuable object that is passed down from one generation to the next.", a: true, why: "**heirloom** — avloddan avlodga o'tadigan qimmatli buyum." },
+    { k: 'listen', say: 'It is celebrated by people of different faiths.', opts: ['It is celebrated by people of different faiths.', 'It celebrates people of different faiths.', 'It was celebrated by people of one faith.', 'It is celebrating by people of different faiths.'], a: 0 },
+  ],
+  summary: [
+    "Madaniyatni tushuntirishda **nima + ma'no + tarix + hozirgi holat** ni ayting: *symbolise, passed down, customary, These days…*",
+    "Gapni boyiting: **whose** (*a man whose family…*), **where** (*a yard where…*), **, which** (butun gapga ishora).",
+    "Xato: *who his family*, *where … there*, *that* vergulli gapda. To'g'risi: **whose family**, **where**, **, which**.",
+    "Bayramlar haqida **majhul nisbat** ishlating: *is celebrated, is cooked, has been passed down*.",
+    "Muloyim tuzatish: **Not exactly… It is actually…**, *That is a common idea, but in fact…*",
+  ],
+  homework: "Bitta o'zbek an'anasini (Navro'z, to'y, palov yoki boshqasi) tanlang va chet ellik do'stingizga 6-8 gapda tushuntiring: kamida bitta **whose**, bitta **where**, bitta **, which**, bitta majhul nisbat va bitta **customary / symbolise** bo'lsin. Keyin ovoz chiqarib o'qing.",
+};
+
+export default lesson;

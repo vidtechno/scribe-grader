@@ -90,6 +90,7 @@ export default {
     'learn.exam.ready.a1': 'You are ready for the Pre-Intermediate level: you showed that you can talk in everyday situations, use the past and future, and speak about your experience.',
     'learn.exam.ready.a2': 'You have finished level A2: you showed that you can speak freely in the past, present and future, compare, give advice, talk about your experience and write a simple letter.',
     'learn.exam.ready.b1': 'You have finished level B1: you showed that you can tell about experiences and events, give and support opinions, use conditionals, the passive and reported speech, and write a formal letter and give a short presentation. Upper-Intermediate (B2) will open soon.',
+    'learn.exam.ready.b2': 'You have finished level B2: you showed that you can use the full range of tenses, mixed conditionals, the passive and reporting structures, formal and informal register, emphasis and linking in arguments, describe data, and speak and write at length on familiar and abstract topics. You are ready to prepare for IELTS and similar exams.',
   },
   uz: {
     'learn.levelText.beginner': "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.",
@@ -181,5 +182,6 @@ export default {
     'learn.exam.ready.a1': "Pre-Intermediate darajasiga tayyorsiz: kundalik vaziyatlarda gaplashish, o'tgan va kelasi zamon, tajriba haqida gapirish ko'nikmalarini ko'rsatdingiz.",
     'learn.exam.ready.a2': "A2 darajasini tugatdingiz: o'tgan, hozirgi va kelasi zamonda erkin gaplashish, taqqoslash, maslahat berish, tajriba haqida so'zlash va oddiy xat yozish ko'nikmalarini ko'rsatdingiz.",
     'learn.exam.ready.b1': "B1 darajasini tugatdingiz: tajriba va voqealarni hikoya qilish, fikr bildirish va asoslash, shart gaplar, majhul nisbat va ko'chirma gap, rasmiy xat va qisqa taqdimot ko'nikmalarini ko'rsatdingiz. Upper-Intermediate (B2) tez orada ochiladi.",
+    'learn.exam.ready.b2': "B2 darajasini tugatdingiz: zamonlarning to'liq tizimi, aralash shart gaplar, majhul nisbat va ko'chirma gap tuzilmalari, rasmiy va norasmiy uslub, dalil va urg'u, ma'lumotlarni tasvirlash hamda tanish va mavhum mavzularda uzun gapirish va yozish ko'nikmalarini ko'rsatdingiz. IELTS va shunga o'xshash imtihonlarga tayyorlanishga tayyorsiz.",
   },
 };

@@ -1,0 +1,183 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u24-l6",
+  title: "Time linkers and sequencing",
+  titleUz: "Vaqt bog'lovchilari va ketma-ketlik: while, as soon as, by the time, eventually, meanwhile",
+  goal: "Voqealar ketma-ketligini nutqda va yozuvda aniq ifodalaysiz: **first of all, afterwards, in the meantime, eventually, from then on, ever since**. **while / whereas**, **as soon as / once / the moment / until / by the time** bog'lovchilarini to'g'ri tanlaysiz, vaqt gaplarida **will** dan qochasiz va tinish belgilarini to'g'ri qo'yasiz. Hikoya, e-mail, hisobot va IELTS Speaking uchun kerak.",
+  slides: [
+    {
+      title: "Nima uchun kerak: ketma-ketlikni ko'rsatish",
+      blocks: [
+        { t: "p", md: "Voqealarni faqat *and then* bilan tizsangiz, nutqingiz B1 darajada qoladi. B2 da tinglovchi qaysi voqea **birinchi**, qaysisi **bir vaqtda**, qaysisi **oxirgi** bo'lganini **bog'lovchilar** orqali tushunadi. Mana ketma-ketlik xaritasi:" },
+        {
+          t: "table", head: ["Bosqich", "Iboralar", "Misol"], speak: [1, 2],
+          rows: [
+            ["Boshlanish", "first of all, at the outset, first and foremost", "First and foremost, we need a plan."],
+            ["Keyingi qadam", "then, afterwards, thereafter, shortly after", "Afterwards, we shared the results."],
+            ["Bir vaqtda", "meanwhile, in the meantime, simultaneously", "Meanwhile, the others prepared lunch."],
+            ["Oxir-oqibat", "eventually, in the end, at last", "Eventually, the bus arrived."],
+            ["Shundan keyin", "from then on, ever since, up until now", "Ever since then, I have taken the train."],
+          ],
+        },
+        { t: "tip", tone: "info", md: "Yangi iboralar: **at the outset** (boshida), **thereafter** (undan keyin, rasmiy), **shortly** (tez orada), **simultaneously** (bir vaqtda), **up until now** (hozirgacha). Qolganlarini B1 dan bilasiz, endi ularni birga ishlating." },
+        { t: "check", ex: { k: "choice", q: "We waited for three hours. ___, the bus arrived.", opts: ["Eventually", "Beforehand", "Simultaneously", "All along"], a: 0, why: "Uzoq kutishdan keyin nihoyat → **Eventually**." } },
+        { t: "check", ex: { k: "choice", q: "Cooking and chatting at the same time: they were doing both ___.", opts: ["simultaneously", "thereafter", "shortly", "beforehand"], a: 0, why: "Bir vaqtda → **simultaneously**." } },
+      ],
+    },
+    {
+      title: "Vaqt bog'lovchilari: when, as soon as, once, until, by the time",
+      blocks: [
+        { t: "p", md: "Bu bog'lovchilar gapni bog'laydi. **Eng muhim qoida:** kelajak haqida gapirganda ham ulardan keyin **Present Simple** yoki **Present Perfect** keladi, **will** emas." },
+        {
+          t: "table", head: ["Bog'lovchi", "Ma'nosi", "Misol"], speak: [2],
+          rows: [
+            ["as soon as", "…ganda zudlik bilan", "I'll call you as soon as I arrive."],
+            ["once", "…gandan keyin (bir marta tugagach)", "Once you've finished, send me the file."],
+            ["the moment", "aynan …gan paytda", "The moment I saw her, I recognised her."],
+            ["until", "…gunga qadar", "Wait here until the doctor calls you."],
+            ["by the time", "…gunga kelib (ulgurib bo'lgan)", "By the time we arrive, the film will have started."],
+          ],
+        },
+        { t: "examples", items: [
+          { en: "I'll text you as soon as the train leaves.", uz: "Poyezd jo'nashi bilan sizga xabar yozaman." },
+          { en: "Once you've signed the form, you can start.", uz: "Shaklni imzolab bo'lgach, boshlashingiz mumkin." },
+          { en: "By the time he got home, everyone had gone to bed.", uz: "U uyga kelguncha hamma uxlab qolgan edi." },
+        ] },
+        { t: "tip", tone: "warn", md: "O'zbekchada *«kelganimda»* ham hozirgi shaklga o'xshaydi, shuning uchun *when I will arrive* degan xato ko'p. To'g'ri: *when I **arrive*** (kelasi zamon ma'nosida). **by the time** o'tgan zamonda **Past Perfect** bilan keladi: *by the time we arrived, it had started*." },
+        { t: "check", ex: { k: "fill", q: "I'll phone you as soon as I ___ home. (get)", a: ["get", "'ve got", "have got"], why: "Vaqt gapida kelajak uchun Present Simple yoki Present Perfect: **get**." } },
+        { t: "check", ex: { k: "choice", q: "Please wait here ___ the manager is ready.", opts: ["until", "while", "whereas", "since"], a: 0, why: "«…gunga qadar» → **until**." } },
+      ],
+    },
+    {
+      title: "while, whereas va during, prior to, beforehand",
+      blocks: [
+        { t: "p", md: "**while** va **whereas** ikkalasi ham «…holda / …bo'lsa» deb tarjima qilinadi, lekin ma'nosi boshqa:" },
+        {
+          t: "table", head: ["So'z", "Ma'nosi", "Misol"], speak: [2],
+          rows: [
+            ["while", "bir vaqtda davom etgan ish; ba'zan qarama-qarshilik", "While I was cooking, he washed up."],
+            ["whereas", "faqat qarama-qarshilik (vaqt emas)", "My sister loves cities, whereas I prefer villages."],
+            ["during + ot", "…davomida (voqea nomi bilan)", "I fell asleep during the lecture."],
+            ["prior to + ot/-ing", "…dan oldin (rasmiy)", "Prior to leaving, please sign the book."],
+            ["beforehand", "oldindan (gap oxirida)", "Please read the text beforehand."],
+          ],
+        },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["While I was waiting, I read a book.", "He is tall, whereas his brother is short.", "I took notes during the lecture.", "Prior to leaving, check the windows."] },
+          bad: { title: "Xato", items: ["While the lecture, I took notes.", "Whereas I was cooking, he washed up.", "I took notes while the lecture.", "Prior to leave, check the windows."] } },
+        { t: "tip", tone: "info", md: "**while** + **gap** (ega + fe'l), **during** + **ot**. **prior to** — **before** ning rasmiy shakli: *before the meeting* → *prior to the meeting*. **Prior to** dan keyin **-ing** keladi (~~prior to leave~~)." },
+        { t: "check", ex: { k: "choice", q: "Some people prefer tea, ___ others prefer coffee.", opts: ["whereas", "during", "until", "once"], a: 0, why: "Faqat qarama-qarshilik, vaqt emas → **whereas**." } },
+        { t: "check", ex: { k: "choice", q: "She fell asleep ___ the film.", opts: ["during", "while", "whereas", "by the time"], a: 0, why: "Keyin **ot** (*the film*) → **during**." } },
+      ],
+    },
+    {
+      title: "Rasmiy va norasmiy: qaysi bog'lovchi qayerda",
+      blocks: [
+        { t: "p", md: "Bir xil ma'no uchun ikki xil uslub bor. Suhbatda — oddiy so'zlar, rasmiy xat va hisobotda — rasmiy so'zlar:" },
+        {
+          t: "table", head: ["Norasmiy", "Rasmiy", "Misol (rasmiy)"], speak: [1, 2],
+          rows: [
+            ["before", "prior to", "Prior to the meeting, we sent the agenda."],
+            ["soon", "shortly", "The results will be published shortly."],
+            ["at the start", "at the outset", "At the outset, the project was small."],
+            ["after that", "thereafter", "He joined the firm and was promoted thereafter."],
+            ["later", "in due course", "You will hear from us in due course."],
+          ],
+        },
+        { t: "tip", tone: "good", md: "**in due course** — «o'z vaqtida, kerakli paytda», aniq sana aytmasdan. **all along** — «butun vaqt davomida» (ko'pincha keyinroq bilib olingan narsa): *I knew all along.* **first and foremost** — «birinchi navbatda, eng avvalo»." },
+        { t: "check", ex: { k: "choice", q: "Which is the most formal way to say *before the interview*?", opts: ["prior to the interview", "while the interview", "soon the interview", "by the interview"], a: 0, why: "Rasmiy shakl → **prior to**." } },
+        { t: "check", ex: { k: "tf", q: "**In due course** means \"immediately\".", a: false, why: "**in due course** — keyinroq, o'z vaqtida; zudlik bilan emas." } },
+      ],
+    },
+    {
+      title: "Tinish belgilari va tipik xatolar",
+      blocks: [
+        { t: "p", md: "**Qoida:** bog'lovchi gap **boshida** kelsa, undan keyin **vergul** qo'yiladi. Gap **o'rtasida** kelsa, vergul odatda kerak emas. **Meanwhile, afterwards, eventually** kabi ravishlar gap boshida **doim vergul** bilan." },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["When I arrive, I'll call you.", "I'll call you when I arrive.", "Meanwhile, the others waited outside.", "I'll wait until you call."] },
+          bad: { title: "Xato", items: ["When I will arrive, I'll call you.", "I'll wait until you will call.", "Meanwhile the others, waited outside.", "In the end of the film, he dies."] } },
+        { t: "check", ex: { k: "fix", wrong: "I'll send the report as soon as I will finish it.", a: ["I'll send the report as soon as I finish it.", "I'll send the report as soon as I've finished it.", "I'll send the report as soon as I have finished it."], hint: "vaqt gapida will yo'q", why: "**as soon as** dan keyin Present: **finish / have finished**." } },
+        { t: "check", ex: { k: "fix", wrong: "I took many notes while the lecture.", a: ["I took many notes during the lecture."], hint: "ot oldidan: during", why: "**while** + gap, **during** + ot." } },
+        { t: "check", ex: { k: "fix", wrong: "In the end of the film, the hero returns home.", a: ["At the end of the film, the hero returns home."], hint: "end of + ot", why: "**at the end of** + ot; **in the end** — oxir-oqibat, **of** siz." } },
+        { t: "check", ex: { k: "fix", wrong: "Prior to start the course, you must register.", a: ["Prior to starting the course, you must register.", "Before starting the course, you must register."], hint: "prior to + -ing", why: "**prior to** dan keyin **-ing** yoki ot keladi." } },
+      ],
+    },
+    {
+      title: "O'qing va tinglang",
+      blocks: [
+        {
+          t: "text", title: "My first week at a new office", voice: "george",
+          en: "First and foremost, I should say that I was nervous at the outset. I had read about the company beforehand, but nothing prepared me for the first morning. While I was signing the forms, three people came to say hello simultaneously, and I forgot all their names. Shortly after that, my manager showed me my desk. In the meantime, the team was finishing an important project, so nobody had time to talk. By the time lunch came, I felt exhausted. Eventually, one colleague invited me for a coffee, and thereafter things became easier. Ever since that day, we have had lunch together every Friday. Up until now, I have enjoyed every week, and I knew all along that this job would suit me. In due course, I hope to lead my own project.",
+          uz: "Avvalo shuni aytishim kerakki, boshida asabiylashgan edim. Kompaniya haqida oldindan o'qigandim, lekin hech narsa meni birinchi ertalabga tayyorlay olmadi. Men shakllarni imzolayotganimda, uch kishi bir vaqtda salom berishga keldi va men ularning hamma ismini unutdim. Shundan ko'p o'tmay menejerim stolimni ko'rsatdi. Shu orada jamoa muhim loyihani tugatayotgan edi, shuning uchun hech kimning gaplashishga vaqti yo'q edi. Tushlik vaqtiga kelib men juda charchagandim. Oxir-oqibat, bir hamkasbim meni qahvaga taklif qildi va shundan keyin ishlar yengillashdi. O'sha kundan beri har juma birga tushlik qilamiz. Hozirgacha har haftadan zavqlandim va bu ish menga mos kelishini butun vaqt davomida bilardim. O'z vaqtida o'z loyihamni boshqarishni umid qilaman.",
+        },
+        { t: "check", ex: { k: "tf", q: "The writer made friends with a colleague on the very first morning.", a: false, why: "Matnda hamkasb **eventually** (oxir-oqibat, tushlikdan keyin) kofega taklif qildi." } },
+        { t: "check", ex: { k: "choice", q: "How often do the writer and the colleague have lunch together?", opts: ["Every Friday.", "Every morning.", "Once a month.", "Only in the first week."], a: 0, why: "Matnda: *Ever since that day, we have had lunch together every Friday.*" } },
+        {
+          t: "dialog", lines: [
+            { who: "Nina", en: "How do I register for the course? Is it complicated?", uz: "Kursga qanday yoziladi? Murakkabmi?" },
+            { who: "Ben", en: "Not at all. First of all, create an account on the website.", uz: "Umuman emas. Avvalo saytda akkaunt oching." },
+            { who: "Nina", en: "And then?", uz: "Keyin-chi?" },
+            { who: "Ben", en: "Once you've logged in, choose a time. Prior to paying, check the dates carefully.", uz: "Kirib bo'lgach, vaqtni tanlang. To'lashdan oldin sanalarni diqqat bilan tekshiring." },
+            { who: "Nina", en: "Do I have to bring anything on the first day?", uz: "Birinchi kuni nimadir olib kelishim kerakmi?" },
+            { who: "Ben", en: "Only your passport. They'll send you the timetable in due course.", uz: "Faqat pasport. Jadvalni o'z vaqtida yuborishadi." },
+            { who: "Nina", en: "Great. I'll register as soon as I get home.", uz: "Ajoyib. Uyga borishim bilan ro'yxatdan o'taman." },
+          ],
+        },
+        { t: "check", ex: { k: "choice", q: "What should Nina do before paying?", opts: ["Check the dates carefully.", "Bring her passport.", "Wait for the timetable.", "Create a second account."], a: 0, why: "Ben: *Prior to paying, check the dates carefully.*" } },
+      ],
+    },
+  ],
+  words: [
+    { en: "at the outset", uz: "boshida, dastlab", ipa: "ət ði ˈaʊt.set", pos: "phrase", ex: "At the outset, nobody believed the plan would work.", exUz: "Dastlab hech kim rejaning ishlashiga ishonmadi." },
+    { en: "first and foremost", uz: "avvalo, birinchi navbatda", ipa: "ˌfɜːst ənd ˈfɔː.məʊst", pos: "phrase", ex: "First and foremost, thank you all for coming.", exUz: "Avvalo, kelganingiz uchun hammangizga rahmat." },
+    { en: "beforehand", uz: "oldindan", ipa: "bɪˈfɔː.hænd", pos: "adv", ex: "You should read the instructions beforehand.", exUz: "Ko'rsatmalarni oldindan o'qib chiqishingiz kerak." },
+    { en: "prior to", uz: "…dan oldin (rasmiy)", ipa: "ˈpraɪ.ə tuː", pos: "phrase", ex: "Prior to the interview, she researched the company.", exUz: "Suhbatdan oldin u kompaniyani o'rgandi." },
+    { en: "simultaneously", uz: "bir vaqtda", ipa: "ˌsɪm.əlˈteɪ.ni.əs.li", pos: "adv", ex: "The two events happened simultaneously.", exUz: "Ikki voqea bir vaqtda sodir bo'ldi." },
+    { en: "thereafter", uz: "undan keyin (rasmiy)", ipa: "ðeərˈɑːf.tər", pos: "adv", ex: "She moved to Paris in 2015 and has lived there thereafter.", exUz: "U 2015-yilda Parijga ko'chdi va shundan keyin u yerda yashadi." },
+    { en: "shortly", uz: "tez orada", ipa: "ˈʃɔːt.li", pos: "adv", ex: "The train will leave shortly.", exUz: "Poyezd tez orada jo'naydi." },
+    { en: "in due course", uz: "o'z vaqtida, kerakli paytda", ipa: "ɪn ˌdjuː ˈkɔːs", pos: "phrase", ex: "We will inform you of the decision in due course.", exUz: "Qarorni o'z vaqtida sizga xabar qilamiz." },
+    { en: "all along", uz: "butun vaqt davomida", ipa: "ˌɔːl əˈlɒŋ", pos: "adv", ex: "She had the keys in her bag all along.", exUz: "Kalitlar butun vaqt davomida uning sumkasida edi." },
+    { en: "up until now", uz: "hozirgacha", ipa: "ˌʌp ənˈtɪl naʊ", pos: "phrase", ex: "Up until now, we have never had a problem.", exUz: "Hozirgacha hech qachon muammomiz bo'lmagan." },
+  ],
+  practice: [
+    { k: "match", pairs: [["beforehand", "oldindan"], ["simultaneously", "bir vaqtda"], ["shortly", "tez orada"], ["in due course", "o'z vaqtida"], ["all along", "butun vaqt davomida"]] },
+    { k: "choice", q: "**I'll call you as soon as I ___ the airport.**", opts: ["reach", "will reach", "am reaching", "would reach"], a: 0, why: "Vaqt gapida kelajak uchun Present Simple: **reach**." },
+    { k: "choice", q: "**By the time we got to the station, the train ___.**", opts: ["had left", "has left", "leaves", "will have left"], a: 0, why: "O'tgan zamondagi **by the time** + oldin tugagan ish → **had left**." },
+    { k: "fill", q: "The results will be announced ___. (very soon)", a: ["shortly", "soon"], why: "Tez orada → **shortly**." },
+    { k: "fill", q: "My brother loves football, ___ I prefer swimming.", a: ["whereas", "while", "but"], why: "Qarama-qarshilik: **whereas** (yoki **while**)." },
+    { k: "choice", q: "**He fell asleep ___ the long speech.**", opts: ["during", "while", "until", "whereas"], a: 0, why: "Keyin ot (*the long speech*) → **during**." },
+    { k: "order", uz: "Uyga yetib borishim bilan sizga qo'ng'iroq qilaman.", words: ["I'll", "call", "you", "as", "soon", "as", "I", "get", "home."], extra: ["will", "got"], alt: [["As", "soon", "as", "I", "get", "home,", "I'll", "call", "you."]], why: "**as soon as** + Present Simple." },
+    { k: "tf", q: "**Prior to** dan keyin **-ing** shakli yoki ot keladi.", a: true, why: "*prior to leaving*, *prior to the meeting* — to'g'ri." },
+    { k: "listen", say: "Once you have finished, please send me the file.", opts: ["Once you have finished, please send me the file.", "When you will finish, please send me the file.", "While you have finished, please send me the file."], a: 0 },
+    { k: "translate", uz: "Avvalo, hammangizga rahmat.", a: ["First and foremost, thank you all.", "First and foremost, thank you everyone.", "First and foremost, I would like to thank you all.", "First and foremost, thanks to you all."], why: "**first and foremost** — «avvalo, birinchi navbatda»." },
+    { k: "fix", wrong: "I'll wait here until you will come back.", a: ["I'll wait here until you come back.", "I'll wait here until you've come back.", "I'll wait here until you have come back."], hint: "vaqt gapida will yo'q", why: "**until** dan keyin Present." },
+    { k: "choice", q: "**Which phrase is the odd one out?**", opts: ["whereas", "meanwhile", "in the meantime", "simultaneously"], a: 0, why: "Boshqalari **bir vaqtda** ma'nosida, **whereas** esa qarama-qarshilik bildiradi." },
+    { k: "dictation", say: "Up until now, I have never missed a deadline.", uz: "Hozirgacha men hech qachon muddatni o'tkazib yubormaganman." },
+    { k: "fix", wrong: "While the meeting, he checked his phone twice.", a: ["During the meeting, he checked his phone twice."], hint: "ot oldidan: during", why: "**while** + gap, **during** + ot." },
+    { k: "tf", q: "*I'll text you when I will arrive* — bu gap grammatik jihatdan to'g'ri.", a: false, why: "**when** dan keyin kelajak ma'nosida ham Present: *when I arrive*." },
+    { k: "speak", say: "Eventually, the bus arrived, and we went home.", uz: "Oxir-oqibat avtobus keldi va biz uyga ketdik." },
+  ],
+  quiz: [
+    { k: "choice", q: "**I'll let you know as soon as I ___ the results.**", opts: ["get", "will get", "am getting", "got"], a: 0, why: "Vaqt gapida kelajak uchun Present Simple: **get**." },
+    { k: "choice", q: "**Which word is the most formal?**", opts: ["thereafter", "after that", "then", "later"], a: 0, why: "**thereafter** — rasmiy." },
+    { k: "choice", q: "**___ leaving, please switch off all the lights.**", opts: ["Prior to", "During", "Whereas", "Beforehand"], a: 0, why: "**Prior to** + -ing: *prior to leaving*." },
+    { k: "choice", q: "**She had known the answer ___, but she was too shy to speak.**", opts: ["all along", "shortly", "thereafter", "during"], a: 0, why: "Butun vaqt davomida bilgan → **all along**." },
+    { k: "fill", q: "Read the instructions ___, so you know what to do. (before the start)", a: ["beforehand"], why: "Oldindan → **beforehand**." },
+    { k: "fill", q: "I understood the problem the ___ I saw the sign. (at exactly that time)", a: ["moment"], why: "**the moment** + gap — aynan o'sha paytda." },
+    { k: "fill", q: "We will send the documents in due ___.", a: ["course"], why: "**in due course** — o'z vaqtida." },
+    { k: "listen", say: "By the time I arrived, the meeting had already started.", opts: ["By the time I arrived, the meeting had already started.", "By the time I arrive, the meeting has already started.", "By the time I arrived, the meeting will already start."], a: 0 },
+    { k: "tf", q: "**In the end of the film** — to'g'ri ibora.", a: false, why: "To'g'risi: **at the end of the film**." },
+    { k: "fix", wrong: "When I will see him, I'll give him the message.", a: ["When I see him, I'll give him the message.", "When I've seen him, I'll give him the message."], hint: "vaqt gapida will yo'q", why: "**when** dan keyin Present." },
+  ],
+  summary: [
+    "Ketma-ketlik iboralari: **first and foremost / at the outset → afterwards / thereafter → meanwhile / simultaneously → eventually → ever since / up until now**.",
+    "**when, as soon as, once, the moment, until, by the time** dan keyin kelajakda ham **Present** keladi, **will** emas.",
+    "**while** + gap, **during** + ot; **whereas** faqat qarama-qarshilik; **prior to** + -ing/ot (rasmiy *before*).",
+    "Rasmiy: **shortly, thereafter, in due course, at the outset, prior to**; norasmiy: *soon, after that, later, at the start, before*.",
+    "Gap boshidagi bog'lovchi gapdan keyin vergul: *When I arrive, I'll call.* **at the end of** (ot) va **in the end** (oxir-oqibat) ni adashtirmang.",
+  ],
+  homework: "O'tgan haftangizdagi bir kunni 8–10 gap bilan yozing. Kamida 6 ta bog'lovchi ishlating (*first of all, meanwhile, as soon as, eventually, by the time, ever since…*), 1 ta *while* va 1 ta *whereas*. Keyin yozganingizni tekshiring: biror vaqt gapida *will* yozib qo'ymadingizmi? Gap boshidagi bog'lovchilardan keyin vergul bormi?",
+};
+
+export default lesson;

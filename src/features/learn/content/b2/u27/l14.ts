@@ -1,0 +1,126 @@
+import type { Lesson } from '../../../types';
+
+// Mini lesson (skill): listening to a work meeting (who decides what) and speaking a one-minute proposal.
+const lesson: Lesson = {
+  id: 'u27-l14',
+  title: 'Listening and speaking: a work meeting',
+  titleUz: "Tinglash va gapirish: ish yig'ilishi",
+  mini: true,
+  kind: 'skill',
+  goal: "Ish yig'ilishini **tinglab** kim nimani qaror qilishini (*who decides what*) aniqlaysiz, yig'ilish iboralarini bilasiz va **bir daqiqalik taklif (proposal)** ni tuzilma bo'yicha ovoz chiqarib aytasiz.",
+  slides: [
+    {
+      title: "Tinglang: yangi ilova haqida yig'ilish",
+      blocks: [
+        { t: 'p', md: "Suhbatni tinglang (▶). Birinchi marta **umumiy ma'noni** tushuning: **yig'ilish nima haqida? kim taklif kiritdi? kim nimani hal qiladi?** Keyin savollarga javob bering." },
+        { t: 'dialog', lines: [
+          { who: 'Helen', en: "Right, let's get started. The main item on the agenda is the launch of our new customer app.", uz: "Bo'ldi, boshlaymiz. Kun tartibidagi asosiy masala — yangi mijozlar ilovasini ishga tushirish." },
+          { who: 'Ben', en: "Thanks, Helen. I'd like to propose that we move the launch from March to April.", uz: "Rahmat, Helen. Ishga tushirishni martdan aprelga ko'chirishni taklif qilaman." },
+          { who: 'Helen', en: "Why do you think we need more time?", uz: "Nima uchun ko'proq vaqt kerak, deb o'ylaysiz?" },
+          { who: 'Ben', en: "The testing has taken longer than we expected. If we could have two more weeks, we would be able to fix the main problems before customers see them.", uz: "Sinov kutganimizdan uzoqroq davom etdi. Agar ikki hafta ko'proq vaqt bo'lsa, asosiy muammolarni mijozlar ko'rishidan oldin tuzata olardik." },
+          { who: 'Helen', en: "I see your point, but marketing has already planned the campaign. I will need to speak to them.", uz: "Fikringizni tushundim, lekin marketing kampaniyani allaqachon rejalashtirgan. Men ular bilan gaplashishim kerak." },
+          { who: 'Ben', en: "Of course. How about starting with a small group of users in March?", uz: "Albatta. Martda kichik foydalanuvchilar guruhi bilan boshlasak-chi?" },
+          { who: 'Helen', en: "That's a good idea. Let's agree on a trial in March and the full launch in April. I can allocate another five thousand pounds for testing.", uz: "Yaxshi fikr. Martda sinov, aprelda to'liq ishga tushirish bo'yicha kelishamiz. Sinov uchun yana besh ming funt ajrata olaman." },
+          { who: 'Ben', en: "Great. I'll send the new schedule to everyone by Friday.", uz: "Zo'r. Yangi jadvalni juma kunigacha hammaga yuboraman." },
+          { who: 'Helen', en: "So, to sum up: Ben sends the schedule by Friday, and I will speak to marketing and approve the extra budget. Any other business?", uz: "Xulosa qilsak: Ben jadvalni juma kuniga qadar yuboradi, men esa marketing bilan gaplashaman va qo'shimcha byudjetni tasdiqlayman. Boshqa masalalar bormi?" },
+        ] },
+        { t: 'check', ex: { k: 'choice', q: 'What does Ben propose at the start?', opts: ['Moving the launch from March to April', 'Cancelling the app', 'Moving the launch to June', 'Hiring a new manager'], a: 0, why: "*I'd like to propose that we move the launch from March to April.*" } },
+        { t: 'check', ex: { k: 'choice', q: 'Who will approve the extra budget?', opts: ['Helen', 'Ben', 'The marketing team', 'The customers'], a: 0, why: "*I will speak to marketing and approve the extra budget* — gapni Helen aytadi." } },
+        { t: 'check', ex: { k: 'tf', q: 'Ben will send the new schedule by Friday.', a: true, why: "*I'll send the new schedule to everyone by Friday.*" } },
+        { t: 'check', ex: { k: 'listen', say: 'How about starting with a small group of users in March?', opts: ['How about starting with a small group of users in March?', 'How about starting with a large group of users in March?', 'How about starting with a small group of users in May?', 'What about stopping with a small group of users in March?'], a: 0 } },
+      ],
+    },
+    {
+      title: "Yig'ilish iboralari",
+      blocks: [
+        { t: 'table', head: ['Maqsad', 'Ibora'], speak: [1], rows: [
+          ['Boshlash', "Right, let's get started. The main item on the agenda is…"],
+          ['Taklif', "I'd like to propose that we move the launch to April."],
+          ['Shartli taklif', "If we could have two more weeks, we would be able to fix the problems."],
+          ['Tushuntirish so\'rash', "Could you explain what you mean by that?"],
+          ['Xavotir bildirish', "I'd like to raise a concern about the budget."],
+          ['Rozilik', "That's a good idea. Let's agree on that."],
+          ['Xulosa', "So, to sum up, Ben will send the schedule by Friday."],
+        ] },
+        { t: 'tip', tone: 'info', md: "**Shartli taklif**: *If we could… , we would…* — muloyim va ehtimolli. *If we have more time, we will fix it* ham to'g'ri, lekin *could / would* shakli rasmiyroq va majburlamaydigan eshitiladi." },
+        { t: 'compare',
+          good: { title: "To'g'ri", items: ["I'd like to propose that we move the launch.", 'How about starting in March?', 'If we could have more time, we would test it better.'] },
+          bad: { title: 'Xato', items: ['I propose to we move the launch.', 'How about to start in March?', 'If we could have more time, we will test it better.'] } },
+        { t: 'check', ex: { k: 'fix', wrong: 'How about to start in March?', a: ['How about starting in March?', 'How about we start in March?'], why: "**How about + -ing** (yoki *How about we + V1*)." } },
+        { t: 'check', ex: { k: 'choice', q: "Which is the most polite way to disagree?", opts: ["I see your point, but I have a concern about the budget.", "You are wrong about the budget.", "No, that will never work.", "I don't agree, stop."], a: 0, why: "**I see your point, but…** — muloyim e'tiroz." } },
+      ],
+    },
+    {
+      title: "Gapiring: 1 daqiqalik taklif",
+      blocks: [
+        { t: 'p', md: "Qisqa taklif (**proposal**) to'rt qadamdan iborat. Har bir qadam uchun bitta-ikkita gap yetarli:" },
+        { t: 'table', head: ['Qadam', 'Ibora'], speak: [1], rows: [
+          ['1. Taklif', "I'd like to propose that we introduce a four-day week."],
+          ['2. Sabab', "The main reason is that our team is tired and less productive."],
+          ['3. Foyda / shart', "If we tried it for three months, we would see the results."],
+          ['4. Keyingi qadam', "Could we agree to start next month? I will prepare the action points."],
+        ] },
+        { t: 'text', title: 'A model proposal', voice: 'george', en: "I'd like to propose that we hold our weekly meeting online. At the moment, the meeting takes more than an hour, because people spend a lot of time travelling between offices. If we could meet online, we would save time, and we would be able to invite colleagues from other cities. I suggest we try it for one month. After that, we can ask everyone for their opinion. Could we agree on this today? If so, I will send the invitation and take the minutes of the first meeting.", uz: "Haftalik yig'ilishimizni onlayn o'tkazishni taklif qilaman. Hozir yig'ilish bir soatdan ko'proq vaqt oladi, chunki odamlar ofislar orasida yurishga ko'p vaqt sarflaydi. Agar onlayn uchrashsak, vaqtni tejagan va boshqa shaharlardagi hamkasblarni taklif qila olgan bo'lardik. Buni bir oy sinab ko'rishni tavsiya qilaman. Shundan keyin hammadan fikrini so'rashimiz mumkin. Bugun shu bo'yicha kelisha olamizmi? Agar shunday bo'lsa, men taklifnoma yuboraman va birinchi yig'ilish bayonnomasini yuritaman." },
+        { t: 'check', ex: { k: 'choice', q: "What reason does the speaker give for the proposal?", opts: ['People spend a lot of time travelling between offices.', 'The meeting room is too small.', 'The manager is on holiday.', 'The meeting costs too much money.'], a: 0, why: "*people spend a lot of time travelling between offices*." } },
+        { t: 'check', ex: { k: 'speak', say: "I'd like to propose that we hold our weekly meeting online.", uz: "Haftalik yig'ilishimizni onlayn o'tkazishni taklif qilaman." } },
+      ],
+    },
+    {
+      title: "Sizning navbatingiz",
+      blocks: [
+        { t: 'p', md: "**Vaziyat:** siz ishxonadasiz. Jamoangiz uchun bitta yangilikni taklif qilmoqchisiz (masalan: *yangi ish jadvali, ofis qoidasi, mashg'ulot*). To'rt qadamdan foydalaning va **60 soniyada** ovoz chiqarib ayting." },
+        { t: 'tip', tone: 'good', md: "Tayyorlanish: (1) taklifni bir gapda yozing, (2) bitta sabab, (3) **If we could…, we would…** gapi, (4) keyingi qadam. So'ng telefoningizda yozib oling va **to'xtab qolgan** joylarni belgilang." },
+        { t: 'examples', items: [
+          { en: "I'd like to propose that we start a short training every Friday.", uz: "Har juma qisqa o'quv mashg'ulotini boshlashni taklif qilaman.", note: "1-qadam: taklif." },
+          { en: "The main reason is that new staff often make the same mistakes.", uz: "Asosiy sabab shuki, yangi xodimlar bir xil xatolarni takrorlaydi.", note: "2-qadam: sabab." },
+          { en: "If we could spend thirty minutes a week on this, we would reduce errors.", uz: "Agar bunga haftasiga o'ttiz daqiqa ajratsak, xatolarni kamaytirgan bo'lardik.", note: "3-qadam: shartli foyda." },
+          { en: "Could we agree to try it for a month?", uz: "Buni bir oy sinab ko'rishga kelisha olamizmi?", note: "4-qadam: kelishuv." },
+        ] },
+        { t: 'check', ex: { k: 'order', uz: "Agar bir oy vaqtimiz bo'lsa, buni yaxshiroq sinab ko'rgan bo'lardik.", words: ['If', 'we', 'could', 'have', 'a', 'month,', 'we', 'would', 'test', 'it', 'better.'], extra: ['will', 'can'], why: "**If we could…, we would…**" } },
+      ],
+    },
+  ],
+  words: [
+    { en: 'deliverable', uz: 'topshiriladigan natija (loyiha doirasida)', ipa: 'dɪˈlɪv.ər.ə.bəl', pos: 'noun', ex: 'The main deliverable is a report due at the end of June.', exUz: "Asosiy topshiriladigan natija — iyun oxirigacha tayyor bo'lishi kerak bo'lgan hisobot." },
+    { en: 'brainstorm', uz: "birgalikda g'oya izlamoq", ipa: 'ˈbreɪn.stɔːm', pos: 'verb', ex: 'We brainstormed ideas for the new campaign for an hour.', exUz: "Yangi kampaniya uchun bir soat g'oyalar izladik." },
+    { en: 'allocate', uz: 'ajratmoq, taqsimlamoq', ipa: 'ˈæl.ə.keɪt', pos: 'verb', ex: 'We allocated more money to training this year.', exUz: "Biz bu yil o'qitishga ko'proq pul ajratdik." },
+    { en: 'take the minutes', uz: "yig'ilish bayonnomasini yuritmoq", ipa: 'teɪk ðə ˈmɪn.ɪts', pos: 'phrase', ex: 'Could you take the minutes while I lead the meeting?', exUz: "Men yig'ilishni olib borayotganimda bayonnomani yurita olasizmi?" },
+    { en: 'on board', uz: "(loyiha/rejaga) qo'shilgan, rozi", ipa: 'ɒn bɔːd', pos: 'phrase', ex: 'We need the finance team on board before we start.', exUz: "Boshlashdan oldin moliya bo'limi bizni qo'llab-quvvatlashi kerak." },
+    { en: 'raise a concern', uz: 'xavotirni bildirmoq', ipa: 'reɪz ə kənˈsɜːn', pos: 'phrase', ex: 'Several people raised a concern about the deadline.', exUz: "Bir necha kishi muddat haqida xavotir bildirdi." },
+  ],
+  practice: [
+    { k: 'match', pairs: [['deliverable', 'topshiriladigan natija'], ['brainstorm', "birgalikda g'oya izlamoq"], ['allocate', 'ajratmoq'], ['take the minutes', 'bayonnoma yuritmoq'], ['raise a concern', 'xavotir bildirmoq']] },
+    { k: 'choice', q: "We need the finance team ___ before we can start the project.", opts: ['on board', 'on deck', 'in boat', 'at board'], a: 0, why: "**on board** — loyihaga qo'shilgan, rozi." },
+    { k: 'fill', q: "I'd like to ___ that we move the deadline to Friday. (make a proposal)", a: ['propose'], why: "**I'd like to propose that…** — taklif kiritish." },
+    { k: 'listen', say: 'Could you take the minutes, please?', opts: ['Could you take the minutes, please?', 'Could you take the meetings, please?', 'Could you make the minutes, please?', 'Could you take the minute, please?'], a: 0 },
+    { k: 'tf', q: "*If we could have more time, we would finish the report.* — muloyim shartli taklif.", a: true, why: "**If + could, … would** — muloyim, rasmiy taklif." },
+    { k: 'fix', wrong: 'I propose to we start earlier.', a: ['I propose that we start earlier.', "I'd like to propose that we start earlier.", 'I propose we start earlier.', 'I propose starting earlier.', 'I propose that we should start earlier.'], why: "**propose that we + V1** yoki **propose + -ing**." },
+    { k: 'order', uz: "Keling, kelasi haftada sinov o'tkazishga kelishamiz.", words: ["Let's", 'agree', 'on', 'a', 'trial', 'next', 'week.'], extra: ['to', 'in'], why: "**agree on + ot**." },
+    { k: 'translate', uz: "Xulosa qilsak, men jadvalni yuboraman.", a: ["So, to sum up, I'll send the schedule.", "To sum up, I'll send the schedule.", "So, to sum up, I will send the schedule.", "To sum up, I will send the schedule.", "To sum up, I'll send the timetable.", "So, to sum up, I'll send the timetable."], why: "**to sum up** — xulosa qilish." },
+    { k: 'choice', q: "Who decides about the extra budget in the meeting?", opts: ['Helen', 'Ben', 'Both of them together', 'Nobody'], a: 0, why: "Helen: *I can allocate another five thousand pounds*; *I will … approve the extra budget*." },
+    { k: 'dictation', say: 'I would like to raise a concern about the budget.', a: ['I would like to raise a concern about the budget.', "I'd like to raise a concern about the budget."], uz: "Byudjet haqida xavotir bildirmoqchiman." },
+    { k: 'fix', wrong: 'If we could have more time, we will test it better.', a: ['If we could have more time, we would test it better.'], why: "**If we could…, we would…** — taklif uchun muloyim shart." },
+    { k: 'choice', q: "Which is a polite way to ask someone to explain?", opts: ["Could you explain what you mean by that?", "Explain it again.", "What? I do not understand you.", "Say it more clearly."], a: 0, why: "**Could you explain what you mean…?** — muloyim." },
+    { k: 'speak', say: 'If we could meet online, we would save time.', uz: "Agar onlayn uchrashsak, vaqtni tejagan bo'lardik." },
+    { k: 'speak', say: 'Could we agree to try it for a month?', uz: "Buni bir oy sinab ko'rishga kelisha olamizmi?" },
+  ],
+  quiz: [
+    { k: 'choice', q: "The manager will ___ more money to the project.", opts: ['allocate', 'allocation', 'allocating', 'locate'], a: 0, why: "**will + V1**: *allocate*." },
+    { k: 'choice', q: "How about ___ the meeting at ten?", opts: ['starting', 'to start', 'start', 'started'], a: 0, why: "**How about + -ing**." },
+    { k: 'fill', q: "So, to sum ___, we meet again on Monday. (preposition/particle)", a: ['up'], why: "**to sum up** — xulosa qilib aytganda." },
+    { k: 'order', uz: "Men xavotir bildirmoqchiman.", words: ["I'd", 'like', 'to', 'raise', 'a', 'concern.'], extra: ['make', 'rise'], alt: [['I', 'would', 'like', 'to', 'raise', 'a', 'concern.']], why: "**raise a concern**." },
+    { k: 'fix', wrong: 'I suggest to hold the meeting online.', a: ['I suggest holding the meeting online.', 'I suggest that we hold the meeting online.', 'I suggest we hold the meeting online.'], why: "**suggest + -ing** yoki **suggest (that) we + V1**." },
+    { k: 'listen', say: 'The first action point is to send the new schedule.', opts: ['The first action point is to send the new schedule.', 'The first action point is to send the old schedule.', 'The last action point is to send the new schedule.', 'The first action points are to send the new schedule.'], a: 0 },
+    { k: 'tf', q: "In the dialogue, Ben decides about the extra budget.", a: false, why: "Qo'shimcha byudjetni Helen tasdiqlaydi." },
+    { k: 'translate', uz: "Agar ko'proq vaqtimiz bo'lsa, buni yaxshiroq qilgan bo'lardik.", a: ['If we could have more time, we would do it better.', 'If we had more time, we would do it better.', 'If we had more time, we would do this better.', 'If we could have more time, we would do this better.'], why: "**If we had / could have…, we would…**" },
+  ],
+  summary: [
+    "Yig'ilishni tinglaganda aniqlang: **mavzu, taklif, sabab, kim nimani qaror qiladi** (*I will approve…*, *I'll send…*).",
+    "Taklif: **I'd like to propose that we…**, **How about + -ing?**, **If we could…, we would…**",
+    "Taklif tuzilmasi: **taklif → sabab → foyda / shart → keyingi qadam**; xulosa: **to sum up**.",
+    "Yig'ilish so'zlari: **deliverable, brainstorm, allocate, take the minutes, on board, raise a concern**.",
+  ],
+  homework: "Bir daqiqalik taklif tayyorlang (4 qadam, 6-8 gap). Telefoningizga yozib oling, so'ng eshiting va ikkita xatoni toping. Eng yaxshi versiyani yana bir marta ayting.",
+};
+
+export default lesson;

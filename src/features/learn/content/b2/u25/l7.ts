@@ -1,0 +1,212 @@
+import type { Lesson } from '../../../types';
+
+const lesson: Lesson = {
+  id: "u25-l7",
+  title: "Writing: the day that changed my life",
+  titleUz: "Yozish: 'Hayotimni o'zgartirgan kun' — tasviriy hikoya",
+  goal: "**Tasviriy hikoya** (*reflective story*) yozasiz, taxminan 250 so'z: kuchli boshlanish, o'tgan zamonlar, burilish nuqtasi va oxirida fikr yuritish. Hikoyada **aralash shart gaplar** (*If I hadn't…, I wouldn't be…*), **wish** va his-tuyg'u so'zlaridan foydalanasiz. IELTS Writing, universitet insholari va shaxsiy xatlar uchun foydali.",
+  slides: [
+    {
+      title: "Tasviriy hikoya nima va qanday tuziladi?",
+      blocks: [
+        { t: "p", md: "Tanlov, ish yoki stipendiya uchun *«Hayotingizni o'zgartirgan kun haqida yozing»* topshirig'i keladi. Bu oddiy voqea bayoni emas: **tasviriy hikoya** voqeani aytadi va **undan nima o'rganganingizni** ko'rsatadi. Shuning uchun uning ikki qismi bor: *nima bo'ldi* va *buni qanday baholayman*." },
+        {
+          t: "table", head: ["Qism", "Nima yoziladi", "Misol"], speak: [2],
+          rows: [
+            ["1. Boshlanish (hook)", "O'quvchini ushlab turadigan birinchi gap", "The morning that changed my life began badly."],
+            ["2. Vaziyat", "Qayerda, qachon, nima bo'layotgan edi", "I was walking to the station when my phone died."],
+            ["3. Burilish nuqtasi", "Kutilmagan voqea", "A stranger asked me about my folder."],
+            ["4. Oqibat", "Keyin nima bo'ldi", "A week later she offered me a place in her team."],
+            ["5. Fikr yuritish", "Bugundan qarab baho berish", "If I hadn't missed that bus, I wouldn't be here now."],
+          ],
+        },
+        { t: "tip", tone: "info", md: "Taxminan **250 so'z** va **4–5 abzats**: har qism uchun bittadan. Har abzats bitta fikrni beradi, shunda matn tartibli ko'rinadi." },
+        { t: "check", ex: { k: "choice", q: "Qaysi qism hikoyani oddiy bayondan **tasviriy** hikoyaga aylantiradi?", opts: ["Oxirida bugundan qarab baho berish", "Sanalarni ko'p yozish", "Faqat Past Simple ishlatish", "Qisqa gaplar yozish"], a: 0, why: "Tasviriy hikoyada voqeadan keyin **fikr yuritish** (*reflection*) bo'ladi: bu voqea hayotimga qanday ta'sir qildi." } },
+      ],
+    },
+    {
+      title: "O'tgan zamonlar: hikoyaning poydevori",
+      blocks: [
+        { t: "p", md: "Hikoyada bir nechta o'tgan zamon birga ishlaydi. Har birining o'z vazifasi bor:" },
+        {
+          t: "table", head: ["Zamon", "Vazifasi", "Misol"], speak: [2],
+          rows: [
+            ["Past Simple", "Asosiy voqealar ketma-ketligi", "I ran to the station and bought a ticket."],
+            ["Past Continuous", "Fon: voqea paytida davom etayotgan ish", "It was raining while I was waiting."],
+            ["Past Perfect", "Voqeadan oldin bo'lgan ish", "The bus had already left when I arrived."],
+            ["used to / would", "O'tgan odat, ilgari bo'lgan holat", "I used to be shy. I would never speak in class."],
+          ],
+        },
+        { t: "examples", items: [
+          { en: "I was reading on the platform when a stranger spoke to me.", uz: "Men perronda kitob o'qiyotgan edim, notanish odam gapirib qoldi.", note: "Fon (**was reading**) + qisqa voqea (**spoke**)." },
+          { en: "I had never travelled alone before that day.", uz: "O'sha kundan oldin hech qachon yolg'iz sayohat qilmagan edim.", note: "**had + V3** — bundan oldingi tajriba." },
+        ] },
+        { t: "tip", tone: "warn", md: "**Past Perfect** ni har gapda ishlatmang. Faqat bitta o'tgan voqea ikkinchisidan **oldin** bo'lganini ko'rsatish kerak bo'lgandagina ishlating. Voqealar tartibida aytilsa — **Past Simple** yetarli." },
+        { t: "check", ex: { k: "fill", q: "When I got to the office, the meeting ___ already started.", a: ["had"], why: "Yig'ilish men kelishimdan **oldin** boshlangan → **had started** (Past Perfect)." } },
+        { t: "check", ex: { k: "choice", q: "Which sentence gives the background and then the sudden event?", opts: ["I was cooking when the phone rang.", "I cooked when the phone was ringing.", "I had cooked when the phone was ringing.", "I was cooking when the phone had rung."], a: 0, why: "Davomli fon → **was cooking**, qisqa voqea → **rang** (Past Simple)." } },
+      ],
+    },
+    {
+      title: "Boshlanish va yakun",
+      blocks: [
+        { t: "p", md: "Birinchi va oxirgi gap eng ko'p esda qoladi. Zerikarli *«I want to tell you about…»* o'rniga o'quvchini voqea ichiga olib kiring." },
+        { t: "compare",
+          good: { title: "Kuchli boshlanish", items: ["The morning that changed my life began badly.", "I still remember the silence on that platform.", "Nobody warned me that one missed bus would matter."] },
+          bad: { title: "Zaif boshlanish", items: ["I want to tell you about the day that changed my life.", "In this essay I will write about my life.", "My story is about one day."] } },
+        { t: "p", md: "Yakunda xulosani oldingi fikr bilan bog'lang va o'quvchiga kichik fikr qoldiring. Foydali iboralar:" },
+        { t: "examples", items: [
+          { en: "Looking back, I realise how fortunate I was.", uz: "Orqaga nazar tashlasam, qanchalik omadli bo'lganimni tushunaman.", note: "**Looking back** — xulosa boshlanishi." },
+          { en: "That day taught me that plans are less important than people.", uz: "O'sha kun menga rejalar odamlardan kamroq ahamiyatga ega ekanini o'rgatdi.", note: "Hayotiy xulosa (*lesson learnt*)." },
+          { en: "Today I reflect on it with gratitude.", uz: "Bugun u haqda minnatdorchilik bilan o'ylayman.", note: "**reflect on** + ot." },
+        ] },
+        { t: "check", ex: { k: "choice", q: "Which is the strongest opening for a story?", opts: ["The phone rang at midnight, and my life changed.", "I am going to describe an important day.", "This is a story about my life.", "My day was very important."], a: 0, why: "Birinchi gap o'quvchini darhol voqeaga olib kiradi; qolgan variantlar faqat **mavzuni e'lon qiladi**." } },
+      ],
+    },
+    {
+      title: "Fikr yuritish: aralash shartlar va wish",
+      blocks: [
+        { t: "p", md: "Hikoyaning oxirida o'tgan voqea bugungi hayotga qanday ta'sir qilganini ko'rsatish uchun **aralash shart gap** juda mos. Pushaymon yoki minnatdorchilikni esa **wish** ifodalaydi." },
+        {
+          t: "table", head: ["Maqsad", "Qolip", "Misol"], speak: [2],
+          rows: [
+            ["O'tgan sabab → bugungi natija", "If + Past Perfect, would + V1", "If I hadn't missed the bus, I wouldn't be a translator today."],
+            ["Hozirgi holat → o'tgan natija", "If + Past Simple, would have + V3", "If I weren't so curious, I wouldn't have spoken to her."],
+            ["O'tgan pushaymon", "wish + Past Perfect", "I wish I had thanked her properly."],
+            ["Hozirgi pushaymon", "wish + Past Simple", "I wish I lived closer to my old friends."],
+          ],
+        },
+        { t: "tip", tone: "good", md: "Bir hikoyada **ikkitadan ko'p** aralash shart ishlatmang. Bitta kuchli reflection gapi (*If I hadn't…, I wouldn't be…*) va bitta **wish** gapi yetarli, aks holda matn og'irlashadi." },
+        { t: "check", ex: { k: "fill", q: "If I hadn't applied for that course, I ___ working here now.", a: ["wouldn't be", "would not be"], why: "Sabab o'tgan (**hadn't applied**), natija hozirgi → **would + V1**: *wouldn't be working*." } },
+        { t: "check", ex: { k: "choice", q: "I regret that I never thanked her. → I wish I ___ her.", opts: ["had thanked", "thanked", "would thank", "have thanked"], a: 0, why: "O'tgan pushaymon → **wish + Past Perfect**: *had thanked*." } },
+      ],
+    },
+    {
+      title: "Yangi so'zlar va ularning ishlatilishi",
+      blocks: [
+        { t: "p", md: "Bu darsning 10 ta so'zi hikoyani jonlantiradi. Ularni birikmalar bilan o'rganing:" },
+        {
+          t: "table", head: ["So'z / ibora", "Birikma", "Misol"], speak: [2],
+          rows: [
+            ["pivotal", "a pivotal moment / role", "That meeting was a pivotal moment in my career."],
+            ["in the nick of time", "arrive / finish in the nick of time", "We reached the gate in the nick of time."],
+            ["against all odds", "win / survive against all odds", "Against all odds, she passed the exam."],
+            ["sink in", "the news takes time to sink in", "It took me a week for the news to sink in."],
+            ["twist of fate", "a happy / cruel twist of fate", "By a twist of fate, we sat next to each other."],
+            ["gratitude", "express / feel gratitude", "I feel deep gratitude to my teacher."],
+          ],
+        },
+        { t: "tip", tone: "info", md: "**fortunate** (omadli) — *fortunate to be alive*; **resilient** (chidamli) — qiyinchilikdan tez tiklanadigan odam; **lingering** (uzoq ketmaydigan) — *a lingering doubt*; **cherish** — qadrlab saqlash: *cherish a memory*." },
+        { t: "check", ex: { k: "choice", q: "The news was so surprising that it took days to ___.", opts: ["sink in", "reflect on", "cherish", "linger"], a: 0, why: "Yangilik hali to'liq anglanmagan → **sink in** (ongga yetib bormoq)." } },
+        { t: "check", ex: { k: "choice", q: "Which word describes a person who recovers well after difficulties?", opts: ["resilient", "lingering", "pivotal", "fortunate"], a: 0, why: "Qiyinchilikdan keyin tezda tiklanish → **resilient**." } },
+      ],
+    },
+    {
+      title: "Tipik xatolar (o'zbek tilidan interferensiya)",
+      blocks: [
+        { t: "p", md: "O'zbek tilida shart gap fe'lga qo'shimcha qo'shib yasaladi (*borganimda, bo'lmaganimda*). Inglizchaga so'zma-so'z o'girsak, hikoyada shu xatolar chiqadi:" },
+        { t: "compare",
+          good: { title: "To'g'ri", items: ["If I hadn't met her, I wouldn't be here now.", "I wish I hadn't taken that decision so quickly.", "Suddenly I heard a loud noise.", "I didn't know that my life would change."] },
+          bad: { title: "Xato", items: ["If I wouldn't have met her, I wouldn't be here now.", "I wish I didn't take that decision so quickly.", "Suddenly I was hearing a loud noise.", "I didn't know that my life will change."] } },
+        { t: "tip", tone: "warn", md: "**If** dan keyin **would** kelmaydi (*If I would have…* — xato). **wish** bilan o'tgan pushaymon — **Past Perfect**, oddiy Past Simple emas. **hear, know, see** kabi holat fe'llari odatda Continuous bo'lmaydi. O'tgan zamondagi hikoyada kelajak ma'nosi **would** bilan beriladi." },
+        { t: "check", ex: { k: "fix", wrong: "If I wouldn't have missed the bus, I wouldn't have met her.", a: ["If I hadn't missed the bus, I wouldn't have met her."], why: "**If** dan keyin **would** emas, **Past Perfect**: *hadn't missed*." } },
+        { t: "check", ex: { k: "fix", wrong: "I wish I didn't leave school so early.", a: ["I wish I hadn't left school so early.", "I wish I had not left school so early."], why: "Pushaymon o'tgan voqea haqida → **wish + Past Perfect**." } },
+        { t: "check", ex: { k: "fix", wrong: "At that time I didn't know that my life will change.", a: ["At that time I didn't know that my life would change.", "At that time I didn't know that my life was going to change."], why: "O'tgan zamon hikoyasida kelajak → **would** yoki **was going to**." } },
+        { t: "check", ex: { k: "fix", wrong: "Suddenly I was hearing a strange noise.", a: ["Suddenly I heard a strange noise."], why: "**hear** — holat fe'li; qisqa voqea → **Past Simple**." } },
+      ],
+    },
+    {
+      title: "O'qing va dialog",
+      blocks: [
+        {
+          t: "text", title: "The morning that changed my life", voice: "emma",
+          en: "The morning that changed my life began badly. I had overslept, my phone was dead, and the bus to my job interview had already left. I reached the station in the nick of time for the next train. On the platform, a stranger noticed my folder and asked what the interview was for. We talked for twenty minutes. Her name was Mrs Karimova, and she ran a small translation agency. I arrived late and did not get the job, but a week later she offered me a place in her team. At first the news did not sink in. Against all odds, a missed bus had given me a career. Today I reflect on that day with gratitude. If I hadn't overslept, I would never have met her, and I wouldn't be working in a job I love. I still cherish the lingering feeling of that platform: fear turning into hope.",
+          uz: "Hayotimni o'zgartirgan tong yomon boshlandi. Uxlab qolgandim, telefonim o'chib qolgandi, ish suhbatiga boradigan avtobus ketib bo'lgandi. Keyingi poyezdga zo'rg'a ulgurib, bekatga yetib keldim. Perronda bir notanish ayol papkamni ko'rib, suhbat nima uchun ekanini so'radi. Yigirma daqiqa gaplashdik. Uning ismi Karimova xonim edi, u kichik tarjima agentligini boshqarardi. Men kech qoldim va ishni ololmadim, lekin bir haftadan keyin u menga o'z jamoasidan joy taklif qildi. Avvaliga bu xabar ongimga yetib bormadi. Hamma ehtimolga qarshi, o'tkazib yuborilgan avtobus menga kasb sovg'a qildi. Bugun o'sha kunni minnatdorchilik bilan o'ylayman. Agar uxlab qolmaganimda, uni hech qachon uchratmagan bo'lardim va sevgan kasbimda ishlamagan bo'lardim. Men hamon o'sha perrondagi hissini, qo'rquvning umidga aylanishini qadrlayman.",
+        },
+        { t: "check", ex: { k: "tf", q: "The writer got the job she went to the interview for.", a: false, why: "Matnda: *I arrived late and did not get the job*. Taklif keyinroq, boshqa joydan keldi." } },
+        { t: "check", ex: { k: "choice", q: "Which sentence in the text is the reflection (looking back from today)?", opts: ["If I hadn't overslept, I would never have met her.", "We talked for twenty minutes.", "I had overslept, my phone was dead.", "Her name was Mrs Karimova."], a: 0, why: "Aralash shart gap bugundan qarab **fikr yuritadi**; qolganlari voqeani bayon qiladi." } },
+        { t: "dialog", lines: [
+          { who: "Emily", en: "Jasur, I'm writing an essay called 'The day that changed my life'. Can I bounce an idea off you?", uz: "Jasur, men 'Hayotimni o'zgartirgan kun' nomli inshoni yozyapman. Bir fikrni sen bilan muhokama qilsam bo'ladimi?" },
+          { who: "Jasur", en: "Of course. Which day have you chosen?", uz: "Albatta. Qaysi kunni tanlading?" },
+          { who: "Emily", en: "The day I failed my first exam. At the time it felt terrible, but it was a pivotal moment.", uz: "Birinchi imtihondan yiqilgan kunni. O'sha paytda bu dahshatli tuyuldi, lekin hal qiluvchi payt bo'ldi." },
+          { who: "Jasur", en: "Interesting. How did it change things?", uz: "Qiziq. U nimani o'zgartirdi?" },
+          { who: "Emily", en: "I became more resilient. If I hadn't failed, I wouldn't be so determined now.", uz: "Men chidamliroq bo'ldim. Agar yiqilmaganimda, hozir bunchalik qat'iy bo'lmasdim." },
+          { who: "Jasur", en: "That's a strong reflection. Start with a hook, though, not with the exam date.", uz: "Bu kuchli fikr yuritish. Faqat imtihon sanasidan emas, o'quvchini ushlab turadigan gapdan boshla." },
+          { who: "Emily", en: "Good point. Maybe: 'I stared at the number on the screen and could not breathe.'", uz: "To'g'ri aytding. Masalan: 'Men ekrandagi ballga tikilib turdim va nafas ololmadim.'" },
+          { who: "Jasur", en: "Perfect. And end with what you are grateful for.", uz: "Ajoyib. Oxirida nimaga minnatdor ekaningni yoz." },
+        ] },
+        { t: "check", ex: { k: "choice", q: "Jasur's main advice to Emily is to ___.", opts: ["begin with a hook", "choose another topic", "write only facts", "avoid the exam"], a: 0, why: "Jasur: *Start with a hook, not with the exam date.*" } },
+      ],
+    },
+    {
+      title: "Reja va tekshiruv ro'yxati",
+      blocks: [
+        { t: "p", md: "Yozishdan oldin 3 daqiqada reja tuzing: **boshlanish gapi, burilish nuqtasi, oqibat, reflection gapi**. Yozib bo'lgach, quyidagi jadval bo'yicha tekshiring:" },
+        {
+          t: "table", head: ["Tekshirish", "Savol"],
+          rows: [
+            ["Tuzilish", "4–5 abzats bormi? Har abzats bitta fikrni beradimi?"],
+            ["Boshlanish", "Birinchi gap o'quvchini ushlab turadimi (*hook*)?"],
+            ["Zamonlar", "Past Simple, Past Continuous va Past Perfect o'z joyidami?"],
+            ["Reflection", "Kamida bitta aralash shart (*If I hadn't…, I wouldn't be…*) va bitta *wish* bormi?"],
+            ["Lug'at", "Kamida 4 ta yangi so'z (*pivotal, gratitude, resilient…*) ishlatdimmi?"],
+            ["Yakun", "Oxirgi gap xulosa yoki fikr qoldiradimi?"],
+          ],
+        },
+        { t: "tip", tone: "good", md: "Bog'lovchi iboralar: **At first, …**, **Later that week, …**, **To my surprise, …**, **Looking back, …**, **In the end, …**. Ular abzatslarni bir-biriga bog'laydi." },
+        { t: "check", ex: { k: "order", uz: "Orqaga nazar tashlasam, men juda omadli bo'lganman.", words: ["Looking", "back,", "I", "was", "very", "fortunate."], extra: ["am", "look"], why: "**Looking back,** + gap: xulosa boshlanishi." } },
+      ],
+    },
+  ],
+  words: [
+    { en: "pivotal", uz: "hal qiluvchi, burilish yasovchi", ipa: "ˈpɪv.ə.təl", pos: "adj", ex: "Her advice played a pivotal role in my decision.", exUz: "Uning maslahati qarorimda hal qiluvchi rol o'ynadi." },
+    { en: "in the nick of time", uz: "oxirgi daqiqada, zo'rg'a ulgurib", ipa: "ɪn ðə nɪk əv taɪm", pos: "phrase", ex: "The ambulance arrived in the nick of time.", exUz: "Tez yordam oxirgi daqiqada yetib keldi." },
+    { en: "against all odds", uz: "hamma ehtimolga qarshi", ipa: "əˈɡenst ɔːl ɒdz", pos: "phrase", ex: "Against all odds, the little shop survived the crisis.", exUz: "Hamma ehtimolga qarshi, kichik do'kon inqirozdan omon chiqdi." },
+    { en: "sink in", uz: "ongga yetib bormoq, anglab yetmoq", ipa: "sɪŋk ɪn", pos: "phrasal verb", ex: "The result was so unexpected that it took a while to sink in.", exUz: "Natija shu qadar kutilmagan ediki, uni anglab yetish uchun vaqt kerak bo'ldi." },
+    { en: "twist of fate", uz: "taqdir o'yini, kutilmagan taqdir burilishi", ipa: "ˌtwɪst əv ˈfeɪt", pos: "phrase", ex: "By a twist of fate, the two old friends met again at the airport.", exUz: "Taqdir o'yini bilan ikki eski do'st aeroportda yana uchrashdi." },
+    { en: "gratitude", uz: "minnatdorchilik", ipa: "ˈɡræt.ɪ.tjuːd", pos: "noun", ex: "He wrote a letter to express his gratitude.", exUz: "U minnatdorchiligini bildirish uchun xat yozdi." },
+    { en: "cherish", uz: "qadrlab saqlamoq, aziz tutmoq", ipa: "ˈtʃer.ɪʃ", pos: "verb", ex: "I will always cherish those summer evenings.", exUz: "Men o'sha yoz oqshomlarini doim aziz tutaman." },
+    { en: "resilient", uz: "chidamli, tez tiklanadigan", ipa: "rɪˈzɪl.i.ənt", pos: "adj", ex: "Children are often more resilient than adults expect.", exUz: "Bolalar ko'pincha kattalar o'ylagandan chidamliroq bo'ladi." },
+    { en: "lingering", uz: "uzoq saqlanib qoluvchi, ketmaydigan", ipa: "ˈlɪŋ.ɡər.ɪŋ", pos: "adj", ex: "A lingering doubt stopped him from signing.", exUz: "Ketmayotgan shubha uni imzo qo'yishdan to'xtatdi." },
+    { en: "fortunate", uz: "omadli, baxtli", ipa: "ˈfɔː.tʃən.ət", pos: "adj", ex: "We were fortunate to find a seat on the last train.", exUz: "Biz oxirgi poyezdda joy topganimizga omadli edik." },
+  ],
+  practice: [
+    { k: "match", pairs: [["pivotal", "hal qiluvchi"], ["gratitude", "minnatdorchilik"], ["cherish", "qadrlab saqlamoq"], ["resilient", "chidamli, tez tiklanadigan"], ["lingering", "uzoq ketmaydigan"], ["fortunate", "omadli"]] },
+    { k: "choice", q: "**The talk with my tutor was a ___ moment: it changed the direction of my studies.**", opts: ["pivotal", "resilient", "lingering", "gratitude"], a: 0, why: "Yo'nalishni o'zgartirgan payt → **pivotal moment**." },
+    { k: "choice", q: "**Despite many setbacks she stayed calm and kept trying. She is very ___.**", opts: ["gratitude", "lingering", "resilient", "in the nick of time"], a: 2, why: "Qiyinchilikka qaramay tiklanib ketish → **resilient** (sifat)." },
+    { k: "fill", q: "We reached the airport ___ the nick of time.", a: ["in"], why: "Ibora: **in the nick of time** (oxirgi daqiqada)." },
+    { k: "fill", q: "Against all ___, the small team won the competition.", a: ["odds"], why: "Ibora: **against all odds**." },
+    { k: "fill", q: "I regret refusing that job offer last year. I wish I ___ it down.", hint: "turn (not)", a: ["hadn't turned", "had not turned"], why: "O'tgan pushaymon → **wish + Past Perfect**: *hadn't turned down*." },
+    { k: "order", uz: "Agar o'sha kuni uyda qolganimda, hozir bu yerda ishlamasdim.", words: ["If", "I", "had", "stayed", "at", "home", "that", "day,", "I", "wouldn't", "be", "working", "here", "now."], extra: ["would", "stay"], why: "**If + Past Perfect**, **would + V1** (aralash shart)." },
+    { k: "tf", q: "**If I would have known, I would have called you.** — bu gap to'g'ri.", a: false, why: "**If** dan keyin **would** kelmaydi: *If I had known*." },
+    { k: "translate", uz: "Bugun u haqda minnatdorchilik bilan o'ylayman.", a: ["Today I reflect on it with gratitude.", "Today I reflect on that with gratitude.", "I reflect on it with gratitude today.", "Today I think about it with gratitude."], why: "**reflect on** + ot, **with gratitude**." },
+    { k: "listen", say: "I wish I had thanked her properly.", opts: ["I wish I had thanked her properly.", "I wish I thanked her properly.", "I wish I would thank her properly.", "I hope I had thanked her properly."], a: 0 },
+    { k: "choice", q: "Matnga ko'ra, Mrs Karimova **qachon** ish taklif qildi?", opts: ["A week after the train journey", "On the platform", "Before the interview", "The next morning"], a: 0, why: "Matnda: *a week later she offered me a place in her team*." },
+    { k: "fix", wrong: "If I wouldn't have missed the train, I wouldn't have met him.", a: ["If I hadn't missed the train, I wouldn't have met him.", "If I had not missed the train, I wouldn't have met him."], why: "**If** dan keyin **Past Perfect**, **would** emas." },
+    { k: "fix", wrong: "Suddenly I was seeing a bright light.", a: ["Suddenly I saw a bright light."], why: "**see** — holat fe'li; qisqa voqea uchun **Past Simple**." },
+    { k: "dictation", say: "It took me a week for the news to sink in.", a: ["It took me a week for the news to sink in."], uz: "Xabarni anglab yetish menga bir hafta ketdi." },
+    { k: "fill", q: "If I hadn't joined the club, I ___ my best friend now.", hint: "not know", a: ["wouldn't know", "would not know"], why: "Sabab o'tgan, natija **hozirgi** (*now*) → **would + V1**." },
+    { k: "speak", say: "Looking back, I realise how fortunate I was.", uz: "Orqaga nazar tashlasam, qanchalik omadli bo'lganimni tushunaman." },
+  ],
+  quiz: [
+    { k: "choice", q: "**The news was so surprising that it took me days to ___.**", opts: ["sink in", "cherish", "lingering", "fortunate"], a: 0, why: "Ongga yetib bormoq → **sink in**." },
+    { k: "choice", q: "Qaysi gap to'g'ri?", opts: ["If I hadn't left, I wouldn't be here now.", "If I wouldn't have left, I wouldn't be here now.", "If I didn't leave, I wouldn't be here now.", "If I hadn't left, I wouldn't have been here now."], a: 0, why: "O'tgan sabab, hozirgi natija: **If + Past Perfect, would + V1**." },
+    { k: "choice", q: "**She had ___ finished when I called.**", opts: ["already", "yet", "ago", "still"], a: 0, why: "**had already finished** — qo'ng'iroqdan oldin tugatgan." },
+    { k: "choice", q: "Which is the best ending for a reflective story?", opts: ["Looking back, I realise how much that day taught me.", "That is all I wanted to say.", "The end.", "Thank you for reading about the weather."], a: 0, why: "Yaxshi yakun bugundan qarab **xulosa** beradi." },
+    { k: "fill", q: "I ___ my grandmother's ring. It reminds me of her.", hint: "bosh harflari ch", a: ["cherish"], why: "Qadrlab saqlamoq → **cherish**." },
+    { k: "fill", q: "I wish I ___ more carefully before I signed the contract.", hint: "read", a: ["had read", "'d read"], why: "O'tgan pushaymon → **wish + Past Perfect**." },
+    { k: "listen", say: "If I hadn't overslept, I wouldn't be here now.", opts: ["If I hadn't overslept, I wouldn't be here now.", "If I didn't oversleep, I wouldn't be here now.", "If I hadn't overslept, I wouldn't have been here.", "If I overslept, I wouldn't be here now."], a: 0 },
+    { k: "tf", q: "**Past Perfect** voqealar tartibida aytilgan har bir gapda ishlatilishi kerak.", a: false, why: "Past Perfect faqat voqea ikkinchisidan **oldin** bo'lganini ko'rsatadi; oddiy ketma-ketlikda **Past Simple**." },
+    { k: "fix", wrong: "I didn't know that my life will change after that day.", a: ["I didn't know that my life would change after that day.", "I didn't know that my life was going to change after that day."], why: "O'tgan zamon hikoyasida kelajak → **would**." },
+    { k: "order", uz: "Hamma ehtimolga qarshi, u imtihondan o'tdi.", words: ["Against", "all", "odds,", "she", "passed", "the", "exam."], extra: ["pass", "odd"], why: "**Against all odds,** + gap." },
+  ],
+  summary: [
+    "Tasviriy hikoya: **boshlanish (hook), vaziyat, burilish nuqtasi, oqibat, fikr yuritish**; taxminan 250 so'z, 4–5 abzats.",
+    "Zamonlar: **Past Simple** — voqealar, **Past Continuous** — fon, **Past Perfect** — oldingi ish, **used to / would** — odat.",
+    "Reflection: **If I hadn't…, I wouldn't be…** (aralash shart) va **I wish I had…** (pushaymon).",
+    "So'zlar: **pivotal, in the nick of time, against all odds, sink in, twist of fate, gratitude, cherish, resilient, lingering, fortunate**.",
+    "Xatolar: *If I would have* emas **If I had**; *I wish I didn't go* emas **I wish I hadn't gone**; *my life will change* emas **would change**.",
+  ],
+  homework: "Hayotingizni o'zgartirgan (yoki o'zgartirishi mumkin bo'lgan) bitta kun haqida 220–250 so'zlik hikoya yozing. Reja: hook, vaziyat, burilish nuqtasi, oqibat, fikr yuritish. Kamida 1 ta aralash shart gap, 1 ta *wish* gapi, 4 ta yangi so'z va 3 xil o'tgan zamon ishlating. Tekshiruv jadvali bo'yicha o'zingizni baholang.",
+};
+
+export default lesson;

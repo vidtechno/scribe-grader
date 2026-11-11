@@ -9,13 +9,15 @@ const A1_OPEN = true;
 const A2_OPEN = true;
 /** Intermediate (B1) is open. Set to false to hide it again without touching the lessons. */
 const B1_OPEN = true;
+/** Upper-Intermediate (B2) is written but stays closed until it is released (see supabase/migrations: learning_levels.is_open). */
+const B2_OPEN = false;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },
   { id: 'a1', title: 'Elementary', cefr: 'A1', text: "Oddiy gaplarni tushunaman, o'zim haqimda biroz gapira olaman.", available: A1_OPEN },
   { id: 'a2', title: 'Pre-Intermediate', cefr: 'A2', text: "Kundalik mavzularda gaplasha olaman, lekin xatolarim ko'p.", available: A2_OPEN },
   { id: 'b1', title: 'Intermediate', cefr: 'B1', text: "Ko'p narsani tushunaman, fikrimni ayta olaman.", available: B1_OPEN },
-  { id: 'b2', title: 'Upper-Intermediate', cefr: 'B2', text: "Erkin gaplashaman, murakkab matnlarni o'qiyman.", available: false },
+  { id: 'b2', title: 'Upper-Intermediate', cefr: 'B2', text: "Erkin gaplashaman, murakkab matnlarni o'qiyman.", available: B2_OPEN },
   { id: 'c1', title: 'Advanced', cefr: 'C1', text: "Deyarli erkin, akademik ingliz tilini mukammallashtirmoqchiman.", available: false },
   { id: 'ielts', title: 'IELTS', cefr: 'IELTS', text: "IELTS imtihoniga maqsadli tayyorgarlik.", available: false },
 ];
@@ -576,14 +578,178 @@ export const B1_UNITS: UnitMeta[] = [
   },
 ];
 
+export const B2_UNITS: UnitMeta[] = [
+  {
+    id: "u24", n: 24, level: 'b2', title: "Time, habits and change", titleUz: "Vaqt, odatlar va o'zgarish: zamonlar tizimi B2 darajasida",
+    description: "Hikoya zamonlari, Present Perfect Simple va Continuous, o'tgan odatlar, kelasi zamon shakllari, holat va harakat fe'llari, o'zgarish va tendensiyalar lug'ati.",
+    learns: ["Hikoya zamonlari: Past Simple, Continuous, Perfect va Perfect Continuous birgalikda", "Present Perfect Simple yoki Continuous: natija, davomiylik va oxirgi o'zgarishlar", "O'tgan odatlar: used to, would, be used to va get used to", "Kelasi zamon: will, going to, Future Continuous, Future Perfect, be about to", "Holat va harakat fe'llari (think, have, see, taste)", "O'zgarish va tendensiyalar lug'ati, blog va jurnal maqolasi yozish"],
+    tone: "from-fuchsia-500 to-pink-400",
+    lessons: [
+      { id: "u24-l1", title: "Narrative tenses at B2", titleUz: "Hikoya zamonlari B2 darajasida: Past Simple, Continuous, Perfect va Perfect Continuous" },
+      { id: "u24-l12", title: "Past Perfect Continuous and time clauses", titleUz: "Past Perfect Continuous va vaqt gaplari: by the time, no sooner… than, hardly… when", mini: true, kind: 'grammar' },
+      { id: "u24-l2", title: "Present Perfect: simple or continuous?", titleUz: "Present Perfect Simple yoki Continuous: natija, davomiylik, so'nggi o'zgarishlar" },
+      { id: "u24-l3", title: "Past habits: used to, would and be used to", titleUz: "O'tgan odatlar: used to, would; be used to va get used to" },
+      { id: "u24-l4", title: "Talking about the future", titleUz: "Kelasi zamon: will, going to, Future Continuous va Future Perfect" },
+      { id: "u24-l13", title: "Stative and dynamic verbs", titleUz: "Holat va harakat fe'llari: think, have, see, taste, be", mini: true, kind: 'grammar' },
+      { id: "u24-l9", title: "Catching up with an old friend", titleUz: "Eski do'st bilan uchrashuv: hayotingizdagi o'zgarishlar haqida gapirish", mini: true, kind: 'situation' },
+      { id: "u24-l5", title: "Change, trends and development", titleUz: "O'zgarish va rivojlanish: so'zlar va birikmalar (rise, decline, steady, boom)" },
+      { id: "u24-l6", title: "Time linkers and sequencing", titleUz: "Vaqt bog'lovchilari va ketma-ketlik: while, as soon as, by the time, eventually, meanwhile" },
+      { id: "u24-l14", title: "Listening and speaking: a talk about change", titleUz: "Tinglash va gapirish: o'zgarish haqida podkast va 2 daqiqalik nutq", mini: true, kind: 'skill' },
+      { id: "u24-l10", title: "Rescheduling plans", titleUz: "Rejalarni o'zgartirish: uchrashuvni ko'chirish va uzr so'rash", mini: true, kind: 'situation' },
+      { id: "u24-l7", title: "Writing: a personal blog post about change", titleUz: "Yozish: o'zgarish haqida blog yozuvi (hikoya + fikr)" },
+      { id: "u24-l15", title: "Reading and writing: a magazine article", titleUz: "O'qish va yozish: jurnal maqolasi — chet elga ko'chib borish", mini: true, kind: 'skill' },
+      { id: "u24-l8", title: "Unit review: tenses and time", titleUz: "Bosqich takrori: zamonlar va vaqt ifodalari" },
+      { id: "u24-l11", title: "Time, habits and change: final review", titleUz: "Vaqt, odatlar va o'zgarish: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u25", n: 25, level: 'b2', title: "Imagination, regret and speculation", titleUz: "Tasavvur, pushaymonlik va taxmin: aralash shartlar, wish, modal perfect",
+    description: "Aralash shart gaplar, if o'rniga ishlatiladigan so'zlar, wish va if only, would rather, o'tgan zamon taxmin modallari, his-tuyg'ular va xarakter lug'ati.",
+    learns: ["Aralash shart gaplar: If I had studied, I would be… (third + second)", "If o'rniga: unless, as long as, otherwise, but for, supposing", "Wish va if only: hozirgi, o'tgan va kelasi zamon pushaymonligi", "Would rather, had better, it's time, as if / as though", "O'tgan zamon modallari: must have, can't have, might have, should have", "Hissiyot va xarakter lug'ati, taxmin qilish va ehtiyotkor gapirish"],
+    tone: "from-violet-500 to-indigo-400",
+    lessons: [
+      { id: "u25-l1", title: "Mixed conditionals", titleUz: "Aralash shart gaplar: If I had studied harder, I would be a doctor now" },
+      { id: "u25-l12", title: "Alternatives to if", titleUz: "If o'rniga: unless, as long as, otherwise, but for, supposing, provided that", mini: true, kind: 'grammar' },
+      { id: "u25-l2", title: "Wish, if only and regrets", titleUz: "Wish va if only: hozirgi, o'tgan va kelasi zamon pushaymonligi" },
+      { id: "u25-l3", title: "Would rather, it's time and as if", titleUz: "Would rather, had better, it's time, as if / as though" },
+      { id: "u25-l4", title: "Modals of deduction in the past", titleUz: "Taxmin modallari: must have, can't have, might have, could have" },
+      { id: "u25-l13", title: "Criticism and regret: should have, needn't have", titleUz: "Tanqid va afsus: should have, shouldn't have, needn't have, didn't need to", mini: true, kind: 'grammar' },
+      { id: "u25-l9", title: "Giving advice on a difficult decision", titleUz: "Qiyin qaror haqida maslahat berish", mini: true, kind: 'situation' },
+      { id: "u25-l5", title: "Feelings, personality and character", titleUz: "Hissiyotlar, shaxs va xarakter: so'zlar va birikmalar" },
+      { id: "u25-l6", title: "Speculating and hedging", titleUz: "Taxmin qilish va ehtiyotkor gapirish: perhaps, presumably, it seems that, tend to" },
+      { id: "u25-l14", title: "Listening and speaking: what would you do?", titleUz: "Tinglash va gapirish: 'Nima qilgan bo'lardingiz?' suhbati", mini: true, kind: 'skill' },
+      { id: "u25-l10", title: "Apologising and making up for a mistake", titleUz: "Uzr so'rash va xatoni to'g'rilash: rasmiy va norasmiy", mini: true, kind: 'situation' },
+      { id: "u25-l7", title: "Writing: the day that changed my life", titleUz: "Yozish: 'Hayotimni o'zgartirgan kun' — tasviriy hikoya" },
+      { id: "u25-l15", title: "Reading and writing: an opinion column", titleUz: "O'qish va yozish: gazeta ustuni — 'Agar qaytadan boshlasam…'", mini: true, kind: 'skill' },
+      { id: "u25-l8", title: "Unit review: conditionals, wishes and speculation", titleUz: "Bosqich takrori: shart gaplar, wish va taxmin" },
+      { id: "u25-l11", title: "Imagination and regret: final review", titleUz: "Tasavvur va pushaymonlik: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u26", n: 26, level: 'b2', title: "Media, technology and society", titleUz: "Ommaviy axborot va texnologiya: majhul nisbat chuqur, causative, ko'chirma gap",
+    description: "Majhul nisbat barcha zamonlarda, reporting passive, causative, ko'chirma gap B2 darajasida, ommaviy axborot va texnologiya lug'ati, fikr bildirish.",
+    learns: ["Majhul nisbat: barcha zamonlar, modallar, gerund va infinitive bilan", "Reporting passive: It is said that…, He is believed to…", "Causative: have / get something done, make / let / allow", "Ko'chirma gap B2: zamon siljishi istisnolari va reporting fe'llari qoliplari", "Ommaviy axborot va texnologiya lug'ati", "Fikr bildirish va javob berish, fikr maqolasi yozish"],
+    tone: "from-sky-500 to-blue-400",
+    lessons: [
+      { id: "u26-l1", title: "Passive voice: all tenses", titleUz: "Majhul nisbat barcha zamonlarda: is being built, has been done, will have been completed" },
+      { id: "u26-l12", title: "Passive with gerunds and infinitives", titleUz: "Majhul nisbat: being asked, to be told, get + V3", mini: true, kind: 'grammar' },
+      { id: "u26-l2", title: "Reporting passives", titleUz: "Reporting passive: It is said that…, He is believed to…, She is thought to have…" },
+      { id: "u26-l3", title: "Causative: have / get something done", titleUz: "Causative: have / get something done, make / let / allow" },
+      { id: "u26-l4", title: "Reported speech: advanced", titleUz: "Ko'chirma gap B2: zamon siljishi istisnolari, savollar va modallar" },
+      { id: "u26-l13", title: "Reporting verbs and patterns", titleUz: "Reporting fe'llari: admit, deny, accuse, insist, suggest, warn + qoliplar", mini: true, kind: 'grammar' },
+      { id: "u26-l9", title: "Reporting a problem with technology", titleUz: "Texnik muammo haqida xabar berish: servis markazi va online yordam", mini: true, kind: 'situation' },
+      { id: "u26-l5", title: "Media and technology", titleUz: "Ommaviy axborot va texnologiya: so'zlar (headline, bias, algorithm, viral, privacy)" },
+      { id: "u26-l6", title: "Expressing opinions and responding", titleUz: "Fikr bildirish va javob berish: In my view, I tend to think, to a certain extent" },
+      { id: "u26-l14", title: "Listening and speaking: a news discussion", titleUz: "Tinglash va gapirish: yangiliklar muhokamasi", mini: true, kind: 'skill' },
+      { id: "u26-l10", title: "Talking about privacy and social media", titleUz: "Ijtimoiy tarmoq va maxfiylik haqida suhbatlashish: fikr bildirish va rozi bo'lmaslik", mini: true, kind: 'situation' },
+      { id: "u26-l7", title: "Writing: an opinion article about technology", titleUz: "Yozish: texnologiya haqida fikr maqolasi (opinion article)" },
+      { id: "u26-l15", title: "Reading and writing: a news report", titleUz: "O'qish va yozish: yangilik hisoboti va uning xulosasi", mini: true, kind: 'skill' },
+      { id: "u26-l8", title: "Unit review: passive, causative and reporting", titleUz: "Bosqich takrori: majhul nisbat, causative va ko'chirma gap" },
+      { id: "u26-l11", title: "Media and technology: final review", titleUz: "Ommaviy axborot va texnologiya: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u27", n: 27, level: 'b2', title: "Work, business and formal communication", titleUz: "Ish, biznes va rasmiy muloqot: gerund / infinitive, rasmiy uslub, phrasal verbs",
+    description: "Gerund va infinitive qoliplari, fe'l + predlog, rasmiy va norasmiy uslub, ish phrasal verbs, majburiyat va ruxsat, nominalizatsiya, yig'ilish, intervyu va rasmiy xatlar.",
+    learns: ["Gerund yoki infinitive: B2 qoliplari (remember to do / doing, stop, try, regret)", "Fe'l + predlog (depend on, succeed in, insist on, object to)", "Rasmiy va norasmiy uslub, nominalizatsiya", "Phrasal verbs: ish va biznesda", "Majburiyat, ruxsat va zaruriyat: must, have to, be supposed to, need", "Ishga intervyu, yig'ilish, muzokara, rasmiy email va cover letter"],
+    tone: "from-emerald-500 to-teal-400",
+    lessons: [
+      { id: "u27-l1", title: "Gerund or infinitive? Verb patterns", titleUz: "Gerund yoki infinitive: remember to do / doing, stop, try, regret, go on" },
+      { id: "u27-l12", title: "Verbs followed by prepositions", titleUz: "Fe'l + predlog: depend on, apologise for, succeed in, insist on, object to", mini: true, kind: 'grammar' },
+      { id: "u27-l2", title: "Formal and informal register", titleUz: "Rasmiy va norasmiy uslub: so'z tanlash, qisqartmalar, passive" },
+      { id: "u27-l3", title: "Phrasal verbs at work", titleUz: "Phrasal verbs ish va biznesda: separable, inseparable, three-part" },
+      { id: "u27-l4", title: "Obligation, permission and necessity", titleUz: "Majburiyat, ruxsat va zaruriyat: must, have to, be allowed to, be supposed to, need" },
+      { id: "u27-l13", title: "Nominalisation: from verbs to nouns", titleUz: "Nominalizatsiya: fe'ldan otga (decide → decision) — rasmiy matn uchun", mini: true, kind: 'grammar' },
+      { id: "u27-l9", title: "A job interview", titleUz: "Ishga intervyu: tajriba va kuchli tomonlaringiz haqida gapirish", mini: true, kind: 'situation' },
+      { id: "u27-l5", title: "Work, careers and business", titleUz: "Ish, karyera va biznes: so'zlar va birikmalar (workforce, promotion, deadline, negotiate)" },
+      { id: "u27-l6", title: "Meetings and negotiating", titleUz: "Yig'ilish va muzokara: fikr bildirish, rozi bo'lish, taklif kiritish, kelishuvga erishish" },
+      { id: "u27-l14", title: "Listening and speaking: a work meeting", titleUz: "Tinglash va gapirish: ish yig'ilishi", mini: true, kind: 'skill' },
+      { id: "u27-l10", title: "A phone call to a client", titleUz: "Mijoz bilan telefon suhbati: ma'lumot berish va xabar qoldirish", mini: true, kind: 'situation' },
+      { id: "u27-l7", title: "Writing: a formal email and a cover letter", titleUz: "Yozish: rasmiy email va qo'shimcha xat (cover letter)" },
+      { id: "u27-l15", title: "Reading and writing: a job advert and CV", titleUz: "O'qish va yozish: ish e'loni va CV", mini: true, kind: 'skill' },
+      { id: "u27-l8", title: "Unit review: work and formal English", titleUz: "Bosqich takrori: ish va rasmiy ingliz tili" },
+      { id: "u27-l11", title: "Work and business: final review", titleUz: "Ish va biznes: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u28", n: 28, level: 'b2', title: "Argument and emphasis", titleUz: "Dalil va urg'u: cleft gaplar, inversiya, bog'lovchilar va essay",
+    description: "Cleft gaplar, inversiya, qarama-qarshilik va sabab-natija bog'lovchilari, sifatdosh gaplari, akademik lug'at, munozara va essay yozish.",
+    learns: ["Cleft gaplar: It was John who…, What I need is…", "Inversiya: Never have I…, Not only… but also, Hardly… when", "Qarama-qarshilik va sabab-natija bog'lovchilari (although, despite, whereas, consequently)", "Sifatdosh gaplari (Having finished…, Built in 1900…)", "Akademik lug'at va collocation, essay tuzilishi", "Munozara, muloyim qarshi chiqish, for-and-against / opinion essay"],
+    tone: "from-amber-500 to-orange-400",
+    lessons: [
+      { id: "u28-l1", title: "Cleft sentences", titleUz: "Cleft gaplar: It was John who…, What I need is…, All I want is…" },
+      { id: "u28-l12", title: "Fronting and emphasis", titleUz: "Urg'u uchun: emphatic do/does/did, so, such, how, rhetorical structures", mini: true, kind: 'grammar' },
+      { id: "u28-l2", title: "Inversion after negative adverbs", titleUz: "Inversiya: Never have I…, Not only… but also, Hardly… when, Only when…" },
+      { id: "u28-l3", title: "Concession and contrast linkers", titleUz: "Qarama-qarshi va to'sqinlik bog'lovchilari: although, even though, despite, whereas, nevertheless, in spite of" },
+      { id: "u28-l4", title: "Cause, result and purpose", titleUz: "Sabab, natija va maqsad: owing to, consequently, so… that, in order to, so as not to" },
+      { id: "u28-l13", title: "Participle clauses", titleUz: "Sifatdosh gaplari: Having finished, Walking home, Built in 1900", mini: true, kind: 'grammar' },
+      { id: "u28-l9", title: "Taking part in a debate", titleUz: "Munozarada qatnashish: fikr bildirish, qarshi chiqish, so'zni olish", mini: true, kind: 'situation' },
+      { id: "u28-l5", title: "Academic and formal vocabulary", titleUz: "Akademik va rasmiy lug'at: collocations (draw attention to, raise concern, play a role)" },
+      { id: "u28-l6", title: "Structuring an argument", titleUz: "Fikrni tuzish: introduction, thesis, topic sentence, examples, conclusion" },
+      { id: "u28-l14", title: "Listening and speaking: a lecture and a long turn", titleUz: "Tinglash va gapirish: ma'ruza va 2 daqiqalik nutq", mini: true, kind: 'skill' },
+      { id: "u28-l10", title: "Disagreeing politely", titleUz: "Muloyim qarshi chiqish va o'z fikrida turish", mini: true, kind: 'situation' },
+      { id: "u28-l7", title: "Writing: a for-and-against and opinion essay", titleUz: "Yozish: 'for and against' va opinion essay (250 so'z)" },
+      { id: "u28-l15", title: "Reading and writing: improving a model essay", titleUz: "O'qish va yozish: essay namunasini tahlil qilish va yaxshilash", mini: true, kind: 'skill' },
+      { id: "u28-l8", title: "Unit review: argument and emphasis", titleUz: "Bosqich takrori: dalil, urg'u va bog'lovchilar" },
+      { id: "u28-l11", title: "Argument and emphasis: final review", titleUz: "Dalil va urg'u: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u29", n: 29, level: 'b2', title: "Environment, health and the modern world", titleUz: "Atrof-muhit, salomatlik va zamonaviy dunyo: taqqoslash, miqdor, artikl, grafik tavsifi",
+    description: "Taqqoslash B2, miqdor so'zlari, artikl va aniqlovchilar, sifat va ravish, so/such/too/enough, atrof-muhit va salomatlik lug'ati, grafik va ma'lumotlarni tasvirlash.",
+    learns: ["Taqqoslash B2: the more… the more, twice as… as, far / considerably + comparative", "Miqdor so'zlari va kelishuv: a great deal of, the number of / a number of", "Artikl va aniqlovchilar B2", "Sifat va ravish: tartib, kuchaytirish, ravish o'rni; so, such, too, enough", "Atrof-muhit va salomatlik lug'ati", "Grafik va ma'lumotlarni tasvirlash, hisobot (IELTS Task 1 ko'prigi)"],
+    tone: "from-lime-500 to-green-400",
+    lessons: [
+      { id: "u29-l1", title: "Comparison at B2", titleUz: "Taqqoslash B2: the more… the more, twice as… as, far / considerably + comparative" },
+      { id: "u29-l12", title: "Superlatives and expressions of degree", titleUz: "Superlative va daraja ifodalari: by far, nowhere near, as… as ever, not quite", mini: true, kind: 'grammar' },
+      { id: "u29-l2", title: "Quantifiers and agreement", titleUz: "Miqdor so'zlari: a great deal of, a majority of, hardly any, the number of / a number of" },
+      { id: "u29-l3", title: "Articles and determiners (advanced)", titleUz: "Artikl va aniqlovchilar B2: umumiy the, zero article, such a, quite a, what a" },
+      { id: "u29-l4", title: "Adjectives, adverbs and modifying", titleUz: "Sifat va ravishlar: tartib, kuchaytirish, ravish o'rni" },
+      { id: "u29-l13", title: "So, such, too and enough", titleUz: "So, such, too, enough, (not) as… as: daraja va yetarlilik", mini: true, kind: 'grammar' },
+      { id: "u29-l9", title: "At the doctor's", titleUz: "Shifokorda: simptomlarni tasvirlash va maslahat olish", mini: true, kind: 'situation' },
+      { id: "u29-l5", title: "Environment and health", titleUz: "Atrof-muhit va salomatlik: so'zlar va birikmalar (carbon footprint, sustainable, diet)" },
+      { id: "u29-l6", title: "Describing graphs and data", titleUz: "Grafik va ma'lumotlarni tasvirlash: trend tili, taqqoslash, raqamlar (IELTS Task 1 ko'prigi)" },
+      { id: "u29-l14", title: "Listening and speaking: a science lecture", titleUz: "Tinglash va gapirish: ilmiy ma'ruza — konspekt yuritish va qisqacha aytib berish", mini: true, kind: 'skill' },
+      { id: "u29-l10", title: "Discussing a solution to a problem", titleUz: "Muammoning yechimini muhokama qilish: tavsiya va ustuvorlik", mini: true, kind: 'situation' },
+      { id: "u29-l7", title: "Writing: a report describing data", titleUz: "Yozish: ma'lumotlar bo'yicha hisobot (report)" },
+      { id: "u29-l15", title: "Reading and writing: an article about climate", titleUz: "O'qish va yozish: iqlim haqida maqola — asosiy fikr va qisqacha mazmun", mini: true, kind: 'skill' },
+      { id: "u29-l8", title: "Unit review: comparison, quantity and data", titleUz: "Bosqich takrori: taqqoslash, miqdor va ma'lumotlar tavsifi" },
+      { id: "u29-l11", title: "Environment, health and the modern world: final review", titleUz: "Atrof-muhit va salomatlik: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+  {
+    id: "u30", n: 30, level: 'b2', title: "Culture, ideas and the B2 finish", titleUz: "Madaniyat, g'oyalar va B2 yakuni: idiomalar, ellipsis, nutq oqimi, uzun javob",
+    description: "Idiomalar va collocation, ellipsis, nisbiy gaplar B2, nutq belgilari, savol shakllari, madaniyat va san'at lug'ati, uzun javob berish, taqdimot va B2 yakuniy takrori.",
+    learns: ["Idiomalar va tayyor iboralar, so'z yasalishi va collocation", "Ellipsis va almashtirish: so do I, neither am I, I think so", "Nisbiy gaplar B2: whose, of which, whom, qisqargan nisbiy gaplar", "Nutq belgilari va ravon gapirish: actually, to be honest, as a matter of fact", "Savol shakllari: indirect, negative, echo", "Uzun javob (2 daqiqa), taqdimot, sharh va hikoya yozish, B2 yakuniy takrori"],
+    tone: "from-rose-500 to-red-400",
+    lessons: [
+      { id: "u30-l1", title: "Idioms and fixed expressions", titleUz: "Idioma va tayyor iboralar: ishlatilishi va o'zbekcha ekvivalentlari" },
+      { id: "u30-l12", title: "Collocations and word formation", titleUz: "So'z yasalishi va collocation: prefix, suffix, adj + noun, verb + noun", mini: true, kind: 'grammar' },
+      { id: "u30-l2", title: "Ellipsis, substitution and avoiding repetition", titleUz: "Ellipsis va almashtirish: so do I, neither am I, I think so, to avoid repetition" },
+      { id: "u30-l3", title: "Relative clauses: advanced", titleUz: "Nisbiy gaplar B2: whose, of which, whom, qisqargan nisbiy gaplar, where / when / why" },
+      { id: "u30-l4", title: "Discourse markers in speaking", titleUz: "Nutq belgilari: well, actually, as a matter of fact, to be honest, by the way" },
+      { id: "u30-l13", title: "Question forms: indirect, negative and echo", titleUz: "Savol shakllari: indirect, negative, echo savollar", mini: true, kind: 'grammar' },
+      { id: "u30-l9", title: "Talking about culture and traditions", titleUz: "Madaniyat va an'analar haqida suhbat: o'z mamlakatingizni tushuntirish", mini: true, kind: 'situation' },
+      { id: "u30-l5", title: "Arts, culture and travel", titleUz: "San'at, madaniyat va sayohat: so'zlar va birikmalar" },
+      { id: "u30-l6", title: "Telling a story and giving a long answer", titleUz: "Hikoya qilish va uzun javob berish: IELTS Part 2 uslubi (2 daqiqa)" },
+      { id: "u30-l14", title: "Listening and speaking: a long turn", titleUz: "Tinglash va gapirish: 2 daqiqalik nutq (cue card)", mini: true, kind: 'skill' },
+      { id: "u30-l10", title: "Giving and responding to a presentation", titleUz: "Taqdimot qilish va savollarga javob berish", mini: true, kind: 'situation' },
+      { id: "u30-l7", title: "Writing: a review or a story (B2 final task)", titleUz: "Yozish: sharh va hikoya (B2 yakuniy topshirig'i)" },
+      { id: "u30-l15", title: "Reading and writing: an article about travel", titleUz: "O'qish va yozish: sayohat maqolasi", mini: true, kind: 'skill' },
+      { id: "u30-l8", title: "Unit review: the whole Upper-Intermediate level", titleUz: "Bosqich takrori: butun Upper-Intermediate darajasi" },
+      { id: "u30-l11", title: "Upper-Intermediate: final review", titleUz: "Upper-Intermediate: yakuniy takror", mini: true, kind: 'review' },
+    ],
+  },
+];
+
 /** Levels that are only partly released: shown under their units. */
 export const PARTIAL_LEVELS: Partial<Record<LevelId, string>> = {};
 
 /** Every unit of every level, in course order. */
-export const COURSE_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...(A1_OPEN ? A1_UNITS : []), ...(A2_OPEN ? A2_UNITS : []), ...(B1_OPEN ? B1_UNITS : [])];
+export const COURSE_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...(A1_OPEN ? A1_UNITS : []), ...(A2_OPEN ? A2_UNITS : []), ...(B1_OPEN ? B1_UNITS : []), ...(B2_OPEN ? B2_UNITS : [])];
 
 /** Every unit that is written, released or not (the content tests and the audio generator use this). */
-export const WRITTEN_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...A1_UNITS, ...A2_UNITS, ...B1_UNITS];
+export const WRITTEN_UNITS: UnitMeta[] = [...BEGINNER_UNITS, ...A1_UNITS, ...A2_UNITS, ...B1_UNITS, ...B2_UNITS];
 
 export function unitsOf(level: LevelId): UnitMeta[] {
   return COURSE_UNITS.filter((u) => u.level === level);
@@ -649,6 +815,13 @@ const unitLoaders: Record<string, () => Promise<{ lessons: Lesson[]; drills?: Dr
   u21: () => import('./content/b1/u21'),
   u22: () => import('./content/b1/u22'),
   u23: () => import('./content/b1/u23'),
+  u24: () => import('./content/b2/u24'),
+  u25: () => import('./content/b2/u25'),
+  u26: () => import('./content/b2/u26'),
+  u27: () => import('./content/b2/u27'),
+  u28: () => import('./content/b2/u28'),
+  u29: () => import('./content/b2/u29'),
+  u30: () => import('./content/b2/u30'),
 };
 
 export async function loadUnit(unitId: string): Promise<Lesson[]> {
@@ -701,6 +874,14 @@ export const DRILL_COUNTS: Record<string, number> = {
   'u17-l1': 1,
   // Intermediate: every unit has a practice game after l2–l7 and after each mini lesson that teaches or reviews
   'u18-l2': 1, 'u18-l3': 1, 'u18-l4': 1, 'u18-l5': 1, 'u18-l6': 1, 'u18-l7': 1, 'u18-l12': 1, 'u18-l13': 1, 'u18-l14': 1, 'u18-l15': 1, 'u18-l11': 1, 'u19-l2': 1, 'u19-l3': 1, 'u19-l4': 1, 'u19-l5': 1, 'u19-l6': 1, 'u19-l7': 1, 'u19-l12': 1, 'u19-l13': 1, 'u19-l14': 1, 'u19-l15': 1, 'u19-l11': 1, 'u20-l2': 1, 'u20-l3': 1, 'u20-l4': 1, 'u20-l5': 1, 'u20-l6': 1, 'u20-l7': 1, 'u20-l12': 1, 'u20-l13': 1, 'u20-l14': 1, 'u20-l15': 1, 'u20-l11': 1, 'u21-l2': 1, 'u21-l3': 1, 'u21-l4': 1, 'u21-l5': 1, 'u21-l6': 1, 'u21-l7': 1, 'u21-l12': 1, 'u21-l13': 1, 'u21-l14': 1, 'u21-l15': 1, 'u21-l11': 1, 'u22-l2': 1, 'u22-l3': 1, 'u22-l4': 1, 'u22-l5': 1, 'u22-l6': 1, 'u22-l7': 1, 'u22-l12': 1, 'u22-l13': 1, 'u22-l14': 1, 'u22-l15': 1, 'u22-l11': 1, 'u23-l2': 1, 'u23-l3': 1, 'u23-l4': 1, 'u23-l5': 1, 'u23-l6': 1, 'u23-l7': 1, 'u23-l12': 1, 'u23-l13': 1, 'u23-l14': 1, 'u23-l15': 1, 'u23-l11': 1,
+  // Upper-Intermediate: every unit has a practice game after l2–l7, l12–l15 and the final review
+  'u24-l2': 1, 'u24-l3': 1, 'u24-l4': 1, 'u24-l5': 1, 'u24-l6': 1, 'u24-l7': 1, 'u24-l12': 1, 'u24-l13': 1, 'u24-l14': 1, 'u24-l15': 1, 'u24-l11': 1,
+  'u25-l2': 1, 'u25-l3': 1, 'u25-l4': 1, 'u25-l5': 1, 'u25-l6': 1, 'u25-l7': 1, 'u25-l12': 1, 'u25-l13': 1, 'u25-l14': 1, 'u25-l15': 1, 'u25-l11': 1,
+  'u26-l2': 1, 'u26-l3': 1, 'u26-l4': 1, 'u26-l5': 1, 'u26-l6': 1, 'u26-l7': 1, 'u26-l12': 1, 'u26-l13': 1, 'u26-l14': 1, 'u26-l15': 1, 'u26-l11': 1,
+  'u27-l2': 1, 'u27-l3': 1, 'u27-l4': 1, 'u27-l5': 1, 'u27-l6': 1, 'u27-l7': 1, 'u27-l12': 1, 'u27-l13': 1, 'u27-l14': 1, 'u27-l15': 1, 'u27-l11': 1,
+  'u28-l2': 1, 'u28-l3': 1, 'u28-l4': 1, 'u28-l5': 1, 'u28-l6': 1, 'u28-l7': 1, 'u28-l12': 1, 'u28-l13': 1, 'u28-l14': 1, 'u28-l15': 1, 'u28-l11': 1,
+  'u29-l2': 1, 'u29-l3': 1, 'u29-l4': 1, 'u29-l5': 1, 'u29-l6': 1, 'u29-l7': 1, 'u29-l12': 1, 'u29-l13': 1, 'u29-l14': 1, 'u29-l15': 1, 'u29-l11': 1,
+  'u30-l2': 1, 'u30-l3': 1, 'u30-l4': 1, 'u30-l5': 1, 'u30-l6': 1, 'u30-l7': 1, 'u30-l12': 1, 'u30-l13': 1, 'u30-l14': 1, 'u30-l15': 1, 'u30-l11': 1,
   // Elementary rebuild
   'u6-l3': 1, 'u6-l12': 1, 'u6-l14': 1, 'u6-l13': 1, 'u6-l15': 1, 'u6-l11': 1, 'u7-l1': 1, 'u7-l12': 1, 'u7-l13': 1, 'u7-l14': 1, 'u7-l15': 1, 'u7-l11': 1, 'u8-l1': 1, 'u8-l12': 1, 'u8-l13': 1, 'u8-l14': 1, 'u8-l15': 1, 'u8-l11': 1, 'u9-l7': 1, 'u9-l12': 1, 'u9-l13': 1, 'u9-l14': 1, 'u9-l15': 1, 'u9-l11': 1, 'u10-l2': 1, 'u10-l13': 1, 'u10-l12': 1, 'u10-l14': 1, 'u10-l15': 1, 'u10-l11': 1, 'u11-l7': 1, 'u11-l12': 1, 'u11-l13': 1, 'u11-l14': 1, 'u11-l15': 1, 'u11-l11': 1,
   // Pre-Intermediate rebuild
