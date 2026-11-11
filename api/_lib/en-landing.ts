@@ -13,7 +13,7 @@ export const EN_LANDING_FAQ = [
   { q: 'Do I need to speak Uzbek to use this course?', a: 'Yes, in practice. Every explanation is written in Uzbek and compared with Uzbek grammar; only the examples, exercises and audio are in English. If you do not speak Uzbek, this is not the right course for you.' },
   { q: 'Can I learn English from zero in Uzbek?', a: 'Yes. There is a full beginner course for Uzbek speakers: explanations in Uzbek, examples and exercises in English, and audio for every word.' },
   { q: 'Is the course free?', a: 'Every new account gets a 7-day free trial of the Learn course. After that you can continue with a paid plan, paid in Uzbek sums.' },
-  { q: 'Which levels are available?', a: 'Beginner, Elementary (A1), Pre-Intermediate (A2) and Intermediate (B1), with unit tests and a placement test if you already know some English.' },
+  { q: 'Which levels are available?', a: 'Beginner, Elementary (A1), Pre-Intermediate (A2), Intermediate (B1) and Upper-Intermediate (B2), with unit tests and a placement test if you already know some English.' },
   { q: 'Does it work on a phone?', a: 'Yes. Lessons run in the browser on any phone or computer, and there is a Telegram bot with reminders and a Mini App.' },
   { q: 'Is this IELTS preparation?', a: 'No. This course teaches general English. IELTS practice (Writing and Speaking with AI-estimated bands, Reading and Listening tests) is a separate part of Scorify.uz, with its own page in English and in Uzbek.' },
 ];
@@ -39,7 +39,7 @@ ${ctaBox('Start learning English in Uzbek', 'Create an account with Google or Te
 </div></main>`;
   return page({
     title: 'English Course with Uzbek Explanations | Scorify.uz',
-    description: `English course for Uzbek speakers: ${total} lessons from Beginner to Intermediate (B1) explained in Uzbek, with audio, exercises and tests. 7-day free trial.`,
+    description: `English course for Uzbek speakers: ${total} lessons from Beginner to Upper-Intermediate (B2) explained in Uzbek, with audio, exercises and tests. 7-day free trial.`,
     path: EN_LANDING, lang: 'en', body, ctaNext: '/learn',
     jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'English course with Uzbek explanations', path: EN_LANDING }]), faqLd(EN_LANDING_FAQ),
       { '@context': 'https://schema.org', '@type': 'Course', name: 'English course for Uzbek speakers', description: 'English from zero to B1, explained in Uzbek.', inLanguage: 'uz', provider: { '@type': 'Organization', name: 'Scorify.uz', url: SITE }, educationalLevel: 'Beginner to B1' }],

@@ -633,6 +633,7 @@ export default function Index() {
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/elementary">Elementary (A1)</a>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/pre-intermediate">Pre-Intermediate (A2)</a>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/intermediate">Intermediate (B1)</a>
+            <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari/upper-intermediate">Upper-Intermediate (B2)</a>
             <a className="block text-muted-foreground hover:text-primary" href="/ingliz-tili-darslari">{t('landing.footer.allLessons')}</a>
             <a className="block text-muted-foreground hover:text-primary" href="#pricing">{t('landing.footer.pricing')}</a></div>
           <div className="space-y-2"><p className="font-semibold">IELTS</p>
