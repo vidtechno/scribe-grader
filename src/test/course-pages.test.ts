@@ -10,7 +10,7 @@ import { COURSE } from '../../api/_lib/data-course';
 import { LEARN_PRICE_UZS, TRIAL_DAYS } from '../../api/_lib/course-pages';
 import { LEARN_TRIAL_DAYS, PLAN_ENTITLEMENTS } from '../lib/plans';
 
-const OPEN = ['beginner', 'elementary', 'pre-intermediate', 'intermediate'];
+const OPEN = ['beginner', 'elementary', 'pre-intermediate', 'intermediate', 'upper-intermediate'];
 const levels = COURSE.filter((l) => OPEN.includes(l.slug));
 const count = (l: (typeof COURSE)[number]) => l.units.reduce((n, u) => n + u.lessons.length, 0);
 

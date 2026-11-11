@@ -105,7 +105,7 @@ const COPY: Record<HubLang, Copy> = {
     planPlus: `IELTS tarifi har oy ${L.writing} ta Writing va ${L.speaking} ta Speaking baholash, barcha ${L.readingTests} ta Reading va ${L.listeningTests} ta Listening testini cheklovsiz va har oy ${L.mock} ta mock testni qo‘shadi.`,
     planNote: 'Cheklovlar o‘zgarishi mumkin; joriy tariflar ilovadagi narxlar sahifasida ko‘rsatiladi.',
     guidesH: 'IELTS bo‘yicha o‘zbekcha qo‘llanmalar', guidesAll: ['/uz/blog', 'Barcha o‘zbekcha maqolalar'], guidesOther: ['/blog', 'Articles in English'],
-    alsoH: 'Umumiy ingliz tili', alsoText: 'Ingliz tilini noldan o‘rganmoqchi bo‘lsangiz, Scorify da o‘zbekcha tushuntirishli kurs bor: Beginner dan Intermediate (B1) gacha.', alsoLink: ['/ingliz-tili-darslari', 'Ingliz tili darslari (o‘zbek tilida)'],
+    alsoH: 'Umumiy ingliz tili', alsoText: 'Ingliz tilini noldan o‘rganmoqchi bo‘lsangiz, Scorify da o‘zbekcha tushuntirishli kurs bor: Beginner dan Upper-Intermediate (B2) gacha.', alsoLink: ['/ingliz-tili-darslari', 'Ingliz tili darslari (o‘zbek tilida)'],
     faqH: 'IELTS mashqlari bo‘yicha savollar',
     faq: [
       { q: 'Bandlar rasmiymi?', a: 'Yo‘q. Writing va Speaking bandlari AI taxminidir, Reading va Listening bandlari esa haqiqiy testlarga yaqin xom ball jadvalidan olinadi. Ular qayerda turganingizni va nimani yaxshilash kerakligini ko‘rsatadi, imtihon natijasini kafolatlamaydi.' },

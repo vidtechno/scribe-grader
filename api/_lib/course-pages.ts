@@ -8,7 +8,7 @@ import { WORD_TOPICS } from './data-learn-words.js';
 
 export const COURSE_BASE = '/ingliz-tili-darslari';
 
-const OPEN_LEVELS = new Set(['beginner', 'elementary', 'pre-intermediate', 'intermediate']);
+const OPEN_LEVELS = new Set(['beginner', 'elementary', 'pre-intermediate', 'intermediate', 'upper-intermediate']);
 const COURSE = ALL_COURSE.filter(l => OPEN_LEVELS.has(l.slug));
 
 /** Same numbers as src/lib/plans.ts (LEARN_TRIAL_DAYS and the Learn plan); src/test/course-pages.test.ts keeps them in sync. */
@@ -52,6 +52,14 @@ const INFO: Record<string, LevelInfo> = {
     after: ["Present Perfect va Past Perfect bilan tajriba va voqealarni hikoya qilasiz", "Shart gaplar (second va third conditional) va wish bilan tasavvur va pushaymonlikni aytasiz", "Fikringizni asoslab aytasiz, majhul nisbat va ko'chirma gapni erkin ishlatasiz"],
     metaTitle: n => `Intermediate (B1) ingliz tili kursi: ${n.lessons} dars o'zbekcha`,
     metaDesc: n => `Intermediate (B1) ingliz tili darslari: Present Perfect, Past Perfect, ko'chirma gap, shart gaplar, majhul nisbat, gerund va infinitive. ${n.lessons} ta dars o'zbek tilida.`,
+  },
+  'upper-intermediate': {
+    h1: "Upper-Intermediate (B2) ingliz tili kursi",
+    lead: "Murakkab mavzularda erkin va aniq gapirish: hikoya zamonlari, aralash shartlar, wish va pushaymonlik, majhul nisbat va causative, ommaviy axborot va texnologiya, rasmiy yozuv va munozara.",
+    who: "B1 darajasini tugatgan va IELTS yoki ish uchun ingliz tilini yuqori darajaga olib chiqmoqchi bo'lganlar uchun.",
+    after: ["Hikoya zamonlarini (Past Simple, Continuous, Perfect) birga ishlatib voqealarni aytasiz", "Aralash shart gaplar, wish va modal perfect bilan tasavvur va pushaymonlikni ifodalaysiz", "Majhul nisbat, causative va ko'chirma gapni B2 darajasida ishlatasiz, rasmiy xat va fikr-mulohaza yozasiz"],
+    metaTitle: n => `Upper-Intermediate (B2) ingliz tili kursi: ${n.lessons} dars o'zbekcha`,
+    metaDesc: n => `Upper-Intermediate (B2) ingliz tili darslari: aralash shartlar, wish, modal perfect, majhul nisbat, causative, ko'chirma gap, rasmiy yozuv. ${n.lessons} ta dars o'zbek tilida, audio va mashqlar bilan.`,
   },
 };
 
@@ -99,7 +107,7 @@ ${ctaBox("Kursni hoziroq boshlang", `Ro'yxatdan o'ting va o'z darajangizni tanla
 </div></main>`;
   return page({
     title: "Ingliz tilini noldan o'rganish: darslar, mashqlar | Scorify.uz",
-    description: `Ingliz tilini noldan o'rganing: Beginner'dan Intermediate (B1)gacha, jami ${total} ta dars. O'zbekcha tushuntirish, talaffuz audiosi, mashqlar va testlar.`,
+    description: `Ingliz tilini noldan o'rganing: Beginner'dan Upper-Intermediate (B2)gacha, jami ${total} ta dars. O'zbekcha tushuntirish, talaffuz audiosi, mashqlar va testlar.`,
     path: COURSE_BASE, lang: 'uz', body,
     jsonLd: [breadcrumbLd([{ name: 'Bosh sahifa', path: '/' }, { name: 'Ingliz tili darslari', path: COURSE_BASE }]), faqLd,
       { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Ingliz tili kurslari', itemListElement: COURSE.map((l, i) => ({ '@type': 'ListItem', position: i + 1, name: `${l.title} (${l.cefr})`, url: SITE + levelPath(l) })) }],

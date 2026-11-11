@@ -13,7 +13,7 @@ export const GUIDE_BASE = '/ingliz-tili-qoidalari';
 export const WORDS_BASE = '/inglizcha-sozlar';
 export const EN_LANDING = '/learn-english-from-uzbek';
 
-const LEVEL_TITLE: Record<string, string> = { beginner: 'Beginner', elementary: 'Elementary (A1)', 'pre-intermediate': 'Pre-Intermediate (A2)', intermediate: 'Intermediate (B1)' };
+const LEVEL_TITLE: Record<string, string> = { beginner: 'Beginner', elementary: 'Elementary (A1)', 'pre-intermediate': 'Pre-Intermediate (A2)', intermediate: 'Intermediate (B1)', 'upper-intermediate': 'Upper-Intermediate (B2)' };
 const lessonHref = (l: [string, string]) => `${COURSE_BASE}/${l[0]}/${l[1]}`;
 const lessonTitle = (l: [string, string]) => COURSE.find(x => x.slug === l[0])?.units.flatMap(u => u.lessons).find(x => x.slug === l[1])?.titleUz ?? '';
 const lessonId = (l: [string, string]) => COURSE.find(x => x.slug === l[0])?.units.flatMap(u => u.lessons).find(x => x.slug === l[1])?.id;
@@ -202,7 +202,7 @@ const COURSE_LESSON_TOTAL = COURSE.reduce((n, l) => n + l.units.reduce((m, u) =>
 const EN_FAQ = [
   { q: 'Can I learn English from zero in Uzbek?', a: 'Yes. Scorify.uz has a full beginner course for Uzbek speakers: every explanation is in Uzbek, examples and exercises are in English, and every word has audio.' },
   { q: 'Is the course free?', a: 'Every new account gets a 7-day free trial of the course. After that you can continue with a paid plan, paid in Uzbek sums.' },
-  { q: 'Which levels are available?', a: `Beginner, Elementary (A1), Pre-Intermediate (A2) and Intermediate (B1): ${COURSE_LESSON_TOTAL} lessons in total, with unit tests and a placement test if you already know some English.` },
+  { q: 'Which levels are available?', a: `Beginner, Elementary (A1), Pre-Intermediate (A2), Intermediate (B1) and Upper-Intermediate (B2): ${COURSE_LESSON_TOTAL} lessons in total, with unit tests and a placement test if you already know some English.` },
   { q: 'Does it work on a phone?', a: 'Yes. Lessons run in the browser on any phone or computer, and there is a Telegram bot with reminders and a Mini App.' },
   { q: 'Is there IELTS preparation too?', a: 'Yes. Scorify.uz also gives AI feedback on IELTS Writing and Speaking with estimated band scores, plus free sample answers and guides.' },
 ];
@@ -224,7 +224,7 @@ ${ctaBox('Start learning English today', 'Create an account in one tap with Goog
 </div></main>`;
   return page({
     title: 'Learn English from Uzbek: beginner course online | Scorify.uz',
-    description: `Learn English from zero with explanations in Uzbek: ${total} lessons from Beginner to Intermediate (B1), audio, exercises and tests. Start with a free trial on Scorify.uz.`,
+    description: `Learn English from zero with explanations in Uzbek: ${total} lessons from Beginner to Upper-Intermediate (B2), audio, exercises and tests. Start with a free trial on Scorify.uz.`,
     path: EN_LANDING, lang: 'en', body,
     alternates: [{ lang: 'en', path: EN_LANDING }, { lang: 'uz', path: COURSE_BASE }, { lang: 'x-default', path: COURSE_BASE }],
     jsonLd: [breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Learn English from Uzbek', path: EN_LANDING }]), faqLd(EN_FAQ, 'en'),
