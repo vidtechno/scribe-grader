@@ -1,7 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import { BILLING_MONTHS, type Billing } from '@/lib/plans';
 
-export type CheckoutMethod = 'click' | 'payme';
+export type CheckoutMethod = 'click' | 'payme' | 'uzcard' | 'paynet';
 export type PaymentState = 'paid' | 'pending' | 'failed' | 'expired' | 'error';
 
 async function failure(error: unknown, fallback: string): Promise<Error> {

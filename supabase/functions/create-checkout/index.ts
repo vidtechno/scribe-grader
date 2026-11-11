@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getRequestUser, serviceClient } from "../_shared/quota.ts";
 import { isRecord, json, preflight } from "../_shared/http.ts";
 import { checkoutCall, checkoutKey } from "../_shared/checkout.ts";
-import { isMethod, isPaidPlan, isPeriod, payerUrl, PERIOD_DAYS, PLAN_NAME, webhookToken } from "../_shared/checkout-core.ts";
+import { DIRECT_METHODS, isMethod, isPaidPlan, isPeriod, payerUrl, PERIOD_DAYS, PLAN_NAME, webhookToken } from "../_shared/checkout-core.ts";
 
 const SITE_URL = (Deno.env.get("SITE_URL") ?? "https://www.scorify.uz").replace(/\/+$/, "");
 const MAX_INVOICES_PER_HOUR = 10;
@@ -41,7 +41,7 @@ serve(async (req) => {
       .eq("months", months).eq("status", "pending").eq("amount_uzs", price).not("checkout_url", "is", null).gte("created_at", reuseSince)
       .order("created_at", { ascending: false }).limit(1).maybeSingle();
     if (existing?.checkout_url) {
-      const direct = method && existing.checkout_uuid ? `https://checkout.uz/pay/${existing.checkout_uuid}/${method}` : existing.checkout_url;
+      const direct = method && DIRECT_METHODS.includes(method) && existing.checkout_uuid ? `https://checkout.uz/pay/${existing.checkout_uuid}/${method}` : existing.checkout_url;
       return json(req, { payment_id: existing.id, url: direct, amount: existing.amount_uzs });
     }
 

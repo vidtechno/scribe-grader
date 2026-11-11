@@ -10,7 +10,7 @@ import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
 import { loadActivePlans } from '@/lib/cached-plans';
-import { BEGINNER_UNITS, A1_UNITS, A2_UNITS, B1_UNITS } from '@/features/learn/course';
+import { BEGINNER_UNITS, A1_UNITS, A2_UNITS, B1_UNITS, B2_UNITS } from '@/features/learn/course';
 import { motion } from 'framer-motion';
 import { track } from '@/lib/analytics';
 import {
@@ -83,9 +83,11 @@ export default function Index() {
     a2Lessons: A2_UNITS.reduce((n, u) => n + u.lessons.length, 0),
     b1Units: B1_UNITS.length,
     b1Lessons: B1_UNITS.reduce((n, u) => n + u.lessons.length, 0),
+    b2Units: B2_UNITS.length,
+    b2Lessons: B2_UNITS.reduce((n, u) => n + u.lessons.length, 0),
   }), []);
 
-  const totalLessons = counts.beginnerLessons + counts.a1Lessons + counts.a2Lessons + counts.b1Lessons;
+  const totalLessons = counts.beginnerLessons + counts.a1Lessons + counts.a2Lessons + counts.b1Lessons + counts.b2Lessons;
 
   const steps = [
     { icon: BookOpen, k: 'explain' },
@@ -111,6 +113,7 @@ export default function Index() {
     { title: 'Elementary', tag: 'A1', k: 'a1', exam: true, units: counts.a1Units, lessons: counts.a1Lessons, tone: 'from-indigo-500 to-blue-400' },
     { title: 'Pre-Intermediate', tag: 'A2', k: 'a2', exam: true, units: counts.a2Units, lessons: counts.a2Lessons, tone: 'from-emerald-500 to-teal-400' },
     { title: 'Intermediate', tag: 'B1', k: 'b1', exam: true, units: counts.b1Units, lessons: counts.b1Lessons, tone: 'from-violet-500 to-purple-400' },
+    { title: 'Upper-Intermediate', tag: 'B2', k: 'b2', exam: true, units: counts.b2Units, lessons: counts.b2Lessons, tone: 'from-sky-500 to-cyan-400' },
   ].map(l => ({ ...l, text: t(`landing.level.${l.k}.text`) }));
 
   // The English page leads with the IELTS questions; the Uzbek page with the English course.
@@ -390,7 +393,7 @@ export default function Index() {
             <Languages className="h-5 w-5 text-primary mt-0.5 shrink-0" />
             <p className="text-sm text-muted-foreground leading-relaxed"><b className="text-foreground">{t('landing.course.uzNote.title')}.</b> {t('landing.course.uzNote.text')}</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
             {levels.map(l => (
               <div key={l.title} className={`rounded-3xl p-6 text-white bg-gradient-to-br ${l.tone} shadow-lg`}>
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-90">{l.tag}</p>
