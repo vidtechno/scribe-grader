@@ -10,7 +10,7 @@ const A2_OPEN = true;
 /** Intermediate (B1) is open. Set to false to hide it again without touching the lessons. */
 const B1_OPEN = true;
 /** Upper-Intermediate (B2) is written but stays closed until it is released (see supabase/migrations: learning_levels.is_open). */
-const B2_OPEN = false;
+const B2_OPEN = true;
 
 export const LEVELS: { id: LevelId; title: string; cefr: string; text: string; available: boolean }[] = [
   { id: 'beginner', title: 'Beginner', cefr: 'Noldan', text: "Ingliz tilini umuman bilmayman yoki juda kam bilaman. Harflar va tovushlardan boshlaymiz.", available: true },

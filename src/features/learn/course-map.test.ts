@@ -9,9 +9,9 @@ const base = { profile: { level: 'beginner', xp: 0, trial_started_at: '', next_l
 const done = (...ids: string[]) => ({ ...base, progress: ids.map((id) => ({ lesson_id: id, best_score: 10, total: 10, stars: 3, attempts: 1, completed_at: '2026-10-01' })) }) as LearningState;
 
 describe('courseMap with short lessons', () => {
-  it('Beginner, Elementary, Pre-Intermediate and Intermediate are on the course path', () => {
+  it('Beginner to Upper-Intermediate are on the course path', () => {
     expect(courseMap(base).total).toBeGreaterThan(0);
-    expect(courseMap(base).unitsTotal).toBe(23);
+    expect(courseMap(base).unitsTotal).toBe(30);
   });
 
   it('short lessons stay locked until the lessons before them are done', () => {
@@ -101,7 +101,8 @@ describe('levels below the starting level', () => {
   it('someone starting at Intermediate sees Beginner, Elementary and Pre-Intermediate open, and only the first Intermediate lesson as the next step', async () => {
     const { COURSE_UNITS } = await import('./course');
     const m = courseMap(at('b1'));
-    for (const u of COURSE_UNITS.filter((x) => x.level !== 'b1')) for (const l of u.lessons) expect(m.lessonState.get(l.id), l.id).toBe('open');
+    for (const u of COURSE_UNITS.filter((x) => x.level !== 'b1' && x.level !== 'b2')) for (const l of u.lessons) expect(m.lessonState.get(l.id), l.id).toBe('open');
+    for (const u of COURSE_UNITS.filter((x) => x.level === 'b2')) for (const l of u.lessons) expect(m.lessonState.get(l.id), l.id).toBe('locked');
     const b1 = COURSE_UNITS.filter((u) => u.level === 'b1').flatMap((u) => u.lessons);
     expect(m.lessonState.get(b1[0].id)).toBe('current');
     expect(m.lessonState.get(b1[1].id)).toBe('locked');
