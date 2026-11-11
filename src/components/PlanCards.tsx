@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, MessageCircle, GraduationCap, Mic, PenLine, Target } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Check, CreditCard, GraduationCap, Mic, PenLine, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { PayDialog } from '@/components/PayDialog';
+import { useAuth } from '@/hooks/useAuth';
+import { usePaymentSettings } from '@/hooks/usePaymentSettings';
 import { useT } from '@/i18n';
-import { BILLING_DISCOUNT, billingLabel, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice } from '@/lib/plans';
+import { BILLING_DISCOUNT, billingLabel, formatUzs, planTotalUzs, visaLink, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice } from '@/lib/plans';
 
 export interface PlanRow {
   slug: string;
@@ -18,9 +22,18 @@ export interface PlanRow {
 const TAGLINE: Record<string, string> = { go: 'plans.tagline.go', plus: 'plans.tagline.plus' };
 
 /** Learn and IELTS side by side, with a 1 month / 6 months (-10%) switch. Used on the landing page and in the pricing dialog. */
-export function PlanCards({ plans, currentPlan }: { plans: PlanRow[]; currentPlan?: string; publicId?: string | null }) {
+export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; currentPlan?: string; publicId?: string | null }) {
   const { t, lang } = useT();
   const [billing, setBilling] = useState<Billing>('month');
+  const [paying, setPaying] = useState<string | null>(null);
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
+  const { testPriceUzs } = usePaymentSettings();
+  const payAmount = (slug: string) => testPriceUzs ?? planTotalUzs(slug, billing);
+  const choose = (slug: string) => {
+    if (!user) { navigate('/auth'); return; }
+    setPaying(slug);
+  };
   return (
     <div>
       <div className="max-w-4xl mx-auto mb-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm flex items-start gap-3">
@@ -85,20 +98,21 @@ export function PlanCards({ plans, currentPlan }: { plans: PlanRow[]; currentPla
                   {t('plans.current')}
                 </Button>
               ) : (
-                <Button asChild variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto">
-                  <a href="https://t.me/scorify_support" target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-4 w-4" />
-                    {t('plans.support.cta')}
-                  </a>
+                <Button variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto" onClick={() => choose(plan.slug)}>
+                  <CreditCard className="h-4 w-4" />
+                  {`${t('plans.buy', { name: e.name })}${billing !== 'month' ? ` · ${billingLabel(lang, billing)}` : ''}`}
                 </Button>
               )}
-              <p className="mt-2 text-center text-xs text-muted-foreground">
-                {t('plans.support.note')}
-              </p>
+              <a href={visaLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer"
+                className="mt-2 text-center text-xs text-muted-foreground hover:text-primary hover:underline">
+                {t('plans.visa.short')}
+              </a>
             </motion.div>
           );
         })}
       </div>
+      {testPriceUzs !== null && <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">{t('plans.testMode', { amount: formatUzs(testPriceUzs) })}</p>}
+      {paying && <PayDialog open onOpenChange={(v) => { if (!v) setPaying(null); }} plan={paying} billing={billing} amountUzs={payAmount(paying)} testMode={testPriceUzs !== null} />}
       <p className="text-xs text-muted-foreground text-center mt-6">
         {t('plans.footer.a', { period: t(`plans.valid.${billing}`) })}
         {billing === 'month' ? '' : t('plans.footer.renew')}. {t('plans.footer.b')} <span className="text-primary font-semibold">@scorify_support</span>.
