@@ -22,6 +22,7 @@ import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
 import { ContinueCard } from '@/features/learn/components/ContinueCard';
 import { GoalStreak } from '@/features/learn/components/GoalStreak';
+import { StreakGuard } from '@/features/learn/components/StreakGuard';
 import { DailyCard } from '@/features/learn/components/DailyCard';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
@@ -161,6 +162,7 @@ function CourseHome({ state }: { state: LearningState }) {
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
+      {!locked && tab === 'map' && <StreakGuard state={state} />}
       {!locked && tab === 'map' && <ContinueCard state={state} />}
       {!locked && tab === 'map' && <div className="grid gap-3 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]"><GoalStreak state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
 
