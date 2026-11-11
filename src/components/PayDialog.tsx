@@ -9,12 +9,24 @@ import { Rich } from '@/i18n/rich';
 import { useAuth } from '@/hooks/useAuth';
 import { billingLabel, formatUzs, getPlanEntitlement, planPrice, visaLink, type Billing } from '@/lib/plans';
 
-const METHODS: { id: CheckoutMethod; name: string; hint: string; className: string }[] = [
-  { id: 'click', name: 'Click', hint: 'pay.click.hint', className: 'bg-[#00b5ff] hover:bg-[#0099dd] text-white' },
-  { id: 'payme', name: 'Payme', hint: 'pay.payme.hint', className: 'bg-[#33cccc] hover:bg-[#29b3b3] text-slate-900' },
+/**
+ * Payment systems offered through Checkout.uz. Logos are the systems' own brand files: put them at public/pay/<id>.svg
+ * (click, payme, uzcard-humo, paynet); until a file exists the name is shown instead.
+ */
+const METHODS: { id: CheckoutMethod; name: string; logo: string; hint: string }[] = [
+  { id: 'click', name: 'Click', logo: '/pay/click.svg', hint: 'pay.click.hint' },
+  { id: 'payme', name: 'Payme', logo: '/pay/payme.svg', hint: 'pay.payme.hint' },
+  { id: 'uzcard', name: 'Uzcard / Humo', logo: '/pay/uzcard-humo.svg', hint: 'pay.card.hint' },
+  { id: 'paynet', name: 'Paynet', logo: '/pay/paynet.svg', hint: 'pay.paynet.hint' },
 ];
 
-/** Asks how to pay (Click or Payme), creates the invoice and sends the payer to the payment page. */
+function MethodLogo({ src, name }: { src: string; name: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <span className="font-bold">{name}</span>;
+  return <img src={src} alt={name} className="h-7 max-w-[120px] object-contain" onError={() => setFailed(true)} />;
+}
+
+/** Asks how to pay (Click, Payme, Uzcard/Humo or Paynet), creates the invoice and sends the payer to the payment page. */
 export function PayDialog({ open, onOpenChange, plan, billing, amountUzs, testMode }: {
   open: boolean; onOpenChange: (open: boolean) => void; plan: string; billing: Billing; amountUzs: number; testMode: boolean;
 }) {
@@ -45,19 +57,21 @@ export function PayDialog({ open, onOpenChange, plan, billing, amountUzs, testMo
             {testMode && <span className="block mt-1 text-amber-600 dark:text-amber-400">{t('pay.test')}</span>}
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-3">
+        <div className="grid grid-cols-2 gap-3">
           {METHODS.map((m) => (
-            <Button key={m.id} type="button" disabled={!!busy} onClick={() => pay(m.id)} className={`h-14 justify-between text-base font-bold ${m.className}`}>
-              <span>{m.name}</span>
-              {busy === m.id ? <Loader2 className="h-5 w-5 animate-spin" /> : <span className="text-xs font-medium opacity-80">{t(m.hint)}</span>}
+            <Button key={m.id} type="button" variant="outline" disabled={!!busy} onClick={() => pay(m.id)} className="h-20 flex-col gap-1 bg-white text-slate-900 hover:bg-slate-50 border-slate-200 dark:border-slate-700">
+              {busy === m.id ? <Loader2 className="h-6 w-6 animate-spin" /> : <MethodLogo src={m.logo} name={m.name} />}
+              <span className="text-[11px] font-medium text-slate-500">{t(m.hint)}</span>
             </Button>
           ))}
         </div>
-        <div className="rounded-xl border border-border bg-secondary/40 p-3 text-xs">
-          <p className="font-semibold mb-1">{t('plans.visa.heading')}</p>
+        <details className="rounded-xl border border-border bg-secondary/40 p-3 text-xs">
+          <summary className="cursor-pointer font-semibold">{t('plans.visa.heading')}</summary>
+          <div className="mt-2">
           <p className="text-muted-foreground mb-2">{t('plans.visa.text', { name, period: billingLabel(lang, billing), usd: planPrice(plan, billing).usd })}</p>
           <a href={visaLink(plan, billing, profile?.public_id, lang)} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">💳 {t('plans.visa.cta')} →</a>
-        </div>
+          </div>
+        </details>
         <p className="text-xs text-muted-foreground flex items-start gap-2">
           <ShieldCheck className="h-4 w-4 shrink-0 mt-0.5" />
           {t('pay.secure')}

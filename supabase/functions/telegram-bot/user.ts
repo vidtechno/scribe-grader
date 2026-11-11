@@ -549,10 +549,10 @@ export async function showPlan(ctx: Ctx) {
     plan === "plus" ? "📖 Reading va 🎧 Listening  ♾ cheksiz" : `📖 Reading va 🎧 Listening  ${hint("3 tadan test ochiq")}`,
     "",
     quote([
-      "<b>Learn</b> — 99 000 so'm oyiga <i>($4.99)</i>",
+      "<b>Learn</b> — 99 000 so'm oyiga <i>($9)</i>",
       hint("Barcha ingliz tili darslari · adaptiv o'rganish · so'z va grammatika takrori · XP va streak"),
       "",
-      "<b>IELTS</b> — 149 000 so'm oyiga <i>($11.99)</i>",
+      "<b>IELTS</b> — 149 000 so'm oyiga <i>($14)</i>",
       hint("Learn'dagi hammasi + cheksiz Reading va Listening · 50 Writing · 30 Speaking · AI baholash va tahlil"),
       "",
       "🎁 Yangi hisob: <b>7 kun Learn bepul</b> + 1 Writing, 1 Speaking va 3 tadan Reading hamda Listening testi. IELTS tarifida bepul davr yo'q.",

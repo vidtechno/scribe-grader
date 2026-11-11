@@ -3,11 +3,13 @@
 export const CHECKOUT_BASE = "https://checkout.uz/api/v1";
 export const PERIOD_DAYS: Record<number, number> = { 1: 30, 3: 90, 6: 180 };
 export const PLAN_NAME: Record<string, string> = { go: "Learn", plus: "IELTS" };
-export type CheckoutMethod = "click" | "payme";
+// click and payme have their own direct links; uzcard (Uzcard/Humo) and paynet open the hosted Checkout page, where the payer picks them.
+export type CheckoutMethod = "click" | "payme" | "uzcard" | "paynet";
+export const DIRECT_METHODS: readonly string[] = ["click", "payme"];
 
 export const isPeriod = (v: unknown): v is 1 | 3 | 6 => v === 1 || v === 3 || v === 6;
 export const isPaidPlan = (v: unknown): v is "go" | "plus" => v === "go" || v === "plus";
-export const isMethod = (v: unknown): v is CheckoutMethod => v === "click" || v === "payme";
+export const isMethod = (v: unknown): v is CheckoutMethod => v === "click" || v === "payme" || v === "uzcard" || v === "paynet";
 
 const hex = (buf: ArrayBuffer) => Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
 
@@ -47,7 +49,7 @@ export function parseWebhook(body: unknown): { orderId: number; system: string |
 /** Which link the payer is sent to: the method they picked when Checkout offers it, else the hosted page. */
 export function payerUrl(invoice: { _url?: unknown; _pay_via?: unknown }, method?: CheckoutMethod | null): string | null {
   const via = typeof invoice._pay_via === "object" && invoice._pay_via !== null ? (invoice._pay_via as Record<string, unknown>) : {};
-  const direct = method ? via[method] : null;
+  const direct = method && DIRECT_METHODS.includes(method) ? via[method] : null;
   if (typeof direct === "string" && direct.startsWith("https://")) return direct;
   return typeof invoice._url === "string" && invoice._url.startsWith("https://") ? invoice._url : null;
 }
