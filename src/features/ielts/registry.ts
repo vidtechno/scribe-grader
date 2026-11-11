@@ -33,6 +33,9 @@ export const READING_TESTS: TestMeta[] = [
   { id: 'r8', name: 'Tea, Urban Gardens & Bilingual Brains', difficulty: 'Standard', topics: ['History', 'Urban life', 'Neuroscience'],
     blurb: 'Three passages on the history of tea, growing food in the city and the bilingual brain. True/False/Not Given, multiple choice, matching information and headings, note completion and a word-bank summary.',
     parts: ['The Story of Tea', 'Growing Food in the City', 'How Bilingual Brains Work'] },
+  { id: 'r7', name: 'Microplastics, Printing & Ant Cities', difficulty: 'Challenging', topics: ['Environmental science', 'History', 'Urban design'],
+    blurb: 'Microplastics in the food chain, the printing press and the spread of ideas, and what cities can learn from ants. True/False/Not Given, Yes/No/Not Given, matching headings, information and sentence endings, and completion.',
+    parts: ['Microplastics in the Food Chain', 'The Printing Press and the Spread of Ideas', 'Can Cities Learn from Ants?'] },
 ];
 
 export const LISTENING_TESTS: TestMeta[] = [

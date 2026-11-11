@@ -137,7 +137,6 @@ const r7: ReadingTest = {
             'Which paragraph contains the following information? Choose the correct letter, A–G. You may use any letter more than once.',
           options: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
           items: [
-            { q: 'A reference to an earlier use of movable type outside Europe', a: 0, why: 'A-paragrafda "printers in China and Korea had used it centuries earlier" deyilgan.' },
             { q: 'An explanation of how the inventor came to lose his equipment', a: 1, why: 'B-paragrafda Gutenberg "unable to repay a loan, he lost his equipment to his investor, Johann Fust" deyilgan.' },
             { q: 'A comparison between the accuracy of illustrations copied by hand and those that were printed', a: 4, why: 'E-paragrafda "diagrams in manuscripts tended to grow less accurate with each hand-made copy" va bosma rasmlar "reproduced precisely" deyilgan.' },
             { q: 'A warning that a new medium can circulate false or misleading material', a: 6, why: 'G-paragrafda "spread rumour and fraud" va "Printing could not tell true from false" deyilgan.' },
@@ -150,7 +149,34 @@ const r7: ReadingTest = {
             { q: 'Gutenberg borrowed the screw mechanism of presses used for making wine and ___.', a: ['olive oil'], why: 'A-paragrafda "the presses used for making wine and olive oil" deyilgan.' },
             { q: 'Because every copy was identical, scholars in different cities could refer to the same ___ number.', a: ['page'], why: 'C-paragrafda "refer to the same page number and expect to find the same words" deyilgan.' },
             { q: 'In 1559 the Catholic Church issued its first ___ of Prohibited Books.', a: ['index'], why: 'D-paragrafda "in 1559 the Catholic Church issued its first Index of Prohibited Books" deyilgan.' },
-            { q: 'Aldus Manutius’s small ___ books could be carried around and read privately.', a: ['pocket-sized'], why: 'F-paragrafda "small pocket-sized books around 1501, which could be carried and read privately" deyilgan.' },
+          ],
+        },
+        {
+          kind: 'mcq',
+          instruction: 'Choose the correct letter, A, B, C or D.',
+          items: [
+            {
+              q: 'What does the passage say about Gutenberg’s achievement?',
+              options: [
+                'He was the first person ever to use movable type.',
+                'He combined existing techniques into a system that worked.',
+                'He made books cheap enough for every household.',
+                'He printed more books than any later printer.',
+              ],
+              a: 1,
+              why: 'A-paragrafda movable type "was not new"; Gutenberg’s yutug‘i "to combine several techniques into one workable system" deyilgan.',
+            },
+            {
+              q: 'According to Calloway, what was the press’s most important contribution to science?',
+              options: [
+                'The habit of cross-checking each other’s claims.',
+                'The discovery of the sun-centred model of the heavens.',
+                'The introduction of woodcut illustration.',
+                'The wider availability of books on the human body.',
+              ],
+              a: 0,
+              why: 'E-paragrafda Calloway "this habit of cross-checking, rather than any single discovery, was the press’s most important gift to science" deydi.',
+            },
           ],
         },
       ],
