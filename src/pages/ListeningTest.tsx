@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Headphones, Lock, Pause, Play } from 'lucide-react';
+import { ArrowLeft, Clock, Headphones, Lock } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { bandFor } from '@/features/ielts/bands';
 import { flatten, score, type Answer } from '@/features/ielts/score';
 import { GroupView } from '@/features/ielts/components/GroupView';
 import { ResultPanel } from '@/features/ielts/components/ResultPanel';
+import { AudioDock } from '@/features/ielts/components/AudioDock';
 import { saveAttempt } from '@/features/ielts/useAttempts';
 import { saveMockSection, useMockId } from '@/features/ielts/mock';
 import { toast } from 'sonner';
@@ -21,39 +22,6 @@ import { useT } from '@/i18n';
 
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
-/** One recording per section. Exam mode: play once, no pause, no seeking (like the real test). Practice mode: full controls. */
-function SectionPlayer({ src, exam, played, onStart }: { src: string; exam: boolean; played: boolean; onStart: () => void }) {
-  const { t: tr } = useT();
-  const ref = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [time, setTime] = useState(0);
-  const [dur, setDur] = useState(0);
-  const [error, setError] = useState(false);
-  useEffect(() => { setPlaying(false); setTime(0); setError(false); }, [src]);
-  const toggle = () => {
-    const a = ref.current;
-    if (!a) return;
-    if (a.paused) { void a.play().then(() => onStart()).catch(() => setError(true)); } else if (!exam) a.pause();
-  };
-  const finished = exam && played && !playing;
-  return (
-    <div className="glass-card p-4 mb-4 flex items-center gap-3">
-      <audio ref={ref} src={src} preload="auto" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)}
-        onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)} onLoadedMetadata={(e) => setDur(e.currentTarget.duration)} onError={() => setError(true)} />
-      <Button size="icon" variant="glow" onClick={toggle} disabled={finished || error} aria-label={playing ? tr('ielts.listening.pause') : tr('ielts.listening.play')} className="shrink-0 rounded-full h-12 w-12">
-        {playing && !exam ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
-      </Button>
-      <div className="flex-1 min-w-0">
-        <input type="range" min={0} max={dur || 1} step={0.1} value={time} disabled={exam} aria-label={tr('ielts.listening.position')}
-          onChange={(e) => { if (ref.current) ref.current.currentTime = Number(e.target.value); }} className="w-full accent-[hsl(var(--primary))] disabled:opacity-70" />
-        <div className="flex justify-between text-xs text-muted-foreground tabular-nums"><span>{mmss(time)}</span><span>{dur ? mmss(dur) : '--:--'}</span></div>
-      </div>
-      <p className="text-xs text-muted-foreground w-28 hidden sm:block">
-        {error ? tr('ielts.listening.audioError') : exam ? (finished ? tr('ielts.listening.onlyOnce') : playing ? tr('ielts.listening.playing') : tr('ielts.listening.playsOnce')) : tr('ielts.listening.practiceHint')}
-      </p>
-    </div>
-  );
-}
 
 export default function ListeningTestPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -70,11 +38,18 @@ export default function ListeningTestPage() {
   const [section, setSection] = useState(0);
   const [played, setPlayed] = useState<boolean[]>([false, false, false, false]);
   const [showPricing, setShowPricing] = useState(false);
+  const [ended, setEnded] = useState<boolean[]>([false, false, false, false]);
+  const [elapsed, setElapsed] = useState(0);
   const startedAt = useRef(0);
   const saved = useRef(false);
 
   useEffect(() => { let off = false; void loadListeningTest(id).then((t) => { if (!off) setTest(t); }); return () => { off = true; }; }, [id]);
   const locked = !!meta && !meta.free && !isIelts;
+  useEffect(() => {
+    if (stage !== 'run') return;
+    const id = window.setInterval(() => setElapsed(Math.round((Date.now() - startedAt.current) / 1000)), 1000);
+    return () => window.clearInterval(id);
+  }, [stage]);
   const starts = useMemo(() => {
     if (!test) return [];
     let n = 1;
@@ -100,7 +75,7 @@ export default function ListeningTestPage() {
   useEffect(() => {
     if (mockId && test && stage === 'intro' && !autoStarted.current && (!meta || meta.free || isIelts)) {
       autoStarted.current = true;
-      setExam(true); setAnswers({}); setPlayed([false, false, false, false]); setSection(0); saved.current = false; startedAt.current = Date.now(); setStage('run');
+      setExam(true); setAnswers({}); setPlayed([false, false, false, false]); setEnded([false, false, false, false]); setElapsed(0); setSection(0); saved.current = false; startedAt.current = Date.now(); setStage('run');
     }
   }, [mockId, test, stage, meta, isIelts]);
 
@@ -162,8 +137,8 @@ export default function ListeningTestPage() {
               </div>
             ) : (
               <div className="space-y-3">
-                <Button variant="glow" className="w-full gap-2" onClick={() => { setExam(true); setAnswers({}); setPlayed([false, false, false, false]); setSection(0); saved.current = false; startedAt.current = Date.now(); setStage('run'); window.scrollTo(0, 0); }}><Headphones className="h-4 w-4" />{tr('ielts.listening.examBtn')}</Button>
-                <Button variant="outline" className="w-full" onClick={() => { setExam(false); setAnswers({}); setPlayed([false, false, false, false]); setSection(0); saved.current = false; startedAt.current = Date.now(); setStage('run'); window.scrollTo(0, 0); }}>{tr('ielts.listening.practiceBtn')}</Button>
+                <Button variant="glow" className="w-full gap-2" onClick={() => { setExam(true); setAnswers({}); setPlayed([false, false, false, false]); setEnded([false, false, false, false]); setElapsed(0); setSection(0); saved.current = false; startedAt.current = Date.now(); setStage('run'); window.scrollTo(0, 0); }}><Headphones className="h-4 w-4" />{tr('ielts.listening.examBtn')}</Button>
+                <Button variant="outline" className="w-full" onClick={() => { setExam(false); setAnswers({}); setPlayed([false, false, false, false]); setEnded([false, false, false, false]); setElapsed(0); setSection(0); saved.current = false; startedAt.current = Date.now(); setStage('run'); window.scrollTo(0, 0); }}>{tr('ielts.listening.practiceBtn')}</Button>
               </div>
             )}
           </div>
@@ -181,6 +156,7 @@ export default function ListeningTestPage() {
         <div className="max-w-3xl mx-auto px-3 py-2 flex items-center gap-3">
           <button type="button" onClick={() => { if (confirm(tr('ielts.confirm.leave'))) navigate(mockId ? `/mock-test/exam/${mockId}` : '/listening'); }} className="text-muted-foreground hover:text-foreground" aria-label={tr('ielts.leave')}><ArrowLeft className="h-5 w-5" /></button>
           <div className="min-w-0 flex-1"><p className="text-sm font-semibold truncate">{test.title}</p><p className="text-xs text-muted-foreground">{exam ? tr('ielts.listening.examMode') : tr('ielts.listening.practiceMode')} · {tr('ielts.listening.sectionOf', { n: section + 1 })}</p></div>
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-secondary px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums" aria-label={tr('ielts.listening.elapsed')}><Clock className="h-3.5 w-3.5" />{mmss(elapsed)}</span>
           <Button size="sm" variant="glow" onClick={() => { const un = all.length - Object.keys(answers).filter((k) => answered(Number(k))).length; if (un === 0 || confirm(tr('ielts.confirm.unanswered', { n: un }))) finish(); }}>{tr('ielts.finish')}</Button>
         </div>
         <div className="max-w-3xl mx-auto px-3 pb-2 flex gap-2">
@@ -192,13 +168,14 @@ export default function ListeningTestPage() {
       <main className="flex-1 max-w-3xl w-full mx-auto px-3 py-4 pb-28">
         <h1 className="text-lg font-bold mb-1">{sec.title}</h1>
         <p className="text-sm text-muted-foreground mb-3">{sec.context}</p>
-        <SectionPlayer src={listeningAudioUrl(test.id, section)} exam={exam} played={played[section]} onStart={() => setPlayed((p) => p.map((v, i) => (i === section ? true : v)))} />
+        <AudioDock src={listeningAudioUrl(test.id, section)} exam={exam} section={section} first={starts[section][0]} last={starts[section][0] + sec.groups.reduce((n, g) => n + g.items.length, 0) - 1}
+          played={played[section]} onStart={() => setPlayed((p) => p.map((v, i) => (i === section ? true : v)))} onEnded={() => setEnded((p) => p.map((v, i) => (i === section ? true : v)))} />
         {sec.groups.map((g, gi) => (
           <GroupView key={`${section}-${gi}`} group={g} start={starts[section][gi]} answers={answers} onAnswer={(n, v) => setAnswers((a) => ({ ...a, [n]: v }))} />
         ))}
         <div className="flex justify-between mt-6">
           <Button variant="outline" disabled={section === 0} onClick={() => { setSection(section - 1); window.scrollTo(0, 0); }}>{tr('ielts.listening.prev')}</Button>
-          {section < 3 ? <Button variant="glow" onClick={() => { setSection(section + 1); window.scrollTo(0, 0); }}>{tr('ielts.listening.next')}</Button> : <Button variant="glow" onClick={() => { const un = all.length - Object.keys(answers).filter((k) => answered(Number(k))).length; if (un === 0 || confirm(tr('ielts.confirm.unanswered', { n: un }))) finish(); }}>{tr('ielts.listening.finishTest')}</Button>}
+          {section < 3 ? <Button variant="glow" className={cn(ended[section] && 'animate-pulse')} onClick={() => { setSection(section + 1); window.scrollTo(0, 0); }}>{tr('ielts.listening.next')}</Button> : <Button variant="glow" onClick={() => { const un = all.length - Object.keys(answers).filter((k) => answered(Number(k))).length; if (un === 0 || confirm(tr('ielts.confirm.unanswered', { n: un }))) finish(); }}>{tr('ielts.listening.finishTest')}</Button>}
         </div>
       </main>
       <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border px-2 py-2 overflow-x-auto" aria-label={tr('ielts.navigator')}>

@@ -13,9 +13,9 @@ describe('full mock test with Listening and Reading', () => {
   it('picks tests that were not used in an earlier mock first', () => {
     const l = LISTENING_TESTS.map((t) => t.id), r = READING_TESTS.map((t) => t.id);
     for (let i = 0; i < 30; i++) {
-      const p = pickMockTests(['l1', 'l2', 'l3', 'l4'], ['r1', 'r2'], l, r);
+      const p = pickMockTests(l.filter((id) => id !== 'l5'), ['r1', 'r2'], l, r);
       expect(p.listening).toBe('l5');
-      expect(['r3', 'r4', 'r5']).toContain(p.reading);
+      expect(r.filter((id) => !['r1', 'r2'].includes(id))).toContain(p.reading);
     }
     const all = pickMockTests(l, r, l, r);
     expect(l).toContain(all.listening);

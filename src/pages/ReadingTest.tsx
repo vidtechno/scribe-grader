@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Clock, Highlighter, Lock, Minus, Plus } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Clock, Eye, EyeOff, Highlighter, Lock, Minus, Plus } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { Navbar } from '@/components/Navbar';
@@ -45,6 +45,10 @@ export default function ReadingTestPage() {
   const [marks, setMarks] = useState<Set<string>>(new Set());
   const [marking, setMarking] = useState(false);
   const [size, setSize] = useState(1);
+  const [showTimer, setShowTimer] = useState(true);
+  const [split, setSplit] = useState(50);
+  const warned = useRef({ ten: false, five: false });
+  const mainRef = useRef<HTMLElement>(null);
   const startedAt = useRef(0);
   const saved = useRef(false);
 
@@ -83,10 +87,16 @@ export default function ReadingTestPage() {
     return () => window.clearInterval(t);
   }, [stage]);
   useEffect(() => { if (stage === 'run' && left <= 0) finish(); }, [left, stage, finish]);
+  // Like the real test: a reminder with ten and five minutes to go (the timer is shown again for the last five).
+  useEffect(() => {
+    if (stage !== 'run') return;
+    if (left === 600 && !warned.current.ten) { warned.current.ten = true; toast(tr('ielts.timer.ten')); }
+    if (left === 300 && !warned.current.five) { warned.current.five = true; toast.warning(tr('ielts.timer.five')); }
+  }, [left, stage, tr]);
 
   const begin = useCallback((kind: 'full' | 'part', p = 0) => {
     setMode({ kind, part: p });
-    setPart(p); setAnswers({}); setPane('text'); setFlags(new Set()); setMarks(new Set()); setMarking(false); saved.current = false;
+    setPart(p); setAnswers({}); setPane('text'); setFlags(new Set()); setMarks(new Set()); setMarking(false); saved.current = false; warned.current = { ten: false, five: false };
     setLeft(kind === 'full' ? FULL_SECONDS : PART_SECONDS);
     startedAt.current = Date.now();
     setStage('run');
@@ -175,6 +185,20 @@ export default function ReadingTestPage() {
     );
   }
 
+  const partCount = (i: number) => {
+    const qs = all.filter((q) => q.part === i);
+    return `${qs.filter((q) => answered(q.number)).length}/${qs.length}`;
+  };
+  const startDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const move = (ev: PointerEvent) => {
+      const box = mainRef.current?.getBoundingClientRect();
+      if (box) setSplit(Math.min(65, Math.max(35, ((ev.clientX - box.left) / box.width) * 100)));
+    };
+    const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
   const passage = test.passages[part];
   // Question labels in single-passage mode keep the real numbers (e.g. 14-26) for consistency with the full test.
   return (
@@ -187,24 +211,32 @@ export default function ReadingTestPage() {
             <p className="text-sm font-semibold truncate">{test.title}</p>
             <p className="text-xs text-muted-foreground">{mode.kind === 'full' ? tr('ielts.reading.passageOf', { n: part + 1 }) : tr('ielts.passageN', { n: mode.part + 1 })}</p>
           </div>
-          <span className={cn('font-mono text-sm font-semibold tabular-nums px-2 py-1 rounded-md', left < 300 ? 'bg-destructive/10 text-destructive' : 'bg-secondary')} aria-label={tr('ielts.timeLeft')}><Clock className="inline h-3.5 w-3.5 mr-1" />{mmss(Math.max(0, left))}</span>
+          <button type="button" onClick={() => setShowTimer((v) => !v)} aria-pressed={!showTimer} title={showTimer ? tr('ielts.timer.hide') : tr('ielts.timer.show')}
+            className={cn('inline-flex items-center gap-1.5 font-mono text-sm font-semibold tabular-nums px-2.5 py-1.5 rounded-md', left < 300 ? 'bg-destructive/10 text-destructive' : 'bg-secondary')} aria-label={tr('ielts.timeLeft')}>
+            <Clock className="h-3.5 w-3.5" />
+            {showTimer || left < 300 ? mmss(Math.max(0, left)) : <span aria-hidden>--:--</span>}
+            {left >= 300 && (showTimer ? <EyeOff className="h-3.5 w-3.5 opacity-60" /> : <Eye className="h-3.5 w-3.5 opacity-60" />)}
+          </button>
           <Button size="sm" variant="glow" onClick={() => { const un = shown.reduce((s, p) => s + p.groups.reduce((a, g) => a + g.items.length, 0), 0) - Object.keys(answers).filter((k) => answered(Number(k))).length; if (un === 0 || confirm(tr('ielts.confirm.unanswered', { n: un }))) finish(); }}>{tr('ielts.finish')}</Button>
         </div>
         {mode.kind === 'full' && (
           <div className="max-w-7xl mx-auto px-3 pb-2 flex gap-2">
             {test.passages.map((_, i) => (
-              <button key={i} type="button" onClick={() => setPart(i)} className={cn('px-3 py-1 rounded-md text-xs font-semibold border', part === i ? 'bg-primary text-primary-foreground border-primary' : 'border-border')}>{tr('ielts.passageN', { n: i + 1 })}</button>
+              <button key={i} type="button" onClick={() => setPart(i)} className={cn('px-3 py-1.5 rounded-md text-xs font-semibold border flex items-center gap-1.5', part === i ? 'bg-primary text-primary-foreground border-primary' : 'border-border')}>
+                {tr('ielts.passageN', { n: i + 1 })}
+                <span className={cn('tabular-nums rounded px-1 text-[10px]', part === i ? 'bg-white/20' : 'bg-secondary text-muted-foreground')}>{partCount(i)}</span>
+              </button>
             ))}
           </div>
         )}
         <div className="lg:hidden max-w-7xl mx-auto px-3 pb-2 flex gap-2">
           {(['text', 'questions'] as const).map((p) => (
-            <button key={p} type="button" onClick={() => setPane(p)} className={cn('flex-1 py-1.5 rounded-md text-xs font-semibold border', pane === p ? 'bg-secondary border-primary/40' : 'border-border')}>{p === 'text' ? tr('ielts.reading.passage') : tr('ielts.q.questions')}</button>
+            <button key={p} type="button" onClick={() => setPane(p)} className={cn('flex-1 py-2.5 rounded-lg text-sm font-semibold border', pane === p ? 'bg-primary text-primary-foreground border-primary' : 'border-border bg-card')}>{p === 'text' ? tr('ielts.reading.passage') : `${tr('ielts.q.questions')} · ${partCount(part)}`}</button>
           ))}
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto grid lg:grid-cols-2 gap-0 lg:gap-6 px-3 py-4 pb-28">
+      <main ref={mainRef} style={{ ['--split' as string]: `${split}%` }} className="flex-1 max-w-7xl w-full mx-auto grid lg:grid-cols-[var(--split)_14px_minmax(0,1fr)] gap-0 px-3 py-4 pb-36">
         <article className={cn('lg:block lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto lg:pr-3', pane === 'text' ? 'block' : 'hidden')}>
           <h1 className="text-xl font-bold mb-1">{passage.title}</h1>
           {passage.intro && <p className="text-sm text-muted-foreground italic mb-3">{passage.intro}</p>}
@@ -232,6 +264,9 @@ export default function ReadingTestPage() {
             ))}
           </div>
         </article>
+        <div role="separator" aria-orientation="vertical" aria-label={tr('ielts.reading.resize')} tabIndex={0} onPointerDown={startDrag}
+          onKeyDown={(e) => { if (e.key === 'ArrowLeft') setSplit((v) => Math.max(35, v - 3)); if (e.key === 'ArrowRight') setSplit((v) => Math.min(65, v + 3)); }}
+          className="hidden lg:flex cursor-col-resize items-center justify-center touch-none group focus:outline-none"><span className="h-16 w-1 rounded-full bg-border group-hover:bg-primary group-focus-visible:bg-primary" /></div>
         <section className={cn('lg:block lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto lg:pl-1', pane === 'questions' ? 'block' : 'hidden')}>
           {passage.groups.map((g, gi) => (
             <GroupView key={`${part}-${gi}`} group={g} start={(starts[part]?.[gi] ?? 1)} answers={answers} onAnswer={(n, v) => setAnswers((a) => ({ ...a, [n]: v }))} flags={flags} onFlag={(n) => setFlags((f) => { const x = new Set(f); if (x.has(n)) x.delete(n); else x.add(n); return x; })} />
@@ -239,14 +274,24 @@ export default function ReadingTestPage() {
         </section>
       </main>
 
-      <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border px-2 py-2 overflow-x-auto" aria-label={tr('ielts.navigator')}>
-        <div className="flex gap-1 max-w-7xl mx-auto min-w-max">
-          {all.filter((q) => mode.kind === 'full' || q.part === mode.part).map((q) => (
-            <button key={q.number} type="button" onClick={() => jump(q.number)} aria-label={`${tr('ielts.q.questionN', { n: q.number })}${answered(q.number) ? tr('ielts.answeredSuffix') : ''}${flags.has(q.number) ? tr('ielts.markedSuffix') : ''}`}
-              className={cn('h-7 min-w-7 px-1 rounded text-[11px] font-semibold border', answered(q.number) ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground', q.part === part && !answered(q.number) && 'border-primary/50', flags.has(q.number) && 'ring-2 ring-amber-400')}>
-              {q.number}
-            </button>
-          ))}
+      <nav className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]" aria-label={tr('ielts.navigator')}>
+        <div className="flex items-center gap-2 max-w-7xl mx-auto">
+          {mode.kind === 'full' && (
+            <button type="button" disabled={part === 0} onClick={() => { setPart(part - 1); setPane('text'); window.scrollTo(0, 0); }} aria-label={tr('ielts.reading.prevPart')} className="shrink-0 h-9 w-9 grid place-items-center rounded-lg border border-border disabled:opacity-30"><ChevronLeft className="h-5 w-5" /></button>
+          )}
+          <div className="flex-1 overflow-x-auto">
+            <div className="flex gap-1 min-w-max">
+              {all.filter((q) => mode.kind === 'full' || q.part === mode.part).map((q) => (
+                <button key={q.number} type="button" onClick={() => jump(q.number)} aria-label={`${tr('ielts.q.questionN', { n: q.number })}${answered(q.number) ? tr('ielts.answeredSuffix') : ''}${flags.has(q.number) ? tr('ielts.markedSuffix') : ''}`}
+                  className={cn('h-8 min-w-8 px-1 rounded text-xs font-semibold border', answered(q.number) ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground', q.part === part && !answered(q.number) && 'border-primary/50', flags.has(q.number) && 'ring-2 ring-amber-400')}>
+                  {q.number}
+                </button>
+              ))}
+            </div>
+          </div>
+          {mode.kind === 'full' && (
+            <button type="button" disabled={part === test.passages.length - 1} onClick={() => { setPart(part + 1); setPane('text'); window.scrollTo(0, 0); }} aria-label={tr('ielts.reading.nextPart')} className="shrink-0 h-9 w-9 grid place-items-center rounded-lg border border-border disabled:opacity-30"><ChevronRight className="h-5 w-5" /></button>
+          )}
         </div>
       </nav>
     </div>
