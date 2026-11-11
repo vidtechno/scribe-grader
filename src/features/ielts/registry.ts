@@ -36,6 +36,9 @@ export const READING_TESTS: TestMeta[] = [
   { id: 'r7', name: 'Microplastics, Printing & Ant Cities', difficulty: 'Challenging', topics: ['Environmental science', 'History', 'Urban design'],
     blurb: 'Microplastics in the food chain, the printing press and the spread of ideas, and what cities can learn from ants. True/False/Not Given, Yes/No/Not Given, matching headings, information and sentence endings, and completion.',
     parts: ['Microplastics in the Food Chain', 'The Printing Press and the Spread of Ideas', 'Can Cities Learn from Ants?'] },
+  { id: 'r6', name: 'Night Trains, Octopus Minds & Memory Palaces', difficulty: 'Standard', topics: ['Transport', 'Animal cognition', 'Memory'],
+    blurb: 'Transport history, animal cognition and the psychology of memory. Matching information, headings and people, True/False/Not Given, Yes/No/Not Given, multiple choice and completion.',
+    parts: ['The Return of the Night Train', 'How Octopuses Think', 'Memory Palaces and the Art of Remembering'] },
 ];
 
 export const LISTENING_TESTS: TestMeta[] = [
