@@ -1,5 +1,6 @@
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { CalendarRange, CheckCircle2, MessageCircle, Phone, Users } from 'lucide-react';
+import { CalendarRange, CheckCircle2, Download, MessageCircle, Phone, Users } from 'lucide-react';
 import { AGE_RANGES, DISCOVERY_SOURCES, type IntakeResponse } from '@/lib/user-intake';
 import { translate } from '@/i18n';
 import { adminRpc, pct } from './adminApi';
@@ -47,4 +48,62 @@ export function UserIntakeDetails({ userId }: { userId: string }) {
       <div><dt className="text-xs text-muted-foreground">To‘ldirilgan</dt><dd className="text-xs">{new Date(data.completed_at).toLocaleString('uz-UZ')}</dd></div>
     </dl>}
   </section>;
+}
+
+interface ContactRow { user_id: string; email: string | null; full_name: string | null; public_id: string | null; phone: string | null; telegram_username: string | null; bot_username: string | null; completed_at: string | null }
+interface Contacts { counts: { users: number; phone: number; telegram: number; both: number }; rows: ContactRow[] }
+
+const csvCell = (v: string | null | undefined) => `"${(v ?? '').replace(/"/g, '""')}"`;
+
+/** Everyone who left a phone number or a Telegram username when they signed up (they wrote it themselves, so it is not verified). */
+export function ContactsPanel() {
+  const { data, isLoading, error } = useQuery({ queryKey: ['admin', 'contacts'], queryFn: () => adminRpc<Contacts>('admin_contacts'), staleTime: 60_000 });
+  const [q, setQ] = useState('');
+  const rows = useMemo(() => {
+    const needle = q.trim().toLowerCase();
+    return (data?.rows ?? []).filter((r) => !needle || [r.full_name, r.email, r.phone, r.telegram_username, r.bot_username].some((x) => x?.toLowerCase().includes(needle)));
+  }, [data, q]);
+  const download = () => {
+    const lines = [['Ism', 'Email', 'Telefon', 'Telegram', 'Sana'].join(','), ...rows.map((r) => [r.full_name, r.email, r.phone, r.telegram_username ? `@${r.telegram_username}` : '', r.completed_at ? r.completed_at.slice(0, 10) : ''].map(csvCell).join(','))];
+    const url = URL.createObjectURL(new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url; a.download = 'scorify-kontaktlar.csv'; a.click();
+    URL.revokeObjectURL(url);
+  };
+  return (
+    <Section title="Kontaktlar" subtitle="Ro‘yxatdan o‘tishda telefon yoki Telegram yozganlar. Ma’lumotni foydalanuvchining o‘zi kiritgan, tasdiqlanmagan.">
+      {isLoading ? <p className="text-sm text-muted-foreground">Yuklanmoqda…</p> : error || !data ? <p className="text-sm text-destructive">Kontaktlar yuklanmadi.</p> : (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <Stat icon={Users} label="Jami foydalanuvchi" value={data.counts.users} />
+            <Stat icon={Phone} label="Telefon yozgan" value={data.counts.phone} hint={pct(data.counts.phone, data.counts.users)} />
+            <Stat icon={MessageCircle} label="Telegram yozgan" value={data.counts.telegram} hint={pct(data.counts.telegram, data.counts.users)} />
+            <Stat icon={CheckCircle2} label="Ikkalasini yozgan" value={data.counts.both} hint={pct(data.counts.both, data.counts.users)} />
+          </div>
+          <div className="glass-card p-4">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ism, email, telefon yoki @telegram…" className="min-w-0 flex-1 rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary" />
+              <button type="button" onClick={download} disabled={!rows.length} className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm font-semibold hover:bg-secondary disabled:opacity-50"><Download className="h-4 w-4" />CSV ({rows.length})</button>
+            </div>
+            {rows.length ? (
+              <div className="max-h-[28rem] overflow-auto">
+                <table className="w-full text-sm">
+                  <thead className="sticky top-0 bg-card text-left text-xs text-muted-foreground"><tr><th className="py-1.5 pr-3 font-medium">Ism</th><th className="pr-3 font-medium">Telefon</th><th className="pr-3 font-medium">Telegram</th><th className="pr-3 font-medium">Email</th><th className="font-medium">Sana</th></tr></thead>
+                  <tbody>{rows.map((r) => (
+                    <tr key={r.user_id} className="border-t border-border/60 align-top">
+                      <td className="py-1.5 pr-3 font-medium">{r.full_name || '—'}</td>
+                      <td className="pr-3 tabular-nums">{r.phone ? <a href={`tel:${r.phone}`} className="text-primary hover:underline">{r.phone}</a> : <span className="text-muted-foreground">—</span>}</td>
+                      <td className="pr-3">{r.telegram_username ? <a href={`https://t.me/${r.telegram_username}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@{r.telegram_username}</a> : <span className="text-muted-foreground">—</span>}</td>
+                      <td className="pr-3 break-all text-xs text-muted-foreground">{r.email}</td>
+                      <td className="whitespace-nowrap text-xs text-muted-foreground">{r.completed_at ? new Date(r.completed_at).toLocaleDateString('uz-UZ') : ''}</td>
+                    </tr>
+                  ))}</tbody>
+                </table>
+              </div>
+            ) : <p className="text-sm text-muted-foreground">Hozircha kontakt yo‘q.</p>}
+          </div>
+        </>
+      )}
+    </Section>
+  );
 }

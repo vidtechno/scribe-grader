@@ -139,6 +139,51 @@ function CertificateCheck() {
   );
 }
 
+interface IssuedList {
+  total: number;
+  by_level: { level: string; issued: number; level_tests_taken: number; level_tests_passed: number }[];
+  rows: { number: string; level_id: string; full_name: string; percent: number | null; issued_at: string; email: string | null; public_id: string | null; user_id: string }[];
+}
+
+/** Who received a level certificate: per-level numbers and the newest 300 recipients. */
+export function IssuedCertificatesCard() {
+  const { data, error } = useQuery({ queryKey: ['admin', 'certificates-list'], queryFn: () => adminRpc<IssuedList>('admin_certificates_list') });
+  return (
+    <Card title={`Berilgan sertifikatlar${data ? ` (${data.total})` : ''}`} subtitle="Daraja yakuniy testidan o'tib sertifikat olgan foydalanuvchilar. Eng yangilari tepada">
+      {error ? <p className="text-sm text-destructive">Yuklanmadi: {(error as Error).message}</p> : !data ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> : (
+        <div className="space-y-4">
+          {data.by_level.length > 0 && (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-xs text-muted-foreground"><th className="py-1.5 pr-3 font-medium">Daraja</th><th className="px-2 text-right font-medium">Berilgan</th><th className="px-2 text-right font-medium">Test topshirgan</th><th className="px-2 text-right font-medium">O'tgan</th><th className="px-2 text-right font-medium">O'tish %</th></tr></thead>
+                <tbody className="[&_td]:px-2 [&_td]:py-1.5 [&_td]:text-right [&_td]:tabular-nums">{data.by_level.map((l) => (
+                  <tr key={l.level} className="border-t border-border"><th className="py-1.5 pr-3 text-left font-medium">{LEVEL_LABEL[l.level] ?? l.level}</th><td className="font-bold">{l.issued}</td><td>{l.level_tests_taken}</td><td>{l.level_tests_passed}</td><td>{l.level_tests_taken ? Math.round((l.level_tests_passed / l.level_tests_taken) * 100) : 0}%</td></tr>
+                ))}</tbody>
+              </table>
+            </div>
+          )}
+          {data.rows.length ? (
+            <div className="max-h-96 overflow-auto rounded-xl border border-border">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-card text-left text-xs text-muted-foreground"><tr><th className="px-3 py-2 font-medium">Sana</th><th className="px-3 py-2 font-medium">Daraja</th><th className="px-3 py-2 font-medium">Ism</th><th className="px-3 py-2 font-medium">Email</th><th className="px-3 py-2 text-right font-medium">Natija</th></tr></thead>
+                <tbody>{data.rows.map((r) => (
+                  <tr key={r.number} className="border-t border-border">
+                    <td className="px-3 py-1.5 whitespace-nowrap">{day(r.issued_at)}</td>
+                    <td className="px-3 py-1.5 whitespace-nowrap">{LEVEL_LABEL[r.level_id] ?? r.level_id}</td>
+                    <td className="px-3 py-1.5">{r.full_name}</td>
+                    <td className="px-3 py-1.5 text-muted-foreground break-all">{r.email ?? '—'}</td>
+                    <td className="px-3 py-1.5 text-right tabular-nums">{r.percent != null ? `${r.percent}%` : '—'}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+          ) : <Empty />}
+        </div>
+      )}
+    </Card>
+  );
+}
+
 export function LearningTab() {
   const { data, isLoading, error } = useQuery({ queryKey: ['admin', 'learning'], queryFn: () => adminRpc<Stats>('admin_learning_stats') });
   if (isLoading) return <div className="grid place-items-center py-24"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>;
@@ -147,6 +192,7 @@ export function LearningTab() {
   return (
     <div className="grid lg:grid-cols-2 gap-5">
       <div className="lg:col-span-2"><CertificateCheck /></div>
+      <div className="lg:col-span-2"><IssuedCertificatesCard /></div>
       <div className="lg:col-span-2"><LessonHelpCard /></div>
       <div className="lg:col-span-2"><ReportsCard /></div>
       <Card title="Daraja bo'yicha o'quvchilar" subtitle="Kurs boshlagan foydalanuvchilar hozir qaysi darajada">

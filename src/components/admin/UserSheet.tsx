@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Copy, ExternalLink, Flame, Loader2, MessageCircle, Zap } from 'lucide-react';
+import { Ban, Copy, ExternalLink, Flame, Loader2, MessageCircle, ShieldCheck, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,6 @@ interface Detail {
   level_tests: { level_id: string; attempts: number; best_score: number; best_total: number; passed_at: string | null }[];
   activity: { day: string; xp: number; lessons: number }[];
   history: { plan_type: string; plan_name: string | null; price_uzs: string | null; started_at: string; expires_at: string | null }[];
-  referral: { invited: number; bought: number; balance: number; paid: number; referred_by: string | null };
   subscription: { writing_used: number; writing_limit: number; speaking_used: number; speaking_limit: number; mock_test_used: number; mock_test_limit: number; expires_at: string | null; learn_trial_ends_at: string | null } | null;
 }
 
@@ -34,6 +33,10 @@ export function UserSheet({ user, onClose, onChanged }: { user: AdminUser | null
   const { data: d, isLoading } = useQuery({
     queryKey: ['admin', 'user', user?.user_id], enabled: !!user,
     queryFn: () => adminRpc<Detail>('admin_user_detail', { _user: user!.user_id }),
+  });
+  const { data: block } = useQuery({
+    queryKey: ['admin', 'user-block', user?.user_id], enabled: !!user,
+    queryFn: () => adminRpc<{ blocked: boolean; blocked_at?: string | null; reason?: string | null }>('admin_account_block_state', { _user: user!.user_id }),
   });
   if (!user) return null;
   const status = statusOf(user);
@@ -60,6 +63,19 @@ export function UserSheet({ user, onClose, onChanged }: { user: AdminUser | null
     void run(`${days} kunga uzaytirildi`, async () => {
       const { error } = await (supabase.rpc as unknown as (f: string, a: object) => Promise<{ error: { message: string } | null }>)('admin_extend_subscription', { _user_id: user.user_id, _days: days });
       if (error) throw new Error(error.message);
+    });
+  };
+  const toggleBlock = (blocked: boolean) => {
+    const who = user.full_name || user.email;
+    let reason: string | null = null;
+    if (blocked) {
+      reason = window.prompt(`${who} bloklanadi: u saytga kira olmaydi va barcha seanslari tugatiladi.\nSababi (ixtiyoriy):`, '');
+      if (reason === null) return;
+    } else if (!window.confirm(`${who} blokdan chiqarilsinmi?`)) return;
+    void run(blocked ? 'Akkaunt bloklandi' : 'Blokdan chiqarildi', async () => {
+      await adminRpc('admin_set_account_block', { _user: user.user_id, _blocked: blocked, _reason: reason });
+      await qc.invalidateQueries({ queryKey: ['admin', 'user-block'] });
+      await qc.invalidateQueries({ queryKey: ['admin', 'blocked'] });
     });
   };
   const copy = (text: string) => { void navigator.clipboard?.writeText(text); toast.success('Nusxalandi'); };
@@ -137,6 +153,18 @@ export function UserSheet({ user, onClose, onChanged }: { user: AdminUser | null
             {d.history.map((h, i) => <Row key={i} k={`${PLAN_LABEL[h.plan_type] ?? h.plan_type} · ${format(new Date(h.started_at), 'd MMM yyyy')}`} v={h.expires_at ? `${format(new Date(h.expires_at), 'd MMM yyyy')} gacha` : '—'} />)}
           </section>
         )}
+
+        <section className="mt-6">
+          <h3 className="text-sm font-bold mb-1">Akkaunt holati</h3>
+          {block?.blocked ? (
+            <div className="space-y-2">
+              <p className="flex items-start gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive"><Ban className="mt-0.5 h-4 w-4 shrink-0" /><span>Bloklangan{block.blocked_at ? ` · ${format(new Date(block.blocked_at), 'd MMM yyyy, HH:mm')}` : ''}{block.reason ? `. Sabab: ${block.reason}` : ''}</span></p>
+              <Button size="sm" variant="outline" className="gap-1.5" disabled={busy} onClick={() => toggleBlock(false)}><ShieldCheck className="h-4 w-4" />Blokdan chiqarish</Button>
+            </div>
+          ) : (
+            <Button size="sm" variant="outline" className="gap-1.5 text-destructive" disabled={busy || user.is_admin} onClick={() => toggleBlock(true)}><Ban className="h-4 w-4" />Akkauntni bloklash</Button>
+          )}
+        </section>
 
         <section className="mt-6 mb-4">
           <h3 className="text-sm font-bold mb-1">Hisob</h3>

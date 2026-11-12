@@ -10,7 +10,7 @@ const base = (i: number, seenMinutesAgo: number | null, online = false): AdminUs
   user_id: `u${i}`, email: `user${i}@mail.test`, full_name: `User ${String(i).padStart(2, '0')}`, public_id: null, username: null, phone: null, city: null,
   created_at: min(10_000 - i), last_sign_in_at: null, provider: 'email', plan_type: null, expires_at: null, trial_ends_at: null,
   writing_used: 0, writing_limit: 0, speaking_used: 0, speaking_limit: 0, level: 'beginner', xp: i, streak: 0, lessons_done: i % 4, last_learn_day: null,
-  essays: 0, speaking: 0, mocks: 0, invited: 0, was_referred: false, telegram_id: null, telegram_username: null, telegram_banned: false, is_admin: false,
+  essays: 0, speaking: 0, mocks: 0, telegram_id: null, telegram_username: null, telegram_banned: false, is_admin: false,
   last_seen: seenMinutesAgo === null ? null : min(seenMinutesAgo), online_at: online && seenMinutesAgo !== null ? min(seenMinutesAgo) : null,
 });
 

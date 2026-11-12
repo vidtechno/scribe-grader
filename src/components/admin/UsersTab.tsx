@@ -9,7 +9,7 @@ import { adminRpc, agoUz, daysUntil, isOnline, LEVEL_LABEL, pageRange, PLAN_LABE
 import { UserSheet } from './UserSheet';
 import { UserStatsPanel } from './UserStatsPanel';
 
-type Segment = 'all' | 'online' | 'recent' | 'paid' | 'trial' | 'expiring' | 'expired' | 'free' | 'active7' | 'inactive' | 'never' | 'referrers';
+type Segment = 'all' | 'online' | 'recent' | 'paid' | 'trial' | 'expiring' | 'expired' | 'free' | 'active7' | 'inactive' | 'never' | 'blocked';
 type Sort = 'newest' | 'seen' | 'xp' | 'lessons' | 'name';
 type View = 'list' | 'stats';
 /** Twenty users on a page. */
@@ -28,6 +28,8 @@ export function UsersTab() {
   const [page, setPage] = useState(1);
   const [view, setView] = useState<View>('list');
   const [openId, setOpenId] = useState<string | null>(null);
+  const { data: blockedList = [] } = useQuery({ queryKey: ['admin', 'blocked'], queryFn: () => adminRpc<string[]>('admin_blocked_users'), refetchInterval: 60_000 });
+  const blockedIds = useMemo(() => new Set(blockedList), [blockedList]);
 
   const matchers: Record<Segment, (u: AdminUser, now: number) => boolean> = useMemo(() => ({
     all: () => true,
@@ -41,8 +43,8 @@ export function UsersTab() {
     active7: (u, n) => n - seenMs(u) <= 7 * 864e5 && seenMs(u) > 0,
     inactive: (u, n) => !!u.level && n - seenMs(u) > 7 * 864e5,
     never: (u) => !u.lessons_done,
-    referrers: (u) => u.invited > 0,
-  }), []);
+    blocked: (u) => blockedIds.has(u.user_id),
+  }), [blockedIds]);
 
   // "2 soat oldin" and the online dots stay fresh without a reload.
   const [now, setNow] = useState(() => Date.now());
@@ -76,7 +78,7 @@ export function UsersTab() {
   };
 
   const SEGMENTS: [Segment, string][] = [['all', 'Hammasi'], ['online', 'Hozir onlayn'], ['recent', 'Oxirgi onlayn'], ['paid', 'Pullik'], ['trial', 'Bepul hafta'], ['expiring', '7 kunda tugaydi'], ['expired', "Muddati o'tgan"],
-    ['free', 'Free'], ['active7', 'Faol (7 kun)'], ['inactive', 'Faol emas (7+ kun)'], ['never', "Hech dars qilmagan"]];
+    ['free', 'Free'], ['active7', 'Faol (7 kun)'], ['inactive', 'Faol emas (7+ kun)'], ['never', "Hech dars qilmagan"], ['blocked', 'Bloklangan']];
 
   const pages = Math.max(1, Math.ceil(rows.length / PAGE));
   const current = Math.min(page, pages);
@@ -156,6 +158,7 @@ export function UsersTab() {
                       </span>
                       {u.level && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">{LEVEL_LABEL[u.level] ?? u.level}</span>}
                       {u.is_admin && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground">admin</span>}
+                      {blockedIds.has(u.user_id) && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-destructive text-destructive-foreground">bloklangan</span>}
                     </span>
                     <span className="block text-xs text-muted-foreground truncate">{u.username ? `@${u.username} · ` : ''}{u.email}{u.public_id ? ` · #${u.public_id}` : ''}</span>
                     <span className="sm:hidden mt-0.5 flex items-center gap-1.5 text-xs">

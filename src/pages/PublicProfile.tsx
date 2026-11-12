@@ -7,6 +7,7 @@ import { useT } from '@/i18n';
 import { FollowButton, achievementText, levelLabel } from '@/features/social/components';
 import { UserAvatar } from '@/features/social/avatars';
 import { usePublicProfile } from '@/features/social/api';
+import { CertificateBadges } from '@/features/social/certificates';
 import { ACHIEVEMENTS } from '@/features/learn/achievements';
 
 function Stat({ icon: Icon, label, value }: { icon: typeof Zap; label: string; value: string | number }) {
@@ -92,6 +93,7 @@ export default function PublicProfile() {
                       {!p.achievements?.length && <span className="text-xs text-muted-foreground">{t('pub.noAch')}</span>}
                     </div>
                   </div>
+                  <CertificateBadges certificates={p.certificates} />
                 </>
               ) : (
                 <div className="glass-card p-5 text-center text-sm text-muted-foreground"><Lock className="h-5 w-5 mx-auto mb-2" />{t('pub.hiddenProgress')}</div>
