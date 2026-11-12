@@ -4,6 +4,7 @@ import { Award, Check, Loader2, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { adminRpc, LEVEL_LABEL } from './adminApi';
+import { Bars } from './AdminUi';
 
 interface Stats {
   levels: { level: string; n: number }[];
@@ -17,6 +18,54 @@ function Card({ title, subtitle, children }: { title: string; subtitle?: string;
   return <section className="glass-card p-4"><h2 className="font-bold">{title}</h2>{subtitle && <p className="text-xs text-muted-foreground mb-3">{subtitle}</p>}<div className={subtitle ? '' : 'mt-3'}>{children}</div></section>;
 }
 const Empty = () => <p className="text-sm text-muted-foreground">Hozircha ma'lumot yo'q.</p>;
+
+
+interface HelpPeriod { users: number; questions: number; input_tokens: number; output_tokens: number; tokens: number; cost_usd: number }
+interface HelpStats {
+  periods: Record<'today' | 'yesterday' | 'd7' | 'd30', HelpPeriod>;
+  daily: { day: string; users: number; questions: number; tokens: number }[];
+  top_lessons: { lesson: string; questions: number; users: number }[];
+  limits_today: { lesson_limit_users: number; day_limit_users: number };
+}
+const num = (n: number) => Math.round(n).toLocaleString('uz-UZ').replace(/,/g, ' ');
+const usd = (n: number) => `$${n < 0.01 && n > 0 ? n.toFixed(4) : n.toFixed(2)}`;
+
+/** The in-lesson AI tutor ("Tushunmadim?"): people, questions and tokens by period. */
+export function LessonHelpCard() {
+  const { data, error } = useQuery({ queryKey: ['admin', 'lesson-help'], queryFn: () => adminRpc<HelpStats>('admin_lesson_help_stats'), refetchInterval: 60_000 });
+  const cols: [keyof HelpStats['periods'], string][] = [['today', 'Bugun'], ['yesterday', 'Kecha'], ['d7', 'Oxirgi 7 kun'], ['d30', 'Oxirgi 30 kun']];
+  return (
+    <Card title="AI mentor (darsda «Tushunmadim?»)" subtitle="Kimlar foydalandi va qancha token sarflandi. Kunlar Toshkent vaqti bilan">
+      {error ? <p className="text-sm text-destructive">Yuklanmadi: {(error as Error).message}</p> : !data ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> : (
+        <div className="space-y-5">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead><tr className="text-left text-xs text-muted-foreground"><th className="py-1.5 pr-3 font-medium" />{cols.map(([, label]) => <th key={label} className="px-2 py-1.5 text-right font-medium">{label}</th>)}</tr></thead>
+              <tbody className="[&_td]:px-2 [&_td]:py-1.5 [&_td]:text-right [&_td]:tabular-nums">
+                <tr className="border-t border-border"><th className="py-1.5 pr-3 text-left font-medium">Foydalanuvchilar</th>{cols.map(([k]) => <td key={k} className="font-bold">{num(data.periods[k].users)}</td>)}</tr>
+                <tr className="border-t border-border"><th className="py-1.5 pr-3 text-left font-medium">Savollar</th>{cols.map(([k]) => <td key={k}>{num(data.periods[k].questions)}</td>)}</tr>
+                <tr className="border-t border-border"><th className="py-1.5 pr-3 text-left font-medium">Jami token</th>{cols.map(([k]) => <td key={k} className="font-bold">{num(data.periods[k].tokens)}</td>)}</tr>
+                <tr className="border-t border-border text-muted-foreground"><th className="py-1.5 pr-3 text-left font-normal">kirish / chiqish</th>{cols.map(([k]) => <td key={k} className="text-xs">{num(data.periods[k].input_tokens)} / {num(data.periods[k].output_tokens)}</td>)}</tr>
+                <tr className="border-t border-border"><th className="py-1.5 pr-3 text-left font-medium">Taxminiy narx</th>{cols.map(([k]) => <td key={k}>{usd(data.periods[k].cost_usd)}</td>)}</tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted-foreground">Bugun limitga yetganlar: bir darsda 3 ta — <b>{data.limits_today.lesson_limit_users}</b> kishi, kunlik 15 ta — <b>{data.limits_today.day_limit_users}</b> kishi.</p>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <p className="mb-2 text-sm font-semibold">Oxirgi 14 kun: savollar</p>
+              <Bars rows={data.daily.slice(-14).reverse().map(d => ({ label: new Date(d.day).toLocaleDateString('uz-UZ', { day: 'numeric', month: 'short' }), n: d.questions, hint: `${d.users} kishi` }))} />
+            </div>
+            <div>
+              <p className="mb-2 text-sm font-semibold">Eng ko'p so'ralgan darslar (30 kun)</p>
+              {data.top_lessons.length ? <Bars rows={data.top_lessons.map(l => ({ label: l.lesson, n: l.questions, hint: `${l.users} kishi` }))} /> : <Empty />}
+            </div>
+          </div>
+        </div>
+      )}
+    </Card>
+  );
+}
 
 interface Report { id: string; lesson_id: string | null; page: string | null; exercise: Record<string, unknown> | null; note: string | null; status: string; created_at: string; email: string | null }
 
@@ -98,6 +147,7 @@ export function LearningTab() {
   return (
     <div className="grid lg:grid-cols-2 gap-5">
       <div className="lg:col-span-2"><CertificateCheck /></div>
+      <div className="lg:col-span-2"><LessonHelpCard /></div>
       <div className="lg:col-span-2"><ReportsCard /></div>
       <Card title="Daraja bo'yicha o'quvchilar" subtitle="Kurs boshlagan foydalanuvchilar hozir qaysi darajada">
         {data.levels.length ? <div className="space-y-2.5">{data.levels.map(l => (
