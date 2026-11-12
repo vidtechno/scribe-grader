@@ -97,6 +97,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 }
 
 const StreakCelebration = lazy(() => import('@/features/learn/components/StreakCelebration').then((m) => ({ default: m.StreakCelebration })));
+const XpRankToast = lazy(() => import('@/features/learn/components/XpRankToast').then((m) => ({ default: m.XpRankToast })));
 
 function AppRoutes() {
   const [mentorOpen, setMentorOpen] = useState(false);
@@ -127,6 +128,7 @@ function AppRoutes() {
     <>
       <ScrollToTop />
       {user && location.pathname.startsWith('/learn') && <Suspense fallback={null}><StreakCelebration /></Suspense>}
+      {user && location.pathname.startsWith('/learn') && <Suspense fallback={null}><XpRankToast /></Suspense>}
       {user && <Suspense fallback={null}><UserIntakeGate key={user.id} onBusyChange={setIntakeBusy} /></Suspense>}
       {user && !intakeBusy && <Suspense fallback={null}><Announcements /></Suspense>}
       <Suspense fallback={<LoadingScreen />}>

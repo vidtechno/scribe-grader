@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useT } from '@/i18n';
 import { useLearningState, type LearningState } from '../api';
+import { setStreakModalOpen } from './celebrationBus';
 
 type Snapshot = { streak: number; doneToday: boolean };
 const MILESTONES = [3, 7, 14, 30, 50, 100, 200, 365];
@@ -58,6 +59,11 @@ export function StreakCelebration() {
     } catch { /* storage unavailable: show it anyway */ }
     setShow({ from: before.streak < streak ? before.streak : streak - 1, to: streak, dots: weekDots(state) });
   }, [state, user]);
+
+  useEffect(() => {
+    setStreakModalOpen(!!show);
+    return () => setStreakModalOpen(false);
+  }, [show]);
 
   useEffect(() => {
     if (!show) return;

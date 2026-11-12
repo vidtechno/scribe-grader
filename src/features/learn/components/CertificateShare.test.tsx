@@ -50,7 +50,7 @@ describe('CertificateShare', () => {
   });
 
   it('shares the story picture to Instagram when files can be shared', async () => {
-    const share = vi.fn(async () => {});
+    const share = vi.fn(async (..._a: unknown[]) => {});
     nav.share = share; nav.canShare = vi.fn(() => true);
     render(<CertificateShare data={data} />);
     fireEvent.click(screen.getByText('learn.certShare.instagram'));
@@ -69,7 +69,7 @@ describe('CertificateShare', () => {
   });
 
   it('"More" uses the share sheet with the image, or only the link when files are not supported', async () => {
-    const share = vi.fn(async () => {});
+    const share = vi.fn(async (..._a: unknown[]) => {});
     nav.share = share; nav.canShare = vi.fn(() => true);
     const { unmount } = render(<CertificateShare data={data} />);
     fireEvent.click(screen.getByText('learn.certShare.more'));

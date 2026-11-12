@@ -155,14 +155,14 @@ export async function certificateStoryImage(c: CertificateData): Promise<Blob> {
       if (lines.length <= 3) break;
     }
     const lh = Math.round(size * 1.18);
-    const headTop = 430 - ((lines.length - 1) * lh) / 2;
+    const headTop = 540 - ((lines.length - 1) * lh) / 2;
     lines.forEach((l, i) => ctx.fillText(l, STORY_W / 2, headTop + i * lh));
 
     // the certificate card
     const cw = 920;
     const ch = Math.round((cw * CERT_H) / CERT_W);
     const cx = (STORY_W - cw) / 2;
-    const cy = 700;
+    const cy = 810;
     ctx.save();
     ctx.shadowColor = 'rgba(76, 5, 25, 0.45)';
     ctx.shadowBlur = 70;
