@@ -27,6 +27,7 @@ import type { Word } from '@/features/learn/types';
 import { Md } from '@/features/learn/components/Md';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { Result } from '@/features/learn/components/LessonResult';
+import { LessonHelp } from '@/features/learn/components/LessonHelp';
 import { SceneRunner } from '@/features/learn/scene/SceneRunner';
 
 type Phase = 'intro' | 'review' | 'warmup' | 'slides' | 'words' | 'practice' | 'quiz' | 'result';
@@ -134,6 +135,7 @@ export default function LearnLesson() {
     <div className="min-h-screen bg-background">
       <SEOHead title={`${lesson.title} — ${levelOf(unit.level).title}`} description={lesson.goal} path={`/learn/lesson/${id}`} noindex />
       <TopBar phase={phase} onExit={exit} lesson={lesson} />
+      {phase !== 'intro' && phase !== 'result' && <LessonHelp lesson={lesson} phase={phase === 'quiz' ? 'quiz' : phase === 'practice' ? 'practice' : 'theory'} />}
       <main className="max-w-2xl mx-auto px-4 pt-20 pb-28">
         {phase === 'intro' && <Intro lesson={lesson} unitTitle={t('learn.lesson.unitTitle', { n: unit.n, title: unit.titleUz })} hasReview={!!previous} newWords={split.fresh.length} warmup={warmup.length}
           onStart={() => { started.current = Date.now(); setPhase(previous ? 'review' : warmup.length ? 'warmup' : 'slides'); }} />}
