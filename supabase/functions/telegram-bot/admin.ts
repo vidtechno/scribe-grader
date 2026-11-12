@@ -155,7 +155,7 @@ async function startBroadcast(ctx: Ctx) {
   background(drain(ctx.db));
 }
 
-// ---------------------------------------------------------------- users menu & payouts
+// ---------------------------------------------------------------- users menu
 
 const LISTS: Record<string, string> = {
   paid: "💎 Pullik obunachilar",
@@ -187,24 +187,6 @@ async function userList(ctx: Ctx, kind: string) {
     [cb("⬅️ Foydalanuvchilar", "ad:ul")],
     ...HOME,
   ]);
-}
-
-async function payouts(ctx: Ctx) {
-  const { data } = await ctx.db.from("referral_withdrawals").select("id,amount,card_number,card_holder,created_at,user_id")
-    .eq("status", "pending").order("created_at", { ascending: true }).limit(10);
-  const rows = data ?? [];
-  if (!rows.length) return reply(ctx, "💸 <b>To'lovlar</b>\n\nKutilayotgan yechib olish so'rovi yo'q ✅", HOME);
-  await reply(ctx, `💸 <b>To'lovlar</b>\n\nKutilayotgan so'rovlar: <b>${rows.length}</b>. Pastda har biri alohida yuboriladi.`, HOME);
-  for (const w of rows) {
-    const { data: p } = await ctx.db.from("profiles").select("full_name,public_id").eq("user_id", w.user_id).maybeSingle();
-    await send(ctx.chatId, [
-      `👤 ${esc(p?.full_name ?? "Ismsiz")}${p?.public_id ? ` · #${esc(p.public_id)}` : ""}`,
-      `💰 <b>${money(w.amount)}</b>`,
-      `💳 <code>${String(w.card_number).replace(/(\d{4})(?=\d)/g, "$1 ")}</code>`,
-      `🧾 ${esc(w.card_holder)}`,
-      `<i>So'rov #${w.id} · ${fmtDate(w.created_at)}</i>`,
-    ].join("\n"), { inline_keyboard: [[cb("✅ To'landi", `ad:wd:ok:${w.id}`), cb("❌ Rad etish", `ad:wd:no:${w.id}`)]] });
-  }
 }
 
 // ---------------------------------------------------------------- users
@@ -397,7 +379,6 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
       await setState(ctx, null);
       return chooseAudience(ctx);
     case "ul": return a ? userList(ctx, a) : usersMenu(ctx);
-    case "pay": return payouts(ctx);
     case "us": return askUserSearch(ctx);
     case "u": return userCard(ctx, a);
     case "new": return recentUsers(ctx);
@@ -424,17 +405,6 @@ export async function adminCallback(ctx: Ctx, parts: string[]) {
       }
       if (a === "push") return createAnnouncement(ctx, b === "1");
       return announcements(ctx);
-    case "wd": {
-      const id = Number(b);
-      if (!Number.isSafeInteger(id) || (a !== "ok" && a !== "no")) return;
-      const { data, error } = await ctx.db.rpc("internal_ref_resolve_withdrawal", { _id: id, _paid: a === "ok" });
-      if (error) return reply(ctx, "ℹ️ Bu so'rov allaqachon ko'rib chiqilgan yoki topilmadi.");
-      const r = data as { amount: number };
-      const sum = `${String(r.amount).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} so'm`;
-      return reply(ctx, a === "ok"
-        ? `✅ So'rov #${id} — <b>${sum}</b> to'landi deb belgilandi. Foydalanuvchiga xabar yuborildi.`
-        : `❌ So'rov #${id} rad etildi. <b>${sum}</b> foydalanuvchi balansiga qaytarildi.`);
-    }
     case "bot":
       if (a === "setup") {
         const r = await setupBot(ctx.db);

@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { CalendarClock, Flame, GraduationCap, Loader2, MapPin, Repeat, Send, Sparkles, TrendingDown, TrendingUp, Trophy, UserPlus, Users, Wifi } from 'lucide-react';
 import { adminRpc, LEVEL_LABEL, pct, type UserStats } from './adminApi';
 import { Bars, Section, Stat } from './AdminUi';
-import { IntakeStatsPanel } from './IntakeStatsPanel';
+import { ContactsPanel, IntakeStatsPanel } from './IntakeStatsPanel';
 
 /** "+25% o'tgan haftaga nisbatan" / "o'zgarmagan" for a count compared with the same length of time before. */
 function trend(now: number, before: number): string {
@@ -28,6 +28,7 @@ export function UserStatsPanel() {
   return (
     <div className="space-y-8">
       <IntakeStatsPanel />
+      <ContactsPanel />
       <Section title="Saytda kimlar bor?" subtitle="Sayt ochiq turgan har bir foydalanuvchi har 2 daqiqada o'zini bildiradi. Hozir onlayn — oxirgi 5 daqiqada">
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
           <Stat icon={Wifi} label="Hozir onlayn" value={o.now} hint="Oxirgi 5 daqiqa" tone="text-emerald-500" accent={o.now > 0} />

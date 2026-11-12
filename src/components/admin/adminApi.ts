@@ -19,7 +19,6 @@ export interface Overview {
   funnel: { signed_up: number; started: number; lesson1: number; lessons3: number; bought: number };
   learning: { lessons_today: number; lessons_7d: number; learners_today: number; learners_7d: number; streak3: number; streak7: number };
   ielts: { writing_7d: number; speaking_7d: number; mock_7d: number };
-  referral: { invited: number; bought: number; rewarded: number; pending_count: number; pending_sum: number; paid_sum: number };
   bot: { total: number; linked: number; blocked: number; outbox_pending: number; outbox_failed_24h: number };
   signups_30d: { day: string; n: number }[];
   learning_14d: { day: string; lessons: number; learners: number }[];
@@ -30,7 +29,7 @@ export interface AdminUser {
   created_at: string; last_sign_in_at: string | null; provider: string; plan_type: string | null; expires_at: string | null; trial_ends_at: string | null;
   writing_used: number | null; writing_limit: number | null; speaking_used: number | null; speaking_limit: number | null;
   level: string | null; xp: number | null; streak: number | null; lessons_done: number; last_learn_day: string | null;
-  essays: number; speaking: number; mocks: number; invited: number; was_referred: boolean;
+  essays: number; speaking: number; mocks: number;
   telegram_id: number | null; telegram_username: string | null; telegram_banned: boolean; is_admin: boolean; last_seen: string | null;
   /** The site's own heartbeat: the last moment this user had the site open (null until the first heartbeat). */
   online_at: string | null;

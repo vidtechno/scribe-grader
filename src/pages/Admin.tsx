@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { BookOpen, FileText, LayoutDashboard, Megaphone, Settings, Shield, Users, Wallet } from 'lucide-react';
+import { BookOpen, FileText, LayoutDashboard, Megaphone, Send, Settings, Shield, Users, Wallet } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Navbar } from '@/components/Navbar';
@@ -13,6 +13,7 @@ import { UsersTab } from '@/components/admin/UsersTab';
 import { LearningTab } from '@/components/admin/LearningTab';
 import { MoneyTab } from '@/components/admin/MoneyTab';
 import { AnnouncementsTab } from '@/components/admin/AnnouncementsTab';
+import { BroadcastTab } from '@/components/admin/BroadcastTab';
 import { SettingsTab } from '@/components/admin/SettingsTab';
 
 const TABS = [
@@ -21,6 +22,7 @@ const TABS = [
   { id: 'learning', label: "Ta'lim", icon: BookOpen },
   { id: 'money', label: 'Obunalar', icon: Wallet },
   { id: 'news', label: "E'lonlar", icon: Megaphone },
+  { id: 'broadcast', label: 'Xabarlar', icon: Send },
   { id: 'blog', label: 'Blog', icon: FileText },
   { id: 'settings', label: 'Sozlamalar', icon: Settings },
 ] as const;
@@ -86,6 +88,7 @@ function AdminSession() {
         {tab === 'learning' && <LearningTab />}
         {tab === 'money' && <MoneyTab />}
         {tab === 'news' && <AnnouncementsTab />}
+        {tab === 'broadcast' && <BroadcastTab />}
         {tab === 'blog' && <BlogManager />}
         {tab === 'settings' && <SettingsTab />}
       </main>

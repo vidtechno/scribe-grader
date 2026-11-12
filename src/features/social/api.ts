@@ -16,8 +16,13 @@ export interface PublicProfile {
   week_xp?: number; next_lesson_title?: string | null;
   activity?: { day: string; xp: number }[];
   achievements?: { key: string; unlocked_at: string }[];
+  certificates?: PublicCertificate[];
   ielts?: { writing_count: number; writing_best: number | null; speaking_count: number; speaking_best: number | null };
 }
+/** A level certificate as other people see it: no printed name. */
+export interface PublicCertificate { level_id: string; percent: number | null; issued_at: string; number: string }
+/** The owner's own certificate, with the printed name (needed to render it again). */
+export interface MyCertificate extends PublicCertificate { full_name: string; passed_at: string | null }
 export interface LeaderRow { rank: number; public_id: string; username?: string | null; avatar?: string | null; name: string; xp: number; level: string | null; streak: number; is_me: boolean; is_following: boolean }
 export interface Leaderboard { scope: string; period: string; total: number; rows: LeaderRow[]; me: { rank: number; xp: number } | null; me_hidden: boolean }
 
@@ -41,6 +46,14 @@ export function usePublicProfile(publicId: string | undefined) {
   return useQuery({
     queryKey: ['public-profile', user?.id, publicId], enabled: !!user && !!publicId, retry: false,
     queryFn: () => callLearning<PublicProfile>('social_public_profile', { _public_id: publicId }),
+  });
+}
+
+export function useMyCertificates() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['my-certificates', user?.id], enabled: !!user, staleTime: 60_000,
+    queryFn: () => callLearning<MyCertificate[]>('learning_my_certificates'),
   });
 }
 

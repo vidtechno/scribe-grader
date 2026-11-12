@@ -9,6 +9,7 @@ import { achievementText } from './components';
 import { callLearning, courseMap, learningErrorMessage, useLearningState } from '@/features/learn/api';
 import { useReviewQueue } from '@/features/learn/engine/api';
 import { COURSE_UNITS, levelOf, unitNo } from '@/features/learn/course';
+import { MyCertificates } from './certificates';
 import { useSocialList, useSocialSettings, useUpdateSocialSettings, type SocialSettings } from './api';
 
 const GOALS = [{ xp: 20, label: 'social.goal.light', hint: 'social.goal.min5' }, { xp: 30, label: 'social.goal.normal', hint: 'social.goal.min10' }, { xp: 60, label: 'social.goal.serious', hint: 'social.goal.min20' }, { xp: 100, label: 'social.goal.strong', hint: 'social.goal.min35' }];
@@ -114,6 +115,8 @@ export function LearningIdentity() {
           ); })}
         </div>
       </div>
+
+      <MyCertificates />
 
       <div>
         <p className="text-sm font-semibold mb-2">{t('social.privacy')}</p>

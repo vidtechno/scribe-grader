@@ -24,12 +24,20 @@ export const CERT_W = 1400;
 export const CERT_H = 990;
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+/** Widest text block (px) the name and the level line may occupy; the inner frame is CERT_W - 124 = 1276 wide. */
+const MAX_TEXT_W = 1000;
+/** Font size that keeps `chars` characters inside MAX_TEXT_W, given an average glyph width of `em` * fontSize. */
+export const fitFontSize = (chars: number, em: number, max: number, min: number) =>
+  Math.max(min, Math.min(max, Math.floor(MAX_TEXT_W / (Math.max(chars, 1) * em))));
 export const formatCertDate = (d: Date) => `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`;
 
 /** The certificate as a self-contained SVG (no external fonts or images, so it also renders as an <img>). */
 export function certificateSvg(c: CertificateData): string {
   const name = esc(c.name.trim().slice(0, 48));
-  const nameSize = name.length > 30 ? 52 : name.length > 22 ? 62 : 74;
+  // Italic serif averages about 0.5em per character; escaped entities count as one glyph.
+  const nameSize = fitFontSize(c.name.trim().slice(0, 48).length, 0.5, 74, 38);
+  // Bold sans averages about 0.58em per character ("Title · CEFR").
+  const levelSize = fitFontSize(`${c.levelTitle} · ${c.cefr}`.length, 0.58, 72, 44);
   const lang = c.lang ?? 'en';
   const tr = (key: string) => translate(lang, key);
   const result = typeof c.percent === 'number' ? `${tr('learn.cert.result')} ${Math.round(c.percent)}%` : '';
@@ -50,18 +58,18 @@ export function certificateSvg(c: CertificateData): string {
 <text x="${CERT_W / 2}" y="${490}" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="${nameSize}" font-style="italic" font-weight="700" fill="#be123c">${name}</text>
 <line x1="${CERT_W / 2 - 330}" y1="516" x2="${CERT_W / 2 + 330}" y2="516" stroke="#e11d48" stroke-opacity=".45" stroke-width="2"/>
 <text x="${CERT_W / 2}" y="578" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="27" fill="#4b5563">${esc(tr('learn.cert.courseTop'))}</text>
-<text x="${CERT_W / 2}" y="668" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="72" font-weight="800" fill="#1f2937">${esc(c.levelTitle)} <tspan fill="#e11d48">· ${esc(c.cefr)}</tspan></text>
+<text x="${CERT_W / 2}" y="668" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="${levelSize}" font-weight="800" fill="#1f2937">${esc(c.levelTitle)} <tspan fill="#e11d48">· ${esc(c.cefr)}</tspan></text>
 <text x="${CERT_W / 2}" y="722" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="27" fill="#4b5563">${esc(tr('learn.cert.courseBottom'))}</text>
-${result ? `<text x="${CERT_W / 2}" y="776" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#059669">${result}</text>` : ''}
+${result ? `<text x="${CERT_W / 2}" y="764" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#059669">${result}</text>` : ''}
 <g font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#6b7280">
   <text x="130" y="${CERT_H - 118}">${esc(tr('learn.cert.date'))}</text>
   <text x="130" y="${CERT_H - 84}" font-size="30" font-weight="700" fill="#1f2937">${formatCertDate(c.date)}</text>
   <text x="${CERT_W - 130}" y="${CERT_H - 118}" text-anchor="end">${esc(tr('learn.cert.number'))}</text>
   <text x="${CERT_W - 130}" y="${CERT_H - 84}" text-anchor="end" font-size="30" font-weight="700" fill="#1f2937">${esc(c.number)}</text>
 </g>
-<g transform="translate(${CERT_W / 2}, ${CERT_H - 148})">
-  <circle r="58" fill="url(#red)"/><circle r="49" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
-  <path d="M-22 2 l16 17 l30 -34" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="translate(${CERT_W / 2}, ${CERT_H - 132})">
+  <circle r="54" fill="url(#red)"/><circle r="46" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+  <path d="M-20 2 l15 16 l28 -32" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 </svg>`;
 }

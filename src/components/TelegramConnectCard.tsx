@@ -262,7 +262,6 @@ export function TelegramConnectModal() {
           <li className="flex gap-2.5"><span>🔔</span><span><Rich text={t('tgModal.b1')} /></span></li>
           <li className="flex gap-2.5"><span>📊</span><span><Rich text={t('tgModal.b2')} /></span></li>
           <li className="flex gap-2.5"><span>🎓</span><span><Rich text={t('tgModal.b3')} /></span></li>
-          <li className="flex gap-2.5"><span>🎁</span><span><Rich text={t('tgModal.b4')} /></span></li>
         </ul>
         <div className="mt-2 flex flex-col gap-2">
           <Button variant="glow" className="gap-2" disabled={busy} onClick={() => void connect()}>
