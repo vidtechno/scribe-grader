@@ -150,6 +150,10 @@
       "destination": "/api/seo?kind=en-learn"
     },
     {
+      "source": "/certificate/:number",
+      "destination": "/api/seo?kind=certificate&slug=:number"
+    },
+    {
       "source": "/ingliz-tili-darslari",
       "destination": "/api/seo?kind=course"
     },

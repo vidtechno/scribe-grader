@@ -1,5 +1,6 @@
 import { translate, type Lang } from '@/i18n';
 import { LOGO_DATA_URI } from './certificate-logo';
+import { storyHeadline } from './certificate-share';
 
 export interface CertificateData {
   /** Full name as the learner wrote it. */
@@ -89,5 +90,100 @@ export async function certificateImage(c: CertificateData, type: 'image/jpeg' | 
     ctx.fillRect(0, 0, CERT_W, CERT_H);
     ctx.drawImage(img, 0, 0, CERT_W, CERT_H);
     return await new Promise<Blob>((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('certificate_blob'))), type, 0.88));
+  } finally { URL.revokeObjectURL(url); }
+}
+
+export const STORY_W = 1080;
+export const STORY_H = 1920;
+
+function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+/** Greedy word wrap by measured width; a single word longer than the line is kept whole. */
+function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const lines: string[] = [];
+  let line = '';
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    const next = line ? `${line} ${word}` : word;
+    if (line && ctx.measureText(next).width > maxWidth) { lines.push(line); line = word; } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+/**
+ * 1080x1920 PNG for an Instagram story: a warm gradient, a short headline, the certificate as a rounded card with a shadow,
+ * and "scorify.uz" with the certificate number underneath.
+ */
+export async function certificateStoryImage(c: CertificateData): Promise<Blob> {
+  const url = URL.createObjectURL(new Blob([certificateSvg(c)], { type: 'image/svg+xml;charset=utf-8' }));
+  try {
+    const img = new Image();
+    img.decoding = 'async';
+    await new Promise<void>((resolve, reject) => { img.onload = () => resolve(); img.onerror = () => reject(new Error('certificate_render')); img.src = url; });
+    const canvas = document.createElement('canvas');
+    canvas.width = STORY_W; canvas.height = STORY_H;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('certificate_canvas');
+    const sans = 'Helvetica, Arial, sans-serif';
+
+    const bg = ctx.createLinearGradient(0, 0, STORY_W * 0.6, STORY_H);
+    bg.addColorStop(0, '#9f1239'); bg.addColorStop(0.5, '#e11d48'); bg.addColorStop(1, '#fb7185');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, STORY_W, STORY_H);
+    // soft light spots, like the circles on the certificate itself
+    ctx.fillStyle = 'rgba(255,255,255,0.07)';
+    ctx.beginPath(); ctx.arc(STORY_W - 90, 230, 330, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(60, STORY_H - 260, 360, 0, Math.PI * 2); ctx.fill();
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#ffffff';
+    const headline = storyHeadline(c.levelTitle, c.cefr, c.lang ?? 'uz');
+    let size = 72;
+    let lines: string[] = [];
+    for (; size >= 48; size -= 4) {
+      ctx.font = `800 ${size}px ${sans}`;
+      lines = wrapLines(ctx, headline, STORY_W - 180);
+      if (lines.length <= 3) break;
+    }
+    const lh = Math.round(size * 1.18);
+    const headTop = 540 - ((lines.length - 1) * lh) / 2;
+    lines.forEach((l, i) => ctx.fillText(l, STORY_W / 2, headTop + i * lh));
+
+    // the certificate card
+    const cw = 920;
+    const ch = Math.round((cw * CERT_H) / CERT_W);
+    const cx = (STORY_W - cw) / 2;
+    const cy = 810;
+    ctx.save();
+    ctx.shadowColor = 'rgba(76, 5, 25, 0.45)';
+    ctx.shadowBlur = 70;
+    ctx.shadowOffsetY = 32;
+    ctx.fillStyle = '#fffaf5';
+    roundRectPath(ctx, cx, cy, cw, ch, 36);
+    ctx.fill();
+    ctx.restore();
+    ctx.save();
+    roundRectPath(ctx, cx, cy, cw, ch, 36);
+    ctx.clip();
+    ctx.drawImage(img, cx, cy, cw, ch);
+    ctx.restore();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `800 64px ${sans}`;
+    ctx.fillText('scorify.uz', STORY_W / 2, cy + ch + 150);
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.font = `600 36px ${sans}`;
+    ctx.fillText(c.number, STORY_W / 2, cy + ch + 215);
+
+    return await new Promise<Blob>((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('certificate_blob'))), 'image/png'));
   } finally { URL.revokeObjectURL(url); }
 }

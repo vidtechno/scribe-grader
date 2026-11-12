@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Download, Loader2, Share2, X } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { useT } from '@/i18n';
 import { Button } from '@/components/ui/button';
@@ -7,10 +7,23 @@ import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { callLearning } from '../api';
-import { levelOf } from '../course';
-import { CERT_CEFR, certificateImage, certificateSvg, type CertificateData } from '../certificate';
+import { LEVELS, levelOf } from '../course';
+import { CERT_CEFR, certificateSvg, type CertificateData } from '../certificate';
+import { isFreshlyIssued } from '../certificate-share';
+import { CertificateCelebration } from './CertificateCelebration';
+import { CertificateShare } from './CertificateShare';
 
 const validName = (s: string) => s.trim().split(/\s+/).filter((w) => /\p{L}{2,}/u.test(w)).length >= 2;
+
+/** True the first time a certificate number is seen in this browser (so a reload does not replay the animation). */
+function markCelebrated(number: string): boolean {
+  try {
+    const key = `scorify:cert-party:${number}`;
+    if (localStorage.getItem(key)) return false;
+    localStorage.setItem(key, '1');
+  } catch { /* storage unavailable: celebrate anyway */ }
+  return true;
+}
 
 interface Issued { number: string; full_name: string; percent: number | null; passed_at: string | null; issued_at: string }
 
@@ -28,12 +41,16 @@ export function CertificateDialog({ levelId, onClose }: { levelId: string; onClo
   const [busy, setBusy] = useState(false);
   const [issued, setIssued] = useState<Issued | null>(null);
   const [failed, setFailed] = useState(false);
+  const [party, setParty] = useState(false);
   const level = levelOf(levelId);
 
   const issue = async (n: string) => {
     try {
       setFailed(false);
-      setIssued(await callLearning<Issued>('learning_issue_certificate', { _level: levelId, _name: n.trim() }));
+      const res = await callLearning<Issued>('learning_issue_certificate', { _level: levelId, _name: n.trim() });
+      // The big celebration is for a certificate earned just now, once per certificate number; reopening it shows the plain view.
+      if (isFreshlyIssued(res.issued_at) && markCelebrated(res.number)) setParty(true);
+      setIssued(res);
     } catch (e) {
       setFailed(true);
       toast.error(String(e instanceof Error && e.message.includes('level_not_passed') ? t('learn.certDialog.notPassed') : t('learn.certDialog.failed')));
@@ -60,28 +77,11 @@ export function CertificateDialog({ levelId, onClose }: { levelId: string; onClo
       setAsking(false);
     } catch { toast.error(t('learn.certDialog.nameFailed')); } finally { setSaving(false); }
   };
-  const file = async () => new File([await certificateImage(data!)], `scorify-${levelId}-${t('learn.certDialog.fileSuffix')}.jpg`, { type: 'image/jpeg' });
-  const download = async () => {
-    if (!data) return;
-    setBusy(true);
-    try {
-      const f = await file();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(f); a.download = f.name; a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-    } catch { toast.error(t('learn.certDialog.imageFailed')); } finally { setBusy(false); }
-  };
-  const share = async () => {
-    if (!data) return;
-    setBusy(true);
-    try {
-      const f = await file();
-      if (navigator.canShare?.({ files: [f] })) await navigator.share({ files: [f], title: t('learn.certDialog.shareTitle'), text: t('learn.certDialog.shareText', { level: level.title, cefr: level.cefr }) });
-      else await download();
-    } catch { /* the share sheet was closed */ } finally { setBusy(false); }
-  };
+  const next = useMemo(() => { const n = LEVELS[LEVELS.findIndex((l) => l.id === levelId) + 1]; return n?.available ? { title: n.title, cefr: n.cefr } : null; }, [levelId]);
 
   return (
+    <>
+    {party && data && <CertificateCelebration data={data} previewSrc={preview} nextLevel={next} onDone={() => setParty(false)} />}
     <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur overflow-y-auto">
       <div className="max-w-2xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-5">
@@ -106,14 +106,12 @@ export function CertificateDialog({ levelId, onClose }: { levelId: string; onClo
           <>
             <img src={preview} alt={t('learn.certDialog.alt', { name: data.name, level: level.title })} className="w-full rounded-2xl border border-border shadow-lg" />
             <p className="text-xs text-muted-foreground text-center mt-2">{t('learn.certDialog.numberA')} <b>{data.number}</b>. {t('learn.certDialog.numberB')}</p>
-            <div className="grid sm:grid-cols-2 gap-2.5 mt-4">
-              <Button size="lg" variant="glow" className="gap-2" disabled={busy} onClick={() => void download()}><Download className="h-4 w-4" />{t('learn.certDialog.download')}</Button>
-              <Button size="lg" variant="outline" className="gap-2" disabled={busy} onClick={() => void share()}><Share2 className="h-4 w-4" />{t('learn.certDialog.share')}</Button>
-            </div>
+            <CertificateShare data={data} className="mt-4" />
             <button type="button" className="block mx-auto mt-4 text-xs text-muted-foreground underline" onClick={() => setAsking(true)}>{t('learn.certDialog.changeName')}</button>
           </>
         )}
       </div>
     </div>
+    </>
   );
 }
