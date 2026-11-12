@@ -45,29 +45,38 @@ export type Database = {
       }
       announcements: {
         Row: {
+          audience: string
           content: string
+          content_en: string | null
           created_at: string
           id: string
           status: string
           title: string
+          title_en: string | null
           type: string
           updated_at: string
         }
         Insert: {
+          audience?: string
           content: string
+          content_en?: string | null
           created_at?: string
           id?: string
           status?: string
           title: string
+          title_en?: string | null
           type?: string
           updated_at?: string
         }
         Update: {
+          audience?: string
           content?: string
+          content_en?: string | null
           created_at?: string
           id?: string
           status?: string
           title?: string
+          title_en?: string | null
           type?: string
           updated_at?: string
         }
@@ -769,6 +778,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_announcement_stats: { Args: never; Returns: Json }
       admin_ai_usage_summary: { Args: never; Returns: Json }
       admin_blog_daily: {
         Args: { _days?: number; _post?: string }
