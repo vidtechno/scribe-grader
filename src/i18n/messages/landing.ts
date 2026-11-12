@@ -216,6 +216,7 @@ export default {
     'demo.start': 'Start demo recording',
     'demo.micDenied': 'Microphone access denied. Please allow your microphone to try the demo.',
 
+    'ann.badge': 'What is new',
     'ann.gotIt': 'Got it',
     'ann.dismiss': 'Dismiss',
     'landing.stat.a.v': "{n} lessons",
@@ -498,6 +499,7 @@ export default {
     'demo.start': 'Demo yozuvni boshlash',
     'demo.micDenied': "Mikrofonga ruxsat berilmadi. Demoni sinash uchun mikrofonga ruxsat bering.",
 
+    'ann.badge': 'Yangilik',
     'ann.gotIt': 'Tushunarli',
     'ann.dismiss': 'Yopish',
     'landing.stat.a.v': "{n} ta dars",
