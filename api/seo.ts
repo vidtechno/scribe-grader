@@ -14,6 +14,7 @@ import { part3Extra } from './_lib/part3-extra.js';
 import { renderChart } from './_lib/charts.js';
 import { englishLanding } from './_lib/en-landing.js';
 import { ieltsHub, type HubLang } from './_lib/ielts-hub.js';
+import { certificatePage, fetchCertificate } from './_lib/certificate-page.js';
 import type { CueCard, Part1Topic, Task1Page, Task2Question, Vocab, VocabPage } from './_lib/types.js';
 
 const wc = (paras: string[]) => paras.join(' ').split(/\s+/).filter(Boolean).length;
@@ -273,6 +274,12 @@ export default async function handler(req: IncomingMessage, res: ServerResponse 
       }
       case 'guide': { if (!slug) return send(res, 200, guideHub()); const g = guideBySlug(slug); return g ? send(res, 200, guidePage(g)) : missing(); }
       case 'words': { if (!slug) return send(res, 200, wordsHub()); const t = topicBySlug(slug); return t ? send(res, 200, wordsPage(t)) : missing(); }
+      case 'certificate': {
+        const number = (slug ?? '').toUpperCase();
+        let cert = null;
+        try { cert = await fetchCertificate(number); } catch { return send(res, 503, notFoundPage()); }
+        return cert ? send(res, 200, certificatePage(cert, number)) : send(res, 404, certificatePage(null, number));
+      }
       case 'en-learn': return send(res, 200, englishLanding());
       case 'ielts-hub': return send(res, 200, await ieltsHub((url.searchParams.get('lang') === 'uz' ? 'uz' : 'en') as HubLang));
       default: return missing();
