@@ -23,7 +23,7 @@ const ranked = { week_xp: 120, rank: 4, total: 13, xp_to_next: 20, next_name: 'M
 
 /** Lets the exit animation finish, then checks the card is gone. */
 async function gone() {
-  await act(async () => { await vi.advanceTimersByTimeAsync(1500); });
+  for (let i = 0; i < 10; i++) await act(async () => { await vi.advanceTimersByTimeAsync(200); });
   expect(screen.queryByRole('status')).toBeNull();
 }
 
