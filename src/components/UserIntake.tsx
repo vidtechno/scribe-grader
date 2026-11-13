@@ -9,7 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { AGE_RANGES, DISCOVERY_SOURCES, intakeError, intakeKey, intakeSafeRoute, intakeSnoozed, normalizePhone, normalizeTelegram, snoozeIntake, type IntakeAnswers, type IntakeResponse } from '@/lib/user-intake';
+import { AGE_RANGES, DISCOVERY_SOURCES, intakeError, intakeKey, intakeSafeRoute, normalizePhone, normalizeTelegram, snoozeIntake, type IntakeAnswers, type IntakeResponse } from '@/lib/user-intake';
 import { toast } from 'sonner';
 
 export function UserIntakeGate({ onBusyChange }: { onBusyChange: (busy: boolean) => void }) {
@@ -33,7 +33,7 @@ export function UserIntakeGate({ onBusyChange }: { onBusyChange: (busy: boolean)
     const sync = (event: StorageEvent) => { if (userId && event.key === intakeKey(userId)) setStorageVersion(v => v + 1); };
     window.addEventListener('storage', sync); return () => window.removeEventListener('storage', sync);
   }, [userId]);
-  const due = enabled && !query.isError && query.isSuccess && !query.data?.completed_at && dismissed !== user?.id && !intakeSnoozed(user.id);
+  const due = enabled && !query.isError && query.isSuccess && !query.data?.completed_at && dismissed !== user?.id;
   useEffect(() => {
     const preparing = !!userId && intakeSafeRoute(pathname) && (loading || !hasProfile || ['checking','pending'].includes(devices.status));
     onBusyChange(preparing || (enabled && !query.isError && (query.isPending || due)));
@@ -42,12 +42,11 @@ export function UserIntakeGate({ onBusyChange }: { onBusyChange: (busy: boolean)
   if (!due) return null;
   return <UserIntakeModal key={user.id} userId={user.id}
     initialPhone={profile.phone || ''} initialTelegram={typeof user.user_metadata?.telegram_username === 'string' ? user.user_metadata.telegram_username : ''}
-    onLater={() => { snoozeIntake(user.id); setDismissed(user.id); }}
     onDone={() => setDismissed(user.id)} />;
 }
 
-export function UserIntakeModal({ userId, initialPhone = '', initialTelegram = '', onLater, onDone }: {
-  userId: string; initialPhone?: string; initialTelegram?: string; onLater: () => void; onDone: () => void;
+export function UserIntakeModal({ userId, initialPhone = '', initialTelegram = '', onDone }: {
+  userId: string; initialPhone?: string; initialTelegram?: string; onDone: () => void;
 }) {
   const { t } = useT();
   const { refreshProfile } = useAuth();
@@ -90,49 +89,52 @@ export function UserIntakeModal({ userId, initialPhone = '', initialTelegram = '
     setError(''); if (step === 3) void finish(); else setStep(s => s + 1);
   };
   const skip = () => {
-    patch(step === 0 ? { phone: '' } : { telegram: '', noUsername: false });
+    // Only the Telegram username can be skipped; the phone number and the age range are required.
+    patch({ telegram: '', noUsername: false });
     setStep(s => s + 1);
   };
   const title = ['intake.phone','intake.telegram','intake.age','intake.source'][step];
   const Icon = [Phone, MessageCircle, UserRound, Sparkles][step];
-  return <Dialog open onOpenChange={open => { if (!open && !saving.current) onLater(); }}>
-    <DialogContent className="w-[calc(100%_-_2rem)] max-w-[460px] max-h-[calc(100dvh_-_2rem)] overflow-y-auto rounded-3xl border-primary/15 p-0 gap-0"
+  // Required: no close button, and neither Escape nor a click outside closes it.
+  return <Dialog open>
+    <DialogContent hideClose className="w-[calc(100%_-_2rem)] max-w-[400px] max-h-[calc(100dvh_-_2rem)] overflow-y-auto rounded-3xl border-primary/15 p-0 gap-0"
       onOpenAutoFocus={event => { event.preventDefault(); heading.current?.focus(); }}
-      onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (saving.current) event.preventDefault(); }}>
-      <div className="px-6 pt-7 pb-5 bg-gradient-to-br from-primary/10 via-background to-rose-50/40 dark:to-primary/5 rounded-t-3xl">
-        <div className="h-11 w-11 grid place-items-center rounded-2xl bg-primary text-primary-foreground mb-4"><HeartHandshake className="h-6 w-6" /></div>
-        <DialogHeader className="text-left space-y-2">
-          <DialogTitle className="text-2xl leading-tight pr-4">{t('intake.title')}</DialogTitle>
-          <DialogDescription className="leading-relaxed text-[13px]">{t('intake.description')}</DialogDescription>
-        </DialogHeader>
-        <div className="mt-4 flex items-center gap-3"><span className="text-[11px] text-muted-foreground flex-1">{t('intake.quick')}</span><span className="text-xs font-semibold text-primary">{t('intake.step', { n: step + 1 })}</span></div>
-        <div className="mt-2 flex gap-1.5" aria-hidden="true">{[0,1,2,3].map(i => <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? 'bg-primary' : 'bg-primary/10'}`} />)}</div>
+      onPointerDownOutside={event => event.preventDefault()} onInteractOutside={event => event.preventDefault()} onEscapeKeyDown={event => event.preventDefault()}>
+      <div className="px-5 pt-5 pb-3 bg-gradient-to-br from-primary/10 via-background to-rose-50/40 dark:to-primary/5 rounded-t-3xl">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 shrink-0 grid place-items-center rounded-xl bg-primary text-primary-foreground"><HeartHandshake className="h-5 w-5" /></div>
+          <DialogHeader className="min-w-0 flex-1 text-left space-y-0.5">
+            <DialogTitle className="text-lg leading-tight">{t('intake.title')}</DialogTitle>
+            <DialogDescription className="text-xs leading-snug">{t('intake.description')}</DialogDescription>
+          </DialogHeader>
+          <span className="shrink-0 text-xs font-semibold text-primary" aria-live="polite">{t('intake.step', { n: step + 1 })}</span>
+        </div>
+        <div className="mt-3 flex gap-1.5" aria-hidden="true">{[0,1,2,3].map(i => <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? 'bg-primary' : 'bg-primary/10'}`} />)}</div>
       </div>
-      <form className="p-6 pt-5 space-y-5" onSubmit={event => { event.preventDefault(); next(); }}>
+      <form className="p-5 pt-4 space-y-4" onSubmit={event => { event.preventDefault(); next(); }}>
         <div>
           <h2 ref={heading} tabIndex={-1} id="intake-question" className="font-bold text-lg outline-none flex items-center gap-2"><Icon className="h-5 w-5 text-primary shrink-0" />{t(title)}</h2>
-          {step < 2 && <p className="text-xs text-muted-foreground mt-1">{t('intake.optional')}</p>}
+          {step === 1 && <p className="text-xs text-muted-foreground mt-1">{t('intake.optional')}</p>}
         </div>
         {step === 0 && <div className="space-y-3"><Input aria-label={t('intake.phone')} aria-invalid={!!error} aria-describedby="intake-contact-note" type="tel" inputMode="tel" autoComplete="tel" placeholder="+998 __ ___ __ __" maxLength={24} value={answers.phone} onChange={e => patch({ phone: e.target.value })} className="h-12 text-base rounded-xl" />
           <p id="intake-contact-note" className="text-sm leading-relaxed text-muted-foreground">{t('intake.contactHint')}</p></div>}
         {step === 1 && <div className="space-y-3"><Input aria-label={t('intake.telegram')} aria-invalid={!!error} aria-describedby="intake-telegram-note" type="text" inputMode="text" autoCapitalize="none" autoCorrect="off" autoComplete="off" spellCheck={false} placeholder="@username" maxLength={33} disabled={answers.noUsername} value={answers.telegram} onChange={e => patch({ telegram: e.target.value })} className="h-12 text-base rounded-xl" />
           <label className="flex items-center gap-2.5 rounded-xl border p-3 cursor-pointer text-sm"><input type="checkbox" checked={answers.noUsername} onChange={e => patch({ noUsername: e.target.checked, ...(e.target.checked ? { telegram: '' } : {}) })} className="h-4 w-4 accent-[hsl(var(--primary))]" />{t('intake.noUsername')}</label>
-          <p id="intake-telegram-note" className="text-xs text-muted-foreground leading-relaxed">{t('intake.telegramHint')}</p><p className="text-sm text-muted-foreground">{t('intake.contactHint')}</p></div>}
+          <p id="intake-telegram-note" className="text-xs text-muted-foreground leading-relaxed">{t('intake.telegramHint')}</p></div>}
         {step === 2 && <fieldset className="space-y-3"><legend className="text-xs text-muted-foreground mb-3">{t('intake.ageHint')}</legend>
           <div className="grid grid-cols-2 gap-2">{AGE_RANGES.map(age => <label key={age} className={`flex items-center justify-between gap-2 cursor-pointer rounded-xl border px-4 py-3 text-sm font-semibold transition-colors ${answers.age === age ? 'border-primary bg-primary/5 text-primary' : 'hover:border-primary/40'}`}>
             <span className="inline-flex items-center gap-2"><input type="radio" name="intake-age" value={age} checked={answers.age === age} onChange={() => patch({ age })} className="accent-[hsl(var(--primary))]" />{t(`intake.age.${age}`)}</span>{answers.age === age && <Check className="h-4 w-4" />}</label>)}</div></fieldset>}
-        {step === 3 && <div className="space-y-3"><p className="text-sm text-muted-foreground">{t('intake.sourceHint')}</p>
+        {step === 3 && <div className="space-y-3">
           <select aria-label={t('intake.source')} aria-invalid={!!error} value={answers.source} onChange={e => patch({ source: e.target.value as IntakeAnswers['source'] })} className="h-12 w-full rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
             <option value="" disabled>{t('intake.select')}</option>{DISCOVERY_SOURCES.map(source => <option key={source} value={source}>{t(`intake.source.${source}`)}</option>)}
           </select></div>}
         {error && <p role="alert" className="text-xs text-destructive leading-relaxed">{t(error)}</p>}
-        {step < 2 && <p className="flex items-start gap-2 text-[11px] text-muted-foreground leading-relaxed"><ShieldCheck className="h-4 w-4 shrink-0 text-primary/70" />{t('intake.private')}</p>}
+        {step === 0 && <p className="flex items-start gap-2 text-[11px] text-muted-foreground leading-relaxed"><ShieldCheck className="h-4 w-4 shrink-0 text-primary/70" />{t('intake.private')}</p>}
         <div className="flex items-center gap-2 pt-1">
           {step > 0 && <Button type="button" variant="outline" size="icon" disabled={busy} aria-label={t('intake.back')} onClick={() => { setError(''); setStep(s => s - 1); }} className="rounded-xl h-11 w-11 shrink-0"><ArrowLeft className="h-4 w-4" /></Button>}
           <Button type="submit" disabled={busy} className="rounded-xl h-11 flex-1 gap-2 whitespace-normal leading-tight">{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}{t(busy ? 'intake.saving' : step === 3 ? 'intake.finish' : 'intake.next')}{!busy && step < 3 && <ArrowRight className="h-4 w-4" />}</Button>
         </div>
-        <div className="flex justify-between items-center gap-2 text-xs"><button type="button" disabled={busy} onClick={onLater} className="text-muted-foreground underline-offset-4 hover:underline py-1">{t('intake.later')}</button>
-          {step < 2 && <button type="button" onClick={skip} className="text-primary font-medium py-1">{t('intake.skip')}</button>}</div>
+        {step === 1 && <div className="flex justify-end text-xs"><button type="button" onClick={skip} className="text-primary font-medium py-1">{t('intake.skip')}</button></div>}
       </form>
     </DialogContent>
   </Dialog>;
