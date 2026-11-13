@@ -29,8 +29,9 @@ describe('unified subscription entitlements', () => {
       personal: { writing: 50, speaking: 30, mockTests: 6 },
       practice: { reading: null, listening: null },
     });
-    expect(planFeatures('plus', 'en').join(' ')).toMatch(/Reading: UNLIMITED.*Listening: UNLIMITED/s);
-    expect(planFeatures('plus', 'uz').join(' ')).toMatch(/Reading: CHEKSIZ.*Listening: CHEKSIZ/s);
+    expect(planFeatures('plus', 'en').join(' ')).toMatch(/Reading and \d+ Listening tests, unlimited/);
+    expect(planFeatures('plus', 'en').join(' ')).toContain('50 AI assessments');
+    expect(planFeatures('plus', 'uz').join(' ')).toMatch(/Reading va \d+ ta Listening testi: cheksiz/);
   });
 
   it('never grants paid owner quotas to unknown or legacy client plan names', () => {
