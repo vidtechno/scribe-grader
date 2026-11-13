@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Check, CreditCard, GraduationCap, Mic, PenLine, Target } from 'lucide-react';
+import { Check, CreditCard, GraduationCap, MessageCircle, Mic, PenLine, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PayDialog } from '@/components/PayDialog';
 import { useAuth } from '@/hooks/useAuth';
 import { usePaymentSettings } from '@/hooks/usePaymentSettings';
 import { useT } from '@/i18n';
-import { BILLING_DISCOUNT, billingLabel, formatUzs, planTotalUzs, visaLink, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice } from '@/lib/plans';
+import { BILLING_DISCOUNT, ONLINE_PAYMENTS, billingLabel, formatUzs, planTotalUzs, telegramPayLink, visaLink, type Billing, LEARN_TRIAL_DAYS, getPlanEntitlement, planFeatures, planPrice } from '@/lib/plans';
 
 export interface PlanRow {
   slug: string;
@@ -97,24 +97,35 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
                 <Button variant={ielts ? 'glow' : 'outline'} className="w-full mt-auto" disabled>
                   {t('plans.current')}
                 </Button>
-              ) : (
+              ) : ONLINE_PAYMENTS ? (
                 <Button variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto" onClick={() => choose(plan.slug)}>
                   <CreditCard className="h-4 w-4" />
                   {`${t('plans.buy', { name: e.name })}${billing !== 'month' ? ` · ${billingLabel(lang, billing)}` : ''}`}
                 </Button>
+              ) : (
+                <Button asChild variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto">
+                  <a href={telegramPayLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="h-4 w-4" />
+                    {`${t('plans.tg.pay')}${billing !== 'month' ? ` · ${billingLabel(lang, billing)}` : ''}`}
+                  </a>
+                </Button>
               )}
-              <a href={visaLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer"
-                className="mt-2 text-center text-xs text-muted-foreground hover:text-primary hover:underline">
-                {t('plans.visa.short')}
-              </a>
+              {ONLINE_PAYMENTS ? (
+                <a href={visaLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer"
+                  className="mt-2 text-center text-xs text-muted-foreground hover:text-primary hover:underline">
+                  {t('plans.visa.short')}
+                </a>
+              ) : (
+                <p className="mt-2 text-center text-xs text-muted-foreground">{t('plans.support.note')}</p>
+              )}
             </motion.div>
           );
         })}
       </div>
       {testPriceUzs !== null && <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">{t('plans.testMode', { amount: formatUzs(testPriceUzs) })}</p>}
-      {paying && <PayDialog open onOpenChange={(v) => { if (!v) setPaying(null); }} plan={paying} billing={billing} amountUzs={payAmount(paying)} testMode={testPriceUzs !== null} />}
+      {ONLINE_PAYMENTS && paying && <PayDialog open onOpenChange={(v) => { if (!v) setPaying(null); }} plan={paying} billing={billing} amountUzs={payAmount(paying)} testMode={testPriceUzs !== null} />}
       <p className="text-xs text-muted-foreground text-center mt-6">
-        {t('plans.footer.a', { period: t(`plans.valid.${billing}`) })}
+        {t(ONLINE_PAYMENTS ? 'plans.footer.a' : 'plans.footer.tg', { period: t(`plans.valid.${billing}`) })}
         {billing === 'month' ? '' : t('plans.footer.renew')}. {t('plans.footer.b')} <span className="text-primary font-semibold">@scorify_support</span>.
       </p>
     </div>

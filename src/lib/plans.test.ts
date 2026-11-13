@@ -117,3 +117,18 @@ describe('unified subscription entitlements', () => {
     }
   });
 });
+
+describe('paying through the Telegram chat while online payment is off', () => {
+  it('is switched off, and the chat message names the plan, period, price and account', async () => {
+    const { ONLINE_PAYMENTS, telegramPayLink, SUPPORT_CHAT } = await import('./plans');
+    expect(ONLINE_PAYMENTS).toBe(false);
+    const url = telegramPayLink('go', 'quarter', '312700', 'uz');
+    expect(url.startsWith(`${SUPPORT_CHAT}?text=`)).toBe(true);
+    const text = decodeURIComponent(url.split('?text=')[1]);
+    expect(text).toContain('Learn');
+    expect(text).toContain('ID: #312700');
+    expect(text).toMatch(/\d/);
+    expect(decodeURIComponent(telegramPayLink('plus', 'month', null, 'en').split('?text=')[1])).toContain('IELTS');
+  });
+});
+
