@@ -139,6 +139,21 @@ export function PlanCards({ plans, currentPlan, publicId }: { plans: PlanRow[]; 
                 <Button asChild size="lg" variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 text-base font-bold">
                   <a href={payHref} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-4 w-4" />{payLabel}</a>
                 </Button>
+              ) : (
+                <Button asChild variant={ielts ? 'glow' : 'outline'} className="w-full gap-2 mt-auto">
+                  <a href={telegramPayLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="h-4 w-4" />
+                    {`${t('plans.tg.pay')}${billing !== 'month' ? ` · ${billingLabel(lang, billing)}` : ''}`}
+                  </a>
+                </Button>
+              )}
+              {ONLINE_PAYMENTS ? (
+                <a href={visaLink(plan.slug, billing, profile?.public_id ?? publicId, lang)} target="_blank" rel="noopener noreferrer"
+                  className="mt-2 text-center text-xs text-muted-foreground hover:text-primary hover:underline">
+                  {t('plans.visa.short')}
+                </a>
+              ) : (
+                <p className="mt-2 text-center text-xs text-muted-foreground">{t('plans.support.note')}</p>
               )}
               {!trialOffer && !(isCurrent && billing === 'month') && (
                 ONLINE_PAYMENTS ? (
