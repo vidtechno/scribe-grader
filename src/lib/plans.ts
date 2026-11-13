@@ -44,6 +44,7 @@ export const PLAN_ENTITLEMENTS: Record<PlanSlug, PlanEntitlement> = {
     practice: { reading: FREE_PRACTICE_TESTS, listening: FREE_PRACTICE_TESTS },
     features: [
       { key: 'plans.go.f1' },
+      { key: 'plans.go.f9' },
       { key: 'plans.go.f2' },
       { key: 'plans.go.f3' },
       { key: 'plans.go.f4' },
