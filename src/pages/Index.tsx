@@ -63,7 +63,7 @@ function StickyCta({ href }: { href: string }) {
   );
 }
 
-const FAQ_COUNT = 13;
+const FAQ_COUNT = 14;
 
 export default function Index() {
   const { user } = useAuth();
@@ -117,7 +117,7 @@ export default function Index() {
   ].map(l => ({ ...l, text: t(`landing.level.${l.k}.text`) }));
 
   // The English page leads with the IELTS questions; the Uzbek page with the English course.
-  const faqOrder = lang === 'en' ? [12, 6, 7, 10, 13, 5, 11, 4, 1, 3, 2, 8, 9] : Array.from({ length: FAQ_COUNT }, (_, i) => i + 1);
+  const faqOrder = lang === 'en' ? [12, 6, 7, 10, 13, 5, 11, 14, 4, 1, 3, 2, 8, 9] : Array.from({ length: FAQ_COUNT }, (_, i) => i + 1);
   const faq = faqOrder.map(i => ({ q: t(`landing.faq.${i}.q`), a: t(`landing.faq.${i}.a`) }));
   const base = lang === 'uz' ? '/uz' : '/';
   // The first call to action follows the page's audience: IELTS practice on the English page, the Uzbek-taught course on the Uzbek page.
@@ -141,7 +141,7 @@ export default function Index() {
       '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Scorify.uz', url: `https://www.scorify.uz${base}`,
       applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: lang,
       description: t('landing.ld.desc'),
-      featureList: [1, 2, 3, 4, 5, 6, 7].map(i => t(`landing.ld.feat.${i}`)),
+      featureList: [1, 2, 3, 4, 5, 6, 7, 8].map(i => t(`landing.ld.feat.${i}`)),
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS', description: t('landing.ld.offer') },
     },
     {
@@ -418,6 +418,25 @@ export default function Index() {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-14">
             <motion.h2 variants={fadeUp} custom={0} className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.feat.h2a')} <span className="gradient-text">{t('landing.feat.h2b')}</span></motion.h2>
             <motion.p variants={fadeUp} custom={1} className="text-muted-foreground max-w-2xl mx-auto">{t('landing.feat.sub')}</motion.p>
+          </motion.div>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="mb-6 grid items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-card to-card p-6 ring-1 ring-primary/20 md:grid-cols-2 md:p-8">
+            <div>
+              <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary-foreground"><Sparkles className="h-3.5 w-3.5" />{t('landing.mentor.badge')}</span>
+              <h3 className="mb-3 text-2xl font-bold leading-snug sm:text-3xl">{t('landing.mentor.title')}</h3>
+              <p className="mb-4 text-muted-foreground">{t('landing.mentor.text')}</p>
+              <ul className="space-y-2 text-sm">
+                {[1, 2, 3].map(n => <li key={n} className="flex items-start gap-2"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span>{t(`landing.mentor.b${n}`)}</span></li>)}
+              </ul>
+            </div>
+            <div className="space-y-3 rounded-2xl border border-border bg-background/80 p-4 shadow-sm" aria-label={t('landing.mentor.demoLabel')}>
+              <div className="flex justify-end"><p className="max-w-[85%] rounded-2xl rounded-br-md bg-primary px-4 py-2 text-sm text-primary-foreground">{t('landing.mentor.q')}</p></div>
+              <div className="flex"><div className="max-w-[92%] space-y-1.5 rounded-2xl rounded-bl-md border border-border bg-card px-4 py-3 text-sm leading-relaxed">
+                <p><b>{t('landing.mentor.a1')}</b></p>
+                <p>{t('landing.mentor.a2')}</p>
+                <p className="text-muted-foreground">{t('landing.mentor.a3')}</p>
+              </div></div>
+              <p className="text-center text-[11px] text-muted-foreground">{t('landing.mentor.demoNote')}</p>
+            </div>
           </motion.div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((f, i) => (

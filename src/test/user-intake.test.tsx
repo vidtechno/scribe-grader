@@ -14,16 +14,19 @@ vi.mock('@/integrations/supabase/client',()=>({supabase:{
 }}));
 const blank: IntakeAnswers = {phone:'',telegram:'',noUsername:false,age:'',source:''};
 const provider=(child:React.ReactNode,path='/dashboard')=><QueryClientProvider client={new QueryClient({defaultOptions:{queries:{retry:false}}})}><MemoryRouter initialEntries={[path]}>{child}</MemoryRouter></QueryClientProvider>;
-function show() { render(provider(<UserIntakeModal userId="alice" onLater={mock.later} onDone={mock.done} />)); }
+function show() { render(provider(<UserIntakeModal userId="alice" onDone={mock.done} />)); }
 function next() { fireEvent.click(screen.getByRole('button',{name:'intake.next'})); }
-function contactsSkipped() { fireEvent.click(screen.getByRole('button',{name:'intake.skip'}));fireEvent.click(screen.getByRole('button',{name:'intake.skip'})); }
+const PHONE='+998901234567';
+function phoneStep() { fireEvent.change(screen.getByRole('textbox',{name:'intake.phone'}),{target:{value:PHONE}});next(); }
+function contactsSkipped() { phoneStep();fireEvent.click(screen.getByRole('button',{name:'intake.skip'})); }
 describe('Intake survey',()=>{
  beforeEach(()=>{localStorage.clear();vi.clearAllMocks();mock.owner='alice';mock.getUser.mockResolvedValue({data:{user:{id:'alice'}}});mock.read.mockResolvedValue({data:null,error:null});mock.rpc.mockResolvedValue({data:{user_id:'alice',completed_at:new Date().toISOString()},error:null});});
  afterEach(cleanup);
- it('normalizes optional contacts and rejects incomplete Uzbek numbers',()=>{
+ it('requires the phone number, keeps the Telegram username optional and rejects incomplete Uzbek numbers',()=>{
    expect(normalizePhone('90 123 45 67')).toBe('+998901234567');
    expect(intakeError(0,{...blank,phone:'+998 90 12'})).toBe('intake.phoneError');
-   expect(intakeError(0,blank)).toBeNull();expect(intakeError(1,blank)).toBeNull();
+   expect(intakeError(0,blank)).toBe('intake.phoneRequired');expect(intakeError(0,{...blank,phone:'+998 90 123 45 67'})).toBeNull();
+   expect(intakeError(1,blank)).toBeNull();
    expect(intakeError(1,{...blank,telegram:'@username'})).toBeNull();
    expect(intakeError(1,{...blank,telegram:'https://evil.test'})).toBe('intake.telegramError');
  });
@@ -33,17 +36,17 @@ describe('Intake survey',()=>{
    expect(screen.getByRole('combobox',{name:'intake.source'})).toHaveValue('');
    fireEvent.click(screen.getByRole('button',{name:'intake.finish'}));expect(screen.getByRole('alert')).toHaveTextContent('intake.sourceError');expect(mock.rpc).not.toHaveBeenCalled();
  });
- it('skips contacts and saves all answers in exactly one call without a request-body user ID',async()=>{
+ it('saves all answers in exactly one call without a request-body user ID',async()=>{
    show();contactsSkipped();fireEvent.click(screen.getByRole('radio',{name:'intake.age.16_18'}));next();
    fireEvent.change(screen.getByRole('combobox'),{target:{value:'friend'}});
    fireEvent.click(screen.getByRole('button',{name:'intake.finish'}));
    await waitFor(()=>expect(mock.done).toHaveBeenCalledTimes(1));
    expect(mock.rpc).toHaveBeenCalledTimes(1);expect(mock.rpc).toHaveBeenCalledWith('complete_user_intake',{
-     _phone:null,_telegram_username:null,_no_telegram_username:false,_age_range:'16_18',_discovery_source:'friend',
+     _phone:PHONE,_telegram_username:null,_no_telegram_username:false,_age_range:'16_18',_discovery_source:'friend',
    });
  });
  it('remembers the no-username choice without confusing it with skipping',async()=>{
-   show();fireEvent.click(screen.getByRole('button',{name:'intake.skip'}));
+   show();phoneStep();
    fireEvent.change(screen.getByRole('textbox',{name:'intake.telegram'}),{target:{value:'@example_user'}});
    fireEvent.click(screen.getByRole('checkbox',{name:'intake.noUsername'}));
    expect(screen.getByRole('textbox',{name:'intake.telegram'})).toBeDisabled();next();
@@ -62,10 +65,19 @@ describe('Intake survey',()=>{
    show();contactsSkipped();fireEvent.click(screen.getByRole('radio',{name:'intake.age.25_34'}));next();fireEvent.change(screen.getByRole('combobox'),{target:{value:'telegram'}});
    mock.getUser.mockResolvedValue({data:{user:{id:'bob'}}});fireEvent.click(screen.getByRole('button',{name:'intake.finish'}));await screen.findByRole('alert');expect(mock.rpc).not.toHaveBeenCalled();
  });
- it('lets people defer without a database write and stores no contact details locally',()=>{
-   show();fireEvent.change(screen.getByRole('textbox',{name:'intake.phone'}),{target:{value:'+998901234567'}});fireEvent.click(screen.getByRole('button',{name:'intake.later'}));
-   expect(mock.later).toHaveBeenCalledOnce();expect(mock.rpc).not.toHaveBeenCalled();snoozeIntake('alice');
+ it('cannot be closed: no close button, no "later", Escape does nothing, and the phone number cannot be skipped',()=>{
+   show();expect(screen.queryByRole('button',{name:/close/i})).toBeNull();expect(screen.queryByRole('button',{name:'intake.later'})).toBeNull();
+   expect(screen.queryByRole('button',{name:'intake.skip'})).toBeNull();
+   fireEvent.keyDown(document.activeElement ?? document.body,{key:'Escape'});expect(screen.getByRole('textbox',{name:'intake.phone'})).toBeVisible();
+   next();expect(screen.getByRole('alert')).toHaveTextContent('intake.phoneRequired');expect(screen.getByRole('textbox',{name:'intake.phone'})).toBeVisible();
+   expect(mock.rpc).not.toHaveBeenCalled();
+ });
+ it('stores no contact details locally',()=>{
+   show();fireEvent.change(screen.getByRole('textbox',{name:'intake.phone'}),{target:{value:PHONE}});snoozeIntake('alice');
    expect(intakeSnoozed('alice')).toBe(true);expect(intakeSnoozed('bob')).toBe(false);expect(JSON.stringify(localStorage)).not.toContain('901234567');
+ });
+ it('an old "later" snooze no longer hides it',async()=>{
+   snoozeIntake('alice');render(provider(<UserIntakeGate onBusyChange={()=>{}}/>));expect(await screen.findByText('intake.title')).toBeVisible();
  });
  it('shows for existing accounts, not just freshly-created ones',async()=>{
    render(provider(<UserIntakeGate onBusyChange={()=>{}}/>));expect(await screen.findByText('intake.title')).toBeVisible();

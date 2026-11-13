@@ -29,7 +29,8 @@ export function normalizePhone(value: string): string {
 export function normalizeTelegram(value: string) { return value.trim().replace(/^@/, ''); }
 export function intakeError(step: number, a: IntakeAnswers): string | null {
   const phone = normalizePhone(a.phone);
-  if (step === 0 && a.phone.trim() && (!/^\+[1-9]\d{7,14}$/.test(phone) || (phone.startsWith('+998') && !/^\+998\d{9}$/.test(phone)))) return 'intake.phoneError';
+  if (step === 0 && !a.phone.trim()) return 'intake.phoneRequired';
+  if (step === 0 && (!/^\+[1-9]\d{7,14}$/.test(phone) || (phone.startsWith('+998') && !/^\+998\d{9}$/.test(phone)))) return 'intake.phoneError';
   if (step === 1 && !a.noUsername && a.telegram.trim() && !/^[A-Za-z0-9_]{5,32}$/.test(normalizeTelegram(a.telegram))) return 'intake.telegramError';
   if (step === 2 && !AGE_RANGES.includes(a.age as AgeRange)) return 'intake.ageError';
   if (step === 3 && !DISCOVERY_SOURCES.includes(a.source as DiscoverySource)) return 'intake.sourceError';
