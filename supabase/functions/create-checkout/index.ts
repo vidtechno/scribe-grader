@@ -16,6 +16,12 @@ serve(async (req) => {
     const user = await getRequestUser(req, db);
     if (!user) return json(req, { error: "Unauthorized" }, 401);
 
+    // Online payment is switched off: plans are paid for in the Telegram chat. Turn it on again with the setting `online_payments_enabled`.
+    const { data: gate } = await db.from("app_settings").select("value").eq("key", "online_payments_enabled").maybeSingle();
+    if (gate?.value !== "true") {
+      return json(req, { error: "Onlayn to'lov hozircha o'chirilgan. To'lash uchun Telegramda @scorify_support ga yozing." }, 403);
+    }
+
     const body = await req.json().catch(() => null);
     if (!isRecord(body) || !isPaidPlan(body.plan) || !isPeriod(body.months)) return json(req, { error: "Invalid plan or period" }, 400);
     const method = isMethod(body.method) ? body.method : null;

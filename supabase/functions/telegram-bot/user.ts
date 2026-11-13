@@ -559,11 +559,11 @@ export async function showPlan(ctx: Ctx) {
       "🎉 <b>Oldindan to'lasangiz chegirma:</b> 3 oy −5%, 6 oy −10%",
       hint("Learn: 282 150 / 534 600 so'm · IELTS: 424 650 / 804 600 so'm (limitlar har 30 kunda yangilanadi)"),
     ].join("\n")),
-    hint("💳 To'lov Click yoki Payme orqali, saytning o'zida. To'lagach tarif avtomatik yoqiladi va shu yerga xabar keladi. Visa yoki xalqaro karta bilan to'lash uchun pastdagi tugma orqali menga yozing: Visa avtomatik to'lovi yo'q, qo'lda rasmiylashtiramiz."),
+    hint("💳 To'lash va tarifni yoqish uchun pastdagi tugma orqali menga yozing: to'lovni qabul qilib, tarifni o'zimiz yoqamiz. Tarif yoqilgach shu yerga xabar keladi."),
   ].join("\n");
   await reply(ctx, text, [
-    [app("💳 Tarifni sotib olish", "/dashboard?pricing=1")],
-    [link("💳 Visa / xalqaro karta (Telegram)", "https://t.me/scorify_support?text=" + encodeURIComponent("Salom! Men Visa karta orqali tarif sotib olmoqchiman."))],
+    [link("💳 Telegram orqali to'lash", "https://t.me/scorify_support?text=" + encodeURIComponent("Salom! Men tarif sotib olmoqchiman."))],
+    [app("📋 Tariflar", "/dashboard?pricing=1")],
     [cb("⬅️ Kabinet", "u:cab")],
   ]);
 }

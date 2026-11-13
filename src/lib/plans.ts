@@ -130,6 +130,26 @@ export function planPrice(value: string | null | undefined, billing: Billing) {
 export const SUPPORT_CHAT = 'https://t.me/scorify_support';
 
 /**
+ * Online payment through Checkout.uz (Payme, Uzcard/Humo, Paynet). It is switched OFF at the owner's request: plans are paid for in
+ * the Telegram chat and activated by hand. Every payment screen, price note and bot message follows this switch.
+ * To turn it back on: set this to true AND the database setting `online_payments_enabled` to 'true' (create-checkout checks it), then redeploy the bot.
+ */
+export const ONLINE_PAYMENTS = false;
+
+/** Telegram chat message for paying (in so'm) when online payment is off: names the plan, period, price and account ID. */
+export function telegramPayLink(value: string | null | undefined, billing: Billing, publicId?: string | null, lang: Lang = 'uz') {
+  const p = getPlanEntitlement(value);
+  const price = planPrice(value, billing);
+  const text = translate(lang, 'plans.tg.message', {
+    name: p.name,
+    period: billing === 'month' ? translate(lang, 'plans.visa.oneMonth') : billingLabel(lang, billing),
+    uzs: price.uzs,
+    id: publicId ? ` ID: #${publicId}.` : '',
+  });
+  return `${SUPPORT_CHAT}?text=${encodeURIComponent(text)}`;
+}
+
+/**
  * Telegram chat for paying by Visa / international card. The site has no Visa autopay, so the owner takes these orders by hand;
  * the message names the plan, period, dollar price (and the so'm equivalent) and the account ID.
  */

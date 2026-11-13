@@ -10,6 +10,7 @@ import { HeroSpeakingDemo } from '@/components/HeroSpeakingDemo';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
 import { loadActivePlans } from '@/lib/cached-plans';
+import { ONLINE_PAYMENTS } from '@/lib/plans';
 import { BEGINNER_UNITS, A1_UNITS, A2_UNITS, B1_UNITS, B2_UNITS } from '@/features/learn/course';
 import { motion } from 'framer-motion';
 import { track } from '@/lib/analytics';
@@ -118,7 +119,7 @@ export default function Index() {
 
   // The English page leads with the IELTS questions; the Uzbek page with the English course.
   const faqOrder = lang === 'en' ? [12, 6, 7, 10, 13, 5, 11, 14, 4, 1, 3, 2, 8, 9] : Array.from({ length: FAQ_COUNT }, (_, i) => i + 1);
-  const faq = faqOrder.map(i => ({ q: t(`landing.faq.${i}.q`), a: t(`landing.faq.${i}.a`) }));
+  const faq = faqOrder.map(i => ({ q: t(`landing.faq.${i}.q`), a: t(`landing.faq.${i}.a${i === 5 && !ONLINE_PAYMENTS ? '.tg' : ''}`) }));
   const base = lang === 'uz' ? '/uz' : '/';
   // The first call to action follows the page's audience: IELTS practice on the English page, the Uzbek-taught course on the Uzbek page.
   const startHref = lang === 'en' ? '/auth?next=%2Fpractice' : '/auth?next=%2Flearn';
@@ -513,7 +514,7 @@ export default function Index() {
           <PlanCards plans={subPlans} />
           <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-2"><Languages className="h-4 w-4 text-primary" />{t('landing.trust.uz')}</span>
-            <span className="inline-flex items-center gap-2"><CreditCard className="h-4 w-4 text-primary" />{t('landing.trust.pay')}</span>
+            <span className="inline-flex items-center gap-2"><CreditCard className="h-4 w-4 text-primary" />{t(ONLINE_PAYMENTS ? 'landing.trust.pay' : 'landing.trust.pay.tg')}</span>
             <span className="inline-flex items-center gap-2"><Send className="h-4 w-4 text-primary" />{t('landing.trust.tg')}</span>
           </div>
           <p className="mt-3 text-center text-sm font-medium">{t('landing.pricing.note')}</p>
