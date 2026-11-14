@@ -42,32 +42,32 @@ export function WeekCalendar({ state }: { state: LearningState }) {
     if (rewards?.fresh?.length) setFresh((prev) => (prev.length ? prev : rewards.fresh));
   }, [rewards]);
 
+  const goal = Math.max(1, state.goal?.daily_goal_xp ?? 30);
+  const todayXp = state.goal?.today_xp ?? 0;
+  const risk = !doneToday && streak > 0 && !!info?.at_risk;
   return (
-    <section aria-label={t('learn.week.label')} className="mb-4 overflow-hidden rounded-[1.75rem] border border-border bg-card p-4 shadow-sm sm:p-5">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div>
-          <p className="text-[11px] font-extrabold uppercase tracking-[.2em] text-orange-600 dark:text-orange-400">{t('learn.week.title')}</p>
-          <p className="mt-1 text-lg font-extrabold leading-snug">
-            {streak > 0 ? t('learn.week.streak', { n: streak }) : t('learn.week.none')}
-          </p>
+    <section aria-label={t('learn.week.label')} className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ff4058] via-primary to-[#ad001f] p-4 text-white shadow-xl shadow-primary/20">
+      <span aria-hidden className="absolute -right-14 -top-20 h-48 w-48 rounded-full bg-white/15 blur-2xl" />
+      <div className="relative flex items-center gap-3">
+        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/15"><Flame className={`h-6 w-6 ${streak > 0 ? 'fill-orange-300 text-orange-200' : 'text-white/70'}`} /></span>
+        <div className="min-w-0 flex-1">
+          <p className="text-lg font-extrabold leading-tight">{streak > 0 ? t('learn.week.streak', { n: streak }) : t('learn.week.none')}</p>
+          <p className="text-xs font-semibold text-white/80">{risk ? t('learn.goal.atRisk', { n: streak }) : doneToday ? t('learn.week.done') : t('learn.week.title')} · {todayXp}/{goal} XP</p>
         </div>
-        {doneToday
-          ? <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300"><Check className="h-3.5 w-3.5" />{t('learn.week.done')}</span>
-          : null}
       </div>
 
-      <ol className="mt-4 grid grid-cols-7 gap-1.5 sm:gap-3" aria-label={t('learn.week.days')}>
+      <ol className="relative mt-3 grid grid-cols-7 gap-1" aria-label={t('learn.week.days')}>
         {dots.map((d, i) => {
           const glowing = d.today && !d.done;
           return (
-            <li key={i} className="flex flex-col items-center gap-1.5">
-              <span className={`text-[11px] font-semibold ${d.today ? 'text-orange-600 dark:text-orange-400' : 'text-muted-foreground'}`}>{letters[d.dow]}</span>
+            <li key={i} className="flex flex-col items-center gap-1">
+              <span className={`text-[10px] font-bold ${d.today ? 'text-white' : 'text-white/65'}`}>{letters[d.dow]}</span>
               <motion.span
                 aria-label={d.done ? t('learn.week.dayDone') : d.today ? t('learn.week.dayToday') : t('learn.week.dayMissed')}
-                className={`relative grid h-9 w-9 place-items-center rounded-full sm:h-11 sm:w-11 ${d.done ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white shadow-md shadow-orange-500/30' : glowing ? 'border-2 border-orange-400 bg-orange-500/10 text-orange-500' : 'bg-secondary text-muted-foreground/40'}`}
-                animate={glowing ? { boxShadow: ['0 0 0 0 rgba(251,146,60,.55)', '0 0 0 9px rgba(251,146,60,0)'] } : undefined}
+                className={`grid h-8 w-8 place-items-center rounded-full sm:h-9 sm:w-9 ${d.done ? 'bg-white text-primary shadow-md' : glowing ? 'border-2 border-white bg-white/20 text-white' : 'bg-white/15 text-white/40'}`}
+                animate={glowing ? { boxShadow: ['0 0 0 0 rgba(255,255,255,.7)', '0 0 0 8px rgba(255,255,255,0)'] } : undefined}
                 transition={glowing ? { duration: 1.6, repeat: Infinity, ease: 'easeOut' } : undefined}>
-                {d.done ? <Check className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={3} /> : glowing ? <Flame className="h-4 w-4 sm:h-5 sm:w-5" /> : null}
+                {d.done ? <Check className="h-4 w-4" strokeWidth={3.5} /> : glowing ? <Flame className="h-4 w-4" /> : null}
               </motion.span>
             </li>
           );
@@ -75,33 +75,33 @@ export function WeekCalendar({ state }: { state: LearningState }) {
       </ol>
 
       {!doneToday && (
-        <Button asChild variant="glow" className="mt-4 w-full gap-2 text-base font-bold">
+        <Button asChild size="sm" className="relative mt-3 w-full gap-2 bg-white font-bold text-primary hover:bg-white/90">
           <Link to="/learn/daily"><Flame className="h-4 w-4" />{t('learn.week.cta')}</Link>
         </Button>
       )}
 
-      <div className="mt-4 grid grid-cols-3 gap-2">
+      <div className="relative mt-3 flex gap-1.5">
         {MILESTONES.map((m) => {
           const got = granted.has(m) || streak >= m;
           return (
-            <div key={m} className={`rounded-2xl border p-2.5 text-center ${got ? 'border-emerald-500/40 bg-emerald-500/10' : m === next ? 'border-orange-400/50 bg-orange-500/10' : 'border-border bg-secondary/40'}`}>
-              <p className="flex items-center justify-center gap-1 text-xs font-extrabold">
-                {got ? <Check className="h-3.5 w-3.5 text-emerald-600" strokeWidth={3} /> : m === next ? <Gift className="h-3.5 w-3.5 text-orange-500" /> : <Lock className="h-3.5 w-3.5 text-muted-foreground" />}
+            <div key={m} className={`min-w-0 flex-1 rounded-xl px-2 py-1.5 text-center ${got ? 'bg-emerald-400/30' : m === next ? 'bg-white/25 ring-1 ring-white/60' : 'bg-black/15'}`}>
+              <p className="flex items-center justify-center gap-1 text-[11px] font-extrabold">
+                {got ? <Check className="h-3 w-3" strokeWidth={3.5} /> : m === next ? <Gift className="h-3 w-3" /> : <Lock className="h-3 w-3 opacity-70" />}
                 {t('learn.week.day', { n: m })}
               </p>
-              <p className="mt-1 text-[11px] font-semibold leading-snug text-muted-foreground">{t(rewardKey(m, inTrial))}</p>
+              <p className="text-[10px] font-semibold leading-tight text-white/85">{t(rewardKey(m, inTrial))}</p>
             </div>
           );
         })}
       </div>
       {next
-        ? <p className="mt-3 text-center text-sm text-muted-foreground">{t('learn.week.next', { n: next - streak, day: next })}</p>
-        : <p className="mt-3 text-center text-sm font-semibold text-emerald-700 dark:text-emerald-300">{t('learn.week.all')}</p>}
+        ? <p className="relative mt-2 text-center text-[11px] font-semibold text-white/80">{t('learn.week.next', { n: next - streak, day: next })}</p>
+        : <p className="relative mt-2 text-center text-[11px] font-bold">{t('learn.week.all')}</p>}
 
       <AnimatePresence>
         {fresh.length > 0 && (
           <motion.div initial={{ opacity: 0, y: 8, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0 }} role="status"
-            className="mt-3 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 p-3 text-center text-sm font-bold text-white">
+            className="relative mt-2 rounded-xl bg-white p-2.5 text-center text-sm font-bold text-primary">
             {fresh.map((g) => <p key={g.milestone}>🎁 {t(`learn.week.won.${g.kind}`, { n: g.amount, day: g.milestone })}</p>)}
           </motion.div>
         )}

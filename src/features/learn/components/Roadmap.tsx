@@ -241,6 +241,9 @@ function Trail({ steps, onOpen }: { steps: Step[]; onOpen: (s: Step) => void }) 
                 className={`relative grid place-items-center rounded-full border-b-[6px] shadow-md transition-transform active:translate-y-[3px] active:border-b-[3px] ${NODE_SIZE[step.kind]} ${nodeLook(step)}`}>
                 <StepIcon step={step} />
               </button>
+              <span className={`pointer-events-none absolute top-1/2 w-[7.5rem] -translate-y-1/2 text-[13px] font-bold leading-tight sm:w-44 sm:text-sm ${shift > 0 ? 'right-full mr-3 text-right' : 'left-full ml-3 text-left'} ${step.state === 'locked' ? 'text-muted-foreground' : step.state === 'current' ? 'text-primary' : 'text-foreground'}`}>
+                <span className="line-clamp-2">{step.title}</span>
+              </span>
               {step.state === 'done' && step.stars > 0 && (
                 <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-card px-1.5 text-[11px] font-bold leading-4 text-amber-500 shadow ring-1 ring-border">{'★'.repeat(step.stars)}</span>
               )}
