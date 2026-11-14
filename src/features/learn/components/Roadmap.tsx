@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Award, BookOpen, Check, ChevronDown, Compass, Drama, Gamepad2, Headphones, Lock, MessageCircle, Play, RefreshCw, Rocket, Trophy } from 'lucide-react';
@@ -62,10 +62,23 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
     return 'current';
   };
   const currentId = units.find((u) => unitStatus(u.id) === 'current')?.id ?? units.find((u) => unitStatus(u.id) === 'review')?.id;
+  // On arrival, bring the step the learner is on to the middle of the screen, once per visit.
+  const root = useRef<HTMLDivElement>(null);
+  const scrolled = useRef(false);
+  useEffect(() => {
+    if (scrolled.current) return;
+    const id = window.setTimeout(() => {
+      const el = root.current?.querySelector('[data-current-step]');
+      if (!el) return;
+      scrolled.current = true;
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 350);
+    return () => window.clearTimeout(id);
+  }, [level]);
   const canQuickUp = !!nextLevel?.available && myIndex < levelIndex + 1 && myIndex >= levelIndex;
 
   return (
-    <div className="space-y-5">
+    <div ref={root} className="space-y-5">
       {certificate && levelTest && <CertificateDialog levelId={level} onClose={() => setCertificate(false)} />}
 
       {/* The path: a winding trail of round steps, one band per unit (open the unit you are on, tap a band to open another) */}
@@ -227,7 +240,7 @@ function Trail({ steps, onOpen }: { steps: Step[]; onOpen: (s: Step) => void }) 
         const current = step.state === 'current';
         const isOpen = picked === step.id;
         return (
-          <li key={step.id} className="flex w-full flex-col items-center py-[7px]" style={{ transform: `translateX(calc(${shift} * var(--u)))` }}>
+          <li key={step.id} data-current-step={current ? 'true' : undefined} className="flex w-full flex-col items-center py-[7px]" style={{ transform: `translateX(calc(${shift} * var(--u)))` }}>
             {current && (
               <span className="relative mb-2 rounded-xl border-2 border-primary bg-card px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-primary shadow-sm">
                 {t('learn.road.start')}
