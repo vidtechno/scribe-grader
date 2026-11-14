@@ -37,6 +37,10 @@ export default {
     'learn.road.gameGame': 'Game: reinforce what you learned',
     'learn.road.start': 'Start',
     'learn.road.again': 'Do it again',
+    'learn.rail.label': 'Your progress',
+    'learn.rail.risk': 'Streak at risk today',
+    'learn.rail.goal': "Today's goal",
+    'learn.rail.daily': 'Your 5 minutes',
 
     'learn.result.done': 'Lesson complete!',
     'learn.result.again': 'One more try needed',
@@ -305,6 +309,10 @@ export default {
     'learn.road.gameGame': "O'yin: o'rganganingizni mustahkamlash",
     'learn.road.start': 'Boshlash',
     'learn.road.again': 'Qayta bajarish',
+    'learn.rail.label': "Sizning natijangiz",
+    'learn.rail.risk': "Streak bugun xavfda",
+    'learn.rail.goal': "Bugungi maqsad",
+    'learn.rail.daily': "Bugungi 5 daqiqa",
 
     'learn.result.done': 'Dars tugatildi!',
     'learn.result.again': 'Yana bir urinish kerak',

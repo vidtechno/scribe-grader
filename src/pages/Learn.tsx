@@ -18,6 +18,7 @@ import {
 } from '@/features/learn/api';
 import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
+import { RailStrip, SideRail } from '@/features/learn/components/SideRail';
 import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
 import { ContinueCard } from '@/features/learn/components/ContinueCard';
@@ -186,7 +187,12 @@ function CourseHome({ state }: { state: LearningState }) {
             </div>
           )}
           {earlierLevel && <p className="text-sm text-muted-foreground mb-4 rounded-xl bg-secondary/60 px-3 py-2">{t('learn.home.earlierOpen')}</p>}
-          <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} />
+          {!locked && <RailStrip state={state} />}
+          <div className={locked ? '' : 'xl:grid xl:grid-cols-[190px_minmax(0,1fr)_190px] xl:gap-6'}>
+            {!locked && <SideRail state={state} side="left" />}
+            <div className="min-w-0"><Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} /></div>
+            {!locked && <SideRail state={state} side="right" />}
+          </div>
           <SkipIntroBanner state={state} />
           <section className="glass-card p-4 mt-6" aria-label={t('learn.home.weekly')}>
         <div className="flex items-center justify-between mb-3">
