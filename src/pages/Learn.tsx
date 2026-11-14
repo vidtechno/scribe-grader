@@ -21,7 +21,6 @@ import { Roadmap } from '@/features/learn/components/Roadmap';
 import { RailStrip, SideRail } from '@/features/learn/components/SideRail';
 import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
-import { ContinueCard } from '@/features/learn/components/ContinueCard';
 import { StreakStatus } from '@/features/learn/components/StreakStatus';
 import { WeekCalendar } from '@/features/learn/components/WeekCalendar';
 import { DailyCard } from '@/features/learn/components/DailyCard';
@@ -163,7 +162,6 @@ function CourseHome({ state }: { state: LearningState }) {
         </div>
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
-      {!locked && tab === 'map' && <ContinueCard state={state} />}
       {!locked && tab === 'map' && <StreakStatus state={state} />}
       {!locked && tab === 'map' && <div className="grid gap-3 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]"><WeekCalendar state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
 
@@ -189,9 +187,9 @@ function CourseHome({ state }: { state: LearningState }) {
           {earlierLevel && <p className="text-sm text-muted-foreground mb-4 rounded-xl bg-secondary/60 px-3 py-2">{t('learn.home.earlierOpen')}</p>}
           {!locked && <RailStrip state={state} />}
           <div className={locked ? '' : 'xl:grid xl:grid-cols-[190px_minmax(0,1fr)_190px] xl:gap-6'}>
-            {!locked && <SideRail state={state} side="left" />}
+            {!locked && <SideRail state={state} side="left" wordCount={map.wordCount} />}
             <div className="min-w-0"><Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} /></div>
-            {!locked && <SideRail state={state} side="right" />}
+            {!locked && <SideRail state={state} side="right" wordCount={map.wordCount} />}
           </div>
           <SkipIntroBanner state={state} />
           <section className="glass-card p-4 mt-6" aria-label={t('learn.home.weekly')}>

@@ -107,3 +107,43 @@ export function ContactsPanel() {
     </Section>
   );
 }
+
+interface PwaRow { user_id: string; email: string | null; full_name: string | null; public_id: string | null; platform: string; first_seen_at: string; last_seen_at: string; opens: number }
+interface PwaStats { total: number; users: number; last7: number; active7: number; platforms: { key: string; n: number }[]; rows: PwaRow[] }
+
+/** Who has the site on their phone's home screen (counted when the browser reports the install or the site is opened from the icon). */
+export function PwaInstallsPanel() {
+  const { data, isLoading, error } = useQuery({ queryKey: ['admin', 'pwa-installs'], queryFn: () => adminRpc<PwaStats>('admin_pwa_installs'), staleTime: 60_000 });
+  const label: Record<string, string> = { android: 'Android', ios: 'iPhone / iPad', other: 'Boshqa' };
+  return (
+    <Section title="Telefon ekraniga qo‘shganlar" subtitle="Saytni bosh ekranga qo‘shgan yoki ikonkadan ochgan foydalanuvchilar. Faqat o‘rnatgandan keyin sayt ochilsa hisoblanadi.">
+      {isLoading ? <p className="text-sm text-muted-foreground">Yuklanmoqda…</p> : error || !data ? <p className="text-sm text-destructive">Yuklanmadi.</p> : (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <Stat icon={Download} label="Jami o‘rnatgan" value={data.total} hint={pct(data.total, data.users)} />
+            <Stat icon={Users} label="Oxirgi 7 kunda qo‘shilgan" value={data.last7} />
+            <Stat icon={CheckCircle2} label="Oxirgi 7 kunda ochgan" value={data.active7} hint="Ikonkadan kirganlar" />
+            <Stat icon={Phone} label="Qurilma" value={data.platforms.map((p) => `${label[p.key] ?? p.key}: ${p.n}`).join(' · ') || '—'} />
+          </div>
+          {data.rows.length > 0 && (
+            <div className="glass-card max-h-[24rem] overflow-auto p-4">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-card text-left text-xs text-muted-foreground"><tr><th className="py-1.5 pr-3 font-medium">Ism</th><th className="pr-3 font-medium">Email</th><th className="pr-3 font-medium">Qurilma</th><th className="pr-3 font-medium">Qo‘shgan</th><th className="pr-3 font-medium">Oxirgi kirish</th><th className="font-medium">Ochgan</th></tr></thead>
+                <tbody>{data.rows.map((r) => (
+                  <tr key={r.user_id} className="border-t border-border/60 align-top">
+                    <td className="py-1.5 pr-3 font-medium">{r.full_name || '—'}{r.public_id ? <span className="ml-1 text-xs text-muted-foreground">#{r.public_id}</span> : null}</td>
+                    <td className="pr-3 break-all text-xs text-muted-foreground">{r.email}</td>
+                    <td className="pr-3">{label[r.platform] ?? r.platform}</td>
+                    <td className="whitespace-nowrap pr-3 text-xs">{new Date(r.first_seen_at).toLocaleDateString('uz-UZ')}</td>
+                    <td className="whitespace-nowrap pr-3 text-xs">{new Date(r.last_seen_at).toLocaleDateString('uz-UZ')}</td>
+                    <td className="text-xs tabular-nums">{r.opens} marta</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+          )}
+        </>
+      )}
+    </Section>
+  );
+}
