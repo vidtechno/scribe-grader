@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useAuth } from '@/hooks/useAuth';
 import { useT } from '@/i18n';
 import { intakeSafeRoute } from '@/lib/user-intake';
-import { deviceKind, installOfferDue, isStandalone, promptInstall, snoozeInstallOffer, useCanPromptInstall, wasInstalled } from '@/lib/pwa';
+import { deviceKind, installOfferDue, isStandalone, promptInstall, reportInstall, snoozeInstallOffer, useCanPromptInstall, wasInstalled } from '@/lib/pwa';
 
 /**
  * Offers to add the site to the phone's home screen, in plain words ("add to your phone screen", never "PWA").
@@ -24,6 +24,15 @@ export function InstallPrompt() {
   const kind = typeof navigator === 'undefined' ? null : deviceKind();
   const userId = user?.id;
   const eligible = !!userId && !!kind && intakeSafeRoute(pathname) && !isStandalone() && !wasInstalled() && installOfferDue(userId);
+
+  // Count the install: opened from the home-screen icon, or the browser just reported the install.
+  useEffect(() => {
+    if (!userId) return;
+    if (isStandalone()) void reportInstall(userId);
+    const onInstalled = () => { void reportInstall(userId, true); };
+    window.addEventListener('appinstalled', onInstalled);
+    return () => window.removeEventListener('appinstalled', onInstalled);
+  }, [userId]);
 
   // Wait a few seconds, and until no other window (intro survey, announcement) is open.
   useEffect(() => {

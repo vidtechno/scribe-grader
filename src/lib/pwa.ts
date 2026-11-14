@@ -79,3 +79,18 @@ export function installOfferDue(userId: string): boolean {
   const o = readOffer(userId);
   return !o || o.until <= Date.now();
 }
+
+export const platformOf = (ua = navigator.userAgent, platform = navigator.platform, touchPoints = navigator.maxTouchPoints): 'android' | 'ios' | 'other' =>
+  /iPhone|iPad|iPod/.test(ua) || (platform === 'MacIntel' && touchPoints > 1) ? 'ios' : /Android/.test(ua) ? 'android' : 'other';
+
+const SEEN = (userId: string) => `scorify-install-seen:${userId}`;
+/** Tells the server this person has the site on their home screen: when the browser reports the install and when the site is opened from the icon (at most every 12 hours). */
+export async function reportInstall(userId: string, force = false): Promise<void> {
+  try {
+    const last = Number(localStorage.getItem(SEEN(userId)) ?? 0);
+    if (!force && Date.now() - last < 12 * 3_600_000) return;
+    localStorage.setItem(SEEN(userId), String(Date.now()));
+  } catch { /* still report */ }
+  const { supabase } = await import('@/integrations/supabase/client');
+  await (supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<unknown>)('record_pwa_install', { _platform: platformOf() }).catch(() => {});
+}
