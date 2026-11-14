@@ -36,6 +36,7 @@ export default {
     'learn.road.gameBoss': 'Mini-boss: on the whole unit',
     'learn.road.gameGame': 'Game: reinforce what you learned',
     'learn.road.start': 'Start',
+    'learn.road.again': 'Do it again',
 
     'learn.result.done': 'Lesson complete!',
     'learn.result.again': 'One more try needed',
@@ -303,6 +304,7 @@ export default {
     'learn.road.gameBoss': "Mini-boss: butun bosqich bo'yicha",
     'learn.road.gameGame': "O'yin: o'rganganingizni mustahkamlash",
     'learn.road.start': 'Boshlash',
+    'learn.road.again': 'Qayta bajarish',
 
     'learn.result.done': 'Dars tugatildi!',
     'learn.result.again': 'Yana bir urinish kerak',

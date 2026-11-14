@@ -3,8 +3,10 @@ import App from "./App.tsx";
 import "./index.css";
 import { AppErrorBoundary } from "./components/AppErrorBoundary";
 import { rememberEntry } from "./lib/analytics";
+import { initPwa } from "./lib/pwa";
 
 rememberEntry();
+initPwa();
 
 createRoot(document.getElementById("root")!).render(<AppErrorBoundary><App /></AppErrorBoundary>);
 
