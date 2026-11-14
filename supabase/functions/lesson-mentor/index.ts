@@ -25,8 +25,8 @@ serve(async (req) => {
 
     if (request.action === "status") {
       const { data } = await db.rpc("lesson_help_state", { _user: user.id, _lesson: request.lessonId });
-      const s = (data ?? {}) as { lesson_left?: number; day_left?: number };
-      return json(req, { enabled: true, lessonLeft: s.lesson_left ?? 0, dayLeft: s.day_left ?? 0 });
+      const s = (data ?? {}) as { lesson_left?: number; day_left?: number; bonus_left?: number };
+      return json(req, { enabled: true, lessonLeft: s.lesson_left ?? 0, dayLeft: s.day_left ?? 0, bonusLeft: s.bonus_left ?? 0 });
     }
 
     const apiKey = Deno.env.get("OPENAI_API_KEY");
@@ -37,12 +37,12 @@ serve(async (req) => {
       console.error("consume_lesson_help error:", quotaError.message);
       return json(req, { error: "Limitni tekshirib bo'lmadi. Qayta urinib ko'ring." }, 503);
     }
-    const q = quota as { allowed: boolean; reason?: string; lesson_left?: number; day_left?: number };
+    const q = quota as { allowed: boolean; reason?: string; lesson_left?: number; day_left?: number; bonus_left?: number; used_bonus?: boolean };
     if (!q.allowed) {
       const error = q.reason === "no_access" ? "Bu funksiya Learn tarifi yoki bepul sinov davomida ishlaydi."
         : q.reason === "day_limit" ? "Bugungi 15 ta savol tugadi. Ertaga yana yozishingiz mumkin."
           : "Bu darsda 3 ta savol berib bo'ldingiz. Boshqa darsda yoki ertaga davom eting.";
-      return json(req, { error, reason: q.reason, lessonLeft: q.lesson_left ?? 0, dayLeft: q.day_left ?? 0 }, 429);
+      return json(req, { error, reason: q.reason, lessonLeft: q.lesson_left ?? 0, dayLeft: q.day_left ?? 0, bonusLeft: q.bonus_left ?? 0 }, 429);
     }
 
     const userMessage = request.kind === "explain" ? EXPLAIN_REQUEST : request.message;
@@ -72,11 +72,11 @@ serve(async (req) => {
     }
 
     if (!reply) {
-      await db.rpc("refund_lesson_help", { _user: user.id, _lesson: request.lessonId });
-      return json(req, { error: "AI hozir javob bera olmadi. Savolingiz hisobga olinmadi, qayta urinib ko'ring.", lessonLeft: (q.lesson_left ?? 0) + 1, dayLeft: (q.day_left ?? 0) + 1 }, 502);
+      await db.rpc("refund_lesson_help", { _user: user.id, _lesson: request.lessonId, _bonus: q.used_bonus === true });
+      return json(req, { error: "AI hozir javob bera olmadi. Savolingiz hisobga olinmadi, qayta urinib ko'ring.", lessonLeft: Math.min((q.lesson_left ?? 0) + 1, 3), dayLeft: Math.min((q.day_left ?? 0) + 1, 15), bonusLeft: (q.bonus_left ?? 0) + (q.used_bonus ? 1 : 0) }, 502);
     }
     await logTextUsage(db, user.id, "lesson_help", MODEL, usage, { lesson: request.lessonId, kind: request.kind });
-    return json(req, { reply, lessonLeft: q.lesson_left ?? 0, dayLeft: q.day_left ?? 0 });
+    return json(req, { reply, lessonLeft: q.lesson_left ?? 0, dayLeft: q.day_left ?? 0, bonusLeft: q.bonus_left ?? 0 });
   } catch (e) {
     console.error("lesson-mentor error:", e instanceof Error ? e.message : e);
     return json(req, { error: "Server xatosi. Qayta urinib ko'ring." }, 500);

@@ -5,8 +5,8 @@ import { hint, quote } from "./ui.ts";
 
 export interface LearnSummary {
   started?: boolean; today_done?: boolean; today_xp?: number; daily_goal?: number; xp?: number; week_xp?: number;
-  streak?: number; streak_info?: { current: number; best: number; at_risk: boolean; broken: boolean; days_left?: number };
-  lessons_done?: number; next_lesson_title?: string | null; idle_days?: number | null; access?: { allowed?: boolean };
+  streak?: number; streak_prev?: number; can_recover?: boolean; streak_info?: { current: number; best: number; at_risk: boolean; broken: boolean; days_left?: number };
+  lessons_done?: number; next_lesson_title?: string | null; idle_days?: number | null; access?: { allowed?: boolean; reason?: string };
 }
 
 export type Slot = "morning" | "afternoon" | "evening";
@@ -66,6 +66,38 @@ export function wordsBlock(words: DailyWord[]): string {
   return quote(["📝 <b>Bugungi so'zlar:</b>", ...rows.map((w) => `• <b>${esc(w.en)}</b> — ${esc(w.uz)}`)].join("\n"));
 }
 
+// Streak rewards: what the next milestone gives (the 7-day one is trial days for people still in the free trial).
+function nextReward(streak: number, inTrial: boolean): string | null {
+  if (streak === 2) return "+10 ta AI mentor savoli";
+  if (streak === 6) return inTrial ? "+2 kun bepul sinov" : "+10 ta AI mentor savoli";
+  if (streak === 13) return "«Ikki hafta» nishoni";
+  return null;
+}
+
+/**
+ * The short, exact reminder for someone with a running streak: how long it is, that it ends today, and that a few minutes are enough.
+ * Sent once a day, in the hour the learner usually studies. When tomorrow brings a reward it is named in one line.
+ */
+export function streakReminderText(s: LearnSummary, v: number): string {
+  const n = s.streak_info?.current ?? s.streak ?? 0;
+  const last = s.streak_info?.days_left === 1;
+  const head = last
+    ? pick([
+      "🔥 {n} kunlik streakingiz bugun tugaydi. 3 daqiqalik mashq yetadi.",
+      "⏳ {n} kunlik streak: bugun oxirgi kun. 3 daqiqa — va u saqlanadi.",
+      "🔥 {n} kun ketma-ket o'qidingiz. Bugun 3 daqiqa ajrating, streak uzilmasin.",
+    ], v)
+    : pick([
+      "🔥 {n} kunlik streakingiz sizni kutyapti. Bugun 3 daqiqalik mashq yetadi.",
+      "🔥 {n} kun ketma-ket! Bugun ham 3 daqiqa — shuning o'zi yetadi.",
+      "⏱ {n} kunlik streakni bugun ham davom ettiring: 3 daqiqalik mashq yetarli.",
+    ], v);
+  const lines = [fill(head, { n })];
+  const reward = nextReward(n, s.access?.reason === "trial");
+  if (reward) lines.push(hint(`🎁 Ertaga ${n + 1}-kun: ${reward}.`));
+  return lines.join("\n");
+}
+
 const BROKEN = "💔 {best} kunlik streak uzildi, lekin XP va o'rgangan so'zlaringiz joyida. Bugundan yangisini boshlaymiz!";
 
 /** Text of a study reminder for this slot and inactivity phase. `words` are shown for the daily and comeback reminders only. */
@@ -73,6 +105,8 @@ export function reminderText(slot: Slot, phase: Phase, s: LearnSummary, v: numbe
   const streak = s.streak_info?.current ?? s.streak ?? 0;
   const idle = s.idle_days ?? 0;
   const vars = { streak, idle };
+  // A running streak gets the short, exact message (one a day, at the usual hour); a broken one gets a task instead of a loss.
+  if (phase === "daily" && streak >= 2) return [streakReminderText(s, v), s.next_lesson_title ? quote(`▶️ Keyingi dars: <b>${esc(s.next_lesson_title)}</b>`) : ""].filter(Boolean).join("\n");
   let line: string;
   if (phase === "last") line = LAST;
   else if (phase === "weekly") line = fill(pick(WEEKLY, v), { done: s.lessons_done ? ` (${s.lessons_done} ta dars tugatgansiz)` : "" });
@@ -87,7 +121,9 @@ export function reminderText(slot: Slot, phase: Phase, s: LearnSummary, v: numbe
   if (phase === "daily" && slot === "evening" && streak >= 2 && s.streak_info?.days_left === 1) {
     extra.push(hint("⏳ Bugun streak uchun oxirgi kun — XP va o'rgangan so'zlaringiz esa hech qachon yo'qolmaydi."));
   }
-  if (phase === "comeback" && s.streak_info?.broken && (s.streak_info.best ?? 0) >= 3) {
+  if (phase === "comeback" && s.can_recover && (s.streak_prev ?? 0) >= 3) {
+    extra.push(hint(`🎯 Bugun 2 ta dars qiling — ${s.streak_prev} kunlik streakingiz tiklanadi.`));
+  } else if (phase === "comeback" && s.streak_info?.broken && (s.streak_info.best ?? 0) >= 3) {
     extra.push(hint(fill(BROKEN, { best: s.streak_info.best })));
   }
   if (phase === "daily" || phase === "comeback") {

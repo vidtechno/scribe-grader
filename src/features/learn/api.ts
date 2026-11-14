@@ -65,7 +65,33 @@ export function useLearningState() {
 
 export function useRefreshLearning() {
   const qc = useQueryClient();
-  return () => Promise.all([qc.invalidateQueries({ queryKey: ['learning-state'] }), qc.invalidateQueries({ queryKey: ['learning-review'] })]);
+  return () => Promise.all([
+    qc.invalidateQueries({ queryKey: ['learning-state'] }), qc.invalidateQueries({ queryKey: ['learning-review'] }),
+    qc.invalidateQueries({ queryKey: ['learning-recovery'] }), qc.invalidateQueries({ queryKey: ['streak-rewards'] }),
+  ]);
+}
+
+/** A streak reward: 3 days → AI tutor questions, 7 days → trial days (or questions when paying), 14 days → the profile badge. */
+export interface RewardGrant { milestone: 3 | 7 | 14; kind: 'ai_questions' | 'trial_days' | 'badge'; amount: number }
+export interface StreakRewards { streak: number; in_trial: boolean; paid: boolean; fresh: RewardGrant[]; granted: RewardGrant[]; bonus_left: number }
+export const claimStreakRewards = () => callLearning<StreakRewards>('learning_streak_rewards');
+
+/** Grants a reward the first time the streak reaches its day (the call is idempotent) and lists what was already granted. Cached for five minutes. */
+export function useStreakRewards() {
+  const { user } = useAuth();
+  return useQuery({ queryKey: ['streak-rewards', user?.id], enabled: !!user, queryFn: claimStreakRewards, staleTime: 5 * 60_000 });
+}
+
+/** The "win your streak back" task: 2 lessons in one day after a streak of 3+ days broke 4 to 14 days ago. */
+export interface RecoveryOffer { prev_streak: number; needed: number; lessons_today: number; restored: boolean }
+export function useRecovery(info: StreakInfo | undefined) {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['learning-recovery', user?.id],
+    enabled: !!user && !!info && info.best >= 3 && info.current <= 2,
+    queryFn: () => callLearning<{ offer: RecoveryOffer | null }>('learning_recovery_state'),
+    staleTime: 30_000,
+  });
 }
 
 /** `open` = a lesson of a level below the learner's starting level: free to revisit, not required. */
