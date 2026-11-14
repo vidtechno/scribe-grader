@@ -6,7 +6,8 @@ import type { LearningState } from '../api';
 vi.mock('@/i18n', () => ({ useT: () => ({ lang: 'en', t: (k: string, v?: Record<string, unknown>) => `${k}${v ? JSON.stringify(v) : ''}` }) }));
 vi.mock('@/hooks/useAuth', () => ({ useAuth: () => ({ user: { id: 'u1' } }) }));
 let current: unknown;
-vi.mock('../api', () => ({ useLearningState: () => ({ data: current }) }));
+vi.mock('../api', () => ({ useLearningState: () => ({ data: current }), claimStreakRewards: async () => ({ streak: 5, fresh: [], granted: [], bonus_left: 0, in_trial: true, paid: false }) }));
+vi.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({ setQueryData: () => {}, invalidateQueries: () => {} }) }));
 
 import { StreakCelebration, weekDots } from './StreakCelebration';
 import { StreakGuard } from './StreakGuard';

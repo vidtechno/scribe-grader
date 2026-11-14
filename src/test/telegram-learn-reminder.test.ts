@@ -46,3 +46,26 @@ describe('study reminders with the learner\'s own words', () => {
     expect(reminderText('morning', 'comeback', { ...base, streak_info: { current: 0, best: 2, at_risk: false, broken: true } }, 1, words)).not.toContain('uzildi');
   });
 });
+
+describe('streak reminders', () => {
+  const streaky = { ...base, streak: 5, streak_info: { current: 5, best: 5, at_risk: true, broken: false, days_left: 1 } };
+  it('names the streak, says it ends today and that 3 minutes are enough', () => {
+    const text = reminderText('evening', 'daily', streaky, 0, words);
+    expect(text).toContain('5');
+    expect(text).toMatch(/3 daqiqa/);
+    expect(text).toContain('Keyingi dars');
+    expect(text).not.toContain('Bugungi so\'zlar');
+  });
+  it('mentions the reward that tomorrow brings', () => {
+    const s2 = { ...base, streak: 2, streak_info: { current: 2, best: 2, at_risk: false, broken: false, days_left: 3 } };
+    expect(reminderText('morning', 'daily', s2, 1)).toContain('+10 ta AI mentor savoli');
+    const s6 = { ...base, streak: 6, access: { allowed: true, reason: 'trial' }, streak_info: { current: 6, best: 6, at_risk: false, broken: false, days_left: 3 } };
+    expect(reminderText('evening', 'daily', s6, 1)).toContain('+2 kun bepul sinov');
+    expect(reminderText('evening', 'daily', { ...s6, access: { allowed: true, reason: 'paid' } }, 1)).toContain('+10 ta AI mentor savoli');
+  });
+  it('offers the recovery task instead of a loss when a streak can be won back', () => {
+    const s = { ...base, streak_prev: 9, can_recover: true, streak_info: { current: 0, best: 9, at_risk: false, broken: true } };
+    expect(reminderText('evening', 'comeback', s, 1)).toContain('Bugun 2 ta dars qiling');
+  });
+});
+

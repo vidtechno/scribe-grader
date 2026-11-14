@@ -9,11 +9,13 @@ import { Md } from './Md';
 
 type Phase = 'theory' | 'practice' | 'quiz';
 interface Turn { role: 'user' | 'assistant'; content: string }
-interface Left { lesson: number; day: number }
-interface Reply { reply?: string; error?: string; enabled?: boolean; lessonLeft?: number; dayLeft?: number }
+interface Left { lesson: number; day: number; bonus: number }
+interface Reply { reply?: string; error?: string; enabled?: boolean; lessonLeft?: number; dayLeft?: number; bonusLeft?: number }
 
 async function call(body: Record<string, unknown>): Promise<Reply> {
-  const { data, error } = await supabase.functions.invoke('lesson-mentor', { body });
+  let res;
+  try { res = await supabase.functions.invoke('lesson-mentor', { body }); } catch { return { error: 'network' }; }
+  const { data, error } = res;
   if (error) {
     // A refused call (limit reached, feature off) still carries the reason in the response body.
     const ctx = (error as { context?: Response } | null)?.context;
@@ -44,7 +46,7 @@ export function LessonHelp({ lesson, phase }: { lesson: Lesson; phase: Phase }) 
   const { t } = useT();
   const [enabled, setEnabled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [left, setLeft] = useState<Left>({ lesson: 3, day: 15 });
+  const [left, setLeft] = useState<Left>({ lesson: 3, day: 15, bonus: 0 });
   const [turns, setTurns] = useState<Turn[]>([]);
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
@@ -57,13 +59,14 @@ export function LessonHelp({ lesson, phase }: { lesson: Lesson; phase: Phase }) 
     void call({ action: 'status', lessonId: lesson.id }).then((r) => {
       if (off || !r.enabled) return;
       setEnabled(true);
-      setLeft({ lesson: r.lessonLeft ?? 0, day: r.dayLeft ?? 0 });
+      setLeft({ lesson: r.lessonLeft ?? 0, day: r.dayLeft ?? 0, bonus: r.bonusLeft ?? 0 });
     });
     return () => { off = true; };
   }, [lesson.id]);
   useEffect(() => { end.current?.scrollIntoView?.({ behavior: 'smooth', block: 'end' }); }, [turns, busy]);
 
-  const remaining = Math.min(left.lesson, left.day);
+  // Questions from streak rewards are used only once the lesson or day limit is reached.
+  const remaining = Math.min(left.lesson, left.day) + left.bonus;
   const ask = async (message: string, kind: 'explain' | 'free') => {
     if (busy || remaining <= 0 || !message.trim()) return;
     setBusy(true); setError('');
@@ -75,7 +78,7 @@ export function LessonHelp({ lesson, phase }: { lesson: Lesson; phase: Phase }) 
       context: { title: lesson.title, goal: lesson.goal.replace(/[*`]/g, ''), words: lesson.words.slice(0, 14).map((w) => [w.en, w.uz]) },
     });
     setBusy(false);
-    if (typeof r.lessonLeft === 'number' && typeof r.dayLeft === 'number') setLeft({ lesson: r.lessonLeft, day: r.dayLeft });
+    if (typeof r.lessonLeft === 'number' && typeof r.dayLeft === 'number') setLeft({ lesson: r.lessonLeft, day: r.dayLeft, bonus: r.bonusLeft ?? 0 });
     if (r.reply) setTurns((p) => [...p, { role: 'assistant', content: r.reply as string }]);
     else setError(r.error && r.error !== 'network' ? r.error : t('learn.help.failed'));
   };
@@ -92,7 +95,7 @@ export function LessonHelp({ lesson, phase }: { lesson: Lesson; phase: Phase }) 
         <SheetContent side="bottom" className="mx-auto flex h-[82vh] max-w-2xl flex-col rounded-t-3xl p-0">
           <SheetHeader className="border-b border-border px-5 py-4 text-left">
             <SheetTitle className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" />{t('learn.help.title')}</SheetTitle>
-            <SheetDescription>{remaining > 0 ? t('learn.help.left', { n: left.lesson, day: left.day }) : t('learn.help.none')}</SheetDescription>
+            <SheetDescription>{remaining > 0 ? t('learn.help.left', { n: left.lesson, day: left.day }) : t('learn.help.none')}{left.bonus > 0 ? ` · ${t('learn.help.bonus', { n: left.bonus })}` : ''}</SheetDescription>
           </SheetHeader>
           <div className="flex-1 space-y-3 overflow-y-auto px-5 py-4">
             {turns.length === 0 && (
