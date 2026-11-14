@@ -51,5 +51,6 @@ export function StreakStatus({ state }: { state: LearningState }) {
   const { data } = useRecovery(state.streak_info);
   const offer = data?.offer;
   if (offer) return <RecoveryCard offer={offer} />;
-  return <StreakGuard state={state} />;
+  // A streak at risk is shown in the week card; only a broken streak needs its own banner.
+  return state.streak_info?.broken ? <StreakGuard state={state} /> : null;
 }
