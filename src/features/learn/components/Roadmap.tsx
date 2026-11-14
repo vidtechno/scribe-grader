@@ -68,8 +68,8 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
     <div className="space-y-5">
       {certificate && levelTest && <CertificateDialog levelId={level} onClose={() => setCertificate(false)} />}
 
-      {/* The path */}
-      <ol className="relative">
+      {/* The path: a winding trail of round steps, one band per unit (open the unit you are on, tap a band to open another) */}
+      <div className="space-y-6">
         {units.map((unit, index) => {
           const status = unitStatus(unit.id);
           const open = openUnit === unit.id || (openUnit === null && unit.id === currentId);
@@ -77,71 +77,63 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
           const pct = Math.round((doneCount / unit.lessons.length) * 100);
           const testState = map.unitTest.get(unit.id)!;
           const t = tests.get(unit.id);
-          const last = index === units.length - 1;
+          const theme = BAND[index % BAND.length];
+          // Every step of the unit in order: a lesson, then its practice games; the unit test closes the trail.
+          const steps: Step[] = [];
+          unit.lessons.forEach((l, n) => {
+            steps.push({ id: l.id, kind: 'lesson', title: l.titleUz, state: map.lessonState.get(l.id) as NodeState, stars: stars.get(l.id) ?? 0, number: n + 1, lessonKind: l.kind ?? 'grammar', go: `/learn/lesson/${l.id}` });
+            drillIds(l.id).forEach((d) => {
+              const g = DRILL_GAME[d];
+              steps.push({ id: d, kind: g === 'mastery' || g === 'mini-boss' ? 'boss' : 'game', title: g ? tr(`learn.game.${g}.label`) : tr('learn.plan.drillGame'), state: (map.drillState.get(d) ?? 'locked') as DrillState, stars: stars.get(d) ?? 0, number: 0, lessonKind: 'game', go: `/learn/drill/${d}` });
+            });
+          });
+          steps.push({
+            id: `${unit.id}-test`, kind: 'test', title: tr('learn.road.unitTest'), number: 0, lessonKind: 'test', stars: 0, go: `/learn/test/${unit.id}`,
+            state: testState === 'passed' ? 'done' : testState === 'open' ? 'current' : testState === 'optional' ? 'open' : 'locked',
+            note: testState === 'cooldown' && t?.locked_until ? tr('learn.road.opensAt', { date: new Date(t.locked_until).toLocaleString(lang === 'uz' ? 'uz-UZ' : 'en-US', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) })
+              : testState === 'passed' ? tr('learn.road.testPassed') : testState === 'open' ? tr('learn.road.testReady') : testState === 'optional' ? tr('learn.road.testOptional') : tr('learn.road.testLocked'),
+          });
           return (
-            <li key={unit.id} className="relative pl-12 pb-4">
-              {!last && <span aria-hidden className={`absolute left-[15px] top-8 bottom-0 w-0.5 ${status === 'done' ? 'bg-emerald-500/50' : 'bg-border'}`} />}
-              <span className={`absolute left-0 top-1 w-8 h-8 rounded-full grid place-items-center text-sm font-bold ring-4 ring-background ${status === 'done' ? 'bg-emerald-500 text-white' : status === 'current' ? 'bg-primary text-primary-foreground' : status === 'review' ? 'border-2 border-primary/40 text-primary bg-card' : 'bg-secondary text-muted-foreground'}`}>
-                {status === 'done' ? <Check className="h-4 w-4" strokeWidth={3} /> : status === 'locked' ? <Lock className="h-3.5 w-3.5" /> : unitNo(unit)}
-              </span>
-              <div className={`rounded-2xl border bg-card transition-shadow ${status === 'current' ? 'border-primary ring-2 ring-primary/15 shadow-xl shadow-primary/10 bg-gradient-to-br from-primary/[0.07] via-card to-orange-400/[0.05]' : 'border-border'} ${status === 'locked' ? 'opacity-80' : ''}`}>
-                <button type="button" aria-expanded={open} onClick={() => setOpenUnit(open ? '' : unit.id)} className="w-full text-left p-4 flex items-center gap-3">
+            <section key={unit.id} aria-label={tr('learn.road.unitName', { n: unitNo(unit), title: unit.titleUz })}>
+              <button type="button" aria-expanded={open} onClick={() => setOpenUnit(open ? '' : unit.id)}
+                className={`relative w-full overflow-hidden rounded-3xl bg-gradient-to-br ${status === 'locked' ? 'from-slate-400 to-slate-500' : theme} p-4 text-left text-white shadow-lg sm:p-5`}>
+                <span aria-hidden className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15" />
+                <span className="relative flex items-center gap-3">
                   <span className="min-w-0 flex-1">
-                    <span className={`block text-[11px] font-semibold uppercase tracking-wider ${status === 'current' ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <span className="block text-[11px] font-extrabold uppercase tracking-[.18em] text-white/80">
                       {status === 'done' ? tr('learn.road.statusDone') : status === 'current' ? tr('learn.road.statusCurrent') : status === 'review' ? tr('learn.road.statusReview') : tr('learn.road.statusLocked')}
                     </span>
-                    <span className="block font-bold leading-snug">{tr('learn.road.unitName', { n: unitNo(unit), title: unit.titleUz })}</span>
-                    {doneCount > 0 && <span className="mt-1.5 block h-1.5 w-24 rounded-full bg-secondary overflow-hidden"><span className="block h-full rounded-full bg-primary" style={{ width: `${pct}%` }} /></span>}
+                    <span className="mt-0.5 block text-lg font-extrabold leading-snug sm:text-xl">{tr('learn.road.unitName', { n: unitNo(unit), title: unit.titleUz })}</span>
+                    <span className="mt-2 flex items-center gap-2">
+                      <span className="block h-2 w-28 overflow-hidden rounded-full bg-black/20"><span className="block h-full rounded-full bg-white" style={{ width: `${pct}%` }} /></span>
+                      <span className="text-xs font-bold text-white/85">{doneCount}/{unit.lessons.length}</span>
+                    </span>
                   </span>
-                  <ChevronDown className={`h-5 w-5 text-muted-foreground shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
-                </button>
-                {open && (
-                  <div className="px-3 pb-3 sm:px-4 sm:pb-4">
-                    {unit.learns?.length ? (
-                      <details className="mb-3 text-sm group">
-                        <summary className="cursor-pointer text-primary font-medium list-none flex items-center gap-1.5"><Compass className="h-4 w-4" />{tr('learn.road.whatYouLearn')}</summary>
-                        <ul className="mt-2 space-y-1 text-muted-foreground">{unit.learns.map((x) => <li key={x} className="flex gap-2"><Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />{x}</li>)}</ul>
-                      </details>
-                    ) : null}
-                    <ul className="rounded-xl border border-border/60 divide-y divide-border/60 overflow-hidden">
-                      {unit.lessons.map((l, n) => (
-                        <li key={l.id}>
-                          <LessonRow lesson={l} number={n + 1} state={map.lessonState.get(l.id) as NodeState} stars={stars.get(l.id) ?? 0}
-                            onOpen={() => (map.lessonState.get(l.id) === 'locked' ? onLocked() : navigate(`/learn/lesson/${l.id}`))} />
-                          {drillIds(l.id).map((d) => (
-                            <GameRow key={d} id={d} state={(map.drillState.get(d) ?? 'locked') as DrillState} stars={stars.get(d) ?? 0}
-                              onOpen={() => (map.drillState.get(d) === 'locked' ? onLocked() : navigate(`/learn/drill/${d}`))} />
-                          ))}
-                        </li>
-                      ))}
-                      <li>
-                        <button type="button" onClick={() => (testState === 'locked' ? onLocked() : navigate(`/learn/test/${unit.id}`))}
-                          className={`w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-secondary/50 transition-colors ${testState === 'locked' ? 'text-muted-foreground' : ''}`}>
-                          <span className={`w-7 h-7 shrink-0 rounded-full grid place-items-center ${testState === 'passed' ? 'bg-emerald-500 text-white' : testState === 'open' ? 'bg-violet-500 text-white' : 'bg-secondary'}`}>
-                            {testState === 'passed' ? <Check className="h-4 w-4" strokeWidth={3} /> : testState === 'locked' ? <Lock className="h-3.5 w-3.5" /> : <Trophy className="h-4 w-4" />}
-                          </span>
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-sm font-semibold">{tr('learn.road.unitTest')}</span>
-                            <span className="block text-xs text-muted-foreground">
-                              {testState === 'cooldown' && t?.locked_until ? tr('learn.road.opensAt', { date: new Date(t.locked_until).toLocaleString(lang === 'uz' ? 'uz-UZ' : 'en-US', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) })
-                                : testState === 'passed' ? tr('learn.road.testPassed') : testState === 'open' ? tr('learn.road.testReady') : testState === 'optional' ? tr('learn.road.testOptional') : tr('learn.road.testLocked')}
-                            </span>
-                          </span>
-                        </button>
-                      </li>
-                    </ul>
-                    {UNIT_EXTRAS[unit.id] && status !== 'locked' && (
-                      <button type="button" onClick={() => setGuideUnit(unit.id)} className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
+                  <ChevronDown className={`h-6 w-6 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
+                </span>
+              </button>
+              {open && (
+                <div className="pt-2">
+                  {unit.learns?.length ? (
+                    <details className="mx-auto mt-2 max-w-md rounded-2xl bg-secondary/50 px-4 py-2.5 text-sm">
+                      <summary className="flex cursor-pointer list-none items-center gap-1.5 font-semibold text-primary"><Compass className="h-4 w-4" />{tr('learn.road.whatYouLearn')}</summary>
+                      <ul className="mt-2 space-y-1 text-muted-foreground">{unit.learns.map((x) => <li key={x} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{x}</li>)}</ul>
+                    </details>
+                  ) : null}
+                  <Trail steps={steps} onOpen={(st) => (st.state === 'locked' ? onLocked() : navigate(st.go))} />
+                  {UNIT_EXTRAS[unit.id] && status !== 'locked' && (
+                    <div className="mt-2 text-center">
+                      <button type="button" onClick={() => setGuideUnit(unit.id)} className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
                         <Compass className="h-3.5 w-3.5" />{tr('learn.road.guide')}
                       </button>
-                    )}
-                  </div>
-                )}
-              </div>
-            </li>
+                    </div>
+                  )}
+                </div>
+              )}
+            </section>
           );
         })}
-      </ol>
+      </div>
 
       <section className="rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/[0.08] via-card to-orange-400/[0.08] p-4" aria-label={tr('learn.road.levelTest')}>
         <div className="flex items-start gap-3">
@@ -187,44 +179,84 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
   );
 }
 
-const stateStyle = (state: NodeState | DrillState) => state === 'done' ? 'bg-emerald-500 text-white' : state === 'current' ? 'bg-primary text-primary-foreground' : state === 'open' ? 'border-2 border-primary/40 text-primary' : 'bg-secondary text-muted-foreground';
+/** Colour of each unit's band; locked units are grey. */
+const BAND = [
+  'from-[#ff4058] to-[#ad001f]', 'from-emerald-500 to-teal-600', 'from-violet-500 to-indigo-600', 'from-sky-500 to-blue-600',
+  'from-amber-500 to-orange-600', 'from-fuchsia-500 to-pink-600', 'from-teal-500 to-cyan-600',
+];
 
-function LessonRow({ lesson, number, state, stars, onOpen }: { lesson: LessonMeta; number: number; state: NodeState; stars: number; onOpen: () => void }) {
-  const { t } = useT();
-  const kind = KIND[lesson.kind ?? 'grammar'];
-  const Icon = kind.icon;
-  const scene = lesson.kind === 'scene';
-  return (
-    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 px-3 py-3 text-left transition-all hover:bg-secondary/50 ${scene ? 'border-l-4 border-l-fuchsia-500 bg-gradient-to-r from-fuchsia-500/10 via-amber-500/5 to-transparent' : ''} ${state === 'current' ? 'bg-gradient-to-r from-primary/15 via-primary/[0.07] to-orange-400/[0.08] ring-1 ring-inset ring-primary/25 shadow-sm' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
-      <span className={`w-7 h-7 shrink-0 rounded-full grid place-items-center text-xs font-bold ${stateStyle(state)}`}>
-        {state === 'done' ? <Check className="h-4 w-4" strokeWidth={3} /> : state === 'locked' ? <Lock className="h-3.5 w-3.5" /> : state === 'current' ? <Play className="h-3.5 w-3.5 fill-current" /> : scene ? <Icon className="h-3.5 w-3.5" /> : number}
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className={`block text-sm leading-snug ${state === 'current' ? 'font-bold' : 'font-semibold'}`}>{lesson.titleUz}</span>
-        <span className="flex items-center gap-1 text-[11px] text-muted-foreground"><Icon className="h-3 w-3" />{t(kind.label)}</span>
-      </span>
-      {state === 'done' && stars > 0 && <span className="text-[11px] text-amber-500 font-semibold shrink-0">{'★'.repeat(stars)}</span>}
-      {state === 'current' && <span className="shrink-0 rounded-full bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1">{t('learn.road.start')}</span>}
-    </button>
-  );
+interface Step {
+  id: string; kind: 'lesson' | 'game' | 'boss' | 'test'; title: string; state: NodeState | DrillState; stars: number; number: number;
+  lessonKind: string; go: string; note?: string;
+}
+/** Sideways shift of each step in px (a gentle wave), like the winding path of a language app. */
+const WAVE = [0, 34, 58, 34, 0, -34, -58, -34];
+
+const NODE_SIZE: Record<Step['kind'], string> = { lesson: 'h-[68px] w-[68px]', game: 'h-[52px] w-[52px]', boss: 'h-[64px] w-[64px]', test: 'h-[76px] w-[76px]' };
+
+/** Colours of a round step with the thick lower edge that makes it look pressable. */
+function nodeLook(step: Step): string {
+  const { state, kind } = step;
+  if (state === 'locked') return 'bg-slate-200 text-slate-400 border-slate-300 dark:bg-slate-700 dark:text-slate-400 dark:border-slate-800';
+  if (state === 'done') return kind === 'test' || kind === 'boss' ? 'bg-violet-500 text-white border-violet-700' : kind === 'game' ? 'bg-amber-400 text-white border-amber-600' : 'bg-emerald-500 text-white border-emerald-700';
+  if (kind === 'game') return 'bg-amber-400 text-white border-amber-600';
+  if (kind === 'boss' || kind === 'test') return 'bg-violet-500 text-white border-violet-700';
+  if (state === 'current') return 'bg-primary text-primary-foreground border-[#a8001b]';
+  return 'bg-card text-primary border-primary/40 ring-2 ring-primary/20'; // open: free to revisit
 }
 
-function GameRow({ id, state, stars, onOpen }: { id: string; state: DrillState; stars: number; onOpen: () => void }) {
+function StepIcon({ step }: { step: Step }) {
+  const cls = step.kind === 'lesson' ? 'h-7 w-7' : 'h-6 w-6';
+  if (step.state === 'locked') return <Lock className={step.kind === 'lesson' ? 'h-6 w-6' : 'h-5 w-5'} />;
+  if (step.state === 'done') return <Check className={cls} strokeWidth={4} />;
+  if (step.kind === 'test' || step.kind === 'boss') return <Trophy className={cls} />;
+  if (step.kind === 'game') return <Gamepad2 className={cls} />;
+  if (step.state === 'current') return <Play className={`${cls} fill-current`} />;
+  const Icon = KIND[step.lessonKind]?.icon ?? BookOpen;
+  return <Icon className={cls} />;
+}
+
+/** The winding trail of one unit. The step you are on carries a "Start" bubble; tap any other open step to see it and start. */
+function Trail({ steps, onOpen }: { steps: Step[]; onOpen: (s: Step) => void }) {
   const { t } = useT();
-  const g = DRILL_GAME[id];
-  const checkpoint = g === 'mastery' || g === 'mini-boss';
-  const Icon = checkpoint ? Trophy : Gamepad2;
+  const [picked, setPicked] = useState<string | null>(null);
   return (
-    <button type="button" onClick={onOpen} className={`w-full flex items-center gap-3 pl-10 pr-3 py-2.5 text-left transition-all hover:bg-secondary/50 bg-secondary/20 ${state === 'current' ? 'bg-gradient-to-r from-primary/15 via-primary/[0.07] to-orange-400/[0.08] ring-1 ring-inset ring-primary/25 shadow-sm' : ''} ${state === 'locked' ? 'text-muted-foreground' : ''}`}>
-      <span className={`w-6 h-6 shrink-0 rounded-full grid place-items-center ${stateStyle(state)}`}>
-        {state === 'done' ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : state === 'locked' ? <Lock className="h-3 w-3" /> : <Icon className="h-3.5 w-3.5" />}
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className={`block text-sm leading-snug ${state === 'current' ? 'font-bold' : 'font-medium'}`}>{g ? t(`learn.game.${g}.label`) : t('learn.plan.drillGame')}</span>
-        <span className="block text-[11px] text-muted-foreground">{g === 'mastery' ? t('learn.road.gameMastery') : g === 'mini-boss' ? t('learn.road.gameBoss') : t('learn.road.gameGame')}</span>
-      </span>
-      {state === 'done' && stars > 0 && <span className="text-[11px] text-amber-500 font-semibold shrink-0">{'★'.repeat(stars)}</span>}
-      {state === 'current' && <span className="shrink-0 rounded-full bg-primary text-primary-foreground text-[11px] font-bold px-3 py-1">{t('learn.road.start')}</span>}
-    </button>
+    <ol className="relative mx-auto flex max-w-md flex-col items-center py-4 [--u:0.85px] sm:[--u:1.05px]">
+      {steps.map((step, i) => {
+        const shift = WAVE[i % WAVE.length];
+        const current = step.state === 'current';
+        const isOpen = picked === step.id;
+        return (
+          <li key={step.id} className="flex w-full flex-col items-center py-[7px]" style={{ transform: `translateX(calc(${shift} * var(--u)))` }}>
+            {current && (
+              <span className="relative mb-2 rounded-xl border-2 border-primary bg-card px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-primary shadow-sm">
+                {t('learn.road.start')}
+                <span aria-hidden className="absolute -bottom-[7px] left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-b-2 border-r-2 border-primary bg-card" />
+              </span>
+            )}
+            <span className="relative">
+              {current && <span aria-hidden className="absolute inset-0 -m-1.5 animate-ping rounded-full bg-primary/25 [animation-duration:2.2s]" />}
+              <button type="button" aria-label={`${step.title}${step.state === 'locked' ? ` (${t('learn.road.statusLocked')})` : ''}`} aria-expanded={isOpen}
+                onClick={() => (current || step.state === 'locked' ? onOpen(step) : setPicked(isOpen ? null : step.id))}
+                className={`relative grid place-items-center rounded-full border-b-[6px] shadow-md transition-transform active:translate-y-[3px] active:border-b-[3px] ${NODE_SIZE[step.kind]} ${nodeLook(step)}`}>
+                <StepIcon step={step} />
+              </button>
+              {step.state === 'done' && step.stars > 0 && (
+                <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-card px-1.5 text-[11px] font-bold leading-4 text-amber-500 shadow ring-1 ring-border">{'★'.repeat(step.stars)}</span>
+              )}
+            </span>
+            {isOpen && (
+              <span className="mt-4 block w-60 max-w-[80vw] rounded-2xl border border-border bg-card p-3 text-center shadow-xl">
+                <span className="block text-sm font-extrabold leading-snug">{step.title}</span>
+                <span className="mt-0.5 block text-xs text-muted-foreground">{step.note ?? t(step.kind === 'lesson' ? KIND[step.lessonKind]?.label ?? 'learn.road.kindLesson' : step.kind === 'boss' ? 'learn.road.gameBoss' : 'learn.road.gameGame')}</span>
+                <button type="button" onClick={() => onOpen(step)} className="mt-2.5 w-full rounded-xl bg-primary py-2 text-sm font-extrabold uppercase tracking-wide text-primary-foreground shadow-[0_4px_0_0_#a8001b] active:translate-y-[2px] active:shadow-[0_2px_0_0_#a8001b]">
+                  {step.state === 'done' ? t('learn.road.again') : t('learn.road.start')}
+                </button>
+              </span>
+            )}
+          </li>
+        );
+      })}
+    </ol>
   );
 }

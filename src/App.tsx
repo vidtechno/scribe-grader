@@ -55,6 +55,7 @@ import { trackOnce, setAnalyticsUser } from "@/lib/analytics";
 
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
 const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
+const InstallPrompt = lazy(() => import("@/components/InstallPrompt").then(m => ({ default: m.InstallPrompt })));
 const UserIntakeGate = lazy(() => import("@/components/UserIntake").then(m => ({ default: m.UserIntakeGate })));
 
 // Fewer round trips to the database: data stays fresh for a minute, no refetch every time the window regains focus.
@@ -131,6 +132,7 @@ function AppRoutes() {
       {user && location.pathname.startsWith('/learn') && <Suspense fallback={null}><XpRankToast /></Suspense>}
       {user && <Suspense fallback={null}><UserIntakeGate key={user.id} onBusyChange={setIntakeBusy} /></Suspense>}
       {user && !intakeBusy && <Suspense fallback={null}><Announcements /></Suspense>}
+      {user && !intakeBusy && <Suspense fallback={null}><InstallPrompt /></Suspense>}
       <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route path="/" element={<PublicRoute><Index /></PublicRoute>} />
