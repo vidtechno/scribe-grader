@@ -18,12 +18,10 @@ import {
 } from '@/features/learn/api';
 import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
-import { RailStrip, SideRail } from '@/features/learn/components/SideRail';
+import { RightPanel, StatsBar } from '@/features/learn/components/SideRail';
 import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
 import { StreakStatus } from '@/features/learn/components/StreakStatus';
-import { WeekCalendar } from '@/features/learn/components/WeekCalendar';
-import { DailyCard } from '@/features/learn/components/DailyCard';
 import { LearnPaywall } from '@/features/learn/components/LearnPaywall';
 import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { loadSession, useReviewQueue } from '@/features/learn/engine/api';
@@ -163,7 +161,6 @@ function CourseHome({ state }: { state: LearningState }) {
       )}
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
       {!locked && tab === 'map' && <StreakStatus state={state} />}
-      {!locked && tab === 'map' && <div className="grid gap-3 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]"><WeekCalendar state={state} /><DailyCard state={state} wordCount={map.wordCount} /></div>}
 
       <section className="mb-4" aria-label={t('learn.home.stats')}>
         <div className="grid grid-cols-2 gap-3 rounded-2xl bg-secondary/55 p-1.5">
@@ -185,11 +182,10 @@ function CourseHome({ state }: { state: LearningState }) {
             </div>
           )}
           {earlierLevel && <p className="text-sm text-muted-foreground mb-4 rounded-xl bg-secondary/60 px-3 py-2">{t('learn.home.earlierOpen')}</p>}
-          {!locked && <RailStrip state={state} />}
-          <div className={locked ? '' : 'xl:grid xl:grid-cols-[190px_minmax(0,1fr)_190px] xl:gap-6'}>
-            {!locked && <SideRail state={state} side="left" wordCount={map.wordCount} />}
+          {!locked && <StatsBar state={state} wordCount={map.wordCount} />}
+          <div className={locked ? '' : 'xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-8'}>
             <div className="min-w-0"><Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} /></div>
-            {!locked && <SideRail state={state} side="right" wordCount={map.wordCount} />}
+            {!locked && <RightPanel state={state} wordCount={map.wordCount} />}
           </div>
           <SkipIntroBanner state={state} />
           <section className="glass-card p-4 mt-6" aria-label={t('learn.home.weekly')}>
