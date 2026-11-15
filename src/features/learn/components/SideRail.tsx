@@ -42,19 +42,14 @@ function Numbers({ state, big = false }: { state: LearningState; big?: boolean }
 /** Everything behind the numbers: the week, the daily 5 minutes and the reviews waiting. */
 function PanelBody({ state, wordCount }: { state: LearningState; wordCount: number }) {
   const { t } = useT();
-  const n = useNumbers(state);
   return (
-    <div className="space-y-3">
-      <WeekCalendar state={state} />
+    <div className="space-y-2">
+      <WeekCalendar state={state} compact />
       <DailyCard state={state} wordCount={wordCount} compact />
       <WordsCard state={state} wordCount={wordCount} />
-      <Link to="/learn?tab=words" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5 shadow-sm transition-colors hover:border-primary">
-        <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><Brain className="h-5 w-5" /></span>
-        <span className="min-w-0"><span className="block text-xl font-black leading-none">{n.due}</span><span className="text-xs font-semibold text-muted-foreground">{t('learn.continue.dueSuffix')}</span></span>
-      </Link>
       <div className="grid grid-cols-2 gap-2">
-        <Link to="/leaderboard" className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-sm font-bold text-amber-700 dark:text-amber-400"><Trophy className="h-4 w-4" />{t('learn.panel.leaderboard')}</Link>
-        <Link to="/dashboard" className="flex items-center justify-center gap-2 rounded-xl border border-border px-3 py-2.5 text-sm font-bold"><LayoutDashboard className="h-4 w-4" />{t('learn.panel.dashboard')}</Link>
+        <Link to="/leaderboard" className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs font-bold text-amber-700 dark:text-amber-400"><Trophy className="h-4 w-4" />{t('learn.panel.leaderboard')}</Link>
+        <Link to="/dashboard" className="flex items-center justify-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-bold"><LayoutDashboard className="h-4 w-4" />{t('learn.panel.dashboard')}</Link>
       </div>
     </div>
   );
@@ -78,8 +73,8 @@ export function RightPanel({ state, wordCount }: { state: LearningState; wordCou
   const wide = useWide();
   if (!wide) return null;
   return (
-    <aside className="sticky top-[5.5rem] max-h-[calc(100vh-6.5rem)] space-y-3 self-start overflow-y-auto overscroll-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={t('learn.rail.label')}>
-      <div className="rounded-2xl border border-border bg-card px-4 py-3 shadow-sm"><Numbers state={state} big /></div>
+    <aside className="sticky top-[5.5rem] max-h-[calc(100vh-6.5rem)] space-y-2 self-start overflow-y-auto overscroll-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={t('learn.rail.label')}>
+      <div className="rounded-2xl border border-border bg-card px-4 py-2 shadow-sm"><Numbers state={state} big /></div>
       <PanelBody state={state} wordCount={wordCount} />
     </aside>
   );
