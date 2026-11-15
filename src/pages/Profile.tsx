@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PricingModal } from '@/components/PricingModal';
 import { SEOHead } from '@/components/SEOHead';
-import { User as UserIcon, Mail, Calendar, Coins, FileText, Mic, Award, Target, Trophy, History, LogOut, Save, Edit2, MapPin, Phone, Sparkles, Crown, GraduationCap, Gift, BookOpen, LifeBuoy, Languages } from 'lucide-react';
+import { User as UserIcon, Mail, FileText, Mic, Target, History, LogOut, Save, Edit2, Sparkles, Crown, LifeBuoy, Languages, Users, Settings, ChevronRight } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { LearningIdentity } from '@/features/social/LearningIdentity';
 import { PeopleSection } from '@/features/social/PeopleSection';
@@ -21,8 +21,27 @@ import { uz } from 'date-fns/locale';
 import { useT } from '@/i18n';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
 
+const TABS = ['overview', 'plan', 'people', 'settings'] as const;
+type Tab = (typeof TABS)[number];
+
+/** One titled block of the profile. */
+function Block({ title, icon: Icon, action, children }: { title: string; icon: typeof Crown; action?: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <section className="rounded-3xl border border-border bg-card p-4 shadow-sm sm:p-5">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <h2 className="flex items-center gap-2 text-base font-extrabold"><Icon className="h-5 w-5 text-primary" />{title}</h2>
+        {action}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/**
+ * The profile in four short tabs instead of one long page: Me (who I am and how I learn), Plan (what I have and what is left),
+ * Friends, and Settings (name, language, Telegram, devices, help, sign out).
+ */
 export default function Profile() {
   const { t, lang } = useT();
   const dfl = lang === 'uz' ? { locale: uz } : undefined;
@@ -31,6 +50,8 @@ export default function Profile() {
   const navigate = useNavigate();
   const { hash } = useLocation();
   const [peopleTab, setPeopleTab] = useState<PeopleTab>('discover');
+  const wantsTelegram = new URLSearchParams(window.location.search).get('connect') === 'telegram';
+  const [tab, setTab] = useState<Tab>(() => (TABS.includes(hash.slice(1) as Tab) ? hash.slice(1) as Tab : wantsTelegram ? 'settings' : 'overview'));
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -45,12 +66,12 @@ export default function Profile() {
     bestSpeaking: 'N/A' as string | number,
   });
 
-  // /profile#people scrolls to the friends section once the page has rendered.
+  // /profile#people (and the other tab names) open that tab.
   useEffect(() => {
-    if (hash !== '#people') return;
-    const timer = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
-    return () => clearTimeout(timer);
+    const next = hash.slice(1) as Tab;
+    if (TABS.includes(next)) setTab(next);
   }, [hash]);
+  const openTab = (next: Tab) => { setTab(next); window.history.replaceState(null, '', next === 'overview' ? window.location.pathname : `#${next}`); window.scrollTo({ top: 0 }); };
 
   useEffect(() => {
     if (!profile) return;
@@ -102,177 +123,118 @@ export default function Profile() {
   const initials = (profile?.full_name || profile?.email || 'U')
     .split(' ').map(s => s[0]).join('').slice(0, 2).toUpperCase();
 
+  const uzL = lang === 'uz';
+  const tabs: { id: Tab; label: string; icon: typeof Crown }[] = [
+    { id: 'overview', label: uzL ? 'Men' : 'Me', icon: UserIcon },
+    { id: 'plan', label: uzL ? 'Tarif' : 'Plan', icon: Crown },
+    { id: 'people', label: t('social.friends'), icon: Users },
+    { id: 'settings', label: uzL ? 'Sozlamalar' : 'Settings', icon: Settings },
+  ];
+  const hasIelts = stats.essays > 0 || stats.speaking > 0;
+  const usage = [
+    { label: 'Writing', used: writingUsed, limit: writingLimit },
+    { label: 'Speaking', used: speakingUsed, limit: speakingLimit },
+    { label: t('profile.mockTests'), used: mockUsed, limit: mockLimit },
+  ].filter((u) => u.limit > 0);
+
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-0">
       <SEOHead title={t('profile.seoTitle')} description={t('profile.seoDesc')} path="/profile" noindex />
       <Navbar />
 
-      <main className="profile-page pt-20 sm:pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-        <div className="mb-6 hidden lg:block"><p className="text-xs font-bold uppercase tracking-wider text-primary">{lang === 'uz' ? 'Shaxsiy maydon' : 'Your account'}</p><h1 className="mt-2 text-3xl font-extrabold">{t('nav.profile')}</h1><p className="mt-2 text-sm text-muted-foreground">{lang === 'uz' ? 'Hisobingiz, natijalaringiz va sozlamalaringiz bir joyda.' : 'Your account, achievements and preferences, all in one place.'}</p></div>
-        <nav aria-label={t('nav.profile')} className="mb-6 hidden items-center gap-2 rounded-2xl border border-border/60 bg-card p-2 lg:flex">{[['#profile-overview', lang === 'uz' ? 'Umumiy' : 'Overview'], ['#profile-plan', lang === 'uz' ? 'Obuna' : 'Subscription'], ['#profile-settings', lang === 'uz' ? 'Sozlamalar' : 'Settings'], ['#people', t('social.friends')]].map(([to, label]) => <a key={to} href={to} className="rounded-xl px-5 py-2.5 text-sm font-semibold text-muted-foreground transition-colors hover:bg-primary/5 hover:text-primary">{label}</a>)}</nav>
-        <div id="profile-overview" className="scroll-mt-28">
-        <ProfileHeader onOpenPeople={(tab) => { setPeopleTab(tab); document.getElementById('people')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
-        </div>
-        <LearningIdentity />
+      <main className="profile-page mx-auto max-w-3xl px-4 pb-12 pt-20 sm:px-6 sm:pt-24">
+        <nav aria-label={t('nav.profile')} role="tablist" className="sticky top-[4.25rem] z-20 mb-5 grid grid-cols-4 gap-1 rounded-2xl border border-border bg-card/95 p-1 shadow-sm backdrop-blur lg:top-[5rem]">
+          {tabs.map(({ id, label, icon: Icon }) => (
+            <button key={id} type="button" role="tab" aria-selected={tab === id} onClick={() => openTab(id)}
+              className={`flex flex-col items-center gap-0.5 rounded-xl px-1 py-2 text-[11px] font-bold transition-colors sm:flex-row sm:justify-center sm:gap-2 sm:text-sm ${tab === id ? 'bg-primary text-primary-foreground shadow' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}>
+              <Icon className="h-4 w-4" /><span className="truncate">{label}</span>
+            </button>
+          ))}
+        </nav>
 
-        {/* Plan usage + history */}
-        <motion.div id="profile-plan" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-          className="rounded-3xl border bg-card p-4 sm:p-6 mb-6 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-            <h2 className="text-lg font-semibold flex items-center gap-2">
-              <Crown className="h-5 w-5 text-primary" /> {planType === 'free' ? (trialActive ? t('profile.freeTrial', { n: trialDaysLeft }) : t('profile.freePlan')) : planName}
-            </h2>
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              {expiresAt && <span className={`text-xs ${isExpired ? 'text-destructive' : 'text-muted-foreground'}`}>{isExpired ? t('dash.expired') : t('dash.daysLeft', { n: daysRemaining })} · {format(expiresAt, 'MMM d, yyyy', dfl)}</span>}
-              <Button variant="outline" size="sm" className="gap-1" onClick={() => setShowPricing(true)}>{planType === 'free' ? t('profile.choosePlan') : t('profile.changePlan')}</Button>
-            </div>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-3 mb-6">
-            {[
-              { label: 'Writing', used: writingUsed, limit: writingLimit },
-              { label: 'Speaking', used: speakingUsed, limit: speakingLimit },
-              { label: t('profile.mockTests'), used: mockUsed, limit: mockLimit },
-            ].map((u) => {
-              const pct = u.limit > 0 ? (u.used / u.limit) * 100 : 0;
-              return (
-                <div key={u.label} className="glass-card-hover p-3">
-                  <p className="text-xs text-muted-foreground mb-1">{u.label}</p>
-                  <p className="text-sm font-semibold mb-1">{t('profile.usedOf', { used: u.used, limit: u.limit })}</p>
-                  <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-primary" style={{ width: `${Math.min(100, pct)}%` }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-            <History className="h-4 w-4 text-primary" /> {t('profile.history')}
-          </h3>
-          {history.length === 0 ? (
-            <p className="text-xs text-muted-foreground">{t('profile.noHistory')}</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium">{t('profile.colPlan')}</th>
-                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium">{t('profile.colStarted')}</th>
-                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium">{t('profile.colEnds')}</th>
-                    <th className="text-left py-2 px-2 text-xs text-muted-foreground font-medium hidden sm:table-cell">{t('profile.colPrice')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history.map((h: any) => (
-                    <tr key={h.id} className="border-b border-border/50">
-                      <td className="py-2 px-2 font-medium">{h.plan_name}</td>
-                      <td className="py-2 px-2 text-muted-foreground text-xs">{format(new Date(h.started_at), 'MMM d, yyyy', dfl)}</td>
-                      <td className="py-2 px-2 text-muted-foreground text-xs">{h.expires_at ? format(new Date(h.expires_at), 'MMM d, yyyy', dfl) : '—'}</td>
-                      <td className="py-2 px-2 text-muted-foreground text-xs hidden sm:table-cell">{h.price_uzs ? t('profile.sum', { n: h.price_uzs }) : '—'}</td>
-                    </tr>
+        {tab === 'overview' && (
+          <div className="space-y-5">
+            <ProfileHeader onOpenPeople={(next) => { setPeopleTab(next); openTab('people'); }} />
+            <LearningIdentity />
+            {hasIelts && (
+              <Block title="IELTS" icon={Sparkles}>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { to: '/essays', icon: FileText, label: 'Writing', count: stats.essays, best: stats.bestEssay },
+                    { to: '/speaking-history', icon: Mic, label: 'Speaking', count: stats.speaking, best: stats.bestSpeaking },
+                  ].map((s) => (
+                    <Link key={s.to} to={s.to} className="rounded-2xl border border-border p-3.5 transition-colors hover:border-primary">
+                      <span className="flex items-center gap-2 text-sm font-bold"><s.icon className="h-4 w-4 text-primary" />{s.label}</span>
+                      <span className="mt-2 block text-2xl font-black leading-none">{s.best === 'N/A' ? '—' : s.best}</span>
+                      <span className="mt-1 block text-xs text-muted-foreground">{uzL ? `Eng yaxshi ball · ${s.count} ta urinish` : `Best band · ${s.count} attempts`}</span>
+                    </Link>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Edit info */}
-        <motion.div id="profile-settings" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-          className="glass-card scroll-mt-28 p-6 mb-6">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg font-semibold flex items-center gap-2">
-              <UserIcon className="h-5 w-5 text-primary" /> {t('profile.personal')}
-            </h2>
-            {!editing ? (
-              <Button variant="outline" size="sm" className="gap-2" onClick={() => setEditing(true)}>
-                <Edit2 className="h-4 w-4" /> {t('profile.edit')}
-              </Button>
-            ) : (
-              <div className="flex gap-2">
-                <Button variant="ghost" size="sm" onClick={() => setEditing(false)} disabled={saving}>{t('profile.cancel')}</Button>
-                <Button variant="glow" size="sm" className="gap-2" onClick={handleSave} disabled={saving}>
-                  <Save className="h-4 w-4" /> {saving ? t('profile.saving') : t('profile.save')}
-                </Button>
-              </div>
+                </div>
+              </Block>
             )}
           </div>
+        )}
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>{t('profile.firstName')}</Label>
-              <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} disabled={!editing} placeholder="Diyorbek" />
-            </div>
-            <div className="space-y-2">
-              <Label>{t('profile.lastName')}</Label>
-              <Input value={lastName} onChange={(e) => setLastName(e.target.value)} disabled={!editing} placeholder="Anorboyev" />
-            </div>
-            <div className="space-y-2">
-              <Label className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" /> {t('profile.email')}</Label>
-              <Input value={displayEmail(profile?.email) ?? t('profile.tgAccount')} disabled />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          className="glass-card p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-5 flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" /> {t('profile.stats')}
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {[
-              { icon: FileText, label: t('profile.totalEssays'), value: stats.essays },
-              { icon: Award, label: t('profile.avgWriting'), value: stats.avgEssay },
-              { icon: Target, label: t('profile.bestWriting'), value: stats.bestEssay },
-              { icon: Mic, label: t('profile.speakingAttempts'), value: stats.speaking },
-              { icon: Award, label: t('profile.avgSpeaking'), value: stats.avgSpeaking },
-              { icon: Target, label: t('profile.bestSpeaking'), value: stats.bestSpeaking },
-            ].map((s) => (
-              <div key={s.label} className="glass-card-hover p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <s.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-bold">{s.value === 'N/A' ? t('profile.na') : s.value}</p>
-                    <p className="text-[11px] text-muted-foreground">{s.label}</p>
-                  </div>
+        {tab === 'plan' && (
+          <div className="space-y-5">
+            <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ff4058] via-primary to-[#ad001f] p-5 text-white shadow-xl shadow-primary/20">
+              <span aria-hidden className="absolute -right-12 -top-16 h-44 w-44 rounded-full bg-white/15 blur-2xl" />
+              <p className="relative text-[11px] font-extrabold uppercase tracking-[.18em] text-white/80">{uzL ? 'Joriy tarif' : 'Current plan'}</p>
+              <p className="relative mt-1 flex items-center gap-2 text-2xl font-black"><Crown className="h-6 w-6" />{planType === 'free' ? (trialActive ? t('profile.freeTrial', { n: trialDaysLeft }) : t('profile.freePlan')) : planName}</p>
+              {expiresAt && <p className="relative mt-1 text-sm font-semibold text-white/85">{isExpired ? t('dash.expired') : t('dash.daysLeft', { n: daysRemaining })} · {format(expiresAt, 'MMM d, yyyy', dfl)}</p>}
+              <Button className="relative mt-4 w-full bg-white font-bold text-primary hover:bg-white/90 sm:w-auto" onClick={() => setShowPricing(true)}>{planType === 'free' ? t('profile.choosePlan') : t('profile.changePlan')}</Button>
+            </section>
+            {usage.length > 0 && (
+              <Block title={uzL ? 'Bu oyda ishlatilgan' : 'Used this month'} icon={Target}>
+                <div className="space-y-3">
+                  {usage.map((u) => (
+                    <div key={u.label}>
+                      <p className="mb-1 flex justify-between text-sm"><span className="font-semibold">{u.label}</span><span className="text-muted-foreground">{u.used} / {u.limit}</span></p>
+                      <div className="h-2 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-primary" style={{ width: `${Math.min(100, (u.used / u.limit) * 100)}%` }} /></div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            ))}
+              </Block>
+            )}
+            {history.length > 0 && (
+              <details className="rounded-3xl border border-border bg-card p-4 shadow-sm sm:p-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between text-base font-extrabold"><span className="flex items-center gap-2"><History className="h-5 w-5 text-primary" />{t('profile.history')}</span><span className="text-xs font-semibold text-muted-foreground">{history.length}</span></summary>
+                <ul className="mt-3 divide-y divide-border/60">
+                  {history.map((h: any) => (
+                    <li key={h.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
+                      <span className="font-semibold">{h.plan_name}</span>
+                      <span className="text-right text-xs text-muted-foreground">{format(new Date(h.started_at), 'MMM d, yyyy', dfl)}{h.expires_at ? ` – ${format(new Date(h.expires_at), 'MMM d, yyyy', dfl)}` : ''}{h.price_uzs ? ` · ${t('profile.sum', { n: h.price_uzs })}` : ''}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
           </div>
-        </motion.div>
+        )}
 
-        <section className="mb-6 grid gap-3 sm:grid-cols-2" aria-label={t('profile.personal')}>
-          <Link to="/support" className="glass-card-hover p-4 flex items-center gap-3"><span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><LifeBuoy className="h-5 w-5" /></span><span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{t('profile.helpTitle')}</span><span className="block text-xs text-muted-foreground">{t('profile.helpText')}</span></span></Link>
-          <div className="glass-card p-4 flex items-center gap-3"><span className="w-10 h-10 rounded-xl bg-primary/10 text-primary grid place-items-center shrink-0"><Languages className="h-5 w-5" /></span><span className="min-w-0 flex-1"><span className="block font-semibold text-sm">{t('profile.langTitle')}</span><span className="block text-xs text-muted-foreground">{t('profile.langText')}</span></span><LanguageSwitcher /></div>
-        </section>
-        <ActiveDevicesCard />
-        <TelegramConnectCard autoConnect={new URLSearchParams(window.location.search).get('connect') === 'telegram'} />
-        <PeopleSection tab={peopleTab} onTab={setPeopleTab} />
+        {tab === 'people' && <div id="people"><PeopleSection tab={peopleTab} onTab={setPeopleTab} /></div>}
 
-        {/* Quick links */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-          className="grid sm:grid-cols-3 gap-3 mb-6">
-          <Link to="/essays" className="glass-card-hover p-4 flex items-center gap-3">
-            <FileText className="h-5 w-5 text-primary" />
-            <span className="font-medium text-sm">{t('profile.essayHistory')}</span>
-          </Link>
-          <Link to="/speaking-history" className="glass-card-hover p-4 flex items-center gap-3">
-            <History className="h-5 w-5 text-primary" />
-            <span className="font-medium text-sm">{t('profile.speakingHistory')}</span>
-          </Link>
-          <Link to="/leaderboard" className="glass-card-hover p-4 flex items-center gap-3">
-            <Trophy className="h-5 w-5 text-primary" />
-            <span className="font-medium text-sm">{t('dash.leaderboard')}</span>
-          </Link>
-        </motion.div>
-
-        <div className="flex justify-end">
-          <Button variant="outline" className="gap-2 text-destructive border-destructive/30 hover:bg-destructive/10" onClick={handleSignOut}>
-            <LogOut className="h-4 w-4" /> {t('profile.signOut')}
-          </Button>
-        </div>
+        {tab === 'settings' && (
+          <div className="space-y-5">
+            <Block title={t('profile.personal')} icon={UserIcon}
+              action={!editing
+                ? <Button variant="outline" size="sm" className="gap-2" onClick={() => setEditing(true)}><Edit2 className="h-4 w-4" />{t('profile.edit')}</Button>
+                : <div className="flex gap-2"><Button variant="ghost" size="sm" onClick={() => setEditing(false)} disabled={saving}>{t('profile.cancel')}</Button><Button variant="glow" size="sm" className="gap-2" onClick={handleSave} disabled={saving}><Save className="h-4 w-4" />{saving ? t('profile.saving') : t('profile.save')}</Button></div>}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2"><Label>{t('profile.firstName')}</Label><Input value={firstName} onChange={(e) => setFirstName(e.target.value)} disabled={!editing} /></div>
+                <div className="space-y-2"><Label>{t('profile.lastName')}</Label><Input value={lastName} onChange={(e) => setLastName(e.target.value)} disabled={!editing} /></div>
+                <div className="space-y-2 sm:col-span-2"><Label className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{t('profile.email')}</Label><Input value={displayEmail(profile?.email) ?? t('profile.tgAccount')} disabled /></div>
+              </div>
+            </Block>
+            <section className="divide-y divide-border/60 rounded-3xl border border-border bg-card shadow-sm">
+              <div className="flex items-center gap-3 p-4"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><Languages className="h-5 w-5" /></span><span className="min-w-0 flex-1 text-sm font-semibold">{t('profile.langTitle')}</span><LanguageSwitcher /></div>
+              <Link to="/support" className="flex items-center gap-3 p-4 hover:bg-secondary/40"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><LifeBuoy className="h-5 w-5" /></span><span className="min-w-0 flex-1"><span className="block text-sm font-semibold">{t('profile.helpTitle')}</span><span className="block text-xs text-muted-foreground">{t('profile.helpText')}</span></span><ChevronRight className="h-4 w-4 text-muted-foreground" /></Link>
+            </section>
+            <TelegramConnectCard autoConnect={wantsTelegram} />
+            <ActiveDevicesCard />
+            <Button variant="outline" className="w-full gap-2 border-destructive/30 text-destructive hover:bg-destructive/10" onClick={handleSignOut}><LogOut className="h-4 w-4" />{t('profile.signOut')}</Button>
+          </div>
+        )}
       </main>
 
       <PricingModal open={showPricing} onOpenChange={setShowPricing} />
