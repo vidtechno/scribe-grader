@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  Brain, Clock, Compass, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, Zap,
+  ArrowLeft, Brain, Clock, Compass, GraduationCap, Loader2, Play, Search, Sparkles, Target, Trophy, Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Navbar } from '@/components/Navbar';
@@ -18,6 +18,7 @@ import {
 } from '@/features/learn/api';
 import type { Exercise, LevelId, Word } from '@/features/learn/types';
 import { Roadmap } from '@/features/learn/components/Roadmap';
+import { LevelCards } from '@/features/learn/components/LevelCards';
 import { RightPanel, StatsBar } from '@/features/learn/components/SideRail';
 import { SpeedRound } from '@/features/learn/components/SpeedRound';
 import { SkipIntroBanner } from '@/features/learn/components/SkipIntroBanner';
@@ -27,7 +28,6 @@ import { SpeakButton } from '@/features/learn/components/SpeakButton';
 import { loadSession, useReviewQueue } from '@/features/learn/engine/api';
 import { WordDrill, type DrillItem } from '@/features/learn/components/WordDrill';
 import { shuffle } from '@/features/learn/check';
-import { WordGames } from '@/features/learn/components/WordGames';
 
 const LEVEL_ORDER: LevelId[] = ['beginner', 'a1', 'a2', 'b1', 'b2', 'c1', 'ielts'];
 
@@ -162,32 +162,15 @@ function CourseHome({ state }: { state: LearningState }) {
       {(locked || showPaywall) && <div className="mb-6"><LearnPaywall access={state.access} compact /></div>}
       {!locked && tab === 'map' && <StreakStatus state={state} />}
 
-      <section className="mb-4" aria-label={t('learn.home.stats')}>
-        <div className="grid grid-cols-2 gap-3 rounded-2xl bg-secondary/55 p-1.5">
-          <button type="button" onClick={() => setTab('map')} className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition-all ${tab === 'map' ? 'bg-card text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}><GraduationCap className="h-5 w-5" />{t('learn.home.tabTopics')}</button>
-          <button type="button" onClick={() => setTab('words')} className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition-all ${tab === 'words' ? 'bg-card text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}><Brain className="h-5 w-5" />{t('learn.home.tabWords')}<span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] text-primary">{map.wordCount}</span></button>
-        </div>
-      </section>
-
-      {tab === 'map' ? (
-        <>
-          {shownLevels.length > 1 && (
-            <div className="flex gap-2 mb-6 overflow-x-auto" role="tablist" aria-label={t('learn.home.level')}>
-              {shownLevels.map((l) => (
-                <button key={l.id} type="button" role="tab" aria-selected={level === l.id} onClick={() => setLevelTab(l.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold border whitespace-nowrap transition-colors ${level === l.id ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground'}`}>
-                  {l.title} <span className="opacity-70 text-xs">{l.cefr === 'Noldan' ? '0' : l.cefr}</span>
-                </button>
-              ))}
-            </div>
-          )}
-          {earlierLevel && <p className="text-sm text-muted-foreground mb-4 rounded-xl bg-secondary/60 px-3 py-2">{t('learn.home.earlierOpen')}</p>}
-          {!locked && <StatsBar state={state} wordCount={map.wordCount} />}
-          <div className={locked ? '' : 'xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-8'}>
-            <div className="min-w-0"><Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} /></div>
-            {!locked && <RightPanel state={state} wordCount={map.wordCount} />}
-          </div>
-          <SkipIntroBanner state={state} />
+      {!locked && <StatsBar state={state} wordCount={map.wordCount} />}
+      <div className={locked ? '' : 'xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-8'}>
+        <div className="min-w-0">
+          {tab === 'map' ? (
+            <>
+              {earlierLevel && <p className="text-sm text-muted-foreground mb-4 rounded-xl bg-secondary/60 px-3 py-2">{t('learn.home.earlierOpen')}</p>}
+              <Roadmap state={state} level={level} onLocked={() => (locked ? setShowPaywall(true) : toast(t('learn.home.locked')))} />
+              <LevelCards levels={shownLevels} shown={level} current={map.activeLevel as LevelId} onPick={setLevelTab} />
+              <SkipIntroBanner state={state} />
           <section className="glass-card p-4 mt-6" aria-label={t('learn.home.weekly')}>
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold flex items-center gap-2"><Target className="h-4 w-4 text-primary" />{t('learn.home.thisWeek')}</p>
@@ -204,10 +187,16 @@ function CourseHome({ state }: { state: LearningState }) {
           ))}
         </div>
       </section>
-        </>
-      ) : (
-        <WordBook state={state} locked={locked} />
-      )}
+            </>
+          ) : (
+            <>
+              <button type="button" onClick={() => setTab('map')} className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-border px-3.5 py-2 text-sm font-semibold hover:border-primary hover:text-primary"><ArrowLeft className="h-4 w-4" />{t('learn.words.back')}</button>
+              <WordBook state={state} locked={locked} />
+            </>
+          )}
+        </div>
+        {!locked && <RightPanel state={state} wordCount={map.wordCount} />}
+      </div>
     </div>
   );
 }
@@ -291,7 +280,6 @@ function WordBook({ state, locked }: { state: LearningState; locked: boolean }) 
 
   return (
     <div>
-      <WordGames words={all} locked={locked} />
       <div className="flex flex-wrap gap-3 items-center mb-5">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
