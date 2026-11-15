@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Brain, Flame, Gift, Zap } from 'lucide-react';
+import { Brain, Flame, Gift, LayoutDashboard, Trophy, Zap } from 'lucide-react';
 import { useT } from '@/i18n';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { useReviewQueue } from '../engine/api';
 import { useStreakRewards, type LearningState } from '../api';
 import { DailyCard } from './DailyCard';
 import { WeekCalendar } from './WeekCalendar';
+import { WordsCard } from './WordsCard';
 
 /** The numbers a learner keeps glancing at: streak, XP, reviews waiting and the next streak reward. */
 function useNumbers(state: LearningState) {
@@ -46,19 +47,38 @@ function PanelBody({ state, wordCount }: { state: LearningState; wordCount: numb
     <div className="space-y-3">
       <WeekCalendar state={state} />
       <DailyCard state={state} wordCount={wordCount} compact />
+      <WordsCard state={state} wordCount={wordCount} />
       <Link to="/learn?tab=words" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5 shadow-sm transition-colors hover:border-primary">
         <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><Brain className="h-5 w-5" /></span>
         <span className="min-w-0"><span className="block text-xl font-black leading-none">{n.due}</span><span className="text-xs font-semibold text-muted-foreground">{t('learn.continue.dueSuffix')}</span></span>
       </Link>
+      <div className="grid grid-cols-2 gap-2">
+        <Link to="/leaderboard" className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-sm font-bold text-amber-700 dark:text-amber-400"><Trophy className="h-4 w-4" />{t('learn.panel.leaderboard')}</Link>
+        <Link to="/dashboard" className="flex items-center justify-center gap-2 rounded-xl border border-border px-3 py-2.5 text-sm font-bold"><LayoutDashboard className="h-4 w-4" />{t('learn.panel.dashboard')}</Link>
+      </div>
     </div>
   );
+}
+
+function useWide() {
+  const [wide, setWide] = useState(() => typeof window !== 'undefined' && window.matchMedia?.('(min-width: 1280px)').matches);
+  useEffect(() => {
+    const mq = window.matchMedia?.('(min-width: 1280px)');
+    if (!mq) return;
+    const l = () => setWide(mq.matches);
+    mq.addEventListener('change', l); l();
+    return () => mq.removeEventListener('change', l);
+  }, []);
+  return wide;
 }
 
 /** Wide screens: the right-hand panel beside the road map, in view while the map scrolls. */
 export function RightPanel({ state, wordCount }: { state: LearningState; wordCount: number }) {
   const { t } = useT();
+  const wide = useWide();
+  if (!wide) return null;
   return (
-    <aside className="sticky top-4 hidden space-y-3 self-start xl:block" aria-label={t('learn.rail.label')}>
+    <aside className="sticky top-[5.5rem] max-h-[calc(100vh-6.5rem)] space-y-3 self-start overflow-y-auto overscroll-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={t('learn.rail.label')}>
       <div className="rounded-2xl border border-border bg-card px-4 py-3 shadow-sm"><Numbers state={state} big /></div>
       <PanelBody state={state} wordCount={wordCount} />
     </aside>
@@ -72,7 +92,7 @@ export function StatsBar({ state, wordCount }: { state: LearningState; wordCount
   return (
     <>
       <button type="button" onClick={() => setOpen(true)} aria-label={t('learn.rail.label')}
-        className="sticky top-14 z-20 -mx-4 mb-3 block w-[calc(100%+2rem)] border-b border-border bg-background/95 px-5 py-2.5 backdrop-blur lg:top-0 xl:hidden">
+        className="sticky top-[4.25rem] z-20 -mx-4 mb-3 block w-[calc(100%+2rem)] border-b border-border bg-background/95 px-5 py-2.5 backdrop-blur lg:top-[4.5rem] xl:hidden">
         <Numbers state={state} />
       </button>
       <Sheet open={open} onOpenChange={setOpen}>

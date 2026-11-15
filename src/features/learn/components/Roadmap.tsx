@@ -108,7 +108,7 @@ export function Roadmap({ state, level, onLocked }: { state: LearningState; leve
           });
           return (
             <section key={unit.id} aria-label={tr('learn.road.unitName', { n: unitNo(unit), title: unit.titleUz })}>
-              <div className="sticky top-[6.25rem] z-10 lg:top-11 xl:top-0">
+              <div className="sticky top-[7.25rem] z-10 lg:top-[7.4rem] xl:top-[4.5rem]">
                 <div className={`relative flex items-stretch overflow-hidden rounded-2xl border-b-4 text-white shadow-lg ${status === 'locked' ? 'bg-slate-400 border-slate-600' : theme.band}`}>
                   <button type="button" aria-expanded={open} onClick={() => setOpenUnit(open ? '' : unit.id)} className="min-w-0 flex-1 p-3.5 text-left sm:p-4">
                     <span className="flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[.16em] text-white/80">

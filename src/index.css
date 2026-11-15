@@ -174,9 +174,15 @@
 }
 
 /* Prevent horizontal scroll on mobile */
-html, body, #root {
+html {
   max-width: 100vw;
   overflow-x: hidden;
+}
+/* `clip` (not `hidden`) so position: sticky keeps working inside the page */
+body, #root {
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Safe area for bottom nav */
