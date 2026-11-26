@@ -150,8 +150,8 @@ const lesson: Lesson = {
     { en: "consolidate", uz: "mustahkamlamoq", ipa: "kənˈsɒl.ɪ.deɪt", pos: "verb", ex: "Regular revision helps you to consolidate what you have learnt.", exUz: "Muntazam takror o'rganganlaringizni mustahkamlashga yordam beradi." },
     { en: "accuracy", uz: "aniqlik, to'g'rilik", ipa: "ˈæk.jər.ə.si", pos: "noun", ex: "In writing, grammatical accuracy is very important.", exUz: "Yozishda grammatik aniqlik juda muhim." },
     { en: "self-assessment", uz: "o'z-o'zini baholash", ipa: "ˌself əˈses.mənt", pos: "noun", ex: "A short self-assessment shows which areas need more work.", exUz: "Qisqa o'z-o'zini baholash qaysi sohalarga ko'proq ish kerakligini ko'rsatadi." },
-    { en: "range", uz: "doira, xilma-xillik", ipa: "reɪndʒ", pos: "noun", ex: "She uses a wide range of vocabulary in her essays.", exUz: "U esselarida keng doiradagi lug'atdan foydalanadi." },
-    { en: "keep up with", uz: "ulgurib bormoq, hamnafas bo'lmoq", ipa: "kiːp ʌp wɪð", pos: "phrasal verb", ex: "It was hard to keep up with the rest of the class.", exUz: "Sinfning qolgan qismi bilan hamnafas bo'lish qiyin edi." },
+    { en: "range", uz: "doira, xilma-xillik", ipa: "reɪndʒ", pos: "noun", ex: "She uses a wide range of vocabulary in her essays.", exUz: "U insholarida boy lug'atdan foydalanadi." },
+    { en: "keep up with", uz: "ulgurib bormoq, hamnafas bo'lmoq", ipa: "kiːp ʌp wɪð", pos: "phrasal verb", ex: "It was hard to keep up with the rest of the class.", exUz: "Sinfdagi boshqalardan ortda qolmaslik qiyin edi." },
     { en: "refine", uz: "takomillashtirmoq, sayqal bermoq", ipa: "rɪˈfaɪn", pos: "verb", ex: "She spent a week refining her presentation.", exUz: "U taqdimotini takomillashtirishga bir hafta sarfladi." },
   ],
   practice: [

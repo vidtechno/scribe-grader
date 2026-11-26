@@ -35,7 +35,7 @@ const lesson: Lesson = {
             { en: "The service was slow. To be fair, the restaurant was full.", uz: "Xizmat sekin edi. Adolat uchun aytsam, restoran to'la edi." },
             { en: "I'm not against the plan. What I mean is, it needs more time.", uz: "Men rejaga qarshi emasman. Aytmoqchi bo'lganim, unga ko'proq vaqt kerak." },
             { en: "It's quite expensive. To put it another way, we can't afford it.", uz: "Bu ancha qimmat. Boshqacha aytganda, bu bizga to'g'ri kelmaydi." },
-            { en: "He's late again. I mean, it's the third time this week.", uz: "U yana kechikdi. Ya'ni, bu bu hafta uchinchi marta." },
+            { en: "He's late again. I mean, it's the third time this week.", uz: "U yana kechikdi. Axir, bu hafta bu uchinchi marta." },
           ],
         },
         { t: "tip", tone: "warn", md: "**To say the truth** — inglizchada yo'q (o'zbekcha *rostini aytsam* dan olingan). To'g'ri: **to tell the truth** yoki **to be honest**." },

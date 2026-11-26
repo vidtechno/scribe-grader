@@ -138,7 +138,7 @@ const lesson: Lesson = {
             { who: "Nilufar", en: "Am I driving too fast?", uz: "Juda tez haydayapmanmi?" },
             { who: "Instructor", en: "No, you're driving well. But look carefully at the road signs.", uz: "Yo'q, yaxshi haydayapsiz. Lekin yo'l belgilariga diqqat bilan qarang." },
             { who: "Nilufar", en: "Sorry, I'm a bit nervous. I can't think clearly.", uz: "Kechirasiz, biroz hayajondaman. Aniq o'ylay olmayapman." },
-            { who: "Instructor", en: "Don't worry. Breathe deeply and turn left here. Gently!", uz: "Xavotir olmang. Chuqur nafas oling va shu yerdan chapga buriling. Muloyim!" },
+            { who: "Instructor", en: "Don't worry. Breathe deeply and turn left here. Gently!", uz: "Xavotir olmang. Chuqur nafas oling va shu yerdan chapga buriling. Ohista!" },
             { who: "Nilufar", en: "Like this?", uz: "Shundaymi?" },
             { who: "Instructor", en: "Perfect! You learn quickly. See you on Thursday.", uz: "Mukammal! Tez o'rganyapsiz. Payshanba kuni ko'rishguncha." },
           ],

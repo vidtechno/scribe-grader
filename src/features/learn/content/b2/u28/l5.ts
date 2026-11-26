@@ -130,7 +130,7 @@ const lesson: Lesson = {
             { who: "Peter", en: "\"Social media is a very big problem for teenagers.\"", uz: "«Ijtimoiy tarmoqlar o'smirlar uchun juda katta muammo.»" },
             { who: "Helen", en: "Try this: \"Social media poses a significant risk to teenagers.\" It is more precise, and the word significant carries weight.", uz: "Mana buni sinab ko'r: «Ijtimoiy tarmoqlar o'smirlar uchun jiddiy xavf tug'diradi.» Bu aniqroq, significant so'zi og'irlik beradi." },
             { who: "Peter", en: "And for the conclusion? I wrote \"I make a conclusion that…\"", uz: "Xulosa uchun-chi? «Men xulosa qilaman…» deb yozdim." },
-            { who: "Helen", en: "You draw a conclusion, you don't make one. Also, don't forget to mention the implications for schools.", uz: "Xulosani «draw» qilinadi, «make» emas. Yana maktablar uchun oqibatlarni eslashni unutma." },
+            { who: "Helen", en: "You draw a conclusion, you don't make one. Also, don't forget to mention the implications for schools.", uz: "Xulosa bilan «draw» ishlatiladi, «make» emas. Yana maktablar uchun oqibatlarni eslashni unutma." },
             { who: "Peter", en: "Right. It's controversial, so I should show two perspectives.", uz: "To'g'ri. Bu munozarali, shuning uchun ikki nuqtai nazarni ko'rsatishim kerak." },
           ],
         },

@@ -86,7 +86,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'dialog', lines: [
           { who: 'Dilnoza', en: 'You look tired, Jasur. What happened?', uz: "Charchagandek ko'rinasan, Jasur. Nima bo'ldi?" },
-          { who: 'Jasur', en: 'I had a strange evening! While I was studying, the lights went out.', uz: "Qiziq oqshom bo'ldi! Dars qilayotganimda chiroq o'chdi." },
+          { who: 'Jasur', en: 'I had a strange evening! While I was studying, the lights went out.', uz: "G'alati oqshom bo'ldi! Dars qilayotganimda chiroq o'chdi." },
           { who: 'Dilnoza', en: 'What did you do?', uz: 'Nima qilding?' },
           { who: 'Jasur', en: 'I waited in the dark. As soon as the lights came back, the doorbell rang.', uz: "Qorong'ida kutdim. Chiroq yonishi bilan eshik qo'ng'irog'i jiringladi." },
           { who: 'Dilnoza', en: 'Who was it?', uz: 'Kim edi?' },

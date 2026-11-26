@@ -118,7 +118,7 @@ const lesson: Lesson = {
     { en: "probably", uz: "ehtimol, ko'pincha", ipa: "ˈprɒbəbli", pos: "adv", ex: "It will probably rain tonight.", exUz: "Bugun kechqurun ehtimol yomg'ir yog'adi." },
     { en: "definitely", uz: "albatta, shubhasiz", ipa: "ˈdefɪnətli", pos: "adv", ex: "I'll definitely be there.", exUz: "Men albatta u yerda bo'laman." },
     { en: "perhaps", uz: "balki", ipa: "pəˈhæps", pos: "adv", ex: "Perhaps she'll come later.", exUz: "Balki u keyinroq keladi." },
-    { en: "secret", uz: "sir", ipa: "ˈsiːkrət", pos: "noun", ex: "I won't tell your secret.", exUz: "Sirini hech kimga aytmayman." },
+    { en: "secret", uz: "sir", ipa: "ˈsiːkrət", pos: "noun", ex: "I won't tell your secret.", exUz: "Siringni hech kimga aytmayman." },
     { en: "future", uz: "kelajak", ipa: "ˈfjuːtʃə", pos: "noun", ex: "In the future, we'll live on Mars.", exUz: "Kelajakda Marsda yashaymiz." },
     { en: "robot", uz: "robot", ipa: "ˈrəʊbɒt", pos: "noun", ex: "A robot will clean my room.", exUz: "Xonamni robot tozalaydi." },
     { en: "carry", uz: "ko'tarib yurmoq, olib bormoq", ipa: "ˈkæri", pos: "verb", ex: "I'll carry your bag.", exUz: "Sumkangni ko'taraman." },

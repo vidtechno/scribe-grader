@@ -91,7 +91,7 @@ const lesson: Lesson = {
         { t: "tip", tone: "warn", md: "Yordamchi fe'l **oldingi gapga mos** bo'ladi: *I can swim. — So can I.* / *She likes tea. — So do I.* / *We went there. — So did we.* Agar yordamchi yo'q bo'lsa — **do / does / did**." },
         {
           t: "examples", items: [
-            { en: "Had I realised the risk, I would never have signed.", uz: "Xavfni anglaganimda, hech qachon imzolamas edim." },
+            { en: "Had I realised the risk, I would never have signed.", uz: "Xavfni oldindan anglaganimda, hech qachon imzolamagan bo'lardim." },
             { en: "Should there be any problems, contact the manager.", uz: "Muammo bo'lsa, rahbarga murojaat qiling." },
             { en: "I can't stand queues. — Nor can I.", uz: "Men navbatga chiday olmayman. — Men ham." },
           ],

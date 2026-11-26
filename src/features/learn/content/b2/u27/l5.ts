@@ -131,7 +131,7 @@ const lesson: Lesson = {
             { who: "Rustam", en: "Yes. Management are negotiating with another company. Nothing has been decided.", uz: "Ha. Rahbariyat boshqa kompaniya bilan muzokara olib boryapti. Hali hech narsa hal qilinmagan." },
             { who: "Zarina", en: "I'm worried about our jobs. Some people think they will lay off part of the workforce.", uz: "Ishlarimizdan xavotirdaman. Ba'zilar xodimlarning bir qismini ishdan bo'shatadi deb o'ylayapti." },
             { who: "Rustam", en: "It's possible, but our turnover has grown this year, so I think we are safe.", uz: "Mumkin, lekin bu yil aylanmamiz oshdi, shuning uchun xavfsizmiz deb o'ylayman." },
-            { who: "Zarina", en: "True. Last month they recruited five new engineers. They wouldn't do that if they planned redundancies.", uz: "To'g'ri. O'tgan oy beshta yangi muhandis ishga olishdi. Qisqartirishni rejalashtirishsa, buni qilmasdi." },
+            { who: "Zarina", en: "True. Last month they recruited five new engineers. They wouldn't do that if they planned redundancies.", uz: "To'g'ri. O'tgan oy beshta yangi muhandis ishga olishdi. Xodimlarni qisqartirmoqchi bo'lishsa, buni qilishmasdi." },
             { who: "Rustam", en: "Exactly. Anyway, I have to meet a deadline today. Shall we talk at lunch?", uz: "Aynan. Baribir bugun muddatga ulgurishim kerak. Tushlikda gaplashamizmi?" },
             { who: "Zarina", en: "Sure. And let's not repeat the rumour to anyone else.", uz: "Albatta. Va mish-mishni boshqa hech kimga takrorlamaylik." },
           ],

@@ -18,7 +18,7 @@ const lesson: Lesson = {
             { who: "Assistant", en: "I'm sorry about that. Have you got the receipt?", uz: "Bunga afsusdaman. Chekingiz bormi?" },
             { who: "Laylo", en: "Yes, here it is. Could I exchange them for a bigger size?", uz: "Ha, mana. Ularni kattaroq o'lchamga almashtirsam bo'ladimi?" },
             { who: "Assistant", en: "Let me check. Yes, we have size 38 in stock. Try them on, please.", uz: "Tekshirib ko'ray. Ha, 38-o'lcham bor. Kiyib ko'ring." },
-            { who: "Laylo", en: "They fit well. Thank you so much for your help!", uz: "Yaxshi keldi. Yordamingiz uchun katta rahmat!" },
+            { who: "Laylo", en: "They fit well. Thank you so much for your help!", uz: "Juda mos keldi. Yordamingiz uchun katta rahmat!" },
           ],
         },
         { t: "check", ex: { k: "choice", q: "Why did Laylo go back to the shop?", opts: ["The shoes were too expensive.", "The shoes were too small.", "She lost her receipt.", "She wanted a discount."], a: 1, why: "*they're too small* — tufli kichik edi." } },

@@ -51,7 +51,7 @@ const lesson: Lesson = {
       blocks: [
         { t: "p", md: "**Continuous** vaqtinchalik vaziyatni, **Simple** esa doimiy yoki uzoq davom etadigan holatni ko'rsatadi. Ikkalasi ham mumkin bo'lganda ma'no deyarli bir xil, lekin ohang farq qiladi." },
         { t: "examples", items: [
-          { en: "I've been staying with my cousin while my flat is repaired.", uz: "Kvartiram ta'mirlanayotgan paytda amakivachcham oldida turib turibman. (vaqtinchalik)" },
+          { en: "I've been staying with my cousin while my flat is repaired.", uz: "Kvartiram ta'mirlanayotgan paytda amakivachchamnikida yashab turibman. (vaqtinchalik)" },
           { en: "I've lived in Tashkent all my life.", uz: "Butun umrim Toshkentda o'tgan. (doimiy)" },
           { en: "Prices have been rising lately.", uz: "Narxlar oxirgi paytda ko'tarilmoqda. (jarayon, hozirgacha davom etmoqda)" },
           { en: "Prices have risen by ten per cent.", uz: "Narxlar o'n foizga ko'tarildi. (natija, son)" },

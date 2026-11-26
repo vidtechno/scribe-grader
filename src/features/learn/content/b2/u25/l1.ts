@@ -114,7 +114,7 @@ const lesson: Lesson = {
             { who: "Sara", en: "And if you'd said yes, you would be travelling every week now. Would you really want that?", uz: "Agar rozi bo'lganingizda, hozir har hafta safarda bo'lardingiz. Buni chindan xohlarmidingiz?" },
             { who: "Ben", en: "Probably not. I'm too much of a homebody. If I weren't, I would have moved abroad long ago.", uz: "Ehtimol yo'q. Men uyga juda bog'langanman. Agar unday bo'lmaganimda, allaqachon chet elga ko'chib ketgan bo'lardim." },
             { who: "Sara", en: "Exactly. It was a gamble either way, and you chose your family.", uz: "Aynan. Ikkala yo'l ham tavakkal edi, siz oilangizni tanladingiz." },
-            { who: "Ben", en: "You're right. With hindsight, I made a choice I can live with.", uz: "To'g'ri aytasiz. Hozir o'ylab ko'rsam, men o'zim bilan yashay oladigan tanlovni qilgan ekanman." },
+            { who: "Ben", en: "You're right. With hindsight, I made a choice I can live with.", uz: "To'g'ri aytasiz. Hozir o'ylab ko'rsam, keyin afsuslanmaydigan tanlov qilgan ekanman." },
           ],
         },
         { t: "check", ex: { k: "choice", q: "Why did Ben pass up the offer?", opts: ["His family was growing and he had a baby on the way.", "He disliked his classmate.", "He had no experience.", "The company was too far away."], a: 0, why: "*you had a baby on the way* — oilaviy sabab." } },

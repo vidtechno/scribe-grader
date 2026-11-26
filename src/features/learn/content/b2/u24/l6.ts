@@ -41,7 +41,7 @@ const lesson: Lesson = {
         },
         { t: "examples", items: [
           { en: "I'll text you as soon as the train leaves.", uz: "Poyezd jo'nashi bilan sizga xabar yozaman." },
-          { en: "Once you've signed the form, you can start.", uz: "Shaklni imzolab bo'lgach, boshlashingiz mumkin." },
+          { en: "Once you've signed the form, you can start.", uz: "Anketani imzolab bo'lgach, boshlashingiz mumkin." },
           { en: "By the time he got home, everyone had gone to bed.", uz: "U uyga kelguncha hamma uxlab qolgan edi." },
         ] },
         { t: "tip", tone: "warn", md: "O'zbekchada *«kelganimda»* ham hozirgi shaklga o'xshaydi, shuning uchun *when I will arrive* degan xato ko'p. To'g'ri: *when I **arrive*** (kelasi zamon ma'nosida). **by the time** o'tgan zamonda **Past Perfect** bilan keladi: *by the time we arrived, it had started*." },
@@ -134,7 +134,7 @@ const lesson: Lesson = {
     { en: "beforehand", uz: "oldindan", ipa: "bɪˈfɔː.hænd", pos: "adv", ex: "You should read the instructions beforehand.", exUz: "Ko'rsatmalarni oldindan o'qib chiqishingiz kerak." },
     { en: "prior to", uz: "…dan oldin (rasmiy)", ipa: "ˈpraɪ.ə tuː", pos: "phrase", ex: "Prior to the interview, she researched the company.", exUz: "Suhbatdan oldin u kompaniyani o'rgandi." },
     { en: "simultaneously", uz: "bir vaqtda", ipa: "ˌsɪm.əlˈteɪ.ni.əs.li", pos: "adv", ex: "The two events happened simultaneously.", exUz: "Ikki voqea bir vaqtda sodir bo'ldi." },
-    { en: "thereafter", uz: "undan keyin (rasmiy)", ipa: "ðeərˈɑːf.tər", pos: "adv", ex: "She moved to Paris in 2015 and has lived there thereafter.", exUz: "U 2015-yilda Parijga ko'chdi va shundan keyin u yerda yashadi." },
+    { en: "thereafter", uz: "undan keyin (rasmiy)", ipa: "ðeərˈɑːf.tər", pos: "adv", ex: "She moved to Paris in 2015 and has lived there thereafter.", exUz: "U 2015-yilda Parijga ko'chdi va o'shandan beri u yerda yashaydi." },
     { en: "shortly", uz: "tez orada", ipa: "ˈʃɔːt.li", pos: "adv", ex: "The train will leave shortly.", exUz: "Poyezd tez orada jo'naydi." },
     { en: "in due course", uz: "o'z vaqtida, kerakli paytda", ipa: "ɪn ˌdjuː ˈkɔːs", pos: "phrase", ex: "We will inform you of the decision in due course.", exUz: "Qarorni o'z vaqtida sizga xabar qilamiz." },
     { en: "all along", uz: "butun vaqt davomida", ipa: "ˌɔːl əˈlɒŋ", pos: "adv", ex: "She had the keys in her bag all along.", exUz: "Kalitlar butun vaqt davomida uning sumkasida edi." },

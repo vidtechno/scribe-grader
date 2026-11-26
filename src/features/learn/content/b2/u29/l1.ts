@@ -95,7 +95,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "There are half as many bus passengers as last year.", uz: "Avtobus yo'lovchilari o'tgan yilgidan ikki marta kam." },
             { en: "Cycling produces far less pollution than driving.", uz: "Velosiped haydash mashina haydashdan ancha kam ifloslanish beradi." },
-            { en: "Our city has fewer parks than we need.", uz: "Shahrimizda kerakli miqdordan kam bog'lar bor." },
+            { en: "Our city has fewer parks than we need.", uz: "Shahrimizda bog'lar keragidan kam." },
           ],
         },
         { t: "tip", tone: "info", md: "**Twice as much as** ≈ **two times more than** ma'noda. Lekin ma'lumotlar tavsifida **twice as … as** xavfsizroq va aniqroq. *Three times more than* ba'zan noaniq tushuniladi (3 baravarmi yoki 4 baravarmi?)." },
@@ -147,7 +147,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Sara", en: "Are you still taking the train to the office, Tom?", uz: "Hali ham ofisga poyezdda borayapsizmi, Tom?" },
             { who: "Tom", en: "Not any more. I've started cycling. It takes about the same time, and it's far cheaper.", uz: "Endi yo'q. Velosiped hayday boshladim. Vaqt taxminan bir xil, lekin ancha arzon." },
-            { who: "Sara", en: "Really? I thought it would be much more tiring than the train.", uz: "Rostdanmi? Men u poyezddan ancha charchatadi deb o'ylagan edim." },
+            { who: "Sara", en: "Really? I thought it would be much more tiring than the train.", uz: "Rostdanmi? Men buni poyezdga qaraganda ancha charchatadi deb o'ylagandim." },
             { who: "Tom", en: "At first, yes. But the more I ride, the fitter I get. Now it's no harder than walking to the station.", uz: "Boshida ha. Lekin qancha ko'p haydasam, shuncha chiniqaman. Hozir bekatga piyoda borishdan qiyin emas." },
             { who: "Sara", en: "And the weather? It's getting colder and colder.", uz: "Ob-havo-chi? U sovuqlashib bormoqda." },
             { who: "Tom", en: "True, but I spend half as much on travel now, so I bought a good jacket.", uz: "To'g'ri, lekin endi yo'lga ikki baravar kam sarflayman, shuning uchun yaxshi kurtka sotib oldim." },

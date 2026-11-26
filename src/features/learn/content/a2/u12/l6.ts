@@ -103,7 +103,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Aziz", en: "Kamol! Why are you so late? The film started an hour ago.", uz: "Kamol! Nega bunchalik kechikding? Film bir soat oldin boshlangan." },
             { who: "Kamol", en: "I'm sorry! I missed the metro because I forgot my phone, so I went back home.", uz: "Kechirasan! Telefonimni unutganim uchun metroga ulgurmadim, shuning uchun uyga qaytdim." },
-            { who: "Aziz", en: "Oh no. Although you were late, you didn't call me!", uz: "Voy. Kech qolsang ham, menga qo'ng'iroq qilmading!" },
+            { who: "Aziz", en: "Oh no. Although you were late, you didn't call me!", uz: "Voy. Kech qolding-u, menga qo'ng'iroq ham qilmading!" },
             { who: "Kamol", en: "I wanted to call, but my battery died.", uz: "Qo'ng'iroq qilmoqchi edim, lekin batareya o'chib qoldi." },
             { who: "Aziz", en: "OK. We missed the beginning, but the best part is still coming.", uz: "Mayli. Boshini o'tkazib yubordik, lekin eng zo'r joyi hali oldinda." },
             { who: "Kamol", en: "Great! I'll buy popcorn because I owe you something.", uz: "Zo'r! Popkorn olib beraman, chunki sendan qarzdorman." },

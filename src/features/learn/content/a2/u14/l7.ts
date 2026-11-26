@@ -123,7 +123,7 @@ const lesson: Lesson = {
             { who: "Laylo", en: "Where shall we go for the holiday, Khiva or Bukhara?", uz: "Ta'tilga qayerga boramiz, Xivagami yoki Buxorogami?" },
             { who: "Kamol", en: "Both are beautiful, but Khiva is smaller, so it's easier to see everything.", uz: "Ikkalasi ham chiroyli, lekin Xiva kichikroq, shuning uchun hammasini ko'rish osonroq." },
             { who: "Laylo", en: "However, Bukhara has more restaurants and cafes.", uz: "Biroq, Buxoroda restoran va kafelar ko'proq." },
-            { who: "Kamol", en: "That's true. And the hotels are cheaper there.", uz: "To'g'ri. Hotellar ham u yerda arzonroq." },
+            { who: "Kamol", en: "That's true. And the hotels are cheaper there.", uz: "To'g'ri. Mehmonxonalar ham u yerda arzonroq." },
             { who: "Laylo", en: "OK, let's go to Bukhara. We can visit Khiva next year!", uz: "Mayli, Buxoroga boramiz. Xivaga kelasi yil boramiz!" },
           ],
         },

@@ -125,7 +125,7 @@ const lesson: Lesson = {
     { en: "a piece of cake", uz: "juda oson ish", ipa: "ə piːs əv keɪk", pos: "idiom", ex: "The driving test was a piece of cake for her.", exUz: "Haydash imtihoni u uchun juda oson bo'ldi." },
     { en: "under the weather", uz: "o'zini yomon his qilmoq", ipa: "ˈʌn.də ðə ˈweð.ə", pos: "idiom", ex: "I'm feeling under the weather, so I'll leave early.", exUz: "O'zimni yomon his qilyapman, shuning uchun erta ketaman." },
     { en: "once in a blue moon", uz: "oyda-yilda bir, juda kamdan-kam", ipa: "wʌns ɪn ə bluː muːn", pos: "idiom", ex: "He calls us once in a blue moon.", exUz: "U bizga oyda-yilda bir qo'ng'iroq qiladi." },
-    { en: "break the ice", uz: "muzni buzmoq, suhbatni boshlamoq", ipa: "breɪk ði aɪs", pos: "idiom", ex: "She told a short joke to break the ice.", exUz: "U muzni buzish uchun qisqa latifa aytdi." },
+    { en: "break the ice", uz: "muzni buzmoq, suhbatni boshlamoq", ipa: "breɪk ði aɪs", pos: "idiom", ex: "She told a short joke to break the ice.", exUz: "U vaziyatni yumshatish uchun qisqa latifa aytdi." },
     { en: "the last straw", uz: "sabr kosasini to'ldirgan oxirgi voqea", ipa: "ðə lɑːst strɔː", pos: "idiom", ex: "When he forgot my birthday again, it was the last straw.", exUz: "U tug'ilgan kunimni yana unutganda, sabr kosam to'ldi." },
     { en: "on the same page", uz: "bir fikrda, bir xil tushunchada", ipa: "ɒn ðə seɪm peɪdʒ", pos: "idiom", ex: "Let's check that everyone is on the same page.", exUz: "Hammamiz bir fikrda ekanimizni tekshiraylik." },
     { en: "hit the nail on the head", uz: "aynan to'g'ri aytmoq", ipa: "hɪt ðə neɪl ɒn ðə hed", pos: "idiom", ex: "Your last point hit the nail on the head.", exUz: "Sizning oxirgi fikringiz aynan to'g'ri chiqdi." },

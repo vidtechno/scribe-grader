@@ -137,7 +137,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "hence", uz: "shuning uchun, demak", ipa: "hens", pos: "adverb", ex: "Demand is rising; hence the long queues.", exUz: "Talab oshmoqda; shuning uchun uzun navbatlar." },
+    { en: "hence", uz: "shuning uchun, demak", ipa: "hens", pos: "adverb", ex: "Demand is rising; hence the long queues.", exUz: "Talab oshmoqda; navbatlarning uzunligi shundan." },
     { en: "shortfall", uz: "kamomad, yetishmovchilik", ipa: "ˈʃɔːt.fɔːl", pos: "noun", ex: "The company reported a shortfall of two million pounds.", exUz: "Kompaniya ikki million funt kamomad haqida xabar berdi." },
     { en: "ensure", uz: "ta'minlamoq, kafolatlamoq", ipa: "ɪnˈʃɔː", pos: "verb", ex: "Please ensure that all windows are closed.", exUz: "Iltimos, barcha oynalar yopiq ekanini ta'minlang." },
     { en: "trigger", uz: "sabab bo'lmoq, qo'zg'atmoq", ipa: "ˈtrɪɡ.ə", pos: "verb", ex: "The rise in prices triggered protests.", exUz: "Narxlar oshishi noroziliklarni qo'zg'atdi." },

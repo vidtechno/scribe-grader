@@ -149,7 +149,7 @@ const lesson: Lesson = {
     { en: "descendant", uz: "avlod, nasl", ipa: "dɪˈsen.dənt", pos: "noun", ex: "She is a descendant of a famous poet.", exUz: "U mashhur shoirning avlodi." },
     { en: "mentor", uz: "murabbiy, ustoz", ipa: "ˈmen.tɔː", pos: "noun", ex: "My mentor, whose advice I trust, helped me find my first job.", exUz: "Maslahatiga ishonadigan ustozim birinchi ishimni topishda yordam berdi." },
     { en: "sibling", uz: "aka-uka yoki opa-singil", ipa: "ˈsɪb.lɪŋ", pos: "noun", ex: "I have two siblings, both of whom live abroad.", exUz: "Mening ikki aka-ukam/opa-singlim bor, ikkalasi ham chet elda yashaydi." },
-    { en: "spouse", uz: "turmush o'rtog'i", ipa: "spaʊs", pos: "noun", ex: "Please bring your spouse to the company dinner.", exUz: "Kompaniya kechki ovqatiga turmush o'rtog'ingizni olib keling." },
+    { en: "spouse", uz: "turmush o'rtog'i", ipa: "spaʊs", pos: "noun", ex: "Please bring your spouse to the company dinner.", exUz: "Kompaniyaning kechki ziyofatiga turmush o'rtog'ingizni olib keling." },
     { en: "neighbouring", uz: "qo'shni (hudud, shahar)", ipa: "ˈneɪ.bər.ɪŋ", pos: "adj", ex: "Many tourists come from the neighbouring countries.", exUz: "Ko'p sayyohlar qo'shni mamlakatlardan keladi." },
     { en: "whereabouts", uz: "turgan joyi, qayerdaligi", ipa: "ˈweə.rə.baʊts", pos: "noun", ex: "The police do not know the whereabouts of the missing man.", exUz: "Politsiya yo'qolgan odamning qayerdaligini bilmaydi." },
     { en: "scholar", uz: "olim, ilmli kishi", ipa: "ˈskɒl.ə", pos: "noun", ex: "He is a scholar whose books are read all over the world.", exUz: "U kitoblari butun dunyoda o'qiladigan olim." },

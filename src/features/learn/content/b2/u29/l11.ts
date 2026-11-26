@@ -50,7 +50,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'examples', items: [
           { en: "It is by far the biggest park in the region.", uz: "Bu hududdagi eng katta bog' bo'lib, boshqalardan ancha katta.", note: "**by far** + superlative." },
-          { en: "The new clinic is nowhere near as busy as the old one.", uz: "Yangi poliklinika eskisidek band emas, juda uzoq.", note: "**nowhere near as … as** — katta farq." },
+          { en: "The new clinic is nowhere near as busy as the old one.", uz: "Yangi poliklinika eskisiga qaraganda ancha bo'sh.", note: "**nowhere near as … as** — katta farq." },
           { en: "No sooner had we arrived than the rain stopped.", uz: "Yetib kelishimiz bilan yomg'ir tindi.", note: "**No sooner had** + ega + V3 + **than** (inversiya)." },
           { en: "Car use fell from 40 to 30 per cent between 2015 and 2020.", uz: "Mashinadan foydalanish 2015 va 2020-yillar orasida 40 foizdan 30 foizga tushdi.", note: "**from … to …**; **per cent** hech qachon -s olmaydi." },
           { en: "Overall, cycling rose, whereas bus use remained stable.", uz: "Umuman olganda, velosiped ko'paydi, avtobusdan foydalanish esa o'zgarmadi.", note: "Overview: raqamsiz umumiy tendensiya." },

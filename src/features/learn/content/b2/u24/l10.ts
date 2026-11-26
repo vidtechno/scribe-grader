@@ -66,7 +66,7 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Ben', en: "Hello, Helen. I'm afraid I'm running late. The train has been delayed.", uz: "Salom, Helen. Afsuski, kechikyapman. Poyezd kechikdi." },
           { who: 'Helen', en: "Thanks for letting me know. How late will you be?", uz: "Xabar berganing uchun rahmat. Qancha kechikasan?" },
-          { who: 'Ben', en: "I'll be arriving at about half past three, so we'll miss the start.", uz: "Taxminan uchdan yarimda yetib kelaman, shuning uchun boshlanishini o'tkazib yuboramiz." },
+          { who: 'Ben', en: "I'll be arriving at about half past three, so we'll miss the start.", uz: "Taxminan soat uch yarimda yetib kelaman, shuning uchun boshlanishini o'tkazib yuboramiz." },
           { who: 'Helen', en: "Would it be possible to push the meeting back to four?", uz: "Uchrashuvni to'rtga surish mumkinmi?" },
           { who: 'Ben', en: "That would be perfect. I'll make up for it by taking notes.", uz: "Bu juda yaxshi bo'lardi. Buning evaziga yozuvlarni men yuritaman." },
           { who: 'Helen', en: "No need. I'll tell the others the meeting starts at four.", uz: "Shart emas. Boshqalarga uchrashuv to'rtda boshlanishini aytaman." },
@@ -77,7 +77,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'tied up', uz: "band (vaqti yo'q)", ipa: 'taɪd ʌp', pos: 'adj', ex: "I'm tied up in meetings until five, so I'll call you later.", exUz: "Beshgacha yig'ilishlarda bandman, keyin qo'ng'iroq qilaman." },
-    { en: 'clash', uz: "to'g'ri kelib qolmoq (vaqt jihatdan)", ipa: 'klæʃ', pos: 'verb', ex: 'The training session clashes with my client call.', exUz: "Trening mijoz bilan qo'ng'iroqqa to'g'ri kelib qoldi." },
+    { en: 'clash', uz: "to'g'ri kelib qolmoq (vaqt jihatdan)", ipa: 'klæʃ', pos: 'verb', ex: 'The training session clashes with my client call.', exUz: "Trening mijoz bilan qo'ng'iroq vaqtiga to'g'ri kelib qoldi." },
     { en: 'bring forward', uz: "oldinga surmoq (ertaroq qilmoq)", ipa: 'brɪŋ ˈfɔː.wəd', pos: 'phrasal verb', ex: 'They brought the deadline forward by two days.', exUz: "Ular muddatni ikki kunga ertaroqqa surdi." },
     { en: 'push back', uz: "orqaga surmoq (kechroq qilmoq)", ipa: 'pʊʃ bæk', pos: 'phrasal verb', ex: 'Can we push the launch back until next month?', exUz: "Ishga tushirishni kelasi oyga surib qo'ysak bo'ladimi?" },
     { en: 'short notice', uz: "qisqa ogohlantirish", ipa: 'ʃɔːt ˈnəʊ.tɪs', pos: 'noun phrase', ex: "I'm sorry to cancel at such short notice.", exUz: "Bunday qisqa ogohlantirish bilan bekor qilganim uchun uzr." },

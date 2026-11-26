@@ -177,7 +177,7 @@ const lesson: Lesson = {
     { en: "short-term", uz: "qisqa muddatli", ipa: "ˌʃɔːtˈtɜːm", pos: "adj", ex: "This is only a short-term solution to the problem.", exUz: "Bu muammoning faqat qisqa muddatli yechimi." },
     { en: "eco-friendly", uz: "ekologik toza, tabiatga zarar keltirmaydigan", ipa: "ˌiː.kəʊˈfrend.li", pos: "adj", ex: "We try to buy eco-friendly products.", exUz: "Biz ekologik toza mahsulotlarni sotib olishga harakat qilamiz." },
     { en: "user-friendly", uz: "foydalanishga qulay", ipa: "ˌjuː.zəˈfrend.li", pos: "adj", ex: "The website is clear and user-friendly.", exUz: "Sayt aniq va foydalanishga qulay." },
-    { en: "time-consuming", uz: "ko'p vaqt oladigan", ipa: "ˈtaɪm kənˌsjuː.mɪŋ", pos: "adj", ex: "Filling in the forms is time-consuming.", exUz: "Shakllarni to'ldirish ko'p vaqt oladi." },
+    { en: "time-consuming", uz: "ko'p vaqt oladigan", ipa: "ˈtaɪm kənˌsjuː.mɪŋ", pos: "adj", ex: "Filling in the forms is time-consuming.", exUz: "Anketalarni to'ldirish ko'p vaqt oladi." },
     { en: "thought-provoking", uz: "o'ylantiradigan", ipa: "ˈθɔːt prəˌvəʊ.kɪŋ", pos: "adj", ex: "It was a thought-provoking film about modern life.", exUz: "Bu zamonaviy hayot haqida o'ylantiradigan film edi." },
     { en: "far-reaching", uz: "uzoqqa boruvchi, keng ko'lamli", ipa: "ˌfɑːˈriː.tʃɪŋ", pos: "adj", ex: "The new law will have far-reaching effects.", exUz: "Yangi qonun keng ko'lamli ta'sir ko'rsatadi." },
     { en: "hands-on", uz: "amaliy, bevosita ishtirokli", ipa: "ˌhændzˈɒn", pos: "adj", ex: "She has hands-on experience of teaching.", exUz: "Uning o'qitishda amaliy tajribasi bor." },

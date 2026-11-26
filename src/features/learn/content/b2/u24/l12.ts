@@ -21,7 +21,7 @@ const lesson: Lesson = {
         ] },
         { t: 'examples', items: [
           { en: "When the bus finally came, we had been standing in the rain for an hour.", uz: "Avtobus nihoyat kelganda, biz bir soatdan beri yomg'irda turgan edik.", note: "Davomiylik: **for an hour** — jarayon avtobus kelguncha davom etgan." },
-          { en: "He was soaked because he had been walking in the downpour.", uz: "U ho'l bo'lgan edi, chunki jala ostida yurgan edi.", note: "Ko'rinib turgan natija (ho'l kiyim) + sabab." },
+          { en: "He was soaked because he had been walking in the downpour.", uz: "U jiqqa ho'l edi, chunki jala ostida yurgan edi.", note: "Ko'rinib turgan natija (ho'l kiyim) + sabab." },
           { en: "She had written three emails by noon.", uz: "U tushgacha uchta email yozib bo'lgan edi.", note: "Natija yoki son — **Past Perfect Simple**, chunki yakuniy son bor." },
         ] },
         { t: 'tip', tone: 'warn', md: "Holat fe'llari (*know, want, belong, understand*) **Continuous** shaklda ishlatilmaydi: *They had known each other for years* (*had been knowing* emas)." },
@@ -81,7 +81,7 @@ const lesson: Lesson = {
     { en: 'stranded', uz: "qolib ketgan (chiqib ketolmay)", ipa: 'ˈstræn.dɪd', pos: 'adj', ex: 'Hundreds of passengers were stranded at the airport.', exUz: "Yuzlab yo'lovchi aeroportda qolib ketdi." },
     { en: 'drag on', uz: "cho'zilib ketmoq", ipa: 'dræɡ ɒn', pos: 'phrasal verb', ex: 'The meeting dragged on for hours.', exUz: "Yig'ilish soatlab cho'zilib ketdi." },
     { en: 'hang around', uz: "bekor aylanib yurmoq, kutib turmoq", ipa: 'hæŋ əˈraʊnd', pos: 'phrasal verb', ex: "I hung around outside the office, waiting for her.", exUz: "Uni kutib, ofis oldida aylanib yurdim." },
-    { en: 'frantic', uz: "xavotirdan o'zini yo'qotgan", ipa: 'ˈfræn.tɪk', pos: 'adj', ex: 'He made a frantic search for his passport.', exUz: "U pasportini alahsirab qidirdi." },
+    { en: 'frantic', uz: "xavotirdan o'zini yo'qotgan", ipa: 'ˈfræn.tɪk', pos: 'adj', ex: 'He made a frantic search for his passport.', exUz: "U pasportini sarosimada qidirdi." },
     { en: 'downpour', uz: "jala", ipa: 'ˈdaʊn.pɔː', pos: 'noun', ex: "The match was stopped because of a sudden downpour.", exUz: "To'satdan jala quyib, o'yin to'xtatildi." },
   ],
   practice: [
@@ -89,7 +89,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "It ___ heavily for hours, so the streets were flooded.", opts: ['had been raining', 'had been rained', 'was been raining', 'has been raining'], a: 0, why: "Oldingi jarayon + natija: **had been raining**." },
     { k: 'fill', q: "By the time we got there, the meeting ___ already started.", a: ['had'], uz: "Biz yetib borguncha yig'ilish allaqachon boshlangan edi.", why: "*by the time* + Past Simple → asosiy gapda **had + V3**." },
     { k: 'listen', say: 'By the time we got to the station, the train had already left.', opts: ['By the time we got to the station, the train had already left.', 'By the time we got to the station, the train has already left.', 'By the time we get to the station, the train had already left.', 'By the time we got to the station, the train already left.'], a: 0 },
-    { k: 'fill', q: "He was soaked because he ___ walking in the downpour.", a: ['had been', "'d been"], uz: "U ho'l bo'lgan edi, chunki jala ostida yurgan edi.", why: "**had been walking** — oldingi jarayon." },
+    { k: 'fill', q: "He was soaked because he ___ walking in the downpour.", a: ['had been', "'d been"], uz: "U jiqqa ho'l edi, chunki jala ostida yurgan edi.", why: "**had been walking** — oldingi jarayon." },
     { k: 'order', uz: "Hisobotni tugatgach, u uyga ketdi.", words: ['After', 'finishing', 'the', 'report,', 'she', 'went', 'home.'], extra: ['finished', 'finish'], alt: [['She', 'went', 'home', 'after', 'finishing', 'the', 'report.']], why: "**After + V-ing**: ega bir xil." },
     { k: 'fix', wrong: "She had been wait for hours.", a: ["She had been waiting for hours.", "She'd been waiting for hours."], why: "**had been + V-ing**." },
     { k: 'tf', q: "*No sooner had she sat down than the phone rang.* — telefon u o'tirishi bilanoq jiringladi.", a: true, why: "**No sooner … than** — ketma-ket ikki ish deyarli bir vaqtda." },

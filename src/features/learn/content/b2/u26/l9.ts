@@ -81,7 +81,7 @@ const lesson: Lesson = {
     { en: 'overheat', uz: "haddan tashqari qizib ketmoq", ipa: 'ˌəʊ.vəˈhiːt', pos: 'verb', ex: 'My phone overheats whenever I charge it.', exUz: "Telefonim zaryadlanganda doim qizib ketadi." },
     { en: 'troubleshoot', uz: "nosozlik sababini topib tuzatmoq", ipa: 'ˈtrʌb.əl.ʃuːt', pos: 'verb', ex: 'We spent an hour trying to troubleshoot the Wi-Fi problem.', exUz: "Wi-Fi muammosining sababini topishga bir soat sarfladik." },
     { en: 'unresponsive', uz: "javob bermaydigan (qurilma, ekran)", ipa: 'ˌʌn.rɪˈspɒn.sɪv', pos: 'adj', ex: 'The touchscreen became completely unresponsive.', exUz: "Sensorli ekran butunlay javob bermay qoldi." },
-    { en: 'reset', uz: "boshlang'ich holatga qaytarmoq", ipa: 'ˌriːˈset', pos: 'verb', ex: 'You can reset the router by holding the button for ten seconds.', exUz: "Routerni tugmani o'n soniya bosib turib, boshlang'ich holatga qaytarsa bo'ladi." },
+    { en: 'reset', uz: "boshlang'ich holatga qaytarmoq", ipa: 'ˌriːˈset', pos: 'verb', ex: 'You can reset the router by holding the button for ten seconds.', exUz: "Tugmani o'n soniya bosib turib, routerni boshlang'ich holatga qaytarish mumkin." },
     { en: 'technician', uz: "texnik mutaxassis, usta", ipa: 'tekˈnɪʃ.ən', pos: 'noun', ex: 'A technician will visit you on Thursday.', exUz: "Payshanba kuni sizga texnik mutaxassis keladi." },
   ],
   practice: [

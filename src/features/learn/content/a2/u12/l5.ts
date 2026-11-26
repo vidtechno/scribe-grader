@@ -105,7 +105,7 @@ const lesson: Lesson = {
             { who: "Dilnoza", en: "Kamol, you look different! Did you use to have a beard?", uz: "Kamol, o'zgarib ketibsan! Avval soqol qo'yarmiding?" },
             { who: "Kamol", en: "Yes, I did. I had a beard for two years, but I shaved it last month.", uz: "Ha. Ikki yil soqol qo'ydim, lekin o'tgan oy oldim." },
             { who: "Dilnoza", en: "And you don't wear glasses now!", uz: "Hozir ko'zoynak ham taqmayapsan!" },
-            { who: "Kamol", en: "No, I wear contact lenses. I used to hate them, but now I'm fine.", uz: "Ha, linza taqaman. Avval ularni yoqtirmas edim, hozir hechqisi yo'q." },
+            { who: "Kamol", en: "No, I wear contact lenses. I used to hate them, but now I'm fine.", uz: "Yo'q, linza taqaman. Avval ularni yoqtirmas edim, hozir hechqisi yo'q." },
             { who: "Dilnoza", en: "Did you use to play football too?", uz: "Avval futbol ham o'ynarmiding?" },
             { who: "Kamol", en: "Yes, every day! Now I only go swimming on Sundays. What about you?", uz: "Ha, har kuni! Hozir faqat yakshanba kunlari suzishga boraman. O'zing-chi?" },
             { who: "Dilnoza", en: "I didn't use to like running, but now I run every morning!", uz: "Avval yugurishni yoqtirmas edim, hozir esa har ertalab yuguraman!" },

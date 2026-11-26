@@ -90,7 +90,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "There are three bedrooms in our flat.", uz: "Kvartiramizda uchta yotoqxona bor." },
             { en: "There's a big carpet on the floor.", uz: "Polda katta gilam bor." },
-            { en: "There are some books on the shelves.", uz: "Polkalarda bir nechta kitob bor." },
+            { en: "There are some books on the shelves.", uz: "Javonlarda bir nechta kitob bor." },
             { en: "There isn't a dishwasher in the kitchen.", uz: "Oshxonada idish yuvish mashinasi yo'q." },
             { en: "Is there a balcony? — Yes, there is.", uz: "Balkon bormi? — Ha, bor." },
             { en: "How many rooms are there? — There are four.", uz: "Nechta xona bor? — To'rtta." },

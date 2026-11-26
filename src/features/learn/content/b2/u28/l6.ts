@@ -31,7 +31,7 @@ const lesson: Lesson = {
         { t: "p", md: "Kirish qismi uch bosqichdan iborat: **hook** (diqqatni tortish: savol, qiziq fakt yoki umumiy fikr), **background** (mavzu haqida qisqa ma'lumot) va **thesis** (sizning pozitsiyangiz, bitta aniq gapda)." },
         {
           t: "examples", items: [
-            { en: "Is a university degree still worth the cost?", uz: "Universitet diplomi hanuz o'z narxiga arzimi?", note: "**Hook** (savol)" },
+            { en: "Is a university degree still worth the cost?", uz: "Universitet diplomi hamon sarflangan pulga arziydimi?", note: "**Hook** (savol)" },
             { en: "In recent years, tuition fees have risen sharply in many countries.", uz: "So'nggi yillarda ko'p mamlakatlarda o'qish narxi keskin oshdi.", note: "**Background**" },
             { en: "In my view, a degree remains a sound investment, although students should think carefully about what they study.", uz: "Mening fikrimcha, diplom hanuz yaxshi sarmoya, lekin talabalar nimani o'qishini puxta o'ylashi kerak.", note: "**Thesis**" },
           ],
@@ -149,7 +149,7 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "dialog", lines: [
-            { who: "Zarina", en: "Timur, I have forty minutes to write an essay on remote work. Where should I start?", uz: "Timur, uzoqdan ishlash haqida essay yozishga qirq daqiqam bor. Qaerdan boshlay?" },
+            { who: "Zarina", en: "Timur, I have forty minutes to write an essay on remote work. Where should I start?", uz: "Timur, masofaviy ish haqida insho yozishga qirq daqiqam bor. Qayerdan boshlay?" },
             { who: "Timur", en: "Spend five minutes on a plan. First decide your thesis. Are you for or against?", uz: "Besh daqiqani rejaga ajrat. Avval thesis ni hal qil. Tarafdormisan yoki qarshimisan?" },
             { who: "Zarina", en: "For, mostly. It saves time and money, although it can feel lonely.", uz: "Asosan tarafdorman. Vaqt va pulni tejaydi, garchi yolg'iz his qilish mumkin." },
             { who: "Timur", en: "Good. Then you have two body paragraphs: time and money. Each needs a topic sentence and an example.", uz: "Yaxshi. Demak, ikkita body paragraf: vaqt va pul. Har biriga topic sentence va misol kerak." },
@@ -164,9 +164,9 @@ const lesson: Lesson = {
   ],
   words: [
     { en: "thesis", uz: "tezis, asosiy da'vo", ipa: "ˈθiː.sɪs", pos: "noun", ex: "Your thesis should appear at the end of the introduction.", exUz: "Tezisingiz kirish qismi oxirida bo'lishi kerak." },
-    { en: "counter-argument", uz: "qarshi dalil", ipa: "ˈkaʊn.tə ˌɑː.ɡjə.mənt", pos: "noun", ex: "A good essay mentions at least one counter-argument.", exUz: "Yaxshi essayda kamida bitta qarshi dalil eslanadi." },
+    { en: "counter-argument", uz: "qarshi dalil", ipa: "ˈkaʊn.tə ˌɑː.ɡjə.mənt", pos: "noun", ex: "A good essay mentions at least one counter-argument.", exUz: "Yaxshi inshoda kamida bitta qarshi dalil tilga olinadi." },
     { en: "refute", uz: "rad etmoq, isbotlab inkor qilmoq", ipa: "rɪˈfjuːt", pos: "verb", ex: "The scientist refuted the claim with new evidence.", exUz: "Olim bu da'voni yangi dalillar bilan rad etdi." },
-    { en: "rebuttal", uz: "rad javobi", ipa: "rɪˈbʌt.əl", pos: "noun", ex: "His rebuttal was short but convincing.", exUz: "Uning rad javobi qisqa, lekin ishonarli edi." },
+    { en: "rebuttal", uz: "rad javobi", ipa: "rɪˈbʌt.əl", pos: "noun", ex: "His rebuttal was short but convincing.", exUz: "Uning raddiyasi qisqa, lekin ishonarli edi." },
     { en: "coherent", uz: "izchil, mantiqan bog'langan", ipa: "kəʊˈhɪə.rənt", pos: "adjective", ex: "She gave a clear and coherent argument.", exUz: "U aniq va izchil dalil keltirdi." },
     { en: "elaborate", uz: "batafsil ochib bermoq", ipa: "ɪˈlæb.ə.reɪt", pos: "verb", ex: "Could you elaborate on your second point?", exUz: "Ikkinchi fikringizni batafsilroq ochib bera olasizmi?" },
     { en: "persuasive", uz: "ishontiruvchi", ipa: "pəˈsweɪ.sɪv", pos: "adjective", ex: "Concrete examples make an essay more persuasive.", exUz: "Aniq misollar essayni ishontiruvchanroq qiladi." },

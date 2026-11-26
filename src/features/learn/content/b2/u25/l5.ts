@@ -126,7 +126,7 @@ const lesson: Lesson = {
             { who: "Tom", en: "That's good. Is she easy-going?", uz: "Yaxshi. U xotirjam odammi?" },
             { who: "Olivia", en: "Very. And she's down-to-earth, too. She never talks about her degree from abroad.", uz: "Juda. Va u oddiy ham. U chet eldagi diplomi haqida hech gapirmaydi." },
             { who: "Tom", en: "Unlike our old manager. He was resentful of anyone who asked for a raise.", uz: "Bizning eski boshliqdan farqli. U ish haqini oshirishni so'ragan har bir kishidan xafa bo'lardi." },
-            { who: "Olivia", en: "True. I was disillusioned with the job by the time he left.", uz: "To'g'ri. U ketguncha men ishdan ko'nglim qolgan edi." },
+            { who: "Olivia", en: "True. I was disillusioned with the job by the time he left.", uz: "To'g'ri. U ketgan paytga kelib, ishdan ko'nglim qolib bo'lgan edi." },
             { who: "Tom", en: "Let's hope the new team keeps an open mind. Don't be too gullible about the promises, though.", uz: "Umid qilaylik, yangi jamoa yangi g'oyalarga ochiq bo'ladi. Lekin va'dalarga haddan ortiq ishonib ketmang." },
           ],
         },
@@ -135,7 +135,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: "resentful", uz: "xafa, alamli (ichida saqlagan)", ipa: "rɪˈzent.fəl", pos: "adj", ex: "He felt resentful that his colleague got the credit for his idea.", exUz: "U hamkasbi uning g'oyasi uchun maqtovga sazovor bo'lganidan alam qilardi." },
+    { en: "resentful", uz: "xafa, alamli (ichida saqlagan)", ipa: "rɪˈzent.fəl", pos: "adj", ex: "He felt resentful that his colleague got the credit for his idea.", exUz: "Uning g'oyasi uchun hamkasbi maqtov olgani unga alam qilardi." },
     { en: "easy-going", uz: "xotirjam, sodda munosabatli", ipa: "ˌiː.ziˈɡəʊ.ɪŋ", pos: "adj", ex: "Her easy-going attitude makes her popular with everyone.", exUz: "Uning xotirjam munosabati uni hamma orasida mashhur qiladi." },
     { en: "down-to-earth", uz: "oddiy, real fikrlaydigan", ipa: "ˌdaʊn tu ˈɜːθ", pos: "adj", ex: "The director is surprisingly down-to-earth for a famous author.", exUz: "Rejissyor mashhur muallif uchun hayratlanarli darajada oddiy." },
     { en: "self-conscious", uz: "o'zini noqulay his qilgan, uyalgan", ipa: "ˌself ˈkɒn.ʃəs", pos: "adj", ex: "I always feel self-conscious when I have to speak in public.", exUz: "Omma oldida gapirishim kerak bo'lsa, o'zimni doim noqulay his qilaman." },

@@ -121,7 +121,7 @@ const lesson: Lesson = {
           t: 'dialog', lines: [
             { who: 'Aziz', en: 'Hello! This is Malika. She is my classmate.', uz: 'Salom! Bu Malika. U mening sinfdoshim.' },
             { who: 'Tom', en: 'Hi, Malika!', uz: 'Salom, Malika!' },
-            { who: 'Malika', en: 'Hi, Tom! Aziz and I are a team.', uz: 'Salom, Tom! Aziz va men — jamoamiz.' },
+            { who: 'Malika', en: 'Hi, Tom! Aziz and I are a team.', uz: 'Salom, Tom! Aziz ikkalamiz bir jamoamiz.' },
             { who: 'Tom', en: 'Great! You are a good team.', uz: "Zo'r! Sizlar yaxshi jamoasizlar." },
           ],
         },

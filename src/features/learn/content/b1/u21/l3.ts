@@ -114,7 +114,7 @@ const lesson: Lesson = {
     { en: "wealthy", uz: "boy, badavlat", ipa: "ˈwel.θi", pos: "adj", ex: "He comes from a wealthy family.", exUz: "U badavlat oiladan." },
     { en: 'deserve', uz: "loyiq bo'lmoq", ipa: 'dɪˈzɜːv', pos: 'verb', ex: "You deserve a long holiday after all that work.", exUz: "Shuncha ishdan keyin uzoq ta'tilga loyiqsiz." },
     { en: "respected", uz: "hurmatli, obro'li", ipa: "rɪˈspek.tɪd", pos: "adj", ex: "Dr Brown, who is a respected doctor, works at the city hospital.", exUz: "Doktor Braun, obro'li shifokor, shahar kasalxonasida ishlaydi." },
-    { en: "outgoing", uz: "kirishimli, ochiq", ipa: "ˈaʊtˌɡəʊ.ɪŋ", pos: "adj", ex: "Tom, who is very outgoing, makes friends easily.", exUz: "Tom, juda ochiq inson, osongina do'st orttiradi." },
+    { en: "outgoing", uz: "kirishimli, ochiq", ipa: "ˈaʊtˌɡəʊ.ɪŋ", pos: "adj", ex: "Tom, who is very outgoing, makes friends easily.", exUz: "Juda ochiqko'ngil Tom osongina do'st orttiradi." },
     { en: "formerly", uz: "ilgari, avvallari", ipa: "ˈfɔː.mə.li", pos: "adv", ex: "The hotel, which was formerly a school, is now very popular.", exUz: "Ilgari maktab bo'lgan mehmonxona hozir juda mashhur." },
   ],
   practice: [

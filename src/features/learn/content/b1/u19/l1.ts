@@ -107,7 +107,7 @@ const lesson: Lesson = {
     { en: "recognise", uz: "tanimoq", ipa: "ˈrek.əɡ.naɪz", pos: "verb", ex: "I didn't recognise her because she had cut her hair.", exUz: "Uni tanimadim, chunki u sochini kesgan edi." },
     { en: "disappear", uz: "g'oyib bo'lmoq", ipa: "ˌdɪs.əˈpɪər", pos: "verb", ex: "My wallet had disappeared from my bag.", exUz: "Hamyonim sumkamdan g'oyib bo'lgan edi." },
     { en: "get lost", uz: "adashib qolmoq", ipa: "ɡet lɒst", pos: "phrase", ex: "We got lost because we hadn't brought a map.", exUz: "Xarita olib kelmagan edik, shuning uchun adashib qoldik." },
-    { en: "misplace", uz: "qayoqqadir qo'yib yo'qotmoq", ipa: "ˌmɪsˈpleɪs", pos: "verb", ex: "I had misplaced my keys, so I couldn't open the door.", exUz: "Kalitlarimni qayoqqadir qo'yib yo'qotgan edim, shuning uchun eshikni och olmadim." },
+    { en: "misplace", uz: "qayoqqadir qo'yib yo'qotmoq", ipa: "ˌmɪsˈpleɪs", pos: "verb", ex: "I had misplaced my keys, so I couldn't open the door.", exUz: "Kalitlarimni qayoqqadir qo'yib yo'qotgan edim, shuning uchun eshikni ocha olmadim." },
     { en: "set off", uz: "yo'lga chiqmoq", ipa: "set ɒf", pos: "phrasal verb", ex: "They had already set off when I called.", exUz: "Men qo'ng'iroq qilganimda ular allaqachon yo'lga chiqqan edi." },
     { en: "leave behind", uz: "qoldirib ketmoq", ipa: "liːv bɪˈhaɪnd", pos: "phrasal verb", ex: "She realised she had left her umbrella behind on the bus.", exUz: "U soyabonini avtobusda qoldirib ketganini angladi." },
     { en: "double-check", uz: "yana bir bor tekshirmoq", ipa: "ˌdʌb.əl ˈtʃek", pos: "verb", ex: "I had double-checked the time before I left home.", exUz: "Uydan chiqishdan oldin vaqtni yana bir bor tekshirgan edim." },

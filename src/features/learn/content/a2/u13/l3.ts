@@ -105,7 +105,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Aziz", en: "We're going to visit Samarkand next month. I've already booked the train.", uz: "Kelasi oy Samarqandga boramiz. Poyezdga allaqachon joy band qilganman." },
             { who: "Laylo", en: "Great! Shall I look for a hotel?", uz: "Zo'r! Mehmonxona qidiraymi?" },
-            { who: "Aziz", en: "Yes, please. Oh, and we need a guide. — Hmm, I'll ask my cousin. He knows the city.", uz: "Ha, iltimos. Ha, yana gid kerak. — Hmm, amakivachchamdan so'rayman. U shaharni biladi." },
+            { who: "Aziz", en: "Yes, please. Oh, and we need a guide. — Hmm, I'll ask my cousin. He knows the city.", uz: "Ha, iltimos. Aytgancha, bizga gid ham kerak. — Hmm, amakivachchamdan so'rayman. U shaharni biladi." },
             { who: "Laylo", en: "Good idea. Shall we meet tomorrow to plan everything?", uz: "Yaxshi fikr. Hammasini rejalashtirish uchun ertaga uchrashamizmi?" },
             { who: "Aziz", en: "Sure. I think it will be a great trip!", uz: "Albatta. Menimcha, ajoyib sayohat bo'ladi!" },
           ],

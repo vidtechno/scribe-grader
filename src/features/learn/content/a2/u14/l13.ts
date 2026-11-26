@@ -54,7 +54,7 @@ const lesson: Lesson = {
         { t: 'p', md: "Tenglikni kuchaytirish va yumshatish uchun ham so'zlar bor:" },
         { t: 'examples', items: [
           { en: "It's just as good as the old one.", uz: "U eskisidek yaxshi (xuddi shunday)." },
-          { en: "It's almost as good as the old one.", uz: "U eskisidek yaxshiga yaqin (deyarli)." },
+          { en: "It's almost as good as the old one.", uz: "U deyarli eskisidek yaxshi." },
           { en: "Bukhara isn't nearly as big as Tashkent.", uz: "Buxoro Toshkentchalik katta emas (ancha kichik)." },
           { en: 'The two screens are exactly the same size.', uz: "Ikki ekran aynan bir xil o'lchamda." },
         ] },
@@ -82,7 +82,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'slightly', uz: 'biroz, sal', ipa: 'ˈslaɪt.li', pos: 'adv', ex: 'This bag is slightly bigger than that one.', exUz: "Bu sumka anavisidan sal kattaroq." },
-    { en: 'nearly', uz: 'deyarli', ipa: 'ˈnɪə.li', pos: 'adv', ex: 'The red one is nearly as good as the blue one.', exUz: "Qizili ko'kidek deyarli yaxshi." },
+    { en: 'nearly', uz: 'deyarli', ipa: 'ˈnɪə.li', pos: 'adv', ex: 'The red one is nearly as good as the blue one.', exUz: "Qizili ham deyarli ko'kidek yaxshi." },
     { en: 'even', uz: 'hatto, yanada', ipa: 'ˈiː.vən', pos: 'adv', ex: 'Today is even hotter than yesterday.', exUz: "Bugun kechagidan ham issiqroq." },
     { en: 'by far', uz: 'ancha farq bilan, shubhasiz', ipa: 'baɪ fɑː', pos: 'phrase', ex: 'This is by far the cheapest shop.', exUz: "Bu do'kon boshqalaridan ancha arzon, eng arzoni shu." },
     { en: 'exactly', uz: 'aynan, xuddi', ipa: 'ɪɡˈzækt.li', pos: 'adv', ex: 'We are exactly the same age.', exUz: "Biz aynan tengdoshmiz." },

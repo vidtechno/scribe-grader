@@ -31,7 +31,7 @@ const lesson: Lesson = {
           { who: 'Tom', en: "Hi! I'm Tom. I'm from England. Are you Uzbek?", uz: "Salom! Men Tomman. Angliyadanman. Siz o'zbekmisiz?" },
           { who: 'Malika', en: "Yes, I am. I'm Malika. This is my husband, Ali. He's also an engineer.", uz: "Ha. Men Malikaman. Bu erim Ali. U ham muhandis." },
           { who: 'Tom', en: 'Nice to meet you! Are you married?', uz: "Tanishganimdan xursandman! Turmush qurganmisiz?" },
-          { who: 'Malika', en: "I'm married, but Ali's sister isn't. She's only 19.", uz: "Men turmush qurganman, lekin Alining singlisi yo'q. U atigi 19 yoshda." },
+          { who: 'Malika', en: "I'm married, but Ali's sister isn't. She's only 19.", uz: "Men turmush qurganman, Alining singlisi esa hali turmushga chiqmagan. U atigi 19 yoshda." },
         ] },
         { t: 'check', ex: { k: 'fill', q: "Ali is an engineer. His sister ___ married.", a: ["isn't", 'is not'], uz: 'Alining singlisi turmush qurmagan.', why: "*sister* = she → **isn't**." } },
       ],

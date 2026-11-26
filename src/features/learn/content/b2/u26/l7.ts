@@ -70,7 +70,7 @@ const lesson: Lesson = {
         { t: "p", md: "Bu bosqichda o'rgangan qoliplar maqolani **rasmiy-neytral** qiladi. Maqolada **I** ni juda ko'p ishlatmang: ish qiluvchi noma'lum yoki ahamiyatsiz bo'lsa — passive; umumiy fikrni manbasiz aytsangiz — reporting passive; xizmat haqida — causative." },
         {
           t: "examples", items: [
-            { en: "Personal data is collected every time we click.", uz: "Shaxsiy ma'lumotlar biz har safar bosganimizda yig'iladi.", note: "**Passive**: kim yig'ishi shu yerda muhim emas." },
+            { en: "Personal data is collected every time we click.", uz: "Har bir bosishimizda shaxsiy ma'lumotlarimiz yig'iladi.", note: "**Passive**: kim yig'ishi shu yerda muhim emas." },
             { en: "Technology is widely believed to be making our lives easier.", uz: "Texnologiya hayotimizni osonlashtirmoqda, deb keng ishoniladi.", note: "**Reporting passive** + to be + -ing: hozir davom etyapti." },
             { en: "Attention is said to have fallen in recent years.", uz: "Diqqat so'nggi yillarda pasaygan, deyiladi.", note: "**to have + V3**: oldin bo'lgan." },
             { en: "Companies should be made to explain how data is used.", uz: "Kompaniyalar ma'lumotlardan qanday foydalanilishini tushuntirishga majbur qilinishi kerak.", note: "**be made to + V**: make ning passive'si, **to** bilan." },
@@ -128,7 +128,7 @@ const lesson: Lesson = {
             { who: "Jack", en: "Only if the figure can be checked. Otherwise, use a real situation, for instance an app that tracks your location even when it isn't being used.", uz: "Faqat raqam tekshirilsa. Aks holda real holatdan foydalan, masalan, ishlatilmayotganda ham joylashuvingni kuzatadigan ilova." },
             { who: "Madina", en: "Good idea. And I've answered the other side with Admittedly, nobody is forced to use an app. Yet…", uz: "Yaxshi fikr. Qarshi tomonga ham javob berdim: Admittedly, nobody is forced to use an app. Yet…" },
             { who: "Jack", en: "Perfect. It shows you've considered both sides. Just have the final version checked for spelling mistakes before you send it.", uz: "Zo'r. Bu ikkala tomonni ko'rib chiqqaningni ko'rsatadi. Yuborishdan oldin yakuniy variantni imlo xatolari uchun tekshirtir." },
-            { who: "Madina", en: "I will. Thanks, Jack. I won't take your help for granted.", uz: "Tekshirtiraman. Rahmat, Jack. Yordamingni oddiy hol deb bilmayman." },
+            { who: "Madina", en: "I will. Thanks, Jack. I won't take your help for granted.", uz: "Tekshirtiraman. Rahmat, Jack. Yordamingning qadriga yetaman." },
           ],
         },
         { t: "check", ex: { k: "choice", q: "What does Jack advise Madina to do in the paragraph on privacy?", opts: ["Add a real situation as an example", "Delete the paragraph", "Remove the thesis", "Use more contractions"], a: 0, why: "Jack: *use a real situation, for instance an app that tracks your location*." } },
@@ -160,7 +160,7 @@ const lesson: Lesson = {
     { en: "safeguard", uz: "himoya qilmoq; himoya choralari", ipa: "ˈseɪf.ɡɑːd", pos: "verb", ex: "Stronger laws are needed to safeguard children online.", exUz: "Bolalarni internetda himoya qilish uchun kuchliroq qonunlar kerak." },
     { en: "strike a balance", uz: "muvozanat topmoq", ipa: "straɪk ə ˈbæl.əns", pos: "phrase", ex: "Parents try to strike a balance between screen time and sport.", exUz: "Ota-onalar ekran vaqti va sport o'rtasida muvozanat topishga harakat qiladi." },
     { en: "a double-edged sword", uz: "ikki tomonlama qurol", ipa: "ə ˌdʌb.l edʒd ˈsɔːd", pos: "phrase", ex: "Social media is a double-edged sword for young people.", exUz: "Ijtimoiy tarmoqlar yoshlar uchun ikki tomonlama qurol." },
-    { en: "take for granted", uz: "oddiy hol deb bilmoq", ipa: "teɪk fə ˈɡrɑːn.tɪd", pos: "phrase", ex: "We take fast internet for granted until it stops working.", exUz: "Tez internetni u to'xtamaguncha oddiy hol deb bilamiz." },
+    { en: "take for granted", uz: "oddiy hol deb bilmoq", ipa: "teɪk fə ˈɡrɑːn.tɪd", pos: "phrase", ex: "We take fast internet for granted until it stops working.", exUz: "Tez internetning qadrini u ishlamay qolgandagina bilamiz." },
     { en: "overreliance", uz: "haddan ziyod tayanish", ipa: "ˌəʊ.və.rɪˈlaɪ.əns", pos: "noun", ex: "Overreliance on one app can be risky for a small business.", exUz: "Bitta ilovaga haddan ziyod tayanish kichik biznes uchun xavfli bo'lishi mumkin." },
     { en: "detrimental", uz: "zararli", ipa: "ˌdet.rɪˈmen.təl", pos: "adj", ex: "Too little sleep is detrimental to learning.", exUz: "Uyquning kamligi o'qishga zararli." },
     { en: "tangible", uz: "sezilarli, aniq, moddiy", ipa: "ˈtæn.dʒə.bəl", pos: "adj", ex: "The new system brought tangible benefits to the hospital.", exUz: "Yangi tizim kasalxonaga sezilarli foyda keltirdi." },

@@ -79,7 +79,7 @@ const lesson: Lesson = {
     { en: 'overview', uz: "umumiy ko'rinish, qisqacha tavsif", ipa: 'ˈəʊ.və.vjuː', pos: 'noun', ex: 'She gave the board an overview of the sales figures.', exUz: "U kengashga sotuv ko'rsatkichlari haqida umumiy tavsif berdi." },
     { en: 'signpost', uz: "(nutqda) yo'l ko'rsatmoq, rejani oldindan aytmoq", ipa: 'ˈsaɪn.pəʊst', pos: 'verb', ex: 'Good speakers signpost each part of the talk.', exUz: "Yaxshi notiqlar nutqning har bir qismini oldindan ko'rsatib boradi." },
     { en: 'elaborate', uz: "batafsil tushuntirmoq (on bilan)", ipa: 'ɪˈlæb.ə.reɪt', pos: 'verb', ex: 'Could you elaborate on your second point?', exUz: "Ikkinchi fikringizni batafsilroq tushuntirib bera olasizmi?" },
-    { en: 'recap', uz: "qisqacha takrorlamoq", ipa: 'ˈriː.kæp', pos: 'verb', ex: 'Let me recap the main points before we finish.', exUz: "Tugatishdan oldin asosiy fikrlarni qisqacha takrorlay." },
+    { en: 'recap', uz: "qisqacha takrorlamoq", ipa: 'ˈriː.kæp', pos: 'verb', ex: 'Let me recap the main points before we finish.', exUz: "Tugatishdan oldin asosiy fikrlarni qisqacha takrorlab o'tay." },
     { en: 'concise', uz: "qisqa va aniq", ipa: 'kənˈsaɪs', pos: 'adj', ex: 'Your summary was clear and concise.', exUz: "Sizning xulosangiz aniq va qisqa edi." },
     { en: 'clarify', uz: "aniqlashtirmoq", ipa: 'ˈklær.ɪ.faɪ', pos: 'verb', ex: 'Could you clarify what you mean by "soon"?', exUz: "'Tez orada' deganda nimani nazarda tutayotganingizni aniqlashtira olasizmi?" },
   ],

@@ -90,7 +90,7 @@ const lesson: Lesson = {
       blocks: [
         { t: "p", md: "Taxmin va fikr bildirishda B2 darajada qat'iy gaplar o'rniga **yumshatuvchi** (*hedging*) so'zlar ishlatiladi. His-tuyg'ularni esa aniq sifatlar bilan beramiz:" },
         { t: "examples", items: [
-          { en: "Presumably, the delay was caused by the storm.", uz: "Taxminan, kechikishga bo'ron sabab bo'lgan.", note: "**presumably** — taxminimcha, ehtimol." },
+          { en: "Presumably, the delay was caused by the storm.", uz: "Ehtimol, kechikishga bo'ron sabab bo'lgandir.", note: "**presumably** — taxminimcha, ehtimol." },
           { en: "Young people tend to change jobs more often than their parents did.", uz: "Yoshlar ota-onalariga qaraganda ishni tez-tez almashtirishga moyil.", note: "**tend to** — odatda shunday bo'ladi." },
           { en: "It seems that the plan is likely to succeed.", uz: "Ko'rinishidan, reja muvaffaqiyatli bo'lishi ehtimoli bor.", note: "**It seems that / is likely to**." },
           { en: "She felt reluctant to leave, but thrilled about the new job.", uz: "U ketishni xohlamasdi, lekin yangi ish uchun hayajonda edi.", note: "**reluctant** va **thrilled** — his-tuyg'u sifatlari." },
@@ -151,7 +151,7 @@ const lesson: Lesson = {
           { who: "Rustam", en: "He wants to raise the rent again. I'm in two minds about moving.", uz: "U ijara haqini yana oshirmoqchi. Ko'chib o'tish haqida ikkilanib turibman." },
           { who: "Zarina", en: "I'd rather you stayed, honestly, but it's your decision. What does your budget say?", uz: "To'g'risi, qolganingni xohlardim, lekin bu sening qaroring. Byudjeting nima deydi?" },
           { who: "Rustam", en: "Regardless of the price, I need a bigger room. Supposing I found a flat for the same money, I'd move tomorrow.", uz: "Narxdan qat'i nazar, menga kattaroq xona kerak. Faraz qilaylik, shu pulga kvartira topsam, ertaga ko'chib o'tardim." },
-          { who: "Zarina", en: "Then it's a no-brainer. Start looking, otherwise he'll keep raising it.", uz: "Unda bu o'ylab o'tirmaydigan qaror. Qidirishni boshla, aks holda u oshiraveradi." },
+          { who: "Zarina", en: "Then it's a no-brainer. Start looking, otherwise he'll keep raising it.", uz: "Unda o'ylab o'tirishga hojat yo'q. Uy qidirishni boshla, aks holda u ijarani oshiraveradi." },
           { who: "Rustam", en: "You're right. I wish I had started looking in spring. If I had, I wouldn't be worrying now.", uz: "To'g'ri aytasan. Qani endi, bahorda qidirishni boshlagan bo'lsam. Agar boshlaganimda, hozir tashvishlanmasdim." },
           { who: "Zarina", en: "It might even be a blessing in disguise. You must have been wanting more space for ages.", uz: "Balki bu hatto yaxshilikkadir. Sen ancha vaqtdan beri kengroq joy xohlab yurgan bo'lsang kerak." },
           { who: "Rustam", en: "True. Time to be decisive, I suppose.", uz: "To'g'ri. Qat'iy bo'lish vaqti keldi shekilli." },
@@ -167,7 +167,7 @@ const lesson: Lesson = {
     { en: "regardless of", uz: "…ga qaramay, …dan qat'i nazar", ipa: "rɪˈɡɑːd.ləs əv", pos: "phrase", ex: "Entry is free regardless of age.", exUz: "Kirish yoshdan qat'i nazar bepul." },
     { en: "conceivable", uz: "tasavvur qilsa bo'ladigan, mumkin", ipa: "kənˈsiː.və.bəl", pos: "adj", ex: "It is conceivable that the flight was cancelled.", exUz: "Reys bekor qilingan bo'lishi mumkin." },
     { en: "wishful thinking", uz: "xomxayol, orzuni haqiqat deb o'ylash", ipa: "ˌwɪʃ.fəl ˈθɪŋ.kɪŋ", pos: "phrase", ex: "Finishing the report in an hour is wishful thinking.", exUz: "Hisobotni bir soatda tugatish xomxayol." },
-    { en: "blessing in disguise", uz: "niqoblangan baxt", ipa: "ˌbles.ɪŋ ɪn dɪsˈɡaɪz", pos: "phrase", ex: "Missing the flight was a blessing in disguise; it crashed later.", exUz: "Reysga kech qolish niqoblangan baxt bo'ldi." },
+    { en: "blessing in disguise", uz: "niqoblangan baxt", ipa: "ˌbles.ɪŋ ɪn dɪsˈɡaɪz", pos: "phrase", ex: "Missing the flight was a blessing in disguise; it crashed later.", exUz: "Reysga kech qolganim baxtim ekan: o'sha samolyot keyin halokatga uchradi." },
     { en: "cut your losses", uz: "ko'proq yo'qotmaslik uchun to'xtamoq", ipa: "kʌt jɔː ˈlɒs.ɪz", pos: "phrase", ex: "He sold the shares to cut his losses.", exUz: "U zararini kamaytirish uchun aksiyalarni sotdi." },
     { en: "no-brainer", uz: "o'ylab o'tirmasdan hal qilinadigan oson qaror", ipa: "ˌnəʊˈbreɪ.nər", pos: "noun", ex: "A free upgrade is a no-brainer.", exUz: "Bepul yangilanish — o'ylab o'tirmaydigan qaror." },
     { en: "in two minds", uz: "ikkilanib turgan", ipa: "ɪn tuː maɪndz", pos: "phrase", ex: "We are in two minds about buying a house.", exUz: "Uy sotib olish haqida ikkilanib turibmiz." },

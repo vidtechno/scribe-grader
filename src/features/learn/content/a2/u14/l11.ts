@@ -15,7 +15,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Laylo", en: "My brother and I are very different. He's taller than me, and he speaks more quietly.", uz: "Akam va men juda farq qilamiz. U mendan baland va tinchroq gapiradi." },
             { who: "Aziz", en: "Is he as shy as you?", uz: "U sendek uyatchanmi?" },
-            { who: "Laylo", en: "No, he's more confident. He works harder, too, and the quality of his work is excellent.", uz: "Yo'q, u ancha ishonchli. U ham qattiqroq ishlaydi, ishining sifati ham a'lo." },
+            { who: "Laylo", en: "No, he's more confident. He works harder, too, and the quality of his work is excellent.", uz: "Yo'q, u o'ziga ancha ishonadi. U qattiqroq ham ishlaydi, ishining sifati ham a'lo." },
             { who: "Aziz", en: "Does he live in Tashkent? It's the biggest city, but it's too crowded for me.", uz: "U Toshkentda yashaydimi? U eng katta shahar, lekin men uchun juda gavjum." },
             { who: "Laylo", en: "Yes. His flat is small, but it's big enough for one person.", uz: "Ha. Uning uyi kichik, lekin bir kishiga yetarlicha katta." },
           ],

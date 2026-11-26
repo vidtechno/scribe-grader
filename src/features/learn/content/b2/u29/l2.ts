@@ -134,7 +134,7 @@ const lesson: Lesson = {
             { who: "Rustam", en: "Yes, please. Do many people in our street recycle?", uz: "Ha, iltimos. Ko'chamizda ko'p odam qayta ishlaydimi?" },
             { who: "Aziza", en: "The majority do. About seventy per cent of the households are sorting their rubbish.", uz: "Ko'pchilik qiladi. Xonadonlarning taxminan yetmish foizi chiqindini saralaydi." },
             { who: "Rustam", en: "That's better than I expected. And the number of people who compost?", uz: "Bu kutganimdan yaxshi. Kompost qiladiganlar soni-chi?" },
-            { who: "Aziza", en: "It's still small. Only a handful of families do it, so there is little interest.", uz: "U hali oz. Faqat bir hovuch oila qiladi, shuning uchun qiziqish kam." },
+            { who: "Aziza", en: "It's still small. Only a handful of families do it, so there is little interest.", uz: "Bu hali kichik hodisa. Buni faqat bir hovuch oila qiladi, shuning uchun qiziqish kam." },
             { who: "Rustam", en: "Maybe we can give them a few tips. A little advice goes a long way.", uz: "Balki ularga bir necha maslahat berarmiz. Ozgina maslahat katta foyda beradi." },
             { who: "Aziza", en: "Good idea. Each of the neighbours has a bin, so we can leave a leaflet in every one.", uz: "Yaxshi fikr. Har bir qo'shnining chiqindi idishi bor, shuning uchun har biriga varaqa qoldirishimiz mumkin." },
           ],

@@ -48,7 +48,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: "No sooner had the meeting started than the lights went out.", uz: "Yig'ilish boshlanishi bilan chiroqlar o'chdi.", note: "**No sooner + had + ega + V3 + than + Past Simple**." },
           { en: "Hardly had we arrived when it began to rain.", uz: "Yetib kelishimiz bilanoq yomg'ir yog'a boshladi.", note: "**Hardly + had … when**; *than* emas." },
-          { en: "He is, if anything, healthier than he was last year.", uz: "U o'tgan yilgidan, aytish mumkinki, sog'lomroq.", note: "Daraja ifodasi: *if anything*." },
+          { en: "He is, if anything, healthier than he was last year.", uz: "U, aksincha, o'tgan yilgidan ham sog'lomroq.", note: "Daraja ifodasi: *if anything*." },
         ] },
         { t: 'tip', tone: 'good', md: "Oddiy gapda inversiyasiz variant ham bor: *We had no sooner arrived than it began to rain.* Gapning boshida kelsa, tartib: **No sooner + had + we + arrived**." },
         { t: 'check', ex: { k: 'fix', wrong: "No sooner we had left than it started to snow.", a: ["No sooner had we left than it started to snow."], why: "Inversiya: **No sooner had we left**." } },
@@ -83,7 +83,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'nowhere near', uz: "yaqin ham emas, juda uzoq", ipa: 'ˌnəʊweə ˈnɪə', pos: 'phrase', ex: 'The results are nowhere near as good as we hoped.', exUz: "Natijalar biz umid qilganchalik yaxshi emas, juda uzoq." },
+    { en: 'nowhere near', uz: "yaqin ham emas, juda uzoq", ipa: 'ˌnəʊweə ˈnɪə', pos: 'phrase', ex: 'The results are nowhere near as good as we hoped.', exUz: "Natijalar biz kutgan darajaga umuman yetmadi." },
     { en: 'not nearly', uz: "unchalik emas, ancha kam", ipa: 'nɒt ˈnɪəli', pos: 'phrase', ex: 'The new bus is not nearly as noisy as the old one.', exUz: "Yangi avtobus eskisichalik shovqinli emas." },
     { en: 'barely', uz: "zo'rg'a, arang", ipa: 'ˈbeəli', pos: 'adv', ex: 'There was barely enough water for everyone.', exUz: "Hamma uchun zo'rg'a yetadigan suv bor edi." },
     { en: 'rather', uz: "ancha, birmuncha", ipa: 'ˈrɑːðə', pos: 'adv', ex: 'The test was rather difficult.', exUz: "Test ancha qiyin edi." },

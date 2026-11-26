@@ -66,7 +66,7 @@ const lesson: Lesson = {
   words: [
     { en: 'expat', uz: "chet elda yashovchi (ish uchun ko'chgan) kishi", ipa: 'ˈeks.pæt', pos: 'noun', ex: 'Many expats in the city meet every Friday to share advice.', exUz: "Shahardagi ko'p ekspatlar har juma maslahat almashish uchun uchrashadi." },
     { en: 'bureaucracy', uz: "byurokratiya, rasmiy hujjatbozlik", ipa: 'bjʊəˈrɒk.rə.si', pos: 'noun', ex: 'The bureaucracy of getting a visa took three months.', exUz: "Viza olishdagi hujjatbozlik uch oy davom etdi." },
-    { en: 'integrate', uz: "singishib ketmoq, moslashmoq", ipa: 'ˈɪn.tɪ.ɡreɪt', pos: 'verb', ex: 'It takes time to integrate into a new community.', exUz: "Yangi jamoaga singishib ketish vaqt oladi." },
+    { en: 'integrate', uz: "singishib ketmoq, moslashmoq", ipa: 'ˈɪn.tɪ.ɡreɪt', pos: 'verb', ex: 'It takes time to integrate into a new community.', exUz: "Yangi jamiyatga singishib ketish vaqt oladi." },
     { en: 'put down roots', uz: "ildiz otmoq, o'rnashib olmoq", ipa: 'pʊt daʊn ruːts', pos: 'idiom', ex: 'After years of moving, they finally put down roots in Leeds.', exUz: "Yillar davomida ko'chib yurgach, ular nihoyat Lidsda o'rnashib oldi." },
     { en: 'newcomer', uz: "yangi kelgan odam", ipa: 'ˈnjuːˌkʌm.ə', pos: 'noun', ex: 'As a newcomer, she found the office rules confusing.', exUz: "Yangi kelgan sifatida u ofis qoidalarini chalkash deb topdi." },
     { en: 'fit in', uz: "jamoaga moslashmoq, o'ziniki bo'lmoq", ipa: 'fɪt ɪn', pos: 'phrasal verb', ex: 'It is hard to fit in when you do not know the local customs.', exUz: "Mahalliy urf-odatlarni bilmasangiz, jamoaga moslashish qiyin." },
@@ -92,7 +92,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "In the quotation «I used to be confident», who is «I»?", opts: ['Zarina', 'one of her colleagues', 'the magazine writer', 'an expat from the café'], a: 0, why: "Tirnoq ichidagi gapni aytgan odam: *she says* — **Zarina**." },
     { k: 'choice', q: "Zarina will apply for a new job next year.", opts: ['True', 'False', 'Not given'], a: 0, why: "*Next year she will be applying for a new job.*" },
     { k: 'fill', q: "As a ___, she found the office rules confusing.", a: ['newcomer'], hint: 'new…', uz: "Yangi kelgan sifatida u ofis qoidalarini chalkash deb topdi.", why: "**newcomer** — yangi kelgan odam." },
-    { k: 'fill', q: "It takes time to ___ into a new community.", a: ['integrate'], hint: 'in…', uz: "Yangi jamoaga singishib ketish vaqt oladi.", why: "**integrate into** — singishib ketmoq." },
+    { k: 'fill', q: "It takes time to ___ into a new community.", a: ['integrate'], hint: 'in…', uz: "Yangi jamiyatga singishib ketish vaqt oladi.", why: "**integrate into** — singishib ketmoq." },
     { k: 'order', uz: "U o'tgan bahordan beri ko'ngilli bo'lib ishlayapti.", words: ['She', 'has', 'been', 'volunteering', 'since', 'last', 'spring.'], extra: ['for', 'is'], alt: [["She's", 'been', 'volunteering', 'since', 'last', 'spring.']], why: "**since** + vaqt nuqtasi → **has been + V-ing**." },
     { k: 'fix', wrong: "Last year she has moved to Scotland.", a: ["Last year she moved to Scotland."], why: "**last year** — aniq o'tgan vaqt → **Past Simple**." },
     { k: 'listen', say: 'Little by little, things improved.', opts: ['Little by little, things improved.', 'Little by little, things improve.', 'A little, by little, things improved.', 'Little by little, things have improved.'], a: 0 },

@@ -79,7 +79,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "Look at those clouds! It's going to rain.", uz: "Anavi bulutlarga qara! Yomg'ir yog'adi.", note: "Dalil: qora bulutlar." },
             { en: "Careful! You're going to fall.", uz: "Ehtiyot bo'l! Yiqilasan.", note: "Dalil: u muvozanatini yo'qotyapti." },
-            { en: "She's very pale. I think she's going to be sick.", uz: "U juda rangi oqargan. Kasal bo'lib qolsa kerak.", note: "Dalil: rangi." },
+            { en: "She's very pale. I think she's going to be sick.", uz: "Uning rangi juda oqarib ketgan. Ko'ngli aynib qolganga o'xshaydi.", note: "Dalil: rangi." },
             { en: "The bus is full. We aren't going to get a seat.", uz: "Avtobus liq to'la. Biz joy topa olmaymiz." },
           ],
         },

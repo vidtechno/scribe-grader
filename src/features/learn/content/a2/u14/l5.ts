@@ -154,7 +154,7 @@ const lesson: Lesson = {
             { who: "Dilnoza", en: "Thank you. I study hard and I listen carefully.", uz: "Rahmat. Men qattiq o'qiyman va diqqat bilan tinglayman." },
             { who: "Teacher", en: "Kamol, you speak quickly, but please speak more slowly.", uz: "Kamol, siz tez gapirasiz, iltimos, sekinroq gapiring." },
             { who: "Kamol", en: "Sorry, I get nervous. I'll try to speak more clearly.", uz: "Kechirasiz, hayajonlanaman. Aniqroq gapirishga harakat qilaman." },
-            { who: "Teacher", en: "Don't worry. You write better than last month.", uz: "Xavotir olmang. Siz o'tgan oydan yaxshiroq yozasiz." },
+            { who: "Teacher", en: "Don't worry. You write better than last month.", uz: "Xavotir olmang. Siz o'tgan oyga qaraganda yaxshiroq yozyapsiz." },
             { who: "Kamol", en: "I hope so. I practise a little every day, even late at night!", uz: "Umid qilaman. Har kuni ozgina mashq qilaman, hatto kechasi kech ham!" },
           ],
         },

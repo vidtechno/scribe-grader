@@ -18,7 +18,7 @@ const lesson: Lesson = {
             { who: "Kamol", en: "Yes. I'll pack my luggage tonight. What's the weather going to be like?", uz: "Ha. Yukimni bugun kechqurun yig'aman. Ob-havo qanday bo'ladi?" },
             { who: "Dilnoza", en: "It will probably be hot, but it might rain on Sunday.", uz: "Ehtimol issiq bo'ladi, lekin yakshanba kuni yomg'ir yog'ishi mumkin." },
             { who: "Kamol", en: "If it rains, we'll visit the museum. And I may buy a souvenir for my mother.", uz: "Yomg'ir yog'sa, muzeyga boramiz. Onam uchun esdalik sovg'a ham olishim mumkin." },
-            { who: "Dilnoza", en: "Don't forget the sunscreen! If you forget it, you'll get red.", uz: "Quyoshdan himoya kremini unutma! Unutsang, terang qizarib ketadi." },
+            { who: "Dilnoza", en: "Don't forget the sunscreen! If you forget it, you'll get red.", uz: "Quyoshdan himoya kremini unutma! Unutsang, tering qizarib ketadi." },
           ],
         },
         { t: "check", ex: { k: "tf", q: "Dilnoza is sure that it will rain on Sunday.", a: false, why: "U *might rain* dedi — bu ehtimol, ishonch emas." } },

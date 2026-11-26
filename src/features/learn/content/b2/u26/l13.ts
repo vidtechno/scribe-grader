@@ -28,7 +28,7 @@ const lesson: Lesson = {
       title: "Har bir qolip yaqinroq",
       blocks: [
         { t: 'examples', items: [
-          { en: "She insisted that he should apologise.", uz: "U uning kechirim so'rashi kerakligini talab qildi.", note: "**insist that + (should) + fe'l** — talab. Tabiiy: *insisted that he apologise* ham mumkin." },
+          { en: "She insisted that he should apologise.", uz: "U yigitdan kechirim so'rashini talab qildi.", note: "**insist that + (should) + fe'l** — talab. Tabiiy: *insisted that he apologise* ham mumkin." },
           { en: "He insisted on paying for everyone.", uz: "U hamma uchun o'zi to'lashni talab qildi.", note: "**insist on + -ing**." },
           { en: "The manager admitted making a mistake.", uz: "Menejer xato qilganini tan oldi.", note: "**admit + -ing** (yoki *admitted that he had made*)." },
           { en: "The politician accused the newspaper of spreading false stories.", uz: "Siyosatchi gazetani yolg'on xabarlar tarqatishda ayblab chiqdi.", note: "**accuse + kim + of + -ing**." },

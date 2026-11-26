@@ -40,7 +40,7 @@ const lesson: Lesson = {
         { t: "examples", items: [
           { en: "I've never been to Japan. — Neither have I.", uz: "Men Yaponiyada hech bo'lmaganman. — Men ham bo'lmaganman." },
           { en: "She works in a bank, and so does her husband.", uz: "U bankda ishlaydi, eri ham." },
-          { en: "He can't drive, and neither can his sister.", uz: "U mashina haydamaydi, opasi ham haydamaydi." },
+          { en: "He can't drive, and neither can his sister.", uz: "U mashina haydashni bilmaydi, opasi ham." },
         ] },
         { t: "check", ex: { k: "choice", q: "*I can't cook.* — ___", opts: ["Neither can I.", "So can I.", "Neither I can.", "So I can't."], a: 0, why: "Inkor gap + «men ham» = **Neither + can + I**. *So can I* — «men pishira olaman» degani bo'lib qoladi." } },
         { t: "check", ex: { k: "fill", q: "I'll call you tomorrow. — So ___ I.", a: ["will"], uz: "Men ham.", why: "Birinchi gapda **will** bor, shuning uchun: *So **will** I.*" } },

@@ -48,7 +48,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "The airline says that all flights are delayed.", uz: "Aviakompaniya barcha reyslar kechikayotganini aytmoqda.", note: "Ko'chiruvchi fe'l **says** (hozirgi zamon), shuning uchun siljish yo'q." },
             { en: "She told me that the Earth goes round the Sun.", uz: "U menga Yer Quyosh atrofida aylanishini aytdi.", note: "Umumiy haqiqat: siljish shart emas." },
-            { en: "He said he would have helped if he had known.", uz: "U bilganida yordam berar edi, dedi.", note: "**would have + V3** va **had + V3** o'zgarmaydi." },
+            { en: "He said he would have helped if he had known.", uz: "U bilganida yordam bergan bo'lardi, dedi.", note: "**would have + V3** va **had + V3** o'zgarmaydi." },
           ],
         },
         { t: "check", ex: { k: "tf", q: "\"I had never seen it before,\" she said. → She said she had never seen it before. Bu yerda fe'l o'zgarmagan, bu to'g'ri.", a: true, why: "**Past Perfect** ko'chirma gapda o'zgarmaydi." } },

@@ -141,7 +141,7 @@ const lesson: Lesson = {
     { en: "platform", uz: "platforma (vokzalda)", ipa: "ˈplæt.fɔːm", pos: "noun", ex: "The train leaves from platform 3.", exUz: "Poyezd 3-platformadan jo'naydi." },
     { en: "return ticket", uz: "borib-kelish chiptasi", ipa: "rɪˈtɜːn ˌtɪk.ɪt", pos: "noun", ex: "A return ticket to Bukhara, please.", exUz: "Buxoroga borib-kelish chiptasi, iltimos." },
     { en: "departure", uz: "jo'nash", ipa: "dɪˈpɑː.tʃə", pos: "noun", ex: "Look at the departure board.", exUz: "Jo'nash tablosiga qarang." },
-    { en: "arrival", uz: "yetib kelish", ipa: "əˈraɪ.vəl", pos: "noun", ex: "Our arrival time is 6 p.m.", exUz: "Yetib kelish vaqtimiz kechki 6." },
+    { en: "arrival", uz: "yetib kelish", ipa: "əˈraɪ.vəl", pos: "noun", ex: "Our arrival time is 6 p.m.", exUz: "Yetib kelish vaqtimiz kechki soat 6." },
     { en: "check in", uz: "ro'yxatdan o'tmoq", ipa: "ˌtʃek ˈɪn", pos: "phrasal verb", ex: "We checked in two hours before the flight.", exUz: "Parvozdan ikki soat oldin ro'yxatdan o'tdik." },
     { en: "boarding pass", uz: "bortga chiqish taloni", ipa: "ˈbɔː.dɪŋ pɑːs", pos: "noun", ex: "Show your boarding pass at the gate.", exUz: "Chiqishda bortga chiqish taloningizni ko'rsating." },
     { en: "gate", uz: "chiqish (aeroportda), darvoza", ipa: "ɡeɪt", pos: "noun", ex: "Our flight leaves from Gate 7.", exUz: "Reysimiz 7-chiqishdan jo'naydi." },

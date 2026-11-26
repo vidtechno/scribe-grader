@@ -43,7 +43,7 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Madina', en: "Ben, you've been to Khiva, haven't you? What's it like?", uz: "Ben, sen Xivada bo'lgansan, shundaymi? U qanday joy?" },
           { who: 'Ben', en: "It's amazing. The old town, which is surrounded by walls, looks like a museum.", uz: "Ajoyib. Devorlar bilan o'ralgan eski shahar muzeyga o'xshaydi." },
-          { who: 'Madina', en: "Is it easy to get around?", uz: "Yurish oson mi?" },
+          { who: 'Madina', en: "Is it easy to get around?", uz: "Shaharda yurish osonmi?" },
           { who: 'Ben', en: "Very. Everything is close, so you don't need a taxi.", uz: "Juda. Hamma narsa yaqin, shuning uchun taksi kerak emas." },
           { who: 'Madina', en: "Could you tell me when the best time to go is?", uz: "Borishning eng yaxshi vaqti qachon ekanini ayta olasanmi?" },
           { who: 'Ben', en: "In April or October. It's not too hot then, is it? In July it's far too hot.", uz: "Aprel yoki oktyabrda. U paytda juda issiq emas, to'g'rimi? Iyulda juda issiq bo'ladi." },
