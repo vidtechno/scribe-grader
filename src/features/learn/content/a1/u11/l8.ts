@@ -149,7 +149,7 @@ const lesson: Lesson = {
             { who: "Bekzod", en: "Nigora! I'm waiting for my brother. He works in that building. And what do you do now?", uz: "Nigora! Akamni kutyapman. U anavi binoda ishlaydi. Sen hozir nima ish qilasan?" },
             { who: "Nigora", en: "I'm a pilot! I've flown to fifteen countries.", uz: "Men uchuvchiman! O'n beshta davlatga uchganman." },
             { who: "Bekzod", en: "Wow! When did you start?", uz: "Voy! Qachon boshlading?" },
-            { who: "Nigora", en: "Three years ago. Last week I flew to Seoul. What about you?", uz: "Uch yil oldin. O'tgan hafta Seulga uchdim. O'zingchi?" },
+            { who: "Nigora", en: "Three years ago. Last week I flew to Seoul. What about you?", uz: "Uch yil oldin. O'tgan hafta Seulga uchdim. O'zing-chi?" },
             { who: "Bekzod", en: "I'm a doctor. I'm going to open my own clinic next year.", uz: "Men shifokorman. Kelasi yil o'z klinikamni ochmoqchiman." },
             { who: "Nigora", en: "That's great! Give me your number — I'll call you, and we'll have coffee.", uz: "Zo'r! Raqamingni ber — qo'ng'iroq qilaman, qahva ichamiz." },
           ],

@@ -56,7 +56,7 @@ const lesson: Lesson = {
     { en: 'sunscreen', uz: 'quyoshdan himoya kremi', ipa: 'ˈsʌn.skriːn', pos: 'noun', ex: 'You should wear sunscreen at the beach.', exUz: 'Plyajda quyoshdan himoya kremi surtishingiz kerak.' },
     { en: 'fresh air', uz: 'toza havo', ipa: 'freʃ eə', pos: 'noun phrase', ex: 'Why don\'t you get some fresh air?', exUz: 'Toza havodan nafas olsangiz-chi?' },
     { en: 'lie down', uz: 'yotmoq, cho\'zilmoq', ipa: 'laɪ daʊn', pos: 'phrasal verb', ex: 'You should lie down for an hour.', exUz: 'Bir soat yotib dam olishingiz kerak.' },
-    { en: 'bottled water', uz: 'shishadagi suv', ipa: 'ˈbɒt.əld ˈwɔː.tər', pos: 'noun phrase', ex: 'You should take bottled water.', exUz: 'Shishadagi suv olishingiz kerak.' },
+    { en: 'bottled water', uz: 'shishadagi suv', ipa: 'ˈbɒt.əld ˈwɔː.tər', pos: 'noun phrase', ex: 'You should take bottled water.', exUz: 'Shishali suv olganingiz ma\'qul.' },
     { en: 'take care', uz: "ehtiyot bo'lmoq, o'zingizni asrang", ipa: 'teɪk keə', pos: 'phrase', ex: 'Take care and get well soon!', exUz: "O'zingizni asrang, tezroq tuzaling!" },
   ],
   practice: [

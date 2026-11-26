@@ -125,7 +125,7 @@ const lesson: Lesson = {
             { who: "Dilnoza", en: "Fine. Am I allowed to approve the payment myself?", uz: "Yaxshi. To'lovni o'zim tasdiqlashim mumkinmi?" },
             { who: "Karim", en: "No, you're not authorised to do that. You have to ask the finance director. And please remember to keep the contract confidential.", uz: "Yo'q, bunga vakolatingiz yo'q. Moliya direktoridan so'rashingiz kerak. Va shartnomani maxfiy saqlashni unutmang." },
             { who: "Dilnoza", en: "Understood. Is there anything I should put off until you come back?", uz: "Tushundim. Siz qaytguningizcha kechiktirishim kerak bo'lgan narsa bormi?" },
-            { who: "Karim", en: "Yes, the new project. I'd like to take part in the planning, so please don't start it without me.", uz: "Ha, yangi loyiha. Rejalashtirishda qatnashmoqchiman, shuning uchun menssiz boshlamang." },
+            { who: "Karim", en: "Yes, the new project. I'd like to take part in the planning, so please don't start it without me.", uz: "Ha, yangi loyiha. Rejalashtirishda qatnashmoqchiman, shuning uchun mensiz boshlamang." },
             { who: "Dilnoza", en: "No problem. I'll email you a summary of the action points on Thursday.", uz: "Muammo yo'q. Payshanba kuni harakat bandlarining qisqacha mazmunini emailga yuboraman." },
           ],
         },

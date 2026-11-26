@@ -48,7 +48,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'examples', items: [
           { en: "If I were you, I'd think twice before saying no.", uz: "Sizning o'rningizda bo'lsam, yo'q demasdan oldin yaxshilab o'ylardim.", note: "Maslahat: **If I were you, I'd…**" },
-          { en: "I should have told you earlier. It won't happen again.", uz: "Sizga oldinroq aytishim kerak edi. Bu qaytarilmaydi.", note: "Uzr: **should have** + va'da." },
+          { en: "I should have told you earlier. It won't happen again.", uz: "Sizga oldinroq aytishim kerak edi. Bu boshqa takrorlanmaydi.", note: "Uzr: **should have** + va'da." },
           { en: "Presumably the meeting has been moved; people tend to forget the room number.", uz: "Taxminimcha, yig'ilish ko'chirilgan; odamlar xona raqamini unutishga moyil.", note: "Ehtiyotkor gap: **presumably, tend to**." },
           { en: "She was thrilled about the offer, but reluctant to leave her team.", uz: "U taklifdan hayajonda edi, lekin jamoasini tark etishni xohlamasdi.", note: "His-tuyg'u sifatlari." },
         ] },
@@ -65,7 +65,7 @@ const lesson: Lesson = {
           { who: 'Nora', en: "Take stock before you judge yourself. If you had gone, you wouldn't be near your parents now.", uz: "O'zingni hukm qilishdan oldin vaziyatni baholab ol. Agar borganingda, hozir ota-onang yonida bo'lmasding." },
           { who: 'Leo', en: "True. I must have been tired when I came to a decision, but I stand by it.", uz: "To'g'ri. Qaror qilganimda charchagan bo'lsam kerak, lekin qarorimda turaman." },
           { who: 'Nora', en: "Then it's a life lesson. As long as you learn from it, it wasn't a waste.", uz: "Unda bu hayotiy saboq. Undan xulosa chiqarsang, bu bekor ketmaydi." },
-          { who: 'Leo', en: "Hard-won, but useful. I should have asked you earlier, though.", uz: "Qiyin bo'lsa-da, foydali. Faqat senga oldinroq maslahat solishim kerak edi." },
+          { who: 'Leo', en: "Hard-won, but useful. I should have asked you earlier, though.", uz: "Qiyin bo'lsa-da, foydali. Faqat sendan oldinroq maslahat so'rashim kerak edi." },
         ] },
         { t: 'check', ex: { k: 'tf', q: "Leo regrets turning down the Dubai job completely and stands by nothing.", a: false, why: "U *wish I had gone* deydi, lekin *I stand by it* — qarorida turadi." } },
         { t: 'check', ex: { k: 'choice', q: "Which sentence in the dialogue shows an assumption about the past?", opts: ["I must have been tired.", "Take stock before you judge yourself.", "As long as you learn from it.", "I turned down the job."], a: 0, why: "**must have + V3** — o'tgan haqida taxmin." } },
@@ -76,7 +76,7 @@ const lesson: Lesson = {
     { en: 'second-guess', uz: "o'z qaroridan shubhalanmoq", ipa: 'ˌsek.əndˈɡes', pos: 'verb', ex: "Stop second-guessing every decision you make.", exUz: "Har bir qaroringdan shubhalanishni bas qil." },
     { en: 'take stock', uz: "vaziyatni baholab olmoq", ipa: 'teɪk stɒk', pos: 'phrase', ex: "At the end of the year, we take stock of our results.", exUz: "Yil oxirida natijalarimizni baholab olamiz." },
     { en: 'life lesson', uz: "hayotiy saboq", ipa: 'laɪf ˈles.ən', pos: 'noun', ex: "Failing that exam was a valuable life lesson.", exUz: "O'sha imtihondan yiqilish qimmatli hayotiy saboq bo'ldi." },
-    { en: 'stand by', uz: "(qarorida) qat'iy turmoq, yoniga tushmoq", ipa: 'stænd baɪ', pos: 'phrasal verb', ex: "I stand by what I said in the meeting.", exUz: "Yig'ilishda aytganimda qat'iy turaman." },
+    { en: 'stand by', uz: "(qarorida) qat'iy turmoq, yoniga tushmoq", ipa: 'stænd baɪ', pos: 'phrasal verb', ex: "I stand by what I said in the meeting.", exUz: "Yig'ilishda aytgan gapimda qat'iy turaman." },
     { en: 'come to a decision', uz: "qarorga kelmoq", ipa: 'kʌm tuː ə dɪˈsɪʒ.ən', pos: 'phrase', ex: "After a long debate, we came to a decision.", exUz: "Uzoq bahsdan keyin qarorga keldik." },
     { en: 'hard-won', uz: "qiyinchilik bilan qo'lga kiritilgan", ipa: 'ˌhɑːdˈwʌn', pos: 'adj', ex: "Their hard-won victory made the team proud.", exUz: "Qiyinchilik bilan qozonilgan g'alaba jamoani faxrlantirdi." },
   ],
@@ -93,7 +93,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: "I wish I would have more time.", a: ["I wish I had more time."], why: "O'z holatingiz haqida hozirgi pushaymon → **wish + Past Simple**." },
     { k: 'fix', wrong: "Supposing you would lose your job, what would you do?", a: ["Supposing you lost your job, what would you do?"], why: "**Supposing** + Past Simple." },
     { k: 'choice', q: "Which is the most supportive way to advise a friend?", opts: ["If I were you, I'd think twice before saying no.", "You must accept it.", "You are crazy to refuse.", "Do what you want, I don't care."], a: 0, why: "Qo'llab-quvvatlovchi maslahat — **If I were you, I'd…**." },
-    { k: 'dictation', say: "I should have told you earlier. It won't happen again.", a: ["I should have told you earlier. It won't happen again.", "I should have told you earlier. It will not happen again."], uz: "Sizga oldinroq aytishim kerak edi. Bu qaytarilmaydi." },
+    { k: 'dictation', say: "I should have told you earlier. It won't happen again.", a: ["I should have told you earlier. It won't happen again.", "I should have told you earlier. It will not happen again."], uz: "Sizga oldinroq aytishim kerak edi. Bu boshqa takrorlanmaydi." },
     { k: 'speak', say: "I stand by my decision, and it was a hard-won lesson.", uz: "Men qarorimda turaman va bu qiyinchilik bilan olingan saboq bo'ldi." },
   ],
   quiz: [

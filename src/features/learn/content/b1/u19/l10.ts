@@ -63,7 +63,7 @@ const lesson: Lesson = {
         { t: 'p', md: "Agar birinchi javob sizni qoniqtirmasa, **ovozni ko'tarmasdan** qat'iy bo'ling. Mana farq:" },
         { t: 'compare', good: { title: "Muloyim va qat'iy", items: ["I'm afraid that's not acceptable. Could I speak to the manager, please?", "I understand, but I'd still like a refund.", "I told your colleague about it yesterday."] }, bad: { title: "Qo'pol", items: ["Your shop is terrible! Give me my money!", "I don't care about your rules!", "You never listen!"] } },
         { t: 'examples', items: [
-          { en: "The assistant told me that the shop would send a replacement.", uz: "Sotuvchi menga do'kon almashtirib yuborishini aytgan edi.", note: "*will* → *would* (ko'chirma gap)." },
+          { en: "The assistant told me that the shop would send a replacement.", uz: "Sotuvchi menga do'kon o'rniga yangisini yuborishini aytgan edi.", note: "*will* → *would* (ko'chirma gap)." },
           { en: "He said he was busy and asked me to come back later.", uz: "U band ekanini aytdi va keyinroq kelishimni so'radi." },
           { en: "She refused to give me my money back.", uz: "U pulimni qaytarishdan bosh tortdi." },
         ] },
@@ -75,7 +75,7 @@ const lesson: Lesson = {
     { en: 'defective', uz: "nuqsonli, yaroqsiz", ipa: 'dɪˈfek.tɪv', pos: 'adj', ex: "The kettle was defective, so I took it back.", exUz: "Choynak nuqsonli edi, shuning uchun uni qaytarib olib bordim." },
     { en: 'compensation', uz: "tovon, kompensatsiya", ipa: 'ˌkɒm.penˈseɪ.ʃən', pos: 'noun', ex: "They offered us compensation for the delay.", exUz: "Ular kechikish uchun bizga tovon taklif qilishdi." },
     { en: 'let down', uz: "umidini oqlamay xafa qilmoq", ipa: 'let daʊn', pos: 'phrasal verb', ex: "The company let me down by sending the wrong item.", exUz: "Kompaniya noto'g'ri mahsulot yuborib, umidimni oqlamadi." },
-    { en: 'replacement', uz: "almashtirish; o'rniga beriladigan yangi narsa", ipa: 'rɪˈpleɪs.mənt', pos: 'noun', ex: 'They sent me a replacement.', exUz: "Ular menga almashtirib yuborishdi." },
+    { en: 'replacement', uz: "almashtirish; o'rniga beriladigan yangi narsa", ipa: 'rɪˈpleɪs.mənt', pos: 'noun', ex: 'They sent me a replacement.', exUz: "Ular menga yangisini almashtirib yuborishdi." },
     { en: 'unacceptable', uz: "qabul qilib bo'lmaydigan", ipa: 'ˌʌn.əkˈsep.tə.bəl', pos: 'adj', ex: 'Waiting two hours is unacceptable.', exUz: "Ikki soat kutish qabul qilib bo'lmaydi." },
   ],
   practice: [

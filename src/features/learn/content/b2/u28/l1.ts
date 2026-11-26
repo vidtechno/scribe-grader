@@ -135,7 +135,7 @@ const lesson: Lesson = {
         {
           t: "dialog", lines: [
             { who: "George", en: "Sara, I heard the launch was delayed again. Was it the designers who missed the deadline?", uz: "Sara, ishga tushirish yana kechiktirilganini eshitdim. Muddatni o'tkazib yuborgan dizaynerlar bo'ldimi?" },
-            { who: "Sara", en: "No, it wasn't the designers. It was the testing that took longer than we anticipated.", uz: "Yo'q, dizaynerlar emas. Biz kutganimizdan uzoqroq cho'zilgani sinov bo'ldi." },
+            { who: "Sara", en: "No, it wasn't the designers. It was the testing that took longer than we anticipated.", uz: "Yo'q, dizaynerlar emas. Kutganimizdan uzoq cho'zilgani — sinov bosqichi." },
             { who: "George", en: "So what do we do now? Should we prioritise the testing?", uz: "Endi nima qilamiz? Sinovni birinchi o'ringa qo'yishimiz kerakmi?" },
             { who: "Sara", en: "What I'd suggest is a short delay, not a complete change of plan.", uz: "Men qisqa kechiktirishni taklif qilardim, rejani butunlay o'zgartirishni emas." },
             { who: "George", en: "That sounds fair. What worries me, though, is the client's reaction.", uz: "Bu adolatli eshitiladi. Lekin meni mijozning munosabati tashvishlantiryapti." },

@@ -156,7 +156,7 @@ const lesson: Lesson = {
             { who: "Bobur", en: "It's delicious! Here, try one. Have you ever been to Uzbekistan before?", uz: "Juda mazali! Mana, bittasini tatib ko'ring. Avval O'zbekistonda bo'lganmisiz?" },
             { who: "Tom", en: "No, never. It's my first time. But I've been to Kazakhstan once.", uz: "Yo'q, hech qachon. Bu birinchi marta. Lekin Qozog'istonda bir marta bo'lganman." },
             { who: "Bobur", en: "And have you ever been to a real Uzbek wedding?", uz: "Haqiqiy o'zbek to'yida bo'lganmisiz?" },
-            { who: "Tom", en: "No, I haven't. My friends have been to many, and they say it's amazing!", uz: "Yo'q. Do'stlarim ko'p bo'lishgan, ular ajoyib deyishadi!" },
+            { who: "Tom", en: "No, I haven't. My friends have been to many, and they say it's amazing!", uz: "Yo'q. Do'stlarim ko'plarida bo'lishgan, ajoyib deyishadi!" },
             { who: "Bobur", en: "My cousin is getting married on Saturday. Come with me!", uz: "Amakivachcham shanba kuni uylanyapti. Men bilan boring!" },
           ],
         },

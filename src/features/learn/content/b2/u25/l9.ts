@@ -74,7 +74,7 @@ const lesson: Lesson = {
   words: [
     { en: 'sleep on it', uz: "bir kecha o'ylab ko'rmoq (qarorni keyinga qoldirib)", ipa: 'sliːp ɒn ɪt', pos: 'idiom', ex: "It's a big decision, so I'll sleep on it and tell you tomorrow.", exUz: "Bu katta qaror, shuning uchun bir kecha o'ylab ko'rib, ertaga aytaman." },
     { en: 'think it over', uz: "puxta o'ylab ko'rmoq", ipa: 'θɪŋk ɪt ˈəʊvə', pos: 'phrasal verb', ex: 'Take a few days to think it over before you sign.', exUz: "Imzo qo'yishdan oldin bir necha kun puxta o'ylab ko'ring." },
-    { en: 'leap of faith', uz: "ishonib qilingan tavakkal", ipa: 'liːp əv feɪθ', pos: 'phrase', ex: 'Starting a business in a new country is a leap of faith.', exUz: "Yangi mamlakatda biznes boshlash ishonib qilinadigan tavakkaldir." },
+    { en: 'leap of faith', uz: "ishonib qilingan tavakkal", ipa: 'liːp əv feɪθ', pos: 'phrase', ex: 'Starting a business in a new country is a leap of faith.', exUz: "Yangi mamlakatda biznes boshlash — tavakkal qadam." },
     { en: 'risky', uz: "xavfli, tavakkal talab qiladigan", ipa: 'ˈrɪski', pos: 'adj', ex: 'Leaving a stable job is risky, but it can pay off.', exUz: "Barqaror ishni tashlash xavfli, lekin o'zini oqlashi mumkin." },
     { en: 'stability', uz: "barqarorlik", ipa: 'stəˈbɪləti', pos: 'noun', ex: 'Many people value stability more than a high salary.', exUz: "Ko'pchilik barqarorlikni yuqori maoshdan ko'proq qadrlaydi." },
     { en: 'rush into', uz: "shoshilib qaror qilmoq", ipa: 'rʌʃ ˈɪntuː', pos: 'phrasal verb', ex: "Don't rush into buying a flat before you compare prices.", exUz: "Narxlarni solishtirmay turib, kvartira sotib olishga shoshilmang." },

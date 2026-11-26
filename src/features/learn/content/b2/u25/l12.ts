@@ -61,7 +61,7 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Zarina', en: "Are you taking the car on the mountain trip?", uz: "Tog' safariga mashinani olasizmi?" },
           { who: 'Jack', en: "Only if the weather is good. Supposing it snows, we'd get stuck.", uz: "Faqat ob-havo yaxshi bo'lsa. Faraz qilaylik, qor yog'sa, tiqilib qolamiz." },
-          { who: 'Zarina', en: "Let's take chains in case it does. My brother will lend us his, as long as we return them on Sunday.", uz: "Shunday bo'lib qolsa deb zanjirlar olaylik. Akam o'zinikini beradi, faqat yakshanba kuni qaytarsak." },
+          { who: 'Zarina', en: "Let's take chains in case it does. My brother will lend us his, as long as we return them on Sunday.", uz: "Qor yog'ib qolsa deb, g'ildirak zanjirlarini olaylik. Akam o'zinikini beradi, faqat yakshanba kuni qaytarsak bo'lgani." },
           { who: 'Jack', en: "Good idea. We should leave early, otherwise we'll arrive after dark.", uz: "Yaxshi fikr. Erta chiqishimiz kerak, aks holda qorong'ida yetib boramiz." },
           { who: 'Zarina', en: "Fine. But for your map, we would have taken the wrong road last time!", uz: "Mayli. O'tgan safar sizning xaritangiz bo'lmaganda, noto'g'ri yo'lga tushib ketgan bo'lardik!" },
         ] },

@@ -83,9 +83,9 @@ const lesson: Lesson = {
     { en: 'viable', uz: "amalga oshiriladigan, maqbul", ipa: 'ˈvaɪ.ə.bəl', pos: 'adj', ex: 'A four-day working week is not viable for every business.', exUz: "To'rt kunlik ish haftasi har bir biznes uchun maqbul emas." },
     { en: 'undeniable', uz: "inkor etib bo'lmaydigan", ipa: 'ˌʌn.dɪˈnaɪ.ə.bəl', pos: 'adj', ex: 'It is undeniable that technology has changed education.', exUz: "Texnologiya ta'limni o'zgartirgani inkor etib bo'lmaydi." },
     { en: 'thrive', uz: "gullab-yashnamoq, muvaffaqiyatli rivojlanmoq", ipa: 'θraɪv', pos: 'verb', ex: 'Some children thrive in small classes.', exUz: "Ba'zi bolalar kichik sinflarda yaxshi rivojlanadi." },
-    { en: 'flawed', uz: 'kamchiligi bor, xato', ipa: 'flɔːd', pos: 'adj', ex: 'The study was flawed because the sample was too small.', exUz: "Tadqiqotda kamchilik bor edi, chunki tanlov juda kichik edi." },
+    { en: 'flawed', uz: 'kamchiligi bor, xato', ipa: 'flɔːd', pos: 'adj', ex: 'The study was flawed because the sample was too small.', exUz: "Tadqiqotda kamchilik bor edi, chunki tanlanma juda kichik edi." },
     { en: 'disparity', uz: "katta tafovut, nomutanosiblik", ipa: 'dɪˈspær.ə.ti', pos: 'noun', ex: 'There is a wide disparity in pay between the two jobs.', exUz: "Ikki ish o'rtasida ish haqida katta tafovut bor." },
-    { en: 'notable', uz: "diqqatga sazovor, sezilarli", ipa: 'ˈnəʊ.tə.bəl', pos: 'adj', ex: 'There was a notable improvement in her essays.', exUz: "Uning esselarida sezilarli yaxshilanish bor edi." },
+    { en: 'notable', uz: "diqqatga sazovor, sezilarli", ipa: 'ˈnəʊ.tə.bəl', pos: 'adj', ex: 'There was a notable improvement in her essays.', exUz: "Uning insholarida sezilarli yaxshilanish bor edi." },
   ],
   practice: [
     { k: 'match', pairs: [['viable', 'amalga oshiriladigan'], ['undeniable', "inkor etib bo'lmaydigan"], ['thrive', 'gullab-yashnamoq'], ['flawed', 'kamchiligi bor'], ['disparity', 'katta tafovut'], ['notable', 'sezilarli']] },

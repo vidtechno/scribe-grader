@@ -38,7 +38,7 @@ const lesson: Lesson = {
           { en: "I've been coughing for a few days.", uz: "Bir necha kundan beri yo'talyapman.", note: "**a few** + sanaladigan ko'plik: *bir nechta (yetarli)*." },
           { en: "I've had hardly any appetite.", uz: "Ishtaham deyarli yo'q.", note: "**hardly any** = deyarli yo'q (sanalmaydigan va ko'plik bilan)." },
           { en: "I've got very little energy.", uz: "Quvvatim juda kam.", note: "**little** (sanalmaydigan) — kam, ijobiy emas." },
-          { en: "Few of my colleagues have been ill this winter.", uz: "Hamkasblarimdan juda kamchiligi shu qishda kasal bo'ldi.", note: "**few** — kam (ohang salbiy, *deyarli hech kim*)." },
+          { en: "Few of my colleagues have been ill this winter.", uz: "Bu qish hamkasblarimdan juda kami kasal bo'ldi.", note: "**few** — kam (ohang salbiy, *deyarli hech kim*)." },
         ] },
         { t: 'tip', tone: 'warn', md: "**a few / a little** — *bir oz bor* (ijobiy), **few / little** — *deyarli yo'q* (salbiy). *I've got a little energy* = quvvat bor; *I've got little energy* = quvvat yo'q. Sanaladigan otga **few**, sanalmaydiganga **little** ishlatiladi: *few tablets, little sleep*." },
         { t: 'check', ex: { k: 'fill', q: "I've had a headache ___ yesterday morning.", a: ['since'], uz: "Kecha ertalabdan beri boshim og'riyapti.", why: "Boshlanish nuqtasi (*yesterday morning*) → **since**." } },
@@ -83,7 +83,7 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Nilufar', en: "Good morning, doctor. I've had a sore throat for three days, and it's getting worse.", uz: "Xayrli tong, doktor. Uch kundan beri tomog'im og'riyapti va yomonlashyapti." },
           { who: 'Doctor', en: "I see. Have you had a temperature?", uz: "Tushunarli. Isitmangiz bo'ldimi?" },
-          { who: 'Nilufar', en: "A slight one since Sunday. And I've had hardly any appetite, so I feel rather dizzy.", uz: "Yakshanbadan beri biroz. Ishtaham deyarli yo'q, shuning uchun boshim aylanyapti." },
+          { who: 'Nilufar', en: "A slight one since Sunday. And I've had hardly any appetite, so I feel rather dizzy.", uz: "Yakshanbadan beri biroz isitmam bor. Ishtaham deyarli yo'q, shuning uchun boshim aylanyapti." },
           { who: 'Doctor', en: "Let me have a look. Yes, it looks like a throat infection, but a mild one. I won't prescribe antibiotics, because most of these clear up by themselves.", uz: "Qaraylik-chi. Ha, bu tomoq infeksiyasiga o'xshaydi, lekin yengil. Antibiotik yozmayman, chunki bunaqalarning ko'pi o'zi o'tib ketadi." },
           { who: 'Nilufar', en: "So what should I do?", uz: "Unda nima qilishim kerak?" },
           { who: 'Doctor', en: "I'd recommend resting for a few days and drinking plenty of warm drinks. You'd better not go to work until the temperature goes.", uz: "Bir necha kun dam olishni va ko'p iliq ichimlik ichishni tavsiya qilaman. Isitma tushguncha ishga bormagan ma'qul." },

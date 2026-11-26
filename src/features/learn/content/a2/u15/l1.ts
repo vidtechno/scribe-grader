@@ -121,7 +121,7 @@ const lesson: Lesson = {
             { who: "Aziz", en: "Can I go to the park, Mum?", uz: "Onajon, bog'ga borsam bo'ladimi?" },
             { who: "Mum", en: "Yes, but you must finish your homework first.", uz: "Ha, lekin avval uy vazifangni tugatishing kerak." },
             { who: "Aziz", en: "I've done it. Do I have to take my little brother?", uz: "Qildim. Ukamni olib borishim kerakmi?" },
-            { who: "Mum", en: "You don't have to, but he wants to come.", uz: "Shart emas, lekin u bormoqchi." },
+            { who: "Mum", en: "You don't have to, but he wants to come.", uz: "Shart emas, lekin u kelmoqchi." },
             { who: "Aziz", en: "OK. We'll be back at six.", uz: "Mayli. Soat oltida qaytamiz." },
             { who: "Mum", en: "Good. And you mustn't go near the river!", uz: "Yaxshi. Daryo yoniga bormanglar!" },
           ],

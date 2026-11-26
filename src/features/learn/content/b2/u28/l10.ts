@@ -32,7 +32,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: "What worries me is the cost, not the idea itself.", uz: "Meni tashvishlantirayotgani g'oyaning o'zi emas, narx.", note: "**wh-cleft**: *What + ega + fe'l + is…* — asosiy tashvishni ajratadi." },
           { en: "It's the timing that I'm not sure about.", uz: "Men shubhalanayotgan narsa — vaqt.", note: "**it-cleft**: shubhani aniq bir narsaga qaratadi." },
-          { en: "Not only would it cost more, but it would also take longer.", uz: "U nafaqat qimmatroq turadi, balki ko'proq vaqt ham oladi.", note: "**Not only + would + ega**: inversiya, ikkita kamchilikni bir gapda beradi." },
+          { en: "Not only would it cost more, but it would also take longer.", uz: "Bu nafaqat qimmatroqqa tushadi, balki ko'proq vaqt ham oladi.", note: "**Not only + would + ega**: inversiya, ikkita kamchilikni bir gapda beradi." },
           { en: "All I'm saying is that we should test it first.", uz: "Men faqat shuni aytyapmanki, avval sinab ko'raylik.", note: "**All I'm saying is…** — pozitsiyani yumshoq qilib bildiradi." },
         ] },
         { t: 'tip', tone: 'good', md: "**Pozitsiyada turish** — keskinlashmaslik degani. *I understand, but I'd still prefer to wait* yoki *Let's agree to differ* — ikkala tomon hurmatini saqlaydi. Rozi bo'lmaslik mumkin; muhimi, **tonni** yaxshi saqlash." },

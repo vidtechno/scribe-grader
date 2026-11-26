@@ -138,7 +138,7 @@ const lesson: Lesson = {
     { en: "seemingly", uz: "ko'rinishidan, go'yo", ipa: "ˈsiː.mɪŋ.li", pos: "adv", ex: "The seemingly easy task took us all day.", exUz: "Ko'rinishidan oson vazifa butun kunimizni oldi." },
     { en: "supposedly", uz: "ular aytishicha (ishonmay)", ipa: "səˈpəʊ.zɪd.li", pos: "adv", ex: "The restaurant is supposedly the best in town, but I was disappointed.", exUz: "Restoran, aytishlaricha, shaharda eng yaxshisi, lekin men xafa bo'ldim." },
     { en: "undoubtedly", uz: "shubhasiz", ipa: "ʌnˈdaʊ.tɪd.li", pos: "adv", ex: "She is undoubtedly the strongest candidate.", exUz: "U shubhasiz eng kuchli nomzod." },
-    { en: "conceivably", uz: "aqlga sig'adigan darajada, ehtimol", ipa: "kənˈsiː.və.bli", pos: "adv", ex: "Conceivably, the project could be finished by May.", exUz: "Loyiha mayga borib tugashi aqlga sig'adi." },
+    { en: "conceivably", uz: "aqlga sig'adigan darajada, ehtimol", ipa: "kənˈsiː.və.bli", pos: "adv", ex: "Conceivably, the project could be finished by May.", exUz: "Loyiha mayga borib tugashi ham mumkin." },
     { en: "tentative", uz: "dastlabki, aniq bo'lmagan", ipa: "ˈten.tə.tɪv", pos: "adj", ex: "We have only a tentative agreement for now.", exUz: "Hozircha bizda faqat dastlabki kelishuv bor." },
     { en: "by and large", uz: "umuman olganda", ipa: "baɪ ənd lɑːdʒ", pos: "phrase", ex: "By and large, the new system works well.", exUz: "Umuman olganda, yangi tizim yaxshi ishlaydi." },
     { en: "in all probability", uz: "katta ehtimol bilan", ipa: "ɪn ɔːl ˌprɒb.əˈbɪl.ə.ti", pos: "phrase", ex: "In all probability, the train will arrive on time.", exUz: "Katta ehtimol bilan poyezd o'z vaqtida keladi." },

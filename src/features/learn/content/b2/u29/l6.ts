@@ -160,7 +160,7 @@ const lesson: Lesson = {
             { who: "Leo", en: "Yes. It rose from 24 to 38 per cent by 2020, and then peaked at 52 in 2025.", uz: "Ha. 2020-yilga kelib 24 dan 38 foizga ko'tarildi, keyin 2025-yilda 52 da cho'qqiga chiqdi." },
             { who: "Nina", en: "And Elmford? It climbed rapidly until 2020, but then it dipped.", uz: "Elmford-chi? U 2020-yilgacha tez ko'tarildi, lekin keyin biroz pasaydi." },
             { who: "Leo", en: "Only slightly, from 45 to 44 per cent. I'd say it levelled off.", uz: "Faqat ozgina, 45 dan 44 foizga. Menimcha, u barqarorlashdi." },
-            { who: "Nina", en: "Good point. So in the overview we should say both rose, but Redbury finished higher.", uz: "To'g'ri. Demak, overview'da ikkalasi ham oshdi, lekin Redbury yuqoriroq darajada yakunladi degan bo'lamiz." },
+            { who: "Nina", en: "Good point. So in the overview we should say both rose, but Redbury finished higher.", uz: "To'g'ri. Demak, kirish qismida (overview) ikkalasi ham oshdi, lekin Redbury yuqoriroq darajada yakunladi deymiz." },
             { who: "Leo", en: "Agreed. And let's not add opinions. Just the facts.", uz: "Roziman. Fikr qo'shmaylik. Faqat faktlar." },
             { who: "Nina", en: "Right. I'll write the introduction, and you do the details.", uz: "To'g'ri. Men kirishni yozaman, siz tafsilotlarni yozasiz." },
           ],

@@ -31,7 +31,7 @@ const lesson: Lesson = {
           { who: 'Laylo', en: 'Where did you grow up, Mr Karimov?', uz: "Karimov janoblari, siz qayerda ulg'aydingiz?" },
           { who: 'Mr Karimov', en: 'I was born in Khiva, but we moved to Tashkent when I was ten.', uz: "Men Xivada tug'ilganman, lekin o'n yoshimda Toshkentga ko'chib keldik." },
           { who: 'Laylo', en: 'And what did you do last summer?', uz: "O'tgan yozda nima qildingiz?" },
-          { who: 'Mr Karimov', en: 'I flew to Istanbul two weeks ago... no, a month ago! There was a beautiful view from our hotel.', uz: "Istanbulga samolyotda uchdim... yo'q, bir oy oldin! Mehmonxonamizdan chiroyli manzara bor edi." },
+          { who: 'Mr Karimov', en: 'I flew to Istanbul two weeks ago... no, a month ago! There was a beautiful view from our hotel.', uz: "Ikki hafta oldin Istanbulga uchdim... yo'q, bir oy oldin! Mehmonxonamizdan chiroyli manzara ko'rinardi." },
           { who: 'Laylo', en: 'Did you visit the market?', uz: 'Bozorga bordingizmi?' },
           { who: 'Mr Karimov', en: "Yes, but it was crowded, so I couldn't buy much. I forgot my money at the hotel!", uz: "Ha, lekin odam ko'p edi, shuning uchun ko'p narsa ola olmadim. Pulimni mehmonxonada unutibman!" },
         ] },

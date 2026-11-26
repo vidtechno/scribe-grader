@@ -129,7 +129,7 @@ const lesson: Lesson = {
     { en: "introduction", uz: "kirish", ipa: "ˌɪn.trəˈdʌk.ʃən", pos: "noun", ex: "Write a short introduction first.", exUz: "Avval qisqa kirish yozing." },
     { en: 'underline', uz: "alohida ta'kidlamoq", ipa: 'ˌʌn.dəˈlaɪn', pos: 'verb', ex: "The writer underlines three main problems.", exUz: "Muallif uchta asosiy muammoni alohida ta'kidlaydi." },
     { en: "topic sentence", uz: "abzatsning bosh gapi", ipa: "ˈtɒp.ɪk ˌsen.təns", pos: "noun", ex: "The topic sentence tells us what the paragraph is about.", exUz: "Bosh gap abzats nima haqida ekanini aytadi." },
-    { en: "balanced", uz: "muvozanatli, xolis", ipa: "ˈbæl.ənst", pos: "adj", ex: "A balanced essay shows both sides.", exUz: "Xolis esse ikkala tomonni ko'rsatadi." },
+    { en: "balanced", uz: "muvozanatli, xolis", ipa: "ˈbæl.ənst", pos: "adj", ex: "A balanced essay shows both sides.", exUz: "Xolis insho ikkala tomonni ko'rsatadi." },
     { en: "formal", uz: "rasmiy", ipa: "ˈfɔː.məl", pos: "adj", ex: "Use formal language in an essay.", exUz: "Esseda rasmiy tildan foydalaning." },
     { en: "firstly", uz: "birinchidan", ipa: "ˈfɜːst.li", pos: "adv", ex: "Firstly, I would like to explain why this matters.", exUz: "Birinchidan, bu nega muhimligini tushuntirmoqchiman." },
     { en: "to sum up", uz: "xulosa qilib aytganda", ipa: "tə ˈsʌm ʌp", pos: "phrase", ex: "To sum up, both sides have good arguments.", exUz: "Xulosa qilib aytganda, ikkala tomonning ham yaxshi dalillari bor." },

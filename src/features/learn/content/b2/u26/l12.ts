@@ -80,7 +80,7 @@ const lesson: Lesson = {
   words: [
     { en: 'promote', uz: "lavozimda ko'tarmoq; targ'ib qilmoq", ipa: 'prəˈməʊt', pos: 'verb', ex: 'She was promoted after only two years with the company.', exUz: "U kompaniyada atigi ikki yil ishlagach, lavozimi ko'tarildi." },
     { en: 'dismiss', uz: "ishdan bo'shatmoq; rad etmoq", ipa: 'dɪsˈmɪs', pos: 'verb', ex: 'Three employees were dismissed for sharing confidential data.', exUz: "Uch xodim maxfiy ma'lumotlarni ulashgani uchun ishdan bo'shatildi." },
-    { en: 'appoint', uz: "tayinlamoq", ipa: 'əˈpɔɪnt', pos: 'verb', ex: 'He was appointed head of the IT department.', exUz: "U AT bo'limi boshlig'i etib tayinlandi." },
+    { en: 'appoint', uz: "tayinlamoq", ipa: 'əˈpɔɪnt', pos: 'verb', ex: 'He was appointed head of the IT department.', exUz: "U IT bo'limi boshlig'i etib tayinlandi." },
     { en: 'nominate', uz: "nomzod qilib ko'rsatmoq", ipa: 'ˈnɒm.ɪ.neɪt', pos: 'verb', ex: 'Her documentary was nominated for an award.', exUz: "Uning hujjatli filmi mukofotga nomzod qilib ko'rsatildi." },
     { en: 'recruit', uz: "ishga yollamoq, jalb qilmoq", ipa: 'rɪˈkruːt', pos: 'verb', ex: 'The company is recruiting engineers from abroad.', exUz: "Kompaniya chet eldan muhandislar yollayapti." },
   ],

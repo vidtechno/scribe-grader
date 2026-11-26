@@ -123,7 +123,7 @@ const lesson: Lesson = {
         {
           t: "dialog", lines: [
             { who: "Aziz", en: "So, Emma, what do you do?", uz: "Xo'sh, Emma, nima ish qilasiz?" },
-            { who: "Emma", en: "I'm a teacher. I teach English at a school in London. And you?", uz: "Men o'qituvchiman. Londondagi maktabda ingliz tilidan dars beraman. Sizchi?" },
+            { who: "Emma", en: "I'm a teacher. I teach English at a school in London. And you?", uz: "Men o'qituvchiman. Londondagi maktabda ingliz tilidan dars beraman. Siz-chi?" },
             { who: "Aziz", en: "I'm an engineer. I work for a car company in Asaka.", uz: "Men muhandisman. Asakadagi avtomobil kompaniyasida ishlayman." },
             { who: "Emma", en: "Oh, interesting! Do you like your job?", uz: "Qiziq! Ishingiz sizga yoqadimi?" },
             { who: "Aziz", en: "Yes, I do. It's hard work, but the people are great.", uz: "Ha. Og'ir ish, lekin odamlar ajoyib." },

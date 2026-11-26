@@ -83,7 +83,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "I'm interested in learning data analysis.", uz: "Men ma'lumotlar tahlilini o'rganishga qiziqaman." },
             { en: "She is good at explaining difficult ideas.", uz: "U murakkab fikrlarni tushuntirishda yaxshi." },
-            { en: "Check your answers before sending the form.", uz: "Shaklni yuborishdan oldin javoblaringizni tekshiring." },
+            { en: "Check your answers before sending the form.", uz: "Anketani yuborishdan oldin javoblaringizni tekshiring." },
             { en: "He passed the exam without studying much.", uz: "U ko'p o'qimasdan imtihondan o'tdi." },
             { en: "I'm thinking of buying a new phone.", uz: "Yangi telefon sotib olishni o'ylayapman." },
             { en: "I'm looking forward to meeting your team.", uz: "Jamoangiz bilan uchrashishni intizorlik bilan kutyapman.", note: "Bu yerda **to** — predlog, shuning uchun *meeting*, *meet* emas." },

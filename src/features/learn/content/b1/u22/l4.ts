@@ -141,7 +141,7 @@ const lesson: Lesson = {
     { en: "affordable", uz: "hamyonbop, arzon", ipa: "əˈfɔː.də.bəl", pos: "adj", ex: "Public transport is far more affordable than a taxi.", exUz: "Jamoat transporti taksiga qaraganda ancha arzon." },
     { en: "demanding", uz: "ko'p kuch talab qiladigan", ipa: "dɪˈmɑːn.dɪŋ", pos: "adj", ex: "Teaching is a demanding job.", exUz: "O'qituvchilik ko'p kuch talab qiladigan kasb." },
     { en: "flexible", uz: "moslashuvchan", ipa: "ˈflek.sə.bəl", pos: "adj", ex: "I prefer flexible working hours.", exUz: "Moslashuvchan ish soatlarini afzal ko'raman." },
-    { en: "noticeably", uz: "sezilarli darajada, ko'zga tashlanib", ipa: "ˈnəʊ.tɪ.sə.bli", pos: "adv", ex: "The city is noticeably quieter on Sundays.", exUz: "Yakshanba kunlari shahar ko'zga tashlanib tinchroq bo'ladi." },
+    { en: "noticeably", uz: "sezilarli darajada, ko'zga tashlanib", ipa: "ˈnəʊ.tɪ.sə.bli", pos: "adv", ex: "The city is noticeably quieter on Sundays.", exUz: "Yakshanba kunlari shahar sezilarli darajada tinchroq bo'ladi." },
     { en: "considerably", uz: "sezilarli darajada", ipa: "kənˈsɪd.ər.ə.bli", pos: "adv", ex: "The new system is considerably faster.", exUz: "Yangi tizim sezilarli darajada tezroq." },
     { en: "increasingly", uz: "tobora, borgan sari", ipa: "ɪnˈkriː.sɪŋ.li", pos: "adv", ex: "Increasingly, people shop online.", exUz: "Tobora ko'proq odam onlayn xarid qilmoqda." },
     { en: "steadily", uz: "izchil, bir maromda", ipa: "ˈsted.ɪ.li", pos: "adv", ex: "Sales have grown steadily over the last year.", exUz: "So'nggi yil davomida savdo izchil o'sdi." },

@@ -53,7 +53,7 @@ const lesson: Lesson = {
           { who: 'Tom', en: "And is there anything to do there?", uz: "U yerda qiladigan biror narsa bormi?" },
           { who: 'Sara', en: "Of course. There's a market which is open every day, and both cinemas are within walking distance.", uz: "Albatta. Har kuni ochiq bozor bor va ikkala kinoteatr ham piyoda yetib boriladigan masofada." },
           { who: 'Tom', en: "Sounds perfect! Is the area famous for anything?", uz: "Ajoyib eshitiladi! Bu hudud biror narsasi bilan mashhurmi?" },
-          { who: 'Sara', en: "It's famous for its old bakery, which was built in the nineteenth century.", uz: "U o'zining eski novvoyxonasi bilan mashhur, u o'n to'qqizinchi asrda qurilgan." },
+          { who: 'Sara', en: "It's famous for its old bakery, which was built in the nineteenth century.", uz: "U eski novvoyxonasi bilan mashhur; novvoyxona XIX asrda qurilgan." },
         ] },
         { t: 'check', ex: { k: 'tf', q: "Sara's street is very noisy and crowded.", a: false, why: "*my street is quite peaceful.*" } },
         { t: 'check', ex: { k: 'choice', q: "What is the area famous for?", opts: ['Its old bakery', 'Its new cinema', 'Its river', 'Its university'], a: 0, why: "*It's famous for its old bakery.*" } },

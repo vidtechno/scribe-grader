@@ -60,7 +60,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'originally', uz: 'asli, dastlab', ipa: 'əˈrɪdʒ.ən.əl.i', pos: 'adv', ex: "He's originally from Tashkent.", exUz: "U asli Toshkentlik." },
+    { en: 'originally', uz: 'asli, dastlab', ipa: 'əˈrɪdʒ.ən.əl.i', pos: 'adv', ex: "He's originally from Tashkent.", exUz: "U asli toshkentlik." },
     { en: 'be raised', uz: 'tarbiyalanib o\'smoq', ipa: 'bi reɪzd', pos: 'phrase', ex: 'I was raised in a small village near Samarkand.', exUz: 'Men Samarqand yaqinidagi kichik qishloqda o\'sganman.' },
     { en: 'accent', uz: 'talaffuz (urg\'u), sheva', ipa: 'ˈæk.sənt', pos: 'noun', ex: 'You have a lovely accent. Where are you from?', exUz: 'Sizning talaffuzingiz juda yoqimli. Qayerdansiz?' },
     { en: 'immigrant', uz: 'muhojir', ipa: 'ˈɪm.ɪ.ɡrənt', pos: 'noun', ex: 'My uncle is an immigrant and has lived in Canada for ten years.', exUz: 'Amakim muhojir va o\'n yildan beri Kanadada yashaydi.' },

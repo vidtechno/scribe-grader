@@ -132,7 +132,7 @@ const lesson: Lesson = {
             { who: "Kamol", en: "Yes, I'd like to make an appointment with Dr Karimova, please.", uz: "Ha, doktor Karimova qabuliga yozilmoqchiman." },
             { who: "Receptionist", en: "Is it urgent?", uz: "Shoshilinchmi?" },
             { who: "Kamol", en: "No, but my back has hurt for a week.", uz: "Yo'q, lekin bir haftadan beri belim og'riyapti." },
-            { who: "Receptionist", en: "She's free on Thursday at ten. Is that OK?", uz: "U payshanba kuni soat o'nda bo'sh. Mayli, shu vaqtmi?" },
+            { who: "Receptionist", en: "She's free on Thursday at ten. Is that OK?", uz: "U payshanba kuni soat o'nda bo'sh. Shu vaqt sizga to'g'ri keladimi?" },
             { who: "Kamol", en: "Yes, that's fine. Thank you.", uz: "Ha, yaxshi. Rahmat." },
           ],
         },

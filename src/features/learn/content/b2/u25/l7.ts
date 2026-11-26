@@ -166,7 +166,7 @@ const lesson: Lesson = {
     { en: "gratitude", uz: "minnatdorchilik", ipa: "ˈɡræt.ɪ.tjuːd", pos: "noun", ex: "He wrote a letter to express his gratitude.", exUz: "U minnatdorchiligini bildirish uchun xat yozdi." },
     { en: "cherish", uz: "qadrlab saqlamoq, aziz tutmoq", ipa: "ˈtʃer.ɪʃ", pos: "verb", ex: "I will always cherish those summer evenings.", exUz: "Men o'sha yoz oqshomlarini doim aziz tutaman." },
     { en: "resilient", uz: "chidamli, tez tiklanadigan", ipa: "rɪˈzɪl.i.ənt", pos: "adj", ex: "Children are often more resilient than adults expect.", exUz: "Bolalar ko'pincha kattalar o'ylagandan chidamliroq bo'ladi." },
-    { en: "lingering", uz: "uzoq saqlanib qoluvchi, ketmaydigan", ipa: "ˈlɪŋ.ɡər.ɪŋ", pos: "adj", ex: "A lingering doubt stopped him from signing.", exUz: "Ketmayotgan shubha uni imzo qo'yishdan to'xtatdi." },
+    { en: "lingering", uz: "uzoq saqlanib qoluvchi, ketmaydigan", ipa: "ˈlɪŋ.ɡər.ɪŋ", pos: "adj", ex: "A lingering doubt stopped him from signing.", exUz: "Ko'nglidagi shubha uni imzo chekishdan to'xtatib qoldi." },
     { en: "fortunate", uz: "omadli, baxtli", ipa: "ˈfɔː.tʃən.ət", pos: "adj", ex: "We were fortunate to find a seat on the last train.", exUz: "Biz oxirgi poyezdda joy topganimizga omadli edik." },
   ],
   practice: [

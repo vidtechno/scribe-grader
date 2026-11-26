@@ -40,7 +40,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'p', md: "Emmaga yoki o'zingiz yaxshi ko'rgan eski do'stingizga javob yozing. Reja:" },
         { t: 'examples', items: [
-          { en: "Hi Emma, thanks for your email!", uz: "Salom, Emma, emailing uchun rahmat!", note: "1. Salomlashish va rahmat." },
+          { en: "Hi Emma, thanks for your email!", uz: "Salom, Emma, xating uchun rahmat!", note: "1. Salomlashish va rahmat." },
           { en: "I've been very busy since I started my new course.", uz: "Yangi kursni boshlaganimdan beri juda bandman.", note: "2. Yangilik (**since** + Present Perfect)." },
           { en: "I used to live in a flat, but now I have a house with a garden.", uz: "Ilgari kvartirada yashardim, hozir bog'li uyim bor.", note: "3. Ilgari va hozir (**used to**)." },
           { en: "Have you ever thought about visiting Tashkent?", uz: "Toshkentga kelishni hech o'ylab ko'rganmisan?", note: "4. Savol (**Have you ever…?**)." },

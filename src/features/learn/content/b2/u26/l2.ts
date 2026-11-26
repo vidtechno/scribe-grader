@@ -52,7 +52,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "The singer was said to be living in Dubai.", uz: "Qo'shiqchi Dubayda yashayotgan emish (o'sha paytda).", note: "was said + to be + -ing: o'sha paytdagi holat." },
             { en: "The singer was said to have moved to Dubai.", uz: "Qo'shiqchi Dubayga ko'chgan emish.", note: "was said + to have + V3: ko'chish aytilgan paytdan oldin." },
-            { en: "Three people are feared to have died in the fire.", uz: "Yong'inda uch kishi halok bo'lgan deb xavotir qilinmoqda." },
+            { en: "Three people are feared to have died in the fire.", uz: "Yong'inda uch kishi halok bo'lgan bo'lishidan xavotir bor." },
           ],
         },
         { t: "tip", tone: "info", md: "**will** reporting passive'da ishlatilmaydi: *Prices are expected to rise* (**will rise** emas). Kelajak ma'nosi **expected / likely / due** so'zlaridan keladi." },
@@ -76,7 +76,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "They expect that prices will rise. → Prices are expected to rise.", uz: "Narxlar oshishi kutilmoqda." },
             { en: "People believe that she was born in Khiva. → She is believed to have been born in Khiva.", uz: "Uning Xivada tug'ilgani ishoniladi." },
-            { en: "Experts think that the dam is leaking. → The dam is thought to be leaking.", uz: "To'g'on oqayotgan deb hisoblanmoqda." },
+            { en: "Experts think that the dam is leaking. → The dam is thought to be leaking.", uz: "To'g'ondan suv sizib chiqayotgani taxmin qilinmoqda." },
             { en: "Reports say that the CEO has resigned. → The CEO is reported to have resigned.", uz: "Bosh direktor iste'foga chiqqani xabar qilinmoqda." },
           ],
         },

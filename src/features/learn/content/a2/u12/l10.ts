@@ -16,7 +16,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "It's a black leather bag.", uz: "Bu qora charm sumka.", note: "Rang + material + narsa." },
             { en: "It's quite big, and it has a long strap.", uz: "U ancha katta va uzun tasmasi bor.", note: "**has** — narsada nima borligi." },
-            { en: "It has a small blue zip on the front.", uz: "Old tomonida kichik ko'k zanjiri bor." },
+            { en: "It has a small blue zip on the front.", uz: "Old tomonida kichik ko'k molniyasi bor." },
             { en: "There is a laptop and a book inside.", uz: "Ichida noutbuk va kitob bor." },
           ],
         },
@@ -77,7 +77,7 @@ const lesson: Lesson = {
     { en: "item", uz: "narsa, buyum", ipa: "ˈaɪtəm", pos: "noun", ex: "Please list the items in your bag.", exUz: "Iltimos, sumkangizdagi narsalarni sanab bering." },
     { en: "describe", uz: "tasvirlamoq", ipa: "dɪˈskraɪb", pos: "verb", ex: "Can you describe your bag?", exUz: "Sumkangizni tasvirlab bera olasizmi?" },
     { en: "leather", uz: "charm", ipa: "ˈleðə", pos: "noun", ex: "It's a leather jacket.", exUz: "Bu charm kurtka." },
-    { en: "zip", uz: "zanjir (kiyim, sumkada)", ipa: "zɪp", pos: "noun", ex: "The bag has a red zip.", exUz: "Sumkaning qizil zanjiri bor." },
+    { en: "zip", uz: "zanjir (kiyim, sumkada)", ipa: "zɪp", pos: "noun", ex: "The bag has a red zip.", exUz: "Sumkaning qizil molniyasi bor." },
     { en: "strap", uz: "tasma, qayish", ipa: "stræp", pos: "noun", ex: "The strap is very long.", exUz: "Tasma juda uzun." },
     { en: "form", uz: "blanka, anketa", ipa: "fɔːm", pos: "noun", ex: "Please fill in this form.", exUz: "Iltimos, ushbu blankani to'ldiring." },
   ],

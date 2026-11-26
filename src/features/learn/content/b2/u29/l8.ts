@@ -127,7 +127,7 @@ const lesson: Lesson = {
             { who: "Sophie", en: "And the number of households with meters has grown by twenty per cent.", uz: "Hisoblagichi bor xonadonlar soni esa yigirma foizga oshibdi." },
             { who: "James", en: "That's good news. But a great deal of water is still lost in old pipes.", uz: "Bu yaxshi xabar. Lekin eski quvurlarda hali ham juda ko'p suv yo'qoladi." },
             { who: "Sophie", en: "The more we repair, the less we waste. We should curb the losses first.", uz: "Qancha ko'p ta'mirlasak, shuncha kam isrof qilamiz. Avval yo'qotishlarni jilovlashimiz kerak." },
-            { who: "James", en: "Agreed. Let's mention it in the overview, and give the figures in the second paragraph.", uz: "Roziman. Buni overview'da aytamiz va raqamlarni ikkinchi abzatsda keltiramiz." },
+            { who: "James", en: "Agreed. Let's mention it in the overview, and give the figures in the second paragraph.", uz: "Roziman. Buni kirish qismida (overview) aytamiz va raqamlarni ikkinchi abzatsda keltiramiz." },
           ],
         },
         { t: "check", ex: { k: "choice", q: "What does Sophie suggest dealing with first?", opts: ["Water lost in old pipes", "Raising prices", "Building a new lake", "Closing farms"], a: 0, why: "*We should curb the losses first.*" } },
@@ -144,7 +144,7 @@ const lesson: Lesson = {
     { en: "consumption", uz: "iste'mol", ipa: "kənˈsʌmp.ʃən", pos: "noun", ex: "Energy consumption rises sharply in winter.", exUz: "Energiya iste'moli qishda keskin oshadi." },
     { en: "household", uz: "xonadon, oila xo'jaligi", ipa: "ˈhaʊs.həʊld", pos: "noun", ex: "The average household recycles half of its waste.", exUz: "O'rtacha xonadon chiqindisining yarmini qayta ishlaydi." },
     { en: "per capita", uz: "jon boshiga", ipa: "pə ˈkæp.ɪ.tə", pos: "phrase", ex: "Water use per capita has risen by ten per cent.", exUz: "Jon boshiga suv iste'moli o'n foizga oshdi." },
-    { en: "curb", uz: "jilovlamoq, cheklamoq", ipa: "kɜːb", pos: "verb", ex: "The city wants to curb traffic in the centre.", exUz: "Shahar markazda transport harakatini cheklamoqchi." },
+    { en: "curb", uz: "jilovlamoq, cheklamoq", ipa: "kɜːb", pos: "verb", ex: "The city wants to curb traffic in the centre.", exUz: "Shahar hokimiyati markazda transport harakatini cheklamoqchi." },
   ],
   practice: [
     { k: "choice", q: "The new tariff is only ___ higher than the old one, by a few pence.", opts: ["far", "considerably", "marginally", "a great deal"], a: 2, why: "*A few pence* — kichik farq: **marginally**." },

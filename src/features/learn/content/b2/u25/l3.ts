@@ -58,7 +58,7 @@ const lesson: Lesson = {
         {
           t: "examples", items: [
             { en: "It's time to start the meeting.", uz: "Yig'ilishni boshlash vaqti bo'ldi." },
-            { en: "It's time you found a proper job.", uz: "Sizning rasmiy ish topadigan vaqtingiz bo'ldi (allaqachon kerak edi)." },
+            { en: "It's time you found a proper job.", uz: "Doimiy ish topadigan vaqtingiz allaqachon keldi." },
             { en: "It's high time the council repaired this road.", uz: "Hokimiyat bu yo'lni ta'mirlaydigan vaqt allaqachon bo'ldi." },
           ],
         },
@@ -135,9 +135,9 @@ const lesson: Lesson = {
     { en: "procrastinate", uz: "ishni keyinga surib yurmoq", ipa: "prəʊˈkræs.tɪ.neɪt", pos: "verb", ex: "I always procrastinate when I have to write essays.", exUz: "Insho yozishim kerak bo'lsa, doim ishni keyinga suraman." },
     { en: "overdue", uz: "muddati o'tgan, kechikkan", ipa: "ˌəʊ.vəˈdjuː", pos: "adj", ex: "The changes to the law are long overdue.", exUz: "Qonundagi o'zgarishlar allaqachon kutilgan edi." },
     { en: "get a move on", uz: "tezroq harakat qilmoq", ipa: "ɡet ə muːv ɒn", pos: "idiom", ex: "Get a move on, or we'll miss the bus.", exUz: "Tezroq bo'ling, aks holda avtobusdan kechikamiz." },
-    { en: "childish", uz: "bolalarcha (salbiy ma'noda)", ipa: "ˈtʃaɪl.dɪʃ", pos: "adj", ex: "It was childish of him to refuse to speak to her.", exUz: "Uning bilan gaplashishdan bosh tortishi bolalarcha edi." },
+    { en: "childish", uz: "bolalarcha (salbiy ma'noda)", ipa: "ˈtʃaɪl.dɪʃ", pos: "adj", ex: "It was childish of him to refuse to speak to her.", exUz: "Yigitning u bilan gaplashishdan bosh tortishi bolalarcha edi." },
     { en: "immature", uz: "pishmagan, yetilmagan", ipa: "ˌɪm.əˈtʃʊər", pos: "adj", ex: "His immature behaviour annoyed the whole team.", exUz: "Uning yetilmagan xatti-harakati butun jamoani bezovta qildi." },
-    { en: "grown-up", uz: "katta odam, voyaga yetgan", ipa: "ˈɡrəʊn.ʌp", pos: "noun / adj", ex: "Try to act like a grown-up and apologise.", exUz: "Kattadek bo'lib, kechirim so'rashga harakat qiling." },
+    { en: "grown-up", uz: "katta odam, voyaga yetgan", ipa: "ˈɡrəʊn.ʌp", pos: "noun / adj", ex: "Try to act like a grown-up and apologise.", exUz: "Katta odamdek tutib, kechirim so'rashga harakat qiling." },
     { en: "behave", uz: "o'zini tutmoq, xulq-atvor qilmoq", ipa: "bɪˈheɪv", pos: "verb", ex: "The children behaved very well during the long flight.", exUz: "Bolalar uzoq parvoz davomida o'zlarini juda yaxshi tutishdi." },
     { en: "snap out of it", uz: "(yomon kayfiyatdan) o'ziga kelmoq", ipa: "snæp aʊt əv ɪt", pos: "idiom", ex: "You've been sad for weeks. It's time to snap out of it.", exUz: "Haftalardan beri xafasiz. O'zingizga kelish vaqti bo'ldi." },
     { en: "stay put", uz: "joyida qolmoq, qimirlamaslik", ipa: "steɪ pʊt", pos: "phrase", ex: "The guide told us to stay put until the storm passed.", exUz: "Yo'lboshchi bo'ron o'tguncha joyimizdan qimirlamaslikni aytdi." },

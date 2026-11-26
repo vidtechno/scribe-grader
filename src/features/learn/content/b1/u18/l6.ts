@@ -87,7 +87,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Helen", en: "You look different, Sardor. Have you changed your job?", uz: "Sardor, siz boshqacha ko'rinasiz. Ishingizni almashtirdingizmi?" },
             { who: "Sardor", en: "Yes, I work from home now. I used to travel two hours every day.", uz: "Ha, hozir uydan ishlayman. Ilgari har kuni ikki soat yo'l yurardim." },
-            { who: "Helen", en: "Wow! Is it easy to get used to working at home?", uz: "Voy! Uyda ishlashga ko'nikish oson mi?" },
+            { who: "Helen", en: "Wow! Is it easy to get used to working at home?", uz: "Voy! Uyda ishlashga ko'nikish osonmi?" },
             { who: "Sardor", en: "At first it was strange, but I'm used to it now. I even go for a walk every lunchtime.", uz: "Avvaliga g'alati edi, lekin hozir ko'nikib qoldim. Hatto har tushlikda sayrga chiqaman." },
             { who: "Helen", en: "I couldn't do it. I'm not used to being alone all day.", uz: "Men qilolmasdim. Kun bo'yi yolg'iz bo'lishga ko'nikmaganman." },
             { who: "Sardor", en: "You get used to it. And I didn't use to cook, but now I make lunch every day!", uz: "Ko'nikib ketasiz. Ilgari ovqat pishirmasdim, hozir esa har kuni tushlik tayyorlayman!" },
@@ -105,7 +105,7 @@ const lesson: Lesson = {
     { en: "adjust", uz: "ko'nikib olmoq, moslashmoq", ipa: "əˈdʒʌst", pos: "verb", ex: "It took me a few weeks to adjust to the new time zone.", exUz: "Yangi vaqt mintaqasiga moslashishim uchun bir necha hafta kerak bo'ldi." },
     { en: "custom", uz: "urf-odat", ipa: "ˈkʌs.təm", pos: "noun", ex: "It is a local custom to take off your shoes at the door.", exUz: "Eshik oldida poyabzalni yechish mahalliy odat." },
     { en: "nowadays", uz: "hozirgi kunlarda", ipa: "ˈnaʊ.ə.deɪz", pos: "adv", ex: "Nowadays most people shop online.", exUz: "Hozirgi kunlarda ko'pchilik onlayn xarid qiladi." },
-    { en: "settle in", uz: "joylashib olmoq, o'rganib qolmoq", ipa: "ˈset.əl ɪn", pos: "phrasal verb", ex: "She has settled in well at her new school.", exUz: "U yangi maktabida yaxshi o'rganib oldi." },
+    { en: "settle in", uz: "joylashib olmoq, o'rganib qolmoq", ipa: "ˈset.əl ɪn", pos: "phrasal verb", ex: "She has settled in well at her new school.", exUz: "U yangi maktabiga yaxshi moslashib oldi." },
     { en: "culture shock", uz: "madaniy shok", ipa: "ˈkʌl.tʃə ʃɒk", pos: "noun", ex: "Many students feel culture shock when they move abroad.", exUz: "Ko'p talabalar chet elga ko'chib borganda madaniy shokni his qilishadi." },
     { en: "grow out of", uz: "katta bo'lgach tashlamoq (odatni)", ipa: "ɡrəʊ aʊt ɒv", pos: "phrasal verb", ex: "I used to bite my nails, but I grew out of it.", exUz: "Men tirnoqlarimni tishlardim, lekin katta bo'lgach bu odat ketdi." },
   ],

@@ -70,7 +70,7 @@ const lesson: Lesson = {
       title: "Dialog: baholash",
       blocks: [
         { t: 'dialog', lines: [
-          { who: 'Rachel', en: "Chris, is the new recycling centre big enough for the whole district?", uz: "Kris, yangi qayta ishlash markazi butun tuman uchun yetarlicha katta mi?" },
+          { who: 'Rachel', en: "Chris, is the new recycling centre big enough for the whole district?", uz: "Kris, yangi qayta ishlash markazi butun tuman uchun yetarlicha kattami?" },
           { who: 'Chris', en: "Not quite. It's such a popular place that there are far too many cars on Saturdays.", uz: "Unchalik emas. U shunchalik mashhurki, shanba kunlari mashinalar haddan tashqari ko'p." },
           { who: 'Rachel', en: "So there isn't enough parking?", uz: "Demak, to'xtash joyi yetarli emas?" },
           { who: 'Chris', en: "Exactly. And the queue is so long that many people give up.", uz: "Aynan. Navbat shunchalik uzunki, ko'pchilik voz kechadi." },

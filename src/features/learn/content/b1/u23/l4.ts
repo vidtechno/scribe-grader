@@ -55,7 +55,7 @@ const lesson: Lesson = {
         {
           t: "examples", items: [
             { en: "I've been waiting for an hour.", uz: "Bir soatdan beri kutyapman.", note: "Jarayon hali davom etmoqda." },
-            { en: "Why are your hands dirty? — I've been fixing my bike.", uz: "Nega qo'llaring kir? — Velosipedimni tuzatyapman edim.", note: "Natija ko'rinib turibdi." },
+            { en: "Why are your hands dirty? — I've been fixing my bike.", uz: "Nega qo'llaring kir? — Velosipedimni tuzatayotgan edim.", note: "Natija ko'rinib turibdi." },
             { en: "She has been learning Italian since January.", uz: "U yanvardan beri italyan tilini o'rganyapti." },
           ],
         },

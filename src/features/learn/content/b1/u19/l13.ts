@@ -70,12 +70,12 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'hint', uz: "ishora qilmoq, shama qilmoq", ipa: 'hɪnt', pos: 'verb', ex: "She hinted that she wanted a lift home.", exUz: "U uyga olib borishlarini istayotganiga shama qildi." },
+    { en: 'hint', uz: "ishora qilmoq, shama qilmoq", ipa: 'hɪnt', pos: 'verb', ex: "She hinted that she wanted a lift home.", exUz: "U uyigacha mashinada olib borib qo'yishlarini istashiga shama qildi." },
     { en: 'accuse', uz: "ayblamoq", ipa: 'əˈkjuːz', pos: 'verb', ex: "She accused him of taking her bag.", exUz: "U uni sumkasini olgan deb aybladi." },
     { en: 'admit', uz: "tan olmoq", ipa: 'ədˈmɪt', pos: 'verb', ex: 'She admitted making a mistake.', exUz: "U xato qilganini tan oldi." },
     { en: 'deny', uz: "inkor qilmoq", ipa: 'dɪˈnaɪ', pos: 'verb', ex: 'He denied telling anyone the secret.', exUz: "U sirni hech kimga aytganini inkor qildi." },
     { en: 'own up', uz: "aybini tan olmoq", ipa: 'əʊn ʌp', pos: 'phrasal verb', ex: "He owned up to breaking the vase.", exUz: "U vazani sindirganini tan oldi." },
-    { en: 'grumble', uz: "noliy-noliy aytmoq, g'ulduramoq", ipa: 'ˈɡrʌm.bəl', pos: 'verb', ex: "He grumbled that the food was cold.", exUz: "U ovqat sovuq ekanidan noliy-noliy gapirdi." },
+    { en: 'grumble', uz: "noliy-noliy aytmoq, g'ulduramoq", ipa: 'ˈɡrʌm.bəl', pos: 'verb', ex: "He grumbled that the food was cold.", exUz: "U ovqat sovuq ekanidan g'udranib nolidi." },
     { en: 'swear', uz: "qasam ichmoq", ipa: 'sweər', pos: 'verb', ex: "He swore that he would never be late again.", exUz: "U boshqa hech qachon kechikmaslikka qasam ichdi." },
   ],
   practice: [

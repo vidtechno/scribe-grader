@@ -57,7 +57,7 @@ const lesson: Lesson = {
           { who: 'Jack', en: "Helen, I have a problem. My boss keeps asking me to work late.", uz: "Helen, muammom bor. Boshliqim meni doim kech qolib ishlashni so'rayapti." },
           { who: 'Helen', en: "That sounds stressful. Have you told him how you feel?", uz: "Bu juda asabiylashtiradigan ekan. Unga his-tuyg'ularingni aytdingmi?" },
           { who: 'Jack', en: "Not yet. I'm afraid he will be angry.", uz: "Hali yo'q. Uning jahli chiqishidan qo'rqaman." },
-          { who: 'Helen', en: "I think you should be honest. You could ask for a short meeting and explain the problem calmly.", uz: "Menimcha, ochiq bo'lishing kerak. Qisqa uchrashuv so'rab, muammoni xotirjam tushuntirishing mumkin." },
+          { who: 'Helen', en: "I think you should be honest. You could ask for a short meeting and explain the problem calmly.", uz: "Menimcha, rostini aytishing kerak. Qisqa uchrashuv so'rab, muammoni xotirjam tushuntirishing mumkin." },
           { who: 'Jack', en: "I'm not sure that would work.", uz: "Bu ish beradimi, bilmayman." },
           { who: 'Helen', en: "If I were you, I'd at least try. Talking it over can't make things worse.", uz: "Sening o'rningda bo'lsam, hech bo'lmasa urinib ko'rardim. Gaplashib olish ahvolni yomonlashtira olmaydi." },
         ] },

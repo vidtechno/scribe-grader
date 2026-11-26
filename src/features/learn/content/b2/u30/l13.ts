@@ -83,7 +83,7 @@ const lesson: Lesson = {
     { en: 'puzzled', uz: "hayron, boshi qotgan", ipa: 'ˈpʌz.əld', pos: 'adj', ex: 'She looked puzzled by his question.', exUz: "U uning savolidan hayron bo'lib qoldi." },
     { en: 'rhetorical', uz: "ritorik (javob kutilmaydigan)", ipa: 'rɪˈtɒr.ɪ.kəl', pos: 'adj', ex: 'It was a rhetorical question, so nobody answered.', exUz: "Bu ritorik savol edi, shuning uchun hech kim javob bermadi." },
     { en: 'probe', uz: "sinchiklab so'ramoq, chuqur surishtirmoq", ipa: 'prəʊb', pos: 'verb', ex: 'The journalist probed deeper into the story.', exUz: "Jurnalist voqeani chuqurroq surishtirdi." },
-    { en: 'bluntly', uz: "dangal, dag'allik bilan", ipa: 'ˈblʌnt.li', pos: 'adv', ex: 'He bluntly asked how much she earned.', exUz: "U dangal tarzda qancha topishini so'radi." },
+    { en: 'bluntly', uz: "dangal, dag'allik bilan", ipa: 'ˈblʌnt.li', pos: 'adv', ex: 'He bluntly asked how much she earned.', exUz: "U tap tortmay, qancha topasiz, deb so'radi." },
   ],
   practice: [
     { k: 'match', pairs: [['curious', 'qiziquvchan'], ['puzzled', 'hayron, boshi qotgan'], ['rhetorical', 'javob kutilmaydigan'], ['probe', 'chuqur surishtirmoq'], ['bluntly', "dag'allik bilan"]] },

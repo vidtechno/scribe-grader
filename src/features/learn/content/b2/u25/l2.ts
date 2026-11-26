@@ -123,7 +123,7 @@ const lesson: Lesson = {
             { who: "Emily", en: "If only the exam hadn't been so long! I ran out of time.", uz: "Qani edi, imtihon bunchalik uzun bo'lmasa! Vaqtim yetmadi." },
             { who: "Tom", en: "I wish they would let us use dictionaries, honestly.", uz: "Rostini aytsam, qani edi, lug'atdan foydalanishga ruxsat berishsa." },
             { who: "Emily", en: "That would help a lot. Anyway, I wish I could stop worrying about the result.", uz: "Bu juda yordam berardi. Baribir, qani edi, natija haqida tashvishlanmasam." },
-            { who: "Tom", en: "Why don't we go for a walk? Dwelling on it won't change anything.", uz: "Sayr qilib kelsak-chi? Buni o'ylayvermaslik bilan hech narsa o'zgarmaydi." },
+            { who: "Tom", en: "Why don't we go for a walk? Dwelling on it won't change anything.", uz: "Sayr qilib kelsak-chi? Buni o'ylayverish bilan hech narsa o'zgarmaydi." },
             { who: "Emily", en: "You're right. Let's go. And next time I'll start a month earlier!", uz: "To'g'ri aytasiz. Ketdik. Keyingi safar bir oy oldin boshlayman!" },
           ],
         },

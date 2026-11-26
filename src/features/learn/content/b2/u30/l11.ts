@@ -33,7 +33,7 @@ const lesson: Lesson = {
           { en: "What I need is a quiet place to study.", uz: "Menga kerak bo'lgani — o'qish uchun tinch joy.", note: "**What + gap + is** — ta'kid (cleft)." },
           { en: "Never have I seen such a beautiful view.", uz: "Hech qachon bunday go'zal manzarani ko'rmaganman.", note: "**Never + yordamchi fe'l + ega** — inversiya, rasmiy." },
           { en: "The more you practise, the more confident you become.", uz: "Qancha ko'p mashq qilsangiz, shuncha ishonchli bo'lasiz.", note: "**the more …, the more …**" },
-          { en: "Her English is nowhere near as fluent as her brother's.", uz: "Uning inglizchasi akasinikidek ravon emas.", note: "**not nearly / nowhere near as … as**." },
+          { en: "Her English is nowhere near as fluent as her brother's.", uz: "Uning inglizchasi ravonlikda akasinikiga yaqin ham kelmaydi.", note: "**not nearly / nowhere near as … as**." },
           { en: "We regret to inform you that the flight has been cancelled.", uz: "Afsuski, reys bekor qilinganini ma'lum qilamiz.", note: "Rasmiy uslub: *regret to inform*." },
         ] },
         { t: 'tip', tone: 'info', md: "**Rasmiy / norasmiy:** *I'm writing to ask about…* (norasmiy) → *I am writing to enquire about…* (rasmiy). Rasmiy xatda qisqartma (*don't, I'm*) kam ishlatiladi; so'zlashuvda esa tabiiy." },

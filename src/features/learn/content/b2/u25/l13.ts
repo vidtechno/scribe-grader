@@ -64,7 +64,7 @@ const lesson: Lesson = {
           { who: 'Mia', en: "I missed my train. I should have left home earlier.", uz: "Poyezddan kech qoldim. Uydan oldinroq chiqishim kerak edi." },
           { who: 'Oliver', en: "You could have called me. I would have given you a lift.", uz: "Menga qo'ng'iroq qilishing mumkin edi. Men seni olib borgan bo'lardim." },
           { who: 'Mia', en: "I know, I shouldn't have been so proud. And I needn't have rushed to the station, because the train was late anyway.", uz: "Bilaman, bunchalik mag'rur bo'lmasligim kerak edi. Stansiyaga shoshilishim ham shart emas ekan, chunki poyezd baribir kechikdi." },
-          { who: 'Oliver', en: "Typical! If you had waited at home, you wouldn't be standing here now.", uz: "Odatdagidek! Uyda kutsang edi, hozir bu yerda turmasding." },
+          { who: 'Oliver', en: "Typical! If you had waited at home, you wouldn't be standing here now.", uz: "Odatdagidek! Uyda kutganingda, hozir bu yerda turmagan bo'larding." },
           { who: 'Mia', en: "Thanks, that really helps.", uz: "Rahmat, bu juda yordam beryapti." },
         ] },
         { t: 'check', ex: { k: 'choice', q: "What did Mia do that was unnecessary?", opts: ["She rushed to the station.", "She called Oliver.", "She left home early.", "She waited at home."], a: 0, why: "*I needn't have rushed to the station, because the train was late.*" } },
@@ -73,7 +73,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'foresight', uz: "ilgarilab ko'ra bilish, uzoqni ko'zlash", ipa: 'ˈfɔːsaɪt', pos: 'noun', ex: 'A little foresight would have saved us a lot of money.', exUz: "Biroz uzoqni o'ylaganimizda, ko'p pul tejagan bo'lardik." },
-    { en: 'in retrospect', uz: "orqaga qarab, keyin o'ylab", ipa: 'ɪn ˈretrəspekt', pos: 'phrase', ex: 'In retrospect, we should have accepted the first offer.', exUz: "Orqaga qarab, birinchi taklifni qabul qilishimiz kerak edi." },
+    { en: 'in retrospect', uz: "orqaga qarab, keyin o'ylab", ipa: 'ɪn ˈretrəspekt', pos: 'phrase', ex: 'In retrospect, we should have accepted the first offer.', exUz: "Hozir o'ylasam, birinchi taklifni qabul qilishimiz kerak edi." },
     { en: 'regrettable', uz: "afsusli, afsuslanarli", ipa: 'rɪˈɡretəbəl', pos: 'adj', ex: 'It was a regrettable mistake, but nobody was hurt.', exUz: "Bu afsuslanarli xato edi, lekin hech kim zarar ko'rmadi." },
     { en: 'needlessly', uz: "keraksiz, behuda", ipa: 'ˈniːdləsli', pos: 'adv', ex: 'She worried needlessly about the exam.', exUz: "U imtihon haqida behuda xavotir oldi." },
     { en: 'learn the hard way', uz: "achchiq tajriba orqali o'rganmoq", ipa: 'lɜːn ðə hɑːd weɪ', pos: 'phrase', ex: 'He learnt the hard way that contracts must be read carefully.', exUz: "U shartnomalarni diqqat bilan o'qish kerakligini achchiq tajribada bildi." },

@@ -12,7 +12,7 @@ const lesson: Lesson = {
         { t: "p", md: "Kimdir yaxshi ko'rinmasa, shunday so'raymiz:" },
         {
           t: "examples", items: [
-            { en: "What's the matter?", uz: "Nima bo'ldi? Nima qildi?" },
+            { en: "What's the matter?", uz: "Nima bo'ldi? Tinchlikmi?" },
             { en: "What's wrong?", uz: "Nima bo'ldi? (xuddi shu ma'no)" },
             { en: "Are you OK? You don't look well.", uz: "Yaxshimisiz? Rangingiz yaxshi emas." },
             { en: "I don't feel well.", uz: "O'zimni yaxshi his qilmayapman." },

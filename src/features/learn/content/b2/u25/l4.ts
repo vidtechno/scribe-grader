@@ -142,11 +142,11 @@ const lesson: Lesson = {
     { en: "baffled", uz: "boshi qotgan, hayron", ipa: "ˈbæf.əld", pos: "adj", ex: "The engineers were baffled by the strange noise.", exUz: "Muhandislar g'alati shovqindan hayron qolishdi." },
     { en: "jump to conclusions", uz: "shoshilib xulosa chiqarmoq", ipa: "dʒʌmp tə kənˈkluː.ʒənz", pos: "idiom", ex: "Don't jump to conclusions until you have all the facts.", exUz: "Hamma faktlarni bilmaguningizcha shoshilib xulosa chiqarmang." },
     { en: "alibi", uz: "alibi (voqea joyida bo'lmaganlik isboti)", ipa: "ˈæl.ɪ.baɪ", pos: "noun", ex: "He had a perfect alibi: he was on a flight at the time.", exUz: "Uning mukammal alibisi bor edi: o'sha paytda reysda edi." },
-    { en: "puzzling", uz: "boshni qotiradigan, tushunib bo'lmas", ipa: "ˈpʌz.lɪŋ", pos: "adj", ex: "It is puzzling that nobody saw him leave.", exUz: "Hech kim uning ketganini ko'rmagani tushunib bo'lmas holat." },
+    { en: "puzzling", uz: "boshni qotiradigan, tushunib bo'lmas", ipa: "ˈpʌz.lɪŋ", pos: "adj", ex: "It is puzzling that nobody saw him leave.", exUz: "Uning ketganini hech kim ko'rmagani g'alati." },
     { en: "tamper with", uz: "ruxsatsiz aralashmoq, buzmoq", ipa: "ˈtæm.pə wɪð", pos: "phrasal verb", ex: "Someone must have tampered with the lock.", exUz: "Kimdir qulfga ruxsatsiz tegib, buzgan bo'lsa kerak." },
     { en: "misleading", uz: "chalg'ituvchi, adashtiradigan", ipa: "ˌmɪsˈliː.dɪŋ", pos: "adj", ex: "The headline was misleading, so many people got the story wrong.", exUz: "Sarlavha chalg'ituvchi edi, shuning uchun ko'pchilik voqeani noto'g'ri tushundi." },
     { en: "hunch", uz: "ichki sezgi, taxmin", ipa: "hʌntʃ", pos: "noun", ex: "I had a hunch that the meeting would be cancelled.", exUz: "Yig'ilish bekor qilinadi, degan ichki sezgim bor edi." },
-    { en: "deduce", uz: "xulosa chiqarmoq (dalillardan)", ipa: "dɪˈdjuːs", pos: "verb", ex: "From the muddy boots, she deduced that he had walked across the field.", exUz: "Loy bo'lgan etikdan u uning dalani kesib o'tganini xulosa qildi." },
+    { en: "deduce", uz: "xulosa chiqarmoq (dalillardan)", ipa: "dɪˈdjuːs", pos: "verb", ex: "From the muddy boots, she deduced that he had walked across the field.", exUz: "Loy bo'lgan etigiga qarab, ayol uning daladan o'tganini anglab yetdi." },
     { en: "go missing", uz: "yo'qolmoq, bedarak ketmoq", ipa: "ɡəʊ ˈmɪs.ɪŋ", pos: "phrase", ex: "Several files went missing from the archive last month.", exUz: "O'tgan oy arxivdan bir nechta fayl yo'qoldi." },
   ],
   practice: [

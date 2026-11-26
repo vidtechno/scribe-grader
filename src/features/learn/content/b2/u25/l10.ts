@@ -32,7 +32,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: "I should have told you earlier that the report was late.", uz: "Hisobot kechikishini sizga oldinroq aytishim kerak edi.", note: "**should have + V3** — o'z xatongizni tan olish (l13)." },
           { en: "It was an oversight on my part. I overlooked the deadline.", uz: "Bu mening e'tiborsizligim edi. Muddatni ko'zdan qochirdim.", note: "**oversight** — beixtiyor yo'l qo'yilgan xato." },
-          { en: "Let me put it right: I'll send the corrected file this afternoon.", uz: "Tuzatishga ruxsat bering: tuzatilgan faylni tushdan keyin yuboraman.", note: "**put right / make up for** — tuzatish." },
+          { en: "Let me put it right: I'll send the corrected file this afternoon.", uz: "Xatoni tuzataman: tuzatilgan faylni tushdan keyin yuboraman.", note: "**put right / make up for** — tuzatish." },
           { en: "It won't happen again. I'll double-check everything in future.", uz: "Bu takrorlanmaydi. Kelajakda hammasini ikki marta tekshiraman.", note: "**It won't happen again** — va'da." },
         ] },
         { t: 'table', head: ['Uzrni qabul qilish', 'Misol'], speak: [1], rows: [
@@ -64,7 +64,7 @@ const lesson: Lesson = {
         { t: 'check', ex: { k: 'tf', q: "The company will charge the client for replacing the chairs.", a: false, why: "*replace them free of charge* — bepul." } },
         { t: 'dialog', lines: [
           { who: 'Helen', en: "Sardor, the presentation file you sent has last year's figures in it.", uz: "Sardor, yuborgan taqdimot faylingda o'tgan yilgi raqamlar bor." },
-          { who: 'Sardor', en: "Oh no, I'm so sorry. That was my slip-up. I should have checked it before sending.", uz: "Voy yo'q, juda uzr. Bu mening xatoim edi. Yuborishdan oldin tekshirishim kerak edi." },
+          { who: 'Sardor', en: "Oh no, I'm so sorry. That was my slip-up. I should have checked it before sending.", uz: "Voy yo'q, juda uzr. Bu mening xatoyim edi. Yuborishdan oldin tekshirishim kerak edi." },
           { who: 'Helen', en: "Don't worry, we haven't shown it to the client yet. Can you fix it?", uz: "Xavotir olma, mijozga hali ko'rsatmadik. Tuzata olasanmi?" },
           { who: 'Sardor', en: "Of course. I'll put it right within the hour, and I'll make up for it by preparing the handouts too.", uz: "Albatta. Bir soat ichida tuzataman va tarqatma materiallarni ham tayyorlab, buning o'rnini to'ldiraman." },
           { who: 'Helen', en: "Thank you. It happens to everyone, but please double-check next time.", uz: "Rahmat. Bu hammaning boshiga tushadi, lekin keyingi safar ikki marta tekshir." },
