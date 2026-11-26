@@ -142,7 +142,7 @@ const lesson: Lesson = {
     { en: "provided that", uz: "agar … sharti bilan", ipa: "prəˈvaɪ.dɪd ðæt", pos: "phrase", ex: "You can borrow the car provided that you drive carefully.", exUz: "Ehtiyotkor haydasangiz, mashinani olishingiz mumkin." },
     { en: "as long as", uz: "faqat shu shart bilan, …gina bo'lsa", ipa: "æz lɒŋ æz", pos: "phrase", ex: "You can stay as long as you like.", exUz: "Xohlagancha qolishingiz mumkin." },
     { en: "supposing", uz: "faraz qilaylik, agar", ipa: "səˈpəʊ.zɪŋ", pos: "conj", ex: "Supposing it rains, what shall we do?", exUz: "Faraz qilaylik, yomg'ir yog'sa, nima qilamiz?" },
-    { en: "in case", uz: "ehtiyot uchun, ehtimol bo'lsa", ipa: "ɪn keɪs", pos: "phrase", ex: "Take some water in case you get thirsty.", exUz: "Chanqab qolsangiz, deb suv oling." },
+    { en: "in case", uz: "ehtiyot uchun, ehtimol bo'lsa", ipa: "ɪn keɪs", pos: "phrase", ex: "Take some water in case you get thirsty.", exUz: "Chanqab qolishingiz mumkin, suv olib oling." },
     { en: 'trustworthy', uz: "ishonchli", ipa: 'ˈtrʌstˌwɜː.ði', pos: 'adj', ex: "Everyone says that he is a trustworthy person.", exUz: "Hamma uni ishonchli odam deydi." },
     { en: "make sure", uz: "ishonch hosil qilmoq", ipa: "ˈmeɪk ʃɔːr", pos: "phrase", ex: "Make sure you lock the door when you leave.", exUz: "Chiqayotganda eshikni qulflaganingizga ishonch hosil qiling." },
     { en: "rule out", uz: "inkor qilmoq, istisno etmoq", ipa: "ˌruːl ˈaʊt", pos: "phrasal verb", ex: "The doctor ruled out a serious illness.", exUz: "Shifokor jiddiy kasallikni istisno qildi." },

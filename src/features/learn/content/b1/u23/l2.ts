@@ -154,7 +154,7 @@ const lesson: Lesson = {
     { en: "downside", uz: "salbiy tomon", ipa: "ˈdaʊn.saɪd", pos: "noun", ex: "The downside of living downtown is the noise.", exUz: "Shahar markazida yashashning salbiy tomoni — shovqin." },
     { en: "benefit", uz: "foyda", ipa: "ˈben.ɪ.fɪt", pos: "noun", ex: "Regular exercise has many benefits.", exUz: "Muntazam mashq qilishning foydasi ko'p." },
     { en: "drawback", uz: "kamchilik, salbiy tomon", ipa: "ˈdrɔː.bæk", pos: "noun", ex: "The main drawback of the plan is the cost.", exUz: "Rejaning asosiy kamchiligi — narxi." },
-    { en: "side effect", uz: "yon ta'sir", ipa: "ˈsaɪd ɪˌfekt", pos: "noun", ex: "The medicine has a few side effects.", exUz: "Bu dori bir necha yon ta'sirga ega." },
+    { en: "side effect", uz: "yon ta'sir", ipa: "ˈsaɪd ɪˌfekt", pos: "noun", ex: "The medicine has a few side effects.", exUz: "Bu dorining bir nechta nojo'ya ta'siri bor." },
     { en: "weigh up", uz: "taqqoslab ko'rmoq, o'ylab ko'rmoq", ipa: "ˌweɪ ˈʌp", pos: "phrasal verb", ex: "You should weigh up the options carefully.", exUz: "Variantlarni yaxshilab o'ylab ko'rishingiz kerak." },
     { en: "long-term", uz: "uzoq muddatli", ipa: "ˌlɒŋˈtɜːm", pos: "adj", ex: "Learning a language is a long-term project.", exUz: "Til o'rganish — uzoq muddatli loyiha." },
     { en: 'recover', uz: "tuzalmoq, o'ziga kelmoq", ipa: 'rɪˈkʌv.ə', pos: 'verb', ex: "He is slowly recovering from the flu.", exUz: "U gripp kasalidan sekin tuzalib bormoqda." },

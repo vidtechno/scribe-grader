@@ -62,7 +62,7 @@ const lesson: Lesson = {
         { t: 'check', ex: { k: 'choice', q: "Why have the villagers started raising money?", opts: ["They want to build a new road.", "They do not want to lose their history.", "They want to move to the city.", "They need a new bus."], a: 1, why: "*Not wanting to lose their history, the villagers have started raising money.*" } },
         { t: 'dialog', lines: [
           { who: 'Madina', en: "Look at this photo. Taken in 1950, it shows the old railway station.", uz: "Mana bu suratga qara. 1950-yilda olingan, unda eski vokzal ko'rinadi." },
-          { who: 'Jasur', en: "Is that the building standing next to the river?", uz: "Bu daryo yonida turgan bino-mi?" },
+          { who: 'Jasur', en: "Is that the building standing next to the river?", uz: "Bu daryo yonida turgan binomi?" },
           { who: 'Madina', en: "Yes. Founded as a small station, it grew into the busiest one in the region.", uz: "Ha. Kichik bekat sifatida asos solingan, u viloyatdagi eng gavjumiga aylangan." },
           { who: 'Jasur', en: "Having been closed for twenty years, it must be derelict now.", uz: "Yigirma yil yopiq turgani uchun, hozir u eskirgan bo'lsa kerak." },
           { who: 'Madina', en: "It is, but the council wants to restore it. Having seen the plans, I think the result will be wonderful.", uz: "Shunday, lekin kengash uni tiklamoqchi. Rejalarni ko'rganimdan keyin, natija ajoyib bo'ladi, deb o'ylayman." },

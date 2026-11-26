@@ -160,7 +160,7 @@ const lesson: Lesson = {
   words: [
     { en: "pivotal", uz: "hal qiluvchi, burilish yasovchi", ipa: "ˈpɪv.ə.təl", pos: "adj", ex: "Her advice played a pivotal role in my decision.", exUz: "Uning maslahati qarorimda hal qiluvchi rol o'ynadi." },
     { en: "in the nick of time", uz: "oxirgi daqiqada, zo'rg'a ulgurib", ipa: "ɪn ðə nɪk əv taɪm", pos: "phrase", ex: "The ambulance arrived in the nick of time.", exUz: "Tez yordam oxirgi daqiqada yetib keldi." },
-    { en: "against all odds", uz: "hamma ehtimolga qarshi", ipa: "əˈɡenst ɔːl ɒdz", pos: "phrase", ex: "Against all odds, the little shop survived the crisis.", exUz: "Hamma ehtimolga qarshi, kichik do'kon inqirozdan omon chiqdi." },
+    { en: "against all odds", uz: "hamma ehtimolga qarshi", ipa: "əˈɡenst ɔːl ɒdz", pos: "phrase", ex: "Against all odds, the little shop survived the crisis.", exUz: "Hech kim kutmaganiga qaramay, kichik do'kon inqirozdan omon chiqdi." },
     { en: "sink in", uz: "ongga yetib bormoq, anglab yetmoq", ipa: "sɪŋk ɪn", pos: "phrasal verb", ex: "The result was so unexpected that it took a while to sink in.", exUz: "Natija shu qadar kutilmagan ediki, uni anglab yetish uchun vaqt kerak bo'ldi." },
     { en: "twist of fate", uz: "taqdir o'yini, kutilmagan taqdir burilishi", ipa: "ˌtwɪst əv ˈfeɪt", pos: "phrase", ex: "By a twist of fate, the two old friends met again at the airport.", exUz: "Taqdir o'yini bilan ikki eski do'st aeroportda yana uchrashdi." },
     { en: "gratitude", uz: "minnatdorchilik", ipa: "ˈɡræt.ɪ.tjuːd", pos: "noun", ex: "He wrote a letter to express his gratitude.", exUz: "U minnatdorchiligini bildirish uchun xat yozdi." },

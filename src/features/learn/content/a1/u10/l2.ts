@@ -62,7 +62,7 @@ const lesson: Lesson = {
         {
           t: "dialog", lines: [
             { who: "Aziz", en: "Good morning. Two return tickets to Samarkand, please.", uz: "Xayrli tong. Samarqandga ikkita borib-kelish chiptasi, iltimos." },
-            { who: "Cashier", en: "For today?", uz: "Bugunga mi?" },
+            { who: "Cashier", en: "For today?", uz: "Bugungami?" },
             { who: "Aziz", en: "Yes, on the next train. What time does it leave?", uz: "Ha, keyingi poyezdga. U soat nechada jo'naydi?" },
             { who: "Cashier", en: "At 9:40. It's the Afrosiyob, the fast train.", uz: "9:40 da. Bu Afrosiyob, tezyurar poyezd." },
             { who: "Aziz", en: "Great. When does it arrive in Samarkand?", uz: "Zo'r. Samarqandga qachon yetib boradi?" },

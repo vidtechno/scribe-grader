@@ -61,7 +61,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'dialog', lines: [
           { who: 'Nora', en: "Leo, you've been quiet since the results came out. Are you second-guessing your choice?", uz: "Leo, natijalar chiqqandan beri jimsan. O'z tanlovingdan shubhalanyapsanmi?" },
-          { who: 'Leo', en: "A bit. I turned down the Dubai job, and now I wish I had gone.", uz: "Biroz. Dubaydagi ishni rad etdim va endi borganimda edi deb o'ylayman." },
+          { who: 'Leo', en: "A bit. I turned down the Dubai job, and now I wish I had gone.", uz: "Biroz. Dubaydagi ishni rad etdim, endi «borgan bo'lsam edi» deb o'ylayman." },
           { who: 'Nora', en: "Take stock before you judge yourself. If you had gone, you wouldn't be near your parents now.", uz: "O'zingni hukm qilishdan oldin vaziyatni baholab ol. Agar borganingda, hozir ota-onang yonida bo'lmasding." },
           { who: 'Leo', en: "True. I must have been tired when I came to a decision, but I stand by it.", uz: "To'g'ri. Qaror qilganimda charchagan bo'lsam kerak, lekin qarorimda turaman." },
           { who: 'Nora', en: "Then it's a life lesson. As long as you learn from it, it wasn't a waste.", uz: "Unda bu hayotiy saboq. Undan xulosa chiqarsang, bu bekor ketmaydi." },

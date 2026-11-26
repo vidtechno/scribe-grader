@@ -52,7 +52,7 @@ const lesson: Lesson = {
         {
           t: "examples", items: [
             { en: "My brother who lives in London is a doctor.", uz: "Londonda yashaydigan akam shifokor.", note: "Bir nechta akam bor. Aynan **Londonda yashaydigani** shifokor." },
-            { en: "My brother, who lives in London, is a doctor.", uz: "Akam, u Londonda yashaydi, shifokor.", note: "Faqat bitta akam bor. Londonda yashashi — qo'shimcha ma'lumot." },
+            { en: "My brother, who lives in London, is a doctor.", uz: "Londonda yashaydigan akam shifokor.", note: "Faqat bitta akam bor. Londonda yashashi — qo'shimcha ma'lumot." },
           ],
         },
         { t: "tip", tone: "info", md: "Yagona narsa yoki odam haqida (*my mother, the sun, Tashkent, my phone*) odatda **vergulli** shakl ishlatiladi, chunki ular allaqachon aniq." },

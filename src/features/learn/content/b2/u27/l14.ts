@@ -73,7 +73,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: "I'd like to propose that we start a short training every Friday.", uz: "Har juma qisqa o'quv mashg'ulotini boshlashni taklif qilaman.", note: "1-qadam: taklif." },
           { en: "The main reason is that new staff often make the same mistakes.", uz: "Asosiy sabab shuki, yangi xodimlar bir xil xatolarni takrorlaydi.", note: "2-qadam: sabab." },
-          { en: "If we could spend thirty minutes a week on this, we would reduce errors.", uz: "Agar bunga haftasiga o'ttiz daqiqa ajratsak, xatolarni kamaytirgan bo'lardik.", note: "3-qadam: shartli foyda." },
+          { en: "If we could spend thirty minutes a week on this, we would reduce errors.", uz: "Agar bunga haftasiga o'ttiz daqiqa ajratsak, xatolarni kamaytirardik.", note: "3-qadam: shartli foyda." },
           { en: "Could we agree to try it for a month?", uz: "Buni bir oy sinab ko'rishga kelisha olamizmi?", note: "4-qadam: kelishuv." },
         ] },
         { t: 'check', ex: { k: 'order', uz: "Agar bir oy vaqtimiz bo'lsa, buni yaxshiroq sinab ko'rardik.", words: ['If', 'we', 'could', 'have', 'a', 'month,', 'we', 'would', 'test', 'it', 'better.'], extra: ['will', 'can'], why: "**If we could…, we would…**" } },

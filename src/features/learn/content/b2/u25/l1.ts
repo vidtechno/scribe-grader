@@ -47,7 +47,7 @@ const lesson: Lesson = {
         {
           t: "examples", items: [
             { en: "If I were more organised, I would have finished the report yesterday.", uz: "Agar men tartibliroq bo'lsam, hisobotni kecha tugatgan bo'lardim." },
-            { en: "If he weren't so stubborn, he would have apologised long ago.", uz: "Agar u o'jar bo'lmasa, allaqachon kechirim so'ragan bo'lardi." },
+            { en: "If he weren't so stubborn, he would have apologised long ago.", uz: "Agar u bunchalik o'jar bo'lmaganida, allaqachon kechirim so'ragan bo'lardi." },
             { en: "If she didn't speak French, she wouldn't have got the job in Lyon.", uz: "Agar u fransuzcha bilmasa, Lyondagi ishni olmagan bo'lardi." },
             { en: "I'd have gone to the concert if I liked jazz.", uz: "Agar jazzni yoqtirsam, konsertga borgan bo'lardim." },
           ],
@@ -112,7 +112,7 @@ const lesson: Lesson = {
             { who: "Sara", en: "But you passed up that offer because you had a baby on the way.", uz: "Lekin siz bu taklifni farzandingiz tug'ilishi arafasida rad etgan edingiz." },
             { who: "Ben", en: "True. If we hadn't been expecting Lily, I would have said yes.", uz: "To'g'ri. Agar Lilini kutmaganimizda, rozi bo'lgan bo'lardim." },
             { who: "Sara", en: "And if you'd said yes, you would be travelling every week now. Would you really want that?", uz: "Agar rozi bo'lganingizda, hozir har hafta safarda bo'lardingiz. Buni chindan xohlarmidingiz?" },
-            { who: "Ben", en: "Probably not. I'm too much of a homebody. If I weren't, I would have moved abroad long ago.", uz: "Ehtimol yo'q. Men uyni yaxshi ko'raman. Agar bunday bo'lmasam, allaqachon chet elga ko'chib ketgan bo'lardim." },
+            { who: "Ben", en: "Probably not. I'm too much of a homebody. If I weren't, I would have moved abroad long ago.", uz: "Ehtimol yo'q. Men uyga juda bog'langanman. Agar unday bo'lmaganimda, allaqachon chet elga ko'chib ketgan bo'lardim." },
             { who: "Sara", en: "Exactly. It was a gamble either way, and you chose your family.", uz: "Aynan. Ikkala yo'l ham tavakkal edi, siz oilangizni tanladingiz." },
             { who: "Ben", en: "You're right. With hindsight, I made a choice I can live with.", uz: "To'g'ri aytasiz. Hozir o'ylab ko'rsam, men o'zim bilan yashay oladigan tanlovni qilgan ekanman." },
           ],

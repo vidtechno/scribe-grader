@@ -62,7 +62,7 @@ const lesson: Lesson = {
       title: "Dialog: kafedagi uchrashuv",
       blocks: [
         { t: 'dialog', lines: [
-          { who: 'Sara', en: "Tom? Is that really you? It's been ages!", uz: "Tom? Haqiqatan sen-mi? Qancha vaqt o'tdi!" },
+          { who: 'Sara', en: "Tom? Is that really you? It's been ages!", uz: "Tom? Haqiqatan senmisan? Qancha vaqt o'tdi!" },
           { who: 'Tom', en: "Sara! You haven't changed a bit. What have you been up to?", uz: "Sara! Sen umuman o'zgarmabsan. Nima bilan band bo'lding?" },
           { who: 'Sara', en: "Well, I got promoted last year, so life has been quite hectic. And you?", uz: "Bilasanmi, o'tgan yili lavozimim oshdi, shuning uchun hayot ancha shov-shuvli. O'zing-chi?" },
           { who: 'Tom', en: "I relocated to Manchester two years ago. I used to hate the rain, but I've got used to it.", uz: "Ikki yil oldin Manchesterga ko'chdim. Avval yomg'irni yomon ko'rardim, endi ko'nikdim." },

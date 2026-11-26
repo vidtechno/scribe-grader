@@ -88,7 +88,7 @@ const lesson: Lesson = {
     { en: 'rose-tinted', uz: "go'zallashtirilgan, optimistik", ipa: 'ˌrəʊz ˈtɪn.tɪd', pos: 'adj', ex: 'He looks at his first job through rose-tinted glasses.', exUz: "U birinchi ishiga go'zallashtirib qaraydi." },
     { en: 'closure', uz: "(og'riqli voqeadan keyingi) xotirjamlik, yakun", ipa: 'ˈkləʊ.ʒər', pos: 'noun', ex: 'The apology gave her a sense of closure.', exUz: "Uzr unga voqea tugaganini his qildirdi." },
     { en: 'make peace with', uz: "yarashmoq, qabul qilmoq", ipa: 'meɪk piːs wɪð', pos: 'phrase', ex: 'It took him years to make peace with his decision.', exUz: "Qarori bilan yarashishi unga yillar oldi." },
-    { en: 'what-if', uz: "'agar shunday bo'lganida' degan xayol", ipa: 'ˈwɒt.ɪf', pos: 'noun', ex: 'Endless what-ifs kept her awake at night.', exUz: "Cheksiz 'agar shunday bo'lganida'lar uni tunda uxlatmasdi." },
+    { en: 'what-if', uz: "'agar shunday bo'lganida' degan xayol", ipa: 'ˈwɒt.ɪf', pos: 'noun', ex: 'Endless what-ifs kept her awake at night.', exUz: "«Agar unday bo'lganida...» degan cheksiz o'ylar uni tunlari uxlatmasdi." },
   ],
   practice: [
     { k: 'match', pairs: [['columnist', 'ustun muallifi'], ['reminisce', 'xotiralarga berilmoq'], ['rose-tinted', "go'zallashtirilgan"], ['closure', 'xotirjam yakun'], ['make peace with', 'yarashmoq'], ['what-if', "'agar shunday bo'lganida' xayoli"]] },

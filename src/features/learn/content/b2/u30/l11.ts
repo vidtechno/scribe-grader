@@ -70,7 +70,7 @@ const lesson: Lesson = {
           { who: 'Timur', en: "To be honest, I think you are more prepared than you realise. Haven't you passed all the practice tests?", uz: "Rostini aytsam, o'zing o'ylagandan ko'ra tayyorsan. Barcha mashq testlaridan o'tmadingmi?" },
           { who: 'Nina', en: "I have, but I made a few mistakes in the writing part.", uz: "O'tdim, lekin yozish qismida bir nechta xato qildim." },
           { who: 'Timur', en: "If I were you, I would check the plan and the linking words. That is what helped me.", uz: "Sening o'rningda bo'lsam, reja va bog'lovchilarni tekshirardim. Menga shu yordam bergan." },
-          { who: 'Nina', en: "Thanks. I wish I had started earlier, but it is not too late.", uz: "Rahmat. Qaniydi ertaroq boshlaganimda, lekin hali kech emas." },
+          { who: 'Nina', en: "Thanks. I wish I had started earlier, but it is not too late.", uz: "Rahmat. Qani endi, ertaroq boshlagan bo'lsam, lekin hali kech emas." },
         ] },
         { t: 'check', ex: { k: 'choice', q: "What does Timur advise Nina to do?", opts: ["Check the plan and the linking words.", "Skip the writing test.", "Revise for another year.", "Stop practising."], a: 0, why: "*I would check the plan and the linking words.*" } },
       ],

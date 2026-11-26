@@ -76,7 +76,7 @@ const lesson: Lesson = {
   ],
   words: [
     { en: 'oversight', uz: "e'tiborsizlik, ko'zdan qochirish", ipa: 'ˈəʊvəsaɪt', pos: 'noun', ex: 'The missing signature was an oversight.', exUz: "Imzoning yo'qligi e'tiborsizlik edi." },
-    { en: 'slip-up', uz: "kichik xato, yanglishish", ipa: 'ˈslɪp ʌp', pos: 'noun', ex: 'One small slip-up cost the team the contract.', exUz: "Bitta kichik xato jamoaga shartnomaga tushdi." },
+    { en: 'slip-up', uz: "kichik xato, yanglishish", ipa: 'ˈslɪp ʌp', pos: 'noun', ex: 'One small slip-up cost the team the contract.', exUz: "Bitta kichik xato tufayli jamoa shartnomadan ayrildi." },
     { en: 'make up for', uz: "o'rnini to'ldirmoq, kompensatsiya qilmoq", ipa: 'meɪk ʌp fɔː', pos: 'phrasal verb', ex: 'I will make up for the lost time by working late.', exUz: "Yo'qotilgan vaqtning o'rnini kech ishlab to'ldiraman." },
     { en: 'put right', uz: "tuzatmoq", ipa: 'pʊt raɪt', pos: 'phrasal verb', ex: 'We will put the error right immediately.', exUz: "Xatoni darhol tuzatamiz." },
     { en: 'take responsibility', uz: "mas'uliyatni o'z zimmasiga olmoq", ipa: 'teɪk rɪˌspɒnsəˈbɪləti', pos: 'phrase', ex: 'The manager took responsibility for the failure.', exUz: "Menejer muvaffaqiyatsizlik uchun mas'uliyatni o'z zimmasiga oldi." },

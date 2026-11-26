@@ -98,7 +98,7 @@ const lesson: Lesson = {
     { en: "loyal", uz: "sodiq, ishonchli", ipa: "ˈlɔɪ.əl", pos: "adj", ex: "A loyal friend will always listen to you.", exUz: "Sodiq do'st sizni doim tinglaydi." },
     { en: "criticise", uz: "tanqid qilmoq", ipa: "ˈkrɪt.ɪ.saɪz", pos: "verb", ex: "It is easy to criticise other people, but harder to help them.", exUz: "Boshqalarni tanqid qilish oson, ularga yordam berish esa qiyinroq." },
     { en: "encourage", uz: "dalda bermoq, ruhlantirmoq", ipa: "ɪnˈkʌr.ɪdʒ", pos: "verb", ex: "My teacher encouraged me to apply.", exUz: "Ustozim ariza berishga meni ruhlantirdi." },
-    { en: "get over", uz: "tuzalib ketmoq, yengib o'tmoq", ipa: "ɡet ˈəʊ.vər", pos: "phrasal verb", ex: "It took her a long time to get over the disappointment.", exUz: "Hafsalasi pir bo'lganini yengib o'tish unga uzoq vaqt oldi." },
+    { en: "get over", uz: "tuzalib ketmoq, yengib o'tmoq", ipa: "ɡet ˈəʊ.vər", pos: "phrasal verb", ex: "It took her a long time to get over the disappointment.", exUz: "Hafsalasi pir bo'lganidan o'ziga kelishi uchun ancha vaqt kerak bo'ldi." },
     { en: "relationship", uz: "munosabat", ipa: "rɪˈleɪ.ʃən.ʃɪp", pos: "noun", ex: "A good relationship needs trust.", exUz: "Yaxshi munosabat ishonchni talab qiladi." },
     { en: "cheer up", uz: "ko'ngli ko'tarilmoq", ipa: "tʃɪər ʌp", pos: "phrase", ex: "Cheer up! Things will get better.", exUz: "Ko'nglingni ko'tar! Hammasi yaxshi bo'ladi." },
     { en: "fall out", uz: "janjallashib qolmoq", ipa: "fɔːl aʊt", pos: "phrasal verb", ex: "They fell out over a silly misunderstanding.", exUz: "Ular bema'ni tushunmovchilik tufayli janjallashib qolishdi." },
