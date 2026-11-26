@@ -118,7 +118,7 @@ const lesson: Lesson = {
           t: "dialog", lines: [
             { who: "Aziz", en: "Zarina, the exam is next week. Do you feel ready?", uz: "Zarina, imtihon kelasi hafta. O'zingni tayyor his qilyapsanmi?" },
             { who: "Zarina", en: "Not completely. I'm still making mistakes with inversion. Never I have seen… no, never have I seen!", uz: "To'liq emas. Hali ham inversionda xato qilaman. Never I have seen… yo'q, never have I seen!" },
-            { who: "Aziz", en: "Exactly. And I wish I had practised the passive more. I'm worried about the reporting verbs.", uz: "Aynan shunday. Passive'ni ko'proq mashq qilganimda edi. Reporting fe'llardan xavotirdaman." },
+            { who: "Aziz", en: "Exactly. And I wish I had practised the passive more. I'm worried about the reporting verbs.", uz: "Aynan shunday. Qani endi, passive'ni ko'proq mashq qilgan bo'lsam. Reporting fe'llardan xavotirdaman." },
             { who: "Zarina", en: "It's said to be the hardest part. Shall we study together tomorrow?", uz: "Aytishlaricha, bu eng qiyin qism. Ertaga birga o'qiymizmi?" },
             { who: "Aziz", en: "I'd love to. What time suits you?", uz: "Juda xohlardim. Qaysi vaqt senga qulay?" },
             { who: "Zarina", en: "Around four. To cut a long story short, we'll review every unit from the beginning.", uz: "Soat to'rtlarda. Uzoq cho'zmay aytganda, har bir bosqichni boshidan takrorlaymiz." },

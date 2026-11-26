@@ -72,7 +72,7 @@ const lesson: Lesson = {
         { t: 'dialog', lines: [
           { who: 'Emily', en: "Leo, did you see the news? It was the hottest July the city has ever recorded.", uz: "Leo, yangiliklarni ko'rdingmi? Bu shahar qayd etgan eng issiq iyul bo'ldi." },
           { who: 'Leo', en: "I'm not surprised. By far the worst day was the fifteenth. I could barely walk to the station.", uz: "Taajjublanmayman. Eng og'ir kun 15-sana bo'ldi. Bekatgacha zo'rg'a yetib bordim." },
-          { who: 'Emily', en: "Our office is nowhere near cool enough, either. We had almost forty people in one room.", uz: "Bizning ofis ham sovitilgan emas. Bir xonada qariyb qirq kishi edik." },
+          { who: 'Emily', en: "Our office is nowhere near cool enough, either. We had almost forty people in one room.", uz: "Bizning ofis ham yetarlicha salqin emas. Bir xonada qariyb qirq kishi edik." },
           { who: 'Leo', en: "Is it one of the oldest buildings in the centre?", uz: "U markazdagi eng eski binolardan biri emasmi?" },
           { who: 'Emily', en: "Yes. No sooner had the air conditioning been switched on than it broke down.", uz: "Ha. Konditsioner yoqilishi bilan buzilib qoldi." },
           { who: 'Leo', en: "That's rather unfortunate. Anyway, drink plenty of water. It's not quite over yet.", uz: "Bu ancha achinarli. Baribir ko'proq suv iching. Hali tugagani yo'q." },

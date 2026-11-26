@@ -147,7 +147,7 @@ const lesson: Lesson = {
     { en: "take after", uz: "o'xshamoq (oila a'zosiga)", ipa: "teɪk ˈɑːf.tə", pos: "phrasal verb", ex: "She takes after her mother in many ways.", exUz: "U ko'p jihatdan onasiga o'xshaydi." },
     { en: "collect", uz: "yig'moq, to'plamoq", ipa: "kəˈlekt", pos: "verb", ex: "He has collected stamps since he was ten.", exUz: "U o'n yoshidan beri markalar yig'adi." },
     { en: "get to know", uz: "tanishib bormoq, yaxshi bilib olmoq", ipa: "ɡet tə nəʊ", pos: "phrase", ex: "I have got to know my colleagues better since January.", exUz: "Men yanvardan beri hamkasblarimni yaxshiroq bilib oldim." },
-    { en: "stay in touch", uz: "aloqada bo'lmoq", ipa: "steɪ ɪn tʌtʃ", pos: "phrase", ex: "We have stayed in touch for many years.", exUz: "Biz ko'p yillardan beri aloqada bo'lamiz." },
+    { en: "stay in touch", uz: "aloqada bo'lmoq", ipa: "steɪ ɪn tʌtʃ", pos: "phrase", ex: "We have stayed in touch for many years.", exUz: "Ko'p yillardan beri aloqani uzmay kelamiz." },
     { en: "lose touch", uz: "aloqani yo'qotmoq", ipa: "luːz tʌtʃ", pos: "phrase", ex: "We lost touch after he moved abroad.", exUz: "U chet elga ko'chganidan keyin aloqamiz uzildi." },
   ],
   practice: [

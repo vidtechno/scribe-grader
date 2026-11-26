@@ -59,7 +59,7 @@ const lesson: Lesson = {
             { who: "Clerk", en: "Good morning. How can I help you?", uz: "Xayrli tong. Sizga qanday yordam bera olaman?" },
             { who: "Aziza", en: "Hello. I lost my bag yesterday. I think I left it on the number 12 bus.", uz: "Salom. Kecha sumkamni yo'qotdim. Uni 12-avtobusda qoldirgan bo'lsam kerak." },
             { who: "Clerk", en: "Can you describe it, please?", uz: "Iltimos, uni tasvirlab bera olasizmi?" },
-            { who: "Aziza", en: "It's a medium brown leather bag with a long strap and a black zip.", uz: "Bu o'rtacha o'lchamdagi jigarrang charm sumka, tasmasi uzun, zanjiri qora." },
+            { who: "Aziza", en: "It's a medium brown leather bag with a long strap and a black zip.", uz: "Bu o'rtacha o'lchamdagi jigarrang charm sumka, tasmasi uzun, molniyasi qora." },
             { who: "Clerk", en: "What was inside?", uz: "Ichida nima bor edi?" },
             { who: "Aziza", en: "My wallet, a blue notebook and my keys.", uz: "Hamyonim, ko'k daftarim va kalitlarim." },
             { who: "Clerk", en: "When exactly did you lose it?", uz: "Aniq qachon yo'qotdingiz?" },

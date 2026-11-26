@@ -75,7 +75,7 @@ const lesson: Lesson = {
           t: "examples", items: [
             { en: "The hotel, which was built in 1900, is full of character.", uz: "1900-yilda qurilgan mehmonxona o'ziga xos ruhga to'la.", note: "Passive + vergul bilan nisbiy gap." },
             { en: "The room was cleaned every day.", uz: "Xona har kuni tozalanardi.", note: "Passive: kim tozalagani muhim emas." },
-            { en: "The staff, who were very helpful, spoke good English.", uz: "Xodimlar, ular juda yordamsevar edi, yaxshi ingliz tilida gapirishardi." },
+            { en: "The staff, who were very helpful, spoke good English.", uz: "Juda yordamsevar xodimlar yaxshi ingliz tilida gapirishardi." },
             { en: "It is a small restaurant where you can try local dishes.", uz: "Bu mahalliy taomlarni tatib ko'rish mumkin bo'lgan kichik restoran.", note: "**where** — joy haqida." },
           ],
         },

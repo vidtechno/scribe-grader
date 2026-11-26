@@ -69,7 +69,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: 'Your English is better than mine.', uz: "Sening ingliz tiling meniknidan yaxshiroq." },
           { en: 'The weather today is worse than yesterday.', uz: "Bugungi ob-havo kechagidan yomonroq." },
-          { en: 'Bukhara is further from Tashkent than Samarkand.', uz: "Buxoro Toshkentdan Samarqanddan ko'ra uzoqroq." },
+          { en: 'Bukhara is further from Tashkent than Samarkand.', uz: "Buxoro Toshkentdan Samarqandga qaraganda uzoqroq." },
           { en: 'This is the best cake in the shop.', uz: "Bu do'kondagi eng yaxshi tort." },
         ] },
         { t: 'compare', good: { title: "To'g'ri", items: ['better', 'the worst', 'the best'] }, bad: { title: "Xato", items: ['gooder, more good', 'badder, the baddest', 'the goodest'] } },
