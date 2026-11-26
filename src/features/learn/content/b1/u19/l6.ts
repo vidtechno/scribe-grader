@@ -159,7 +159,7 @@ const lesson: Lesson = {
     { k: "listen", say: "Eventually, the train arrived.", opts: ["Eventually, the train arrived.", "Fortunately, the train arrived.", "Suddenly, the train arrived.", "Maybe the train arrived."], a: 0, why: "Eshitilgan gap: *Eventually, the train arrived.*" },
     { k: "tf", q: "\"Eventually\" means \"maybe\".", a: false, why: "**Eventually** = oxir-oqibat. «Maybe» = mumkin." },
     { k: "order", uz: "Aynan shu payt telefonim jiringladi.", words: ["Just", "then,", "my", "phone", "rang."], extra: ["ringing", "firstly"], why: "**Just then,** + Past Simple." },
-    { k: "translate", uz: "Afsuski, dukon yopiq edi.", a: ["Unfortunately, the shop was closed.", "Unfortunately the shop was closed.", "Unfortunately, the shop was shut."], why: "**Unfortunately** + gap." },
+    { k: "translate", uz: "Afsuski, do'kon yopiq edi.", a: ["Unfortunately, the shop was closed.", "Unfortunately the shop was closed.", "Unfortunately, the shop was shut."], why: "**Unfortunately** + gap." },
   ],
   summary: [
     "Tartib: **at first** (boshida), **then / after that / later / afterwards** (keyin), **finally / in the end / eventually** (oxirida). Gap boshida bog'lovchidan keyin **vergul** qo'yiladi.",

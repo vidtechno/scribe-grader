@@ -15,7 +15,7 @@ export const drills: Drill[] = [
       { k: 'fill', q: 'We ___ going to fly to Dubai on Monday. We have the tickets.', a: ['are'], why: "*we* + **are** going to." },
       { k: 'tf', q: "*Shall he help you?* — to'g'ri gap.", a: false, why: "**Shall** faqat **I / we** bilan ishlatiladi." },
       { k: 'listen', say: 'Shall we go to the cinema tonight?', opts: ['Shall we go to the cinema tonight?', 'Will we go to the cinema tonight?', 'Shall I go to the cinema tonight?', 'Are we going to the cinema tonight?'], a: 0, why: "**Shall we** — birgalikda ish qilishni taklif." },
-      { k: 'order', uz: "Dam olish kuni parkka boraylikmi?", words: ['Shall', 'we', 'go', 'to', 'the', 'park', 'on', 'Sunday?'], extra: ['going', 'you'], why: "**Shall we + V1** (*to* yo'q)." },
+      { k: 'order', uz: "Yakshanba kuni parkka boramizmi?", words: ['Shall', 'we', 'go', 'to', 'the', 'park', 'on', 'Sunday?'], extra: ['going', 'you'], why: "**Shall we + V1** (*to* yo'q)." },
       { k: 'fix', wrong: 'I will going to visit my grandmother on Sunday.', a: ["I'm going to visit my grandmother on Sunday.", 'I am going to visit my grandmother on Sunday.', 'I will visit my grandmother on Sunday.', "I'll visit my grandmother on Sunday."], hint: "will va going to birga kelmaydi", why: "**will** va **going to** ni birga ishlatmang: faqat bittasi." },
       { k: 'fix', wrong: 'Shall I to help you?', a: ['Shall I help you?'], why: "**Shall** dan keyin **to** yo'q: *Shall I help…?*" },
       { k: 'translate', uz: "Menimcha, ertaga yomg'ir yog'adi.", a: ["I think it will rain tomorrow", "I think it'll rain tomorrow", "I think it's going to rain tomorrow", 'I think it is going to rain tomorrow'], why: "Fikr, dalil yo'q → **will**." },

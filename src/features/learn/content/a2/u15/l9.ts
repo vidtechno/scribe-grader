@@ -82,7 +82,7 @@ const lesson: Lesson = {
     { k: "fix", wrong: "Why you don't talk to your boss?", a: ["Why don't you talk to your boss?"], why: "To'g'ri tartib: **Why don't you…?**" },
     { k: "fix", wrong: "You shouldn't to worry.", a: ["You shouldn't worry."], why: "**shouldn't + V1**, to yo'q." },
     { k: "tf", q: "**Why don't you call her?** — bu sabab so'rash emas, taklif.", a: true },
-    { k: "order", uz: "Menimcha, sizga ko'proq dam olish kerak.", words: ["I", "think", "you", "should", "rest", "more."], extra: ["to", "must"] },
+    { k: "order", uz: "Menimcha, ko'proq dam olishingiz kerak.", words: ["I", "think", "you", "should", "rest", "more."], extra: ["to", "must"] },
     { k: "translate", uz: "Nima qilishim kerak?", a: ["What should I do?"] },
     { k: "speak", say: "I'm sorry to hear that. Why don't you talk to your teacher?", uz: "Eshitganimdan afsusdaman. Nega o'qituvchi bilan gaplashmaysiz?" },
   ],

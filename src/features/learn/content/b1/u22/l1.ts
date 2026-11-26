@@ -164,7 +164,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I can't afford ___ a new car.", a: ["to buy"], hint: "buy", uz: "Yangi mashina sotib olishga qurbim yetmaydi.", why: "**afford** + to-infinitive." },
     { k: "fill", q: "She is interested ___ learning Spanish.", a: ["in"], uz: "U ispan tilini o'rganishga qiziqadi.", why: "**interested in** + -ing." },
     { k: "order", uz: "U erta kelishni taklif qildi.", words: ["He", "suggested", "being", "early."], extra: ["to", "be"], why: "**suggest** + gerund." },
-    { k: "order", uz: "Men sizdan yordam berishingizni xohlayman.", words: ["I", "want", "you", "to", "help", "me."], extra: ["helping", "that"], why: "**want + kim + to + fe'l**." },
+    { k: "order", uz: "Menga yordam berishingizni xohlayman.", words: ["I", "want", "you", "to", "help", "me."], extra: ["helping", "that"], why: "**want + kim + to + fe'l**." },
     { k: "tf", q: "\"I stopped to buy a coffee\" means I bought a coffee on the way.", a: true, why: "**stop to + fe'l** — biror ish uchun to'xtadim." },
     { k: "tf", q: "The sentence \"She avoids to speak English\" is correct.", a: false, why: "**avoid** dan keyin gerund: *avoids speaking*." },
     { k: "fix", wrong: "I enjoy to read books in the evening.", a: ["I enjoy reading books in the evening."], hint: "enjoy dan keyin nima keladi?", why: "**enjoy** + gerund." },

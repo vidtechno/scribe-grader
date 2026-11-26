@@ -58,7 +58,7 @@ export const drills: Drill[] = [
       { k: "choice", q: "You ___ share your password with anyone. It is against company policy.", opts: ["mustn't", "don't have to", "needn't", "didn't have to"], a: 0, why: "Qoida bilan taqiqlangan → **mustn't**." },
       { k: "fill", q: "You ___ have come so early. The doors don't open until ten. (no necessity)", a: ["needn't", "need not"], hint: "needn't + have + V3", why: "Keragi yo'q edi, lekin keldingiz → **needn't have come**." },
       { k: "fill", q: "Attendance at the training is mandatory: all staff are ___ to attend. (r…)", a: ["required", "obliged"], hint: "r…", why: "Rasmiy majburiyat → **be required to**." },
-      { k: "translate", uz: "Sizga galstuk taqish shart emas.", a: ["You don't have to wear a tie.", "You do not have to wear a tie.", "You needn't wear a tie.", "You need not wear a tie.", "You don't need to wear a tie.", "You do not need to wear a tie."], why: "Shart emas → **don't have to / needn't**; *mustn't* emas." },
+      { k: "translate", uz: "Galstuk taqishingiz shart emas.", a: ["You don't have to wear a tie.", "You do not have to wear a tie.", "You needn't wear a tie.", "You need not wear a tie.", "You don't need to wear a tie.", "You do not need to wear a tie."], why: "Shart emas → **don't have to / needn't**; *mustn't* emas." },
     ],
   },
   {

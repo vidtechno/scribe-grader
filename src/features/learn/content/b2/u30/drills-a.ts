@@ -37,7 +37,7 @@ export const drills: Drill[] = [
       { k: "fix", wrong: "She passed her driving test, what made her father proud.", a: ["She passed her driving test, which made her father proud."], hint: "what yoki which", why: "**what** nisbiy so'z emas; butun gapga **, which**." },
       { k: "choice", q: "She has three brothers, two of ___ live abroad.", opts: ["them", "who", "which", "whom"], a: 3, why: "Odamlar haqida **two of whom**; *them* bilan vergulli gap bog'lanmaydi." },
       { k: "fix", wrong: "The houses building in the 1990s are very small.", a: ["The houses built in the 1990s are very small.", "The houses that were built in the 1990s are very small.", "The houses which were built in the 1990s are very small."], hint: "majhul ma'no", why: "Majhul qisqargan nisbiy gap: **V3** (*built in the 1990s*)." },
-      { k: "order", uz: "Mening do'stim, uning otasi shifokor, Londonda yashaydi.", words: ["My", "friend,", "whose", "father", "is", "a", "doctor,", "lives", "in", "London."], extra: ["who", "which"], why: "Kimning otasi → **whose father**." },
+      { k: "order", uz: "Otasi shifokor bo'lgan do'stim Londonda yashaydi.", words: ["My", "friend,", "whose", "father", "is", "a", "doctor,", "lives", "in", "London."], extra: ["who", "which"], why: "Kimning otasi → **whose father**." },
       { k: "choice", q: "Qaysi gapda xato bor?", opts: ["The students, most of whom are adults, study in the evening.", "He lost his keys, which was annoying.", "The man who I asked him gave me directions.", "I met a woman whose daughter I know."], a: 2, why: "*who* to'ldiruvchi o'rnida, **him** ortiqcha: *The man (who) I asked gave me directions*." },
     ],
   },

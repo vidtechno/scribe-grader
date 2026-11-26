@@ -85,7 +85,7 @@ const lesson: Lesson = {
     { k: "fill", q: "If you forget the sunscreen, you ___ get red. (will)", a: ["will", "'ll"] },
     { k: "fix", wrong: "She might comes to the airport.", a: ["She might come to the airport."], why: "**might + V1**, **-s** yo'q." },
     { k: "choice", q: "If it's sunny on Sunday, ___", opts: ["we'll go sightseeing.", "we go sightseeing will.", "we will to go sightseeing.", "we going sightseeing."], a: 0 },
-    { k: "order", uz: "Passportimni topsam, senga qo'ng'iroq qilaman.", words: ["If", "I", "find", "my", "passport", ",", "I'll", "call", "you"], extra: ["will"] },
+    { k: "order", uz: "Pasportimni topsam, senga qo'ng'iroq qilaman.", words: ["If", "I", "find", "my", "passport", ",", "I'll", "call", "you"], extra: ["will"] },
     { k: "tf", q: "**We won't have time** — bu **might not** dan ko'ra ishonchliroq.", a: true, why: "**won't** — deyarli aniq, **might not** — ehtimol." },
     { k: "translate", uz: "Yomg'ir yog'ishi mumkin.", a: ["It might rain.", "It may rain.", "It might rain", "It may rain"] },
   ],

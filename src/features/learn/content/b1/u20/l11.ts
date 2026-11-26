@@ -57,7 +57,7 @@ const lesson: Lesson = {
       blocks: [
         { t: 'dialog', lines: [
           { who: 'Tom', en: "Sara, you look worried. Is something wrong?", uz: "Sara, tashvishli ko'rinasan. Nimadir bo'ldimi?" },
-          { who: 'Sara', en: "I missed my train this morning. I wish I had got up earlier.", uz: "Bugun ertalab poyezddan qoldim. Kaskiydi, oldinroq turgan bo'lsam." },
+          { who: 'Sara', en: "I missed my train this morning. I wish I had got up earlier.", uz: "Bugun ertalab poyezddan qoldim. Qani endi, oldinroq turgan bo'lsam." },
           { who: 'Tom', en: "You should have set two alarms. If you leave now, you might still catch the next one.", uz: "Ikkita budilnik qo'yishing kerak edi. Hozir chiqsang, keyingisiga ulgurishing mumkin." },
           { who: 'Sara', en: "I can't go unless my manager agrees. He must be in a meeting.", uz: "Boshliq rozi bo'lmasa, ketolmayman. U majlisda bo'lsa kerak." },
           { who: 'Tom', en: "You'd better send him a message. If I were you, I'd explain the situation.", uz: "Unga xabar yozganing yaxshi. Sening o'rningda bo'lsam, vaziyatni tushuntirardim." },
@@ -80,7 +80,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "If we ___ the map, we wouldn't have got lost.", opts: ['had checked', 'checked', 'would check', 'have checked'], a: 0, why: "Third conditional: **if + had + V3**." },
     { k: 'choice', q: "He has won the lottery again. He ___ be very lucky!", opts: ['must', "can't", 'needn\'t', 'mustn\'t'], a: 0, why: "Aniq xulosa → **must**." },
     { k: 'fill', q: "You can use my laptop ___ long as you are careful.", a: ['as'], uz: "Ehtiyot bo'lsangiz, noutbukimdan foydalanishingiz mumkin.", why: "**as long as** — shart." },
-    { k: 'fill', q: "I wish I ___ more time to read. (have)", a: ['had'], uz: "Kaskiydi, o'qishga vaqtim ko'proq bo'lsa.", why: "**wish + Past Simple**." },
+    { k: 'fill', q: "I wish I ___ more time to read. (have)", a: ['had'], uz: "Qani endi, o'qishga vaqtim ko'proq bo'lsa.", why: "**wish + Past Simple**." },
     { k: 'fill', q: "You ___ have called me. I was worried. (kerak edi)", a: ['should'], uz: "Menga qo'ng'iroq qilishing kerak edi. Xavotirda edim.", why: "**should have + V3**." },
     { k: 'listen', say: "If I were you, I'd ask for advice.", opts: ["If I were you, I'd ask for advice.", "If I was you, I'd give advice.", "If I am you, I'll ask for advice.", "If I were him, I'd ask for advice."], a: 0 },
     { k: 'order', uz: "Tezroq ketganing yaxshi, aks holda kechikasan.", words: ["You'd", 'better', 'go,', 'otherwise', "you'll", 'be', 'late.'], extra: ['to', 'would'], why: "**had better + fe'l**." },
@@ -89,7 +89,7 @@ const lesson: Lesson = {
     { k: 'translate', uz: "U kelgan bo'lishi mumkin emas.", a: ["He can't have come.", "She can't have come.", "He couldn't have come.", "She couldn't have come.", "He cannot have come.", "She cannot have come."], why: "O'tgan zamon taxmin: **can't have + V3**." },
     { k: 'tf', q: "*Unless you hurry, you will be late.* — Shoshilsangiz, kechikasiz.", a: false, why: "**unless** = *if not*: shoshilmasangiz, kechikasiz." },
     { k: 'dictation', say: 'If I had known, I would have told you.', a: ['If I had known, I would have told you.', "If I'd known, I would have told you.", "If I had known, I'd have told you.", "If I'd known, I'd have told you."], uz: "Bilganimda, senga aytgan bo'lardim." },
-    { k: 'speak', say: 'I wish I had studied harder.', uz: "Kaskiydi, ko'proq o'qigan bo'lsam." },
+    { k: 'speak', say: 'I wish I had studied harder.', uz: "Qani endi, ko'proq o'qigan bo'lsam." },
     { k: 'speak', say: "If I were you, I'd talk to him.", uz: "Sening o'rningda bo'lsam, u bilan gaplashardim." },
   ],
   quiz: [
@@ -99,7 +99,7 @@ const lesson: Lesson = {
     { k: 'fill', q: "If he ___ harder, he would have passed the test.", a: ['had worked', 'had studied', 'had tried', 'had practised', 'had practiced'], hint: 'had + V3', why: "Third conditional: **if + had + V3**." },
     { k: 'fill', q: "I wish I ___ so much last night. (eat, not)", a: ["hadn't eaten", 'had not eaten'], why: "**wish + hadn't + V3**." },
     { k: 'order', uz: "Agar yomg'ir yog'masa, biz piknik qilamiz.", words: ["If", 'it', "doesn't", 'rain,', 'we', 'will', 'have', 'a', 'picnic.'], extra: ['would', "didn't"], why: "First conditional: **if + Present, will**." },
-    { k: 'translate', uz: "Kaskiydi, men sizga yordam bera olsam.", a: ['I wish I could help you.'], why: "**wish + could**." },
+    { k: 'translate', uz: "Qani endi, sizga yordam bera olsam.", a: ['I wish I could help you.'], why: "**wish + could**." },
     { k: 'listen', say: 'You should have told me earlier.', opts: ['You should have told me earlier.', 'You should tell me earlier.', 'You could tell me earlier.', "You shouldn't have told me earlier."], a: 0 },
     { k: 'tf', q: "*I wish I would have gone.* — to'g'ri gap.", a: false, why: "To'g'ri: *I wish I had gone.*" },
   ],

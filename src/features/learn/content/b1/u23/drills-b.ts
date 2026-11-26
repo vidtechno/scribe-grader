@@ -18,7 +18,7 @@ export const drills: Drill[] = [
       { k: "fill", q: "A balanced ___ includes fruit, vegetables and protein.", a: ["diet"], uz: "Muvozanatli ovqatlanishga meva, sabzavot va oqsil kiradi.", why: "**balanced diet** — muvozanatli ovqatlanish." },
       { k: "fill", q: "Too much sugar does ___ to your teeth.", a: ["harm", "damage"], uz: "Ko'p shakar tishlaringizga zarar qiladi.", why: "**do harm / do damage to** — zarar keltirmoq." },
       { k: "fix", wrong: "I make exercise three times a week.", a: ["I do exercise three times a week.", "I take exercise three times a week.", "I exercise three times a week.", "I do sport three times a week."], hint: "make bu yerda mos emas", why: "**do / take exercise** deymiz, *make exercise* emas." },
-      { k: "order", uz: "Yoshlar ruhiy salomatligiga qarashi kerak.", words: ["Young", "people", "should", "look", "after", "their", "mental", "health."], extra: ["at", "make"], why: "**look after** — qaramoq, e'tibor bermoq." },
+      { k: "order", uz: "Yoshlar ruhiy salomatligiga e'tibor berishi kerak.", words: ["Young", "people", "should", "look", "after", "their", "mental", "health."], extra: ["at", "make"], why: "**look after** — qaramoq, e'tibor bermoq." },
     ],
   },
   {

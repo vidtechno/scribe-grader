@@ -180,7 +180,7 @@ const lesson: Lesson = {
     { k: "listen", say: "He has a moustache.", opts: ["He has a moustache.", "He has a mistake.", "He has a message."], a: 0 },
     { k: "tf", q: "Odamni tasvirlaganda **fat** o'rniga **a bit overweight** deyish muloyimroq.", a: true },
     { k: "match", pairs: [["bald", "kal"], ["wavy", "to'lqinsimon"], ["beard", "soqol"], ["good-looking", "kelishgan"]] },
-    { k: "order", uz: "U (ayol) chiroyli jigarrang ko'zlarga ega va ko'zoynak taqadi.", words: ["She", "has", "beautiful", "brown", "eyes", "and", "wears", "glasses."], extra: ["eyes brown", "wear"], alt: [["She", "wears", "glasses", "and", "has", "beautiful", "brown", "eyes"]] },
+    { k: "order", uz: "Uning (ayol) ko'zlari chiroyli, jigarrang, o'zi ko'zoynak taqadi.", words: ["She", "has", "beautiful", "brown", "eyes", "and", "wears", "glasses."], extra: ["eyes brown", "wear"], alt: [["She", "wears", "glasses", "and", "has", "beautiful", "brown", "eyes"]] },
     { k: "translate", uz: "Siz otangizga o'xshaysiz.", a: ["You look like your father", "You look like your dad"] },
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["He is bald.", "He looks happy.", "He has fair hair.", "He looks like happy."], a: 3, why: "Sifat oldidan **like** yo'q: *He looks happy.*" },
   ],

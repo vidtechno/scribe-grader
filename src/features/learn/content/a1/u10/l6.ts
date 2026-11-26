@@ -162,7 +162,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**You don't have to smoke here** = \"Bu yerda chekish mumkin emas\".", a: false, why: "**don't have to** — shart emas. Taqiq uchun: *You **mustn't / can't** smoke here.*" },
     { k: "tf", q: "Nigora har kuni kechasi ishlashi kerak.", a: false, why: "*Sometimes she has to work at night.* — faqat **ba'zan**." },
     { k: "order", uz: "Viza olishim kerakmi?", words: ["Do", "I", "have", "to", "get", "a", "visa?"], extra: ["Am", "has"] },
-    { k: "order", uz: "U (ayol) forma kiyishi kerak emas.", words: ["She", "doesn't", "have", "to", "wear", "a", "uniform."], extra: ["has", "don't"] },
+    { k: "order", uz: "U (ayol) forma kiyishi shart emas.", words: ["She", "doesn't", "have", "to", "wear", "a", "uniform."], extra: ["has", "don't"] },
     { k: "translate", uz: "Biz bir soat kutishimizga to'g'ri keldi.", a: ["We had to wait for an hour", "We had to wait for one hour", "We had to wait an hour", "We had to wait one hour"] },
     { k: "translate", uz: "Hozir ketishim kerak.", a: ["I have to go now", "I've got to go now", "I must go now", "Now I have to go", "I have to leave now", "I must leave now", "I need to go now", "I need to leave now", "I've got to leave now", "I have got to go now", "I've got to go right now", "I have to go right now"] },
     { k: "speak", say: "Do I have to fill in this form?", uz: "Bu anketani to'ldirishim kerakmi?" },

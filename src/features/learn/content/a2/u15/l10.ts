@@ -82,7 +82,7 @@ const lesson: Lesson = {
     { k: "fix", wrong: "She musts attend the lecture.", a: ["She must attend the lecture.", "She has to attend the lecture."], why: "must -s olmaydi." },
     { k: "fix", wrong: "You don't have to talk during the exam. It's a rule.", a: ["You mustn't talk during the exam. It's a rule.", "You must not talk during the exam. It's a rule."], why: "Taqiq → **mustn't**." },
     { k: "tf", q: "**You needn't come** = Kelmasangiz ham bo'ladi.", a: true },
-    { k: "order", uz: "Bizga forma kiyish shart emas.", words: ["We", "don't", "have", "to", "wear", "a", "uniform."], extra: ["must", "mustn't"], alt: [["We", "do", "not", "have", "to", "wear", "a", "uniform."]] },
+    { k: "order", uz: "Forma kiyishimiz shart emas.", words: ["We", "don't", "have", "to", "wear", "a", "uniform."], extra: ["must", "mustn't"], alt: [["We", "do", "not", "have", "to", "wear", "a", "uniform."]] },
     { k: "translate", uz: "Ma'ruzada telefondan foydalanmasligingiz kerak.", a: ["You mustn't use your phone in the lecture.", "You must not use your phone in the lecture.", "You mustn't use your phone during the lecture."] },
     { k: "speak", say: "We have to start at nine, but we don't have to work on Saturday.", uz: "Biz to'qqizda boshlashimiz kerak, lekin shanba kuni ishlashimiz shart emas." },
   ],

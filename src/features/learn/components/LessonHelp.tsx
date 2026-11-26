@@ -88,7 +88,7 @@ export function LessonHelp({ lesson, phase }: { lesson: Lesson; phase: Phase }) 
   return (
     <>
       <button type="button" onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-4 z-40 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/30 hover:bg-primary/90 active:scale-95">
+        className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] right-3 z-40 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/30 hover:bg-primary/90 active:scale-95">
         <Sparkles className="h-4 w-4" />{t('learn.help.button')}
       </button>
       <Sheet open={open} onOpenChange={setOpen}>

@@ -87,9 +87,9 @@ const lesson: Lesson = {
     { k: "fix", wrong: "I'd like book a table for tomorrow.", a: ["I'd like to book a table for tomorrow.", "I would like to book a table for tomorrow."], why: "**I'd like to** + V1." },
     { k: "fix", wrong: "We want a table in Friday at eight.", a: ["We want a table on Friday at eight.", "We'd like a table on Friday at eight.", "We would like a table on Friday at eight."], why: "Kun oldidan **on**." },
     { k: "order", uz: "Shanba kuniga olti kishilik stol band qilmoqchiman.", words: ["I'd", "like", "to", "book", "a", "table", "for", "six", "on", "Saturday."], extra: ["in", "at"], alt: [["I", "would", "like", "to", "book", "a", "table", "for", "six", "on", "Saturday."]] },
-    { k: "order", uz: "Terrasadan stol bo'ladimi?", words: ["Could", "we", "have", "a", "table", "on", "the", "terrace?"], extra: ["do", "to"], alt: [["Can", "we", "have", "a", "table", "on", "the", "terrace?"]] },
+    { k: "order", uz: "Terrasadan joy bera olasizmi?", words: ["Could", "we", "have", "a", "table", "on", "the", "terrace?"], extra: ["do", "to"], alt: [["Can", "we", "have", "a", "table", "on", "the", "terrace?"]] },
     { k: "translate", uz: "Ikki kishilik stol band qilmoqchiman.", a: ["I'd like to book a table for two.", "I would like to book a table for two.", "I want to book a table for two.", "I'd like to reserve a table for two.", "I would like to reserve a table for two."] },
-    { k: "translate", uz: "Tinch burchakdan stol bo'ladimi?", a: ["Could we have a table in a quiet corner?", "Can we have a table in a quiet corner?", "Could we have a quiet table in the corner?", "Can we have a quiet table in the corner?"] },
+    { k: "translate", uz: "Tinch burchakdan joy bera olasizmi?", a: ["Could we have a table in a quiet corner?", "Can we have a table in a quiet corner?", "Could we have a quiet table in the corner?", "Can we have a quiet table in the corner?"] },
     { k: "speak", say: "Hello. I'd like to book a table for four people on Friday at eight.", uz: "Salom. Juma kuni soat sakkizga to'rt kishilik stol band qilmoqchiman." },
   ],
   quiz: [

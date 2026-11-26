@@ -185,7 +185,7 @@ const lesson: Lesson = {
     { k: "choice", q: "___, the new phone is faster, but the battery is very weak.", opts: ["Admittedly", "Undeniable", "Reservation", "Debatable"], a: 0, why: "Qo'shimcha (ravish) kerak: **Admittedly**." },
     { k: "fill", q: "I agree with you ___ a point, but I think you are too optimistic.", a: ["up to"], uz: "Men sizga ma'lum nuqtagacha roziman, lekin siz juda optimistsiz.", why: "Qolip: **up to a point**." },
     { k: "fill", q: "I have some ___ about the plan, because it costs too much. (shubhalar)", a: ["reservations"], uz: "Menda reja haqida shubhalar bor, chunki u juda qimmat.", why: "**have reservations about** — shubhalari bor." },
-    { k: "order", uz: "Men ko'proq shunday o'ylayman: yangiliklarning ko'pi bir tomonlama.", words: ["I", "tend", "to", "think", "that", "most", "news", "is", "one-sided."], extra: ["am", "tending"], why: "**I tend to think that** + gap." },
+    { k: "order", uz: "Menimcha, yangiliklarning ko'pi bir tomonlama.", words: ["I", "tend", "to", "think", "that", "most", "news", "is", "one-sided."], extra: ["am", "tending"], why: "**I tend to think that** + gap." },
     { k: "translate", uz: "Bu bahsli.", a: ["That's debatable.", "That is debatable.", "It's debatable.", "It is debatable."], why: "**debatable** — bahsli." },
     { k: "fix", wrong: "I am agree with you about the news.", a: ["I agree with you about the news."], hint: "agree — fe'l", why: "**agree** fe'l: *I agree with you*." },
     { k: "tf", q: "*According to me* — o'z fikringizni aytishning odatiy usuli.", a: false, why: "O'z fikringiz uchun **In my opinion / view**; *according to* — boshqa manba uchun." },

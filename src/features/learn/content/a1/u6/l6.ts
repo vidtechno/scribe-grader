@@ -156,7 +156,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Qaysi gap **xato**?", opts: ["The bathroom is upstairs.", "Let's go upstairs.", "My room is in upstairs.", "The kitchen is downstairs."], a: 2, why: "**upstairs** oldidan predlog yo'q." },
     { k: "fill", q: "There ___ a lot of new furniture in their house.", a: ["is", "'s"], uz: "Ularning uyida juda ko'p yangi mebel bor.", why: "**furniture** sanalmaydi → **is**." },
     { k: "fill", q: "We have dinner ___ the kitchen.", a: ["in"] },
-    { k: "fill", q: "one shelf → two ___", a: ["shelves"], why: "**f → ves**: *shelves*." },
+    { k: "fill", q: "one shelf → two ___", uz: "Ko'plik shaklini yozing", a: ["shelves"], why: "**f → ves**: *shelves*." },
     { k: "tf", q: "**I'm at home** va **I'm at house** — ikkalasi ham to'g'ri.", a: false, why: "**at house** xato — **at home** deymiz." },
     { k: "tf", q: "**cupboard** so'zida *p* harfi o'qilmaydi.", a: true, why: "\"KA-bəd\"." },
     { k: "order", uz: "Yotoqxonamda katta shkaf va oyna bor.", words: ["There's", "a", "big", "wardrobe", "and", "a", "mirror", "in", "my", "bedroom."], extra: ["are", "on"], alt: [["There's", "a", "mirror", "and", "a", "big", "wardrobe", "in", "my", "bedroom."]] },

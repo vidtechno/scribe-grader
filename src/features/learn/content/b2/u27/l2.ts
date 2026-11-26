@@ -192,7 +192,7 @@ const lesson: Lesson = {
     { k: "choice", q: "*The cost is approximately fifty pounds.* Norasmiy tilda **approximately** o'rniga nima deyiladi?", opts: ["about", "exactly", "sufficient", "subsequently"], a: 0, why: "**approximately** = **about**." },
     { k: "fill", q: "We would be ___ if you could reply by Friday. (g…)", a: ["grateful"], hint: "g…", why: "**We would be grateful if you could…** — rasmiy so'rov." },
     { k: "fill", q: "He worked in sales and was ___ promoted to manager. (formal for *later*)", a: ["subsequently"], hint: "s…", why: "**later** → **subsequently**." },
-    { k: "order", uz: "Biz Sizdan eshitishni intiqlik bilan kutamiz.", words: ["We", "look", "forward", "to", "hearing", "from", "you."], extra: ["hear", "with"], why: "**look forward to + -ing**." },
+    { k: "order", uz: "Javobingizni intiqlik bilan kutamiz.", words: ["We", "look", "forward", "to", "hearing", "from", "you."], extra: ["hear", "with"], why: "**look forward to + -ing**." },
     { k: "translate", uz: "Shartnoma may oyida bekor qilindi. (rasmiy)", a: ["The contract was terminated in May.", "The agreement was terminated in May.", "The contract was cancelled in May.", "The agreement was cancelled in May."], why: "Rasmiy: **terminate**, passive." },
     { k: "fix", wrong: "I want to ask for some information about the course.", a: ["I would like to ask for some information about the course.", "I'd like to ask for some information about the course."], hint: "muloyimroq", why: "Rasmiy: **I would like to…**." },
     { k: "tf", q: "Rasmiy xatlarda **find out** va **put off** kabi phrasal verb'lar ko'pincha **discover / establish** va **postpone** ga almashtiriladi.", a: true, why: "Rasmiy yozmada bitta fe'l ko'proq ishlatiladi." },

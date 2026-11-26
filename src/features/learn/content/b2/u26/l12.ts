@@ -90,7 +90,7 @@ const lesson: Lesson = {
     { k: 'fill', q: "I don't like ___ interrupted when I'm working.", a: ['being'], uz: "Ishlayotganimda to'xtatilishni yoqtirmayman.", why: "Gerund majhul: **being + V3**." },
     { k: 'choice', q: "She was ___ a new laptop by the company.", opts: ['given', 'given to', 'gave', 'giving'], a: 0, why: "**was given + narsa**." },
     { k: 'fix', wrong: "He wants to appointed head of the department.", a: ["He wants to be appointed head of the department."], why: "Infinitiv majhul: **to be + V3**." },
-    { k: 'order', uz: "Menga bir hafta kutish aytildi.", words: ['I', 'was', 'told', 'to', 'wait', 'a', 'week.'], extra: ['tell', 'being'], alt: [['I', 'was', 'told', 'to', 'wait', 'for', 'a', 'week.']], why: "**was told + to-infinitive**." },
+    { k: 'order', uz: "Menga bir hafta kutishni aytishdi.", words: ['I', 'was', 'told', 'to', 'wait', 'a', 'week.'], extra: ['tell', 'being'], alt: [['I', 'was', 'told', 'to', 'wait', 'for', 'a', 'week.']], why: "**was told + to-infinitive**." },
     { k: 'listen', say: "She is delighted to have been nominated for the award.", opts: ["She is delighted to have been nominated for the award.", "She is delighted to be nominated for the award.", "She is delighted having nominated for the award.", "She was delighted to nominate for the award."], a: 0 },
     { k: 'tf', q: "*Two people got dismissed last week.* — Gap so'zlashuv uslubidagi majhul nisbat.", a: true, why: "**got dismissed** — get-passive." },
     { k: 'translate', uz: "U hammaning oldida tanqid qilinishni yomon ko'radi.", a: ["He hates being criticised in front of everyone.", "He hates being criticized in front of everyone.", "He hates being criticised in front of everybody.", "He hates being criticized in front of everybody.", "She hates being criticised in front of everyone.", "She hates being criticized in front of everyone.", "She hates being criticised in front of everybody.", "She hates being criticized in front of everybody."], why: "**hate being + V3**." },
@@ -108,7 +108,7 @@ const lesson: Lesson = {
     { k: 'order', uz: "Men tanlanganimdan xursandman.", words: ["I'm", 'happy', 'to', 'have', 'been', 'chosen.'], extra: ['being', 'choose'], alt: [['I', 'am', 'happy', 'to', 'have', 'been', 'chosen.']], why: "**to have been + V3**." },
     { k: 'tf', q: "Rasmiy hisobotda *got fired* o'rniga *was dismissed* tabiiyroq.", a: true, why: "Rasmiy uslubda **be + V3**, so'zlashuvda **get + V3**." },
     { k: 'listen', say: "Having been warned twice, he deleted the app.", opts: ["Having been warned twice, he deleted the app.", "Having warned twice, he deleted the app.", "Being warned twice, he deletes the app.", "Having been warning twice, he deleted the app."], a: 0 },
-    { k: 'translate', uz: "Menga hisobotni juma kuniga topshirish aytildi.", a: ["I was told to submit the report by Friday.", "I was told to hand in the report by Friday.", "I was told to submit the report on Friday.", "I was told to hand in the report on Friday."], why: "**was told + to-infinitive**." },
+    { k: 'translate', uz: "Menga hisobotni jumagacha topshirishni aytishdi.", a: ["I was told to submit the report by Friday.", "I was told to hand in the report by Friday.", "I was told to submit the report on Friday.", "I was told to hand in the report on Friday."], why: "**was told + to-infinitive**." },
   ],
   summary: [
     "**being + V3** — gerund majhul: *I hate being interrupted, without being told*.",

@@ -64,7 +64,7 @@ const lesson: Lesson = {
           ['5', 'Jalb qilish', "It sounds interesting, doesn't it?"],
         ] },
         { t: 'tip', tone: 'good', md: "Sekin va aniq gapiring. Bilmagan so'zingiz bo'lsa, oddiy so'z bilan almashtiring: *It's a very old, quiet place*. Muhimi — gapni to'xtatmaslik." },
-        { t: 'check', ex: { k: 'order', uz: "U o'z noni bilan mashhur.", words: ["It's", 'famous', 'for', 'its', 'bread.'], extra: ['with', 'of'], alt: [['It', 'is', 'famous', 'for', 'its', 'bread.']] } },
+        { t: 'check', ex: { k: 'order', uz: "U noni bilan mashhur.", words: ["It's", 'famous', 'for', 'its', 'bread.'], extra: ['with', 'of'], alt: [['It', 'is', 'famous', 'for', 'its', 'bread.']] } },
       ],
     },
   ],

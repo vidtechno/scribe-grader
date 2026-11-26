@@ -72,7 +72,7 @@ const lesson: Lesson = {
     {
       title: "Sevimli mashg'ulotlar",
       blocks: [
-        { t: 'p', md: "**hobby** — sevimli mashg'ulot, xobbi. Mashg'ulotlar ko'pincha **ma'lum fe'llar** bilan birga keladi — ularni juftlikda yodlang:" },
+        { t: 'p', md: "**hobby** — sevimli mashg'ulot, hobbi. Mashg'ulotlar ko'pincha **ma'lum fe'llar** bilan birga keladi — ularni juftlikda yodlang:" },
         {
           t: 'table', head: ['Ibora', "O'zbekcha"], speak: [0],
           rows: [
@@ -92,7 +92,7 @@ const lesson: Lesson = {
       ],
     },
     {
-      title: 'Dialog: xobbilar haqida',
+      title: 'Dialog: hobbilar haqida',
       blocks: [
         { t: 'dialog', lines: [
           { who: 'Sam', en: 'Do you like sport, Jasur?', uz: 'Sportni yoqtirasanmi, Jasur?' },
@@ -100,7 +100,7 @@ const lesson: Lesson = {
           { who: 'Sam', en: 'Do you play chess?', uz: "Shaxmat o'ynaysanmi?" },
           { who: 'Jasur', en: "No, I don't. But my sister plays chess very well.", uz: "Yo'q. Lekin singlim shaxmatni juda yaxshi o'ynaydi." },
           { who: 'Sam', en: 'Does she like music too?', uz: 'U musiqani ham yoqtiradimi?' },
-          { who: 'Jasur', en: 'Yes, she does. She has a guitar. What is your hobby?', uz: "Ha. Uning gitarasi bor. Sening xobbing nima?" },
+          { who: 'Jasur', en: 'Yes, she does. She has a guitar. What is your hobby?', uz: "Ha. Uning gitarasi bor. Sening hobbing nima?" },
           { who: 'Sam', en: 'Films! I go to the cinema every week.', uz: "Filmlar! Har hafta kinoga boraman." },
         ] },
         { t: 'check', ex: { k: 'tf', q: "Dialogga ko'ra, Jasur shaxmat o'ynaydi.", a: false, why: "*Do you play chess? — **No, I don't.*** Shaxmatni uning singlisi o'ynaydi." } },
@@ -108,7 +108,7 @@ const lesson: Lesson = {
     },
   ],
   words: [
-    { en: 'hobby', uz: "sevimli mashg'ulot, xobbi", ipa: 'ˈhɒb.i', pos: 'noun', ex: 'My hobby is chess.', exUz: "Mening xobbim — shaxmat." },
+    { en: 'hobby', uz: "sevimli mashg'ulot, hobbi", ipa: 'ˈhɒb.i', pos: 'noun', ex: 'My hobby is chess.', exUz: "Mening hobbim — shaxmat." },
     { en: 'sport', uz: 'sport', ipa: 'spɔːt', pos: 'noun', ex: 'Do you like sport?', exUz: 'Sportni yoqtirasizmi?' },
     { en: 'football', uz: 'futbol', ipa: 'ˈfʊt.bɔːl', pos: 'noun', ex: 'They play football in the park.', exUz: "Ular parkda futbol o'ynashadi." },
     { en: 'chess', uz: 'shaxmat', ipa: 'tʃes', pos: 'noun', ex: 'Does your father play chess?', exUz: "Otangiz shaxmat o'ynaydimi?" },
@@ -120,7 +120,7 @@ const lesson: Lesson = {
     { en: 'party', uz: 'bazm, ziyofat', ipa: 'ˈpɑː.ti', pos: 'noun', ex: "I don't like parties.", exUz: 'Men bazmlarni yoqtirmayman.' },
   ],
   practice: [
-    { k: 'match', pairs: [['chess', 'shaxmat'], ['guitar', 'gitara'], ['cinema', 'kinoteatr'], ['party', 'bazm'], ['hobby', 'xobbi']] },
+    { k: 'match', pairs: [['chess', 'shaxmat'], ['guitar', 'gitara'], ['cinema', 'kinoteatr'], ['party', 'bazm'], ['hobby', 'hobbi']] },
     { k: 'fill', q: '___ you like music?', a: ['Do', 'do'], uz: 'Musiqani yoqtirasizmi?', why: "**you** → **Do**." },
     { k: 'fill', q: '___ he play football?', a: ['Does', 'does'], uz: "U futbol o'ynaydimi?", why: "**he** → **Does**." },
     { k: 'choice', q: "To'g'ri savolni tanlang:", opts: ['Do she watch films?', 'Does she watches films?', 'Does she watch films?', 'Is she watch films?'], a: 2, why: "**Does** + she + **watch** (s'siz)." },
@@ -144,7 +144,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "\"Ular kinoga borishadimi?\"", opts: ['Are they go to the cinema?', 'Does they go to the cinema?', 'They go to the cinema?', 'Do they go to the cinema?'], a: 3 },
     { k: 'choice', q: "**Does it work?** — to'g'ri javob (yo'q):", opts: ["No, it don't.", "No, it doesn't.", "No, it isn't work.", 'No, it not.'], a: 1 },
     { k: 'order', uz: "U (erkak) kompyuter o'yinlarini o'ynaydimi?", words: ['Does', 'he', 'play', 'computer', 'games'], extra: ['Do', 'plays'] },
-    { k: 'translate', uz: 'Sizning xobbingiz nima?', a: ['What is your hobby', "What's your hobby"], why: "**What is your hobby?**" },
+    { k: 'translate', uz: 'Sizning hobbingiz nima?', a: ['What is your hobby', "What's your hobby"], why: "**What is your hobby?**" },
     { k: 'translate', uz: 'Otangiz (your father) shaxmat o\'ynaydimi?', a: ['Does your father play chess', 'Does your dad play chess'], why: "*your father* = he → **Does … play**." },
     { k: 'match', pairs: [['play', 'football'], ['listen to', 'music'], ['go to', 'the cinema'], ['do', 'sport'], ['watch', 'films']] },
   ],
@@ -155,7 +155,7 @@ const lesson: Lesson = {
     "Fe'l bilan **Are you…?** emas, **Do you…?**: *Do you play chess?*",
     "Iboralar: **play** football / chess / **the** guitar · **listen to** music · **go to** the cinema · **do** sport.",
   ],
-  homework: "Do'stingiz yoki oila a'zongizga 5 ta Do/Does savoli tuzing (*Do you like chess? Does your sister play the guitar?*) va javoblarni qisqa shaklda yozing. O'z xobbingiz haqida 3 ta gap yozing.",
+  homework: "Do'stingiz yoki oila a'zongizga 5 ta Do/Does savoli tuzing (*Do you like chess? Does your sister play the guitar?*) va javoblarni qisqa shaklda yozing. O'z hobbingiz haqida 3 ta gap yozing.",
 };
 
 export default lesson;

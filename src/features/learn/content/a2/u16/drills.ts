@@ -36,7 +36,7 @@ export const drills: Drill[] = [
       { k: 'fix', wrong: 'When have you bought this phone?', a: ['When did you buy this phone?'], hint: 'When bilan qaysi zamon?', why: "**When** bilan savol doim Past Simple: *When did you buy…?*" },
       { k: 'fix', wrong: 'We have moved here three years ago.', a: ['We moved here three years ago.'], why: "**ago** bilan **have** ishlatilmaydi → *We moved…*" },
       { k: 'fix', wrong: "I've finished my homework yet.", a: ["I've already finished my homework.", 'I have already finished my homework.', "I've finished my homework.", 'I have finished my homework.'], hint: 'yet darak gapda kelmaydi', why: "**yet** darak gapda ishlatilmaydi; *already* deymiz: *I've already finished.*" },
-      { k: 'order', uz: "Siz hech suši tatib ko'rganmisiz?", words: ['Have', 'you', 'ever', 'tried', 'sushi'], extra: ['Did', 'try'], why: "**Have you ever + V3?** — tajriba haqida savol." },
+      { k: 'order', uz: "Siz hech sushi tatib ko'rganmisiz?", words: ['Have', 'you', 'ever', 'tried', 'sushi'], extra: ['Did', 'try'], why: "**Have you ever + V3?** — tajriba haqida savol." },
       { k: 'translate', uz: "Men hali Seulga bormaganman, lekin 2022-yilda Istanbulga borganman.", a: ["I haven't been to Seoul yet, but I went to Istanbul in 2022", "I've not been to Seoul yet, but I went to Istanbul in 2022", 'I have not been to Seoul yet, but I went to Istanbul in 2022'], why: "Birinchi qism — **haven't been … yet**, ikkinchisida **in 2022** → **went**." },
     ],
   },

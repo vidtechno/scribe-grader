@@ -130,8 +130,8 @@ const lesson: Lesson = {
     { k: "fill", q: "I'm so ___ for your help. Thank you! (minnatdor)", a: ["grateful", "thankful"], why: "**grateful for** — minnatdor." },
     { k: "listen", say: "I was disappointed with the result.", opts: ["I was disappointed with the result.", "I was disappointing with the result.", "I was determined with the result.", "I was excited about the result."], a: 0, why: "Odam his qilsa → **-ed**: *disappointed*." },
     { k: "order", uz: "Men o'z biznesimni ochishni orzu qilaman.", words: ["I", "dream", "of", "opening", "my", "own", "business."], extra: ["to", "open"], why: "**dream of** + **-ing**." },
-    { k: "order", uz: "U qat'iy qaror qilgan: imtihondan o'tadi.", words: ["She", "is", "determined", "to", "pass", "the", "exam."], extra: ["of", "passing"], alt: [["She's", "determined", "to", "pass", "the", "exam."]], why: "**determined to** + fe'l." },
-    { k: "translate", uz: "Umid qilamanki, orzuyingiz ushaladi.", a: ["I hope your dream comes true.", "I hope your dreams come true.", "I hope that your dream comes true."], why: "**come true** — ushalmoq." },
+    { k: "order", uz: "U imtihondan o'tishga qat'iy ahd qilgan.", words: ["She", "is", "determined", "to", "pass", "the", "exam."], extra: ["of", "passing"], alt: [["She's", "determined", "to", "pass", "the", "exam."]], why: "**determined to** + fe'l." },
+    { k: "translate", uz: "Umid qilamanki, orzuingiz ushaladi.", a: ["I hope your dream comes true.", "I hope your dreams come true.", "I hope that your dream comes true."], why: "**come true** — ushalmoq." },
     { k: "tf", q: "**She is boring** va **She is bored** bir xil ma'noni bildiradi.", a: false, why: "*boring* — zerikarli (odam yoki narsa), *bored* — o'zi zerikkan." },
     { k: "tf", q: "**grateful** dan keyin odam oldidan **to**, narsa oldidan **for** keladi.", a: true, why: "*grateful to my teacher for her help*." },
     { k: "fix", wrong: "I was very disappointing with my test.", a: ["I was very disappointed with my test.", "I was very disappointed about my test."], hint: "Odam his qiladi", why: "Men his qilaman → **disappointed**." },
@@ -157,7 +157,7 @@ const lesson: Lesson = {
     "Odam his qilsa **-ed** (*disappointed, excited*), narsa shunday ta'sir qilsa **-ing** (*disappointing, exciting*).",
     "His sifatlarining o'z old qo'shimchasi bor: *jealous of, proud of, anxious about, grateful to … for …, disappointed with*.",
   ],
-  homework: "O'z orzuyingiz haqida 5 ta gap yozing: bittasida **ambition**, bittasida **determined to**, bittasida **dream of + -ing**, ikkitasida **-ed / -ing** sifatlarini ishlating.",
+  homework: "O'z orzuingiz haqida 5 ta gap yozing: bittasida **ambition**, bittasida **determined to**, bittasida **dream of + -ing**, ikkitasida **-ed / -ing** sifatlarini ishlating.",
 };
 
 export default lesson;

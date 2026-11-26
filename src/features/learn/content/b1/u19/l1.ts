@@ -120,7 +120,7 @@ const lesson: Lesson = {
     { k: "fill", q: "By the evening we ___ not finished the report yet.", hint: "Past Perfect inkor", a: ["had"], why: "Inkor: **had not finished**. Bo'sh joyga **had** kerak (not allaqachon berilgan)." },
     { k: "fill", q: "Nobody knew where she had ___.", hint: "go - went - gone", a: ["gone"], why: "had + **V3**: *gone*." },
     { k: "order", uz: "Men eshikni qulflaganimni esladim.", words: ["I", "remembered", "that", "I", "had", "locked", "the", "door."], extra: ["have", "lock"], why: "Eslash payti — Past Simple, qulflash undan oldin — **had locked**." },
-    { k: "order", uz: "Sen avval u bilan uchrashgan eding?", words: ["Had", "you", "met", "him", "before?"], extra: ["Have", "meet"], why: "Savol: **Had + ega + V3**." },
+    { k: "order", uz: "Sen u bilan avval uchrashganmiding?", words: ["Had", "you", "met", "him", "before?"], extra: ["Have", "meet"], why: "Savol: **Had + ega + V3**." },
     { k: "translate", uz: "Men yetib kelganimda poyezd allaqachon ketgan edi.", a: ["When I arrived, the train had already left.", "The train had already left when I arrived.", "When I got there, the train had already left.", "The train had already left when I got there."], why: "Oldin bo'lgan voqea: **had already left**." },
     { k: "translate", uz: "U avval hech qachon samolyotda uchmagan edi.", a: ["She had never flown before.", "He had never flown before.", "She had never flown on a plane before.", "He had never flown on a plane before."], why: "**had never flown before**." },
     { k: "match", pairs: [["realise", "anglab yetmoq"], ["disappear", "g'oyib bo'lmoq"], ["recognise", "tanimoq"], ["cancel", "bekor qilmoq"], ["lock", "qulflamoq"], ["borrow", "qarz olmoq"]] },

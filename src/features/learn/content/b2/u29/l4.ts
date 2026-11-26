@@ -193,7 +193,7 @@ const lesson: Lesson = {
     { k: "fill", q: "It was a ___ walk to the station. (ten minutes)", a: ["ten-minute", "10-minute"], uz: "Bekatgacha o'n daqiqalik yo'l edi.", why: "Compound adjective birlikda: **ten-minute**." },
     { k: "fill", q: "I'm really tired. I ___ slept last night. (almost not at all)", a: ["hardly", "barely", "scarcely"], why: "**Hardly** = deyarli yo'q.", hint: "h______" },
     { k: "order", uz: "U kichkina qora charm sumka sotib oldi.", words: ["She", "bought", "a", "small", "black", "leather", "bag."], extra: ["leather", "black"], why: "O'lcham → rang → material." },
-    { k: "order", uz: "Omad kulib, hech kim jarohatlanmadi.", words: ["Fortunately,", "nobody", "was", "hurt."], extra: ["Fortunate", "hurted"], why: "Fikr bildiruvchi ravish gap boshida: **Fortunately,**." },
+    { k: "order", uz: "Baxtimizga, hech kim jarohatlanmadi.", words: ["Fortunately,", "nobody", "was", "hurt."], extra: ["Fortunate", "hurted"], why: "Fikr bildiruvchi ravish gap boshida: **Fortunately,**." },
     { k: "translate", uz: "Bu o'ylantiradigan kitob.", a: ["It is a thought-provoking book.", "It's a thought-provoking book.", "This is a thought-provoking book."], why: "**Thought-provoking** — o'ylantiradigan." },
     { k: "translate", uz: "U doim qattiq ishlaydi.", a: ["He always works hard.", "She always works hard.", "He works hard all the time.", "She works hard all the time."], why: "**Works hard**; chastota ravishi fe'l oldida." },
     { k: "match", pairs: [["user-friendly", "foydalanishga qulay"], ["time-consuming", "ko'p vaqt oladigan"], ["far-reaching", "uzoqqa boruvchi"], ["hands-on", "amaliy"], ["short-term", "qisqa muddatli"]] },

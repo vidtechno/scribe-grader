@@ -53,6 +53,7 @@ import { safeReturnTo } from "./lib/returnTo";
 import { isTelegramWebApp, miniAppPath } from "./lib/telegram";
 import { trackOnce, setAnalyticsUser } from "@/lib/analytics";
 
+const FOCUS_ROUTE = /^\/(learn\/(lesson|daily|drill|test|level-test|placement|start|upgrade)|reading|listening)(\/|$)/;
 const AIMentor = lazy(() => import("@/components/AIMentor").then(m => ({ default: m.AIMentor })));
 const Announcements = lazy(() => import("@/components/Announcements").then(m => ({ default: m.Announcements })));
 const InstallPrompt = lazy(() => import("@/components/InstallPrompt").then(m => ({ default: m.InstallPrompt })));
@@ -179,7 +180,8 @@ function AppRoutes() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
-      {user && <Suspense fallback={null}><AIMentor externalOpen={mentorOpen} onExternalOpenChange={setMentorOpen} /></Suspense>}
+      {/* Full-screen lessons and tests have their own bottom bar (and lessons their own AI tutor): no floating chat button over it. */}
+      {user && !FOCUS_ROUTE.test(location.pathname) && <Suspense fallback={null}><AIMentor externalOpen={mentorOpen} onExternalOpenChange={setMentorOpen} /></Suspense>}
       <BottomNav />
     </>
   );

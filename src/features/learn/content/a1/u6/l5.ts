@@ -32,7 +32,7 @@ const lesson: Lesson = {
           good: { title: "To'g'ri", items: ["fifth", "eighth", "ninth", "twelfth"] },
           bad: { title: "Xato", items: ["fiveth", "eightth", "nineth", "twelveth"] },
         },
-        { t: "check", ex: { k: "fill", q: "nine → ___", a: ["ninth"], why: "**ninth** — *e* tushib qoladi." } },
+        { t: "check", ex: { k: "fill", q: "nine → ___", uz: "Tartib sonini yozing (masalan: four → fourth)", a: ["ninth"], why: "**ninth** — *e* tushib qoladi." } },
       ],
     },
     {
@@ -194,7 +194,7 @@ const lesson: Lesson = {
     { k: "choice", q: "\"20-chi\" qanday yoziladi?", opts: ["twentyth", "twentieth", "twentith", "twenteeth"], a: 1, why: "**y → ie + th**: *twentieth*." },
     { k: "choice", q: "Qaysi to'g'ri?", opts: ["the twenty-oneth of May", "the twentieth-one of May", "the twenty-first of May", "the twenty one of May"], a: 2, why: "Faqat oxirgi so'z: **twenty-first**." },
     { k: "choice", q: "2007-yil qanday o'qiladi?", opts: ["twenty seven", "two thousand and seven", "two hundred seven", "twenty oh seven hundred"], a: 1 },
-    { k: "fill", q: "eight → ___", a: ["eighth"], why: "**eighth** — bitta *t*." },
+    { k: "fill", q: "eight → ___", uz: "Tartib sonini yozing (masalan: four → fourth)", a: ["eighth"], why: "**eighth** — bitta *t*." },
     { k: "fill", q: "My sister was born ___ 2010.", a: ["in"], why: "Yil — **in**." },
     { k: "fill", q: "The concert is ___ the fourteenth of February.", a: ["on"], why: "Aniq sana — **on**." },
     { k: "tf", q: "Sanani aytganda *the five of May* deyish to'g'ri.", a: false, why: "Tartib son kerak: **the fifth of May**." },

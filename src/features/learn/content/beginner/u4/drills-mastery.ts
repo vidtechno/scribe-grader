@@ -8,8 +8,8 @@ export const drillsMastery: Drill[] = [
     titleUz: 'Present Continuous: to\'liq sinov',
     goal: "Present Continuous ni to'liq tekshirasiz: darak gap, -ing imlosi, inkor, savol va qisqa javoblar.",
     exercises: [
-      { k: 'fill', q: 'make → ___', a: ['making'], why: "**-e** tushadi: **making**." },
-      { k: 'fill', q: 'run → ___', a: ['running'], why: "qisqa unli + bitta undosh → **running**." },
+      { k: 'fill', q: 'make → ___', uz: 'Fe\'lning -ing shaklini yozing', a: ['making'], why: "**-e** tushadi: **making**." },
+      { k: 'fill', q: 'run → ___', uz: 'Fe\'lning -ing shaklini yozing', a: ['running'], why: "qisqa unli + bitta undosh → **running**." },
       { k: 'choice', q: "Qaysi gap to'g'ri?", opts: ['She reading a book now.', 'She is reading a book now.', 'She reads a book now.', 'She are reading a book now.'], a: 1, why: "**is + reading**." },
       { k: 'fill', q: 'Look! The children ___ playing outside.', a: ['are'], why: "*the children* = they → **are**." },
       { k: 'order', uz: 'Men hozir uy vazifamni qilyapman.', words: ['I', 'am', 'doing', 'my', 'homework', 'now'], extra: ['do'], why: "**am + doing**." },

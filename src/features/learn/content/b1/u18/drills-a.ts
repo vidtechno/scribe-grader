@@ -18,7 +18,7 @@ export const drills: Drill[] = [
       { k: "fix", wrong: "I live in this city since 2015.", a: ["I have lived in this city since 2015.", "I've lived in this city since 2015."], hint: "Zamon", why: "since bilan davom etayotgan holat → **have lived**." },
       { k: "fix", wrong: "She has been a doctor since ten years.", a: ["She has been a doctor for ten years.", "She's been a doctor for ten years."], hint: "for yoki since?", why: "*ten years* — muddat → **for**." },
       { k: "order", uz: "Qancha vaqtdan beri bu yerda ishlaysiz?", words: ["How", "long", "have", "you", "worked", "here?"], extra: ["do", "since"], alt: [["How", "long", "have", "you", "been", "working", "here?"]], why: "**How long have you + V3?**" },
-      { k: "translate", uz: "Men uni dushanbadan beri ko'rmadim.", a: ["I haven't seen him since Monday.", "I haven't seen her since Monday.", "I have not seen him since Monday.", "I have not seen her since Monday."], why: "Inkor + payt: **haven't seen … since Monday**." },
+      { k: "translate", uz: "Men uni dushanbadan beri ko'rmaganman.", a: ["I haven't seen him since Monday.", "I haven't seen her since Monday.", "I have not seen him since Monday.", "I have not seen her since Monday."], why: "Inkor + payt: **haven't seen … since Monday**." },
     ],
   },
   {

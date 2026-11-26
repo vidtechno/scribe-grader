@@ -93,7 +93,7 @@ const lesson: Lesson = {
     { k: 'fill', q: "Thanks for asking, but I can't ___ it on Sunday.", a: ['make'], why: "**make it**." },
     { k: 'order', uz: "Uydan chiqqanimda sizga yozaman.", words: ["I'll", 'text', 'you', 'when', 'I', 'leave', 'home'], extra: ['will', 'left'], alt: [['I', 'will', 'text', 'you', 'when', 'I', 'leave', 'home'], ['When', 'I', 'leave', 'home', "I'll", 'text', 'you']] },
     { k: 'fix', wrong: "I'll text you when I will arrive.", a: ["I'll text you when I arrive.", 'I will text you when I arrive.'], why: "**when** dan keyin Present Simple." },
-    { k: 'translate', uz: "Men ham borman! Soat nechada boshlanadi?", a: ['Count me in! What time does it start?', 'Count me in. What time does it start?', "I'm in! What time does it start?"], why: "**Count me in!** + savol." },
+    { k: 'translate', uz: "Men ham qatnashaman! Soat nechada boshlanadi?", a: ['Count me in! What time does it start?', 'Count me in. What time does it start?', "I'm in! What time does it start?"], why: "**Count me in!** + savol." },
     { k: 'tf', q: "Nilufar yakshanba kuni ko'lga boradi.", a: false, why: "U yakshanba kuni buvilarinikiga boradi." },
     { k: 'choice', q: 'Sardor: *Shall I bring something?* Malika\'s best answer:', opts: ['Just a cake, please.', 'I am going to a cake.', 'Yes, I shall.', 'No, I will bring.'], a: 0 },
   ],

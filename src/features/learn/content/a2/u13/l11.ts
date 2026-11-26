@@ -65,7 +65,7 @@ const lesson: Lesson = {
     { en: "dream", uz: "orzu", ipa: "driːm", pos: "noun", ex: "Her dream is to travel the world.", exUz: "Uning orzusi butun dunyoni aylanish." },
     { en: "success", uz: "muvaffaqiyat", ipa: "səkˈses", pos: "noun", ex: "Hard work leads to success.", exUz: "Qattiq mehnat muvaffaqiyatga olib keladi." },
     { en: "someday", uz: "bir kun, kelajakda biror vaqt", ipa: "ˈsʌm.deɪ", pos: "adv", ex: "I'll visit Japan someday.", exUz: "Bir kun Yaponiyaga boraman." },
-    { en: "come true", uz: "ro'yobga chiqmoq", ipa: "kʌm truː", pos: "phrase", ex: "I hope your dream will come true.", exUz: "Orzuyingiz ro'yobga chiqadi degan umiddaman." },
+    { en: "come true", uz: "ro'yobga chiqmoq", ipa: "kʌm truː", pos: "phrase", ex: "I hope your dream will come true.", exUz: "Orzuingiz ro'yobga chiqadi degan umiddaman." },
     { en: "change", uz: "o'zgartirmoq, o'zgarmoq", ipa: "tʃeɪndʒ", pos: "verb", ex: "I might change my plans.", exUz: "Rejalarimni o'zgartirishim mumkin." },
   ],
   practice: [
@@ -75,7 +75,7 @@ const lesson: Lesson = {
     { k: "fix", wrong: "If you will study, you'll pass the exam.", a: ["If you study, you'll pass the exam."], why: "**If** dan keyin Present Simple." },
     { k: "choice", q: "\"Balki u kelmas.\"", opts: ["She might not come.", "She might not to come.", "She not might come.", "She mights not come."], a: 0 },
     { k: "translate", uz: "Maqsadim — imtihondan o'tish.", a: ["My goal is to pass the exam.", "My goal is to pass my exam."], why: "**My goal is to + V1**." },
-    { k: "order", uz: "Bir kun orzuyim ro'yobga chiqadi.", words: ["Someday", "my", "dream", "will", "come", "true"], extra: ["to"], alt: [["My", "dream", "will", "come", "true", "someday"]] },
+    { k: "order", uz: "Bir kun orzuim ro'yobga chiqadi.", words: ["Someday", "my", "dream", "will", "come", "true"], extra: ["to"], alt: [["My", "dream", "will", "come", "true", "someday"]] },
     { k: "choice", q: "\"Taklif\": which one is an invitation?", opts: ["Would you like to come with me?", "I'm afraid I can't.", "That sounds great!", "Maybe another time."], a: 0 },
     { k: "fill", q: "Why don't we ___ to the lake? (go)", a: ["go"], why: "**Why don't we + V1**." },
     { k: "tf", q: "**I'll definitely come** — bu **I might come** dan ko'ra ishonchliroq.", a: true },

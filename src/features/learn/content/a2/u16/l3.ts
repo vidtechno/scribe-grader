@@ -171,7 +171,7 @@ const lesson: Lesson = {
     { k: "choice", q: "Qaysi gap **to'g'ri**?", opts: ["The man who he lives here is kind.", "The man who lives here is kind.", "The man what lives here is kind.", "The man where lives here is kind."], a: 1, why: "**who** o'zi ega vazifasini bajaradi — *he* kerak emas." },
     { k: "listen", say: "The guest who arrived late was my cousin.", opts: ["The guest who arrived late was my cousin.", "The guest which arrived late was my cousin.", "The guest where arrived late was my cousin."], a: 0 },
     { k: "order", uz: "Men non sotib oladigan novvoyxona uyimning yonida.", words: ["The", "bakery", "where", "I", "buy", "bread", "is", "near", "my", "house."], extra: ["which", "what"] },
-    { k: "translate", uz: "Men sevgan kitob juda qiziq edi.", a: ["The book I liked was very interesting.", "The book that I liked was very interesting.", "The book which I liked was very interesting.", "The book I loved was very interesting.", "The book that I loved was very interesting.", "The book which I loved was very interesting."] },
+    { k: "translate", uz: "Menga yoqqan kitob juda qiziq edi.", a: ["The book I liked was very interesting.", "The book that I liked was very interesting.", "The book which I liked was very interesting.", "The book I loved was very interesting.", "The book that I loved was very interesting.", "The book which I loved was very interesting."] },
     { k: "tf", q: "**The man that lives next door** — to'g'ri ibora.", a: true, why: "Odam uchun **that** ham ishlatiladi (norasmiyroq)." },
   ],
   summary: [

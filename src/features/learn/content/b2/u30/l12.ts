@@ -123,7 +123,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: "He did a big mistake in the exam.", a: ["He made a big mistake in the exam."], why: "**make a mistake**." },
     { k: 'choice', q: "The streets were very ___ during the festival.", opts: ['overcrowded', 'undercrowded', 'recrowded', 'discrowded'], a: 0, why: "**overcrowded**." },
     { k: 'tf', q: "*Strong rain* is the natural English collocation for a lot of rain.", a: false, why: "To'g'risi **heavy rain**. *strong* — coffee, wind, opinion bilan." },
-    { k: 'order', uz: "Menga maslahat berib yubora olasizmi?", words: ['Could', 'you', 'give', 'me', 'some', 'advice?'], extra: ['do', 'an'], why: "**give advice**; *advice* sanalmaydi." },
+    { k: 'order', uz: "Menga maslahat bera olasizmi?", words: ['Could', 'you', 'give', 'me', 'some', 'advice?'], extra: ['do', 'an'], why: "**give advice**; *advice* sanalmaydi." },
     { k: 'choice', q: "Which word is a verb?", opts: ['improve', 'improvement', 'dependable', 'overcrowded'], a: 0, why: "**improve** — fe'l; boshqalari ot va sifat." },
   ],
   summary: [

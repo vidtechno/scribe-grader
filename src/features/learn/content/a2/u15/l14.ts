@@ -72,7 +72,7 @@ const lesson: Lesson = {
           ["Do you have a fever?", "No, I don't. / Yes, a little."],
         ] },
         { t: 'tip', tone: 'good', md: "Gapirish rejasi: **1) muammo** (*I've got…*), **2) qachon boshlandi** (*It started two days ago*), **3) iltimos** (*Could you tell me what to do?*). Sekin va aniq gapiring." },
-        { t: 'check', ex: { k: 'order', uz: "Qorin og'rig'i bor.", words: ["I've", 'got', 'a', 'stomach', 'ache.'], extra: ['have', 'an'], alt: [['I', 'have', 'got', 'a', 'stomach', 'ache.']] } },
+        { t: 'check', ex: { k: 'order', uz: "Qornim og'riyapti.", words: ["I've", 'got', 'a', 'stomach', 'ache.'], extra: ['have', 'an'], alt: [['I', 'have', 'got', 'a', 'stomach', 'ache.']] } },
       ],
     },
   ],

@@ -130,7 +130,7 @@ const lesson: Lesson = {
     { k: "fill", q: "Have you finished your homework ___?", a: ["yet"], why: "Savolda gap oxirida **yet**." },
     { k: "fill", q: "We're not hungry. We've ___ eaten.", a: ["already", "just"], why: "**already** (allaqachon) yoki **just** (hozirgina) — ikkalasi ham mantiqan to'g'ri." },
     { k: "fill", q: "She ___ to Dubai in 2022. (go)", a: ["went"], why: "**in 2022** — aniq vaqt → Past Simple." },
-    { k: "order", uz: "Men hech qachon suši yemaganman.", words: ["I", "have", "never", "eaten", "sushi."], extra: ["ate", "ever"], alt: [["I've", "never", "eaten", "sushi."]] },
+    { k: "order", uz: "Men hech qachon sushi yemaganman.", words: ["I", "have", "never", "eaten", "sushi."], extra: ["ate", "ever"], alt: [["I've", "never", "eaten", "sushi."]] },
     { k: "order", uz: "Kecha kechqurun filmni ko'rdingmi?", words: ["Did", "you", "see", "the", "film", "last", "night?"], extra: ["have", "saw"] },
     { k: "translate", uz: "Men hech qachon Yaponiyada bo'lmaganman.", a: ["I have never been to Japan.", "I've never been to Japan."] },
     { k: "translate", uz: "Biz o'tgan yili Buxoroga bordik.", a: ["We went to Bukhara last year.", "Last year we went to Bukhara."] },

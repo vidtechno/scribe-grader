@@ -29,7 +29,7 @@ export const drillsNew: Drill[] = [
     goal: "**ever, never, already, yet, just** so'zlarini Present Perfect da to'g'ri tanlaysiz va **been** bilan **gone** ni adashtirmaysiz.",
     exercises: [
       { k: "fill", q: "Have you ___ been to Japan?", a: ["ever"], uz: "Siz hech Yaponiyada bo'lganmisiz?", why: "Tajriba savolida **ever**." },
-      { k: "fill", q: "I have ___ eaten sushi. I'd like to try it.", a: ["never"], uz: "Men hech qachon suši yemaganman. Tatib ko'rmoqchiman.", why: "Hech qachon → **never**." },
+      { k: "fill", q: "I have ___ eaten sushi. I'd like to try it.", a: ["never"], uz: "Men hech qachon sushi yemaganman. Tatib ko'rmoqchiman.", why: "Hech qachon → **never**." },
       { k: "fill", q: "She hasn't called me ___.", a: ["yet"], uz: "U hali menga qo'ng'iroq qilmadi.", why: "Inkor gapda gap oxirida **yet**." },
       { k: "fill", q: "Don't worry. I've ___ done it.", a: ["already"], uz: "Xavotir olma. Men buni allaqachon qilganman.", why: "Allaqachon → **already**." },
       { k: "fill", q: "The train has ___ left.", a: ["just"], uz: "Poyezd hozirgina ketdi.", why: "Hozirgina → **just**." },

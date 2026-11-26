@@ -94,7 +94,7 @@ const lesson: Lesson = {
           speak: [0, 1],
         },
         { t: "tip", tone: "info", md: "**get there** = u yerga yetib bormoq. **It took + vaqt** = \"… vaqt ketdi\": *It took (us) six hours.* Ega odatda **It** bo'ladi: ❌ *The way took six hours* emas." },
-        { t: "check", ex: { k: "order", uz: "Yo'l bizga uch soat vaqt oldi.", words: ["It", "took", "us", "three", "hours"], extra: ["take", "was"] } },
+        { t: "check", ex: { k: "order", uz: "Yo'lga uch soat ketdi.", words: ["It", "took", "us", "three", "hours"], extra: ["take", "was"] } },
       ],
     },
     {

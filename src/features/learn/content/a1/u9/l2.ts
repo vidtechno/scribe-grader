@@ -43,7 +43,7 @@ const lesson: Lesson = {
           speak: [0, 1],
         },
         { t: "tip", tone: "info", md: "**left** — *ketdi* ma'nosida ham, *chap* ma'nosida ham bir xil yoziladi va o'qiladi. Kontekstdan bilinadi: *She **left** at six* (ketdi) / *Turn **left*** (chapga buriling)." },
-        { t: "check", ex: { k: "fill", q: "spend – ___", a: ["spent"], why: "**spend – spent**: oxiridagi *d* → *t*." } },
+        { t: "check", ex: { k: "fill", q: "spend – ___", uz: "O'tgan zamon shaklini yozing", a: ["spent"], why: "**spend – spent**: oxiridagi *d* → *t*." } },
       ],
     },
     {

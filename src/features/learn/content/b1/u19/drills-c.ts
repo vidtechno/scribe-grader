@@ -77,7 +77,7 @@ export const drills: Drill[] = [
       { k: 'choice', q: "— Guess what! I met the mayor yesterday.", opts: ['— No way! What did he say?', '— I will meet.', '— The mayor is yesterday.', '— Yes, I do.'], a: 0, why: "Hayron qolish va savol berish." },
       { k: 'order', uz: "Politsiyachi guvohdan nima ko'rganini so'radi.", words: ['The', 'officer', 'asked', 'the', 'witness', 'what', 'she', 'had', 'seen.'], extra: ['did', 'been'], why: "Ko'chirma savolda oddiy tartib: **what she had seen**." },
       { k: 'fix', wrong: "The guard said me to wait.", a: ['The guard told me to wait.'], hint: "said me emas", why: "**told me to wait**." },
-      { k: 'translate', uz: "Kengash va'da berdi, soliqlar oshmaydi.", a: ['The council promised that taxes would not go up.', 'The council promised that taxes would not rise.', 'The council promised that taxes wouldn\'t go up.', 'The council promised that taxes wouldn\'t rise.', 'The council promised that it would not raise taxes.', 'The council promised that it wouldn\'t raise taxes.', 'The council promised not to raise taxes.', 'The council promised not to raise the taxes.'], why: "*will* → **would**; yoki **promised not to**." },
+      { k: 'translate', uz: "Kengash soliqlar oshmasligiga va'da berdi.", a: ['The council promised that taxes would not go up.', 'The council promised that taxes would not rise.', 'The council promised that taxes wouldn\'t go up.', 'The council promised that taxes wouldn\'t rise.', 'The council promised that it would not raise taxes.', 'The council promised that it wouldn\'t raise taxes.', 'The council promised not to raise taxes.', 'The council promised not to raise the taxes.'], why: "*will* → **would**; yoki **promised not to**." },
     ],
   },
   {

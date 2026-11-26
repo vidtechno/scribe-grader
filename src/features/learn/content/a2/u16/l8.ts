@@ -104,7 +104,7 @@ const lesson: Lesson = {
     { k: "choice", q: "**Don't give ___!**", opts: ["it up", "up it", "it on", "on"], a: 0 },
     { k: "fill", q: "She likes tea, ___ she?", a: ["doesn't"] },
     { k: "fill", q: "I've known her ___ ten years.", a: ["for"] },
-    { k: "order", uz: "Shisha deraza kecha sindirilgan.", words: ["The", "window", "was", "broken", "yesterday."], extra: ["is", "broke"] },
+    { k: "order", uz: "Deraza kecha sindirildi.", words: ["The", "window", "was", "broken", "yesterday."], extra: ["is", "broke"] },
     { k: "listen", say: "I've lived here for ten years.", opts: ["I've lived here for ten years.", "I lived here for ten years.", "I live here for ten years."], a: 0 },
     { k: "tf", q: "**Hi Mr Karimov, … Yours sincerely** — uslub to'g'ri.", a: false, why: "Uslublar aralashgan." },
   ],

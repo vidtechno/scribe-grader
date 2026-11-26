@@ -114,7 +114,7 @@ const lesson: Lesson = {
     { k: 'fill', q: "To some ___, the columnist is right.", a: ['extent'], why: "Ibora: **to some extent**." },
     { k: 'tf', q: "A 120-word comment should include both your opinion and a personal example.", a: true, why: "Topshiriq: fikr, shaxsiy misol, qarama-qarshi fikr va xulosa." },
     { k: 'fix', wrong: "I wish I didn't give up my course when I was twenty.", a: ["I wish I hadn't given up my course when I was twenty.", "I wish I had not given up my course when I was twenty."], why: "O'tgan pushaymon → **wish + Past Perfect**." },
-    { k: 'order', uz: "O'tgan 'agar shunday bo'lganida'lar haqida o'ylayverish bugun harakat qilishimizga xalaqit beradi.", words: ['Dwelling', 'on', 'what-ifs', 'stops', 'us', 'from', 'acting', 'today.'], extra: ['to', 'act'], why: "**stop someone from + -ing**." },
+    { k: 'order', uz: "«Agar unday bo'lganida...» deb o'ylayverish bugun harakat qilishimizga xalaqit beradi.", words: ['Dwelling', 'on', 'what-ifs', 'stops', 'us', 'from', 'acting', 'today.'], extra: ['to', 'act'], why: "**stop someone from + -ing**." },
   ],
   summary: [
     "Ustun — muallifning shaxsiy fikri; savollar: **gist** (asosiy g'oya), **detail** (tafsilot), **attitude** (munosabat).",
