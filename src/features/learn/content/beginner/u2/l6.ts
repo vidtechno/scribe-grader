@@ -134,7 +134,7 @@ const lesson: Lesson = {
     { k: 'tf', q: "*Is this your phone?* savoliga *Yes, it is.* deb javob beriladi.", a: true },
     { k: 'fill', q: 'This ___ my dress.', a: ['is'], why: "**this** → **is**." },
     { k: 'fill', q: 'Those chairs ___ old.', a: ['are'], why: "**those** + ko'plik → **are**." },
-    { k: 'fill', q: 'one glass → two ___', a: ['glasses'], why: "**s** bilan tugaydi → **-es** /ɪz/." },
+    { k: 'fill', q: 'one glass → two ___', uz: 'Ko\'plik shaklini yozing', a: ['glasses'], why: "**s** bilan tugaydi → **-es** /ɪz/." },
     { k: 'fill', q: 'Is that your jacket? — No, it ___.', a: ["isn't", 'is not'] },
     { k: 'order', uz: 'Bu tuflilar qimmat.', words: ['These', 'shoes', 'are', 'expensive'], extra: ['This', 'is'] },
     { k: 'order', uz: 'Ana u sizning telefoningizmi?', words: ['Is', 'that', 'your', 'phone'], extra: ['those'] },

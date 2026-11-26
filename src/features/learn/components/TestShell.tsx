@@ -10,7 +10,7 @@ export function TestShell({ children, onExit, progress, title, path = '/learn/te
   const { t } = useT();
   const pageTitle = title ?? t('learn.unitTest.title');
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-[100dvh] bg-background">
       <SEOHead title={pageTitle} description={pageTitle} path={path} noindex />
       <header className="fixed top-0 inset-x-0 z-40 bg-background/90 backdrop-blur border-b border-border">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
@@ -21,7 +21,7 @@ export function TestShell({ children, onExit, progress, title, path = '/learn/te
           <Link to="/support" target="_blank" className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:border-primary/50"><LifeBuoy className="h-4 w-4 text-primary" />{t('learn.lesson.help')}</Link>
         </div>
       </header>
-      <main className="max-w-2xl mx-auto px-4 pt-20 pb-24">{children}</main>
+      <main className="max-w-2xl mx-auto px-4 pt-20 pb-8">{children}</main>
     </div>
   );
 }

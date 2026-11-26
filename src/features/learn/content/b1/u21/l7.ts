@@ -136,7 +136,7 @@ const lesson: Lesson = {
     { k: "fill", q: "I would ___ recommend this restaurant. The food was excellent.", a: ["definitely"], why: "**would definitely recommend** — albatta tavsiya qilaman." },
     { k: "fill", q: "The old town, ___ is full of small cafes, is my favourite part.", a: ["which"], why: "Joy/narsa haqida vergul bilan → **which**." },
     { k: "order", uz: "Xona kichkina bo'lsa ham, juda toza edi.", words: ["Although", "the", "room", "was", "tiny,", "it", "was", "spotless."], extra: ["but", "despite"], why: "**Although** + gap, vergul, asosiy gap; **but** kerak emas." },
-    { k: "order", uz: "Yomg'ir tufayli ham, biz sayrdan zavqlandik.", words: ["Despite", "the", "rain,", "we", "enjoyed", "the", "walk."], extra: ["Although", "of"], why: "**Despite** + ot." },
+    { k: "order", uz: "Yomg'irga qaramay, biz sayrdan zavqlandik.", words: ["Despite", "the", "rain,", "we", "enjoyed", "the", "walk."], extra: ["Although", "of"], why: "**Despite** + ot." },
     { k: "translate", uz: "Men uni tarixni yaxshi ko'radigan har kimga tavsiya qilaman.", a: ["I would recommend it to anyone who loves history.", "I would recommend it to anyone who likes history.", "I recommend it to anyone who loves history."], why: "**anyone who** + fe'l; **would recommend** — xushmuomala tavsiya." },
     { k: "tf", q: "**Although it was cheap, but it was good** — bu gap to'g'ri.", a: false, why: "**Although** va **but** birga kelmaydi." },
     { k: "tf", q: "Sharhning oxirida odatda tavsiya yoki umumiy baho yoziladi.", a: true, why: "*Overall, I would recommend…*" },

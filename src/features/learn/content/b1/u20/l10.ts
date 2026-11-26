@@ -54,7 +54,7 @@ const lesson: Lesson = {
         { t: 'examples', items: [
           { en: "I'm sorry I was late. The bus broke down.", uz: "Kechikkanim uchun uzr. Avtobus buzilib qoldi.", note: "Uzr, keyin qisqa sabab." },
           { en: "I regret not telling you earlier.", uz: "Senga oldinroq aytmaganimdan pushaymonman.", note: "**regret + -ing**: o'tgan ish uchun." },
-          { en: "I shouldn't have shouted. I wish I hadn't lost my temper.", uz: "Baqirmasligim kerak edi. Kaskiydi, jahlimni yo'qotmasam edi.", note: "**shouldn't have** va **wish + hadn't**." },
+          { en: "I shouldn't have shouted. I wish I hadn't lost my temper.", uz: "Baqirmasligim kerak edi. Qani endi, jahlimni yo'qotmasam edi.", note: "**shouldn't have** va **wish + hadn't**." },
         ] },
         { t: 'compare',
           good: { title: "Yaxshi uzr", items: ["I'm sorry. It was my fault.", "I should have told you.", "How can I make it up to you?"] },
@@ -91,7 +91,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "\"I'm sorry I broke your cup.\" Muloyim javob:", opts: ["Don't worry about it. It's only a cup.", "You are a bad friend.", "It was my fault.", "I will never forgive you."], a: 0, why: "Uzrni qabul qilish." },
     { k: 'fill', q: "It was my ___. I should have checked the time.", a: ['fault', 'mistake'], uz: "Bu mening aybim edi. Vaqtni tekshirishim kerak edi.", why: "**my fault** — aybni tan olish." },
     { k: 'fill', q: "I didn't ___ to upset you.", a: ['mean'], uz: "Seni xafa qilmoqchi emas edim.", why: "**didn't mean to** — niyat bo'lmagan." },
-    { k: 'fill', q: "I wish I ___ shouted at you.", a: ["hadn't", 'had not'], uz: "Kaskiydi, senga baqirmasam edi.", why: "**wish + hadn't + V3**." },
+    { k: 'fill', q: "I wish I ___ shouted at you.", a: ["hadn't", 'had not'], uz: "Qani endi, senga baqirmasam edi.", why: "**wish + hadn't + V3**." },
     { k: 'fill', q: "Can I make it ___ to you? I'll cook dinner.", a: ['up'], uz: "Buning evaziga nima qilsam bo'ladi? Men kechki ovqat pishiraman.", why: "**make it up to you** — tuzatish." },
     { k: 'listen', say: "I shouldn't have said that.", opts: ["I shouldn't have said that.", "I should have said that.", "I didn't say that.", "I won't say that."], a: 0 },
     { k: 'order', uz: "Bu mening aybim edi.", words: ['It', 'was', 'my', 'fault.'], extra: ['is', 'your'], why: "**my fault**." },
@@ -100,7 +100,7 @@ const lesson: Lesson = {
     { k: 'tf', q: "*Sorry, but it's your fault too.* — bu yaxshi uzr.", a: false, why: "\"But\" bilan boshqani ayblash uzrni yo'qqa chiqaradi." },
     { k: 'dictation', say: 'Can I make it up to you?', a: ['Can I make it up to you?'], uz: "Buning evaziga nima qilsam bo'ladi?" },
     { k: 'speak', say: "I'm so sorry. It was my fault.", uz: "Juda uzr. Bu mening aybim edi." },
-    { k: 'speak', say: "I wish I hadn't said that.", uz: "Kaskiydi, buni aytmasam edi." },
+    { k: 'speak', say: "I wish I hadn't said that.", uz: "Qani endi, buni aytmasam edi." },
   ],
   quiz: [
     { k: 'choice', q: "Uzrni qabul qilish iborasi qaysi?", opts: ["Don't worry about it.", "It was my fault.", "I apologise.", "I regret it."], a: 0, why: "**Don't worry about it** — uzrni qabul qilish." },

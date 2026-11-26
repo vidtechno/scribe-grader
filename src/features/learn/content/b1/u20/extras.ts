@@ -15,7 +15,7 @@ export const extras: UnitExtras = {
     },
     {
       title: "I wish bilan hozirgi zamon",
-      md: "\"Kaskiydi, ... bo'lsa\" deganda hozirgi zamon fe'lini qo'yish tabiiy tuyuladi. Inglizchada esa **wish** dan keyin zamon \"orqaga\" suriladi: hozirgi orzu uchun *had / could / were*, o'tgan pushaymonlik uchun *had + V3*.",
+      md: "\"Qani endi, ... bo'lsa\" deganda hozirgi zamon fe'lini qo'yish tabiiy tuyuladi. Inglizchada esa **wish** dan keyin zamon \"orqaga\" suriladi: hozirgi orzu uchun *had / could / were*, o'tgan pushaymonlik uchun *had + V3*.",
       fix: { k: 'fix', wrong: 'I wish I can speak English fluently.', a: ['I wish I could speak English fluently.'], why: "**wish** dan keyin **can** emas, **could**." },
     },
     {

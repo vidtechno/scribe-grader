@@ -55,7 +55,7 @@ export const drillsNew: Drill[] = [
       { k: 'match', pairs: [['man', 'men'], ['child', 'children'], ['foot', 'feet'], ['tooth', 'teeth'], ['person', 'people']] },
       { k: 'choice', q: 'Qaysi gap **noto\'g\'ri**?', opts: ['The children are happy.', 'The men are busy.', 'The people is tired.', 'My feet are cold.'], a: 2, why: '**people are**.' },
       { k: 'choice', q: 'Qaysi biri **boshqacha**?', opts: ['mice', 'geese', 'teeth', 'boxes'], a: 3, why: '*boxes* — oddiy **-es**; qolganlari — ichki unli almashadi.' },
-      { k: 'fill', q: 'one wife → two ___', a: ['wives'], why: '**wives**.' },
+      { k: 'fill', q: 'one wife → two ___', uz: 'Ko\'plik shaklini yozing', a: ['wives'], why: '**wives**.' },
       { k: 'tf', q: "*three peoples* — to'g'ri.", a: false, why: '**three people**.' },
       { k: 'fix', wrong: 'Her foots are tired.', a: ['Her feet are tired.'], why: '**feet**.' },
       { k: 'choice', q: "Qaysi ko'plik **noto'g'ri**?", opts: ['classes', 'tomatoes', 'shelves', 'leafs'], a: 3, why: '**leaves**.' },
@@ -69,7 +69,7 @@ export const drillsNew: Drill[] = [
     exercises: [
       { k: 'choice', q: "*It's ___ umbrella.*", opts: ['a', 'an'], a: 1, why: '**an** — unli tovush.' },
       { k: 'choice', q: "*She's at ___ university.*", opts: ['a', 'an'], a: 0, why: '"yu" → **a**.' },
-      { k: 'fill', q: 'one box → two ___', a: ['boxes'], why: '**-x → -es**.' },
+      { k: 'fill', q: 'one box → two ___', uz: 'Ko\'plik shaklini yozing', a: ['boxes'], why: '**-x → -es**.' },
       { k: 'match', pairs: [['child', 'children'], ['man', 'men'], ['baby', 'babies'], ['knife', 'knives']] },
       { k: 'choice', q: '*___ is my phone.* (yaqinda)', opts: ['This', 'That', 'These', 'Those'], a: 0, why: 'Yaqin, bitta → **This**.' },
       { k: 'choice', q: '*___ are my shoes.* (yaqinda, ko\'p)', opts: ['This', 'That', 'These', 'Those'], a: 2, why: 'Yaqin, ko\'p → **These**.' },

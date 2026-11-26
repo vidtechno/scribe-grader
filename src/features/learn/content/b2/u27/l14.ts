@@ -76,7 +76,7 @@ const lesson: Lesson = {
           { en: "If we could spend thirty minutes a week on this, we would reduce errors.", uz: "Agar bunga haftasiga o'ttiz daqiqa ajratsak, xatolarni kamaytirgan bo'lardik.", note: "3-qadam: shartli foyda." },
           { en: "Could we agree to try it for a month?", uz: "Buni bir oy sinab ko'rishga kelisha olamizmi?", note: "4-qadam: kelishuv." },
         ] },
-        { t: 'check', ex: { k: 'order', uz: "Agar bir oy vaqtimiz bo'lsa, buni yaxshiroq sinab ko'rgan bo'lardik.", words: ['If', 'we', 'could', 'have', 'a', 'month,', 'we', 'would', 'test', 'it', 'better.'], extra: ['will', 'can'], why: "**If we could…, we would…**" } },
+        { t: 'check', ex: { k: 'order', uz: "Agar bir oy vaqtimiz bo'lsa, buni yaxshiroq sinab ko'rardik.", words: ['If', 'we', 'could', 'have', 'a', 'month,', 'we', 'would', 'test', 'it', 'better.'], extra: ['will', 'can'], why: "**If we could…, we would…**" } },
       ],
     },
   ],
@@ -112,7 +112,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: 'I suggest to hold the meeting online.', a: ['I suggest holding the meeting online.', 'I suggest that we hold the meeting online.', 'I suggest we hold the meeting online.'], why: "**suggest + -ing** yoki **suggest (that) we + V1**." },
     { k: 'listen', say: 'The first action point is to send the new schedule.', opts: ['The first action point is to send the new schedule.', 'The first action point is to send the old schedule.', 'The last action point is to send the new schedule.', 'The first action points are to send the new schedule.'], a: 0 },
     { k: 'tf', q: "In the dialogue, Ben decides about the extra budget.", a: false, why: "Qo'shimcha byudjetni Helen tasdiqlaydi." },
-    { k: 'translate', uz: "Agar ko'proq vaqtimiz bo'lsa, buni yaxshiroq qilgan bo'lardik.", a: ['If we could have more time, we would do it better.', 'If we had more time, we would do it better.', 'If we had more time, we would do this better.', 'If we could have more time, we would do this better.'], why: "**If we had / could have…, we would…**" },
+    { k: 'translate', uz: "Agar ko'proq vaqtimiz bo'lsa, buni yaxshiroq qilardik.", a: ['If we could have more time, we would do it better.', 'If we had more time, we would do it better.', 'If we had more time, we would do this better.', 'If we could have more time, we would do this better.'], why: "**If we had / could have…, we would…**" },
   ],
   summary: [
     "Yig'ilishni tinglaganda aniqlang: **mavzu, taklif, sabab, kim nimani qaror qiladi** (*I will approve…*, *I'll send…*).",

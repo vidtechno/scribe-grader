@@ -128,7 +128,7 @@ const lesson: Lesson = {
     { en: "agree", uz: "rozi bo'lmoq", ipa: "əˈɡriː", pos: "verb", ex: "My father agreed to help us.", exUz: "Dadam bizga yordam berishga rozi bo'ldi." },
     { en: "offer", uz: "taklif qilmoq", ipa: "ˈɒfə", pos: "verb", ex: "She offered to carry my bag.", exUz: "U sumkamni ko'tarib berishni taklif qildi." },
     { en: "prefer", uz: "afzal ko'rmoq", ipa: "prɪˈfɜː", pos: "verb", ex: "I prefer tea to coffee.", exUz: "Men choyni qahvadan afzal ko'raman." },
-    { en: "report", uz: "hisobot", ipa: "rɪˈpɔːt", pos: "noun", ex: "I need to write a report.", exUz: "Menga hisobot yozish kerak." },
+    { en: "report", uz: "hisobot", ipa: "rɪˈpɔːt", pos: "noun", ex: "I need to write a report.", exUz: "Hisobot yozishim kerak." },
     { en: "practise", uz: "mashq qilmoq", ipa: "ˈpræktɪs", pos: "verb", ex: "I practise speaking every day.", exUz: "Har kuni gapirishni mashq qilaman." },
     { en: "I don't mind", uz: "qarshi emasman, menga farqi yo'q", ipa: "aɪ dəʊnt maɪnd", pos: "phrase", ex: "I don't mind waiting.", exUz: "Kutishga qarshi emasman." },
   ],

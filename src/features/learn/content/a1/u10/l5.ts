@@ -160,7 +160,7 @@ const lesson: Lesson = {
   ],
   practice: [
     { k: "match", pairs: [["headache", "bosh og'rig'i"], ["toothache", "tish og'rig'i"], ["stomachache", "qorin og'rig'i"], ["sore throat", "tomoq og'rig'i"], ["cough", "yo'tal"]] },
-    { k: "match", pairs: [["I've got a temperature.", "Isitmam bor."], ["I've got a cold.", "Shamollaganman."], ["I'm cold.", "Menga sovuq."], ["I feel sick.", "Ko'nglim aynayapti."]] },
+    { k: "match", pairs: [["I've got a temperature.", "Isitmam bor."], ["I've got a cold.", "Shamollaganman."], ["I'm cold.", "Sovqotyapman."], ["I feel sick.", "Ko'nglim aynayapti."]] },
     { k: "listen", say: "My stomach hurts.", opts: ["My stomach hurts.", "My back hurts.", "My head hurts."], a: 0 },
     { k: "listen", say: "You should see a doctor.", opts: ["You should see a doctor.", "You shouldn't see a doctor.", "You should be a doctor."], a: 0 },
     { k: "choice", q: "\"Shamollaganman.\"", opts: ["I'm cold.", "I've got a cold.", "I've got cold.", "I have a cool."], a: 1, why: "**a cold** — shamollash. *I'm cold* — menga sovuq." },

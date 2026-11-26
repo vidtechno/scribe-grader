@@ -69,8 +69,8 @@ export const drills: Drill[] = [
     exercises: [
       { k: 'match', pairs: [['sit', 'sitting'], ['make', 'making'], ['run', 'running'], ['write', 'writing'], ['play', 'playing']] },
       { k: 'choice', q: 'She ___ a letter now.', opts: ['writing', 'is writing', 'write', 'is write'], a: 1, why: "**is + writing** — ikkala qism ham kerak." },
-      { k: 'fill', q: 'swim → ___', a: ['swimming'], why: "Qisqa unli + bitta undosh → **m** ikkilanadi: **swimming**." },
-      { k: 'fill', q: 'dance → ___', a: ['dancing'], why: "**-e** tushadi: **dancing**." },
+      { k: 'fill', q: 'swim → ___', uz: 'Fe\'lning -ing shaklini yozing', a: ['swimming'], why: "Qisqa unli + bitta undosh → **m** ikkilanadi: **swimming**." },
+      { k: 'fill', q: 'dance → ___', uz: 'Fe\'lning -ing shaklini yozing', a: ['dancing'], why: "**-e** tushadi: **dancing**." },
       { k: 'tf', q: "**They playing football now.** — to'g'ri gap.", a: false, why: "**are** tushib qolgan: They **are** playing football." },
       { k: 'choice', q: 'What ___ you doing?', opts: ['are', 'do', 'does', 'is'], a: 0, why: "Present Continuous da savolni **am/is/are** tuzadi: What **are** you doing?" },
       { k: 'fill', q: 'Shh! The baby ___ sleeping.', a: ['is'], why: "*the baby* — he/she/it → **is** sleeping." },

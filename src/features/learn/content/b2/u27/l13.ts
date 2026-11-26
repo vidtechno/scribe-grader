@@ -107,7 +107,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "Which noun comes from *assess*?", opts: ['assessment', 'assessation', 'assessing', 'assessness'], a: 0, why: "**assess → assessment** (-ment)." },
     { k: 'fill', q: "They want to expand abroad. → Their ___ abroad will start next year. (noun)", a: ['expansion'], why: "**expand → expansion**." },
     { k: 'fix', wrong: 'The decide to move the office was difficult.', a: ['The decision to move the office was difficult.'], why: "**decide → decision**." },
-    { k: 'order', uz: "Xodimlarning mavjudligi cheklangan.", words: ['The', 'availability', 'of', 'staff', 'is', 'limited.'], extra: ['available', 'limit'], why: "**available → availability**." },
+    { k: 'order', uz: "Bo'sh xodimlar kam.", words: ['The', 'availability', 'of', 'staff', 'is', 'limited.'], extra: ['available', 'limit'], why: "**available → availability**." },
     { k: 'tf', q: "In formal reports, nominalisation can make sentences shorter.", a: true, why: "Ikkita gap bitta ot guruhiga aylanadi." },
     { k: 'choice', q: "Which is correct?", opts: ["a shortage of qualified teachers", "a shortage in qualified teachers", "a shortage on qualified teachers", "a short of qualified teachers"], a: 0, why: "**a shortage of**." },
     { k: 'translate', uz: "Samaradorlikning oshishi vaqtni tejadi.", a: ['The increase in efficiency saved time.', 'An increase in efficiency saved time.', 'The improvement in efficiency saved time.', 'Increased efficiency saved time.', 'The rise in efficiency saved time.'], why: "**the increase in efficiency** — ot birikmasi." },

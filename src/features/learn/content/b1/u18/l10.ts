@@ -78,7 +78,7 @@ const lesson: Lesson = {
     { k: 'choice', q: "«Menda yangilik bor» deyish uchun:", opts: ["I've got some news.", "I've got a news.", "I have news are.", "I've got newses."], a: 0, why: "**news** — sanalmaydigan ot." },
     { k: 'fill', q: "Guess ___? I've got a new job!", a: ['what'], uz: "Bilasanmi, nima? Menda yangi ish bor!", why: "**Guess what?** — yangilikni boshlash." },
     { k: 'fill', q: "We should meet ___ soon.", a: ['up'], uz: "Tez orada uchrashishimiz kerak.", why: "**meet up** — kelishib uchrashmoq." },
-    { k: 'order', uz: "Men sizni ancha vaqtdan beri ko'rmadim.", words: ["I", "haven't", 'seen', 'you', 'for', 'ages.'], extra: ['ago', 'since'], alt: [['I', 'have', 'not', 'seen', 'you', 'for', 'ages.']] },
+    { k: 'order', uz: "Sizni ko'rmaganimga ancha bo'ldi.", words: ["I", "haven't", 'seen', 'you', 'for', 'ages.'], extra: ['ago', 'since'], alt: [['I', 'have', 'not', 'seen', 'you', 'for', 'ages.']] },
     { k: 'fix', wrong: "That's a great news!", a: ["That's great news!", "That is great news!", "That's a great piece of news!"], why: "**news** bilan *a* kerak emas." },
     { k: 'fix', wrong: "What did you been doing lately?", a: ["What have you been doing lately?", "What have you been up to lately?"], why: "**have you been doing** — Present Perfect Continuous." },
     { k: 'translate', uz: "Men yangi ish topdim.", a: ["I've found a new job.", "I have found a new job.", "I've got a new job.", "I have got a new job."], why: "Yangilik → **Present Perfect**." },

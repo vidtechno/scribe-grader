@@ -167,7 +167,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**I feel myself bad** — inglizchada to'g'ri ibora.", a: false, why: "To'g'ri: *I feel bad / I feel ill.*" },
     { k: "tf", q: "**hurt** fe'lining o'tgan zamon shakli ham **hurt**.", a: true, why: "hurt – hurt – hurt." },
     { k: "order", uz: "Nima bo'ldi? Yomon ko'rinasan.", words: ["What's", "the", "matter?", "You", "look", "ill."], extra: ["is", "wrong"], alt: [["What's", "wrong?", "You", "look", "ill."]] },
-    { k: "order", uz: "Sizga ko'p suv ichish kerak.", words: ["You", "should", "drink", "plenty", "of", "water."], extra: ["to", "much"] },
+    { k: "order", uz: "Ko'p suv ichishingiz kerak.", words: ["You", "should", "drink", "plenty", "of", "water."], extra: ["to", "much"] },
     { k: "translate", uz: "Boshim og'riyapti va yo'talim bor.", a: ["I've got a headache and a cough.", "I have a headache and a cough.", "I've got a headache and I've got a cough.", "My head hurts and I have a cough.", "My head hurts and I've got a cough."] },
     { k: "speak", say: "I don't feel well. I've got a headache and a sore throat.", uz: "O'zimni yaxshi his qilmayapman. Boshim va tomog'im og'riyapti." },
   ],
@@ -180,7 +180,7 @@ const lesson: Lesson = {
     { k: "fill", q: "You shouldn't go ___ in cold weather.", a: ["out"], why: "**go out** — tashqariga chiqmoq." },
     { k: "tf", q: "**I'm headache** — to'g'ri gap.", a: false, why: "To'g'ri: *I've got a headache.*" },
     { k: "listen", say: "You should get some rest.", opts: ["You should get some rest.", "You should get some rice.", "You shouldn't get some rest."], a: 0 },
-    { k: "order", uz: "Sizga shifokorga borish kerak.", words: ["You", "should", "see", "a", "doctor."], extra: ["go", "to"] },
+    { k: "order", uz: "Shifokorga borishingiz kerak.", words: ["You", "should", "see", "a", "doctor."], extra: ["go", "to"] },
     { k: "translate", uz: "Men o'zimni yaxshi his qilmayapman.", a: ["I don't feel well.", "I do not feel well.", "I feel ill.", "I feel bad.", "I'm not feeling well.", "I am not feeling well."] },
   ],
   summary: [

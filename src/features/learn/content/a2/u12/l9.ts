@@ -99,7 +99,7 @@ const lesson: Lesson = {
     { k: "tf", q: "**While I was running, I met a friend.** — to'g'ri gap.", a: true },
     { k: "fix", wrong: "I got stuck in the lift, because I was late for work.", a: ["I got stuck in the lift, so I was late for work.", "I was late for work because I got stuck in the lift."], hint: "sabab yoki natija?", why: "Liftda qotib qolish — sabab, kechikish — natija: **so**." },
     { k: "fix", wrong: "We were having lunch when the lights were going out.", a: ["We were having lunch when the lights went out."], why: "Qisqa voqea → Past Simple: *went out*." },
-    { k: "order", uz: "Menga kecha nima bo'lganini bilasanmi!", words: ["Guess", "what", "happened", "to", "me", "yesterday!"], extra: ["happen", "was"] },
+    { k: "order", uz: "Bilasanmi, kecha boshimga nima tushdi!", words: ["Guess", "what", "happened", "to", "me", "yesterday!"], extra: ["happen", "was"] },
     { k: "translate", uz: "Men uyga ketayotganimda, yomg'ir yog'a boshladi.", a: ["I was walking home when it started to rain.", "I was going home when it started to rain.", "While I was walking home, it started to rain.", "While I was going home, it started to rain.", "When I was walking home, it started to rain.", "When I was going home, it started to rain.", "It started to rain while I was walking home.", "It started to rain while I was going home."] },
     { k: "speak", say: "No way! What happened next?", uz: "Yo'q-e! Keyin nima bo'ldi?" },
   ],

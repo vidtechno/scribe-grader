@@ -56,7 +56,7 @@ const lesson: Lesson = {
   practice: [
     { k: 'choice', q: 'My sister ___ at a bank.', opts: ['work', 'works', 'is work', 'working'], a: 1 },
     { k: 'fill', q: 'When ___ your lecture start?', a: ['does'], uz: "Ma'ruzangiz qachon boshlanadi?" },
-    { k: 'order', uz: "Bizning har hafta uchrashuvimiz bor.", words: ['We', 'have', 'a', 'meeting', 'every', 'week'], extra: ['has', 'at'] },
+    { k: 'order', uz: "Har hafta yig'ilishimiz bo'ladi.", words: ['We', 'have', 'a', 'meeting', 'every', 'week'], extra: ['has', 'at'] },
     { k: 'translate', uz: "Men universitetda o'qiyman.", a: ['I study at university.', 'I study at the university.'] },
     { k: 'match', pairs: [['lecture', "ma'ruza"], ['colleague', 'hamkasb'], ['meeting', 'uchrashuv'], ['finish', 'tugamoq'], ['work', 'ishlamoq']] },
     { k: 'tf', q: "*Does your colleague works in a shop?* — gap to'g'ri.", a: false, why: "To'g'risi: *Does your colleague **work** in a shop?*" },

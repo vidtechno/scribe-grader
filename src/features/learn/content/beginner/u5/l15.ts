@@ -79,7 +79,7 @@ const lesson: Lesson = {
   quiz: [
     { k: 'choice', q: 'Did he call you? — ...', opts: ["Yes, he did.", 'Yes, he called.', 'Yes, he does.', 'Yes, he is.'], a: 0 },
     { k: 'fill', q: 'Who ___ you meet at the party?', a: ['did'], uz: 'Ziyofatda kim bilan uchrashdingiz?', why: "**Who did you meet?**" },
-    { k: 'order', uz: 'U nega kech qoldi?', words: ['Why', 'did', 'he', 'stay', 'late'], extra: ['stayed', 'was'] },
+    { k: 'order', uz: 'U nega kechgacha qoldi?', words: ['Why', 'did', 'he', 'stay', 'late'], extra: ['stayed', 'was'] },
     { k: 'translate', uz: "Siz ularni kutdingizmi?", a: ['Did you wait for them?', 'Did you wait for them'], why: "**Did** + ega + V1." },
     { k: 'tf', q: '*Were you tired? — Yes, I did.* — javob to\'g\'ri.', a: false, why: "**were** bilan: *Yes, I was.*" },
     { k: 'fix', wrong: 'What you did yesterday?', a: ['What did you do yesterday?'], hint: 'so\'roq tartibi', why: "so'roq so'z + **did** + ega + **do**." },

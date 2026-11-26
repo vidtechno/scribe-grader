@@ -90,7 +90,7 @@ export const drillsNew: Drill[] = [
       { k: 'choice', q: "Xatda tajriba haqida yozasiz: *I ___ been to Khiva.*", opts: ['have', 'has', 'did', 'am'], a: 0, why: '**I** bilan **have** + V3.' },
       { k: 'order', uz: 'Men Xivada bo\'lganman.', words: ['I', 'have', 'been', 'to', 'Khiva'], extra: ['has', 'went'], why: '**have been to**.' },
       { k: 'order', uz: 'Biz uni ikki marta ko\'rganmiz.', words: ['We', 'have', 'seen', 'it', 'twice'], extra: ['saw', 'has'], why: '**have + V3** + **twice**.' },
-      { k: 'order', uz: 'Men hech qachon tuyada minmaganman.', words: ['I', 'have', 'never', 'ridden', 'a', 'camel'], extra: ['rode', 'has'], why: 'ride – rode – **ridden**.' },
+      { k: 'order', uz: 'Men hech qachon tuya minmaganman.', words: ['I', 'have', 'never', 'ridden', 'a', 'camel'], extra: ['rode', 'has'], why: 'ride – rode – **ridden**.' },
       { k: 'order', uz: 'Siz hech Yaponiyada bo\'lganmisiz?', words: ['Have', 'you', 'ever', 'been', 'to', 'Japan'], extra: ['did', 'gone'], why: '**Have you ever been to…?**' },
       { k: 'order', uz: "O'tgan yili biz Buxoroga bordik.", words: ['Last', 'year', 'we', 'went', 'to', 'Bukhara'], extra: ['have', 'gone'], why: '*last year* → Past Simple: **went**.' },
       { k: 'order', uz: 'Men sayohat qilishni yaxshi ko\'raman.', words: ['I', 'enjoy', 'travelling'], extra: ['to', 'travel'], why: '**enjoy** dan keyin **-ing**.' },
@@ -118,7 +118,7 @@ export const drillsNew: Drill[] = [
       { k: 'order', uz: 'Kecha men dugonamga qo\'ng\'iroq qildim.', words: ['I', 'called', 'my', 'friend', 'yesterday'], extra: ['have', 'call'], why: '*yesterday* → Past Simple.' },
       { k: 'order', uz: 'Ertaga biz bobomni ko\'rgani boramiz.', words: ['Tomorrow', 'we', 'are', 'going', 'to', 'visit', 'my', 'grandfather'], extra: ['went', 'is'], why: '**be going to + V1** — rejalashtirilgan ish.' },
       { k: 'translate', uz: 'U hozir kitob o\'qiyapti.', a: ['She is reading a book', "She's reading a book", 'He is reading a book', "He's reading a book", 'She is reading a book now', 'He is reading a book now'], why: 'Hozir bo\'layotgan ish → **is reading**.' },
-      { k: 'translate', uz: 'Men hech qachon tuyada minmaganman.', a: ['I have never ridden a camel', "I've never ridden a camel", "I haven't ridden a camel", 'I have not ridden a camel'], why: 'ride – rode – **ridden**: *have never ridden*.' },
+      { k: 'translate', uz: 'Men hech qachon tuya minmaganman.', a: ['I have never ridden a camel', "I've never ridden a camel", "I haven't ridden a camel", 'I have not ridden a camel'], why: 'ride – rode – **ridden**: *have never ridden*.' },
     ],
   },
 ];

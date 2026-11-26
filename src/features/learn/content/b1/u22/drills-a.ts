@@ -38,7 +38,7 @@ export const drills: Drill[] = [
       { k: "choice", q: "Don't call at nine. I ___ my son to bed.", opts: ["will be putting", "will have put", "put", "have put"], a: 0, why: "Shu paytda davom etayotgan bo'laman → **will be putting**." },
       { k: "choice", q: "I'll wait ___ you finish. Take your time.", opts: ["until", "by", "for", "since"], a: 0, why: "Davom etadigan kutish → **until**." },
       { k: "fix", wrong: "By the time you read this, I will be leaving already.", a: ["By the time you read this, I will have left already.", "By the time you read this, I'll have left already.", "By the time you read this, I will already have left.", "By the time you read this, I'll already have left."], hint: "natija", why: "Tugagan natija → **will have left**." },
-      { k: "order", uz: "Shanbaga borib biz hamma narsani tayyorlab bo'lamiz.", words: ["By", "Saturday", "we", "will", "have", "prepared", "everything."], extra: ["be", "preparing"], alt: [["By", "Saturday", "we'll", "have", "prepared", "everything."], ["We", "will", "have", "prepared", "everything", "by", "Saturday."], ["We'll", "have", "prepared", "everything", "by", "Saturday."]], why: "**will have + V3**." },
+      { k: "order", uz: "Shanbagacha hamma narsani tayyorlab bo'lgan bo'lamiz.", words: ["By", "Saturday", "we", "will", "have", "prepared", "everything."], extra: ["be", "preparing"], alt: [["By", "Saturday", "we'll", "have", "prepared", "everything."], ["We", "will", "have", "prepared", "everything", "by", "Saturday."], ["We'll", "have", "prepared", "everything", "by", "Saturday."]], why: "**will have + V3**." },
     ],
   },
   {

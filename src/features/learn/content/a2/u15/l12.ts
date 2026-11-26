@@ -121,7 +121,7 @@ const lesson: Lesson = {
     { k: 'fill', q: "Did she ___ to wait for the doctor?", a: ["have"], why: "**Did** + ... + **have to**." },
     { k: 'tf', q: "**She didn't have to come** — u kelishi shart emas edi.", a: true, why: "**didn't have to** — shart emas edi." },
     { k: 'fix', wrong: "Children mustn't to run here.", a: ["Children mustn't run here."], why: "**mustn't** dan keyin **to** yo'q." },
-    { k: 'order', uz: "Bizga oldindan to'lashimiz shart emas.", words: ['We', "don't", 'have', 'to', 'pay', 'in', 'advance.'], extra: ["mustn't", 'has'] },
+    { k: 'order', uz: "Oldindan to'lashimiz shart emas.", words: ['We', "don't", 'have', 'to', 'pay', 'in', 'advance.'], extra: ["mustn't", 'has'] },
     { k: 'translate', uz: "Kelishingiz shart emas.", a: ["You don't have to come.", "You needn't come.", "You do not have to come.", "You need not come."], why: "**don't have to** yoki **needn't**." },
   ],
   summary: [

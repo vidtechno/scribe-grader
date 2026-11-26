@@ -47,7 +47,7 @@ const lesson: Lesson = {
           speak: [0, 1],
         },
         { t: "tip", tone: "good", md: "Yodlash usuli: kichik kartochkalar yasang — old tomonida **V1**, orqasida **V2**. Har kuni 2 daqiqa: *go – went, come – came, see – saw…* Ovoz chiqarib, ritm bilan aytsangiz, qo'shiqday yodda qoladi." },
-        { t: "check", ex: { k: "fill", q: "take – ___", a: ["took"], why: "**take – took** (\"tuk\")." } },
+        { t: "check", ex: { k: "fill", q: "take – ___", uz: "O'tgan zamon shaklini yozing", a: ["took"], why: "**take – took** (\"tuk\")." } },
       ],
     },
     {

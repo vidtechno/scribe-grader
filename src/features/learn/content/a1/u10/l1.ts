@@ -186,7 +186,7 @@ const lesson: Lesson = {
     { k: "fill", q: "What's the ___ today? — About fifteen degrees.", a: ["temperature"], uz: "Bugun harorat necha daraja? — Taxminan o'n besh.", why: "**temperature** — harorat." },
     { k: "tf", q: "**Does it rain a lot in April?** — to'g'ri savol.", a: true, why: "Umumiy fakt haqida savol: **Does it rain…?**" },
     { k: "order", uz: "Bu yerda qishda kamdan-kam qor yog'adi.", words: ["It", "rarely", "snows", "here", "in", "winter."], extra: ["snowing", "is"], alt: [["In", "winter", "it", "rarely", "snows", "here."], ["Here", "it", "rarely", "snows", "in", "winter."], ["It", "rarely", "snows", "in", "winter", "here."], ["Here", "in", "winter", "it", "rarely", "snows."]] },
-    { k: "translate", uz: "Menga sovuq.", a: ["I'm cold", "I am cold", "I feel cold"], why: "\"Menga sovuq\" = **I'm cold**." },
+    { k: "translate", uz: "Sovqotyapman.", a: ["I'm cold", "I am cold", "I feel cold"], why: "\"Menga sovuq\" = **I'm cold**." },
     { k: "match", pairs: [["forecast", "ob-havo ma'lumoti"], ["degree", "daraja"], ["storm", "bo'ron"], ["wet", "ho'l, nam"], ["foggy", "tumanli"]] },
   ],
   summary: [

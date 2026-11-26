@@ -57,7 +57,7 @@ export const drills: Drill[] = [
       { k: "translate", uz: "Men imtihon uchun qattiq o'qidim.", a: ["I studied hard for the exam.", "I studied hard for the test.", "I studied hard for my exam."], why: "«Qattiq» = **hard**; *hardly* — deyarli yo'q." },
       { k: "order", uz: "U kichkina qora charm sumka sotib oldi.", words: ["She", "bought", "a", "small", "black", "leather", "bag."], extra: ["wooden", "very"], why: "O'lcham → rang → material: **small black leather**." },
       { k: "fill", q: "I haven't seen my cousin ___.", a: ["lately", "recently"], uz: "Men amakivachchamni so'nggi paytlarda ko'rmadim.", why: "**Lately** = so'nggi paytlarda (*late* — kech)." },
-      { k: "translate", uz: "Bu pirog mazali hidlanadi.", a: ["The cake smells delicious.", "This cake smells delicious.", "The pie smells delicious.", "This pie smells delicious.", "The cake smells good.", "This cake smells good.", "This pie smells good.", "The pie smells good."], why: "**Smell** + sifat: *delicious*." },
+      { k: "translate", uz: "Pirogdan mazali hid kelyapti.", a: ["The cake smells delicious.", "This cake smells delicious.", "The pie smells delicious.", "This pie smells delicious.", "The cake smells good.", "This cake smells good.", "This pie smells good.", "The pie smells good."], why: "**Smell** + sifat: *delicious*." },
       { k: "order", uz: "Sizni deyarli eshitmayapman.", words: ["I", "can", "hardly", "hear", "you."], extra: ["hard", "very"], why: "**Hardly** = deyarli ...maydi: *can hardly hear*." },
     ],
   },

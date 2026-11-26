@@ -94,7 +94,7 @@ const lesson: Lesson = {
     { k: 'dictation', say: 'The market is cheaper, but the shopping centre is more comfortable.', a: ['The market is cheaper, but the shopping centre is more comfortable.'] },
     { k: 'fix', wrong: 'I am prefer the red bag.', a: ['I prefer the red bag.'], hint: "prefer — oddiy fe'l", why: "**prefer** — oddiy fe'l, *am* kerak emas." },
     { k: 'fix', wrong: 'This phone is more better than that one.', a: ['This phone is better than that one.'], hint: "Ikki marta qiyoslangan", why: "*good* → **better**; *more* kerak emas." },
-    { k: 'translate', uz: "Bunga bog'liq. Bozor arzonroq.", a: ['It depends. The market is cheaper.', "It depends. The market's cheaper."], why: "**It depends.**" },
+    { k: 'translate', uz: "Vaziyatga qarab. Bozor arzonroq.", a: ['It depends. The market is cheaper.', "It depends. The market's cheaper."], why: "**It depends.**" },
     { k: 'tf', q: "*I agree with you* — \"Men sen bilan roziman\".", a: true, why: "**agree with** + kim." },
     { k: 'choice', q: 'Samarkand is quieter than Tashkent, ___ Tashkent is more exciting.', opts: ['but', 'because', 'so', 'or'], a: 0, why: "Qarama-qarshi fikr — **but**." },
     { k: 'speak', say: "I can't decide between the blue one and the black one.", uz: "Ko'ki va qora orasida qaror qila olmayapman." },

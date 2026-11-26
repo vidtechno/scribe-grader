@@ -197,7 +197,7 @@ const lesson: Lesson = {
     { k: "listen", say: "If I hadn't overslept, I wouldn't be here now.", opts: ["If I hadn't overslept, I wouldn't be here now.", "If I didn't oversleep, I wouldn't be here now.", "If I hadn't overslept, I wouldn't have been here.", "If I overslept, I wouldn't be here now."], a: 0 },
     { k: "tf", q: "**Past Perfect** voqealar tartibida aytilgan har bir gapda ishlatilishi kerak.", a: false, why: "Past Perfect faqat voqea ikkinchisidan **oldin** bo'lganini ko'rsatadi; oddiy ketma-ketlikda **Past Simple**." },
     { k: "fix", wrong: "I didn't know that my life will change after that day.", a: ["I didn't know that my life would change after that day.", "I didn't know that my life was going to change after that day."], why: "O'tgan zamon hikoyasida kelajak → **would**." },
-    { k: "order", uz: "Hamma ehtimolga qarshi, u imtihondan o'tdi.", words: ["Against", "all", "odds,", "she", "passed", "the", "exam."], extra: ["pass", "odd"], why: "**Against all odds,** + gap." },
+    { k: "order", uz: "Hech kim kutmaganiga qaramay, u imtihondan o'tdi.", words: ["Against", "all", "odds,", "she", "passed", "the", "exam."], extra: ["pass", "odd"], why: "**Against all odds,** + gap." },
   ],
   summary: [
     "Tasviriy hikoya: **boshlanish (hook), vaziyat, burilish nuqtasi, oqibat, fikr yuritish**; taxminan 250 so'z, 4–5 abzats.",

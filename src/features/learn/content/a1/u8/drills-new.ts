@@ -91,7 +91,7 @@ export const drillsNew: Drill[] = [
       { k: 'order', uz: 'Menga bir kosa sho\'rva kerak, iltimos.', words: ["I'd", 'like', 'a', 'bowl', 'of', 'soup', 'please'], extra: ['glass'], why: '**I\'d like a bowl of soup, please.**' },
       { k: 'order', uz: 'Bizga bir buxanka non va bir quti sut kerak.', words: ['We', 'need', 'a', 'loaf', 'of', 'bread', 'and', 'a', 'carton', 'of', 'milk'], extra: ['breads'], why: '**a loaf of bread** va **a carton of milk**.' },
       { k: 'order', uz: 'Bizga nechta tuxum kerak?', words: ['How', 'many', 'eggs', 'do', 'we', 'need'], extra: ['much'], why: '**eggs** sanaladi → **How many**.' },
-      { k: 'order', uz: "Tovuq sho'rva palov kabi yaxshi.", words: ['The', 'chicken', 'soup', 'is', 'as', 'good', 'as', 'the', 'plov'], extra: ['than'], why: '**as good as**.' },
+      { k: 'order', uz: "Tovuq sho'rva ham palovdek mazali.", words: ['The', 'chicken', 'soup', 'is', 'as', 'good', 'as', 'the', 'plov'], extra: ['than'], why: '**as good as**.' },
       { k: 'fill', q: 'Soup is a starter, plov is a main course and honey cake is a ___.', a: ['dessert'], uz: "Asalli tort — shirinlik.", why: 'Oxirgi taom — **dessert**.' },
       { k: 'choice', q: "Qaysi xarid ro'yxati **to'g'ri** yozilgan?", opts: ['a loaf of bread, a carton of milk, two bottles of water', 'a bread, a milk, two water', 'a loaf of breads, a cartons of milk, two bottle of water', 'bread of loaf, milk of carton, water of two bottles'], a: 0, why: 'Sanalmaydigan ovqat uchun: **idish + of + ovqat**.' },
       { k: 'order', uz: 'Avval pomidorni yuving.', words: ['First', 'wash', 'the', 'tomatoes'], extra: ['finally'], why: 'Retseptda birinchi qadam: **First, …**' },

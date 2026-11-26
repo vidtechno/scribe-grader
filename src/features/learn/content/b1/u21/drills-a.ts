@@ -37,7 +37,7 @@ export const drills: Drill[] = [
       { k: "fix", wrong: "The train was late, that made me angry.", a: ["The train was late, which made me angry."], hint: "butun gap haqida", why: "Butun gap haqida faqat **, which**." },
       { k: "choice", q: "He passed the exam, ___ surprised everyone.", opts: ["which", "who", "that", "what"], a: 0, why: "Butun gap haqida → **which**." },
       { k: "choice", q: "We visited Khiva, ___ my grandparents were born.", opts: ["where", "which", "who", "whose"], a: 0, why: "Joy → **where**." },
-      { k: "order", uz: "Mening xo'jayinim, uning ofisi yuqorida, bugun yo'q.", words: ["My", "boss,", "whose", "office", "is", "upstairs,", "is", "away", "today."], extra: ["who", "which"], why: "Kimning ofisi → **whose**." },
+      { k: "order", uz: "Ofisi yuqori qavatda bo'lgan boshlig'im bugun yo'q.", words: ["My", "boss,", "whose", "office", "is", "upstairs,", "is", "away", "today."], extra: ["who", "which"], why: "Kimning ofisi → **whose**." },
       { k: "translate", uz: "Toshkent, O'zbekistonning poytaxti, juda katta shahar.", a: ["Tashkent, which is the capital of Uzbekistan, is a very big city.", "Tashkent, the capital of Uzbekistan, is a very big city."], why: "Qo'shimcha ma'lumot: vergul + **which**." },
     ],
   },

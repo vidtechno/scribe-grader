@@ -84,7 +84,7 @@ const lesson: Lesson = {
     { en: 'slightly', uz: 'biroz, sal', ipa: 'ˈslaɪt.li', pos: 'adv', ex: 'This bag is slightly bigger than that one.', exUz: "Bu sumka anavisidan sal kattaroq." },
     { en: 'nearly', uz: 'deyarli', ipa: 'ˈnɪə.li', pos: 'adv', ex: 'The red one is nearly as good as the blue one.', exUz: "Qizili ko'kidek deyarli yaxshi." },
     { en: 'even', uz: 'hatto, yanada', ipa: 'ˈiː.vən', pos: 'adv', ex: 'Today is even hotter than yesterday.', exUz: "Bugun kechagidan ham issiqroq." },
-    { en: 'by far', uz: 'ancha farq bilan, shubhasiz', ipa: 'baɪ fɑː', pos: 'phrase', ex: 'This is by far the cheapest shop.', exUz: "Bu ancha farq bilan eng arzon do'kon." },
+    { en: 'by far', uz: 'ancha farq bilan, shubhasiz', ipa: 'baɪ fɑː', pos: 'phrase', ex: 'This is by far the cheapest shop.', exUz: "Bu do'kon boshqalaridan ancha arzon, eng arzoni shu." },
     { en: 'exactly', uz: 'aynan, xuddi', ipa: 'ɪɡˈzækt.li', pos: 'adv', ex: 'We are exactly the same age.', exUz: "Biz aynan tengdoshmiz." },
   ],
   practice: [
@@ -110,7 +110,7 @@ const lesson: Lesson = {
     { k: 'fix', wrong: 'She is much more taller than me.', a: ['She is much taller than me.'], hint: "Ikki marta qiyoslangan", why: "*taller* o'zi qiyosiy; *more* kerak emas." },
     { k: 'choice', q: '"Menda sening telefoningdek telefon bor."', opts: ['I have the same phone as yours.', 'I have the same phone with yours.', 'I have the same phone than yours.', 'I have same phone as yours.'], a: 0, why: "**the same ... as**." },
     { k: 'order', uz: "Ekranlar aynan bir xil.", words: ['The', 'screens', 'are', 'exactly', 'the', 'same'], extra: ['very', 'as'] },
-    { k: 'translate', uz: "Bu ancha farq bilan eng arzon do'kon.", a: ['This is by far the cheapest shop.', "It's by far the cheapest shop.", 'It is by far the cheapest shop.'], why: "**by far the** + orttirma daraja." },
+    { k: 'translate', uz: "Bu do'kon boshqalaridan ancha arzon, eng arzoni shu.", a: ['This is by far the cheapest shop.', "It's by far the cheapest shop.", 'It is by far the cheapest shop.'], why: "**by far the** + orttirma daraja." },
     { k: 'listen', say: 'It is only slightly more expensive.', opts: ['It is only slightly more expensive.', 'It is much more expensive.', 'It is not nearly as expensive.', 'It is slightly cheaper.'], a: 0 },
     { k: 'tf', q: "*It is very better than the old one.* — to'g'ri gap.", a: false, why: "**very** o'rniga **much / far / a lot**: *much better*." },
   ],

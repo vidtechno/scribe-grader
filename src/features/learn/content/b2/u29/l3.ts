@@ -178,7 +178,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Bu shunday qiyin imtihon ediki, hech kim o'tmadi.", words: ["It", "was", "such", "a", "difficult", "exam", "that", "nobody", "passed."], extra: ["so", "the"], why: "**such a + sifat + ot + that**." },
     { k: "order", uz: "Qanday ajoyib fikr!", words: ["What", "a", "great", "idea!"], extra: ["such", "an"], why: "**What a + sifat + ot!**" },
     { k: "translate", uz: "Hayot ba'zan qiyin bo'ladi.", a: ["Life is sometimes difficult.", "Life can be difficult sometimes.", "Life is difficult sometimes.", "Sometimes life is difficult.", "Life can sometimes be difficult."], why: "Umumiy fikrda (*life*) artikl yo'q." },
-    { k: "translate", uz: "Menga yaxshi xabar bor.", a: ["I have good news.", "I've got good news.", "I have some good news.", "I've got some good news."], why: "**News** sanalmaydigan ot: *a* yo'q." },
+    { k: "translate", uz: "Yaxshi xabarim bor.", a: ["I have good news.", "I've got good news.", "I have some good news.", "I've got some good news."], why: "**News** sanalmaydigan ot: *a* yo'q." },
     { k: "match", pairs: [["species", "tur"], ["habitat", "yashash muhiti"], ["ecosystem", "ekotizim"], ["generation", "avlod"], ["institution", "muassasa"]] },
     { k: "fix", wrong: "Aral Sea is much smaller than before.", a: ["The Aral Sea is much smaller than before."], hint: "dengiz nomi", why: "Dengiz nomi **the** bilan." },
     { k: "fix", wrong: "I was waiting for you a half hour.", a: ["I was waiting for you for half an hour.", "I was waiting for you half an hour.", "I waited for you for half an hour."], hint: "half an hour", why: "To'g'ri shakl: **half an hour** (*a half hour* ham AmE da bor, lekin *waiting for you a half hour* xato)." },

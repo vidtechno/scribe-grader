@@ -184,7 +184,7 @@ const lesson: Lesson = {
     { k: "listen", say: "I'm looking forward to it.", opts: ["I'm looking forward to it.", "I'm looking for it.", "I'm looking forward at it."], a: 0 },
     { k: "tf", q: "**Would you like to…?** dan keyin **to + V1** keladi.", a: true },
     { k: "tf", q: "**Why don't we to meet?** to'g'ri.", a: false },
-    { k: "order", uz: "Intizorlik bilan kutyapman.", words: ["I'm", "looking", "forward", "to", "it."], extra: ["for", "at"], alt: [["I", "am", "looking", "forward", "to", "it."]] },
+    { k: "order", uz: "Buni intiqlik bilan kutyapman.", words: ["I'm", "looking", "forward", "to", "it."], extra: ["for", "at"], alt: [["I", "am", "looking", "forward", "to", "it."]] },
     { k: "translate", uz: "Afsuski, men kela olmayman.", a: ["I'm afraid I can't come.", "I'm afraid I can't.", "I am afraid I can't come.", "I am afraid I can't.", "I'm afraid I can't make it.", "I am afraid I cannot come."] },
   ],
   summary: [

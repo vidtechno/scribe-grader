@@ -74,7 +74,7 @@ export const drills: Drill[] = [
       { k: "fill", q: "After ten years she stepped ___ as director. (left her position)", a: ["down"], why: "**step down** — lavozimdan ketmoq." },
       { k: "choice", q: "Which formal verb replaces *come up with a plan*?", opts: ["devise", "cancel", "reject", "reduce"], a: 0, why: "**come up with** = *devise* (o'ylab topmoq)." },
       { k: "tf", q: "*You don't have to wear a tie* means that wearing a tie is forbidden.", a: false, why: "**don't have to** — shart emas, taqiq emas." },
-      { k: "translate", uz: "O'tgan yili biz uniforma kiyishimiz kerak edi.", a: ["Last year we had to wear a uniform.", "We had to wear a uniform last year."], why: "**must** ning o'tgan zamoni yo'q: **had to**." },
+      { k: "translate", uz: "O'tgan yili biz forma kiyishimiz kerak edi.", a: ["Last year we had to wear a uniform.", "We had to wear a uniform last year."], why: "**must** ning o'tgan zamoni yo'q: **had to**." },
       { k: "fill", q: "Customers are not ___ to enter the warehouse. (formal: allowed)", a: ["permitted", "allowed"], hint: "p…", why: "**be permitted to** — rasmiy taqiq." },
       { k: "fill", q: "The ___ of the new system took six months. (implement)", a: ["implementation"], uz: "Yangi tizimni joriy etish olti oy davom etdi.", why: "**implement → implementation**." },
       { k: "fix", wrong: "The arrive of the delegation was delayed.", a: ["The arrival of the delegation was delayed."], hint: "ot kerak", why: "Artikldan keyin ot: **arrive → arrival**." },

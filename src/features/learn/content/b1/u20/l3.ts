@@ -152,7 +152,7 @@ const lesson: Lesson = {
     { k: "order", uz: "Ertaroq chiqqanimda, avtobusga kech qolmagan bo'lardim.", words: ["If", "I", "had", "left", "earlier,", "I", "wouldn't", "have", "missed", "the", "bus."], extra: ["would", "leave"], alt: [["If", "I", "had", "left", "earlier,", "I", "would", "not", "have", "missed", "the", "bus."]], why: "If + had + V3, wouldn't have + V3." },
     { k: "order", uz: "Agar bilganingizda, nima qilgan bo'lardingiz?", words: ["What", "would", "you", "have", "done", "if", "you", "had", "known?"], extra: ["did", "do"], why: "What would you have + V3 if you had + V3?" },
     { k: "translate", uz: "Agar u mendan so'raganida, men yordam bergan bo'lardim.", a: ["If he had asked me, I would have helped him.", "If he had asked me, I'd have helped him.", "If she had asked me, I would have helped her.", "If she had asked me, I'd have helped her.", "If he had asked me, I would have helped.", "If she had asked me, I would have helped."], why: "Third conditional." },
-    { k: "translate", uz: "Men o'qiganimda, imtihondan o'tgan bo'lardim.", a: ["If I had studied, I would have passed the exam.", "If I had studied, I'd have passed the exam.", "If I had studied, I would have passed.", "If I had studied, I'd have passed."], why: "Third conditional: had studied, would have passed." },
+    { k: "translate", uz: "Agar o'qiganimda, imtihondan o'tgan bo'lardim.", a: ["If I had studied, I would have passed the exam.", "If I had studied, I'd have passed the exam.", "If I had studied, I would have passed.", "If I had studied, I'd have passed."], why: "Third conditional: had studied, would have passed." },
     { k: "match", pairs: [["regret", "pushaymon bo'lmoq"], ["blame", "ayblamoq"], ["fault", "ayb"], ["fortunately", "yaxshiyamki"], ["consequence", "oqibat"]] },
     { k: "tf", q: "**If I would have known, I would have helped.** — bu gap to'g'ri.", a: false, why: "If dan keyin **had known** kerak." },
     { k: "tf", q: "Third conditional o'tmishda bo'lmagan voqea haqida gapiradi.", a: true, why: "Voqea o'tib ketgan, endi o'zgarmaydi." },
@@ -169,7 +169,7 @@ const lesson: Lesson = {
     { k: "listen", say: "If I had known, I wouldn't have said that.", opts: ["If I had known, I wouldn't have said that.", "If I knew, I wouldn't say that.", "If I had known, I would have said that."], a: 0 },
     { k: "tf", q: "**If we had booked early, we would have got a cheaper ticket.** — Biz erta band qilmaganmiz.", a: true, why: "Third conditional: aslida bo'lmagan ish." },
     { k: "fix", wrong: "If she had went to bed earlier, she wouldn't be tired yesterday.", a: ["If she had gone to bed earlier, she wouldn't have been tired yesterday.", "If she had gone to bed earlier, she would not have been tired yesterday."], hint: "go ning V3 shakli, va natija", why: "**had gone** va natija **wouldn't have been**." },
-    { k: "order", uz: "Agar yomg'ir yog'masa edi, biz sayrga chiqqan bo'lardik.", words: ["If", "it", "hadn't", "rained,", "we", "would", "have", "gone", "out."], extra: ["didn't", "will"], why: "If + hadn't + V3, would have + V3." },
+    { k: "order", uz: "Agar yomg'ir yog'maganida, biz sayrga chiqqan bo'lardik.", words: ["If", "it", "hadn't", "rained,", "we", "would", "have", "gone", "out."], extra: ["didn't", "will"], why: "If + hadn't + V3, would have + V3." },
   ],
   summary: [
     "**Third conditional**: *If + had + V3, would have + V3* — o'tmishda **bo'lmagan** narsa haqida (pushaymonlik, yengillik, tanqid).",

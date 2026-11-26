@@ -34,7 +34,7 @@ const lesson: Lesson = {
       blocks: [
         {
           t: "examples", items: [
-            { en: "We are having the Wi-Fi installed next week.", uz: "Kelasi hafta Wi-Fi'ni o'rnatdirmoqchimiz.", note: "**have + object + V3**: ishni boshqa odam bajaradi." },
+            { en: "We are having the Wi-Fi installed next week.", uz: "Kelasi hafta bizga Wi-Fi o'rnatib berishadi.", note: "**have + object + V3**: ishni boshqa odam bajaradi." },
             { en: "She got her brother to set up the router.", uz: "U akasini routerni sozlashga ko'ndirdi.", note: "**get + kim + to V**." },
             { en: "The teacher made the pupils switch off their phones.", uz: "Ustoz o'quvchilarni telefonlarini o'chirishga majbur qildi.", note: "**make + kim + V** (to'siz)." },
             { en: "He said that the file had been deleted.", uz: "U fayl o'chirib tashlanganini aytdi.", note: "Backshift: **had been + V3**." },
@@ -110,7 +110,7 @@ const lesson: Lesson = {
     { k: "choice", q: "**Hundreds of videos ___ before the ban was announced.**", opts: ["have been removed", "were removing", "had removed", "had been removed"], a: 3, why: "Ikki o'tgan voqeadan oldingisi, passive: **had been removed**." },
     { k: "fill", q: "Passwords must ___ changed every year. (be)", a: ["be"], why: "Modal passive: **must be + V3**." },
     { k: "choice", q: "**The site is believed ___ hacked last night.**", opts: ["to have been", "to be", "to have", "that it"], a: 0, why: "O'tgan voqea, passive: **to have been + V3**." },
-    { k: "order", uz: "Kelasi hafta Wi-Fi'ni o'rnatdirmoqchimiz.", words: ["We", "are", "having", "the", "Wi-Fi", "installed", "next", "week."], extra: ["install", "to"], why: "Causative: **have + object + V3**." },
+    { k: "order", uz: "Kelasi hafta bizga Wi-Fi o'rnatib berishadi.", words: ["We", "are", "having", "the", "Wi-Fi", "installed", "next", "week."], extra: ["install", "to"], why: "Causative: **have + object + V3**." },
     { k: "translate", uz: "Direktor xodimlarni noma'lum havolalarni bosmaslikka ogohlantirdi.", a: ["The director warned the staff not to click on unknown links.", "The director warned staff not to click on unknown links.", "The director warned the staff not to click unknown links.", "The director warned staff not to click unknown links."], why: "**warn + kim + not to V**." },
     { k: "tf", q: "**The company denied to sell users' data** — bu gap to'g'ri.", a: false, why: "**deny + -ing**: *denied selling*." },
     { k: "fix", wrong: "The Wi-Fi is being installing now.", a: ["The Wi-Fi is being installed now."], hint: "being dan keyin V3", why: "**being + V3**." },

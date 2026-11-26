@@ -112,7 +112,7 @@ const lesson: Lesson = {
     { k: 'fill', q: "The room is ___ small for twenty people.", a: ['too'], uz: "Xona yigirma kishi uchun juda kichik.", why: "Salbiy natija: **too small**." },
     { k: 'fill', q: "He drives so ___ that the neighbours complain. (very quickly)", a: ['fast', 'quickly'], uz: "U shunchalik tez haydaydiki, qo'shnilar shikoyat qiladi.", why: "**so + ravish + that**: *so fast / so quickly*." },
     { k: 'fix', wrong: "There was so a long queue.", a: ["There was such a long queue.", "There was a very long queue.", "The queue was so long."], why: "Ot (*queue*) bilan: **such a long queue**." },
-    { k: 'order', uz: "Bu masala ko'rib chiqish uchun juda muhim.", words: ['This', 'issue', 'is', 'too', 'important', 'to', 'ignore.'], extra: ['enough', 'very'], why: "**too + sifat + to + fe'l**." },
+    { k: 'order', uz: "Bu masala e'tiborsiz qoldirib bo'lmaydigan darajada muhim.", words: ['This', 'issue', 'is', 'too', 'important', 'to', 'ignore.'], extra: ['enough', 'very'], why: "**too + sifat + to + fe'l**." },
     { k: 'listen', say: 'There is not enough water for everyone.', opts: ['There is not enough water for everyone.', 'There is not water enough for everyone.', 'There is too enough water for everyone.', 'There are not enough water for everyone.'], a: 0 },
     { k: 'tf', q: "*It is very hot to walk.* — to'g'ri gap, ma'nosi: yurish uchun juda issiq.", a: false, why: "*to + fe'l* natijasi bilan **too hot to walk** kerak; *very* bilan emas." },
   ],

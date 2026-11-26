@@ -153,7 +153,7 @@ const lesson: Lesson = {
     { k: "fill", q: "Keep ___ the grass!", a: ["off"], why: "**Keep off** the grass." },
     { k: "tf", q: "**You mustn't wait** va **You needn't wait** bir xil ma'noni bildiradi.", a: false, why: "Birinchisi — taqiq, ikkinchisi — shart emas." },
     { k: "tf", q: "**Pedestrians have to use the crossing.** — bu qoida.", a: true },
-    { k: "order", uz: "Sizga bilet sotib olishingiz shart emas.", words: ["You", "don't", "need", "to", "buy", "a", "ticket."], extra: ["needn't", "must"] },
+    { k: "order", uz: "Bilet sotib olishingiz shart emas.", words: ["You", "don't", "need", "to", "buy", "a", "ticket."], extra: ["needn't", "must"] },
     { k: "order", uz: "Haydovchilar piyodalarga yo'l berishi kerak.", words: ["Drivers", "must", "give", "way", "to", "pedestrians."], extra: ["mustn't", "gives"] },
     { k: "translate", uz: "Maktabda telefon ishlatish mumkin emas.", a: ["You mustn't use your phone at school.", "You mustn't use phones at school.", "Students mustn't use phones at school.", "Students mustn't use their phones at school.", "You must not use your phone at school.", "You must not use phones at school."] },
     { k: "speak", say: "You mustn't park here, and you don't need to pay.", uz: "Bu yerga mashina qo'ymaslik kerak va to'lash shart emas." },
@@ -167,7 +167,7 @@ const lesson: Lesson = {
     { k: "fill", q: "She ___ to leave early today. (needs/need)", a: ["needs"], why: "she → **needs to**." },
     { k: "tf", q: "**She needs to buy a ticket** va **She need to buy a ticket** ikkalasi ham to'g'ri.", a: false, why: "she → **needs**." },
     { k: "listen", say: "Visitors must sign in at reception.", opts: ["Visitors must sign in at reception.", "Visitors mustn't sign in at reception.", "Visitors needn't sign in at reception."], a: 0 },
-    { k: "order", uz: "Sizga kutish shart emas.", words: ["You", "needn't", "wait."], extra: ["to", "mustn't"] },
+    { k: "order", uz: "Kutishingiz shart emas.", words: ["You", "needn't", "wait."], extra: ["to", "mustn't"] },
     { k: "translate", uz: "Men bugun ishlashim shart emas.", a: ["I don't need to work today.", "I needn't work today.", "I don't have to work today.", "Today I don't need to work.", "Today I don't have to work.", "Today I needn't work."] },
   ],
   summary: [
